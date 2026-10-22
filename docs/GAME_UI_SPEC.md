@@ -1,0 +1,41 @@
+# F0-P4 — Interfaz de partida local
+
+## Composición
+
+La partida usa una cuadrícula que ocupa `100dvh` menos los 42 px de navegación. Tres columnas: participantes locales, tablero flexible e inspector. La zona inferior dispone banquillo de nueve casillas, mensaje de acción y tienda de cinco ofertas; el HUD económico ocupa la esquina inferior izquierda. La secuencia visual y de planificación es **tablero → banquillo → tienda**. No se bloquea el overflow del documento para disimular controles fuera de pantalla.
+
+La cabecera contiene ronda, fase, contador y acciones manuales. Los participantes se ordenan por vida, identificando al jugador jade y a la formación rival ámbar de prueba; no se presentan jugadores online ficticios ni una clasificación multijugador. Las recompensas aparecen en esa columna al resolver. El registro completo de oro/vida está en un diálogo nativo con cierre, Escape y foco modal.
+
+`LocalGame` compone el HUD y los participantes; `Bench` y `Shop` encapsulan banquillo y tienda. `UnitInspector` encapsula ficha, estadísticas, venta, colocación accesible y afinidades descriptivas. `PhaseClock` representa la fase/reproducción. `gameHud.css` contiene estilos bajo `.game-hud`; la navegación compacta solo se activa durante partida. Arena conserva sus componentes, controles, estilos y cámara originales.
+
+## Tablero, cámara y densidad
+
+Se comparte una sola implementación de GameCanvas/BoardScene/CombatRenderer, mediante opciones de presentación. Partida utiliza compresión vertical 0,38, la misma rotación de 30° y las mismas coordenadas/vecinos/ocupación. Arena mantiene compresión 0,64 y su mundo 1000×650 con Scale.FIT.
+
+En Partida, ResizeObserver mide el espacio CSS disponible; Scale.NONE y resize ajustan el render buffer. La densidad se limita a 1–2 para controlar memoria. `matchMedia(resolution)` y resize detectan cambios de DPR sin recrear la simulación. La cámara encuadra los 56 hexágonos, reservando 84 unidades de mundo sobre el terreno para cabezas/barras y 26 bajo el terreno para extrusión. La inversa del puntero convierte desde rectángulo CSS a dimensiones actuales del render y después a mundo/axial. No se multiplica el puntero por DPR dos veces. Zoom 85/100/115% opera sobre ese encuadre; 100% vuelve a mostrar la huella completa. El acercamiento manual puede recortar bordes por diseño.
+
+Canvas absoluto dentro del host evita que su ancho intrínseco ensanche la cuadrícula. La selección/hover nunca restablece el zoom. El HUD de overtime local reside fuera del mundo, en cabecera, para no tapar unidades. Arena conserva su énfasis Phaser y contador DOM.
+
+## Economía y estados
+
+Los saldos, nivel, XP, racha, recompensas, vida y estrellas vienen de MatchState. Ninguna fórmula cambia. `purchaseAvailability` hace una prueba de la transacción existente en game-core, que clona el estado; se memoriza por estado, no por fotograma. Permite la compra con banquillo lleno si el motor confirma una combinación inmediata, y muestra falta de oro/banquillo lleno/espera a preparación en los demás casos. No consume RNG, oro, ofertas ni historial.
+
+Tienda: retrato original provisional, ID/nombre, rol, afinidad informativa, coste, copias 1★ y estado. Banquillo: nueve destinos, número, retrato, nombre y estrellas. Los hijos visuales no reciben pointer-events y la casilla no selecciona texto: evita perder drops rápidos al atravesar retrato/texto. Reordenación, intercambio, retirada y colocación envían los mismos comandos atómicos. El core rechaza destinos ilegales y conserva las unidades. Venta en inspector; selección por botón y colocación por teclado disponibles. En combate/resolución las operaciones de preparación quedan deshabilitadas.
+
+Los mensajes de compra, venta, error, fusión y subida de nivel usan el estado de LocalSession. Las afinidades Aleación/Pulso son etiquetas de los IDs ficticios existentes, **sin umbrales ni efectos activos**. Victoria/doble derrota y desglose de daño/recompensa proceden de la liquidación existente.
+
+## Viewports y accesibilidad
+
+Contrato de escritorio desde 1100 px de ancho y alturas de referencia desde 720 px. A 1280×720 y 1366×768 se reducen espacios, retratos y texto secundario; tablero, nueve plazas, cinco ofertas y controles principales siguen visibles. El inspector puede desplazarse internamente para información secundaria o al abrir colocación. Al cerrar esa sección o cambiar selección vuelve arriba. El registro completo también tiene scroll interno. Ninguno amplía el documento.
+
+A 1440×900 se usa densidad intermedia; a 1920×1080 y 2560×1440 aumenta el tablero, manteniendo controles compactos. Bajo 1100 px se permite flujo de documento para ventanas estrechas, sin quitar operaciones. No se declara soporte táctil validado ni ausencia de scroll en móvil.
+
+Botones con nombres accesibles, estados disabled/aria-pressed, foco visible, regiones etiquetadas, meter de vida y progress de XP. Canvas dispone de descripción, flechas/Intro/Escape y alternativa de selectores de columna/fila. El estado de acción usa role=status; el contador no es live-region para evitar anunciar cada tick. Color acompañado por texto para fase, coste, estrellas y errores. Microinteracciones breves; reduced-motion elimina transiciones del HUD. El combate mantiene su reproducción y pausa explícita.
+
+## Contrato preparado para F0-P5
+
+`PhaseClockProps` admite `authoritativeRemainingMs` opcional. Si falta, combate representa `PlaybackFrame.remainingTicks`; preparación/resolución muestran raya y «Avance manual». No hay setInterval, cuenta atrás ficticia ni transiciones automáticas.
+
+P5 podrá alimentar 30 s de preparación, hasta 45 s de combate y aproximadamente 5 s de transición desde una autoridad de ronda. Debe definir pausas, reentrada, restauración y comandos idempotentes antes de conectar esos tiempos. El reloj visual de reproducción no deberá convertirse en autoridad económica. F0-P4 no implementa esa fase.
+
+Guardados y protocolos permanecen f0p3.1-1, misma clave local y replay de validación. No hay migración, nuevas dependencias, servicios ni arte definitivo.

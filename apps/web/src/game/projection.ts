@@ -36,8 +36,8 @@ export function hexCorners(hex: HexCoord, projection: Projection, inset = 1): Po
     );
   });
 }
-export function createProjection(): Projection {
-  const base = { radius: 45, squash: 0.64, origin: { x: 0, y: 0 } };
+export function createProjection(squash = 0.64): Projection {
+  const base = { radius: 45, squash, origin: { x: 0, y: 0 } };
   const points = BOARD_HEXES.flatMap((h) => hexCorners(h, base));
   const minX = Math.min(...points.map((p) => p.x));
   const maxX = Math.max(...points.map((p) => p.x));
