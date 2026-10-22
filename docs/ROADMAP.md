@@ -1,19 +1,23 @@
 # Roadmap
 
-## F0-P1 — alcance de esta entrega
+## F0-P1 — completado y preservado
 
-Fundación del workspace, separación de paquetes, geometría axial, arena isométrica con colocación y arrastre, definiciones ficticias, contratos compartidos y de sprites, pruebas y documentación. La evidencia y las limitaciones se registran en VALIDATION.md.
+Workspace, geometría axial, tablero7×8, preparación, arrastre/selección/teclado/zoom, contratos y sprites provisionales. 35 pruebas originales. Auditoría repetida antes de P2; commit base `279be4d`.
 
-## F0-P2 — propuesta pendiente de autorización
+## F0-P2 — implementado
 
-No iniciado. El alcance exacto debe confirmarse en el siguiente encargo. Secuencia sugerida:
+Motor puro determinista, A\*, reservas, targeting, estadísticas/daños, maná, efectos y pasiva inicial, cuatro perfiles ficticios, protocolo v2, reproductor Phaser y controles. Arena interna conservada. Reglas en COMBAT_SPEC.md, protocolo en COMBAT_EVENTS.md y evidencia ejecutada en VALIDATION.md.
 
-1. Acordar especificación mínima de combate: estadísticas, orden de eventos, selección de objetivos, desempates y criterios de determinismo.
-2. Elegir PRNG con semilla y políticas de aritmética; pruebas de replay/snapshot antes de conectar visuales.
-3. Definir pathfinding y movimiento determinista sobre la adyacencia ya disponible.
-4. Construir una pequeña simulación de referencia con eventos reales, solo cuando se aprueben sus reglas; nunca sustituirla por una animación que aparente resolver combate.
-5. Diseñar el reproductor visual separado de la autoridad y probar el adaptador con un spritesheet original de muestra cuando se disponga de él.
+## Siguiente paso recomendado — requiere nuevo encargo
+
+Revisar jugabilidad y balance provisional en la Arena con formaciones concretas; acordar el alcance de F0-P3 antes de desarrollar más sistemas. Decidir si el siguiente incremento prioriza pruebas de congestión/cadencia, interfaz de partida o transporte autoritativo. No se ha iniciado F0-P3.
+
+## Dirección de producto futura
+
+La Arena de pruebas seguirá existiendo junto a una pantalla independiente de partida real. Esta última debe tener tablero protagonista; tienda de cinco personajes; banquillo de nueve; oro/intereses; nivel/XP; etapa/temporizador; clasificación; sinergias activas; panel contextual compacto. Evitar trasladar el aspecto administrativo del inspector al jugador.
+
+Dirección artística: pixel-art retro moderno original, terreno con sombras, volumen e iluminación, animaciones consistentes y VFX modernos integrados. Referencias generales de autobattlers/RPG clásicos, sin copiar identidad ni assets de TFT. Futuro roster inspirado en amigos reales, con arte y nombres originales y producción mediante SPRITE_SPEC; en P2 solo personajes ficticios.
 
 ## Fases posteriores sin implementar
 
-Servidor Node/Colyseus, identidad de cuatro jugadores y emparejamientos, sincronización/reconexión, economía, roster/arte definitivo, cuentas y persistencia Supabase, despliegue y observabilidad. No hay compromisos de calendario ni integración de servicios en esta entrega.
+Servidor Node/Colyseus, identidad y emparejamientos de cuatro jugadores, recepción ordenada de lotes, buffering/reconexión, economía/tienda, sinergias activas, roster definitivo, cuentas/persistencia Supabase, despliegue y observabilidad. Ninguna dependencia, cuenta o infraestructura nueva se ha instalado en P2. Sin compromisos de calendario.

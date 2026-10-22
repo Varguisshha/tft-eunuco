@@ -6,8 +6,8 @@ export const UNIT_DEFINITIONS = [
     role: 'vanguard',
     cost: 1,
     synergies: ['test-alloy'],
-    activeAbilityId: null,
-    passiveAbilityId: null,
+    activeAbilityId: 'test-bastion',
+    passiveAbilityId: 'test-plating',
     spriteId: 'placeholder-vanguard',
   },
   {
@@ -16,7 +16,7 @@ export const UNIT_DEFINITIONS = [
     role: 'striker',
     cost: 2,
     synergies: ['test-pulse'],
-    activeAbilityId: null,
+    activeAbilityId: 'test-overdrive',
     passiveAbilityId: null,
     spriteId: 'placeholder-striker',
   },
@@ -26,7 +26,7 @@ export const UNIT_DEFINITIONS = [
     role: 'ranger',
     cost: 2,
     synergies: ['test-alloy', 'test-pulse'],
-    activeAbilityId: null,
+    activeAbilityId: 'test-volley',
     passiveAbilityId: null,
     spriteId: 'placeholder-ranger',
   },
@@ -36,7 +36,7 @@ export const UNIT_DEFINITIONS = [
     role: 'support',
     cost: 3,
     synergies: ['test-pulse'],
-    activeAbilityId: null,
+    activeAbilityId: 'test-pulse',
     passiveAbilityId: null,
     spriteId: 'placeholder-support',
   },
@@ -44,3 +44,4 @@ export const UNIT_DEFINITIONS = [
 export function getUnitDefinition(id: string): UnitDefinition | undefined {
   return UNIT_DEFINITIONS.find((unit) => unit.id === id);
 }
+export * from './combat';

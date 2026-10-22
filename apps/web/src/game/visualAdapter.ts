@@ -88,6 +88,10 @@ export class PhaserUnitVisual implements UnitVisual {
     if (this.meta.frameCount > 1 && this.scene.anims.exists(`${this.meta.id}:${animation}`))
       this.sprite.play(`${this.meta.id}:${animation}`, true);
   }
+  setOpacity(alpha: number): void {
+    this.sprite.setAlpha(alpha);
+    this.marker.setAlpha(alpha);
+  }
   destroy(): void {
     this.marker.destroy();
     this.sprite.destroy();

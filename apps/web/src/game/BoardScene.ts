@@ -12,6 +12,7 @@ import type { HexCoord } from '@tft/shared';
 import { BoardSession } from './session';
 import { createProjection, hexCorners, hexToWorld, WORLD, worldToHex } from './projection';
 import { PhaserUnitVisual, registerPlaceholder } from './visualAdapter';
+import { CombatRenderer } from './CombatRenderer';
 
 export class BoardScene extends Phaser.Scene {
   private projection = createProjection();
@@ -20,6 +21,7 @@ export class BoardScene extends Phaser.Scene {
   private unsubscribe: (() => void) | undefined;
   private press: { unitId: string | null; x: number; y: number; dragging: boolean } | null = null;
   private zoomLevel = 1;
+  private combatRenderer: CombatRenderer | null = null;
   constructor(
     private session: BoardSession,
     private onReady: () => void,
@@ -53,6 +55,7 @@ export class BoardScene extends Phaser.Scene {
         .fillRect(center.x - 1, center.y - 1, 2, 2);
     }
     this.overlay = this.add.graphics().setDepth(2);
+    this.combatRenderer = new CombatRenderer(this, this.projection);
     this.cameras.main.setBackgroundColor('#111e18').centerOn(WORLD.width / 2, WORLD.height / 2);
     this.input.on('pointermove', this.pointerMove, this);
     this.input.on('pointerdown', this.pointerDown, this);
@@ -66,6 +69,12 @@ export class BoardScene extends Phaser.Scene {
     this.sync();
     this.onReady();
   }
+  update(_time: number, delta: number): void {
+    this.session.advanceCombat(delta);
+    const frame = this.session.combatFrame();
+    if (frame)
+      this.combatRenderer?.render(frame, this.visuals, this.session.getSnapshot().selectedId);
+  }
   dispose(): void {
     if (!this.unsubscribe) return;
     this.unsubscribe();
@@ -77,6 +86,8 @@ export class BoardScene extends Phaser.Scene {
     this.input.off('pointerupoutside', this.cancelDrag, this);
     this.input.off('gameout', this.pointerOut, this);
     this.press = null;
+    this.combatRenderer?.destroy();
+    this.combatRenderer = null;
     this.visuals.forEach((visual) => visual.destroy());
     this.visuals.clear();
   }
@@ -92,7 +103,7 @@ export class BoardScene extends Phaser.Scene {
     const point = this.pointerWorld(pointer);
     const hex = worldToHex(point, this.projection);
     this.session.hover(isInBounds(hex) ? hex : null);
-    if (this.press?.unitId && pointer.isDown) {
+    if (this.session.editable && this.press?.unitId && pointer.isDown) {
       if (Math.hypot(pointer.x - this.press.x, pointer.y - this.press.y) > 5)
         this.press.dragging = true;
       if (this.press.dragging)
@@ -107,7 +118,12 @@ export class BoardScene extends Phaser.Scene {
     const hitId = [...this.visuals]
       .filter(([, visual]) => visual.sprite.getBounds().contains(point.x, point.y))
       .sort((a, b) => b[1].sprite.depth - a[1].sprite.depth)[0]?.[0];
-    const unit = state.board.units.find((u) => u.id === hitId) ?? unitAt(state.board, hex);
+    const currentUnits = this.session.combatFrame()?.state.units ?? state.board.units;
+    const unit = currentUnits.find((u) => u.id === hitId) ?? unitAt({ units: currentUnits }, hex);
+    if (!this.session.editable) {
+      if (unit) this.session.select(unit.id);
+      return;
+    }
     this.press = {
       unitId: state.paletteId ? null : (unit?.id ?? null),
       x: pointer.x,
@@ -136,13 +152,16 @@ export class BoardScene extends Phaser.Scene {
   }
   private sync(): void {
     const state = this.session.getSnapshot();
-    const ids = new Set(state.board.units.map((u) => u.id));
+    const frame = this.session.combatFrame();
+    const units = frame?.state.units ?? state.board.units;
+    const ids = new Set(units.map((u) => u.id));
+    if (!frame) this.combatRenderer?.clear();
     for (const [id, visual] of this.visuals)
       if (!ids.has(id)) {
         visual.destroy();
         this.visuals.delete(id);
       }
-    for (const unit of state.board.units) {
+    for (const unit of units) {
       let visual = this.visuals.get(unit.id);
       if (!visual) {
         const def = getUnitDefinition(unit.definitionId);
@@ -150,7 +169,9 @@ export class BoardScene extends Phaser.Scene {
         visual = new PhaserUnitVisual(this, registerPlaceholder(this, def), unit.owner);
         this.visuals.set(unit.id, visual);
       }
-      if (!(this.press?.dragging && this.press.unitId === unit.id)) {
+      if (!frame && !(this.press?.dragging && this.press.unitId === unit.id)) {
+        visual.setOpacity(1);
+        visual.sprite.setAngle(0).clearTint();
         const position = hexToWorld(unit.position, this.projection);
         visual.setFootPosition(position.x, position.y);
       }
@@ -158,7 +179,7 @@ export class BoardScene extends Phaser.Scene {
     }
     this.overlay.clear();
     const selected = state.board.units.find((u) => u.id === state.selectedId);
-    const hasAction = Boolean(state.paletteId || selected);
+    const hasAction = !frame && Boolean(state.paletteId || selected);
     if (hasAction)
       for (const hex of BOARD_HEXES) {
         const valid =
@@ -169,10 +190,10 @@ export class BoardScene extends Phaser.Scene {
           this.overlay.fillStyle(0xa6c8a2, 0.5).fillCircle(point.x, point.y, 2);
         }
       }
-    this.outline(state.cursor, 0xd7dcc1, 0.7, 2);
-    if (selected && !sameHex(state.cursor, selected.position))
+    if (!frame) this.outline(state.cursor, 0xd7dcc1, 0.7, 2);
+    if (!frame && selected && !sameHex(state.cursor, selected.position))
       this.outline(selected.position, 0xd7dcc1, 0.9, 2);
-    if (state.hover) {
+    if (state.hover && !frame) {
       const invalid =
         hasAction &&
         ((selected && selected.owner !== state.side) ||

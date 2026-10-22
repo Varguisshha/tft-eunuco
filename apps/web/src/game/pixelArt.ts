@@ -4,7 +4,7 @@ export const ROLE_LABELS: Record<UnitDefinition['role'], string> = {
   vanguard: 'Vanguardia',
   striker: 'Duelista',
   ranger: 'Tirador',
-  support: 'Apoyo',
+  support: 'Mago',
 };
 export const ROLE_COLORS: Record<UnitDefinition['role'], string> = {
   vanguard: '#88bca5',

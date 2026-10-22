@@ -1,6 +1,7 @@
 import { useState, useSyncExternalStore } from 'react';
 import { axialToOffset, offsetToAxial } from '@tft/game-core';
-import { getUnitDefinition, UNIT_DEFINITIONS } from '@tft/game-data';
+import { getUnitDefinition, UNIT_DEFINITIONS, COMBAT_PROFILES } from '@tft/game-data';
+import { CombatControls } from './game/CombatControls';
 import type { UnitDefinition } from '@tft/shared';
 import { BoardSession } from './game/session';
 import { GameCanvas } from './game/GameCanvas';
@@ -47,11 +48,18 @@ export function App() {
   const state = useSyncExternalStore(session.subscribe, session.getSnapshot);
   const [zoom, setZoom] = useState(1);
   const [help, setHelp] = useState(false);
-  const selected = state.board.units.find((u) => u.id === state.selectedId);
+  const combatFrame = session.combatFrame();
+  const selected = (combatFrame?.state.units ?? state.board.units).find(
+    (u) => u.id === state.selectedId,
+  );
+  const liveUnit = combatFrame?.state.units.find((u) => u.id === state.selectedId);
   const definition = getUnitDefinition(selected?.definitionId ?? state.paletteId ?? '');
-  const activeCoord = state.hover ?? state.cursor;
+  const profile = definition ? COMBAT_PROFILES[definition.id] : undefined;
+  const activeCoord = state.hover ?? selected?.position ?? state.cursor;
   const offset = axialToOffset(activeCoord);
-  const friendlyCount = state.board.units.filter((u) => u.owner === state.side).length;
+  const friendlyCount = combatFrame
+    ? combatFrame.state.units.filter((u) => u.owner === state.side && u.hp > 0).length
+    : state.board.units.filter((u) => u.owner === state.side).length;
   const cursorOffset = axialToOffset(state.cursor);
   return (
     <div className="app">
@@ -64,10 +72,10 @@ export function App() {
         </a>
         <div className="project-label">
           <span className="status-dot" />
-          Laboratorio de formación
+          Laboratorio de combate
         </div>
         <span className="version">
-          F0–P1 <span>·</span> PROTOTIPO LOCAL
+          F0–P2 <span>·</span> PROTOTIPO LOCAL
         </span>
       </header>
       <main id="arena">
@@ -76,19 +84,20 @@ export function App() {
             <h1>
               Arena de pruebas<span>.</span>
             </h1>
-            <p>Una formación empieza con una buena posición.</p>
+            <p>Prepara, simula y observa. Arena interna de desarrollo.</p>
           </div>
           <button className="button quiet" onClick={() => session.reset()}>
             <ResetIcon />
             Restaurar formación
           </button>
         </div>
+        <CombatControls session={session} combat={state.combat} />
         <div className="workspace">
           <section className="arena-panel" aria-label="Arena hexagonal">
             <div className="arena-toolbar">
               <div className="arena-title">
                 <span className="live-square" />
-                <h2>Tablero de preparación</h2>
+                <h2>{session.editable ? 'Tablero de preparación' : 'Combate local'}</h2>
               </div>
               <span className="board-dimensions">
                 7 × 8 <span>HEXÁGONOS</span>
@@ -151,6 +160,7 @@ export function App() {
                   <button
                     key={unit.id}
                     className={`roster-unit ${state.paletteId === unit.id ? 'active' : ''}`}
+                    disabled={!session.editable}
                     onClick={() => session.choose(unit.id)}
                     aria-pressed={state.paletteId === unit.id}
                   >
@@ -175,7 +185,12 @@ export function App() {
           <aside className="inspector">
             <section className="formation">
               <h2>Tu formación</h2>
-              <div className="side-switch" aria-label="Equipo que estás editando">
+              <div
+                className="side-switch"
+                aria-label={
+                  session.editable ? 'Equipo que estás editando' : 'Equipo que estás inspeccionando'
+                }
+              >
                 <button
                   className={state.side === 'south' ? 'active jade' : ''}
                   aria-pressed={state.side === 'south'}
@@ -198,7 +213,7 @@ export function App() {
                   {friendlyCount.toString().padStart(2, '0')}
                   <span>/28</span>
                 </strong>
-                <span>casillas ocupadas</span>
+                <span>{session.editable ? 'casillas ocupadas' : 'unidades vivas'}</span>
               </div>
               <div className="capacity" aria-hidden="true">
                 {Array.from({ length: 28 }, (_, i) => (
@@ -246,9 +261,54 @@ export function App() {
                           : 'Sin desplegar'}
                       </dd>
                     </div>
+                    {profile && (
+                      <>
+                        <div>
+                          <dt>Vida</dt>
+                          <dd>
+                            {liveUnit?.hp ?? profile.stats.maxHp} / {profile.stats.maxHp}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Maná</dt>
+                          <dd>
+                            {liveUnit?.mana ?? profile.stats.startingMana} / {profile.stats.maxMana}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Ataque base / alcance</dt>
+                          <dd>
+                            {profile.stats.attack} / {profile.stats.range}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Ataques/s base</dt>
+                          <dd>{profile.stats.attackSpeedMilli / 1000}</dd>
+                        </div>
+                        <div>
+                          <dt>Objetivo</dt>
+                          <dd className="mono">{liveUnit?.targetId ?? '—'}</dd>
+                        </div>
+                        <div>
+                          <dt>Estado</dt>
+                          <dd>
+                            {liveUnit?.deathTick !== null && liveUnit?.deathTick !== undefined
+                              ? 'Eliminada'
+                              : liveUnit?.statuses.some((s) => s.kind === 'stun')
+                                ? 'Aturdida'
+                                : liveUnit?.action?.kind === 'cast'
+                                  ? 'Lanzando'
+                                  : liveUnit?.statuses.some((s) => s.kind === 'shield')
+                                    ? 'Con escudo'
+                                    : 'Disponible'}
+                          </dd>
+                        </div>
+                      </>
+                    )}
                   </dl>
                   <p className="pending-note">
-                    Activa y pasiva pendientes de diseño. Sin estadísticas de combate en esta fase.
+                    {profile?.ability?.name ?? 'Sin habilidad'} ·{' '}
+                    {profile?.passive ? 'Pasiva: blindaje inicial' : 'Sin pasiva en este perfil'}
                   </p>
                 </>
               ) : (
@@ -294,6 +354,7 @@ export function App() {
               </div>
               <button
                 className="button apply"
+                disabled={!session.editable}
                 onClick={() =>
                   selected
                     ? session.move(selected.id, state.cursor)
@@ -312,6 +373,15 @@ export function App() {
             </section>
           </aside>
         </div>
+        {!session.editable && (
+          <div className="combat-legend">
+            <span>Vida: jade / ámbar</span>
+            <span>Maná: azul</span>
+            <span>Escudo: contorno claro</span>
+            <span>Aturdimiento: cruz amarilla</span>
+            <span>Modificador: triángulo verde</span>
+          </div>
+        )}
         <footer className="footer">
           <p id="board-instructions">
             <span className="mouse-icon" />
@@ -350,8 +420,9 @@ export function App() {
               </li>
             </ol>
             <p>
-              Este laboratorio no guarda cambios al recargar. Combate, economía y multijugador
-              pertenecen a fases posteriores.
+              Este laboratorio no guarda cambios al recargar. Carga el duelo de prueba e inicia el
+              combate; durante la reproducción puedes inspeccionar, pausar o cambiar la velocidad.
+              La economía y el multijugador pertenecen a fases posteriores.
             </p>
           </section>
         )}

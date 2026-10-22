@@ -969,3 +969,138 @@ dd {
     font-size: 8px;
   }
 }
+
+/* F0-P2 extends the internal arena, not the eventual player-facing game screen. */
+.combat-controls {
+  margin-bottom: 18px;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #19271f;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.combat-actions,
+.combat-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.combat-controls .button {
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 11px;
+}
+.combat-controls .combat-primary {
+  background: #b8d4a3;
+  border-color: #b8d4a3;
+  color: #16271a;
+}
+.combat-clock {
+  color: #bdcbb5;
+  font-size: 11px;
+  gap: 15px;
+}
+.combat-clock label {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.combat-clock input {
+  width: 103px;
+  padding: 7px;
+  background: #111e18;
+  color: #e5e8da;
+  border: 1px solid #455b40;
+  border-radius: 4px;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.combat-clock input:focus-visible {
+  outline: 2px solid var(--jade);
+  outline-offset: 2px;
+}
+.tick-readout {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tick-readout strong {
+  color: #e1e8d4;
+}
+.playback-speed {
+  display: flex;
+  gap: 3px;
+}
+.playback-speed button {
+  border: 1px solid #4a6044;
+  border-radius: 3px;
+  background: transparent;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+.playback-speed button[aria-pressed='true'] {
+  background: #354d33;
+  color: #e0efcf;
+}
+.combat-phase {
+  font-size: 10px;
+  min-width: 65px;
+}
+.combat-phase.playing {
+  color: #cdebb3;
+}
+.combat-phase.paused {
+  color: #e6c894;
+}
+.combat-result {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+  border-top: 1px solid #4b6341;
+  padding-top: 12px;
+  color: #d2e7bd;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+}
+.combat-result span {
+  align-self: center;
+  font:
+    11px 'DM Sans',
+    sans-serif;
+  color: #bdcbb5;
+}
+.seed-error {
+  width: 100%;
+  font-size: 11px;
+  color: #efae91;
+}
+.combat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: #aebfa3;
+  font-size: 10px;
+  margin-top: 16px;
+}
+.roster-unit:disabled {
+  opacity: 0.45;
+}
+@media (min-width: 1151px) {
+  .canvas-shell {
+    height: clamp(370px, calc(100dvh - 355px), 630px);
+    aspect-ratio: auto;
+  }
+  .selected-portrait {
+    height: 116px;
+  }
+  .pixel-unit.large {
+    height: 94px;
+    width: 75px;
+  }
+}

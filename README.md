@@ -1,6 +1,6 @@
-# TFT EUNUCO · F0-P1
+# TFT EUNUCO · F0-P2
 
-Fundación local de un autobattler original: tablero hexagonal isométrico, formación interactiva y contratos preparados para evolución. **No incluye combate, economía, cuentas, red ni persistencia.**
+Arena interna de un autobattler original: tablero hexagonal isométrico, preparación interactiva y combate automático determinista con reproducción Phaser. **Sin economía, cuentas, red ni persistencia.**
 
 ## Arranque
 
@@ -26,7 +26,8 @@ pnpm preview
 
 ## Usar el prototipo
 
-- Empieza con cuatro unidades ficticias en el equipo jade.
+- Empieza con cuatro unidades ficticias jade. Pulsa **Cargar duelo 4 × 4**, elige semilla y **Iniciar combate**.
+- Pausa/reanuda, cambia ×1/×2 o repite la misma entrada/semilla. **Volver a preparación** recupera tu formación previa. Durante combate solo inspección y zoom; la edición queda protegida.
 - Selecciona una unidad de la reserva y pulsa una casilla libre de tu mitad para colocarla.
 - Selecciona una unidad del tablero; arrástrala o pulsa una casilla vacía para moverla. Pulsar otra unidad la selecciona. Un arrastre sobre una casilla ocupada se rechaza.
 - Alterna Jade / Ámbar para editar cada mitad. Esto es una herramienta local de prueba, no un cambio de jugador autenticado.
@@ -45,7 +46,7 @@ apps/
 packages/
   shared/                Esquemas Zod, contratos JSON y ticks
   game-data/             Cuatro definiciones ficticias
-  game-core/             Hexágonos, ocupación y transiciones puras
+  game-core/             Hexágonos, preparación y motor determinista puro
   sprite-contract/       Metadatos, validación y puerto UnitVisual
 docs/
   ARCHITECTURE.md
@@ -53,9 +54,13 @@ docs/
   SPRITE_SPEC.md
   ROADMAP.md
   DECISIONS.md
+  COMBAT_SPEC.md
+  COMBAT_EVENTS.md
   VALIDATION.md
 ```
 
 Los paquetes privados exportan TypeScript fuente; Vite y Vitest los compilan dentro del monorepo. No se publican en npm. TypeScript strict y ESLint se ejecutan desde la raíz.
 
 Consulta [arquitectura](docs/ARCHITECTURE.md), [decisiones y fuentes](docs/DECISIONS.md), [guía de arte](docs/SPRITE_SPEC.md) y [validación real](docs/VALIDATION.md).
+
+Consulta también las [reglas exactas de combate](docs/COMBAT_SPEC.md) y el [protocolo v2](docs/COMBAT_EVENTS.md). La Arena es una herramienta permanente, separada de la futura interfaz de partida.
