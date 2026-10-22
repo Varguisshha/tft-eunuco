@@ -63,3 +63,7 @@ Roster, nombres, habilidades/pasivas definitivas, balance, sinergias/umbrales, e
 Pantalla independiente de Arena con oro, tienda5, banquillo9, XP/niveles2–7, estrellas1–3, venta, rival determinista y varias rondas. Inicio10oro, base2/3/4/5, interés de1 por10 hasta5, victoria1 y rachas configurables. El jugador elige cuándo combatir. Ninguna economía afecta al laboratorio Arena.
 
 Las tablas exactas y adaptaciones respecto a referencias históricas están en ECONOMY_SPEC, SHOP_POOL_SPEC y PROGRESSION_SPEC. Las fases y el guardado están en ROUND_FLOW. La partida sigue abierta tras derrota/empate: no se ha añadido salud global, PvE o condición final. Sin sinergias activas ni personajes reales. Se conserva la dirección artística provisional, con aviso de mejora y estrellas sobre sprites existentes.
+
+## Prototipo jugable F0-P4.1
+
+DOLEA se suma a las cuatro unidades ficticias como tanque cuerpo a cuerpo de coste2, alcance1, etiqueta neutral sin sinergia activa. Vida600/ataque40/armadura45/RM35 y habilidades técnicas heredadas de K-01 son datos provisionales. Una estrella usa chándal claro; dos, camiseta de tirantes; tres conserva temporalmente ese segundo aspecto con sus estadísticas y tres estrellas. Attack es el único clip real por evolución; Idle/Walk/Ability/Death tienen fallback visual sin daño adicional. Vargas y Florin son los nombres visibles de los dos participantes locales. No se definen características personales ni ficha definitiva.

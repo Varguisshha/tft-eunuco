@@ -1,0 +1,220 @@
+[
+  {
+    "character": "dolea",
+    "star": 1,
+    "state": "attack",
+    "output": "sprites/dolea/star1/attack.png",
+    "frameWidth": 128,
+    "frameHeight": 128,
+    "scale": 0.08997188378631678,
+    "frames": [
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE.png",
+        "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 280, "top": 111, "width": 687, "height": 1080 },
+        "solid": { "left": 280, "top": 112, "width": 687, "height": 1079 },
+        "foot": { "x": 623, "y": 1191 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 2.png",
+        "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 276, "top": 139, "width": 724, "height": 1049 },
+        "solid": { "left": 279, "top": 140, "width": 721, "height": 1047 },
+        "foot": { "x": 639, "y": 1187 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 3.png",
+        "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 242, "top": 160, "width": 912, "height": 1030 },
+        "solid": { "left": 244, "top": 161, "width": 907, "height": 1029 },
+        "foot": { "x": 605.5, "y": 1190 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 4.png",
+        "sha256": "7bd786a0894ada0c56327da8f3a28d1eec45a1b7c24d6ec0b96d6e07880cf305",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 282, "top": 113, "width": 686, "height": 1079 },
+        "solid": { "left": 283, "top": 114, "width": 685, "height": 1077 },
+        "foot": { "x": 625, "y": 1191 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 5.png",
+        "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 276, "top": 124, "width": 713, "height": 1059 },
+        "solid": { "left": 278, "top": 125, "width": 708, "height": 1057 },
+        "foot": { "x": 631.5, "y": 1182 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 6.png",
+        "sha256": "96614ead8f4898585d02e6435495cb4dd2015f9aded6503eee407b3de795bc49",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 258, "top": 118, "width": 914, "height": 1070 },
+        "solid": { "left": 260, "top": 119, "width": 911, "height": 1067 },
+        "foot": { "x": 621.5, "y": 1186 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 7.png",
+        "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 276, "top": 140, "width": 873, "height": 1048 },
+        "solid": { "left": 277, "top": 141, "width": 871, "height": 1044 },
+        "foot": { "x": 622.5, "y": 1185 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 8.png",
+        "sha256": "3cc06ba0387f0ac67619dfaba74ab902a21e34f3aad09da8e1ba2a329b199c86",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 286, "top": 112, "width": 681, "height": 1079 },
+        "solid": { "left": 287, "top": 113, "width": 679, "height": 1077 },
+        "foot": { "x": 626, "y": 1190 }
+      }
+    ],
+    "anomalies": [
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 2 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 3 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 4 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 5 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 6 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 7 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 8 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE copia.png",
+      "Sprites/DOLEA NIVEL 1 ATAQUE.png: 18093 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE.png: 322372 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 2.png: 20200 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 2.png: 303900 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 3.png: 24075 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 3.png: 340358 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 4.png: 17329 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 4.png: 316009 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 5.png: 23357 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 5.png: 354608 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 6.png: 19715 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 6.png: 358073 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 7.png: 30900 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 7.png: 326674 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 8.png: 20997 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 8.png: 328248 partial-alpha pixels preserved; nearest-neighbor only"
+    ]
+  },
+  {
+    "character": "dolea",
+    "star": 2,
+    "state": "attack",
+    "output": "sprites/dolea/star2/attack.png",
+    "frameWidth": 112,
+    "frameHeight": 128,
+    "scale": 0.08156329651656755,
+    "frames": [
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE .png",
+        "sha256": "114a91704b075c823290f28e87c01f661bb3589c951171bfc4ab3366504f7c76",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 158, "top": 158, "width": 808, "height": 1207 },
+        "solid": { "left": 159, "top": 159, "width": 806, "height": 1204 },
+        "foot": { "x": 561.5, "y": 1363 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 2.png",
+        "sha256": "227a4bdfebfb245602fba0742d8fb7181fa91a483ea4f0c361d984e53628264c",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 160, "top": 226, "width": 825, "height": 1119 },
+        "solid": { "left": 160, "top": 226, "width": 825, "height": 1118 },
+        "foot": { "x": 557.5, "y": 1344 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 3.png",
+        "sha256": "87d020b11a4421b2ec608f9852e30b75f07cd488260d8e39c87457c2bace43f4",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 156, "top": 172, "width": 805, "height": 1197 },
+        "solid": { "left": 158, "top": 172, "width": 802, "height": 1197 },
+        "foot": { "x": 558.5, "y": 1369 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 4.png",
+        "sha256": "924f20164eae9960a4dfccf84d3abb5e6b93e15dda627d6ba30c6ac302a48d84",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 156, "top": 180, "width": 808, "height": 1190 },
+        "solid": { "left": 157, "top": 181, "width": 806, "height": 1188 },
+        "foot": { "x": 559.5, "y": 1369 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 5.png",
+        "sha256": "d88cb150427e029691c3b0d5d05dd8618a5dca3cfc03df1892fb92e366463b33",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 160, "top": 187, "width": 836, "height": 1159 },
+        "solid": { "left": 161, "top": 188, "width": 834, "height": 1157 },
+        "foot": { "x": 563, "y": 1345 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 6.png",
+        "sha256": "6b369b895fd705aedc009ebe5283b5389b8cd1d661392cce4ffa90341ef07f60",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 159, "top": 188, "width": 902, "height": 1179 },
+        "solid": { "left": 159, "top": 189, "width": 901, "height": 1177 },
+        "foot": { "x": 563.5, "y": 1366 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 7.png",
+        "sha256": "3a4b96832df5dcd68a2378e63ee10204c40729299112bf475bf7c28cd0fda699",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 160, "top": 189, "width": 897, "height": 1178 },
+        "solid": { "left": 161, "top": 190, "width": 895, "height": 1176 },
+        "foot": { "x": 562.5, "y": 1366 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 8.png",
+        "sha256": "c379ef93803d4693c5211178301640dd34ea538bb662f334023316a4849686cb",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 145, "top": 197, "width": 890, "height": 1157 },
+        "solid": { "left": 146, "top": 198, "width": 888, "height": 1155 },
+        "foot": { "x": 543, "y": 1353 }
+      }
+    ],
+    "anomalies": [
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE  copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 2 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 3 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 4 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 5 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 6 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 7 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 8 copia.png",
+      "Sprites/DOLEA NIVEL 2 ATAQUE .png: 26300 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE .png: 411346 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 2.png: 25093 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 2.png: 370313 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 3.png: 28402 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 3.png: 401505 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 4.png: 26461 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 4.png: 405770 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 5.png: 31685 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 5.png: 396448 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 6.png: 25906 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 6.png: 408269 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 7.png: 23714 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 7.png: 412449 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 8.png: 26604 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 8.png: 388524 partial-alpha pixels preserved; nearest-neighbor only"
+    ]
+  }
+]

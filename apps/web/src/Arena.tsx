@@ -1,6 +1,8 @@
 import { useState, useSyncExternalStore } from 'react';
 import { axialToOffset, offsetToAxial } from '@tft/game-core';
-import { getUnitDefinition, UNIT_DEFINITIONS, COMBAT_PROFILES } from '@tft/game-data';
+import { getUnitDefinition, CHARACTER_ROSTER, ECONOMY_CONFIG } from '@tft/game-data';
+import { scaledProfile } from '@tft/game-core';
+import { SpritePreview } from './game/SpritePreview';
 import { CombatControls } from './game/CombatControls';
 import { PixelUnit } from './game/PixelUnit';
 import { BoardSession } from './game/session';
@@ -40,7 +42,11 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
   );
   const liveUnit = combatFrame?.state.units.find((u) => u.id === state.selectedId);
   const definition = getUnitDefinition(selected?.definitionId ?? state.paletteId ?? '');
-  const profile = definition ? COMBAT_PROFILES[definition.id] : undefined;
+  const profile =
+    liveUnit?.profile ??
+    (definition
+      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), ECONOMY_CONFIG)
+      : undefined);
   const activeCoord = state.hover ?? selected?.position ?? state.cursor;
   const offset = axialToOffset(activeCoord);
   const friendlyCount = combatFrame
@@ -61,7 +67,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
           Laboratorio de combate
         </div>
         <span className="version">
-          F0–P3.1 <span>·</span> PROTOTIPO LOCAL
+          F0–P4.1 <span>·</span> PROTOTIPO LOCAL
         </span>
       </header>
       <main id="arena">
@@ -142,7 +148,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                 <span>Selecciona y coloca</span>
               </div>
               <div className="unit-roster">
-                {UNIT_DEFINITIONS.map((unit) => (
+                {CHARACTER_ROSTER.map((unit) => (
                   <button
                     key={unit.id}
                     className={`roster-unit ${state.paletteId === unit.id ? 'active' : ''}`}
@@ -151,7 +157,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                     aria-pressed={state.paletteId === unit.id}
                   >
                     <div className="portrait">
-                      <PixelUnit role={unit.role} />
+                      <PixelUnit role={unit.role} spriteId={unit.spriteId} />
                     </div>
                     <span className="roster-label">
                       <strong>{unit.name}</strong>
@@ -164,7 +170,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                 ))}
               </div>
               <p className="reserve-note">
-                Unidades ficticias · Sin límite de copias en este prototipo · Costes de referencia
+                Roster provisional · Sin límite de copias en este prototipo · Costes de referencia
               </p>
             </div>
           </section>
@@ -183,7 +189,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                   onClick={() => session.setSide('south')}
                 >
                   <span className="team-dot jade" />
-                  Jade
+                  Vargas
                 </button>
                 <button
                   className={state.side === 'north' ? 'active amber' : ''}
@@ -191,7 +197,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                   onClick={() => session.setSide('north')}
                 >
                   <span className="team-dot amber" />
-                  Ámbar
+                  Florin
                 </button>
               </div>
               <div className="deployment-count">
@@ -219,10 +225,17 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                     style={{ '--unit-color': ROLE_COLORS[definition.role] } as React.CSSProperties}
                   >
                     <div className="portrait-plinth" />
-                    <PixelUnit role={definition.role} large />
+                    <PixelUnit
+                      role={definition.role}
+                      spriteId={definition.spriteId}
+                      stars={session.starsFor(selected?.id ?? '')}
+                      large
+                    />
                   </div>
                   <div className="unit-name">
-                    <h3>{definition.name}</h3>
+                    <h3>
+                      {definition.name} {selected && '★'.repeat(session.starsFor(selected.id))}
+                    </h3>
                     <span>PROVISIONAL</span>
                   </div>
                   <p className="unit-role">{ROLE_LABELS[definition.role]}</p>
@@ -236,7 +249,11 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                     <div>
                       <dt>Equipo</dt>
                       <dd>
-                        {selected ? (selected.owner === 'south' ? 'Jade' : 'Ámbar') : 'En reserva'}
+                        {selected
+                          ? selected.owner === 'south'
+                            ? 'Vargas'
+                            : 'Florin'
+                          : 'En reserva'}
                       </dd>
                     </div>
                     <div>
@@ -412,6 +429,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
             </p>
           </section>
         )}
+        <SpritePreview />
       </main>
     </div>
   );

@@ -5,8 +5,10 @@ import {
   type CombatState,
   type CombatEventV3,
 } from '@tft/shared';
+import { unitAnimationCue, type VisualCue } from './animationPlayback';
 export interface PlaybackFrame {
   timeMs: number;
+  animationCues: ReadonlyMap<string, VisualCue>;
   tick: number;
   state: CombatState;
   recentEvents: CombatEventV3[];
@@ -41,6 +43,12 @@ export class CombatPlayback {
   frame(): PlaybackFrame {
     const tick = Math.min(this.replay.result.tick, Math.floor(this.elapsed / TICK_MS));
     return {
+      animationCues: new Map(
+        this.replay.snapshots[tick]!.units.map((u) => [
+          u.id,
+          unitAnimationCue(u, this.elapsed, this.replay.events),
+        ]),
+      ),
       overtime:
         tick >= OVERTIME_START_TICK &&
         this.replay.events.some((e) => e.type === 'overtime_start' && e.tick <= tick),

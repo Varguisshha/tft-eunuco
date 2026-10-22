@@ -11,8 +11,10 @@ import { getUnitDefinition } from '@tft/game-data';
 import type { HexCoord } from '@tft/shared';
 import type { BoardPort } from './boardPort';
 import { createProjection, hexCorners, hexToWorld, WORLD, worldToHex } from './projection';
-import { PhaserUnitVisual, registerPlaceholder } from './visualAdapter';
+import { PhaserUnitVisual } from './visualAdapter';
 import { CombatRenderer } from './CombatRenderer';
+import { CHARACTER_ASSETS } from './characterAssets';
+import { fitBoardView } from './viewport';
 
 export class BoardScene extends Phaser.Scene {
   private projection = createProjection();
@@ -25,8 +27,21 @@ export class BoardScene extends Phaser.Scene {
   constructor(
     private session: BoardPort,
     private onReady: () => void,
+    private fitted = false,
   ) {
     super('board');
+    if (fitted) this.projection = createProjection(0.38);
+  }
+  preload(): void {
+    for (const manifest of CHARACTER_ASSETS)
+      for (const slots of Object.values(manifest.evolutions))
+        for (const asset of Object.values(slots)) {
+          if (asset && !this.textures.exists(asset.textureKey))
+            this.load.spritesheet(asset.textureKey, asset.url, {
+              frameWidth: asset.frameWidth,
+              frameHeight: asset.frameHeight,
+            });
+        }
   }
   create(): void {
     const ground = this.add.graphics();
@@ -55,7 +70,7 @@ export class BoardScene extends Phaser.Scene {
         .fillRect(center.x - 1, center.y - 1, 2, 2);
     }
     this.overlay = this.add.graphics().setDepth(2);
-    this.combatRenderer = new CombatRenderer(this, this.projection);
+    this.combatRenderer = new CombatRenderer(this, this.projection, !this.fitted);
     this.cameras.main.setBackgroundColor('#111e18').centerOn(WORLD.width / 2, WORLD.height / 2);
     this.input.on('pointermove', this.pointerMove, this);
     this.input.on('pointerdown', this.pointerDown, this);
@@ -69,11 +84,12 @@ export class BoardScene extends Phaser.Scene {
     this.sync();
     this.onReady();
   }
-  update(_time: number, delta: number): void {
+  update(time: number, delta: number): void {
     this.session.advanceCombat(delta);
     const frame = this.session.combatFrame();
     if (frame)
       this.combatRenderer?.render(frame, this.visuals, this.session.getSnapshot().selectedId);
+    else for (const visual of this.visuals.values()) visual.play('idle', time);
   }
   dispose(): void {
     if (!this.unsubscribe) return;
@@ -93,8 +109,19 @@ export class BoardScene extends Phaser.Scene {
   }
   setViewZoom(zoom: number): void {
     this.zoomLevel = zoom;
-    if (this.cameras?.main)
-      this.cameras.main.setZoom(zoom).centerOn(WORLD.width / 2, WORLD.height / 2);
+    this.fitView();
+  }
+  fitView(): void {
+    const camera = this.cameras?.main;
+    if (!camera) return;
+    if (this.fitted) {
+      const { width, height } = this.scale;
+      const fit = fitBoardView(width, height, this.projection);
+      camera
+        .setSize(width, height)
+        .setZoom(fit.zoom * this.zoomLevel)
+        .centerOn(fit.x, fit.y);
+    } else camera.setZoom(this.zoomLevel).centerOn(WORLD.width / 2, WORLD.height / 2);
   }
   private pointerWorld(pointer: Phaser.Input.Pointer): Point {
     return this.cameras.main.getWorldPoint(pointer.x, pointer.y);
@@ -153,8 +180,8 @@ export class BoardScene extends Phaser.Scene {
   dropFromBench(unitId: string, clientX: number, clientY: number): void {
     const rect = this.game.canvas.getBoundingClientRect();
     const point = this.cameras.main.getWorldPoint(
-      ((clientX - rect.left) * WORLD.width) / rect.width,
-      ((clientY - rect.top) * WORLD.height) / rect.height,
+      ((clientX - rect.left) * this.scale.width) / rect.width,
+      ((clientY - rect.top) * this.scale.height) / rect.height,
     );
     this.session.move(unitId, worldToHex(point, this.projection));
     this.sync();
@@ -183,7 +210,7 @@ export class BoardScene extends Phaser.Scene {
       if (!visual) {
         const def = getUnitDefinition(unit.definitionId);
         if (!def) continue;
-        visual = new PhaserUnitVisual(this, registerPlaceholder(this, def), unit.owner);
+        visual = new PhaserUnitVisual(this, def, unit.owner);
         this.visuals.set(unit.id, visual);
       }
       if (!frame && !(this.press?.dragging && this.press.unitId === unit.id)) {
@@ -229,7 +256,6 @@ export class BoardScene extends Phaser.Scene {
           .lineBetween(p.x - 4, p.y + 4, p.x + 4, p.y - 4);
       }
     }
-    this.cameras.main.setZoom(this.zoomLevel);
   }
   private outline(hex: HexCoord, color: number, alpha: number, width: number): void {
     this.overlay.lineStyle(width, color, alpha).strokePoints(

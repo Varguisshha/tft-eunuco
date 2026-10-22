@@ -1787,3 +1787,26 @@ dd {
   background: #17271e;
   color: #e4e8d8;
 }
+
+.sprite-preview {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #42664f;
+  background: #172c24;
+  color: #d7dcc1;
+}
+.sprite-preview summary {
+  cursor: pointer;
+}
+.sprite-preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 16px 0;
+}
+.sprite-preview select {
+  margin-left: 8px;
+  color: #d7dcc1;
+  background: #111e18;
+  padding: 6px;
+}

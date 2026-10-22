@@ -20,7 +20,7 @@ const base = {
   moveTicks: 3,
   attackWindupTicks: 2,
 };
-export const COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
+const REFERENCE_PROFILES: Readonly<Record<string, CombatProfile>> = {
   'test-k01': CombatProfileSchema.parse({
     stats: {
       ...base,
@@ -100,6 +100,22 @@ export const COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
       ],
     },
     passive: null,
+  }),
+};
+// Provisional cost-2 melee tank, reusing the existing technical ability/passive.
+const tank = REFERENCE_PROFILES['test-k01']!;
+export const COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
+  ...REFERENCE_PROFILES,
+  dolea: CombatProfileSchema.parse({
+    ...tank,
+    stats: {
+      ...tank.stats,
+      maxHp: 600,
+      attack: 40,
+      armor: 45,
+      magicResist: 35,
+      attackSpeedMilli: 800,
+    },
   }),
 };
 export function createCombatInput(board: BoardState, seed: number): CombatInput {

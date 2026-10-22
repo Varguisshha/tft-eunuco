@@ -7,12 +7,15 @@ import {
   sameHex,
   isInBounds,
   type PlacementError,
+  scaledProfile,
 } from '@tft/game-core';
 import {
   UNIT_DEFINITIONS,
   createCombatInput,
   createCombatScenario,
   type CombatScenario,
+  COMBAT_PROFILES,
+  ECONOMY_CONFIG,
 } from '@tft/game-data';
 import { CombatSeedSchema, type CombatInput, type CombatResult } from '@tft/shared';
 import { CombatPlayback } from './combatPlayback';
@@ -72,6 +75,45 @@ export class BoardSession {
   private playback: CombatPlayback | null = null;
   private scenarioInput: CombatInput | null = null;
   private lastInput: CombatInput | null = null;
+  private visualStars = new Map<string, 1 | 2 | 3>();
+  starsFor = (id: string): 1 | 2 | 3 => this.visualStars.get(id) ?? 1;
+  loadCharacterDuel(stars: 1 | 2 | 3, timeout: boolean | 'death' = false): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const board: BoardState = {
+      units: [
+        { id: 'dolea-south', definitionId: 'dolea', owner: 'south', position: offsetToAxial(2, 5) },
+        { id: 'dolea-north', definitionId: 'dolea', owner: 'north', position: offsetToAxial(3, 2) },
+      ],
+    };
+    if (timeout === 'death') {
+      board.units[0]!.position = { q: 0, r: 4 };
+      board.units[1]!.position = { q: 0, r: 3 };
+    }
+    this.scenarioInput = createCombatInput(board, this.snapshot.combat.seed);
+    for (const u of this.scenarioInput.units) {
+      u.profile = scaledProfile('dolea', stars, ECONOMY_CONFIG);
+      if (timeout)
+        u.profile = {
+          ...structuredClone(COMBAT_PROFILES.dolea!),
+          ability: null,
+          passive: null,
+          stats: {
+            ...u.profile.stats,
+            maxHp: timeout === 'death' ? 10 : 100000,
+            attack: timeout === 'death' ? 100 : 1,
+          },
+        };
+      this.visualStars.set(u.id, stars);
+    }
+    this.patch({
+      board,
+      selectedId: 'dolea-south',
+      paletteId: null,
+      invalid: false,
+      message: `DOLEA ${stars}★ · ${timeout === 'death' ? 'muerte técnica' : timeout ? 'límite técnico de 450 ticks' : 'perfiles provisionales escalados'}.`,
+    });
+  }
   combatFrame = () => this.playback?.frame() ?? null;
   get editable(): boolean {
     return this.snapshot.combat.mode === 'preparation';
@@ -84,6 +126,7 @@ export class BoardSession {
   loadDuel(): void {
     this.returnToPreparation();
     this.scenarioInput = null;
+    this.visualStars.clear();
     const board = demoBoard();
     const opponents = board.units.map((u, i) => ({
       ...u,
@@ -101,6 +144,7 @@ export class BoardSession {
   }
   loadScenario(scenario: CombatScenario): void {
     this.returnToPreparation();
+    this.visualStars.clear();
     this.scenarioInput = createCombatScenario(scenario, this.snapshot.combat.seed);
     this.patch({
       board: {
@@ -170,6 +214,15 @@ export class BoardSession {
       combat: { ...this.snapshot.combat, mode: paused ? 'paused' : 'playing' },
       message: paused ? 'Reproducción pausada.' : 'Reproducción reanudada.',
     });
+  }
+  stepCombat(): void {
+    if (this.snapshot.combat.mode !== 'paused' || !this.playback) return;
+    this.playback.setPaused(false);
+    this.patch({ combat: { ...this.snapshot.combat, mode: 'playing' } });
+    this.advanceCombat(100 / this.snapshot.combat.speed);
+    this.playback.setPaused(true);
+    if (!this.playback.finished)
+      this.patch({ combat: { ...this.snapshot.combat, mode: 'paused' } });
   }
   setCombatSpeed(speed: 1 | 2): void {
     this.playback?.setSpeed(speed);
@@ -263,6 +316,7 @@ export class BoardSession {
     });
   }
   reset(): void {
+    this.visualStars.clear();
     this.scenarioInput = null;
     this.playback = null;
     this.patch({

@@ -77,3 +77,26 @@ Fuentes Phaser consultadas para P2: [Graphics](https://docs.phaser.io/api-docume
 - Vida, oro, XP y racha se liquidan en una sola acción; registros verificables y restore por replay. La UI nunca propone un ganador ni el daño de ronda.
 - Indicador Phaser y contador DOM compartidos por ambas vistas; transición calculada desde reloj visual, sin temporizadores que continúen durante pausa. Escenarios sintéticos únicamente en Arena técnica.
 - Sin dependencias nuevas, servicios ni F0-P4.
+
+## Decisiones F0-P4 — 23 de octubre de 2026
+
+- Auditoría inicial:161 pruebas correctas, tipos/lint/build/formato correctos;38 archivos pendientes coherentes con P3.1. Preservados en `1079713`, sin remoto ni push.
+- HUD de viewport para escritorio, sin ocultar overflow del documento. Registros en diálogo e inspector contextual con scroll interno; tienda y banquillo permanecen fuera de esos paneles.
+- Economía compacta abajo a la izquierda para reservar altura al tablero. Solo dos participantes reales del prototipo, ordenados por vida; no se inventa clasificación online.
+- Encuadre adaptativo y compresión vertical0,38 exclusivos de Partida. Reutilización de escena/render y geometría lógica; Arena mantiene su cámara/proyección técnica.
+- DPR acotado a2; cambios de tamaño/densidad redimensionan el buffer y cámara, no la partida. Drops normalizados al tamaño del render.
+- Disponibilidad de compra consultada al core sobre copia; evita replicar la excepción de fusión con banquillo lleno. Pruebas verifican inmutabilidad de saldo, ofertas y RNG.
+- Los hijos visuales de casilla no capturan pointer-events: corrige drops horizontales rápidos que terminaban entrando en un span en el último movimiento.
+- Skill redesign-existing-projects aplicada al stack existente, conservando jade/ámbar por petición del usuario. Sin dependencias, servicios, ilustraciones o sprites definitivos nuevos.
+- Reloj visual preparado mediante propiedad opcional, sin activar preparación30s ni transición5s. F0-P5 queda pendiente.
+
+## Decisiones F0-P4.1
+
+- Auditoría inicial:172 pruebas y check completos correctos. Cambios pendientes pertenecían a P4; Sprites era aporte del usuario. Se conservan sin commit automático, remoto ni push. F0-P5 no iniciado.
+- Arte suministrado:16 originales y16 duplicados exactos. Fuentes inmutables, hashes auditados; pipeline reproducible con sharp de desarrollo y derivados locales.
+- Catálogo explícito para nuevas partidas; listas antiguas congeladas para no romper RNG/historial. No cambia la tabla económica ni las reglas del combate.
+- Contrato universal con slots nulos y resolver visual;3★ usa2★ sin alterar datos. Reproducción por muestreo, no callbacks con efectos mecánicos.
+- Impactos3/6 provisionales por inspección del arte; secuencias con varios puñetazos mantienen un solo ataque autoritativo.
+- Alpha<=8 se limpia solo en derivados; nearest-neighbor y escala por evolución, apoyo inferior estable. No se generan ilustraciones alternativas.
+- Skill animate aplicada al propósito de indicar estados e interrupciones; se mantiene Phaser y el reloj existente por la necesidad específica del juego. Sin biblioteca de motion adicional.
+- Vargas y Florin nombran los participantes de prueba a petición del usuario.

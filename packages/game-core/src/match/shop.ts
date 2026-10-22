@@ -1,5 +1,5 @@
 import type { MatchState } from '@tft/shared';
-import { UNIT_DEFINITIONS } from '@tft/game-data';
+import { matchCatalog } from '@tft/game-data';
 import { randomUint32 } from '../combat/math';
 import { levelRule } from './selectors';
 /** Mutates only the transaction-owned draft. Each offered unit reserves one copy. */
@@ -16,7 +16,7 @@ export function refreshShop(state: MatchState): void {
       .odds.map((weight, i) => ({
         cost: i + 1,
         weight,
-        defs: UNIT_DEFINITIONS.filter((d) => d.cost === i + 1 && state.pool[d.id]! > 0),
+        defs: matchCatalog(state.config).filter((d) => d.cost === i + 1 && state.pool[d.id]! > 0),
       }))
       .filter((b) => b.weight > 0 && b.defs.length > 0);
     if (!buckets.length) break;

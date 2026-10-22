@@ -1,5 +1,5 @@
 import { MatchStateSchema, type MatchState } from '@tft/shared';
-import { UNIT_DEFINITIONS } from '@tft/game-data';
+import { matchCatalog } from '@tft/game-data';
 import { isInBounds } from '../hex';
 import { copiesOf, definition, sameLocation, levelRule } from './selectors';
 /** Semantic validation for loads and every authority transaction; never silently repairs units. */
@@ -17,6 +17,7 @@ export function validateMatchState(value: unknown): MatchState {
   const ids = new Set<string>();
   for (const u of state.units) {
     definition(u.definitionId);
+    fail(!matchCatalog(state.config).some((d) => d.id === u.definitionId), 'Unit outside catalog');
     fail(ids.has(u.id), 'Duplicate unit');
     ids.add(u.id);
     fail(
@@ -30,11 +31,18 @@ export function validateMatchState(value: unknown): MatchState {
   for (const offer of state.shop)
     if (offer) {
       definition(offer.definitionId);
+      fail(
+        !matchCatalog(state.config).some((d) => d.id === offer.definitionId),
+        'Offer outside catalog',
+      );
       fail(ids.has(offer.id), 'Duplicate offer');
       ids.add(offer.id);
     }
-  fail(Object.keys(state.pool).length !== UNIT_DEFINITIONS.length, 'Pool catalog mismatch');
-  for (const d of UNIT_DEFINITIONS) {
+  fail(
+    Object.keys(state.pool).length !== matchCatalog(state.config).length,
+    'Pool catalog mismatch',
+  );
+  for (const d of matchCatalog(state.config)) {
     const expected = state.config.copiesByCost[d.cost - 1]!;
     const owned = state.units
       .filter((u) => u.definitionId === d.id)

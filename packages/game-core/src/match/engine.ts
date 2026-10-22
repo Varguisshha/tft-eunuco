@@ -15,7 +15,7 @@ import {
   type UnitLocation,
   type RoundReward,
 } from '@tft/shared';
-import { ECONOMY_CONFIG, UNIT_DEFINITIONS } from '@tft/game-data';
+import { ECONOMY_CONFIG, matchCatalog } from '@tft/game-data';
 import { compareIds, randomUint32 } from '../combat/math';
 import { runCombat } from '../combat/engine';
 import { isInBounds, offsetToAxial } from '../hex';
@@ -104,7 +104,9 @@ export function createMatch(seed = 42, config: EconomyConfig = ECONOMY_CONFIG): 
     units: [],
     shop: Array(config.shopSize).fill(null),
     shopLocked: false,
-    pool: Object.fromEntries(UNIT_DEFINITIONS.map((d) => [d.id, config.copiesByCost[d.cost - 1]!])),
+    pool: Object.fromEntries(
+      matchCatalog(config).map((d) => [d.id, config.copiesByCost[d.cost - 1]!]),
+    ),
     ledger: [],
     history: [],
     combat: null,
@@ -126,7 +128,7 @@ function freeBench(state: MatchState): number {
   );
 }
 function combine(state: MatchState): void {
-  for (const d of UNIT_DEFINITIONS)
+  for (const d of matchCatalog(state.config))
     for (const stars of [1, 2] as const) {
       let candidates = state.units.filter((u) => u.definitionId === d.id && u.stars === stars);
       while (candidates.length >= 3) {

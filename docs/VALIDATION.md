@@ -1,3 +1,100 @@
+# Validación F0-P4.1 — 23 de octubre de 2026
+
+## Base y comprobaciones ejecutadas
+
+Auditoría previa completa:172 tests en18 archivos, TypeScript estricto, lint y build correctos. Los cambios pendientes correspondían a F0-P4; `Sprites/` era aporte del usuario. F0-P5 no había comenzado. No se modificaron los172 tests existentes para acomodar DOLEA.
+
+Resultado final: **200 tests en21 archivos**, `pnpm check` correcto (typecheck, lint sin warnings, suite completa y build). `pnpm format:check` y `git diff --check` correctos. La importación se repite en tests en un directorio temporal, conserva bytes de Attack al añadir Walk y comprueba hashes de originales. Node/sharp procesó16 fuentes;16 duplicados exactos se excluyeron sin eliminarlos. Advertencia de tamaño del chunk Phaser conservada (1367kB,357kB gzip); aplicación432kB,131kB gzip. No es una regresión nueva de carga de Phaser.
+
+Pruebas nuevas: contrato con estados opcionales, prioridad de recursos/fallbacks/evoluciones/genérico, metadatos inválidos, cobertura, muestreo de8frames e impacto exacto, loop y muerte, clasificación/orden físico de fuentes, dimensiones/transparencia/hashes, importación reproducible y nuevo Walk, roster/pool/probabilidades, compras/fusión2/3★/posición/selección/venta, guardados históricos/nuevos/tamper, Arena1/2/3★/repetición/avance en pausa/muerte, interrupción por movimiento/habilidad/cancelación e inmutabilidad de eventos bajo muestreo visual.
+
+## Navegador real
+
+IAB con build de producción en4173. Sin errores ni warnings de consola en las pestañas de prueba revisadas.
+
+- Guardado anterior en127.0.0.1: recuperado en ronda6, oro15, nivel4, HP96/72 y formación existente. Mantiene el catálogo histórico y sus ofertas. No se sobrescribió con una partida nueva.
+- Nueva partida en origen separado localhost, semilla360: tienda inicial contiene DOLEA en ofertas2/4/5. Compra1★, arrastre real del banquillo al tablero; otras dos compras producen2★ con el mismo apoyo/posición y selección; cambio visible de chándal a tirantes, vida1080/ataque72.
+- Zoom aumentado/restaurado; combate completo ganado en tick70: oro4→7, Florin100→96. Recarga de resolución mantiene oro7 y daño aplicado una sola vez. Siguiente ronda conserva formación; retirada al banquillo y venta de2★ devuelve6oro (7→13).
+- Arena: cargas1/2/3★, apariencias1/2/2 y perfiles escalados (3★ vida1944/ataque129). Duelo3★ llega a450 con doble derrota. Pausa inicial en tick2. Escenario de muerte sintético: muertes en3, siguiente paso visual mantiene Death y muestra desvanecimiento, sin volver a Idle.
+- Overtime DOLEA: pausa real en411,3,9s restantes, sprites/barras presentes. El reloj permanece detenido mientras se inspeccionan recursos; al reanudar termina en450 con doble derrota.
+- Inspector: recorridos los8frames de1★ y los8de2★, imágenes capturadas. Walk3★ resuelve aAttack2★; Idle/Ability/Death también seleccionados. Las hojas derivadas completas se inspeccionaron visualmente: pies alineados, proporciones y brazos conservados, transparencia y nearest-neighbor.
+- Apariencia3★ comprobada visualmente en Arena; la fusión económica hasta3★ se verifica mediante pruebas automatizadas de nueve compras, no se afirma haber conseguido nueve copias en una partida manual.
+- Vargas y Florin aparecen como participantes, insignias V/F y nombres en el registro. Los cuatro personajes ficticios siguen en la reserva.
+
+## Tamaños de escritorio con DOLEA desplegado
+
+| Viewport  | Buffer y tamaño CSS del canvas | Desbordamiento de documento |
+| --------- | ------------------------------ | --------------------------- |
+| 1280×720  | 888×322                        | No                          |
+| 1366×768  | 974×370                        | No                          |
+| 1440×900  | 988×462                        | No                          |
+| 1920×1080 | 1382×588                       | No                          |
+| 2560×1440 | 2022×948                       | No                          |
+
+En todos: nueve plazas de banquillo, tienda y controles visibles, tamaño de documento igual al viewport. DPR real1; no se afirma prueba nueva en monitorDPR2. También se observó el flujo adaptable de ventana estrecha (~794px), con scroll vertical permitido.
+
+Evidencias locales ignoradas por Git: `artifacts/f0p41-1920x1080.png`, las otras cuatro resoluciones, `f0p41-viewports.json`, `f0p41-local-star1.png`, `f0p41-local-fusion.png`, `f0p41-dolea-star2.png`, `f0p41-dolea-star3.png`, `f0p41-death.png`, `f0p41-overtime.png`, `f0p41-inspector.png` y16capturas `f0p41-starN-frameN.png`.
+
+## Límites y estado final
+
+Solo Attack dispone de recursos reales. Idle/Walk pueden mostrar golpes; Death es Attack con desvanecimiento. No hay animación3★ propia. Impacto3/6 y estadísticas son provisionales. Las fuentes contienen variación de pose/tamaño y alfa parcial; el pipeline limpia alfa<=8 y alinea apoyos, no reconstruye anatomía ni añade inbetweens. El modo de movimiento reducido congela los loops decorativos Idle/Walk de sprites reales; mantiene ataques informativos y desvanecimiento. No se ha probado una preferencia del SO real, solo su ruta de implementación.
+
+Demostración final enlocalhost: semilla360, ronda1, oro4, DOLEA2★ desplegado y seleccionado, listo para combatir. Guardado anterior127.0.0.1 preservado. CambiosP4 yP4.1 locales sin commit nuevo; fuentes originales intactas, sin remoto ni push. F0-P5 no iniciado.
+
+---
+
+# Validación F0-P4 — HUD de partida
+
+Ejecutada el **23 de octubre de 2026**. Los hitos anteriores quedan preservados más abajo.
+
+## Auditoría y preservación
+
+Leídos arquitectura, decisiones, roadmap, validación y especificaciones existentes; inspeccionados LocalGame, LocalSession, GameCanvas, BoardScene y CombatRenderer. `pnpm check` inicial confirmó **161 pruebas**, TypeScript, ESLint y build correctos. Formato y diff limpios. Los 38 archivos pendientes correspondían a F0-P3.1 y se preservaron en **1079713**, `feat: preserve verified F0-P3.1 overtime and round resolution`. Sin remoto ni push.
+
+## Resultado automatizado
+
+`pnpm check`: **172 pruebas en 18 archivos, todas correctas**, TypeScript strict, ESLint sin avisos y build de producción. Las 161 pruebas anteriores no se modifican; nueve nuevas cubren encuadre y conversión CSS/render/mundo para DPR 1/1,25/2, zoom y límites de densidad; dos prueban disponibilidad de compra con banquillo lleno/fusión y falta de oro, sin mutar el estado. `pnpm format:check` y `git diff --check` correctos.
+
+No hay cambios en packages, configuración económica, probabilidades, XP, motor, overtime, contratos de guardado, manifests ni lockfile. Aplicación419,77kB /127,06kB gzip; CSS37,23 /8,67kB. Persiste el aviso conocido del chunk Phaser1367,08 /357,00kB; no se oculta.
+
+## Matriz real de navegador
+
+Build local en navegador integrado. Viewports emulados explícitamente, DPR real observado1. Medidas de DOM y revisión de las capturas, con nueve casillas, cinco ofertas y todos los botones principales dentro del viewport:
+
+| Viewport  | Documento (ancho×alto) | Canvas CSS | Resultado                                      |
+| --------- | ---------------------- | ---------- | ---------------------------------------------- |
+| 1280×720  | 1280×720               | 888×322    | Sin scroll de documento; planificación visible |
+| 1366×768  | 1366×768               | 974×370    | Sin scroll de documento; planificación visible |
+| 1440×900  | 1440×900               | 988×462    | Sin scroll de documento; planificación visible |
+| 1920×1080 | 1920×1080              | 1382×588   | Sin scroll de documento; planificación visible |
+| 2560×1440 | 2560×1440              | 2022×948   | Sin scroll de documento; planificación visible |
+
+La matriz incluye venta, XP, renovación, bloqueo e inicio de combate, además de tienda/banquillo. No se usa overflow:hidden en documento. También se midió resolución/doble derrota a1280×720: documento1280×720. Las capturas completas tienen la misma altura que el documento; no representan un montaje de zonas con scroll. El backend de captura de viewport recortaba algunas imágenes grandes; se repitieron con captura completa y se comprobaron sus dimensiones.
+
+Evidencia local, ignorada por Git: `artifacts/f0p4-1280x720.png`, `f0p4-1366x768.png`, `f0p4-1440x900.png`, `f0p4-1920x1080.png`, `f0p4-2560x1440.png` y `f0p4-viewports.json` (todos bajo artifacts/). Estados: `f0p4-combat.png`, `f0p4-overtime.png`, `f0p4-double-loss.png`, `f0p4-resolution.png`.
+
+## Interacciones ejecutadas
+
+- Recuperado el guardado real de P3.1: ronda4,18oro, nivel3, XP4/6, vida96/88, K-01 de2★ en tablero. Misma clave de guardado y replay, sin migración ni recreación.
+- Compradas K-01 y tres V-02; fusión automática V-02 a2★ en banquillo. XP por4oro lleva a nivel4, XP2/10. Renovación por2oro y venta de K-01 por1oro correctas. Falta de oro deshabilita compra de XP.
+- Arrastres reales banquillo→tablero y tablero→banquillo; reordenación entre casillas y swap K-01/V-02 conservando ambos. Drop a mitad rival rechazado sin perder unidad. Colocación por selectores y por flechas/Intro; retirada mediante casilla vacía. Repetidos movimiento y compra tras extraer Bench/Shop.
+- Bloqueo conserva ofertas y huecos de ronda4 a5; desbloqueo correcto en ronda6. Zoom115% permanece al seleccionar y100% restablece encuadre. Redimensionamiento entre los cinco tamaños conserva la partida.
+- Combate en pausa: tick2 y44,8s, barras/efectos visibles y economía deshabilitada. Ronda4: victoria tick54, +6oro→9, vida96/80. Ronda5: victoria tick86, +7oro→16, vida96/72 y racha2. Recarga/continuación conserva resultado, oro y vida sin nuevo pago.
+- Escenario local adicional bajo origen localhost, separado del guardado principal: K-01 de2★, victorias tick88 en rondas1/2; ronda3 alcanza overtime. Pausa comprobada en **tick352,9,8s**, indicador ámbar en cabecera; observación posterior conserva tick/contador. Reanudar a×2 termina en **doble derrota, tick450,18oro, vida96/88 y racha0**. La primera captura intentada a×2 llegó después del final; se repitió a×1 y esa repetición proporciona la evidencia de overtime.
+- Arena independiente: duelo4×4, semilla42, ×2 → **victoria ámbar tick142**. Repetición y pausa tick5 verificadas. Escenario técnico «Tiempo agotado» cargado por selector → **doble derrota tick450** con indicador overtime. Los controles técnicos, semilla, preparación, reserva e inspectores siguen presentes.
+- Registro de partida abierto, desplegado y cerrado con Escape; el foco vuelve al botón de apertura. Consolas de ambas pestañas consultadas: **cero errores y cero avisos**.
+- Guardado principal al cierre: ronda6 en preparación,15oro, nivel4, XP6/10, vida96/72, racha2; K-01 de2★, V-02 de2★ y M-04 en tablero, K-01 de1★ en banquillo3. Tienda desbloqueada. No se automatizó el avance.
+
+## Incidencias corregidas y límites
+
+Se corrigieron la anchura intrínseca del canvas que ensanchaba su pista de grid, una llamada antigua que restablecía el zoom al sincronizar selección y los hijos de casilla que interceptaban el último movimiento de un drop horizontal. El inspector vuelve arriba al cerrar colocación o cambiar selección. Una fixture nueva de compra usaba IDs que colisionaban con nextEntity: corregida usando IDs de propiedad distintos, sin modificar el motor.
+
+A720/768px de altura el inspector y los detalles de recompensa pueden necesitar scroll interno para información secundaria; venta, tienda, banquillo y decisiones económicas permanecen visibles. Bajo1100px de ancho se permite scroll del documento para conservar operaciones. No se validaron móviles táctiles, otros motores de navegador, auditoría WCAG completa ni DPR real distinto de1; DPR fraccionario y2 están cubiertos por tests de geometría, no por una afirmación de prueba visual en otro monitor. No se ejecutó una partida manual con nueve casillas ocupadas: el rechazo y excepción de compra se verifican en integración del adaptador UI con el core.
+
+F0-P4 se entrega como cambios locales sobre `1079713`, sin push. Durante la revisión final apareció una carpeta `Sprites/` sin seguimiento que no pertenece a estos cambios; se dejó intacta y sin añadir a Git. **F0-P5 no iniciado**: reloj externo preparado como contrato visual, sin temporizadores automáticos.
+
+---
+
 # Validación F0-P3.1 — Overtime y doble derrota
 
 Ejecutada el **23 de octubre de 2026** en macOS, Node 26.9.0, pnpm 11.25.0. Los registros de hitos anteriores se conservan más abajo.

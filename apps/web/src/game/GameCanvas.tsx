@@ -4,7 +4,18 @@ import { axialToOffset, offsetToAxial } from '@tft/game-core';
 import { BoardScene } from './BoardScene';
 import type { BoardPort } from './boardPort';
 import { WORLD } from './projection';
-export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number }) {
+import { canvasSize } from './viewport';
+export function GameCanvas({
+  session,
+  zoom,
+  fitted = false,
+  hideTimer = false,
+}: {
+  session: BoardPort;
+  zoom: number;
+  fitted?: boolean;
+  hideTimer?: boolean;
+}) {
   useSyncExternalStore(session.subscribe, session.getSnapshot);
   const frame = session.combatFrame();
   const host = useRef<HTMLDivElement>(null);
@@ -15,10 +26,30 @@ export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number
     if (!host.current) return;
     let live = true;
     let game: Phaser.Game | undefined;
+    let observer: ResizeObserver | undefined;
+    let densityQuery: MediaQueryList | undefined;
+    const resize = () => {
+      if (!game?.isBooted || !host.current) return;
+      const rect = host.current.getBoundingClientRect();
+      const size = canvasSize(rect.width, rect.height, window.devicePixelRatio);
+      game.scale.setZoom(1 / size.density);
+      game.scale.resize(size.width, size.height);
+      scene.current?.fitView();
+      densityQuery?.removeEventListener('change', resize);
+      densityQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+      densityQuery.addEventListener('change', resize, { once: true });
+    };
     try {
-      const board = new BoardScene(session, () => {
-        if (live) setReady(true);
-      });
+      const board = new BoardScene(
+        session,
+        () => {
+          if (live) {
+            setReady(true);
+            if (fitted) resize();
+          }
+        },
+        fitted,
+      );
       scene.current = board;
       game = new Phaser.Game({
         type: Phaser.WEBGL,
@@ -30,7 +61,10 @@ export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number
         banner: false,
         audio: { noAudio: true },
         render: { pixelArt: true, antialias: false, roundPixels: true },
-        scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+        scale: {
+          mode: fitted ? Phaser.Scale.NONE : Phaser.Scale.FIT,
+          autoCenter: fitted ? Phaser.Scale.NO_CENTER : Phaser.Scale.CENTER_BOTH,
+        },
         input: { mouse: { preventDefaultWheel: false } },
         callbacks: {
           postBoot: (instance) => {
@@ -38,16 +72,24 @@ export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number
           },
         },
       });
+      if (fitted) {
+        observer = new ResizeObserver(resize);
+        observer.observe(host.current);
+        window.addEventListener('resize', resize);
+      }
     } catch (cause) {
       if (live) setError(cause instanceof Error ? cause.message : 'WebGL no disponible.');
     }
     return () => {
       live = false;
+      observer?.disconnect();
+      window.removeEventListener('resize', resize);
+      densityQuery?.removeEventListener('change', resize);
       scene.current?.dispose();
       scene.current = null;
       game?.destroy(true);
     };
-  }, [session]);
+  }, [session, fitted]);
   useEffect(() => {
     if (ready) scene.current?.setViewZoom(zoom);
   }, [zoom, ready]);
@@ -90,7 +132,7 @@ export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number
         if (id && session.editable) scene.current?.dropFromBench(id, event.clientX, event.clientY);
       }}
     >
-      {frame && (
+      {frame && !hideTimer && (
         <div
           className={`battle-timer ${frame.overtime ? 'is-overtime' : ''}`}
           aria-label="Tiempo de combate"

@@ -1,14 +1,19 @@
 import Phaser from 'phaser';
 import {
-  ANIMATION_NAMES,
   originOffset,
   placeholderMetadata,
   SpriteMetadataSchema,
   type AnimationName,
   type SpriteMetadata,
   type UnitVisual,
+  resolveAnimation,
+  sampleAnimationFrame,
+  type AnimationTiming,
+  type AnimationAsset,
+  type VisualStars,
 } from '@tft/sprite-contract';
 import type { UnitDefinition } from '@tft/shared';
+import { characterManifest } from './characterAssets';
 import { pixelRects } from './pixelArt';
 
 export function registerPlaceholder(
@@ -38,13 +43,21 @@ export class PhaserUnitVisual implements UnitVisual {
   private foot = { x: 0, y: 0 };
   private flipped = false;
   private readonly meta: SpriteMetadata;
-  private readonly scale = 1.65;
+  private scale = 1.65;
+  private count: VisualStars = 1;
+  private asset: AnimationAsset | null = null;
+  private animation: AnimationName = 'idle';
+  private timeMs = 0;
+  private timing: AnimationTiming | undefined;
+  private manifest;
+  private reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   constructor(
     private scene: Phaser.Scene,
-    metadata: SpriteMetadata,
+    definition: UnitDefinition,
     side: 'north' | 'south',
   ) {
-    this.meta = SpriteMetadataSchema.parse(metadata);
+    this.meta = SpriteMetadataSchema.parse(registerPlaceholder(scene, definition));
+    this.manifest = characterManifest(definition.spriteId);
     this.stars = scene.add
       .text(0, 0, '', { fontSize: '16px', color: '#e7cb85', stroke: '#101916', strokeThickness: 3 })
       .setOrigin(0.5);
@@ -55,25 +68,13 @@ export class PhaserUnitVisual implements UnitVisual {
       .sprite(0, 0, this.meta.textureKey)
       .setOrigin(this.meta.origin.x, this.meta.origin.y)
       .setScale(this.scale);
-    if (this.meta.frameCount > 1)
-      for (const name of ANIMATION_NAMES) {
-        const key = `${this.meta.id}:${name}`;
-        const clip = this.meta.animations[name];
-        if (!scene.anims.exists(key))
-          scene.anims.create({
-            key,
-            frames: clip.frames.map((frame) => ({ key: this.meta.textureKey, frame })),
-            frameRate: clip.fps,
-            repeat: clip.loop ? -1 : 0,
-          });
-      }
     this.setFacing(side === 'south' ? 'right' : 'left');
     this.play('idle');
   }
   setFootPosition(x: number, y: number): void {
     this.foot = { x, y };
     this.stars.setPosition(x, y + 14).setDepth(y + 12);
-    const offset = originOffset(this.meta, this.scale, this.flipped);
+    const offset = this.asset ? { x: 0, y: 0 } : originOffset(this.meta, this.scale, this.flipped);
     this.marker.setPosition(x, y).setDepth(y + 9);
     this.sprite.setPosition(x + offset.x, y + offset.y).setDepth(y + 10);
   }
@@ -85,15 +86,66 @@ export class PhaserUnitVisual implements UnitVisual {
     );
   }
   setFacing(facing: 'left' | 'right'): void {
-    this.flipped = this.meta.mirrorAllowed && facing !== this.meta.facing;
+    this.flipped =
+      (this.asset?.mirrorAllowed ?? this.meta.mirrorAllowed) &&
+      facing !== (this.asset?.facing ?? this.meta.facing);
     this.sprite.setFlipX(this.flipped);
+    if (this.asset)
+      this.sprite.setOrigin(
+        this.flipped
+          ? 1 - this.asset.foot.x / this.asset.frameWidth
+          : this.asset.foot.x / this.asset.frameWidth,
+        this.asset.foot.y / this.asset.frameHeight,
+      );
     this.setFootPosition(this.foot.x, this.foot.y);
   }
-  play(animation: AnimationName): void {
-    if (this.meta.frameCount > 1 && this.scene.anims.exists(`${this.meta.id}:${animation}`))
-      this.sprite.play(`${this.meta.id}:${animation}`, true);
+  play(animation: AnimationName, timeMs = this.timeMs, timing?: AnimationTiming): void {
+    this.animation = animation;
+    this.timeMs = timeMs;
+    this.timing = timing;
+    const resolved = resolveAnimation(this.manifest, this.count, animation);
+    const asset =
+      resolved.asset && this.scene.textures.exists(resolved.asset.textureKey)
+        ? resolved.asset
+        : null;
+    this.asset = asset;
+    if (asset) {
+      this.scale = asset.scale;
+      this.sprite
+        .setTexture(
+          asset.textureKey,
+          sampleAnimationFrame(
+            asset,
+            animation,
+            this.reducedMotion.matches && (animation === 'idle' || animation === 'walk')
+              ? 0
+              : timeMs,
+            timing,
+          ),
+        )
+        .setOrigin(
+          this.flipped ? 1 - asset.foot.x / asset.frameWidth : asset.foot.x / asset.frameWidth,
+          asset.foot.y / asset.frameHeight,
+        )
+        .setScale(this.scale);
+    } else {
+      this.scale = 1.65;
+      this.sprite
+        .setTexture(this.meta.textureKey)
+        .setOrigin(this.meta.origin.x, this.meta.origin.y)
+        .setScale(this.scale);
+    }
+    this.setFootPosition(this.foot.x, this.foot.y);
+  }
+  get hasRealAsset(): boolean {
+    return this.asset !== null;
   }
   setStars(count: number): void {
+    const stars = Math.max(1, Math.min(3, count)) as VisualStars;
+    if (this.count !== stars) {
+      this.count = stars;
+      this.play(this.animation, this.timeMs, this.timing);
+    }
     this.stars.setText(count > 1 ? '★'.repeat(count) : '');
   }
   setOpacity(alpha: number): void {

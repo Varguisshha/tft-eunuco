@@ -83,3 +83,15 @@ Especificaciones: ECONOMY_SPEC.md, SHOP_POOL_SPEC.md, PROGRESSION_SPEC.md y ROUN
 `shared/combat.ts` define protocolo3 y configuración de overtime; `combat-v2.ts` preserva schemas históricos aislados. `game-core/combat/overtime.ts` calcula multiplicadores enteros, consumidos en efectos y carga; no depende de presentación. `match/roundDamage.ts` calcula daño puro por participante; la misma transacción resolve_round actualiza vida/ledger, oro, racha y XP. Configuración de vida en game-data/economy; sin cliente rival ni servicios nuevos.
 
 CombatPlayback aporta overtime/remainingTicks/transición a GameCanvas y CombatRenderer. Un objeto Phaser por escena y una línea temporal nueva al repetir; la UI no decide finales. Arena puede cargar perfiles sintéticos legales desde game-data/combatScenarios únicamente para diagnóstico; Partida local mantiene su rival original. Los guardados f0p3.1-1 usan clave distinta y validación+replay; no se reproducen historiales P3 con reglas cambiadas.
+
+## Presentación F0-P4
+
+Partida local dispone de un HUD de viewport con participantes, tablero, inspector, banquillo y tienda. `Bench`, `Shop`, `UnitInspector`, `PhaseClock`, `purchaseAvailability` y `gameHud.css` separan responsabilidades visuales. La disponibilidad de compra procede de una transacción de core sobre copia, memorizada por MatchState. No existe una segunda implementación de economía.
+
+GameCanvas ofrece encuadre adaptativo exclusivo de Partida: ResizeObserver, render buffer según DPR limitado a2, cámara calculada por `viewport.ts` y proyección vertical0,38. El drop usa dimensiones reales del render, no constantes de mundo. Arena conserva Scale.FIT/proyección0,64 y su decoración de overtime. Compartir renderer no obliga a compartir disposición o cámara. La selección ya no impone zoom1 a cada sincronización.
+
+El contrato de reloj admite un tiempo autoritativo futuro; hoy los cambios de fase siguen manuales y el contador de combate deriva del reproductor. Protocolos, configuración, game-core, game-data y guardados P3.1 permanecen intactos. Estructura, adaptación, accesibilidad y límites en [GAME_UI_SPEC](GAME_UI_SPEC.md).
+
+## F0-P4.1: recursos y catálogo versionado
+
+El contrato v2 y su resolver viven en sprite-contract. El importador Node/sharp produce hojas y metadatos; web precarga el registro y muestrea frames con el reloj de CombatPlayback. Señales visuales derivadas de eventos no conceden autoridad al renderer. Nuevos personajes se registran sin rutas específicas en PhaserUnitVisual. Catálogo opcional f0p4.1 en EconomyConfig selecciona cinco definiciones; configuración histórica mantiene cuatro y replay idéntico. DOLEA comparte motor, economía, habilidades y escalado existentes. Arena incorpora evoluciones, inspector de frames y avance manual de un tick. Detalles en CHARACTER_INTEGRATION.md y SPRITE_PIPELINE.md.

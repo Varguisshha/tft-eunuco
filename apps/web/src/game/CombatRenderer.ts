@@ -13,6 +13,7 @@ export class CombatRenderer {
   constructor(
     private scene: Phaser.Scene,
     private projection: Projection,
+    private overtimeDecoration = true,
   ) {
     this.graphics = scene.add.graphics().setDepth(2000);
     this.overtimeLabel = scene.add
@@ -44,9 +45,9 @@ export class CombatRenderer {
     const g = this.graphics.clear();
     const { timeMs, state } = frame;
     this.overtimeLabel
-      .setVisible(frame.overtime)
+      .setVisible(frame.overtime && this.overtimeDecoration)
       .setScale(1 + (frame.overtime ? frame.overtimeIntro * 0.3 : 0));
-    if (frame.overtime)
+    if (frame.overtime && this.overtimeDecoration)
       g.lineStyle(4, 0xf5ae60, 0.25 + Math.max(0, frame.overtimeIntro) * 0.65).strokeRect(
         10,
         10,
@@ -58,36 +59,39 @@ export class CombatRenderer {
       const visual = visuals.get(unit.id),
         p = positions.get(unit.id);
       if (!visual || !p) continue;
+      const cue = frame.animationCues.get(unit.id);
+      visual.play(cue?.state ?? 'idle', timeMs, cue?.timing);
       visual.sprite.setAngle(0).clearTint();
       visual.setOpacity(1);
       visual.setFootPosition(p.x, p.y);
       if (unit.deathTick !== null) {
         const death = clamp((timeMs - unit.deathTick * TICK_MS) / 550);
         visual.setOpacity(1 - death);
-        visual.sprite.setAngle((unit.owner === 'south' ? -1 : 1) * death * 85);
+        if (!visual.hasRealAsset)
+          visual.sprite.setAngle((unit.owner === 'south' ? -1 : 1) * death * 85);
         continue;
       }
       const action = unit.action;
       if (action?.kind === 'move') {
-        visual.play('walk');
         const target = hexToWorld(action.to, this.projection);
         visual.setFacing(target.x >= p.x ? 'right' : 'left');
-        visual.sprite.y -= Math.abs(Math.sin((timeMs - action.startTick * TICK_MS) / 75)) * 3;
+        if (!visual.hasRealAsset)
+          visual.sprite.y -= Math.abs(Math.sin((timeMs - action.startTick * TICK_MS) / 75)) * 3;
       } else if (action?.kind === 'attack') {
-        visual.play('attack');
         const target = positions.get(action.targetId);
         if (target) {
           visual.setFacing(target.x >= p.x ? 'right' : 'left');
           const progress = clamp(
             (timeMs / TICK_MS - action.startTick) / (action.endTick - action.startTick),
           );
-          const lunge = Math.sin(progress * Math.PI) * (action.ranged ? 3 : 11);
+          const lunge = visual.hasRealAsset
+            ? 0
+            : Math.sin(progress * Math.PI) * (action.ranged ? 3 : 11);
           const d = Math.max(1, Math.hypot(target.x - p.x, target.y - p.y));
           visual.sprite.x += ((target.x - p.x) / d) * lunge;
           visual.sprite.y += ((target.y - p.y) / d) * lunge;
         }
       } else if (action?.kind === 'cast') {
-        visual.play('ability');
         const progress = clamp(
           (timeMs / TICK_MS - action.startTick) / (action.endTick - action.startTick),
         );
@@ -97,8 +101,8 @@ export class CombatRenderer {
           30 + progress * 30,
           12 + progress * 12,
         );
-        visual.sprite.y -= progress * 4;
-      } else visual.play('idle');
+        if (!visual.hasRealAsset) visual.sprite.y -= progress * 4;
+      }
       const damage = [...frame.recentEvents]
         .reverse()
         .find((e) => e.type === 'damage' && e.payload.targetId === unit.id);

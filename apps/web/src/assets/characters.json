@@ -1,0 +1,127 @@
+[
+  {
+    "version": 2,
+    "id": "dolea",
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "dolea:star1:attack",
+          "url": "/sprites/dolea/star1/attack.png",
+          "frameWidth": 128,
+          "frameHeight": 128,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 64, "y": 106 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE.png",
+              "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 2.png",
+              "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 3.png",
+              "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 4.png",
+              "sha256": "7bd786a0894ada0c56327da8f3a28d1eec45a1b7c24d6ec0b96d6e07880cf305"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 5.png",
+              "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 6.png",
+              "sha256": "96614ead8f4898585d02e6435495cb4dd2015f9aded6503eee407b3de795bc49"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 7.png",
+              "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 8.png",
+              "sha256": "3cc06ba0387f0ac67619dfaba74ab902a21e34f3aad09da8e1ba2a329b199c86"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "dolea:star2:attack",
+          "url": "/sprites/dolea/star2/attack.png",
+          "frameWidth": 112,
+          "frameHeight": 128,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 56, "y": 107 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE .png",
+              "sha256": "114a91704b075c823290f28e87c01f661bb3589c951171bfc4ab3366504f7c76"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 2.png",
+              "sha256": "227a4bdfebfb245602fba0742d8fb7181fa91a483ea4f0c361d984e53628264c"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 3.png",
+              "sha256": "87d020b11a4421b2ec608f9852e30b75f07cd488260d8e39c87457c2bace43f4"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 4.png",
+              "sha256": "924f20164eae9960a4dfccf84d3abb5e6b93e15dda627d6ba30c6ac302a48d84"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 5.png",
+              "sha256": "d88cb150427e029691c3b0d5d05dd8618a5dca3cfc03df1892fb92e366463b33"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 6.png",
+              "sha256": "6b369b895fd705aedc009ebe5283b5389b8cd1d661392cce4ffa90341ef07f60"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 7.png",
+              "sha256": "3a4b96832df5dcd68a2378e63ee10204c40729299112bf475bf7c28cd0fda699"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 8.png",
+              "sha256": "c379ef93803d4693c5211178301640dd34ea538bb662f334023316a4849686cb"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    }
+  }
+]

@@ -7,6 +7,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "sprites:import": "node scripts/sprites/import.mjs",
     "dev": "pnpm --filter @tft/web dev",
     "build": "pnpm --filter @tft/web build",
     "preview": "pnpm --filter @tft/web preview",
@@ -23,6 +24,7 @@
     "@types/node": "^22.18.0",
     "eslint": "^10.13.0",
     "prettier": "3.6.2",
+    "sharp": "0.34.5",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.72.0",
     "vitest": "5.0.5"

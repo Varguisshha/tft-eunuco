@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CURRENT_ECONOMY_CONFIG } from '@tft/game-data';
 import { createMatch } from '@tft/game-core';
 import { Arena } from './Arena';
 import { BoardSession } from './game/session';
@@ -34,7 +35,7 @@ export function App() {
       setNotice('La semilla debe ser un entero entre 0 y 4294967295.');
       return;
     }
-    const state = createMatch(n);
+    const state = createMatch(n, CURRENT_ECONOMY_CONFIG);
     try {
       save(state);
     } catch {
@@ -56,7 +57,10 @@ export function App() {
   };
   return (
     <>
-      <nav className="screen-nav" aria-label="Pantalla">
+      <nav
+        className={`screen-nav ${screen === 'local' && session ? 'in-match' : ''}`}
+        aria-label="Pantalla"
+      >
         <a className="nav-brand" href="#">
           TFT EUNUCO
         </a>
@@ -72,7 +76,7 @@ export function App() {
         >
           Arena de pruebas
         </button>
-        <span>F0–P3.1 · LOCAL</span>
+        <span>F0–P4.1 · LOCAL</span>
       </nav>
       {screen === 'arena' ? (
         <Arena providedSession={arena} />
@@ -84,7 +88,7 @@ export function App() {
           <h1>Cada moneda cuenta.</h1>
           <p>
             Construye un equipo, mejora tus personajes y decide cuándo ahorrar o gastar. Una partida
-            local de rondas abiertas, con los cuatro personajes de prueba.
+            local de rondas abiertas, con DOLEA y los cuatro personajes de prueba.
           </p>
           <div className="lobby-rules">
             <span>

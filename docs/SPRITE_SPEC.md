@@ -1,4 +1,8 @@
-# Contrato inicial de sprites v1
+# Contrato universal de personajes v2 — F0-P4.1
+
+El contrato vigente es `CharacterManifestSchema`: tres evoluciones, cinco estados obligatorios y recursos opcionales. [Integración y fallbacks](CHARACTER_INTEGRATION.md), [pipeline y fuentes](SPRITE_PIPELINE.md), [cobertura](ANIMATION_COVERAGE.md). DOLEA ya usa dos hojas reales y muestreo sincronizado al combate. El contrato v1 de abajo se mantiene exclusivamente para compatibilidad de placeholders; sus notas de fases anteriores son históricas.
+
+## Contrato histórico de sprites v1
 
 ## Entrega al desarrollador
 

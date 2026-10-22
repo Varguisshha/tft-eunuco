@@ -26,6 +26,27 @@ export function CombatControls({
           Cargar duelo 4 × 4
         </button>
         <label className="arena-scenario">
+          DOLEA
+          <select
+            aria-label="Duelo de DOLEA"
+            value=""
+            disabled={!preparing}
+            onChange={(e) => {
+              const n = Number(e.target.value);
+              if (n >= 1 && n <= 3) session.loadCharacterDuel(n as 1 | 2 | 3);
+              else if (n === 4) session.loadCharacterDuel(1, true);
+              else if (n === 5) session.loadCharacterDuel(1, 'death');
+            }}
+          >
+            <option value="">Probar evolución…</option>
+            <option value="1">DOLEA 1★</option>
+            <option value="2">DOLEA 2★</option>
+            <option value="3">DOLEA 3★ · apariencia 2★</option>
+            <option value="4">DOLEA · overtime</option>
+            <option value="5">DOLEA · muerte</option>
+          </select>
+        </label>
+        <label className="arena-scenario">
           Prueba de límite
           <select
             aria-label="Escenario de overtime"
@@ -62,6 +83,13 @@ export function CombatControls({
               onClick={() => session.pauseCombat()}
             >
               {combat.mode === 'paused' ? 'Reanudar' : 'Pausar'}
+            </button>
+            <button
+              className="button"
+              disabled={combat.mode !== 'paused'}
+              onClick={() => session.stepCombat()}
+            >
+              +1 tick
             </button>
             <button className="button" onClick={() => session.startCombat(true)}>
               Repetir semilla

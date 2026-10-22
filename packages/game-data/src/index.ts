@@ -41,8 +41,28 @@ export const UNIT_DEFINITIONS = [
     spriteId: 'placeholder-support',
   },
 ] as const satisfies readonly UnitDefinition[];
+/** Frozen four-unit catalog for historical saves and the original Arena demo. */
+const CATALOG_F0P41: readonly UnitDefinition[] = [
+  ...UNIT_DEFINITIONS,
+  {
+    id: 'dolea',
+    name: 'DOLEA',
+    role: 'vanguard',
+    cost: 2,
+    synergies: ['prototype-neutral'],
+    activeAbilityId: 'test-bastion',
+    passiveAbilityId: 'test-plating',
+    spriteId: 'dolea',
+  },
+];
+export const CHARACTER_ROSTER: readonly UnitDefinition[] = [...CATALOG_F0P41];
+export function matchCatalog(config: {
+  catalog?: 'f0p4.1' | undefined;
+}): readonly UnitDefinition[] {
+  return config.catalog === 'f0p4.1' ? CATALOG_F0P41 : UNIT_DEFINITIONS;
+}
 export function getUnitDefinition(id: string): UnitDefinition | undefined {
-  return UNIT_DEFINITIONS.find((unit) => unit.id === id);
+  return CHARACTER_ROSTER.find((unit) => unit.id === id);
 }
 export * from './combat';
 export * from './economy';

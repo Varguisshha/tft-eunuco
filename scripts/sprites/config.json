@@ -1,0 +1,20 @@
+{
+  "characters": [
+    {
+      "id": "dolea",
+      "legacyPrefix": "DOLEA",
+      "sourceRoot": "Sprites",
+      "bodyHeight": 96,
+      "displayHeight": 64,
+      "facing": "right",
+      "mirrorAllowed": true,
+      "fps": 10,
+      "impactFrames": {
+        "star1": 2,
+        "star2": 5
+      },
+      "alphaCutoff": 8
+    }
+  ],
+  "genericCharacters": ["test-k01", "test-v02", "test-r03", "test-m04"]
+}
