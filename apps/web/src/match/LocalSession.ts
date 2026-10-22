@@ -253,7 +253,7 @@ export class LocalSession implements BoardPort {
       : false;
   }
 }
-export const SAVE_KEY = 'tft-eunuco-local-f0p3-1';
+export const SAVE_KEY = 'tft-eunuco-local-f0p3.1-1';
 /** Replay accepted commands on load: no mount-time rewards; combat restarts its visual replay. */
 export function restoreMatch(json: string): MatchState {
   const saved = validateMatchState(JSON.parse(json));

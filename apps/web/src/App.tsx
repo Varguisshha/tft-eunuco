@@ -10,6 +10,13 @@ export function App() {
   const [session, setSession] = useState<LocalSession | null>(null);
   const [seed, setSeed] = useState('42');
   const [notice, setNotice] = useState('');
+  const [legacySave] = useState(() => {
+    try {
+      return !!localStorage.getItem('tft-eunuco-local-f0p3-1');
+    } catch {
+      return false;
+    }
+  });
   const [hasSave, setHasSave] = useState(() => {
     try {
       return !!localStorage.getItem(SAVE_KEY);
@@ -65,7 +72,7 @@ export function App() {
         >
           Arena de pruebas
         </button>
-        <span>F0–P3 · LOCAL</span>
+        <span>F0–P3.1 · LOCAL</span>
       </nav>
       {screen === 'arena' ? (
         <Arena providedSession={arena} />
@@ -110,9 +117,15 @@ export function App() {
             </button>
           </div>
           <small>
-            Se guarda en este navegador. Una nueva partida sustituye el guardado anterior. Sin
-            cuentas ni conexión.
+            Se guarda en este navegador. Una nueva partida sustituye el guardado de esta versión.
+            Sin cuentas ni conexión.
           </small>
+          {legacySave && (
+            <p>
+              El guardado de F0-P3 se conserva por separado. Overtime utiliza nuevas reglas; inicia
+              una partida de esta versión para jugar.
+            </p>
+          )}
           {notice && <p role="status">{notice}</p>}
         </main>
       )}

@@ -6,13 +6,33 @@ import {
   SideSchema,
   UnitInstanceSchema,
 } from './board-contracts';
-export const COMBAT_PROTOCOL = 2 as const;
-export const COMBAT_RULES = 'f0p2-1' as const;
-export const MAX_COMBAT_TICKS = 300;
+export const COMBAT_PROTOCOL = 3 as const;
+export const COMBAT_RULES = 'f0p3.1-1' as const;
+export const MAX_COMBAT_TICKS = 450;
+export const OVERTIME_START_TICK = 300;
+const increase = z
+  .tuple([z.number().int().min(1000).max(4000), z.number().int().min(1000).max(4000)])
+  .refine(([a, b]) => b >= a, 'Overtime bonus must increase');
+const decrease = z
+  .tuple([z.number().int().min(0).max(1000), z.number().int().min(0).max(1000)])
+  .refine(([a, b]) => b <= a, 'Overtime support must decrease');
+export const OvertimeConfigSchema = z.strictObject({
+  damageMilli: increase,
+  attackSpeedMilli: increase,
+  healMilli: decrease,
+  shieldMilli: decrease,
+});
+export type OvertimeConfig = z.infer<typeof OvertimeConfigSchema>;
+export const DEFAULT_OVERTIME: OvertimeConfig = {
+  damageMilli: [1250, 2000],
+  attackSpeedMilli: [1200, 1750],
+  healMilli: [800, 400],
+  shieldMilli: [800, 400],
+};
 const id = z.string().min(1).max(80);
 const natural = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER);
 const amount = z.number().int().min(0).max(1_000_000);
-const duration = z.number().int().min(1).max(300);
+const duration = z.number().int().min(1).max(450);
 export const DamageTypeSchema = z.enum(['physical', 'magic', 'true']);
 export type DamageType = z.infer<typeof DamageTypeSchema>;
 export const CombatStatsSchema = z
@@ -84,6 +104,7 @@ export const CombatInputSchema = z
     rulesVersion: z.literal(COMBAT_RULES),
     seed: CombatSeedSchema,
     maxTicks: duration.default(MAX_COMBAT_TICKS),
+    overtime: OvertimeConfigSchema.default(DEFAULT_OVERTIME),
     units: z.array(CombatantSpecSchema).max(56),
     obstacles: z.array(HexCoordSchema).max(56).default([]),
   })
@@ -145,7 +166,7 @@ export type CombatAction = z.infer<typeof CombatActionSchema>;
 export const CombatUnitSchema = CombatantSpecSchema.extend({
   hp: amount,
   mana: amount,
-  attackCharge: z.number().int().min(0).max(14999),
+  attackCharge: z.number().int().min(0).max(29999),
   statuses: z.array(CombatStatusSchema),
   action: CombatActionSchema.nullable(),
   targetId: id.nullable(),
@@ -164,11 +185,19 @@ export const ProjectileSchema = z.strictObject({
   damageType: DamageTypeSchema,
 });
 export type CombatProjectile = z.infer<typeof ProjectileSchema>;
-export const CombatResultSchema = z.strictObject({
-  winner: SideSchema.nullable(),
-  reason: z.enum(['elimination', 'empty', 'timeout']),
-  tick: natural,
-});
+export const CombatResultSchema = z
+  .strictObject({
+    outcome: z.enum(['win', 'double_loss']),
+    winner: SideSchema.nullable(),
+    reason: z.enum(['elimination', 'empty', 'timeout']),
+    tick: natural,
+  })
+  .refine(
+    (r) =>
+      (r.outcome === 'win') === (r.winner !== null) &&
+      (r.outcome !== 'win' || r.reason === 'elimination'),
+    'Inconsistent combat outcome',
+  );
 export type CombatResult = z.infer<typeof CombatResultSchema>;
 export const CombatStateSchema = z.strictObject({
   protocolVersion: z.literal(COMBAT_PROTOCOL),
@@ -184,83 +213,107 @@ export type CombatState = z.infer<typeof CombatStateSchema>;
 const eventBase = { protocolVersion: z.literal(COMBAT_PROTOCOL), tick: natural, order: natural };
 const event = <T extends string, S extends z.ZodType>(type: T, payload: S) =>
   z.strictObject({ ...eventBase, type: z.literal(type), payload });
-export const CombatEventV2Schema = z.discriminatedUnion('type', [
-  event(
-    'combat_start',
-    z.strictObject({
-      rulesVersion: z.literal(COMBAT_RULES),
-      seed: CombatSeedSchema,
-      maxTicks: duration,
-      units: z.array(CombatUnitSchema),
-      obstacles: z.array(HexCoordSchema),
-    }),
-  ),
-  event(
-    'move_start',
-    z.strictObject({ unitId: id, from: HexCoordSchema, to: HexCoordSchema, endTick: natural }),
-  ),
-  event('move_end', z.strictObject({ unitId: id, from: HexCoordSchema, to: HexCoordSchema })),
-  event(
-    'attack_start',
-    z.strictObject({ unitId: id, targetId: id, releaseTick: natural, ranged: z.boolean() }),
-  ),
-  event('projectile_launch', ProjectileSchema),
-  event(
-    'damage',
-    z.strictObject({
-      sourceId: id,
-      targetId: id,
-      amount,
-      absorbed: amount,
-      hpAfter: amount,
-      shieldAfter: amount,
-      damageType: DamageTypeSchema,
-      cause: z.enum(['attack', 'ability']),
-      impact: HexCoordSchema,
-    }),
-  ),
-  event('heal', z.strictObject({ sourceId: id, targetId: id, amount, hpAfter: amount })),
-  event(
-    'shield_apply',
-    z.strictObject({ unitId: id, status: CombatStatusSchema, shieldAfter: amount }),
-  ),
-  event('mana_gain', z.strictObject({ unitId: id, amount, manaAfter: amount })),
-  event(
-    'ability_cast',
-    z.strictObject({
-      unitId: id,
-      targetId: id,
-      abilityId: id,
-      stage: z.enum(['start', 'resolve']),
-      endTick: natural,
-      manaAfter: amount,
-      center: HexCoordSchema,
-    }),
-  ),
-  event('status_apply', z.strictObject({ unitId: id, status: CombatStatusSchema })),
-  event(
-    'status_expire',
-    z.strictObject({ unitId: id, statusId: id, reason: z.enum(['duration', 'consumed', 'death']) }),
-  ),
-  event(
-    'action_cancel',
-    z.strictObject({
-      unitId: id,
-      action: z.enum(['move', 'attack', 'cast']),
-      reason: z.enum(['stun', 'death', 'invalid-target', 'combat-end']),
-    }),
-  ),
-  event('unit_death', z.strictObject({ unitId: id, position: HexCoordSchema })),
-  event('combat_end', CombatResultSchema),
-]);
-export type CombatEventV2 = z.infer<typeof CombatEventV2Schema>;
+export const CombatEventV3Schema = z
+  .discriminatedUnion('type', [
+    event(
+      'combat_start',
+      z.strictObject({
+        rulesVersion: z.literal(COMBAT_RULES),
+        seed: CombatSeedSchema,
+        maxTicks: duration,
+        overtime: OvertimeConfigSchema,
+        units: z.array(CombatUnitSchema),
+        obstacles: z.array(HexCoordSchema),
+      }),
+    ),
+    event(
+      'overtime_start',
+      z.strictObject({
+        rulesVersion: z.literal(COMBAT_RULES),
+        startTick: z.literal(OVERTIME_START_TICK),
+        endTick: z.literal(MAX_COMBAT_TICKS),
+        modifiers: OvertimeConfigSchema,
+      }),
+    ),
+    event(
+      'move_start',
+      z.strictObject({ unitId: id, from: HexCoordSchema, to: HexCoordSchema, endTick: natural }),
+    ),
+    event('move_end', z.strictObject({ unitId: id, from: HexCoordSchema, to: HexCoordSchema })),
+    event(
+      'attack_start',
+      z.strictObject({ unitId: id, targetId: id, releaseTick: natural, ranged: z.boolean() }),
+    ),
+    event('projectile_launch', ProjectileSchema),
+    event(
+      'damage',
+      z.strictObject({
+        sourceId: id,
+        targetId: id,
+        amount,
+        absorbed: amount,
+        hpAfter: amount,
+        shieldAfter: amount,
+        damageType: DamageTypeSchema,
+        cause: z.enum(['attack', 'ability']),
+        impact: HexCoordSchema,
+      }),
+    ),
+    event('heal', z.strictObject({ sourceId: id, targetId: id, amount, hpAfter: amount })),
+    event(
+      'shield_apply',
+      z.strictObject({ unitId: id, status: CombatStatusSchema, shieldAfter: amount }),
+    ),
+    event('mana_gain', z.strictObject({ unitId: id, amount, manaAfter: amount })),
+    event(
+      'ability_cast',
+      z.strictObject({
+        unitId: id,
+        targetId: id,
+        abilityId: id,
+        stage: z.enum(['start', 'resolve']),
+        endTick: natural,
+        manaAfter: amount,
+        center: HexCoordSchema,
+      }),
+    ),
+    event('status_apply', z.strictObject({ unitId: id, status: CombatStatusSchema })),
+    event(
+      'status_expire',
+      z.strictObject({
+        unitId: id,
+        statusId: id,
+        reason: z.enum(['duration', 'consumed', 'death']),
+      }),
+    ),
+    event(
+      'action_cancel',
+      z.strictObject({
+        unitId: id,
+        action: z.enum(['move', 'attack', 'cast']),
+        reason: z.enum(['stun', 'death', 'invalid-target', 'combat-end']),
+      }),
+    ),
+    event('unit_death', z.strictObject({ unitId: id, position: HexCoordSchema })),
+    event('combat_end', CombatResultSchema),
+  ])
+  .superRefine((event, ctx) => {
+    if (
+      event.type === 'overtime_start' &&
+      (event.tick !== OVERTIME_START_TICK || event.order !== 0)
+    )
+      ctx.addIssue({ code: 'custom', message: 'Overtime starts at tick 300, order 0' });
+    if (event.type === 'combat_end' && event.payload.tick !== event.tick)
+      ctx.addIssue({ code: 'custom', message: 'Combat result tick mismatch' });
+  });
+export type CombatEventV3 = z.infer<typeof CombatEventV3Schema>;
 export const CombatBatchSchema = z
   .strictObject({
     protocolVersion: z.literal(COMBAT_PROTOCOL),
     rulesVersion: z.literal(COMBAT_RULES),
     fromTick: natural,
     toTick: natural,
-    events: z.array(CombatEventV2Schema),
+    events: z.array(CombatEventV3Schema),
     snapshots: z.array(CombatStateSchema),
   })
   .superRefine((batch, ctx) => {
@@ -289,7 +342,7 @@ export const CombatBatchSchema = z
 export type CombatBatch = z.infer<typeof CombatBatchSchema>;
 export interface CombatReplay {
   input: CombatInput;
-  events: CombatEventV2[];
+  events: CombatEventV3[];
   snapshots: CombatState[];
   result: CombatResult;
 }

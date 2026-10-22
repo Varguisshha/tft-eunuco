@@ -1,4 +1,58 @@
-# Validación F0-P3
+# Validación F0-P3.1 — Overtime y doble derrota
+
+Ejecutada el **23 de octubre de 2026** en macOS, Node 26.9.0, pnpm 11.25.0. Los registros de hitos anteriores se conservan más abajo.
+
+## Auditoría y preservación
+
+Se inspeccionó el repositorio y se leyeron COMBAT_SPEC, COMBAT_EVENTS, ECONOMY_SPEC, ROUND_FLOW, DECISIONS y VALIDATION antes de editar. El comportamiento anterior era winner null por timeout300 o eliminación mutua; economía reiniciaba racha y pagaba base/interés/XP, sin vida de jugador. `pnpm check` inicial confirmó **118 pruebas en12 archivos**, typecheck/lint/build correctos.
+
+Los36 archivos pendientes correspondían al trabajo P3 conocido, sin cambios ajenos detectados ni coincidencias en el escaneo de patrones de credenciales. No es una garantía universal de ausencia de secretos. Hito preservado en **4302eec**, `feat: preserve verified F0-P3 local economy and progression`. Sin remoto ni push. P3.1 se entrega como cambios locales revisables sobre ese commit.
+
+## Comprobación automatizada final
+
+`pnpm check`: **161 pruebas en16 archivos, todas pasan**; TypeScript strict, ESLint sin avisos y build de producción correctos. `pnpm format:check` y `git diff --check` correctos. Sin dependencias nuevas ni modificación de manifests/lockfile; no era necesario reinstalar.
+
+Se conservan las118 pruebas previas y se añaden43. Solo cambia un archivo de pruebas anteriores, `combat/engine.test.ts`, por el contrato nuevo:
+
+- Validación y lotes pasan de protocolo2/reglas f0p2-1 a protocolo3/reglas f0p3.1-1. Versión rechazada ahora4 y límite inválido451, en vez de3/301.
+- Resultados vacíos, timeout y eliminación mutua mantienen winner/reason/tick y añaden outcome double_loss.
+- El límite máximo pasa de300 a450. Dos fixtures de efectos que ejecutaban su impacto en el antiguo tick terminal se amplían de2→3 y3→4: el nuevo terminal es exclusivo de comprobación. Se mantienen las mismas aserciones de área, escudos y HP en sus ticks originales; no se eliminan ni relajan pruebas.
+- El resto de archivos de pruebas previas permanece sin modificaciones. Los schemas v2 archivados se compararon byte a byte con el hito P3: idénticos.
+
+Nuevas pruebas cubren: inicio exacto299/300, emisión única y orden0, final449/450 sin efectos extra, extremos e interpolación monótona, configuración inválida, amplificación física/de habilidad, proyectil lanzado298 que impacta300, descarte de proyectiles debidos450, cadencia1,5 y máximos configurables, curación/escudos nuevos reducidos y capas existentes intactas, victoria en overtime, eliminación mutua, double_loss por límite, contratos v2/v3, bytes reproducibles, daño por tramo/estrellas, ambos participantes perdedores, HP mínimo0, rachas positivas/negativas reiniciadas, ingresos/XP/daño únicos, pool conservado y continuación a0HP.
+
+Integración de una historia real: comprar y combinar K-01 a2★, disputar dos victorias, tercera ronda con el rival existente hasta timeout450; guardar en overtime, restaurar, liquidar, recargar resolución y avanzar. Replay reconstruye exactamente economía y vida. Playback prueba pausa/transición/contador, ×2, saltos de frame, repetición sin duplicación y limpieza al volver a preparación.
+
+Build final: aplicación **415,61 kB /125,63 kB gzip**, CSS **24,58 /6,17 kB**. Aviso conocido de Phaser **1367,08 /357,00 kB** permanece visible; no es fallo del build ni se afirma haber optimizado esa descarga.
+
+## Navegador real
+
+Producción local `http://127.0.0.1:4173`, navegador integrado, viewport805×827. Interacción por controles reales, sin inyección de estado:
+
+1. Duelo original4×4, semilla42, ×2: victoria ámbar en **tick142**, sin overtime.
+2. Escenario técnico de resistencia: victoria jade durante overtime, **tick357** a×1. Repetir semilla a×2 conserva resultado/tick.
+3. Escenario técnico de tiempo agotado a×1: pausa en **tick301**, contador **14,9s**, indicador Phaser y contador DOM visibles. Una observación posterior conserva tick/contador y la transición congelada. Reanudar a×2 termina en **double_loss, tick450**, contador0.
+4. Escenario de eliminación mutua: **double_loss, tick3**, sin overtime.
+5. Partida local nueva, semilla42: comprar K-01, colocar por controles, comprar segunda copia, renovar y comprar tercera. Fusión2★ en tablero; saldo5.
+6. Ronda1: victoria tick88, +3oro→8, vida propia100/rival96. Ronda2: victoria tick88, +5oro→13, racha2, vida100/92.
+7. Ronda3: overtime real, pausa en **tick391**, contador5,9s. Guardado mantiene banco13, racha2 y cuatro entradas de vida. Recargar/continuar reinicia únicamente reproducción desde0; saldos intactos.
+8. Final de ronda3: **doble derrota por tiempo, tick450**. Base4 + interés1 sobre13 + victoria0 + racha0 = **+5oro→18**; +2XP, racha0. Daño a ambos: base2 + supervivientes2 =4; vida jade**96**, ámbar**88**. Seis entradas de vida y17 de oro.
+9. Recargar resolución: **18oro, 96/88HP, racha0, tick450** y mismos registros, sin nuevo pago/daño. Avanzar a preparación de ronda4 conserva saldos y renueva tienda. CompraK-01 por1 lleva saldo17/banquillo1; venta devuelve saldo18/banquillo0, sin alterar vida. Partida queda preparada en ronda4.
+10. Consola consultada después del recorrido: **cero errores y cero avisos**.
+
+Capturas locales ignoradas por Git: `artifacts/f0p31-overtime.png`, `artifacts/f0p31-timeout.png`, `artifacts/f0p31-local-overtime.png`, `artifacts/f0p31-double-loss.png`. Las primeras capturas de Arena se tomaron antes de actualizar su texto de cabecera al hito P3.1; muestran las reglas nuevas verificadas. La captura final local corresponde al build con resultado y daño explícitos.
+
+## Incidencias y limitaciones
+
+Las primeras ejecuciones detectaron expectativas antiguas de versión/resultado y fixtures cuyo impacto coincidía con el límite; ajustes justificados arriba. Typecheck señaló filtros de eventos sin narrowing suficiente en pruebas nuevas y un import directo de Zod desde core; corregidos utilizando los contratos compartidos y filtros tipados, sin añadir dependencias. Durante la comprobación de UI, una espera de selector caducó antes de los30segundos y un intento de pausa llegó después del resultado; se repitió con el escenario de45segundos a×1 y se verificó la pausa301. No se declara que esos intentos fallidos validasen el comportamiento.
+
+Guardados P3 preservados bajo su clave antigua; no se migran ni reproducen con reglas nuevas. V2 se puede validar como formato histórico, no ejecutar en el motor v3. La vida del rival está conectada, su economía/racha siguen sin existir porque continúa siendo una formación de pruebas. CeroHP permite seguir: no hay eliminación global, clasificación ni fin automático. Historial crece sin compactación; no hay sincronización entre pestañas ni autoridad online. El combate se calcula localmente para reproducción y para liquidación, como en P3.
+
+No se ejecutaron matriz multinavegador, dispositivos táctiles reales, auditoría WCAG completa ni E2E persistente. Verificación visual manual y pruebas unitarias/integración descritas arriba. No se afirma balance definitivo ni medición fotograma a fotograma de la transición. **F0-P3.1 validado; F0-P4 no iniciado.**
+
+---
+
+# Registro histórico de validación F0-P3
 
 Ejecutada el **22 de octubre de 2026**, macOS, Node 26.9.0, pnpm 11.25.0. Los registros P2 y P1 inferiores se conservan como evidencia histórica.
 

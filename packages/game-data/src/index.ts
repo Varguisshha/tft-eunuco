@@ -46,3 +46,5 @@ export function getUnitDefinition(id: string): UnitDefinition | undefined {
 }
 export * from './combat';
 export * from './economy';
+
+export * from './combatScenarios';

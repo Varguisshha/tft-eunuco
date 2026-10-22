@@ -3,15 +3,18 @@ import {
   CombatStateSchema,
   COMBAT_PROTOCOL,
   COMBAT_RULES,
+  MAX_COMBAT_TICKS,
+  OVERTIME_START_TICK,
   type CombatInput,
   type CombatState,
   type CombatUnit,
-  type CombatEventV2,
+  type CombatEventV3,
   type CombatEffect,
   type CombatReplay,
   type CombatResult,
   type DamageType,
 } from '@tft/shared';
+import { overtimeModifiers, scaleCombatAmount } from './overtime';
 import { hexDistance } from '../hex';
 import { chooseTarget } from './pathfinding';
 import {
@@ -33,7 +36,7 @@ type EffectTask = {
 export class CombatEngine {
   private readonly input: CombatInput;
   private state: CombatState;
-  private events: CombatEventV2[] = [];
+  private events: CombatEventV3[] = [];
   private order = 0;
   constructor(input: CombatInput) {
     this.input = CombatInputSchema.parse(input);
@@ -61,6 +64,7 @@ export class CombatEngine {
       rulesVersion: COMBAT_RULES,
       seed: this.input.seed,
       maxTicks: this.input.maxTicks,
+      overtime: this.input.overtime,
       units: this.snapshot().units,
       obstacles: this.input.obstacles,
     });
@@ -75,12 +79,12 @@ export class CombatEngine {
   snapshot(): CombatState {
     return CombatStateSchema.parse(this.state);
   }
-  allEvents(): CombatEventV2[] {
-    return JSON.parse(JSON.stringify(this.events)) as CombatEventV2[];
+  allEvents(): CombatEventV3[] {
+    return JSON.parse(JSON.stringify(this.events)) as CombatEventV3[];
   }
-  private emit<T extends CombatEventV2['type']>(
+  private emit<T extends CombatEventV3['type']>(
     type: T,
-    payload: Extract<CombatEventV2, { type: T }>['payload'],
+    payload: Extract<CombatEventV3, { type: T }>['payload'],
   ): void {
     const entry = {
       protocolVersion: COMBAT_PROTOCOL,
@@ -88,8 +92,8 @@ export class CombatEngine {
       order: this.order++,
       type,
       payload,
-    } as CombatEventV2;
-    this.events.push(JSON.parse(JSON.stringify(entry)) as CombatEventV2);
+    } as CombatEventV3;
+    this.events.push(JSON.parse(JSON.stringify(entry)) as CombatEventV3);
   }
   private getUnit(id: string): CombatUnit | undefined {
     return this.state.units.find((u) => u.id === id);
@@ -142,7 +146,13 @@ export class CombatEngine {
       if (effect.kind === 'damage')
         this.damage(source, target, effect.amount, effect.damageType, cause);
       else if (effect.kind === 'heal') {
-        const healed = Math.min(effect.amount, target.profile.stats.maxHp - target.hp);
+        const healed = Math.min(
+          scaleCombatAmount(
+            effect.amount,
+            overtimeModifiers(this.state.tick, this.input.overtime).healMilli,
+          ),
+          target.profile.stats.maxHp - target.hp,
+        );
         if (healed > 0) {
           target.hp += healed;
           this.emit('heal', {
@@ -157,7 +167,13 @@ export class CombatEngine {
           effect.kind === 'stun'
             ? 0
             : effect.kind === 'shield'
-              ? Math.min(effect.amount, 1_000_000 - shieldTotal(target))
+              ? Math.min(
+                  scaleCombatAmount(
+                    effect.amount,
+                    overtimeModifiers(this.state.tick, this.input.overtime).shieldMilli,
+                  ),
+                  1_000_000 - shieldTotal(target),
+                )
               : effect.amount;
         const status = {
           id: `effect-${this.state.effectCounter++}`,
@@ -188,7 +204,7 @@ export class CombatEngine {
   ): void {
     if (target.hp <= 0) return;
     let remaining = mitigateDamage(
-      raw,
+      scaleCombatAmount(raw, overtimeModifiers(this.state.tick, this.input.overtime).damageMilli),
       type,
       effectiveStat(target, 'armor'),
       effectiveStat(target, 'magicResist'),
@@ -243,30 +259,47 @@ export class CombatEngine {
     let result: CombatResult | null = null;
     if (sides.size <= 1)
       result = {
+        outcome: sides.size === 1 ? 'win' : 'double_loss',
         winner: sides.values().next().value ?? null,
         reason: this.input.units.length === 0 ? 'empty' : 'elimination',
         tick: this.state.tick,
       };
     else if (this.state.tick >= this.input.maxTicks)
-      result = { winner: null, reason: 'timeout', tick: this.state.tick };
+      result = { outcome: 'double_loss', winner: null, reason: 'timeout', tick: this.state.tick };
     if (!result) return;
     for (const unit of this.state.units) this.cancel(unit, 'combat-end');
     this.state.projectiles = [];
     this.state.result = result;
     this.emit('combat_end', result);
   }
-  step(): CombatEventV2[] {
+  step(): CombatEventV3[] {
     if (this.state.result) return [];
     const start = this.events.length;
     this.state.tick++;
     this.order = 0;
+    // The terminal tick is a check only: no impacts, movement, expiry, charge or decisions.
+    if (this.state.tick >= this.input.maxTicks) {
+      this.checkEnd();
+      return JSON.parse(JSON.stringify(this.events.slice(start))) as CombatEventV3[];
+    }
+    if (this.state.tick === OVERTIME_START_TICK)
+      this.emit('overtime_start', {
+        rulesVersion: COMBAT_RULES,
+        startTick: OVERTIME_START_TICK,
+        endTick: MAX_COMBAT_TICKS,
+        modifiers: this.input.overtime,
+      });
     // 1. Expiration, then charge accumulation. A stun ending now no longer blocks this tick.
     for (const unit of this.state.units.filter(isAlive)) {
       for (const status of unit.statuses.filter((s) => s.expiresTick <= this.state.tick))
         this.emit('status_expire', { unitId: unit.id, statusId: status.id, reason: 'duration' });
       unit.statuses = unit.statuses.filter((s) => s.expiresTick > this.state.tick);
       if (!isStunned(unit) && unit.attackCharge < 10000)
-        unit.attackCharge += effectiveStat(unit, 'attackSpeedMilli');
+        unit.attackCharge += Math.floor(
+          (effectiveStat(unit, 'attackSpeedMilli') *
+            overtimeModifiers(this.state.tick, this.input.overtime).attackSpeedMilli) /
+            1000,
+        );
     }
     // 2. Arrivals. Each destination was exclusively reserved; origins stay occupied in transit.
     for (const unit of this.state.units.filter(isAlive))
@@ -364,7 +397,7 @@ export class CombatEngine {
     this.settleDeaths();
     this.checkEnd();
     if (this.state.result)
-      return JSON.parse(JSON.stringify(this.events.slice(start))) as CombatEventV2[];
+      return JSON.parse(JSON.stringify(this.events.slice(start))) as CombatEventV3[];
     // 4. New decisions. Rotate stable ID order for fair, reproducible reservation conflicts.
     const units = this.state.units;
     const offset = (this.state.tick - 1) % Math.max(1, units.length);
@@ -433,7 +466,7 @@ export class CombatEngine {
         });
       }
     }
-    return JSON.parse(JSON.stringify(this.events.slice(start))) as CombatEventV2[];
+    return JSON.parse(JSON.stringify(this.events.slice(start))) as CombatEventV3[];
   }
 }
 export function runCombat(input: CombatInput): CombatReplay {

@@ -51,6 +51,33 @@ export function validateMatchState(value: unknown): MatchState {
     );
   });
   fail(gold !== state.gold, 'Gold conservation');
+  const health = {
+    north: state.config.roundDamage.initialHp,
+    south: state.config.roundDamage.initialHp,
+  };
+  state.healthLedger.forEach((entry, i) => {
+    fail(
+      entry.round !== Math.floor(i / 2) + 1 || entry.side !== (i % 2 ? 'south' : 'north'),
+      'Health ledger order',
+    );
+    fail(
+      entry.hpBefore !== health[entry.side] ||
+        entry.requested !== entry.base + entry.survivors ||
+        entry.applied !== Math.min(entry.hpBefore, entry.requested) ||
+        entry.hpAfter !== entry.hpBefore - entry.applied,
+      'Health conservation',
+    );
+    fail(entry.outcome === 'win' && entry.requested !== 0, 'Winner damage');
+    health[entry.side] = entry.hpAfter;
+  });
+  fail(
+    health.north !== state.health.north || health.south !== state.health.south,
+    'Health balance',
+  );
+  fail(
+    state.healthLedger.length !== 2 * (state.round - (state.phase === 'resolution' ? 0 : 1)),
+    'Missing or repeated round damage',
+  );
   fail(
     state.revision !== state.history.length || state.nextActionSeq !== state.history.length,
     'Action sequence',

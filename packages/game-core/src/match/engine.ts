@@ -1,5 +1,8 @@
 import {
   CombatInputSchema,
+  COMBAT_PROTOCOL,
+  COMBAT_RULES,
+  MAX_COMBAT_TICKS,
   EconomyConfigSchema,
   MatchActionSchema,
   MATCH_RULES,
@@ -26,6 +29,7 @@ import {
   scaledProfile,
   sellValue,
 } from './selectors';
+import { calculateRoundDamage } from './roundDamage';
 import { refreshShop } from './shop';
 import { validateMatchState } from './invariants';
 export type MatchError =
@@ -91,6 +95,8 @@ export function createMatch(seed = 42, config: EconomyConfig = ECONOMY_CONFIG): 
     phase: 'preparation',
     round: 1,
     gold: 0,
+    health: { north: config.roundDamage.initialHp, south: config.roundDamage.initialHp },
+    healthLedger: [],
     level: config.initialLevel,
     xp: 0,
     totalXp: 0,
@@ -194,10 +200,10 @@ function startCombat(state: MatchState): void {
     round: state.round,
     bank: state.gold,
     input: CombatInputSchema.parse({
-      protocolVersion: 2,
-      rulesVersion: 'f0p2-1',
+      protocolVersion: COMBAT_PROTOCOL,
+      rulesVersion: COMBAT_RULES,
       seed: next.value,
-      maxTicks: 300,
+      maxTicks: MAX_COMBAT_TICKS,
       obstacles: [],
       units: [...units, ...opponentUnits(state)],
     }),
@@ -207,11 +213,45 @@ function startCombat(state: MatchState): void {
 }
 function resolve(state: MatchState): void {
   const combat = state.combat!;
-  combat.result = runCombat(combat.input).result;
+  const replay = runCombat(combat.input);
+  combat.result = replay.result;
+  const rivalStars = [...state.config.opponents]
+    .reverse()
+    .find((t) => t.fromRound <= state.round)!.stars;
+  const damage = calculateRoundDamage(
+    state.round,
+    combat.result,
+    replay.snapshots
+      .at(-1)!
+      .units.filter((u) => u.hp > 0)
+      .map((u) => ({
+        side: u.owner,
+        stars:
+          u.owner === 'south' ? state.units.find((owned) => owned.id === u.id)!.stars : rivalStars,
+      })),
+    state.config.roundDamage,
+  );
+  for (const side of ['north', 'south'] as const) {
+    const hpBefore = state.health[side];
+    const applied = Math.min(hpBefore, damage[side].requested);
+    state.health[side] -= applied;
+    state.healthLedger.push({
+      round: state.round,
+      side,
+      ...damage[side],
+      applied,
+      hpBefore,
+      hpAfter: state.health[side],
+    });
+  }
   const outcome =
-    combat.result.winner === 'south' ? 'win' : combat.result.winner === 'north' ? 'loss' : 'draw';
+    combat.result.winner === 'south'
+      ? 'win'
+      : combat.result.winner === 'north'
+        ? 'loss'
+        : 'double_loss';
   state.streak =
-    outcome === 'draw'
+    outcome === 'double_loss'
       ? 0
       : outcome === 'win'
         ? Math.max(0, state.streak) + 1
@@ -219,7 +259,7 @@ function resolve(state: MatchState): void {
   const base =
     state.config.baseIncome[Math.min(state.round - 1, state.config.baseIncome.length - 1)]!;
   const streak =
-    outcome === 'draw'
+    outcome === 'double_loss'
       ? 0
       : [...state.config.streaks].reverse().find((t) => t.from <= Math.abs(state.streak))!.gold;
   const reward: RoundReward = {

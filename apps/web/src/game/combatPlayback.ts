@@ -1,9 +1,18 @@
-import { TICK_MS, type CombatReplay, type CombatState, type CombatEventV2 } from '@tft/shared';
+import {
+  OVERTIME_START_TICK,
+  TICK_MS,
+  type CombatReplay,
+  type CombatState,
+  type CombatEventV3,
+} from '@tft/shared';
 export interface PlaybackFrame {
   timeMs: number;
   tick: number;
   state: CombatState;
-  recentEvents: CombatEventV2[];
+  recentEvents: CombatEventV3[];
+  overtime: boolean;
+  remainingTicks: number;
+  overtimeIntro: number;
 }
 /** A sampling clock only. It never simulates combat or computes HP/damage. */
 export class CombatPlayback {
@@ -32,6 +41,12 @@ export class CombatPlayback {
   frame(): PlaybackFrame {
     const tick = Math.min(this.replay.result.tick, Math.floor(this.elapsed / TICK_MS));
     return {
+      overtime:
+        tick >= OVERTIME_START_TICK &&
+        this.replay.events.some((e) => e.type === 'overtime_start' && e.tick <= tick),
+      remainingTicks:
+        this.replay.result.tick <= tick ? 0 : Math.max(0, this.replay.input.maxTicks - tick),
+      overtimeIntro: Math.max(0, 1 - (this.elapsed - OVERTIME_START_TICK * TICK_MS) / 600),
       timeMs: this.elapsed,
       tick,
       state: this.replay.snapshots[tick]!,

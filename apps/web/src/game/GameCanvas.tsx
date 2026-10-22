@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from 'react';
 import Phaser from 'phaser';
 import { axialToOffset, offsetToAxial } from '@tft/game-core';
 import { BoardScene } from './BoardScene';
 import type { BoardPort } from './boardPort';
 import { WORLD } from './projection';
 export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number }) {
+  useSyncExternalStore(session.subscribe, session.getSnapshot);
+  const frame = session.combatFrame();
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<BoardScene | null>(null);
   const [ready, setReady] = useState(false);
@@ -88,6 +90,15 @@ export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number
         if (id && session.editable) scene.current?.dropFromBench(id, event.clientX, event.clientY);
       }}
     >
+      {frame && (
+        <div
+          className={`battle-timer ${frame.overtime ? 'is-overtime' : ''}`}
+          aria-label="Tiempo de combate"
+        >
+          <strong>{frame.overtime ? 'OVERTIME' : 'COMBATE'}</strong>
+          <span>{(frame.remainingTicks / 10).toFixed(1)} s restantes</span>
+        </div>
+      )}
       {!ready && !error && <div className="canvas-notice">Preparando la arena…</div>}
       {error && (
         <div className="canvas-notice" role="alert">

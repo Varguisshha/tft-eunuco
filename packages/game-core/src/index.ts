@@ -6,3 +6,7 @@ export * from './combat/engine';
 export * from './match/engine';
 export * from './match/selectors';
 export * from './match/invariants';
+
+export * from './combat/overtime';
+
+export * from './match/roundDamage';

@@ -8,7 +8,12 @@ import {
   isInBounds,
   type PlacementError,
 } from '@tft/game-core';
-import { UNIT_DEFINITIONS, createCombatInput } from '@tft/game-data';
+import {
+  UNIT_DEFINITIONS,
+  createCombatInput,
+  createCombatScenario,
+  type CombatScenario,
+} from '@tft/game-data';
 import { CombatSeedSchema, type CombatInput, type CombatResult } from '@tft/shared';
 import { CombatPlayback } from './combatPlayback';
 import type { BoardState, HexCoord, Side, UnitInstance } from '@tft/shared';
@@ -65,6 +70,7 @@ export class BoardSession {
   private listeners = new Set<() => void>();
   private nextId = 1;
   private playback: CombatPlayback | null = null;
+  private scenarioInput: CombatInput | null = null;
   private lastInput: CombatInput | null = null;
   combatFrame = () => this.playback?.frame() ?? null;
   get editable(): boolean {
@@ -77,6 +83,7 @@ export class BoardSession {
   }
   loadDuel(): void {
     this.returnToPreparation();
+    this.scenarioInput = null;
     const board = demoBoard();
     const opponents = board.units.map((u, i) => ({
       ...u,
@@ -92,12 +99,44 @@ export class BoardSession {
       invalid: false,
     });
   }
+  loadScenario(scenario: CombatScenario): void {
+    this.returnToPreparation();
+    this.scenarioInput = createCombatScenario(scenario, this.snapshot.combat.seed);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: null,
+      paletteId: null,
+      invalid: false,
+      message:
+        'Escenario técnico con perfiles sintéticos: ' +
+        (scenario === 'overtime'
+          ? 'victoria durante overtime.'
+          : scenario === 'timeout'
+            ? 'ambos sobreviven hasta 450.'
+            : 'eliminación simultánea.'),
+    });
+  }
   startCombat(repeat = false): void {
     try {
       const setup =
         repeat && this.lastInput
           ? this.lastInput
           : createCombatInput(this.snapshot.board, this.snapshot.combat.seed);
+      if (!repeat && this.scenarioInput)
+        setup.units = setup.units.map((u) => ({
+          ...u,
+          profile:
+            this.scenarioInput!.units.find(
+              (p) => p.id === u.id && p.definitionId === u.definitionId,
+            )?.profile ?? u.profile,
+        }));
       const replay = runCombat(setup);
       this.lastInput = replay.input;
       this.playback = new CombatPlayback(replay);
@@ -149,7 +188,7 @@ export class BoardSession {
             ? 'Victoria jade · Derrota ámbar.'
             : result.winner === 'north'
               ? 'Victoria ámbar · Derrota jade.'
-              : `Empate · ${result.reason === 'timeout' ? 'límite de 300 ticks' : 'sin supervivientes'}.`,
+              : `Doble derrota · ${result.reason === 'timeout' ? 'límite de 450 ticks' : 'sin supervivientes'}.`,
       });
     } else if (frame.tick !== this.snapshot.combat.tick)
       this.patch({ combat: { ...this.snapshot.combat, tick: frame.tick } });
@@ -224,6 +263,7 @@ export class BoardSession {
     });
   }
   reset(): void {
+    this.scenarioInput = null;
     this.playback = null;
     this.patch({
       board: demoBoard(),

@@ -1,12 +1,12 @@
-# Protocolo de combate v2
+# Protocolo de combate v3 — Overtime y doble derrota
 
 Fuente: `packages/shared/src/combat.ts`; reglas de emisión en [COMBAT_SPEC](COMBAT_SPEC.md). Todos los contratos de esta versión son Zod strict, datos JSON sin clases, fechas, Map ni referencias gráficas.
 
-Cada evento: `{ protocolVersion: 2, tick: entero >= 0, order: entero >= 0, type, payload }`. La clave `(tick,order)` ordena los eventos de un combate; no identifica globalmente una partida. `order` se reinicia a cero cada tick. No se ordenan por tiempo de llegada al cliente. Cambios de reglas que afecten determinismo exigirán otra `rulesVersion`; cambios incompatibles de estructura, otro protocolo. Las versiones desconocidas se rechazan, no se adaptan silenciosamente.
+Cada evento: `{ protocolVersion: 3, tick: entero >= 0, order: entero >= 0, type, payload }`. La clave `(tick,order)` ordena los eventos de un combate; no identifica globalmente una partida. `order` se reinicia a cero cada tick. No se ordenan por tiempo de llegada al cliente. Cambios de reglas que afecten determinismo exigirán otra `rulesVersion`; cambios incompatibles de estructura, otro protocolo. Las versiones desconocidas se rechazan, no se adaptan silenciosamente.
 
 | type              | payload                                                                                                                          |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| combat_start      | rulesVersion, seed, maxTicks, units (estado inicial antes de pasivas), obstacles                                                 |
+| combat_start      | rulesVersion, seed, maxTicks, overtime, units (estado inicial antes de pasivas), obstacles                                       |
 | move_start        | unitId, from, to, endTick                                                                                                        |
 | move_end          | unitId, from, to                                                                                                                 |
 | attack_start      | unitId, targetId, releaseTick, ranged                                                                                            |
@@ -20,7 +20,7 @@ Cada evento: `{ protocolVersion: 2, tick: entero >= 0, order: entero >= 0, type,
 | status_expire     | unitId, statusId, reason (duration/consumed/death)                                                                               |
 | action_cancel     | unitId, action (move/attack/cast), reason (stun/death/invalid-target/combat-end)                                                 |
 | unit_death        | unitId, position                                                                                                                 |
-| combat_end        | winner (north/south/null), reason (elimination/empty/timeout), tick                                                              |
+| combat_end        | outcome (win/double_loss), winner (north/south/null), reason (elimination/empty/timeout), tick                                   |
 
 `status`: id, sourceId, kind (shield/modifier/stun), stat (attack/armor/magicResist/attackSpeedMilli o null), amount, expiresTick. Stun lleva amount0; shield lleva stat null. El emisor mantiene esas relaciones; el schema valida los tipos y límites de cada campo. No sustituye las invariantes semánticas de la autoridad.
 
@@ -30,14 +30,40 @@ Cada evento: `{ protocolVersion: 2, tick: entero >= 0, order: entero >= 0, type,
 
 `CombatState`: protocolo, rulesVersion, tick, rngState, effectCounter, units, projectiles, result. Cada unidad conserva definición/perfil, posición lógica, HP, maná, carga, estados, acción en curso, targetId y deathTick. Los muertos permanecen para reproducir la muerte e inspeccionar. Los snapshots emitidos por la autoridad se clonan; el schema no demuestra por sí solo que un estado recibido proceda de una simulación válida.
 
-`CombatBatchSchema` valida `{protocolVersion:2,rulesVersion:'f0p2-1',fromTick,toTick,events,snapshots}`: rango creciente, eventos dentro del rango y orden estricto `(tick,order)`, snapshots en ticks crecientes dentro del rango. Permite ticks sin eventos y lotes vacíos. No garantiza contigüidad entre lotes, autenticidad ni identidad de combate. El futuro transporte deberá añadir combatId, secuencia de lote, reintentos/deduplicación, revisión de reglas y gestión de huecos. No hay servidor conectado en P2.
+`CombatBatchSchema` valida `{protocolVersion:3,rulesVersion:'f0p3.1-1',fromTick,toTick,events,snapshots}`: rango creciente, eventos dentro del rango y orden estricto `(tick,order)`, snapshots en ticks crecientes dentro del rango. Permite ticks sin eventos y lotes vacíos. No garantiza contigüidad entre lotes, autenticidad ni identidad de combate. El futuro transporte deberá añadir combatId, secuencia de lote, reintentos/deduplicación, revisión de reglas y gestión de huecos. No hay servidor conectado en P2.
 
 El reproductor actual utiliza snapshot por tick y eventos para efectos; **no es un reducer completo de eventos aislados**. Por eso el contrato de lote incluye snapshots. Un servidor puede ejecutar `CombatEngine.step()` y entregar eventos junto al snapshot de ese tick sin mover reglas a Phaser. El adaptador de recepción/buffer se implementará en la fase online.
 
 ## Compatibilidad con F0-P1
 
-`board-contracts.ts` conserva sin cambios los contratos originales, reexportados desde `shared/index.ts`, incluido `CombatEventSchema` histórico con `sequence`. El motor nuevo usa exclusivamente `CombatEventV2Schema` con `order`. No mezclar ambos ni asumir migración automática. Las 35 pruebas originales se mantienen. La nueva entrada incluye perfiles completos y versiones explícitas para poder reproducir aunque el catálogo cambie después.
+`board-contracts.ts` conserva sin cambios los contratos originales, reexportados desde `shared/index.ts`, incluido `CombatEventSchema` histórico con `sequence`. El motor nuevo usa exclusivamente `CombatEventV3Schema` con `order`. No mezclar ambos ni asumir migración automática. Las 35 pruebas originales se mantienen. La nueva entrada incluye perfiles completos y versiones explícitas para poder reproducir aunque el catálogo cambie después.
 
 ## Reloj visual
 
 El reloj visual se congela al pausar y multiplica su avance en ×2. El tick de impacto manda; ni callbacks de sprites ni colisiones aplican daño. Un frame puede saltar varios ticks: se toma el último estado correspondiente y se conservan los efectos recientes de todos los eventos relevantes. ID de efecto visual `(tick,order)` evita colisiones entre daños simultáneos. Repetir crea un reproductor nuevo desde cero.
+
+## Cambio de versión y compatibilidad
+
+La presencia de `outcome`, los resultados double_loss y el nuevo tipo de evento requieren **protocolo 3**, reglas **f0p3.1-1**. No se etiquetan eventos nuevos como v2. Los contratos de preparación P1 siguen intactos; los contratos completos v2 se conservan sin cambios en `combat-v2.ts`, exportados bajo `LegacyCombatV2`. `CombatEventV2Schema` y su tipo también mantienen su exportación directa para consumidores históricos. Validar un documento v2 no significa poder simularlo con las reglas nuevas: el motor actual exige v3. No hay conversión silenciosa de eventos, resultados ni partidas antiguas.
+
+## overtime_start
+
+Una emisión en `tick:300`, `order:0`, antes de expiraciones/carga/acciones de ese tick, solo si el combate sigue activo y su límite supera 300. Envelope `protocolVersion:3`. Payload:
+
+```json
+{
+  "rulesVersion": "f0p3.1-1",
+  "startTick": 300,
+  "endTick": 450,
+  "modifiers": {
+    "damageMilli": [1250, 2000],
+    "attackSpeedMilli": [1200, 1750],
+    "healMilli": [800, 400],
+    "shieldMilli": [800, 400]
+  }
+}
+```
+
+La entrada y combat_start también incluyen `overtime` para fijar la configuración del replay. El esquema valida tick/order del evento y configuración; el motor garantiza emisión única por combate. El schema de lote no representa identidad global ni autenticación: futuros receptores deberán deduplicar lotes por identidad de combate. No hay oro, rachas ni vida del jugador en este evento.
+
+combat_end conserva winner/reason/tick y añade outcome. Doble eliminación: `{outcome:'double_loss',winner:null,reason:'elimination',tick:t}`. Límite: mismo outcome, reason timeout, tick450 (o límite reducido de test). El tick del payload debe coincidir con el envelope. Tick450 no contiene efectos nuevos, únicamente cancelaciones terminales y combat_end. La traza incluye snapshot450 final.

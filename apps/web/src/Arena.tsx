@@ -61,7 +61,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
           Laboratorio de combate
         </div>
         <span className="version">
-          F0–P2 <span>·</span> PROTOTIPO LOCAL
+          F0–P3.1 <span>·</span> PROTOTIPO LOCAL
         </span>
       </header>
       <main id="arena">

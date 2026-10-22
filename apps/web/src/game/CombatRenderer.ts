@@ -1,19 +1,32 @@
 import Phaser from 'phaser';
 import { TICK_MS, type CombatUnit } from '@tft/shared';
 import type { Point } from '@tft/game-core';
-import { hexToWorld, type Projection } from './projection';
+import { WORLD, hexToWorld, type Projection } from './projection';
 import type { PlaybackFrame } from './combatPlayback';
 import type { PhaserUnitVisual } from './visualAdapter';
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 /** Frame sampling, never timers that resolve combat. Every stat comes from an authority snapshot. */
 export class CombatRenderer {
   private graphics: Phaser.GameObjects.Graphics;
+  private overtimeLabel: Phaser.GameObjects.Text;
   private labels = new Map<string, Phaser.GameObjects.Text>();
   constructor(
     private scene: Phaser.Scene,
     private projection: Projection,
   ) {
     this.graphics = scene.add.graphics().setDepth(2000);
+    this.overtimeLabel = scene.add
+      .text(WORLD.width / 2, 80, 'OVERTIME', {
+        fontFamily: 'monospace',
+        fontSize: '26px',
+        fontStyle: 'bold',
+        color: '#ffd08c',
+        stroke: '#111e18',
+        strokeThickness: 6,
+      })
+      .setOrigin(0.5)
+      .setDepth(2200)
+      .setVisible(false);
   }
   private position(unit: CombatUnit, timeMs: number): Point {
     const action = unit.action;
@@ -30,6 +43,16 @@ export class CombatRenderer {
   ): void {
     const g = this.graphics.clear();
     const { timeMs, state } = frame;
+    this.overtimeLabel
+      .setVisible(frame.overtime)
+      .setScale(1 + (frame.overtime ? frame.overtimeIntro * 0.3 : 0));
+    if (frame.overtime)
+      g.lineStyle(4, 0xf5ae60, 0.25 + Math.max(0, frame.overtimeIntro) * 0.65).strokeRect(
+        10,
+        10,
+        WORLD.width - 20,
+        WORLD.height - 20,
+      );
     const positions = new Map(state.units.map((u) => [u.id, this.position(u, timeMs)]));
     for (const unit of state.units) {
       const visual = visuals.get(unit.id),
@@ -188,6 +211,7 @@ export class CombatRenderer {
       }
   }
   clear(): void {
+    this.overtimeLabel.setVisible(false);
     this.graphics.clear();
     this.labels.forEach((text) => text.destroy());
     this.labels.clear();
@@ -195,5 +219,6 @@ export class CombatRenderer {
   destroy(): void {
     this.clear();
     this.graphics.destroy();
+    this.overtimeLabel.destroy();
   }
 }

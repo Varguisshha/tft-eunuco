@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { CombatSeedSchema, HexCoordSchema } from './board-contracts';
 import { CombatInputSchema, CombatResultSchema } from './combat';
-export const MATCH_RULES = 'f0p3-1' as const;
+export const MATCH_RULES = 'f0p3.1-1' as const;
 const nat = z.number().int().safe().nonnegative();
 const id = z.string().min(1).max(80);
 export const StarsSchema = z.union([z.literal(1), z.literal(2), z.literal(3)]);
@@ -18,10 +18,30 @@ export const OwnedUnitSchema = z.strictObject({
 });
 export type OwnedUnit = z.infer<typeof OwnedUnitSchema>;
 export const ShopOfferSchema = z.strictObject({ id, definitionId: id });
+export const RoundDamageConfigSchema = z.strictObject({
+  initialHp: nat.positive().max(10000),
+  roundsPerStage: nat.positive().max(100),
+  baseByStage: z.array(nat.max(10000)).min(1).max(100),
+  survivorByStars: z.tuple([nat.max(10000), nat.max(10000), nat.max(10000)]),
+});
+export type RoundDamageConfig = z.infer<typeof RoundDamageConfigSchema>;
+export const HealthEntrySchema = z.strictObject({
+  round: nat.positive(),
+  side: z.enum(['north', 'south']),
+  outcome: z.enum(['win', 'loss']),
+  base: nat,
+  survivors: nat,
+  requested: nat,
+  applied: nat,
+  hpBefore: nat,
+  hpAfter: nat,
+});
+export type HealthEntry = z.infer<typeof HealthEntrySchema>;
 export const EconomyConfigSchema = z
   .strictObject({
     version: z.literal(MATCH_RULES),
     initialGold: nat,
+    roundDamage: RoundDamageConfigSchema,
     goldCap: nat.positive(),
     initialLevel: z.literal(2),
     maxLevel: z.literal(7),
@@ -83,7 +103,7 @@ export const EconomyConfigSchema = z
 export type EconomyConfig = z.infer<typeof EconomyConfigSchema>;
 export const RewardSchema = z.strictObject({
   round: nat.positive(),
-  outcome: z.enum(['win', 'loss', 'draw']),
+  outcome: z.enum(['win', 'loss', 'double_loss']),
   bank: nat,
   base: nat,
   interest: nat,
@@ -150,6 +170,8 @@ export const MatchStateSchema = z.strictObject({
   phase: z.enum(['preparation', 'combat', 'resolution', 'finished']),
   round: nat.positive(),
   gold: nat,
+  health: z.strictObject({ north: nat, south: nat }),
+  healthLedger: z.array(HealthEntrySchema),
   level: z.number().int().min(2).max(7),
   xp: nat,
   totalXp: nat,

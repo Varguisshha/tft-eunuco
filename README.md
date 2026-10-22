@@ -69,4 +69,8 @@ Los paquetes privados exportan TypeScript fuente; Vite y Vitest los compilan den
 
 Consulta [arquitectura](docs/ARCHITECTURE.md), [decisiones y fuentes](docs/DECISIONS.md), [guía de arte](docs/SPRITE_SPEC.md) y [validación real](docs/VALIDATION.md).
 
-Consulta también las [reglas exactas de combate](docs/COMBAT_SPEC.md) y el [protocolo v2](docs/COMBAT_EVENTS.md). La Arena es una herramienta permanente, separada de la futura interfaz de partida.
+Consulta también las [reglas exactas de combate](docs/COMBAT_SPEC.md) y el [protocolo v3](docs/COMBAT_EVENTS.md). La Arena es una herramienta permanente, separada de la futura interfaz de partida.
+
+### F0-P3.1 — Overtime y doble derrota
+
+Combate normal hasta tick299; overtime300–449; cierre en450 sin acciones extra. Indicador/contador compartidos, pruebas de límite en Arena, double_loss sin bonus de victoria/racha y vida mínima de ambos participantes con registro de daño. Reglas propias en [COMBAT_SPEC](docs/COMBAT_SPEC.md) y [ECONOMY_SPEC](docs/ECONOMY_SPEC.md). Guardado P3.1 separado; el guardado P3 anterior se conserva sin migración. No hay eliminación global: se permite seguir con0HP. F0-P4 no iniciado.

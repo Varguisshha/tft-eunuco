@@ -25,6 +25,24 @@ export function CombatControls({
         >
           Cargar duelo 4 × 4
         </button>
+        <label className="arena-scenario">
+          Prueba de límite
+          <select
+            aria-label="Escenario de overtime"
+            disabled={!preparing}
+            value=""
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === 'overtime' || value === 'timeout' || value === 'mutual')
+                session.loadScenario(value);
+            }}
+          >
+            <option value="">Cargar escenario…</option>
+            <option value="overtime">Victoria en overtime</option>
+            <option value="timeout">Tiempo agotado · 450</option>
+            <option value="mutual">Eliminación mutua</option>
+          </select>
+        </label>
         {preparing ? (
           <button
             className="button combat-primary"
@@ -68,7 +86,7 @@ export function CombatControls({
           />
         </label>
         <span className="tick-readout">
-          Tick <strong>{combat.tick.toString().padStart(3, '0')}</strong> / 300
+          Tick <strong>{combat.tick.toString().padStart(3, '0')}</strong> / 450
         </span>
         <div className="playback-speed" aria-label="Velocidad de reproducción">
           <button aria-pressed={combat.speed === 1} onClick={() => session.setCombatSpeed(1)}>
@@ -99,7 +117,7 @@ export function CombatControls({
             ? 'Victoria jade · Derrota ámbar'
             : combat.result.winner === 'north'
               ? 'Victoria ámbar · Derrota jade'
-              : 'Empate'}
+              : 'Doble derrota'}
           <span>
             {combat.result.reason === 'timeout'
               ? 'Límite temporal'

@@ -10,11 +10,15 @@ Motor puro determinista, A\*, reservas, targeting, estadísticas/daños, maná, 
 
 ## F0-P3 — completado y validado
 
-Economía, pool limitado, tienda5/bloqueo/renovación, banquillo9, movimiento/intercambio, venta, XP/niveles, estrellas, fases, rival determinista y Partida local independiente. Guardado local con replay y Arena preservada. Validación: 118 pruebas correctas (73 anteriores intactas), typecheck/lint/build y recorrido real de cuatro rondas con interés, guardado y Arena de referencia. Evidencia en VALIDATION.md. Hito P2 preservado en `42f70bd`; P3 como cambios locales revisables.
+Economía, pool limitado, tienda5/bloqueo/renovación, banquillo9, movimiento/intercambio, venta, XP/niveles, estrellas, fases, rival determinista y Partida local independiente. Guardado local con replay y Arena preservada. Validación: 118 pruebas correctas (73 anteriores intactas), typecheck/lint/build y recorrido real de cuatro rondas con interés, guardado y Arena de referencia. Evidencia en VALIDATION.md. Hito P2 preservado en `42f70bd`; P3 preservado en `4302eec`.
+
+## F0-P3.1 — completado y validado
+
+Overtime determinista, protocolo3, doble derrota, vida y registro de daño mínimos, guardado versionado e indicadores compartidos. 161 pruebas correctas, typecheck/lint/build/formato y recorrido real de Arena/Partida local completados. Pausa301, victoria357, timeout450, eliminación mutua3 y doble derrota con oro/vida sin duplicación tras recargar. Detalles en VALIDATION.md. Cambios locales sobre el hito P3 `4302eec`.
 
 ## Siguiente paso recomendado
 
-Revisar balance y ergonomía de la partida local con escenarios de ahorro, reroll y XP. Acordar un encargo F0-P4 antes de nuevas mecánicas. No se ha iniciado F0-P4.
+Revisar balance de overtime y daño de ronda con partidas locales prolongadas, sin cambiar automáticamente economía ni añadir mecánicas. Acordar un encargo F0-P4 antes de nuevas mecánicas. No se ha iniciado F0-P4.
 
 ## Dirección de producto futura
 

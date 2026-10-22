@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   CombatBatchSchema,
-  CombatEventV2Schema,
+  CombatEventV3Schema,
   CombatInputSchema,
   CombatStateSchema,
   type CombatAbility,
@@ -43,8 +43,8 @@ describe('reproducible authority', () => {
     for (const patch of [
       { seed: 2 ** 32 },
       { rulesVersion: 'future' },
-      { protocolVersion: 3 },
-      { maxTicks: 301 },
+      { protocolVersion: 4 },
+      { maxTicks: 451 },
     ])
       expect(CombatInputSchema.safeParse({ ...setup, ...patch }).success).toBe(false);
     expect(CombatInputSchema.safeParse({ ...setup, obstacles: [{ q: 0, r: 4 }] }).success).toBe(
@@ -52,7 +52,12 @@ describe('reproducible authority', () => {
     );
   });
   it('finishes empty/one-sided combat immediately and does nothing after end', () => {
-    expect(runCombat(input([])).result).toEqual({ winner: null, reason: 'empty', tick: 0 });
+    expect(runCombat(input([])).result).toEqual({
+      outcome: 'double_loss',
+      winner: null,
+      reason: 'empty',
+      tick: 0,
+    });
     const engine = new CombatEngine(input([duel()[0]!]));
     const before = engine.snapshot();
     expect(before.result?.winner).toBe('south');
@@ -66,7 +71,12 @@ describe('reproducible authority', () => {
         obstacles: BOARD_HEXES.filter((h) => h.r === 3),
       }),
     );
-    expect(replay.result).toEqual({ winner: null, reason: 'timeout', tick: 12 });
+    expect(replay.result).toEqual({
+      outcome: 'double_loss',
+      winner: null,
+      reason: 'timeout',
+      tick: 12,
+    });
     expect(replay.events.at(-1)?.type).toBe('combat_end');
     expect(replay.snapshots.at(-1)?.units.every((u) => u.action === null)).toBe(true);
   });
@@ -77,12 +87,12 @@ describe('reproducible authority', () => {
     expect(engine.snapshot().units[0]!.hp).toBe(1000);
     const replay = runCombat(input(duel(), { maxTicks: 15 }));
     for (const e of replay.events)
-      expect(CombatEventV2Schema.parse(JSON.parse(JSON.stringify(e)))).toEqual(e);
+      expect(CombatEventV3Schema.parse(JSON.parse(JSON.stringify(e)))).toEqual(e);
     for (const state of replay.snapshots)
       expect(CombatStateSchema.safeParse(state).success).toBe(true);
     const batch = {
-      protocolVersion: 2,
-      rulesVersion: 'f0p2-1',
+      protocolVersion: 3,
+      rulesVersion: 'f0p3.1-1',
       fromTick: 0,
       toTick: 15,
       events: replay.events,
@@ -138,7 +148,12 @@ describe('attacks, impacts and cadence', () => {
       profile: { ...u.profile, stats: { ...u.profile.stats, maxHp: 10, attack: 100 } },
     }));
     const replay = runCombat(input(units));
-    expect(replay.result).toEqual({ winner: null, reason: 'elimination', tick: 3 });
+    expect(replay.result).toEqual({
+      outcome: 'double_loss',
+      winner: null,
+      reason: 'elimination',
+      tick: 3,
+    });
     expect(replay.events.filter((e) => e.type === 'unit_death')).toHaveLength(2);
     const firstDeath = replay.events.findIndex((e) => e.type === 'unit_death');
     expect(
@@ -330,7 +345,7 @@ describe('data-driven effects', () => {
           spec('c', 'north', { q: 1, r: 3 }, { attack: 0 }),
           spec('d', 'north', { q: 3, r: 0 }, { attack: 0 }),
         ],
-        { maxTicks: 2 },
+        { maxTicks: 3 }, // v3 terminal tick has no actions; include the tick-2 impact.
       ),
     );
     expect(
@@ -349,11 +364,11 @@ describe('data-driven effects', () => {
       ]),
     };
     const replay = runCombat(createCombatInput(board, 42));
-    expect(replay.result.tick).toBeLessThanOrEqual(300);
+    expect(replay.result.tick).toBeLessThanOrEqual(450);
     expect(
       CombatBatchSchema.safeParse({
-        protocolVersion: 2,
-        rulesVersion: 'f0p2-1',
+        protocolVersion: 3,
+        rulesVersion: 'f0p3.1-1',
         fromTick: 0,
         toTick: replay.result.tick,
         events: replay.events,
@@ -441,7 +456,7 @@ describe('committed actions and reservations', () => {
         { kind: 'shield', target: 'self', radius: 0, amount: 20, duration: 10 },
       ],
     };
-    const replay = runCombat(input(units, { maxTicks: 3 }));
+    const replay = runCombat(input(units, { maxTicks: 4 })); // Include tick-3 impact before terminal check.
     const hit = replay.events.find((e) => e.type === 'damage' && e.payload.targetId === 'a');
     expect(hit?.type === 'damage' && hit.payload.amount).toBe(0);
     expect(replay.snapshots[3]!.units[0]!.hp).toBe(1000);

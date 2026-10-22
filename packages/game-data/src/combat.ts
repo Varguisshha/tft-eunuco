@@ -3,6 +3,7 @@ import {
   CombatProfileSchema,
   COMBAT_PROTOCOL,
   COMBAT_RULES,
+  MAX_COMBAT_TICKS,
   type BoardState,
   type CombatInput,
   type CombatProfile,
@@ -106,7 +107,7 @@ export function createCombatInput(board: BoardState, seed: number): CombatInput 
     protocolVersion: COMBAT_PROTOCOL,
     rulesVersion: COMBAT_RULES,
     seed,
-    maxTicks: 300,
+    maxTicks: MAX_COMBAT_TICKS,
     obstacles: [],
     units: board.units.map((u) => {
       const profile = COMBAT_PROFILES[u.definitionId];

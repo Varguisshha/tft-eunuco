@@ -77,3 +77,9 @@ LocalSession implementa el mismo puerto visual que BoardSession. React despacha 
 Guardado local tras acciones aceptadas, validación semántica y reproducción del historial al continuar. Ningún acceso a localStorage en core. Separación de RNG tienda/combate. Secuencia/revisión preparan el procesador de comandos futuro; no implementan autenticación ni transporte. El pool incluye un propietario local y sus cinco reservas; cuatro propietarios exigirán agregar inventarios/tiendas en el contrato, no crear clientes falsos.
 
 Especificaciones: ECONOMY_SPEC.md, SHOP_POOL_SPEC.md, PROGRESSION_SPEC.md y ROUND_FLOW.md. Sin nuevas dependencias, servicios o infraestructura.
+
+## Actualización F0-P3.1
+
+`shared/combat.ts` define protocolo3 y configuración de overtime; `combat-v2.ts` preserva schemas históricos aislados. `game-core/combat/overtime.ts` calcula multiplicadores enteros, consumidos en efectos y carga; no depende de presentación. `match/roundDamage.ts` calcula daño puro por participante; la misma transacción resolve_round actualiza vida/ledger, oro, racha y XP. Configuración de vida en game-data/economy; sin cliente rival ni servicios nuevos.
+
+CombatPlayback aporta overtime/remainingTicks/transición a GameCanvas y CombatRenderer. Un objeto Phaser por escena y una línea temporal nueva al repetir; la UI no decide finales. Arena puede cargar perfiles sintéticos legales desde game-data/combatScenarios únicamente para diagnóstico; Partida local mantiene su rival original. Los guardados f0p3.1-1 usan clave distinta y validación+replay; no se reproducen historiales P3 con reglas cambiadas.

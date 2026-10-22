@@ -1,4 +1,4 @@
-# Economía local — f0p3-1
+# Economía local — f0p3.1-1
 
 Configuración única: `packages/game-data/src/economy.ts`, validada por `EconomyConfigSchema`. Contratos/actions: `shared/match.ts`. Autoridad: `game-core/src/match`. Todas las cifras son provisionales de TFT EUNUCO; ninguna tabla se presenta como balance oficial vigente de TFT.
 
@@ -7,9 +7,9 @@ Configuración única: `packages/game-data/src/economy.ts`, validada por `Econom
 - Inicial: **10**, una sola entrada de registro al crear partida. La primera tienda no cobra renovación.
 - Oro entero entre **0 y 999**. No se permite deuda. Todos los gastos fallan atómicamente si falta oro.
 - Ingreso base al completar rondas 1, 2, 3, 4 y posteriores: **2, 3, 4, 5, 5…**. Tabla configurable, se repite su último valor. No hay PvE ni calendario de etapas.
-- Victoria: **+1**. Derrota/empate: **0** de victoria.
+- Victoria: **+1**. Derrota/doble derrota: **0** de victoria.
 - Intereses: `min(5, floor(oroAlIniciarCombate / 10))`. Se congela el banco al cerrar preparación, antes de base, victoria y racha. No se compra ni vende durante combate.
-- Racha firmada: positivo victorias, negativo derrotas. Resultado igual al anterior incrementa magnitud; cambio de signo comienza en1. Empate restablece a0, sin bonus de racha.
+- Racha firmada: positivo victorias, negativo derrotas. Resultado igual al anterior incrementa magnitud; cambio de signo comienza en1. Doble derrota restablece a0, sin iniciar racha negativa ni otorgar bonus de racha.
 
 | Longitud de racha, victoria o derrota | Oro |
 | ------------------------------------- | --: |
@@ -45,6 +45,26 @@ Referencia histórica primaria: [Riot, Galaxies Systems Update, 4 de marzo de 20
 
 ## Persistencia y autoridad futura
 
-Guardado local bajo `tft-eunuco-local-f0p3-1` después de cada acción aceptada. Incluye versión/configuración/seed/historial y estado. Al continuar se valida el estado y se reproduce el historial desde cero; debe coincidir exactamente. No se abonan ingresos al montar una pantalla. Recargar durante combate reinicia solo su reproducción visual; recargar en resolución conserva el pago ya realizado. Sin almacenamiento disponible, sigue en memoria con aviso.
+Guardado local bajo `tft-eunuco-local-f0p3.1-1` después de cada acción aceptada. Incluye versión/configuración/seed/historial y estado. Al continuar se valida el estado y se reproduce el historial desde cero; debe coincidir exactamente. No se abonan ingresos al montar una pantalla. Recargar durante combate reinicia solo su reproducción visual; recargar en resolución conserva el pago ya realizado. Sin almacenamiento disponible, sigue en memoria con aviso.
 
 Es un guardado local verificable, no protección antitrampas: el futuro servidor deberá poseer el estado/configuración y autenticar quién puede enviar comandos. No confiar en oro, configuración o resultados enviados por un cliente. No hay sincronización de varias pestañas; una partida activa por navegador es el uso previsto. Historial/ledger crecen durante la partida y no tienen compactación todavía.
+
+## Overtime y doble derrota
+
+El motor determina `double_loss` por eliminación mutua o tiempo agotado. No hay bonus de victoria. La racha firmada se fija a **0**, tanto si era positiva como negativa: racha de victorias 0 y racha de derrotas 0; no comienza una nueva racha negativa ni se paga bonus de racha en esa ronda. Se conservan base, intereses sobre banco congelado y XP pasiva. La siguiente derrota normal comenzará en −1; la siguiente victoria en +1.
+
+La transacción `resolve_round` deriva resultado, vida, racha, oro y XP una sola vez y añade el comando a historial. Repetir payload, solicitar de nuevo la resolución o recargar no vuelve a cobrar ni a dañar. Toda la transacción se realiza sobre copia validada. Tienda, banquillo, formación y pool no cambian al resolver.
+
+## Vida y daño de ronda
+
+Configuración `economy.roundDamage`: **100 HP iniciales por participante**, `roundsPerStage:3`, `baseByStage:[2,3,4,5,6]`, `survivorByStars:[1,2,3]`. Parámetros propios del prototipo. Etapa de daño = `1 + floor((ronda−1)/3)`, sin introducir calendario PvE. Base: rondas1–3→2; 4–6→3; 7–9→4; 10–12→5; 13+→6.
+
+Función pura `calculateRoundDamage`: el ganador recibe cero; cada perdedor recibe `baseEtapa + suma(pesoPorEstrella de supervivientes enemigos)`. En doble derrota ambos se consideran perdedores. Timeout: cada uno recibe daño según los supervivientes contrarios. Eliminación mutua: no quedan supervivientes, ambos reciben solo la base. Una unidad 2★ cuenta como peso2, no como tres copias; el pool conserva su equivalencia independiente.
+
+`applied = min(hpAntes, dañoSolicitado)`, `hpDespués = hpAntes−applied`. Registro por ronda y participante: resultado win/loss, base, contribución de supervivientes, solicitado, aplicado, HP anterior y posterior. Dos entradas por ronda, incluso cuando el ganador recibe cero. Invariantes verifican secuencia, balances y ausencia de pagos dobles. `health.north/south` persiste entre rondas; UI muestra ambos saldos y registro.
+
+Referencia conceptual primaria: [Riot, parche 14.8](https://teamfighttactics.leagueoflegends.com/en-sg/news/game-updates/teamfight-tactics-patch-14-8-notes/), daño de base por etapa más contribución de enemigos supervivientes. No se copian sus cifras ni se presentan pesos por estrellas o etapas locales como reglas oficiales actuales.
+
+Al llegar a 0 HP **se permite continuar**: el mensaje lo indica y nunca se genera vida negativa. No hay clasificación, matchmaking, eliminación global ni final automático. El rival sigue siendo la formación de pruebas original, sin compras, oro, XP ni racha propios. Su vida y resultado sí están conectados; la economía de otros jugadores reales queda para la autoridad multijugador futura. No se crean clientes ficticios.
+
+Guardado nuevo separado por versión. La clave P3 `tft-eunuco-local-f0p3-1` se deja intacta y el lobby informa de ella. No se migra ni reproduce ese historial con reglas distintas. La clave P3.1 guarda configuración, vida, ledger e historial; restore valida y reproduce exactamente. Para abrir un guardado histórico P3 hace falta su versión de código preservada, no el motor P3.1.

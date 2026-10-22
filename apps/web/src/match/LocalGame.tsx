@@ -59,6 +59,23 @@ export function LocalGame({ session }: { session: LocalSession }) {
           </span>
         </div>
       </header>
+      <div className="health-bar" aria-label="Vida de participantes">
+        <span>
+          Tu vida{' '}
+          <strong>
+            {state.health.south}/{state.config.roundDamage.initialHp}
+          </strong>
+        </span>
+        <span>
+          Vida rival{' '}
+          <strong>
+            {state.health.north}/{state.config.roundDamage.initialHp}
+          </strong>
+        </span>
+        {(state.health.south === 0 || state.health.north === 0) && (
+          <small>Modo de prueba: puedes seguir jugando con 0 de vida.</small>
+        )}
+      </div>
       <section className="economy-bar" aria-label="Economía">
         <div className="gold-readout">
           <span>Oro</span>
@@ -143,9 +160,17 @@ export function LocalGame({ session }: { session: LocalSession }) {
               ? 'Victoria jade'
               : state.lastReward.outcome === 'loss'
                 ? 'Derrota jade'
-                : 'Empate'}{' '}
+                : 'Doble derrota'}{' '}
             <span>+{state.lastReward.credited} oro</span>
           </strong>
+          <p>
+            {state.combat?.result?.reason === 'timeout'
+              ? 'Tiempo agotado'
+              : state.lastReward.outcome === 'double_loss'
+                ? 'Eliminación mutua'
+                : 'Eliminación'}{' '}
+            · Tick {state.combat?.result?.tick}
+          </p>
           <p>
             Base {state.lastReward.base} · Intereses {state.lastReward.interest} (sobre{' '}
             {state.lastReward.bank} oro) · Victoria {state.lastReward.victory} · Racha{' '}
@@ -154,8 +179,27 @@ export function LocalGame({ session }: { session: LocalSession }) {
               ? ` · ${state.lastReward.overflow} oro excede el límite`
               : ''}
           </p>
+          <p>
+            {state.healthLedger
+              .slice(-2)
+              .map(
+                (e) =>
+                  `${e.side === 'south' ? 'Jade' : 'Ámbar'}: −${e.applied} vida (base ${e.base} + supervivientes ${e.survivors}; ${e.hpAfter} restante)`,
+              )
+              .join(' · ')}
+          </p>
         </section>
       )}
+      <details className="health-ledger">
+        <summary>Registro de vida · {state.healthLedger.length} movimientos</summary>
+        {state.healthLedger.map((e) => (
+          <p key={`${e.round}-${e.side}`}>
+            Ronda {e.round} · {e.side === 'south' ? 'Jade' : 'Ámbar'} ·{' '}
+            {e.outcome === 'win' ? 'Victoria' : 'Derrota'} · daño {e.requested}, aplicado{' '}
+            {e.applied} · vida {e.hpBefore} → {e.hpAfter}
+          </p>
+        ))}
+      </details>
       <div className="local-battle-layout">
         <section className="local-board" aria-label="Tablero de partida local">
           <div className="local-board-title">

@@ -65,3 +65,15 @@ Fuentes Phaser consultadas para P2: [Graphics](https://docs.phaser.io/api-docume
 - Partida local independiente de Arena, con puerto de tablero compartido y componentes originales. CLI21st no disponible; no se instalaron servicios ni se generaron assets externos. Se siguió el criterio de reutilización de21st-ui-build con estilos/primitivas existentes; no se afirma revisión automática21st ejecutada.
 - Guardado local verificable mediante replay, sin pago por montaje o recarga. No es antitrampas ni sincronización entre pestañas.
 - F0-P4 no iniciado; cuentas, multijugador, objetos, aumentos, carrusel, sinergias y arte definitivo fuera de alcance.
+
+## Decisiones F0-P3.1 — 23 de octubre de 2026
+
+- Auditoría previa: 118 pruebas correctas, 36 archivos P3 coherentes con el hito y escaneo de credenciales sin coincidencias. P3 preservado en `4302eec`, sin remoto ni push.
+- 300 ticks normales y 150 de overtime, con 450 como comprobación terminal sin acciones. Misma convención para límites reducidos de test; se ajustan dos fixtures antiguas para incluir sus impactos antes del nuevo límite exclusivo.
+- Interpolación entera entre ticks300 y449, multiplicadores al aplicar efectos/carga, sin acumulación en perfiles. Daño de proyectiles se amplifica al impactar, incluso si se lanzó antes del overtime.
+- Protocolo3 y reglas f0p3.1-1 explícitos. Contratos v2 históricos preservados; sin migración silenciosa de guardados ni replays. Guardado P3 intacto bajo su clave original.
+- double_loss reinicia ambas rachas conceptuales a0 y no paga bonus; no equivale a derrota normal que inicia/acumula racha negativa. Registro de daño identifica a ambos como perdedores.
+- Vida mínima100 y daño por tramos de3 rondas más supervivientes ponderados1/2/3; cifras propias configurables. HP mínimo0, sin eliminación global: permite seguir probando. Rival local conserva sus formaciones; no se le inventa economía.
+- Vida, oro, XP y racha se liquidan en una sola acción; registros verificables y restore por replay. La UI nunca propone un ganador ni el daño de ronda.
+- Indicador Phaser y contador DOM compartidos por ambas vistas; transición calculada desde reloj visual, sin temporizadores que continúen durante pausa. Escenarios sintéticos únicamente en Arena técnica.
+- Sin dependencias nuevas, servicios ni F0-P4.

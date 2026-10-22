@@ -1,8 +1,14 @@
 import { EconomyConfigSchema } from '@tft/shared';
 /** Own provisional 3-cost rules, not the live TFT tables. */
 export const ECONOMY_CONFIG = EconomyConfigSchema.parse({
-  version: 'f0p3-1',
+  version: 'f0p3.1-1',
   initialGold: 10,
+  roundDamage: {
+    initialHp: 100,
+    roundsPerStage: 3,
+    baseByStage: [2, 3, 4, 5, 6],
+    survivorByStars: [1, 2, 3],
+  },
   goldCap: 999,
   initialLevel: 2,
   maxLevel: 7,

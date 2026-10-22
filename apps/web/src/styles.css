@@ -1734,3 +1734,56 @@ dd {
     font-size: 22px;
   }
 }
+
+.battle-timer {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 12px;
+  pointer-events: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 11px;
+  border: 1px solid #52674c;
+  background: #111e18ed;
+  color: #d4dfc9;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.battle-timer.is-overtime {
+  border-color: #e4a359;
+  color: #ffd08c;
+}
+.health-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-bottom: 14px;
+  color: #b8c5b0;
+}
+.health-bar strong {
+  color: #e4e8d8;
+}
+.health-ledger {
+  color: #b8c5b0;
+  font-size: 12px;
+  margin: 12px 0;
+}
+.health-ledger summary {
+  cursor: pointer;
+}
+.arena-scenario {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #b8c5b0;
+  font-size: 11px;
+}
+.arena-scenario select {
+  padding: 7px;
+  border: 1px solid #52674c;
+  border-radius: 4px;
+  background: #17271e;
+  color: #e4e8d8;
+}
