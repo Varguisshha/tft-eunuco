@@ -1,6 +1,6 @@
-# TFT EUNUCO · F0-P2
+# TFT EUNUCO · F0-P3
 
-Arena interna de un autobattler original: tablero hexagonal isométrico, preparación interactiva y combate automático determinista con reproducción Phaser. **Sin economía, cuentas, red ni persistencia.**
+Arena interna de un autobattler original: tablero hexagonal isométrico, preparación interactiva y combate automático determinista con reproducción Phaser. Partida local con economía, tienda, banquillo, progresión y rondas. Guardado en el navegador; sin cuentas ni red.
 
 ## Arranque
 
@@ -24,7 +24,13 @@ pnpm check
 pnpm preview
 ```
 
-## Usar el prototipo
+## Partida local
+
+Abre **Partida local**, elige semilla e inicia. Empiezas con10oro y nivel2. Compra ofertas, arrastra desde el banquillo al tablero y combate. Tres copias se combinan; puedes vender, renovar/bloquear y comprar XP. El resultado paga una vez y **Siguiente ronda** vuelve a preparación. **Continuar partida guardada** restaura la última sesión de este navegador tras validar su historial.
+
+La tienda tiene5 espacios y el banquillo9. Click y controles columna/fila sirven como alternativa al arrastre. Las reglas exactas están en [economía](docs/ECONOMY_SPEC.md), [tienda/pool](docs/SHOP_POOL_SPEC.md), [progresión](docs/PROGRESSION_SPEC.md) y [rondas](docs/ROUND_FLOW.md). No hay final global de partida en este prototipo.
+
+## Arena de pruebas conservada
 
 - Empieza con cuatro unidades ficticias jade. Pulsa **Cargar duelo 4 × 4**, elige semilla y **Iniciar combate**.
 - Pausa/reanuda, cambia ×1/×2 o repite la misma entrada/semilla. **Volver a preparación** recupera tu formación previa. Durante combate solo inspección y zoom; la edición queda protegida.

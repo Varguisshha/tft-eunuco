@@ -1,4 +1,4 @@
-# Arquitectura F0-P2
+# Arquitectura F0-P3
 
 ## Límites
 
@@ -58,7 +58,7 @@ Para online, un adaptador de servidor podrá validar la entrada, crear `CombatEn
 
 La Arena se conserva permanentemente como herramienta para preparar formaciones, diagnosticar combate, inspeccionar unidades y validar sprites. Mantiene selección, teclado, arrastre en preparación y zoom. No es la dirección artística final. Solo se añaden controles de simulación, barras/efectos y ajuste funcional de altura del canvas.
 
-Una futura pantalla de partida será una composición independiente en web que reutilice core, contratos, proyección, adaptador y reproducción; no deberá importar los controles de depuración ni duplicar reglas. Tienda, banquillo, economía, ranking y profundidad visual quedan documentados en diseño/roadmap, sin implementación ni routing ficticio.
+F0-P3 añade Partida local como vista independiente: reutiliza BoardPort, GameCanvas, BoardScene, proyección, adaptador y reproducción. Arena se extrae a Arena.tsx y conserva BoardSession. Tienda/banquillo/economía funcionan en la nueva vista; clasificación, profundidad visual y producción artística siguen pendientes.
 
 `owner: north|south` identifica los dos lados de este tablero local, no a los cuatro participantes de una partida futura. La asociación partida/jugador/duelo pertenece a la futura capa de servidor y requerirá evolución explícita del contrato.
 
@@ -67,3 +67,13 @@ Una futura pantalla de partida será una composición independiente en web que r
 Phaser 4.2.1 está fijado; todos los paquetes quedan resueltos en pnpm-lock.yaml. React no llama a APIs internas del renderer. Fuentes servidas localmente. No hay CDN, peticiones de juego, credenciales ni servicios externos.
 
 El core puede ejecutarse en Node sin canvas. Antes de añadir Colyseus/Supabase, crear adaptadores fuera de los paquetes puros. No hace falta distribuir paquetes compilados todavía; si se publican o consumen fuera de este monorepo, añadir salidas ESM y declaraciones de tipos en esa fase.
+
+## Autoridad económica F0-P3
+
+`shared/match.ts` define configuración, propiedad con ubicación única, ofertas, ledger, estado y acciones estrictas versionadas f0p3-1. `game-data/economy.ts` es la única tabla económica. `game-core/match` separa transacciones, extracción, selectores/escalado e invariantes. `applyMatchAction` clona, valida, ejecuta y publica atómicamente; rechazos conservan el original. `replayMatch` reconstruye desde seed/config/historial.
+
+LocalSession implementa el mismo puerto visual que BoardSession. React despacha comandos; Phaser convierte input a ubicaciones y reproduce combate. La propiedad y el pool no dependen de sprites. Al construir combate se escalan perfiles por estrellas sin cambiar el motor P2. `resolve_round` deriva su resultado ejecutando la entrada congelada; no acepta ganador de UI.
+
+Guardado local tras acciones aceptadas, validación semántica y reproducción del historial al continuar. Ningún acceso a localStorage en core. Separación de RNG tienda/combate. Secuencia/revisión preparan el procesador de comandos futuro; no implementan autenticación ni transporte. El pool incluye un propietario local y sus cinco reservas; cuatro propietarios exigirán agregar inventarios/tiendas en el contrato, no crear clientes falsos.
+
+Especificaciones: ECONOMY_SPEC.md, SHOP_POOL_SPEC.md, PROGRESSION_SPEC.md y ROUND_FLOW.md. Sin nuevas dependencias, servicios o infraestructura.

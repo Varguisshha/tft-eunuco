@@ -9,7 +9,7 @@ import {
 } from '@tft/game-core';
 import { getUnitDefinition } from '@tft/game-data';
 import type { HexCoord } from '@tft/shared';
-import { BoardSession } from './session';
+import type { BoardPort } from './boardPort';
 import { createProjection, hexCorners, hexToWorld, WORLD, worldToHex } from './projection';
 import { PhaserUnitVisual, registerPlaceholder } from './visualAdapter';
 import { CombatRenderer } from './CombatRenderer';
@@ -23,7 +23,7 @@ export class BoardScene extends Phaser.Scene {
   private zoomLevel = 1;
   private combatRenderer: CombatRenderer | null = null;
   constructor(
-    private session: BoardSession,
+    private session: BoardPort,
     private onReady: () => void,
   ) {
     super('board');
@@ -60,7 +60,7 @@ export class BoardScene extends Phaser.Scene {
     this.input.on('pointermove', this.pointerMove, this);
     this.input.on('pointerdown', this.pointerDown, this);
     this.input.on('pointerup', this.pointerUp, this);
-    this.input.on('pointerupoutside', this.cancelDrag, this);
+    this.input.on('pointerupoutside', this.pointerUpOutside, this);
     this.input.on('gameout', this.pointerOut, this);
     this.game.events.on(Phaser.Core.Events.BLUR, this.cancelDrag, this);
     this.unsubscribe = this.session.subscribe(() => this.sync());
@@ -83,7 +83,7 @@ export class BoardScene extends Phaser.Scene {
     this.input.off('pointermove', this.pointerMove, this);
     this.input.off('pointerdown', this.pointerDown, this);
     this.input.off('pointerup', this.pointerUp, this);
-    this.input.off('pointerupoutside', this.cancelDrag, this);
+    this.input.off('pointerupoutside', this.pointerUpOutside, this);
     this.input.off('gameout', this.pointerOut, this);
     this.press = null;
     this.combatRenderer?.destroy();
@@ -142,9 +142,26 @@ export class BoardScene extends Phaser.Scene {
     else this.session.activate(hex);
     this.sync();
   }
+  private pointerUpOutside(pointer: Phaser.Input.Pointer): void {
+    const id = this.press?.unitId;
+    if (id && this.press?.dragging) {
+      const event = pointer.event as MouseEvent;
+      this.session.dropOutside?.(id, event.clientX, event.clientY);
+    }
+    this.cancelDrag();
+  }
+  dropFromBench(unitId: string, clientX: number, clientY: number): void {
+    const rect = this.game.canvas.getBoundingClientRect();
+    const point = this.cameras.main.getWorldPoint(
+      ((clientX - rect.left) * WORLD.width) / rect.width,
+      ((clientY - rect.top) * WORLD.height) / rect.height,
+    );
+    this.session.move(unitId, worldToHex(point, this.projection));
+    this.sync();
+  }
   private pointerOut(): void {
     this.session.hover(null);
-    this.cancelDrag();
+    if (!this.session.dropOutside) this.cancelDrag();
   }
   private cancelDrag(): void {
     this.press = null;
@@ -176,6 +193,7 @@ export class BoardScene extends Phaser.Scene {
         visual.setFootPosition(position.x, position.y);
       }
       visual.setSelected(state.selectedId === unit.id);
+      visual.setStars(this.session.starsFor?.(unit.id) ?? 1);
     }
     this.overlay.clear();
     const selected = state.board.units.find((u) => u.id === state.selectedId);

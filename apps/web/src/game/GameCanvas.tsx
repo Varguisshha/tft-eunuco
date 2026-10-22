@@ -2,9 +2,9 @@ import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import Phaser from 'phaser';
 import { axialToOffset, offsetToAxial } from '@tft/game-core';
 import { BoardScene } from './BoardScene';
-import type { BoardSession } from './session';
+import type { BoardPort } from './boardPort';
 import { WORLD } from './projection';
-export function GameCanvas({ session, zoom }: { session: BoardSession; zoom: number }) {
+export function GameCanvas({ session, zoom }: { session: BoardPort; zoom: number }) {
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<BoardScene | null>(null);
   const [ready, setReady] = useState(false);
@@ -79,6 +79,14 @@ export function GameCanvas({ session, zoom }: { session: BoardSession; zoom: num
       aria-label="Tablero interactivo de 7 columnas y 8 filas"
       aria-describedby="board-instructions"
       onKeyDown={onKeyDown}
+      onDragOver={(event) => {
+        if (session.editable) event.preventDefault();
+      }}
+      onDrop={(event) => {
+        event.preventDefault();
+        const id = event.dataTransfer.getData('application/x-tft-unit');
+        if (id && session.editable) scene.current?.dropFromBench(id, event.clientX, event.clientY);
+      }}
     >
       {!ready && !error && <div className="canvas-notice">Preparando la arena…</div>}
       {error && (

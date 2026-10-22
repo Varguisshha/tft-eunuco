@@ -52,3 +52,16 @@ Se contrastaron las llamadas con los tipos distribuidos por Phaser 4.2.1. No se 
 La auditoría encontró los 48 archivos nuevos anunciados en P1, sin cambios ajenos detectados ni coincidencias de credenciales en el escaneo. `pnpm check` confirmó 35 pruebas antes de editar. Commit inicial autorizado: `279be4d`; no se configuró remoto ni se hizo push. Evidencia y límites en VALIDATION.md.
 
 Fuentes Phaser consultadas para P2: [Graphics](https://docs.phaser.io/api-documentation/class/gameobjects-graphics) y [ciclo de escenas](https://docs.phaser.io/phaser/concepts/scenes), contrastadas con los tipos instalados de 4.2.1. La lógica de simulación es propia y no depende de física Phaser.
+
+## Decisiones F0-P3
+
+- Base P2 verificada con73 pruebas;33 archivos de cambios coherentes con el hito, escaneo de patrones sin coincidencias de secretos. Commit42f70bd preserva P2. Sin cambios ajenos detectados, remoto o push.
+- Configuración f0p3-1 validada y guardada junto a historial; probabilidades propias para costes1–3. Referencia histórica de rachas documentada en ECONOMY_SPEC, sin atribuir tablas propias al TFT actual.
+- Interés congelado al iniciar combate; recompensa calculada una vez al resolver. Empate rompe racha. Oro entero máximo999, overflow explícito.
+- Oferta reserva una copia al generarse. Compra transfiere reserva; renovación y venta devuelven copias. Fusión mantiene equivalencia1/3/9.
+- Venta reembolsa coste íntegro de copias como adaptación local explícita. XP compacta y rival por rondas propios para probar decisiones, no balance final.
+- Secuencia/revisión y transacción clonada rechazan acciones repetidas/obsoletas sin efecto. Invariantes de pool, ledger, posición y catálogo en cada transacción.
+- RNG tienda/combate separados. Pausa, zoom y selección no participan en reglas económicas.
+- Partida local independiente de Arena, con puerto de tablero compartido y componentes originales. CLI21st no disponible; no se instalaron servicios ni se generaron assets externos. Se siguió el criterio de reutilización de21st-ui-build con estilos/primitivas existentes; no se afirma revisión automática21st ejecutada.
+- Guardado local verificable mediante replay, sin pago por montaje o recarga. No es antitrampas ni sincronización entre pestañas.
+- F0-P4 no iniciado; cuentas, multijugador, objetos, aumentos, carrusel, sinergias y arte definitivo fuera de alcance.

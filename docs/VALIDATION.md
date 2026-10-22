@@ -1,6 +1,55 @@
-# Validación F0-P2
+# Validación F0-P3
 
-Ejecutada el **22 de octubre de 2026**, macOS, Node 26.9.0, pnpm 11.25.0. Este bloque describe el estado actual; el registro P1 inferior se conserva como evidencia histórica.
+Ejecutada el **22 de octubre de 2026**, macOS, Node 26.9.0, pnpm 11.25.0. Los registros P2 y P1 inferiores se conservan como evidencia histórica.
+
+## Auditoría y Git
+
+Antes de editar se leyeron los siete documentos solicitados, se revisaron los 33 archivos locales del hito P2 y se ejecutó `pnpm check`: **73 pruebas en 10 archivos**, typecheck, lint y build correctos. No se detectaron trabajos ajenos, archivos innecesarios ni coincidencias en el escaneo de patrones de credenciales. Esto no constituye una garantía universal de ausencia de secretos.
+
+P2 preservado en el commit autorizado **42f70bd**, `feat: preserve verified F0-P2 deterministic combat milestone`, sobre el hito P1 `279be4d`. P3 queda como cambios locales revisables. Rama main, sin remoto ni push. No se añadieron dependencias ni se modificaron manifests/lockfile; no procedía reinstalar.
+
+## Verificación automatizada
+
+Último `pnpm check` completo: **118 pruebas en 12 archivos, todas pasan**; TypeScript strict, ESLint sin avisos y build de producción correctos. Se conservan intactos los archivos de las 73 pruebas anteriores. Nuevas: 38 de reglas de partida y 7 de integración/persistencia visual. Formato y diff comprobados al cierre.
+
+Cobertura: ingresos y límites, interés calculado antes de recompensas, rachas de ambos signos y empate, compras/rechazos atómicos, bloqueo/renovación, agotamiento y redistribución de pool, equivalencia de copias, fusiones de dos/tres estrellas y prioridad de tablero, banquillo lleno con/sin combinación inmediata, ventas de todas las estrellas, movimiento/intercambio, sobre-despliegue recuperable, XP/umbrales/máximo, fases, payloads repetidos, streams RNG separados y replay. Escenario de **500 acciones** comprueba conservación del pool tras cada transición y reproducción del estado; integración de cuatro rondas usa el combate P2 real.
+
+Persistencia: replay del historial al cargar, rechazo de estado manipulado, combate recuperado desde el inicio visual, resolución recuperada en su tick final sin repetir ingresos, fallo de almacenamiento, pausa y velocidad sin modificar la formación.
+
+Build: aplicación **402,55 kB / 122,42 kB gzip**, CSS **23,86 / 6,02 kB**. Persiste el aviso conocido de Phaser **1367,08 / 357,00 kB**; no se silencia ni se afirma optimización de descarga.
+
+## Recorrido manual en navegador real
+
+Build de producción en `http://127.0.0.1:4173`, navegador integrado, viewport observado 805×827. Acciones mediante controles DOM y arrastres reales, sin inyectar estado de partida:
+
+1. Nueva partida con semilla 42: 10 oro, nivel 2, cinco ofertas y nueve plazas vacías.
+2. Compra de K-01, arrastre banquillo→tablero y tablero→banquillo, recolocación mediante controles.
+3. Segunda compra, renovación por 2, bloqueo y desbloqueo. Tercera copia de K-01 combina automáticamente a 2★ y conserva su posición de tablero; estadísticas 936 HP / 63 ATK.
+4. Compra de 4 XP por 4 oro: nivel 3, 2/6 XP. Compra y venta de otra K-01; devolución correcta de 1 oro.
+5. Ronda 1: victoria jade, tick 88; banco 1, recompensa 3, saldo 4. Tienda bloqueada conserva ofertas y huecos al pasar de ronda.
+6. Ronda 2 a ×2: victoria jade, tick 88; base 3 + victoria 1 + racha 1 = 5, saldo 9; XP pasiva sube a nivel 4.
+7. Ronda 3: empate por límite de 300 ticks; base 4, interés 0 sobre banco 9, racha restablecida, saldo 13.
+8. Ronda 4: compra y despliegue de R-03; banco 11. Victoria jade en tick 217: base 5 + interés 1 + victoria 1 + racha 0 = 7, saldo **18**.
+9. Recarga y continuación: ronda 4 en resolución, **18 oro**, 25 entradas de registro y tick **217** restaurados. Sin segundo pago. Avance a ronda 5: nueva tienda, mismo saldo y formación conservada.
+10. Arena original: cargar duelo 4×4, iniciar semilla 42, velocidad ×2; **victoria ámbar / derrota jade, tick 142**, igual al resultado P2.
+
+Consulta de consola tras el recorrido: cero errores y cero avisos. Evidencia local ignorada por Git: `artifacts/f0p3-round4.png`, `artifacts/f0p3-arena.png`, `artifacts/f0p3-local.png`, `artifacts/f0p3-shop.png`.
+
+## Incidencias corregidas y límites
+
+- Una fixture inicial de banquillo lleno contenía triples ya combinables: se corrigió para representar un banquillo realmente bloqueado; no se modificaron pruebas anteriores.
+- La recarga en resolución restauraba correctamente el saldo, pero mostraba tick 0 y texto de preparación. Corregido restaurando el frame final; prueba de regresión y comprobación en navegador con tick 217.
+- Herramienta 21st no disponible en este entorno: revisión manual del diseño existente; no se declara revisión automática 21st.
+
+Prototipo local, no autoridad segura ni sincronización entre pestañas. Historial y ledger crecen sin compactación; restaurar reproduce el historial completo. La reproducción y la resolución lógica ejecutan el combate por separado para no confiar en un resultado aportado por UI. Rival configurado externo al pool del jugador, sin economía propia; el pool está preparado para ampliación, no compartido todavía entre cuatro clientes. Rondas abiertas, sin salud global ni fin de partida: `finished` reservado. Arte provisional y cuatro personajes ficticios. Requiere WebGL.
+
+No se ejecutó matriz multinavegador, dispositivo táctil real, auditoría WCAG completa ni suite E2E persistente. A 805×827 hay scroll vertical para tienda/banquillo; no se afirma que toda la pantalla quepa en ese viewport. Sin multijugador, servicios, cuentas, objetos, aumentos, carrusel, sinergias activas ni nuevas infraestructuras. **F0-P3 validado; F0-P4 no iniciado.**
+
+---
+
+# Registro histórico de validación F0-P2
+
+Ejecutada el **22 de octubre de 2026**, macOS, Node 26.9.0, pnpm 11.25.0. Este bloque describe el hito P2; los resultados actuales de P3 figuran al principio del documento.
 
 ## Auditoría previa y Git
 

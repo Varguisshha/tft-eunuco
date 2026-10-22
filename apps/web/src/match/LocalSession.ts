@@ -1,0 +1,264 @@
+import {
+  applyMatchAction,
+  commandFor,
+  createMatch,
+  isInBounds,
+  offsetToAxial,
+  opponentUnits,
+  replayMatch,
+  runCombat,
+  sameHex,
+  validateMatchState,
+  type MatchError,
+} from '@tft/game-core';
+import {
+  TICK_MS,
+  type MatchState,
+  type MatchCommand,
+  type OwnedUnit,
+  type HexCoord,
+} from '@tft/shared';
+import type { SessionSnapshot } from '../game/session';
+import type { BoardPort } from '../game/boardPort';
+import { CombatPlayback } from '../game/combatPlayback';
+export const MATCH_ERRORS: Record<MatchError, string> = {
+  'invalid-action': 'Acción inválida.',
+  'invalid-state': 'El estado de partida no supera la validación.',
+  'stale-action': 'Esta acción ya se procesó o pertenece a un estado anterior.',
+  'wrong-phase': 'Espera a la preparación para realizar esa acción.',
+  'insufficient-gold': 'No tienes oro suficiente.',
+  'missing-offer': 'Esta oferta ya no está disponible.',
+  'missing-unit': 'La unidad ya no está disponible.',
+  'bench-full': 'Banquillo lleno. Vende, despliega o completa una mejora.',
+  'invalid-location': 'Elige una casilla libre de tu mitad jade.',
+  'deployment-limit': 'Has alcanzado el límite de unidades de tu nivel.',
+  'max-level': 'Ya estás en el nivel máximo.',
+  'empty-board': 'Despliega al menos una unidad antes de combatir.',
+  'wrong-round': 'La acción no corresponde a esta ronda.',
+  'same-location': 'La unidad ya está en esa posición.',
+};
+export class LocalSession implements BoardPort {
+  private match: MatchState;
+  private view!: SessionSnapshot;
+  private listeners = new Set<() => void>();
+  private playback: CombatPlayback | null = null;
+  private paused = false;
+  private speed: 1 | 2 = 1;
+  private selectedId: string | null = null;
+  private cursor = offsetToAxial(2, 4);
+  private hovered: HexCoord | null = null;
+  private message = 'Compra una unidad y colócala en tu mitad jade.';
+  private invalid = false;
+  private save: ((state: MatchState) => void) | undefined;
+  dropOutside: ((unitId: string, x: number, y: number) => boolean) | undefined;
+  constructor(state: MatchState = createMatch(), save?: (state: MatchState) => void) {
+    this.match = validateMatchState(state);
+    this.save = save;
+    if (state.phase === 'combat' || state.phase === 'resolution') {
+      this.playback = new CombatPlayback(runCombat(state.combat!.input));
+      if (state.phase === 'resolution') {
+        this.playback.advance(this.playback.replay.result.tick * TICK_MS + 600);
+        this.message = 'Resultado recuperado. Las recompensas ya están incluidas en tu oro.';
+      } else this.message = 'Combate recuperado. Reproducción desde el inicio, sin nuevos cobros.';
+    }
+    this.publish();
+  }
+  get editable() {
+    return this.match.phase === 'preparation';
+  }
+  getMatch = () => this.match;
+  getSnapshot = () => this.view;
+  subscribe = (listener: () => void) => {
+    this.listeners.add(listener);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  };
+  combatFrame = () => this.playback?.frame() ?? null;
+  starsFor = (id: string) =>
+    this.match.units.find((u) => u.id === id)?.stars ??
+    (id.startsWith('rival-')
+      ? [...this.match.config.opponents].reverse().find((t) => t.fromRound <= this.match.round)!
+          .stars
+      : 1);
+  selected = (): OwnedUnit | undefined => this.match.units.find((u) => u.id === this.selectedId);
+  private publish(): void {
+    const board = {
+      units: [
+        ...this.match.units.flatMap((u) =>
+          u.location.kind === 'board'
+            ? [
+                {
+                  id: u.id,
+                  definitionId: u.definitionId,
+                  owner: 'south' as const,
+                  position: u.location.hex,
+                },
+              ]
+            : [],
+        ),
+        ...opponentUnits(this.match).map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      ],
+    };
+    const frame = this.playback?.frame();
+    this.view = {
+      board,
+      side: 'south',
+      selectedId: this.selectedId,
+      paletteId: null,
+      hover: this.hovered,
+      cursor: this.cursor,
+      message: this.message,
+      invalid: this.invalid,
+      revision: (this.view?.revision ?? 0) + 1,
+      combat: {
+        mode: this.editable
+          ? 'preparation'
+          : this.match.phase === 'resolution'
+            ? 'finished'
+            : this.paused
+              ? 'paused'
+              : 'playing',
+        seed: this.match.combat?.input.seed ?? this.match.seed,
+        tick: frame?.tick ?? 0,
+        speed: this.speed,
+        result: this.match.combat?.result ?? null,
+      },
+    };
+    this.listeners.forEach((l) => l());
+  }
+  dispatch(command: MatchCommand): boolean {
+    const result = applyMatchAction(this.match, commandFor(this.match, command));
+    if (!result.ok) {
+      this.message = MATCH_ERRORS[result.error];
+      this.invalid = true;
+      this.publish();
+      return false;
+    }
+    const oldUnits = new Set(this.match.units.map((u) => u.id));
+    this.match = result.state;
+    this.invalid = false;
+    if (command.type === 'buy_unit')
+      this.selectedId =
+        this.match.lastUpgrades.at(-1)?.id ??
+        this.match.units.find((u) => !oldUnits.has(u.id))?.id ??
+        this.selectedId;
+    if (this.selectedId && !this.match.units.some((u) => u.id === this.selectedId))
+      this.selectedId = null;
+    if (command.type === 'start_combat') {
+      this.playback = new CombatPlayback(runCombat(this.match.combat!.input));
+      this.playback.setSpeed(this.speed);
+      this.paused = false;
+    }
+    if (command.type === 'next_round') {
+      this.playback = null;
+      this.paused = false;
+    }
+    this.message =
+      this.match.lastUpgrades.length && command.type === 'buy_unit'
+        ? '¡Mejora completada! Las copias se han combinado.'
+        : command.type === 'start_combat'
+          ? 'Combate en curso.'
+          : command.type === 'resolve_round'
+            ? 'Ronda resuelta. Recompensas recibidas.'
+            : command.type === 'next_round'
+              ? 'Nueva ronda preparada.'
+              : command.type === 'buy_unit'
+                ? 'Unidad comprada. Selecciona su destino.'
+                : command.type === 'move_unit' || command.type === 'swap_units'
+                  ? 'Formación actualizada.'
+                  : command.type === 'sell_unit'
+                    ? 'Unidad vendida. Copias devueltas al pool.'
+                    : command.type === 'buy_xp'
+                      ? 'Experiencia comprada.'
+                      : command.type === 'reroll_shop'
+                        ? 'Tienda renovada.'
+                        : this.match.shopLocked
+                          ? 'Tienda bloqueada para la próxima ronda.'
+                          : 'Tienda desbloqueada.';
+    try {
+      this.save?.(this.match);
+    } catch {
+      this.message += ' No se pudo guardar en este navegador; la partida continúa en memoria.';
+    }
+    this.publish();
+    return true;
+  }
+  advanceCombat(delta: number): void {
+    if (!this.playback || this.match.phase !== 'combat' || this.paused) return;
+    const old = this.playback.frame().tick;
+    this.playback.advance(delta);
+    if (this.playback.finished) this.dispatch({ type: 'resolve_round', round: this.match.round });
+    else if (old !== this.playback.frame().tick) this.publish();
+  }
+  pauseCombat(): void {
+    if (this.match.phase !== 'combat') return;
+    this.paused = !this.paused;
+    this.playback?.setPaused(this.paused);
+    this.publish();
+  }
+  setSpeed(speed: 1 | 2): void {
+    this.speed = speed;
+    this.playback?.setSpeed(speed);
+    this.publish();
+  }
+  select(id: string): void {
+    this.selectedId = id;
+    const unit = this.selected();
+    if (unit?.location.kind === 'board') this.cursor = unit.location.hex;
+    this.message = this.editable
+      ? 'Selecciona destino, arrastra o vende la unidad.'
+      : 'Inspeccionando unidad.';
+    this.invalid = false;
+    this.publish();
+  }
+  setCursor(hex: HexCoord): void {
+    if (isInBounds(hex)) {
+      this.cursor = hex;
+      this.hovered = hex;
+      this.publish();
+    }
+  }
+  hover(hex: HexCoord | null): void {
+    if ((!hex && !this.hovered) || (hex && this.hovered && sameHex(hex, this.hovered))) return;
+    this.hovered = hex;
+    this.publish();
+  }
+  cancel(): void {
+    this.selectedId = null;
+    this.publish();
+  }
+  move(id: string, hex: HexCoord): boolean {
+    return this.dispatch({ type: 'move_unit', unitId: id, to: { kind: 'board', hex } });
+  }
+  activate(hex: HexCoord): void {
+    if (!this.editable) return;
+    if (this.selectedId && this.selected()) this.move(this.selectedId, hex);
+    else {
+      const found = this.match.units.find(
+        (u) => u.location.kind === 'board' && sameHex(u.location.hex, hex),
+      );
+      if (found) this.select(found.id);
+      else this.setCursor(hex);
+    }
+  }
+  bench(slot: number, id = this.selectedId): boolean {
+    return id
+      ? this.dispatch({ type: 'move_unit', unitId: id, to: { kind: 'bench', slot } })
+      : false;
+  }
+}
+export const SAVE_KEY = 'tft-eunuco-local-f0p3-1';
+/** Replay accepted commands on load: no mount-time rewards; combat restarts its visual replay. */
+export function restoreMatch(json: string): MatchState {
+  const saved = validateMatchState(JSON.parse(json));
+  const replayed = replayMatch(saved.seed, saved.history, saved.config);
+  if (JSON.stringify(replayed) !== JSON.stringify(saved))
+    throw new Error('Saved state does not match its history');
+  return replayed;
+}

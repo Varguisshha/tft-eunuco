@@ -15,7 +15,7 @@
 
 Preparación local, colocación y selección; movimiento con ratón o teclado; dos mitades; validación de límites, ocupación y propiedad. Panel de identificación y rol, zoom visual, restauración de ejemplo y controles de columna/fila.
 
-## Preparación: reglas provisionales del laboratorio
+## Preparación de la Arena: reglas del laboratorio
 
 No confundir estas decisiones con reglas finales de partida:
 
@@ -57,3 +57,9 @@ Arte futuro pixel-art retro moderno original; personajes inspirados en amigos re
 ## Sin decidir para el producto final
 
 Roster, nombres, habilidades/pasivas definitivas, balance, sinergias/umbrales, economía, emparejamientos de cuatro jugadores, rondas, identidad/persistencia y dirección de producción del arte. Las reglas f0p2-1 permiten probar combate y no aprueban su balance como definitivo.
+
+## Implementado en F0-P3: partida local
+
+Pantalla independiente de Arena con oro, tienda5, banquillo9, XP/niveles2–7, estrellas1–3, venta, rival determinista y varias rondas. Inicio10oro, base2/3/4/5, interés de1 por10 hasta5, victoria1 y rachas configurables. El jugador elige cuándo combatir. Ninguna economía afecta al laboratorio Arena.
+
+Las tablas exactas y adaptaciones respecto a referencias históricas están en ECONOMY_SPEC, SHOP_POOL_SPEC y PROGRESSION_SPEC. Las fases y el guardado están en ROUND_FLOW. La partida sigue abierta tras derrota/empate: no se ha añadido salud global, PvE o condición final. Sin sinergias activas ni personajes reales. Se conserva la dirección artística provisional, con aviso de mejora y estrellas sobre sprites existentes.

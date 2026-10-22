@@ -59,3 +59,7 @@ El placeholder conserva un único frame en los cinco clips. En F0-P2 el renderer
 ## Criterios de aceptación del arte
 
 Transparencia limpia, sin suavizado accidental; dimensiones constantes; todos los clips identificados; sin saltos del apoyo; death no se repite; ausencia de material protegido; archivos y metadatos versionados. Guardar fuente editable junto a cada entrega fuera del runtime si el colaborador lo desea. No integrar archivos definitivos en F0-P2.
+
+## F0-P3: estrellas y mejora
+
+Se conservan hojas y placeholders P2. Estrellas se dibujan por separado del sprite y la mejora tiene aviso visual temporal desde el resultado de la transacción. No se necesitan sprites específicos por estrella. Este overlay no cuenta copias ni modifica estadísticas; el escalado se realiza al construir el perfil en core.

@@ -12,7 +12,7 @@ React, TypeScript strict, Vite, Phaser 4 estable, pnpm workspaces y Vitest, seg�
 
 ## Product Purpose
 
-Autobattler original. F0-P2 ofrece preparación y combate determinista animado en una Arena de pruebas interna.
+Autobattler original. F0-P3 ofrece una partida local de varias rondas con economía, tienda, banquillo, progresión y combate determinista animado. Conserva la Arena de pruebas interna.
 
 ## Operating Context
 
@@ -28,8 +28,12 @@ Pixel-art retro moderno original. Dirección confirmada: arena oscura, jade y á
 
 ## Open Decisions
 
-Audiencia detallada, balance definitivo, economía, contenido final y arte definitivo pendientes. Reglas provisionales de combate: docs/COMBAT_SPEC.md.
+Audiencia detallada, balance definitivo, contenido final y arte definitivo pendientes. Reglas provisionales de combate: docs/COMBAT_SPEC.md; economía local: docs/ECONOMY_SPEC.md.
 
 ## Actualización F0-P2
 
 La pantalla se conserva como Arena de pruebas interna permanente; no constituye la dirección artística definitiva. Se añaden controles de combate y efectos funcionales, conservando jade/ámbar, selección y zoom. La futura pantalla de partida será independiente: tablero protagonista con terreno/profundidad, tienda de cinco, banquillo de nueve, economía, nivel/XP, etapa, clasificación, sinergias y panel contextual. Dirección pixel-art retro moderna original y futuro roster inspirado en amigos; sin assets definitivos ni rediseño completo en P2. Véanse docs/GAME_DESIGN_V0.1.md y docs/ROADMAP.md.
+
+## Actualización F0-P3
+
+Partida local ya existe como vista independiente de Arena: economía visible arriba, tablero central, contexto compacto, nueve plazas de banquillo y cinco ofertas inferiores. Se reutilizan colores, tipografías y sprites provisionales. Las reglas viven en core, con configuración versionada; no se implementa producción artística definitiva. Arena mantiene su propósito de diagnóstico y duelo controlado.

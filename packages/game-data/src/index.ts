@@ -45,3 +45,4 @@ export function getUnitDefinition(id: string): UnitDefinition | undefined {
   return UNIT_DEFINITIONS.find((unit) => unit.id === id);
 }
 export * from './combat';
+export * from './economy';

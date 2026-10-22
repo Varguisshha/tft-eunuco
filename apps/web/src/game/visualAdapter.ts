@@ -34,6 +34,7 @@ export function registerPlaceholder(
 export class PhaserUnitVisual implements UnitVisual {
   readonly sprite: Phaser.GameObjects.Sprite;
   private marker: Phaser.GameObjects.Ellipse;
+  private stars: Phaser.GameObjects.Text;
   private foot = { x: 0, y: 0 };
   private flipped = false;
   private readonly meta: SpriteMetadata;
@@ -44,6 +45,9 @@ export class PhaserUnitVisual implements UnitVisual {
     side: 'north' | 'south',
   ) {
     this.meta = SpriteMetadataSchema.parse(metadata);
+    this.stars = scene.add
+      .text(0, 0, '', { fontSize: '16px', color: '#e7cb85', stroke: '#101916', strokeThickness: 3 })
+      .setOrigin(0.5);
     this.marker = scene.add
       .ellipse(0, 0, 42, 14, 0x080e0b, 0.55)
       .setStrokeStyle(1, side === 'south' ? 0x8bc4a2 : 0xdfb579, 0.65);
@@ -68,6 +72,7 @@ export class PhaserUnitVisual implements UnitVisual {
   }
   setFootPosition(x: number, y: number): void {
     this.foot = { x, y };
+    this.stars.setPosition(x, y + 14).setDepth(y + 12);
     const offset = originOffset(this.meta, this.scale, this.flipped);
     this.marker.setPosition(x, y).setDepth(y + 9);
     this.sprite.setPosition(x + offset.x, y + offset.y).setDepth(y + 10);
@@ -88,12 +93,17 @@ export class PhaserUnitVisual implements UnitVisual {
     if (this.meta.frameCount > 1 && this.scene.anims.exists(`${this.meta.id}:${animation}`))
       this.sprite.play(`${this.meta.id}:${animation}`, true);
   }
+  setStars(count: number): void {
+    this.stars.setText(count > 1 ? '★'.repeat(count) : '');
+  }
   setOpacity(alpha: number): void {
+    this.stars.setAlpha(alpha);
     this.sprite.setAlpha(alpha);
     this.marker.setAlpha(alpha);
   }
   destroy(): void {
     this.marker.destroy();
+    this.stars.destroy();
     this.sprite.destroy();
   }
 }
