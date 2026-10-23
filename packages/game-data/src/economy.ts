@@ -58,3 +58,9 @@ export const CURRENT_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...ECONOMY_CONFIG,
   catalog: 'f0p6a',
 });
+
+/** Same economy; explicit combat catalog opt-in only. */
+export const ADVANCED_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...CURRENT_ECONOMY_CONFIG,
+  catalog: 'f0p6b1',
+});

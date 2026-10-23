@@ -1,4 +1,11 @@
-import { CombatSeedSchema, type CombatStats, type CombatUnit, type DamageType } from '@tft/shared';
+import {
+  ADVANCED_STATS_DEFAULTS,
+  STAT_LIMITS,
+  CombatSeedSchema,
+  type CombatStats,
+  type CombatUnit,
+  type DamageType,
+} from '@tft/shared';
 export const compareIds = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0);
 export function randomUint32(state: number): { state: number; value: number } {
   CombatSeedSchema.parse(state);
@@ -23,19 +30,40 @@ export function mitigateDamage(
   const denominator = resistance >= 0 ? 100 + resistance : 100 - resistance;
   return Math.max(1, Math.floor((damage * numerator) / denominator));
 }
-export function effectiveStat(
-  unit: CombatUnit,
-  stat: 'maxHp' | 'attack' | 'armor' | 'magicResist' | 'attackSpeedMilli',
-): number {
-  const total =
-    unit.profile.stats[stat] +
-    unit.statuses
-      .filter((s) => s.kind === 'modifier' && s.stat === stat)
-      .reduce((sum, s) => sum + s.amount, 0);
-  if (stat === 'attackSpeedMilli') return Math.max(1, Math.min(5000, total));
-  if (stat === 'maxHp') return Math.max(1, Math.min(1_000_000, total));
-  if (stat === 'attack') return Math.max(0, Math.min(1_000_000, total));
-  return Math.max(-10000, Math.min(10000, total));
+export type EffectiveStat =
+  | 'maxHp'
+  | 'attack'
+  | 'abilityPower'
+  | 'critChanceMilli'
+  | 'critMultiplierMilli'
+  | 'armor'
+  | 'magicResist'
+  | 'attackSpeedMilli';
+/** Flat and percent sources add independently. Percentages reference the star-scaled base only. */
+export function effectiveStat(unit: CombatUnit, stat: EffectiveStat): number {
+  const base =
+    unit.profile.stats[stat] ??
+    ADVANCED_STATS_DEFAULTS[stat as keyof typeof ADVANCED_STATS_DEFAULTS];
+  const modifiers = unit.statuses.filter((s) => s.kind === 'modifier' && s.stat === stat);
+  const flat = modifiers
+    .filter((s) => s.mode !== 'percent_milli')
+    .reduce((sum, s) => sum + s.amount, 0);
+  const percent = modifiers
+    .filter((s) => s.mode === 'percent_milli')
+    .reduce((sum, s) => sum + s.amount, 0);
+  // BigInt keeps the sum exact even with many simultaneous percent sources.
+  const product = BigInt(base) * BigInt(percent);
+  const percentValue = Number(product >= 0n ? product / 1000n : (product - 999n) / 1000n);
+  const total = base + flat + percentValue;
+  if (stat === 'attackSpeedMilli')
+    return Math.max(1, Math.min(STAT_LIMITS.attackSpeedMilli, total));
+  if (stat === 'critChanceMilli') return Math.max(0, Math.min(STAT_LIMITS.critChanceMilli, total));
+  if (stat === 'critMultiplierMilli')
+    return Math.max(1000, Math.min(STAT_LIMITS.critMultiplierMilli, total));
+  if (stat === 'maxHp') return Math.max(1, Math.min(STAT_LIMITS.amount, total));
+  if (stat === 'attack' || stat === 'abilityPower')
+    return Math.max(0, Math.min(STAT_LIMITS.amount, total));
+  return Math.max(-STAT_LIMITS.defense, Math.min(STAT_LIMITS.defense, total));
 }
 export function attackIntervalMs(stats: CombatStats): number {
   return 1_000_000 / stats.attackSpeedMilli;

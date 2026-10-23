@@ -1,3 +1,4 @@
+import { advancedRules, effectAmount, criticalRoll } from './stats';
 import { prepareTraitProfiles } from './traits';
 import { activeAbility, abilityConditions } from './abilities';
 import {
@@ -33,6 +34,8 @@ type EffectTask = {
   target: CombatUnit;
   effect: CombatEffect;
   cause: 'attack' | 'ability';
+  critical?: boolean;
+  origin?: 'active' | 'passive' | 'trait';
 };
 /** Local mutable implementation with exclusive ownership; public snapshots/events are deep copies. */
 export class CombatEngine {
@@ -95,7 +98,7 @@ export class CombatEngine {
           activation: runtime.count,
         });
         for (const effect of rule.effects)
-          tasks.push(...this.effectTasks(unit, signal.target ?? unit, effect));
+          tasks.push(...this.effectTasks(unit, signal.target ?? unit, effect, 'passive'));
       }
       this.resolveEffects(tasks);
     }
@@ -118,12 +121,14 @@ export class CombatEngine {
         hp: u.profile.stats.maxHp,
         mana: u.profile.stats.startingMana,
         attackCharge: 10000,
-        statuses: [],
+        statuses: prepared.modifiers.filter((m) => m.unitId === u.id).map((m) => m.status),
         action: null,
         targetId: null,
         deathTick: null,
       })),
     };
+    if (advancedRules(this.input.rulesVersion))
+      for (const u of this.state.units) u.hp = effectiveStat(u, 'maxHp');
     this.emit('combat_start', {
       rulesVersion: this.input.rulesVersion,
       seed: this.input.seed,
@@ -136,11 +141,11 @@ export class CombatEngine {
     const tasks: EffectTask[] = [];
     for (const { unitId, effect } of prepared.effects) {
       const u = this.getUnit(unitId)!;
-      tasks.push(...this.effectTasks(u, u, effect));
+      tasks.push(...this.effectTasks(u, u, effect, 'trait'));
     }
     for (const u of this.state.units)
       for (const effect of u.profile.passive?.effects ?? [])
-        tasks.push(...this.effectTasks(u, u, effect));
+        tasks.push(...this.effectTasks(u, u, effect, 'passive'));
     this.resolveEffects(tasks);
     if (this.state.tick === 0)
       for (const unit of this.state.units) this.triggers.push({ unit, trigger: 'combat_start' });
@@ -212,7 +217,12 @@ export class CombatEngine {
     unit.mana += gained;
     this.emit('mana_gain', { unitId: unit.id, amount: gained, manaAfter: unit.mana });
   }
-  private effectTasks(source: CombatUnit, target: CombatUnit, effect: CombatEffect): EffectTask[] {
+  private effectTasks(
+    source: CombatUnit,
+    target: CombatUnit,
+    effect: CombatEffect,
+    origin: 'active' | 'passive' | 'trait' = 'active',
+  ): EffectTask[] {
     const targets =
       effect.target === 'self'
         ? [source]
@@ -233,7 +243,7 @@ export class CombatEngine {
     return targets
       .filter(isAlive)
       .sort((a, b) => compareIds(a.id, b.id))
-      .map((u) => ({ source, target: u, effect, cause: 'ability' }));
+      .map((u) => ({ source, target: u, effect, cause: 'ability', origin }));
   }
   private resolveEffects(tasks: EffectTask[]): void {
     // All actions finishing this tick are committed before any damage. Support first; deaths last.
@@ -244,24 +254,22 @@ export class CombatEngine {
       .sort((a, b) => priority(a.task) - priority(b.task) || a.index - b.index);
     for (const { task } of sorted) {
       const { source, target, effect, cause } = task;
-      const amountValue =
-        'amount' in effect
-          ? effect.amount +
-            (effect.scaling
-              ? Math.floor(
-                  (effectiveStat(
-                    effect.scaling.basis === 'source' ? source : target,
-                    effect.scaling.stat,
-                  ) *
-                    effect.scaling.ratioMilli) /
-                    1000,
-                )
-              : 0)
-          : 0;
+      const amountValue = effectAmount(effect, source, target);
       if (!eligible.has(target.id)) continue;
-      if (effect.kind === 'damage')
-        this.damage(source, target, amountValue, effect.damageType, cause);
-      else if (effect.kind === 'heal') {
+      if (effect.kind === 'damage') {
+        let amount = amountValue;
+        let critical = task.critical;
+        if (advancedRules(this.input.rulesVersion)) {
+          critical ??= false;
+          if (cause === 'ability' && effect.canCrit === true && target.hp > 0) {
+            const roll = criticalRoll(source, amount, this.state.rngState);
+            this.state.rngState = roll.rngState;
+            amount = roll.amount;
+            critical = roll.critical;
+          }
+        }
+        this.damage(source, target, amount, effect.damageType, cause, critical);
+      } else if (effect.kind === 'heal') {
         const healed = Math.min(
           scaleCombatAmount(
             amountValue,
@@ -308,7 +316,10 @@ export class CombatEngine {
           kind: effect.kind,
           stat: effect.kind === 'modifier' ? effect.stat : null,
           amount,
-          expiresTick: this.state.tick + effect.duration,
+          expiresTick: effect.duration === null ? null : this.state.tick + effect.duration,
+          ...(advancedRules(this.input.rulesVersion) && effect.kind === 'modifier'
+            ? { mode: effect.mode ?? ('flat' as const), origin: task.origin ?? ('active' as const) }
+            : {}),
         };
         target.statuses.push(status);
         if (effect.kind === 'modifier' && effect.stat === 'maxHp')
@@ -336,6 +347,7 @@ export class CombatEngine {
     raw: number,
     type: DamageType,
     cause: 'attack' | 'ability',
+    critical?: boolean,
   ): void {
     if (target.hp <= 0) return;
     let remaining = mitigateDamage(
@@ -347,7 +359,11 @@ export class CombatEngine {
     let absorbed = 0;
     const shields = target.statuses
       .filter((s) => s.kind === 'shield')
-      .sort((a, b) => a.expiresTick - b.expiresTick || compareIds(a.id, b.id));
+      .sort(
+        (a, b) =>
+          (a.expiresTick ?? Number.MAX_SAFE_INTEGER) - (b.expiresTick ?? Number.MAX_SAFE_INTEGER) ||
+          compareIds(a.id, b.id),
+      );
     for (const shield of shields) {
       const take = Math.min(remaining, shield.amount);
       shield.amount -= take;
@@ -372,6 +388,7 @@ export class CombatEngine {
       damageType: type,
       cause,
       impact: target.position,
+      ...(critical !== undefined ? { critical } : {}),
     });
     if (damage > 0)
       this.triggers.push({ unit: target, trigger: 'hp_crossed', beforeHp, target: source });
@@ -431,7 +448,9 @@ export class CombatEngine {
       });
     // 1. Expiration, then charge accumulation. A stun ending now no longer blocks this tick.
     for (const unit of this.state.units.filter(isAlive)) {
-      for (const status of unit.statuses.filter((s) => s.expiresTick <= this.state.tick)) {
+      for (const status of unit.statuses.filter(
+        (s) => s.expiresTick !== null && s.expiresTick <= this.state.tick,
+      )) {
         this.emit('status_expire', { unitId: unit.id, statusId: status.id, reason: 'duration' });
         this.triggers.push({
           unit,
@@ -439,7 +458,9 @@ export class CombatEngine {
           ...(status.key ? { key: status.key } : {}),
         });
       }
-      unit.statuses = unit.statuses.filter((s) => s.expiresTick > this.state.tick);
+      unit.statuses = unit.statuses.filter(
+        (s) => s.expiresTick === null || s.expiresTick > this.state.tick,
+      );
       unit.hp = Math.min(unit.hp, effectiveStat(unit, 'maxHp'));
       if (!isStunned(unit) && unit.attackCharge < 10000)
         unit.attackCharge += Math.floor(
@@ -477,6 +498,7 @@ export class CombatEngine {
             damageType: projectile.damageType,
           },
           cause: 'attack',
+          ...(projectile.critical !== undefined ? { critical: projectile.critical } : {}),
         });
     }
     this.state.projectiles = this.state.projectiles.filter((p) => p.impactTick > this.state.tick);
@@ -515,6 +537,7 @@ export class CombatEngine {
             to: { ...target.position },
             rawDamage: action.rawDamage,
             damageType: 'physical' as const,
+            ...(action.critical !== undefined ? { critical: action.critical } : {}),
           };
           this.state.projectiles.push(projectile);
           this.emit('projectile_launch', projectile);
@@ -530,6 +553,7 @@ export class CombatEngine {
               damageType: 'physical',
             },
             cause: 'attack',
+            ...(action.critical !== undefined ? { critical: action.critical } : {}),
           });
       } else {
         const ability = activeAbility(unit.profile);
@@ -603,10 +627,17 @@ export class CombatEngine {
         unit.attackCharge -= 10000;
         const random = randomUint32(this.state.rngState);
         this.state.rngState = random.state;
-        const rawDamage = Math.min(
+        let rawDamage = Math.min(
           1_000_000,
           Math.floor((effectiveStat(unit, 'attack') * (950 + (random.value % 101))) / 1000),
         );
+        let critical: boolean | undefined;
+        if (advancedRules(this.input.rulesVersion)) {
+          const roll = criticalRoll(unit, rawDamage, this.state.rngState);
+          this.state.rngState = roll.rngState;
+          rawDamage = roll.amount;
+          critical = roll.critical;
+        }
         const ranged = unit.profile.stats.range > 1;
         const endTick = this.state.tick + unit.profile.stats.attackWindupTicks;
         unit.action = {
@@ -616,6 +647,7 @@ export class CombatEngine {
           targetId: target.id,
           rawDamage,
           ranged,
+          ...(critical !== undefined ? { critical } : {}),
         };
         this.emit('attack_start', {
           unitId: unit.id,

@@ -1,12 +1,18 @@
 import { useState, useSyncExternalStore } from 'react';
-import { axialToOffset, offsetToAxial, effectiveStat, shieldTotal } from '@tft/game-core';
+import {
+  axialToOffset,
+  offsetToAxial,
+  baseStatsView,
+  combatStatsView,
+  shieldTotal,
+} from '@tft/game-core';
 import {
   getUnitDefinition,
   CHARACTER_ROSTER,
-  CURRENT_ECONOMY_CONFIG,
+  ADVANCED_ECONOMY_CONFIG,
   abilityPresentation,
 } from '@tft/game-data';
-import { scaledProfile, overtimeModifiers } from '@tft/game-core';
+import { scaledProfile } from '@tft/game-core';
 import { passiveReadout } from './game/combatFeedback';
 import { PassiveStatus } from './game/PassiveStatus';
 import { SpritePreview } from './game/SpritePreview';
@@ -53,8 +59,13 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
     liveUnit?.profile ??
     session.diagnosticProfile(selected?.id ?? '') ??
     (definition
-      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), CURRENT_ECONOMY_CONFIG)
+      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), ADVANCED_ECONOMY_CONFIG)
       : undefined);
+  const stats = liveUnit
+    ? combatStatsView(liveUnit, combatFrame?.tick ?? 0, session.combatOvertime())
+    : profile
+      ? baseStatsView(profile)
+      : undefined;
   const ability = profile ? abilityPresentation(profile) : null;
   const activeCoord = state.hover ?? selected?.position ?? state.cursor;
   const offset = axialToOffset(activeCoord);
@@ -76,7 +87,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
           Laboratorio de combate
         </div>
         <span className="version">
-          F0–P6A.1 <span>·</span> PROTOTIPO LOCAL
+          F0–P6B.1 <span>·</span> PROTOTIPO LOCAL
         </span>
       </header>
       <main id="arena">
@@ -277,7 +288,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                       <>
                         <div>
                           <dt>Armadura efectiva</dt>
-                          <dd>{effectiveStat(liveUnit, 'armor')}</dd>
+                          <dd>{stats?.armor}</dd>
                         </div>
                         <div>
                           <dt>Escudo</dt>
@@ -285,12 +296,12 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                         </div>
                       </>
                     )}
-                    {profile && (
+                    {profile && stats && (
                       <>
                         <div>
                           <dt>Vida</dt>
                           <dd>
-                            {liveUnit?.hp ?? profile.stats.maxHp} / {profile.stats.maxHp}
+                            {liveUnit?.hp ?? stats.maxHp} / {stats.maxHp}
                           </dd>
                         </div>
                         <div>
@@ -300,23 +311,30 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                           </dd>
                         </div>
                         <div>
-                          <dt>Ataque base / alcance</dt>
+                          <dt>AD / alcance</dt>
                           <dd>
-                            {profile.stats.attack} / {profile.stats.range}
+                            {stats.attack} / {stats.range}
                           </dd>
                         </div>
                         <div>
                           <dt>{liveUnit ? 'Ataques/s efectivos' : 'Ataques/s base'}</dt>
-                          <dd>
-                            {liveUnit && combatFrame
-                              ? Math.floor(
-                                  (effectiveStat(liveUnit, 'attackSpeedMilli') *
-                                    overtimeModifiers(combatFrame.tick, session.combatOvertime())
-                                      .attackSpeedMilli) /
-                                    1000,
-                                ) / 1000
-                              : profile.stats.attackSpeedMilli / 1000}
-                          </dd>
+                          <dd>{stats.attackSpeedMilli / 1000}</dd>
+                        </div>
+                        <div>
+                          <dt>AP</dt>
+                          <dd>{stats.abilityPower}</dd>
+                        </div>
+                        <div>
+                          <dt>Prob. crítico</dt>
+                          <dd>{stats.critChanceMilli / 10}%</dd>
+                        </div>
+                        <div>
+                          <dt>Daño crítico</dt>
+                          <dd>{stats.critMultiplierMilli / 10}%</dd>
+                        </div>
+                        <div>
+                          <dt>Resist. mágica</dt>
+                          <dd>{stats.magicResist}</dd>
                         </div>
                         <div>
                           <dt>Objetivo</dt>
@@ -468,7 +486,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
       </main>
       {combatFrame && (
         <details className="ability-diagnostics">
-          <summary>Eventos de habilidades y sinergias</summary>
+          <summary>Eventos de combate</summary>
           <ol>
             {(combatFrame.feedbackEvents ?? combatFrame.recentEvents)
               .filter(
@@ -478,7 +496,8 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                   e.type === 'trait_activate' ||
                   e.type === 'status_apply' ||
                   e.type === 'status_expire' ||
-                  (e.type === 'damage' && e.payload.absorbed > 0) ||
+                  e.type === 'damage' ||
+                  e.type === 'heal' ||
                   e.type === 'shield_apply',
               )
               .slice(-24)

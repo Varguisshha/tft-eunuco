@@ -1,4 +1,10 @@
-# Sistema de sinergias — F0-P6A.1
+# Sistema de sinergias — F0-P6B.1
+
+## Fuentes estadísticas en reglas avanzadas
+
+En `f0p6b1-1`, las bonificaciones de sinergia se representan como estados modificadores con `origin: trait`, `sourceId` de la sinergia, `mode` plano/porcentual y `expiresTick: null`. Se aplican antes de inicializar HP, conservando los perfiles base por estrellas. El cálculo efectivo suma planos y porcentajes de la base; Overtime multiplica al final la velocidad. El camino histórico conserva sus perfiles preparados originales.
+
+Hortaleza y Llama de Pádel mantienen sus valores, política `highest`, conteo distinto y exclusión del banquillo. Cada ronda reconstruye sus fuentes. El contrato permite bonificar AD, AP, probabilidad y multiplicador crítico además de las estadísticas previas; no se añade una sinergia nueva en esta fase. Un umbral de un solo miembro ya es expresable, sin implementar El Depredador. Véase [ADVANCED_STATS.md](ADVANCED_STATS.md).
 
 ## Diagnóstico comprobado en P6A.1
 

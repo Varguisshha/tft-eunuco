@@ -1,5 +1,11 @@
 import { z } from 'zod';
 import {
+  ADVANCED_COMBAT_RULES,
+  ModifierModeSchema,
+  ModifierOriginSchema,
+  STAT_LIMITS,
+} from './advanced-stats';
+import {
   EffectSchema,
   ChampionAbilitySchema,
   ModifiableStatSchema,
@@ -18,7 +24,7 @@ import {
 export const COMBAT_PROTOCOL = 3 as const;
 export const COMBAT_RULES = 'f0p3.1-1' as const;
 export const CURRENT_COMBAT_RULES = 'f0p6a-1' as const;
-const RulesSchema = z.enum([COMBAT_RULES, CURRENT_COMBAT_RULES]);
+const RulesSchema = z.enum([COMBAT_RULES, CURRENT_COMBAT_RULES, ADVANCED_COMBAT_RULES]);
 export const MAX_COMBAT_TICKS = 450;
 export const OVERTIME_START_TICK = 300;
 const increase = z
@@ -48,6 +54,9 @@ export const CombatStatsSchema = z
   .strictObject({
     maxHp: amount.min(1),
     attack: amount,
+    abilityPower: amount.optional(),
+    critChanceMilli: z.number().int().min(0).max(STAT_LIMITS.critChanceMilli).optional(),
+    critMultiplierMilli: z.number().int().min(1000).max(STAT_LIMITS.critMultiplierMilli).optional(),
     armor: z.number().int().min(-1_000_000).max(1_000_000),
     magicResist: z.number().int().min(-1_000_000).max(1_000_000),
     attackSpeedMilli: z.number().int().min(1).max(5000),
@@ -75,6 +84,7 @@ export const PassiveSchema = z.strictObject({
 export const CombatProfileSchema = z
   .strictObject({
     stats: CombatStatsSchema,
+    starLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
     ability: AbilitySchema.nullable(),
     passive: PassiveSchema.nullable(),
     championAbility: ChampionAbilitySchema.optional(),
@@ -99,6 +109,13 @@ export const CombatProfileSchema = z
   );
 export type CombatProfile = z.infer<typeof CombatProfileSchema>;
 export const CombatantSpecSchema = UnitInstanceSchema.extend({ profile: CombatProfileSchema });
+const advancedStat = (stat: string) =>
+  ['abilityPower', 'critChanceMilli', 'critMultiplierMilli'].includes(stat);
+const advancedEffect = (e: import('./abilities').CombatEffect) =>
+  ('powerScaling' in e && e.powerScaling !== undefined) ||
+  ('amountByStars' in e && e.amountByStars !== undefined) ||
+  ('canCrit' in e && e.canCrit !== undefined) ||
+  (e.kind === 'modifier' && (e.mode !== undefined || e.duration === null || advancedStat(e.stat)));
 export const CombatInputSchema = z
   .strictObject({
     protocolVersion: z.literal(COMBAT_PROTOCOL),
@@ -138,6 +155,47 @@ export const CombatInputSchema = z
       )
     )
       ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
+    const advanced = input.rulesVersion === ADVANCED_COMBAT_RULES;
+    for (const unit of input.units) {
+      const p = unit.profile;
+      const fields = [p.stats.abilityPower, p.stats.critChanceMilli, p.stats.critMultiplierMilli];
+      if (advanced && (fields.some((v) => v === undefined) || p.starLevel === undefined))
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Advanced rules require explicit stats and star level',
+        });
+      if (!advanced && (fields.some((v) => v !== undefined) || p.starLevel !== undefined))
+        ctx.addIssue({ code: 'custom', message: 'Advanced stats require f0p6b1-1' });
+      const effects = [
+        ...(p.ability?.effects ?? []),
+        ...(p.passive?.effects ?? []),
+        ...(p.championAbility?.active?.effects ?? []),
+        ...(p.championAbility?.passive?.rules.flatMap((r) => r.effects) ?? []),
+      ];
+      if (advanced && effects.some((e) => e.stacking === 'refresh' && !e.key))
+        ctx.addIssue({ code: 'custom', message: 'Advanced refresh requires a stable source key' });
+      if (!advanced && effects.some(advancedEffect))
+        ctx.addIssue({ code: 'custom', message: 'Advanced effects require f0p6b1-1' });
+    }
+    if (
+      !advanced &&
+      input.traits?.some((t) =>
+        t.thresholds.some(
+          (r) => r.bonuses.some((b) => advancedStat(b.stat)) || r.effects.some(advancedEffect),
+        ),
+      )
+    )
+      ctx.addIssue({ code: 'custom', message: 'Advanced traits require f0p6b1-1' });
+    if (
+      advanced &&
+      input.traits?.some((t) =>
+        t.thresholds.some((r) => r.effects.some((e) => e.stacking === 'refresh' && !e.key)),
+      )
+    )
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Advanced trait refresh requires a stable source key',
+      });
     const board = BoardStateSchema.safeParse({
       units: input.units.map(({ id, definitionId, owner, position }) => ({
         id,
@@ -164,8 +222,10 @@ export const CombatStatusSchema = z.strictObject({
   kind: z.enum(['shield', 'modifier', 'stun']),
   stat: ModifiableStatSchema.nullable(),
   key: id.optional(),
+  mode: ModifierModeSchema.optional(),
+  origin: ModifierOriginSchema.optional(),
   amount: z.number().int().min(-1_000_000).max(1_000_000),
-  expiresTick: natural,
+  expiresTick: natural.nullable(),
 });
 export type CombatStatus = z.infer<typeof CombatStatusSchema>;
 export const CombatActionSchema = z.discriminatedUnion('kind', [
@@ -183,6 +243,7 @@ export const CombatActionSchema = z.discriminatedUnion('kind', [
     targetId: id,
     rawDamage: amount,
     ranged: z.boolean(),
+    critical: z.boolean().optional(),
   }),
   z.strictObject({
     kind: z.literal('cast'),
@@ -223,6 +284,7 @@ export const ProjectileSchema = z.strictObject({
   to: HexCoordSchema,
   rawDamage: amount,
   damageType: DamageTypeSchema,
+  critical: z.boolean().optional(),
 });
 export type CombatProjectile = z.infer<typeof ProjectileSchema>;
 export const CombatResultSchema = z
@@ -296,6 +358,7 @@ export const CombatEventV3Schema = z
         shieldAfter: amount,
         damageType: DamageTypeSchema,
         cause: z.enum(['attack', 'ability']),
+        critical: z.boolean().optional(),
         impact: HexCoordSchema,
       }),
     ),

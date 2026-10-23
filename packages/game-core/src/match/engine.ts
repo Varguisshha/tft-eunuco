@@ -1,9 +1,7 @@
-import { TRAIT_DEFINITIONS } from '@tft/game-data';
+import { TRAIT_DEFINITIONS, hasTraits, combatRulesFor } from '@tft/game-data';
 import {
   CombatInputSchema,
   COMBAT_PROTOCOL,
-  COMBAT_RULES,
-  CURRENT_COMBAT_RULES,
   MAX_COMBAT_TICKS,
   EconomyConfigSchema,
   MatchActionSchema,
@@ -206,8 +204,8 @@ function startCombat(state: MatchState, allowEmpty = false): void {
     bank: state.gold,
     input: CombatInputSchema.parse({
       protocolVersion: COMBAT_PROTOCOL,
-      rulesVersion: state.config.catalog === 'f0p6a' ? CURRENT_COMBAT_RULES : COMBAT_RULES,
-      ...(state.config.catalog === 'f0p6a' ? { traits: TRAIT_DEFINITIONS } : {}),
+      rulesVersion: combatRulesFor(state.config.catalog),
+      ...(hasTraits(state.config.catalog) ? { traits: TRAIT_DEFINITIONS } : {}),
       seed: next.value,
       maxTicks: MAX_COMBAT_TICKS,
       obstacles: [],

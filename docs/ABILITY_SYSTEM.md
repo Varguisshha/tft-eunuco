@@ -1,4 +1,12 @@
-# Sistema de habilidades — F0-P6A.1
+# Sistema de habilidades — F0-P6B.1
+
+## Escalados y críticos avanzados
+
+Reglas `f0p6b1-1`: daño, curación y escudo pueden declarar `powerScaling: {version:1, adRatioMilli, apRatioMilli}`, con coeficientes fijos o ternas por estrellas. `amount` sigue siendo la base; `amountByStars` permite importes explícitos y excluye `starScaling: stat`. La fórmula suma todos los términos antes del suelo; el tipo físico/mágico/verdadero sigue siendo independiente de AD/AP.
+
+Solo daño admite `canCrit: true`; omitirlo mantiene la habilidad sin críticos. Curación y escudos no critican. Las tiradas de habilidades ocurren al resolver el efecto sobre cada objetivo, con la fuente efectiva de ese instante. Los básicos conservan sus estadísticas y crítico desde el inicio hasta el impacto.
+
+Modificadores nuevos admiten `mode: flat | percent_milli` y `duration: null` para todo el combate. Fuentes de sinergia, pasiva y activa se distinguen sin mutar las bases. Contratos anteriores siguen ejecutándose bajo sus reglas originales. DOLEA conserva Volumen Sucio, sus importes planos y su escudo porcentual original; no se le asigna ratio AD/AP ni permiso crítico. Detalle, stacking y ejemplos en [ADVANCED_STATS.md](ADVANCED_STATS.md).
 
 ## Lectura visual de pasivas y escudos
 

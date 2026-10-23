@@ -13,14 +13,22 @@ import {
 import {
   UNIT_DEFINITIONS,
   createCombatInput,
+  createAdvancedCombatInput,
   createCombatScenario,
   createAbilityScenario,
+  createStatsScenario,
+  type StatsScenario,
   type AbilityScenario,
   type CombatScenario,
   COMBAT_PROFILES,
   ECONOMY_CONFIG,
 } from '@tft/game-data';
-import { CombatSeedSchema, type CombatInput, type CombatResult } from '@tft/shared';
+import {
+  ADVANCED_COMBAT_RULES,
+  CombatSeedSchema,
+  type CombatInput,
+  type CombatResult,
+} from '@tft/shared';
 import { CombatPlayback } from './combatPlayback';
 import type { BoardState, HexCoord, Side, UnitInstance } from '@tft/shared';
 export const ERROR_MESSAGES: Record<PlacementError, string> = {
@@ -171,6 +179,25 @@ export class BoardSession {
             : 'eliminación simultánea.'),
     });
   }
+  loadStatsScenario(scenario: StatsScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createStatsScenario(scenario, this.snapshot.combat.seed);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: scenario === 'dolea-advanced' ? 'diagnostic-dolea' : 'stats-source',
+      paletteId: null,
+      invalid: false,
+      message: `Diagnóstico de estadísticas: ${scenario}. Perfiles ficticios fuera del roster.`,
+    });
+  }
   loadAbilityScenario(scenario: AbilityScenario): void {
     this.returnToPreparation();
     this.visualStars.clear();
@@ -202,8 +229,22 @@ export class BoardSession {
       const setup =
         repeat && this.lastInput
           ? this.lastInput
-          : createCombatInput(this.snapshot.board, this.snapshot.combat.seed);
-      if (!repeat && this.scenarioInput)
+          : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
+              ? createAdvancedCombatInput
+              : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
+      if (!repeat && this.scenarioInput) {
+        setup.rulesVersion = this.scenarioInput.rulesVersion;
+        setup.traits =
+          setup.rulesVersion === ADVANCED_COMBAT_RULES
+            ? [
+                ...new Map(
+                  [...(setup.traits ?? []), ...(this.scenarioInput.traits ?? [])].map((t) => [
+                    t.id,
+                    t,
+                  ]),
+                ).values(),
+              ]
+            : this.scenarioInput.traits;
         setup.units = setup.units.map((u) => ({
           ...u,
           profile:
@@ -211,6 +252,7 @@ export class BoardSession {
               (p) => p.id === u.id && p.definitionId === u.definitionId,
             )?.profile ?? u.profile,
         }));
+      }
       const replay = runCombat(setup);
       this.lastInput = replay.input;
       this.playback = new CombatPlayback(replay);

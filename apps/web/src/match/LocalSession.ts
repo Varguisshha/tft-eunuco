@@ -1,4 +1,4 @@
-import { effectiveStat, formationProfiles, shieldTotal, overtimeModifiers } from '@tft/game-core';
+import { baseStatsView, combatStatsView, formationProfiles, shieldTotal } from '@tft/game-core';
 import {
   applyMatchAction,
   commandFor,
@@ -138,24 +138,10 @@ export class LocalSession implements BoardPort {
           ...baseProfile,
           stats: {
             ...baseProfile.stats,
-            ...Object.fromEntries(
-              (['maxHp', 'attack', 'armor', 'magicResist', 'attackSpeedMilli'] as const).map(
-                (stat) => [
-                  stat,
-                  stat === 'attackSpeedMilli' && frame
-                    ? Math.floor(
-                        (effectiveStat(live, stat) *
-                          overtimeModifiers(frame.state.tick, this.playback?.replay.input.overtime)
-                            .attackSpeedMilli) /
-                          1000,
-                      )
-                    : effectiveStat(live, stat),
-                ],
-              ),
-            ),
+            ...combatStatsView(live, frame?.tick ?? 0, this.playback?.replay.input.overtime),
           },
         }
-      : baseProfile;
+      : { ...baseProfile, stats: baseStatsView(baseProfile) };
     return {
       id: unit.id,
       definitionId: unit.definitionId,

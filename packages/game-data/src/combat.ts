@@ -1,5 +1,8 @@
 import { DOLEA_ABILITY, TRAIT_DEFINITIONS } from './abilities';
 import {
+  ADVANCED_STATS_DEFAULTS,
+  ADVANCED_COMBAT_RULES,
+  COMBAT_RULES,
   CombatInputSchema,
   CombatProfileSchema,
   COMBAT_PROTOCOL,
@@ -145,3 +148,35 @@ export function createCombatInput(board: BoardState, seed: number): CombatInput 
     }),
   });
 }
+
+/** Explicit opt-in catalog: neutral additions, historical profile objects above stay unchanged. */
+export const ADVANCED_COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = Object.fromEntries(
+  Object.entries(CURRENT_COMBAT_PROFILES).map(([id, profile]) => [
+    id,
+    CombatProfileSchema.parse({
+      ...structuredClone(profile),
+      starLevel: 1,
+      stats: { ...profile.stats, ...ADVANCED_STATS_DEFAULTS },
+    }),
+  ]),
+);
+export function createAdvancedCombatInput(board: BoardState, seed: number): CombatInput {
+  const input = createCombatInput(board, seed);
+  return CombatInputSchema.parse({
+    ...input,
+    rulesVersion: ADVANCED_COMBAT_RULES,
+    units: board.units.map((u) => {
+      const profile = ADVANCED_COMBAT_PROFILES[u.definitionId];
+      if (!profile) throw new Error(`Unknown combat profile: ${u.definitionId}`);
+      return { ...u, profile };
+    }),
+  });
+}
+export const hasTraits = (catalog: string | undefined) =>
+  catalog === 'f0p6a' || catalog === 'f0p6b1';
+export const combatRulesFor = (catalog: string | undefined) =>
+  catalog === 'f0p6b1'
+    ? ADVANCED_COMBAT_RULES
+    : hasTraits(catalog)
+      ? CURRENT_COMBAT_RULES
+      : COMBAT_RULES;

@@ -273,14 +273,15 @@ export class CombatRenderer {
             event.type === 'heal'
               ? `+${event.payload.amount}`
               : event.payload.absorbed > 0
-                ? `−${event.payload.amount} [${event.payload.absorbed}]`
-                : `−${event.payload.amount}`;
+                ? `${event.payload.critical ? 'CRÍTICO ' : ''}−${event.payload.amount} [${event.payload.absorbed}]`
+                : `${event.payload.critical ? 'CRÍTICO ' : ''}−${event.payload.amount}`;
           text = this.scene.add
             .text(0, 0, content, {
               fontFamily: 'monospace',
               fontSize: '13px',
               fontStyle: 'bold',
-              color: event.type === 'heal' ? '#c4e8aa' : '#ffe0b7',
+              color:
+                event.type === 'heal' ? '#c4e8aa' : event.payload.critical ? '#f7d78a' : '#ffe0b7',
               stroke: '#101916',
               strokeThickness: 3,
             })

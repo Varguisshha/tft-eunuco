@@ -8,3 +8,5 @@ export { CombatEventV2Schema, type CombatEventV2 } from './combat-v2';
 export * from './match-clock';
 
 export * from './abilities';
+
+export * from './advanced-stats';

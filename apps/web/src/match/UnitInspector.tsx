@@ -1,3 +1,4 @@
+import { ADVANCED_STATS_DEFAULTS } from '@tft/shared';
 import { ContentIcon } from './hud/ContentIcon';
 import { PassiveStatus } from '../game/PassiveStatus';
 import { useEffect, useRef, useState } from 'react';
@@ -119,7 +120,7 @@ export function UnitInspector({
             )}
             {selected.statuses.some((s) => s.kind === 'modifier') && (
               <p className="effective-status-note">
-                Bonificaciones temporales incluidas en las estadísticas.
+                Bonificaciones activas incluidas en las estadísticas.
               </p>
             )}
           </>
@@ -152,8 +153,26 @@ export function UnitInspector({
       </div>
       <dl className="combat-stats">
         <div>
-          <dt>Ataque</dt>
+          <dt title="Daño de ataque; también puede escalar habilidades de cualquier tipo de daño.">
+            AD
+          </dt>
           <dd>{stats.attack}</dd>
+        </div>
+        <div>
+          <dt title="Poder de habilidad; se aplica solo cuando el efecto declara un ratio de AP.">
+            AP
+          </dt>
+          <dd>{stats.abilityPower ?? ADVANCED_STATS_DEFAULTS.abilityPower}</dd>
+        </div>
+        <div>
+          <dt>Prob. crítico</dt>
+          <dd>{(stats.critChanceMilli ?? ADVANCED_STATS_DEFAULTS.critChanceMilli) / 10}%</dd>
+        </div>
+        <div>
+          <dt title="Daño total de un impacto crítico antes de mitigación.">Daño crítico</dt>
+          <dd>
+            {(stats.critMultiplierMilli ?? ADVANCED_STATS_DEFAULTS.critMultiplierMilli) / 10}%
+          </dd>
         </div>
         <div>
           <dt>Ataques/s</dt>

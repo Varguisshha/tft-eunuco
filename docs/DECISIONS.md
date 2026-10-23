@@ -1,3 +1,13 @@
+## F0-P6B.1 — AD/AP y críticos deterministas
+
+- Base verificada:332 pruebas; P6A.1 preservado en `12a1515`. Se excluyen todos los recursos originales, incluida una imagen nueva aportada después. Sin remoto ni push.
+- Reglas `f0p6b1-1` y catálogo `f0p6b1` optativos, utilizados por las nuevas partidas de la web. Se preservan las exportaciones P6A para partidas guardadas y diagnósticos históricos; no se migran sus reglas.
+- AD conserva `attack`; AP0, crítico0 y multiplicador1500 son valores neutros explícitos del nuevo catálogo. No se cambia el balance de DOLEA ni los provisionales.
+- Ratios enteros por estrellas, suma AD/AP antes del suelo y tipo de daño independiente. Solo efectos de daño autorizados pueden criticar. Básicos fijan la tirada al inicio; habilidades por efecto/objetivo al resolver. Extremos de probabilidad sin consumo extra del PRNG.
+- Fuentes planas/porcentuales identificadas, porcentajes sobre la base por estrellas y límites posteriores. Sinergias avanzadas dejan la base intacta; Overtime es la última capa de velocidad. El resto de carga y windups comprometidos se conservan.
+- Protocolo3 con campos opcionales aditivos, semántica gated por reglas. Guardados sin cambiar envoltura ni codificación.27 trazas y2 guardados capturados antes de editar como referencias inmutables de compatibilidad.
+- Inspector reutiliza selectores de core, sin paneles nuevos; «CRÍTICO» en la cifra de daño existente. Diagnósticos separados, sin nuevos personajes. F0-P6B.2 no iniciado. [Informe](F0_P6B1_REPORT.md).
+
 ## F0-P6A.1 — pasivas visibles y escudos autoritativos
 
 - Auditoría inicial y 314 pruebas correctas. P6A preservado en `d3ddc8d`; originales excluidos, sin push.

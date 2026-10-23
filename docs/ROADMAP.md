@@ -1,4 +1,10 @@
-## Estado vigente — F0-P6A.1 implementado
+## Estado vigente — F0-P6B.1 implementado
+
+AD/AP independientes del tipo de daño, coeficientes por estrellas, críticos deterministas con permiso por efecto, fuentes de modificadores y composición de velocidad compatibles con Overtime. Nuevas partidas con valores neutrales, guardados históricos preservados. Inspector ampliado y diagnósticos técnicos. [Contrato](ADVANCED_STATS.md), [informe y validación](F0_P6B1_REPORT.md).
+
+**F0-P6B.2 no iniciado.** Recomendado para una fase futura autorizada: acordar el diseño completo del siguiente personaje, su contenido por estrellas y los límites de acumulación antes de registrarlo. El nombre de la sinergia futura es El Depredador. No se han incorporado VARGAS, sus habilidades ni UPM.
+
+## F0-P6A.1 implementado
 
 Pasivas y escudos visibles desde eventos/snapshots reales, estado compartido de inspector, diagnósticos aislados de sinergias y salto a momentos de la traza. Motor y balance originales conservados. 332 pruebas correctas; capturas y alcance de validación en [informe P6A.1](F0_P6A1_REPORT.md).
 

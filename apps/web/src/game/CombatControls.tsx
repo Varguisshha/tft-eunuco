@@ -89,6 +89,32 @@ export function CombatControls({
             <option value="padel-3">Llama de Pádel · 3 miembros</option>
           </select>
         </label>
+        <label className="arena-scenario">
+          AD, AP y críticos
+          <select
+            aria-label="Diagnóstico de estadísticas"
+            value=""
+            disabled={!preparing}
+            onChange={(e) => {
+              if (e.target.value)
+                session.loadStatsScenario(e.target.value as import('@tft/game-data').StatsScenario);
+            }}
+          >
+            <option value="">Cargar diagnóstico…</option>
+            <option value="basic-normal">Básico · 0% crítico</option>
+            <option value="basic-critical">Básico · 100% crítico</option>
+            <option value="physical-ad">Físico con AD</option>
+            <option value="magic-ap">Mágico con AP</option>
+            <option value="physical-ap">Físico con AP</option>
+            <option value="magic-ad">Mágico con AD</option>
+            <option value="mixed">Mixto AD/AP</option>
+            <option value="modifiers">Modificadores AD/AP</option>
+            <option value="speed-stack">Velocidad · varias fuentes</option>
+            <option value="support">Curación y escudo AD/AP</option>
+            <option value="stats-overtime">Estadísticas en overtime</option>
+            <option value="dolea-advanced">DOLEA · reglas avanzadas</option>
+          </select>
+        </label>
         {preparing ? (
           <button
             className="button combat-primary"
@@ -123,7 +149,7 @@ export function CombatControls({
               Volver a preparación
             </button>
             <label className="arena-scenario">
-              Revisar escudo · unidad seleccionada
+              Revisar eventos · unidad seleccionada
               <select
                 aria-label="Momento de pasiva y escudo"
                 value=""
@@ -141,6 +167,11 @@ export function CombatControls({
                 <option value="absorption">Primera absorción</option>
                 <option value="depleted">Escudo agotado</option>
                 <option value="expiration">Escudo expirado</option>
+                <option value="outgoing">Primer impacto propio</option>
+                <option value="critical">Primer crítico propio</option>
+                <option value="modifier">Modificador aplicado</option>
+                <option value="modifier-expiration">Modificador expirado</option>
+                <option value="overtime">Inicio de overtime</option>
               </select>
             </label>
           </>

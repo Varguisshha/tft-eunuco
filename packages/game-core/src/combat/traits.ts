@@ -1,4 +1,11 @@
-import type { CombatInput, CombatEffect, TraitDefinition, Side } from '@tft/shared';
+import {
+  ADVANCED_COMBAT_RULES,
+  type CombatStatus,
+  type CombatInput,
+  type CombatEffect,
+  type TraitDefinition,
+  type Side,
+} from '@tft/shared';
 export interface TraitContributor {
   definitionId: string;
   traits: readonly string[];
@@ -30,6 +37,7 @@ export function analyzeTraits(
 /** Apply to a fresh clone only. Input/base profiles remain untouched across rounds. */
 export function prepareTraitProfiles(input: CombatInput) {
   const units = structuredClone(input.units);
+  const modifiers: { unitId: string; status: CombatStatus }[] = [];
   const activations: {
     side: Side;
     traitId: string;
@@ -62,16 +70,35 @@ export function prepareTraitProfiles(input: CombatInput) {
       for (const unit of recipients)
         for (const threshold of result.thresholds) {
           for (const bonus of threshold.bonuses) {
+            if (input.rulesVersion === ADVANCED_COMBAT_RULES) {
+              modifiers.push({
+                unitId: unit.id,
+                status: {
+                  id: `trait-${modifiers.length}`,
+                  sourceId: result.trait.id,
+                  kind: 'modifier',
+                  stat: bonus.stat,
+                  mode: bonus.mode,
+                  origin: 'trait',
+                  amount: bonus.amount,
+                  expiresTick: null,
+                },
+              });
+              continue;
+            }
             // Percentages use the unmodified, star-scaled input, never a previous trait's result.
-            const base = input.units.find((u) => u.id === unit.id)!.profile.stats[bonus.stat];
+            const base = input.units.find((u) => u.id === unit.id)!.profile.stats[bonus.stat] ?? 0;
             const delta =
               bonus.mode === 'flat' ? bonus.amount : Math.floor((base * bonus.amount) / 1000);
             const cap = bonus.stat === 'attackSpeedMilli' ? 5000 : 1_000_000;
-            unit.profile.stats[bonus.stat] = Math.min(cap, unit.profile.stats[bonus.stat] + delta);
+            unit.profile.stats[bonus.stat] = Math.min(
+              cap,
+              (unit.profile.stats[bonus.stat] ?? 0) + delta,
+            );
           }
           for (const effect of threshold.effects) effects.push({ unitId: unit.id, effect });
         }
     }
   }
-  return { units, activations, effects };
+  return { units, activations, effects, modifiers };
 }

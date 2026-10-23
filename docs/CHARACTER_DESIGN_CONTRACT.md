@@ -1,4 +1,12 @@
-# Contrato de diseño de personaje — F0-P6A
+# Contrato de diseño de personaje — F0-P6B.1
+
+## Estadísticas y coeficientes para próximos diseños
+
+La versión `f0p6b1-1` añade AP absoluto, probabilidad crítica y multiplicador crítico explícitos. AD usa `attack`. El diseño debe especificar el tipo de daño por separado de sus ratios AD/AP, los coeficientes fijos o por estrellas y si cada efecto de daño puede criticar. No hay crítico de curación o escudo. Las estadísticas efectivas pertenecen al core; las descripciones no deben prometer un escalado no declarado.
+
+Las nuevas fuentes de velocidad deben declarar modo plano/porcentual, origen, duración y clave de acumulación. Los porcentajes se suman sobre la base por estrellas, antes de Overtime; no componen porcentajes entre sí. El progreso de carga existente se conserva. `duration: null` expresa permanencia durante ese combate; `refresh` requiere clave estable, distinta para efectos independientes. HP/AD mantienen su escala por estrellas y AP no se multiplica implícitamente. [Fórmulas y ejemplos](ADVANCED_STATS.md).
+
+VARGAS sigue siendo un personaje futuro de coste3, pendiente de una fase autorizada. No se añaden su definición, habilidades, sprites ni sinergias. El nombre reservado es **El Depredador**. Los ratios280/420/700 % AD son expresables mediante datos genéricos; esta fase no implementa Copita Perhaps, Blackhaus RPP ni UPM.
 
 Este contrato amplía CHARACTER_INTEGRATION y SPRITE_PIPELINE. No obliga a crear pasiva y activa independientes. Cada personaje nuevo tiene una habilidad principal activa, pasiva o mixta; la identidad visible de una mixta es única.
 

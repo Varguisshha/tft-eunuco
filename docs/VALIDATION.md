@@ -1,3 +1,15 @@
+# Validación F0-P6B.1 — 23 de octubre de 2026
+
+Base:332 pruebas/30 archivos, tipos/lint/build correctos. P6A.1 preservado en `12a1515`. Antes de editar el motor se capturaron hashes de27 trazas completas y2 guardados históricos con sus trazas; se verifican sin regenerarlos tras los cambios. No se detectó discrepancia con la base anunciada. Una imagen nueva ajena al código se dejó intacta.
+
+La fase añade AD/AP, crítico, ratios por estrellas y composición de modificadores bajo reglas `f0p6b1-1`. La suite final tiene **427 pruebas en33 archivos**, conservando las332 anteriores. Nuevos casos cubren contratos, límites, fuentes, expiración/refresh/permanencia, potencia por tipo, estrellas, apoyo, crítico0/100/intermedio, PRNG, metadatos en proyectil, cambios durante windup, cadencia, Overtime, guardados, rondas, inspector y Arena. Tipos/lint/build/formato y diff se comprueban al cerrar el hito. [Detalle y limitaciones](F0_P6B1_REPORT.md).
+
+Navegador IAB real, semilla42: crítico básico visible de75 frente a50 sin crítico; AD100→135→100 al aplicar/expirar modificadores, AP110 permanente; velocidad1,24 con sinergia/pasiva y1,49 con activa; Overtime1,788 en el estado observado; DOLEA avanzado conserva tick75,281HP y72 de escudo. Se ejecutaron los12 diagnósticos. Sus importes esperados de habilidad se contrastan con eventos en tests; las capturas confirman presentación, sin atribuir a una captura todas las invariantes de la traza.
+
+Partida de desarrollo nueva con DOLEA comprado/desplegado: tienda y banquillo funcionales, Mar de Cristal intacta y avance automático a preparación de ronda3 con liquidaciones1–2. Cinco viewports de escritorio sin scroll de página:1280×720,1366×768,1440×900,1920×1080,2560×1440. Móvil390×844 conserva scroll vertical interno/de página y no desborda horizontalmente. Evidencia en `artifacts/p6b1/`.
+
+La primera pasada visual inspeccionó crítico, inspector1280 y móvil. La revisión de código corrigió la mezcla de perfiles históricos al añadir unidades a un diagnóstico avanzado, y añadió un test de esa edición. Se mantienen guardados originales sin migración silenciosa y se confirma la recuperación de desarrollo en la pasada final. Sin cambios de economía, reloj, personajes ni recursos originales. P6B.2 no iniciado.
+
 # Validación F0-P6A.1 — 23 de octubre de 2026
 
 Base auditada: **314 pruebas / 29 archivos**, tipos/lint/build correctos; preservada en `d3ddc8d`. Resultado: **332 pruebas / 30 archivos**, tipos, lint y build correctos. Se mantienen los casos previos; 18 nuevos casos cubren ciclo de escudo, contadores de pasiva, inspector real, eventos, replays, navegación por traza, sinergias y cadencia. Persiste el aviso conocido de tamaño del chunk Phaser.

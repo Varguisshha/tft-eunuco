@@ -15,3 +15,5 @@ export * from './match/coordinator';
 
 export * from './combat/traits';
 export * from './combat/abilities';
+
+export * from './combat/stats';

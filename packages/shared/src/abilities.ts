@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { PowerScalingSchema, ModifierModeSchema } from './advanced-stats';
 const id = z.string().min(1).max(80);
 const amount = z.number().int().min(0).max(1_000_000);
 const ticks = z.number().int().min(1).max(450);
@@ -10,6 +11,9 @@ export const ModifiableStatSchema = z.enum([
   'armor',
   'magicResist',
   'attackSpeedMilli',
+  'abilityPower',
+  'critChanceMilli',
+  'critMultiplierMilli',
 ]);
 const effectBase = {
   target: z.enum(['self', 'target', 'allies', 'enemies']),
@@ -26,24 +30,56 @@ const effectBase = {
   stacking: z.enum(['stack', 'refresh']).optional(),
   key: id.optional(),
 };
-export const EffectSchema = z.discriminatedUnion('kind', [
-  z.strictObject({
-    ...effectBase,
-    kind: z.literal('damage'),
-    amount,
-    damageType: DamageTypeSchema,
-  }),
-  z.strictObject({ ...effectBase, kind: z.literal('heal'), amount }),
-  z.strictObject({ ...effectBase, kind: z.literal('shield'), amount, duration: ticks }),
-  z.strictObject({
-    ...effectBase,
-    kind: z.literal('modifier'),
-    stat: ModifiableStatSchema,
-    amount: z.number().int().min(-10000).max(10000),
-    duration: ticks,
-  }),
-  z.strictObject({ ...effectBase, kind: z.literal('stun'), duration: ticks }),
-]);
+export const EffectSchema = z
+  .discriminatedUnion('kind', [
+    z.strictObject({
+      ...effectBase,
+      kind: z.literal('damage'),
+      amount,
+      damageType: DamageTypeSchema,
+      canCrit: z.boolean().optional(),
+      powerScaling: PowerScalingSchema.optional(),
+      amountByStars: z.tuple([amount, amount, amount]).optional(),
+    }),
+    z.strictObject({
+      ...effectBase,
+      kind: z.literal('heal'),
+      amount,
+      powerScaling: PowerScalingSchema.optional(),
+      amountByStars: z.tuple([amount, amount, amount]).optional(),
+    }),
+    z.strictObject({
+      ...effectBase,
+      kind: z.literal('shield'),
+      amount,
+      duration: ticks,
+      powerScaling: PowerScalingSchema.optional(),
+      amountByStars: z.tuple([amount, amount, amount]).optional(),
+    }),
+    z
+      .strictObject({
+        ...effectBase,
+        kind: z.literal('modifier'),
+        stat: ModifiableStatSchema,
+        amount: z.number().int().min(-10000).max(10000),
+        duration: ticks.nullable(),
+        mode: ModifierModeSchema.optional(),
+      })
+      .refine(
+        (e) => e.mode !== 'percent_milli' || e.amount >= -1000,
+        'Percent modifier below -100%',
+      ),
+    z.strictObject({ ...effectBase, kind: z.literal('stun'), duration: ticks }),
+  ])
+  .superRefine((e, ctx) => {
+    if ('powerScaling' in e && e.powerScaling && e.scaling)
+      ctx.addIssue({ code: 'custom', message: 'Use a single scaling contract' });
+    if ('amountByStars' in e && e.amountByStars && e.starScaling === 'stat')
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Explicit star amounts cannot also multiply by star stats',
+      });
+  });
 export type CombatEffect = z.infer<typeof EffectSchema>;
 export const AbilityConditionSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('hp_below'), ratioMilli: z.number().int().min(1).max(1000) }),

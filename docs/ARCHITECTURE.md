@@ -1,3 +1,11 @@
+## F0-P6B.1 — estadísticas y críticos
+
+`shared/advanced-stats.ts` declara reglas `f0p6b1-1`, límites/valores neutrales, ratios de AD/AP por estrellas y modos/orígenes de modificador. Los contratos existentes añaden campos opcionales para conservar sus registros históricos; las entradas avanzadas exigen datos explícitos y las anteriores rechazan esa semántica nueva.
+
+`combat/stats.ts` resuelve potencia, tiradas críticas y la vista de estadísticas; `math.effectiveStat` compone fuentes identificadas. En reglas avanzadas `prepareTraitProfiles` devuelve modificadores permanentes sin alterar los valores base. El motor inicializa HP efectivo, mantiene carga/windup y transporta el crítico comprometido hasta su impacto. Toda resolución sigue fuera de React/Phaser.
+
+`ADVANCED_COMBAT_PROFILES` y `ADVANCED_ECONOMY_CONFIG` permiten nuevas partidas con AP0/crítico0 y multiplicador1500; los catálogos anteriores permanecen disponibles. El inspector comparte `combatStatsView` y la representación de críticos deriva del evento `damage`. Arena incorpora escenarios sintéticos separados del juego normal. [Contrato y fórmulas](ADVANCED_STATS.md), [validación](F0_P6B1_REPORT.md).
+
 ## F0-P6A — habilidades y sinergias deterministas
 
 Shared valida ChampionAbility v1 (activa/pasiva/mixta), desencadenantes, condiciones, efectos y TraitDefinition v1. Game-data conserva perfiles históricos y publica catálogo `f0p6a`/reglas `f0p6a-1`. Protocolo v3 admite ambas reglas sin reinterpretar guardados. Los perfiles modernos no mezclan campos de habilidad históricos.

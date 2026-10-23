@@ -1,3 +1,4 @@
+import { combatStatsView } from '../combat/stats';
 import { DEFAULT_OVERTIME } from '@tft/shared';
 import { TRAIT_DEFINITIONS } from '@tft/game-data';
 import { analyzeTraits, prepareTraitProfiles } from '../combat/traits';
@@ -8,7 +9,14 @@ import type {
   EconomyConfig,
   CombatProfile,
 } from '@tft/shared';
-import { COMBAT_PROFILES, CURRENT_COMBAT_PROFILES, getUnitDefinition } from '@tft/game-data';
+import {
+  COMBAT_PROFILES,
+  CURRENT_COMBAT_PROFILES,
+  ADVANCED_COMBAT_PROFILES,
+  hasTraits,
+  combatRulesFor,
+  getUnitDefinition,
+} from '@tft/game-data';
 import { sameHex } from '../hex';
 export const definition = (id: string) => {
   const d = getUnitDefinition(id);
@@ -36,11 +44,16 @@ export function scaledProfile(
   stars: OwnedUnit['stars'],
   config: EconomyConfig,
 ): CombatProfile {
-  const source = (config.catalog === 'f0p6a' ? CURRENT_COMBAT_PROFILES : COMBAT_PROFILES)[
-    definitionId
-  ];
+  const source = (
+    config.catalog === 'f0p6b1'
+      ? ADVANCED_COMBAT_PROFILES
+      : config.catalog === 'f0p6a'
+        ? CURRENT_COMBAT_PROFILES
+        : COMBAT_PROFILES
+  )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
+  if (config.catalog === 'f0p6b1') profile.starLevel = stars;
   const scale = config.statScaleMilli[stars - 1]!;
   const amount = (n: number) => Math.min(1_000_000, Math.floor((n * scale) / 1000));
   profile.stats.maxHp = amount(profile.stats.maxHp);
@@ -66,7 +79,7 @@ export function matchTraits(state: MatchState) {
       deployed: u.location.kind === 'board',
       traits: scaledProfile(u.definitionId, u.stars, state.config).traits ?? [],
     })),
-    state.config.catalog === 'f0p6a' ? TRAIT_DEFINITIONS : [],
+    hasTraits(state.config.catalog) ? TRAIT_DEFINITIONS : [],
   );
 }
 export function formationProfiles(state: MatchState) {
@@ -83,14 +96,34 @@ export function formationProfiles(state: MatchState) {
         ]
       : [],
   );
-  return prepareTraitProfiles({
+  const prepared = prepareTraitProfiles({
     protocolVersion: 3,
-    rulesVersion: state.config.catalog === 'f0p6a' ? 'f0p6a-1' : 'f0p3.1-1',
+    rulesVersion: combatRulesFor(state.config.catalog),
     seed: 0,
     maxTicks: 450,
     overtime: DEFAULT_OVERTIME,
     obstacles: [],
     units,
-    ...(state.config.catalog === 'f0p6a' ? { traits: [...TRAIT_DEFINITIONS] } : {}),
-  }).units;
+    ...(hasTraits(state.config.catalog) ? { traits: [...TRAIT_DEFINITIONS] } : {}),
+  });
+  if (state.config.catalog !== 'f0p6b1') return prepared.units;
+  return prepared.units.map((unit) => ({
+    ...unit,
+    profile: {
+      ...unit.profile,
+      stats: {
+        ...unit.profile.stats,
+        ...combatStatsView({
+          ...unit,
+          hp: unit.profile.stats.maxHp,
+          mana: unit.profile.stats.startingMana,
+          attackCharge: 10000,
+          action: null,
+          targetId: null,
+          deathTick: null,
+          statuses: prepared.modifiers.filter((m) => m.unitId === unit.id).map((m) => m.status),
+        }),
+      },
+    },
+  }));
 }

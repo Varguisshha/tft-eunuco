@@ -161,7 +161,12 @@ export type FeedbackMoment =
   | 'shield'
   | 'absorption'
   | 'depleted'
-  | 'expiration';
+  | 'expiration'
+  | 'outgoing'
+  | 'critical'
+  | 'modifier'
+  | 'modifier-expiration'
+  | 'overtime';
 export function feedbackMoment(
   events: readonly CombatEventV3[],
   unitId: string,
@@ -173,7 +178,36 @@ export function feedbackMoment(
       e.type === 'shield_apply' && e.payload.unitId === unitId ? [e.payload.status.id] : [],
     ),
   );
+  const modifierIds = new Set(
+    events.flatMap((e) =>
+      e.type === 'status_apply' &&
+      e.payload.unitId === unitId &&
+      e.payload.status.kind === 'modifier'
+        ? [e.payload.status.id]
+        : [],
+    ),
+  );
   const event = events.find((e) => {
+    if (moment === 'overtime') return e.type === 'overtime_start';
+    if (moment === 'outgoing' || moment === 'critical')
+      return (
+        e.type === 'damage' &&
+        e.payload.sourceId === unitId &&
+        (moment !== 'critical' || e.payload.critical === true)
+      );
+    if (moment === 'modifier')
+      return (
+        e.type === 'status_apply' &&
+        e.payload.unitId === unitId &&
+        e.payload.status.kind === 'modifier'
+      );
+    if (moment === 'modifier-expiration')
+      return (
+        e.type === 'status_expire' &&
+        e.payload.unitId === unitId &&
+        e.payload.reason === 'duration' &&
+        modifierIds.has(e.payload.statusId)
+      );
     if (moment === 'passive') return e.type === 'passive_trigger' && e.payload.unitId === unitId;
     if (moment === 'shield')
       return (

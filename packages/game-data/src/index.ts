@@ -66,9 +66,9 @@ export const CHARACTER_ROSTER: readonly UnitDefinition[] = CATALOG_F0P41.map((d)
     : d,
 );
 export function matchCatalog(config: {
-  catalog?: 'f0p4.1' | 'f0p6a' | undefined;
+  catalog?: 'f0p4.1' | 'f0p6a' | 'f0p6b1' | undefined;
 }): readonly UnitDefinition[] {
-  if (config.catalog === 'f0p6a') return CHARACTER_ROSTER;
+  if (config.catalog === 'f0p6a' || config.catalog === 'f0p6b1') return CHARACTER_ROSTER;
   return config.catalog === 'f0p4.1' ? CATALOG_F0P41 : UNIT_DEFINITIONS;
 }
 export function getUnitDefinition(id: string): UnitDefinition | undefined {
@@ -80,3 +80,4 @@ export * from './economy';
 export * from './combatScenarios';
 
 export * from './abilities';
+export * from './statsScenarios';

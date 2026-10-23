@@ -1,5 +1,13 @@
 # Protocolo de combate v3 — Overtime y doble derrota
 
+## Extensión aditiva de estadísticas — F0-P6B.1
+
+Entradas nuevas usan reglas `f0p6b1-1`; registros históricos conservan sus reglas y su forma anterior. `damage.payload.critical?` identifica el resultado real del impacto. Acción de ataque y proyectil también conservan `critical?` junto al bruto ya comprometido; un vuelo no vuelve a tirar al impactar. En trazas nuevas el campo es booleano explícito; las anteriores lo omiten.
+
+Estados modificadores avanzados añaden `mode?: flat | percent_milli` y `origin?: trait | active | passive`. `expiresTick: null` representa permanencia durante el combate. Las bonificaciones de sinergia aparecen en estados iniciales identificados por su fuente; su activación mantiene `trait_activate`. Las fuentes temporales conservan `status_apply`/`status_expire` y su orden anterior.
+
+No se añaden eventos de crítico ni cálculos al renderer. El protocolo3 conserva metadatos opcionales aditivos y `rulesVersion` fija su semántica; un cliente que no conozca esas reglas debe rechazarlas. Las entradas antiguas no admiten campos estadísticos o efectos avanzados. [Fórmulas, momentos de tirada y compatibilidad](ADVANCED_STATS.md).
+
 ## Auditoría de pasivas y escudos — F0-P6A.1
 
 El protocolo existente es suficiente: **sin nuevos eventos, campos, versión o duplicaciones** en P6A.1. Se conservan protocolo 3 y reglas `f0p6a-1`; las secciones de Overtime inferiores documentan también reglas históricas `f0p3.1-1`.

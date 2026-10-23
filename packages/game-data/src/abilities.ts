@@ -127,20 +127,35 @@ export const getTraitDefinition = (id: string) => TRAIT_DEFINITIONS.find((t) => 
 export function abilityPresentation(profile: import('@tft/shared').CombatProfile) {
   if (profile.championAbility) return profile.championAbility;
   if (!profile.ability && !profile.passive) return null;
+  const powerText = (e: import('@tft/shared').CombatEffect) => {
+    if (!('amount' in e)) return '';
+    const star = (profile.starLevel ?? 1) - 1;
+    const base = 'amountByStars' in e && e.amountByStars ? e.amountByStars[star]! : e.amount;
+    if (!('powerScaling' in e) || !e.powerScaling) return String(base);
+    const coefficient = (v: number | [number, number, number]) =>
+      typeof v === 'number' ? v : v[star]!;
+    const ad = coefficient(e.powerScaling.adRatioMilli),
+      ap = coefficient(e.powerScaling.apRatioMilli);
+    return [
+      String(base),
+      ...(ad ? [`${ad / 10}% AD`] : []),
+      ...(ap ? [`${ap / 10}% AP`] : []),
+    ].join(' + ');
+  };
   const describe = (effects: import('@tft/shared').CombatEffect[]) =>
     effects
       .map((e) => {
         switch (e.kind) {
           case 'damage':
-            return `Inflige ${e.amount} de daño ${e.damageType === 'physical' ? 'físico' : e.damageType === 'magic' ? 'mágico' : 'verdadero'}.`;
+            return `Inflige ${powerText(e)} de daño ${e.damageType === 'physical' ? 'físico' : e.damageType === 'magic' ? 'mágico' : 'verdadero'}.`;
           case 'heal':
-            return `Restaura ${e.amount} de vida.`;
+            return `Restaura ${powerText(e)} de vida.`;
           case 'shield':
-            return `Otorga ${e.amount} de escudo durante ${e.duration / 10} s.`;
+            return `Otorga ${powerText(e)} de escudo durante ${e.duration / 10} s.`;
           case 'stun':
             return `Aturde durante ${e.duration / 10} s.`;
           case 'modifier':
-            return `Modifica ${{ maxHp: 'vida máxima', attack: 'ataque', armor: 'armadura', magicResist: 'resistencia mágica', attackSpeedMilli: 'velocidad de ataque' }[e.stat]} en ${e.amount} durante ${e.duration / 10} s.`;
+            return `Modifica ${{ maxHp: 'vida máxima', attack: 'ataque', armor: 'armadura', magicResist: 'resistencia mágica', attackSpeedMilli: 'velocidad de ataque', abilityPower: 'AP', critChanceMilli: 'probabilidad crítica', critMultiplierMilli: 'multiplicador crítico' }[e.stat]} en ${e.mode === 'percent_milli' ? `${e.amount / 10}% de la base` : e.amount} durante ${e.duration === null ? 'todo el combate' : `${e.duration / 10} s`}.`;
         }
       })
       .join(' ');

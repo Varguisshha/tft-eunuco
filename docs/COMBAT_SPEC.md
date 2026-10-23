@@ -1,4 +1,16 @@
-# Combate F0-P3.1 — reglas f0p3.1-1
+# Combate — reglas actuales f0p6b1-1
+
+## Ampliación F0-P6B.1
+
+Las nuevas partidas optan explícitamente por `f0p6b1-1` mediante catálogo `f0p6b1`. AD conserva el identificador `attack`; AP y crítico se añaden con valores neutrales para los personajes actuales. El modelo, límites y fórmulas normativas están en [ADVANCED_STATS.md](ADVANCED_STATS.md). Los apartados inferiores describen reglas históricas; sus afirmaciones «no hay críticos» y «no hay sinergias» pertenecen a aquellas versiones.
+
+Potencia independiente del tipo de daño: `floor((base*1000 + AD*ratioAD + AP*ratioAP)/1000)`. Básicos fijan AD, variación y crítico al iniciar; habilidades solo critican con permiso explícito por efecto y resuelven su potencia/tirada por objetivo al impactar. Orden: potencia/variación → crítico → Overtime → mitigación → escudo → HP, con suelo y límites por etapa. Probabilidad0/100 % no consume azar adicional; intermedias utilizan el Mulberry32 existente.
+
+Composición avanzada: base por estrellas + planos + porcentaje total de esa base, con clamp final. Sinergias son fuentes permanentes; temporales expiran antes de la carga del tick. Overtime multiplica la velocidad final, conservando el resto de carga y las acciones comprometidas. No cambian tiempos, maná, targeting, daño simultáneo ni fórmulas de armadura/RM.
+
+Protocolo3 añade `critical?` a acción básica, proyectil y daño; estados modificadores avanzados identifican `mode`, `origin`, `sourceId` y duración nula para permanencia. Los eventos históricos conservan su forma exacta. Las entradas antiguas continúan con sus reglas originales, no reciben estadísticas nuevas silenciosamente.
+
+# Registro histórico — F0-P3.1, reglas f0p3.1-1
 
 Estado: implementado en local. Protocolo **3**, reglas **f0p3.1-1**. Son reglas del laboratorio, no balance definitivo. La autoridad es `packages/game-core/src/combat`; React y Phaser solo presentan resultados.
 
