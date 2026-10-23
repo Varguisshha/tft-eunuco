@@ -19,7 +19,7 @@ export function UnitInspector({
   const state = session.getMatch(),
     selected = session.selected(),
     def = getUnitDefinition(selected?.definitionId ?? '');
-  const preparing = state.phase === 'preparation';
+  const preparing = session.editable;
   const cursor = axialToOffset(view.cursor);
   const stats = selected
     ? scaledProfile(selected.definitionId, selected.stars, state.config).stats
@@ -82,7 +82,11 @@ export function UnitInspector({
               ? 'Construye tu equipo'
               : state.phase === 'combat'
                 ? 'Observa el combate'
-                : 'Ronda completada'}
+                : session.coordinator?.getClock().currentPhase === 'not_started'
+                  ? 'Equipo por preparar'
+                  : session.coordinator?.getClock().currentPhase === 'finished'
+                    ? 'Partida finalizada'
+                    : 'Ronda completada'}
           </h2>
           <p>
             {preparing

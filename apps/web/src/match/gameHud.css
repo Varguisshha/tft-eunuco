@@ -861,3 +861,80 @@
 .game-hud .bench-slot > * {
   pointer-events: none;
 }
+
+/* P5 extends the existing heading; no board overlay or viewport changes. */
+.automatic-label {
+  font-size: 11px;
+  color: var(--muted, #9cacaa);
+}
+.phase-clock.is-urgent {
+  border-color: #c99a54;
+  background: #302a1b;
+}
+.phase-clock.is-urgent .phase-time {
+  color: #f5c97c;
+}
+.elimination-panel {
+  padding: 12px;
+  border: 1px solid #b86b62;
+  background: #302121;
+  font-size: 12px;
+}
+.clock-debug {
+  max-width: 640px;
+}
+.clock-debug dd {
+  margin: 2px 0 10px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 12px;
+}
+.debug-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+.save-notice {
+  position: fixed;
+  bottom: 8px;
+  left: 8px;
+  z-index: 40;
+  max-width: 420px;
+  padding: 8px;
+  background: #192c26;
+  font-size: 12px;
+}
+.lobby-development {
+  margin: 20px 0;
+}
+@media (min-width: 1100px) {
+  .game-hud:is(.phase-resolution, .phase-finished) .player-rail {
+    overflow-y: auto;
+  }
+  .game-hud:is(.phase-resolution, .phase-finished) :is(.rail-heading, .rail-note) {
+    display: none;
+  }
+  .game-hud:is(.phase-resolution, .phase-finished) .player-banner {
+    grid-template-columns: 24px 1fr auto;
+    padding: 8px;
+    gap: 6px;
+  }
+  .game-hud:is(.phase-resolution, .phase-finished) .player-banner > strong {
+    grid-column: 3;
+    grid-row: 1;
+    font-size: 23px;
+    align-self: center;
+  }
+  .game-hud:is(.phase-resolution, .phase-finished) .player-banner small {
+    display: none;
+  }
+  .game-hud .round-reward {
+    flex-shrink: 0;
+  }
+}
+.game-hud .round-reward summary {
+  font-size: 10px;
+  cursor: pointer;
+}

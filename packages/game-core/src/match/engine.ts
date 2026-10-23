@@ -7,6 +7,7 @@ import {
   MatchActionSchema,
   MATCH_RULES,
   CombatSeedSchema,
+  type CombatReplay,
   type EconomyConfig,
   type MatchState,
   type MatchAction,
@@ -180,8 +181,8 @@ export function opponentUnits(state: MatchState) {
     profile: scaledProfile(definitionId, tier.stars, state.config),
   }));
 }
-function startCombat(state: MatchState): void {
-  if (deployedCount(state) === 0) reject('empty-board');
+function startCombat(state: MatchState, allowEmpty = false): void {
+  if (!allowEmpty && deployedCount(state) === 0) reject('empty-board');
   if (deployedCount(state) > state.level) reject('deployment-limit');
   const next = randomUint32(state.combatRng);
   state.combatRng = next.state;
@@ -213,9 +214,9 @@ function startCombat(state: MatchState): void {
   };
   state.phase = 'combat';
 }
-function resolve(state: MatchState): void {
+function resolve(state: MatchState, cached?: CombatReplay): void {
   const combat = state.combat!;
-  const replay = runCombat(combat.input);
+  const replay = cached ?? runCombat(combat.input);
   combat.result = replay.result;
   const rivalStars = [...state.config.opponents]
     .reverse()
@@ -287,6 +288,9 @@ function resolve(state: MatchState): void {
   state.phase = 'resolution';
 }
 export function applyMatchAction(original: MatchState, value: unknown): MatchOutcome {
+  return applyAction(original, value);
+}
+function applyAction(original: MatchState, value: unknown, cached?: CombatReplay): MatchOutcome {
   const parsed = MatchActionSchema.safeParse(value);
   if (!parsed.success) return { ok: false, state: original, error: 'invalid-action' };
   let state: MatchState;
@@ -302,7 +306,7 @@ export function applyMatchAction(original: MatchState, value: unknown): MatchOut
     if (action.type === 'resolve_round') {
       if (state.phase !== 'combat') reject('wrong-phase');
       if (action.round !== state.round) reject('wrong-round');
-      resolve(state);
+      resolve(state, cached);
     } else if (action.type === 'next_round') {
       if (state.phase !== 'resolution') reject('wrong-phase');
       if (action.round !== state.round) reject('wrong-round');
@@ -368,6 +372,9 @@ export function applyMatchAction(original: MatchState, value: unknown): MatchOut
           move(state, action.unitId, other.location);
           break;
         }
+        case 'start_combat_auto':
+          startCombat(state, true);
+          break;
         case 'start_combat':
           startCombat(state);
           break;
@@ -394,4 +401,24 @@ export function replayMatch(
     state = result.state;
   }
   return state;
+}
+
+/** Local authority owns the computed trace. Never accept a winner in a player command. */
+export class RoundAuthority {
+  constructor(private cached: CombatReplay | null = null) {}
+  begin(state: MatchState): { state: MatchState; replay: CombatReplay } {
+    const outcome = applyMatchAction(state, commandFor(state, { type: 'start_combat_auto' }));
+    if (!outcome.ok) throw new Error(outcome.error);
+    this.cached = runCombat(outcome.state.combat!.input);
+    return { state: outcome.state, replay: this.cached };
+  }
+  settle(state: MatchState): MatchOutcome {
+    if (!this.cached || JSON.stringify(this.cached.input) !== JSON.stringify(state.combat?.input))
+      return { ok: false, state, error: 'wrong-round' };
+    return applyAction(
+      state,
+      commandFor(state, { type: 'resolve_round', round: state.round }),
+      this.cached,
+    );
+  }
 }

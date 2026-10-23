@@ -150,6 +150,7 @@ export const MatchActionSchema = z.discriminatedUnion('type', [
   }),
   z.strictObject({ ...baseAction, type: z.literal('swap_units'), unitId: id, otherId: id }),
   z.strictObject({ ...baseAction, type: z.literal('start_combat') }),
+  z.strictObject({ ...baseAction, type: z.literal('start_combat_auto') }),
   z.strictObject({ ...baseAction, type: z.literal('resolve_round'), round: nat.positive() }),
   z.strictObject({ ...baseAction, type: z.literal('next_round'), round: nat.positive() }),
 ]);

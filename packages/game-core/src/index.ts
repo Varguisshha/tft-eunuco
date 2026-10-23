@@ -10,3 +10,5 @@ export * from './match/invariants';
 export * from './combat/overtime';
 
 export * from './match/roundDamage';
+export * from './match/clock';
+export * from './match/coordinator';

@@ -1,3 +1,49 @@
+# Validación F0-P5 — 23 de octubre de 2026
+
+## Auditoría y preservación
+
+Antes de editar se ejecutó `pnpm check`: **200 tests en21archivos**, typecheck/lint/build correctos. Había cambios P4/P4.1 sin commit y32PNG originales/duplicados en `Sprites/`. Se preservaron los módulos P4 identificables en `b71448c` y la integración P4.1, recursos derivados y archivos compartidos del HUD en `ffa9265`. Los archivos solapados no permiten atribuir un snapshot completo de P4 con seguridad; no se inventó esa separación. Ningún original fue añadido, sobrescrito o eliminado. Sin remoto ni push.
+
+## Cobertura automática nueva
+
+`apps/web/src/match/automaticRounds.test.ts`:27 pruebas con fuente monotónica inyectada, sin esperas reales. Total final **227 tests en22archivos**, manteniendo los200 anteriores sin cambios. Cubre creación/inicio, deadlines irregulares, última fracción del plazo, comandos tardíos y obsoletos, una simulación, cola visual, pago único, victoria temprana, resolución5s, nueva preparación30s, Overtime300/timeout450/doble derrota, pestaña suspendida, ausencia de catch-up de rondas, pausa en preparación/combate, herramientas aisladas, repetición determinista, eliminación y recuperación de todos los estados.
+
+También cubre trazas comprimidas equivalentes, recarga sin simulación, semillas, catálogo histórico, tienda bloqueada/pool, rechazo de guardados incoherentes, rebasing a un origen monotónico nuevo sin avanzar reproducción, migración de preparación histórica a0HP, DOLEA2★/selección/colocación y Arena independiente. Las pruebas P4.1 de1/2/3★, ocho frames y fallback siguen intactas. No se modificó ni ejecutó `sprites:import` en P5.
+
+## Navegador ejecutado
+
+En IAB, `http://localhost:4173/`, con datos técnicos separados del guardado normal:
+
+- Crear prueba seed360, iniciar explícitamente, comprar DOLEA ofertas2/4/5 y fusionar2★ por6oro; colocar con los controles accesibles en columna3/fila5. Primera preparación normal30s; próximas fases configuradas8/2s. La primera tentativa con8s venció antes de completar el arrastre: la autoridad cerró la fase y resolvió la formación vacía, por lo que se reinició la prueba con30s para preparar el recorrido.
+- Avance automático de rondas1–4. Observados saldos4→7→12→17→23. DOLEA en combate real; reproducción y barra de vida/escudo visibles. Ronda3: doble derrota tick450, +5oro, vida96/88, racha0; ronda4: doble derrota +6, vida92/83.
+- Recarga real de combate pausado de ronda3 a8020ms/tick80: misma posición, oro12 y exactamente los IDs de rondas1y2. Recarga real de resolución: mantuvo17oro y1,6s restantes sin nuevo pago. Recarga simulada en preparación4: mantuvo1203ms; reanudar permitió su transición automática.
+- La pausa se utilizó para comparar observaciones reproducibles, no fue necesaria para avanzar las rondas. El final de ronda3 se esperó de forma natural, incluida la cola visual.
+- Avance técnico de25fases posteriores para alcanzar eliminación en ronda13: Vargas0/Florin83, saldo123, última recompensa13oro, sin nueva ronda. Recuperación real del estado final y botón Nueva partida comprobados. No se afirma haber esperado naturalmente las13rondas.
+- Arena independiente: presets DOLEA1★ y3★ (apariencia2★), escenarioDOLEA-Overtime a×2, pausa real tick302/14,8s. El arte/Pipeline no cambió. La validación exhaustiva cuadro-a-cuadro de los16frames es la de P4.1, no una prueba visual repetida completa en P5.
+- Partida normal final preparada con seed360,100HP y10oro; tienda y banquillo cerrados hasta Iniciar. Sin Depuración ni botones de combate/continuación manual en esa partida. Consola consultada: sin errores ni avisos registrados.
+
+## Viewports reales
+
+Medidos en combate recuperado con DOLEA2★. Documento sin scroll horizontal ni vertical; tienda y banquillo dentro del viewport. Cámara y buffer coincidentes (DPR real1):
+
+| Viewport  | Canvas/buffer | Borde inferior tienda | Alto documento |
+| --------- | ------------- | --------------------- | -------------- |
+| 1280×720  | 888×322       | 710                   | 720            |
+| 1366×768  | 974×370       | 758                   | 768            |
+| 1440×900  | 988×462       | 886                   | 900            |
+| 1920×1080 | 1382×588      | 1060                  | 1080           |
+| 2560×1440 | 2022×948      | 1420                  | 1440           |
+
+La revisión detectó compresión del desglose en resolución/eliminación. Se compactaron tarjetas de participantes solo en esas fases y se dejó daño/XP/racha visible con detalle desplegable. Revisión final de eliminación a1280×720: panel completo hasta y401,5; tienda hasta710; documento720. No se afirma prueba física de monitorDPR2 ni móvil en P5.
+
+Evidencia local ignorada porGit: `artifacts/f0p5-{1280x720,1366x768,1440x900,1920x1080,2560x1440}.png`, `f0p5-viewports.json`, `f0p5-preparation.png`, `f0p5-combat.png`, `f0p5-clock-before-reload.png`, `f0p5-clock-recovered.png`, `f0p5-resolution.png`, `f0p5-urgent.png`, `f0p5-elimination.png`, `f0p5-arena-star1.png`, `f0p5-arena-star3.png`, `f0p5-arena-overtime.png`, `f0p5-ready.png`. La captura de resolución original precede al ajuste compacto final; eliminación refleja ese ajuste.
+
+## Comprobación y límites
+
+`pnpm check` (typecheck, lint, todos los tests, build), `pnpm format:check` y `git diff --check` se verifican al cerrar el hito. Aviso de tamaño del chunkPhaser preexistente; sin fallo de compilación. Una sesión local/clave, sin coordinación multiventana. Cierre abrupto puede recuperar el último checkpoint temporal de500ms; almacenamiento fallido se avisa. Reproducción ralentizada por suspensión puede durar más en tiempo de pared, manteniendo45s lógicos y la cola600ms. Las validaciones no sustituyen autoridad autenticada de servidor. F0-P6 no iniciado.
+
+---
+
 # Validación F0-P4.1 — 23 de octubre de 2026
 
 ## Base y comprobaciones ejecutadas

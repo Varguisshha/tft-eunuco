@@ -10,7 +10,7 @@ export function Bench({
   view: ReturnType<LocalSession['getSnapshot']>;
 }) {
   const state = session.getMatch(),
-    preparing = state.phase === 'preparation';
+    preparing = session.editable;
   useEffect(() => {
     session.dropOutside = (id, x, y) => {
       const target = document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-bench-slot]');

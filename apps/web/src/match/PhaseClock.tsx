@@ -1,9 +1,9 @@
-import type { MatchState } from '@tft/shared';
+import type { MatchPhase } from '@tft/shared';
 import type { PlaybackFrame } from '../game/combatPlayback';
 
 /** Presentation contract for a future authoritative clock. No timers or phase transitions here. */
 export interface PhaseClockProps {
-  phase: MatchState['phase'];
+  phase: MatchPhase;
   frame: PlaybackFrame | null;
   paused: boolean;
   authoritativeRemainingMs?: number;
@@ -18,7 +18,10 @@ export function PhaseClock({ phase, frame, paused, authoritativeRemainingMs }: P
         ? frame.remainingTicks / 10
         : null;
   return (
-    <div className={`phase-clock ${overtime ? 'is-overtime' : ''}`} aria-label="Estado de ronda">
+    <div
+      className={`phase-clock ${overtime ? 'is-overtime' : phase === 'preparation' && seconds !== null && seconds <= 5 ? 'is-urgent' : ''}`}
+      aria-label="Estado de ronda"
+    >
       <span className="phase-symbol" aria-hidden="true">
         {overtime ? '»' : fighting ? '⚔' : '◇'}
       </span>
@@ -30,14 +33,32 @@ export function PhaseClock({ phase, frame, paused, authoritativeRemainingMs }: P
               ? 'Combate'
               : phase === 'preparation'
                 ? 'Preparación'
-                : 'Resolución'}
+                : phase === 'not_started'
+                  ? 'Partida preparada'
+                  : phase === 'finished'
+                    ? 'Partida finalizada'
+                    : 'Resolución'}
         </strong>
         <small>
-          {fighting ? (paused ? 'Reproducción en pausa' : 'Combate en curso') : 'Avance manual'}
+          {paused
+            ? 'Pausa de desarrollo'
+            : fighting
+              ? 'Combate en curso'
+              : phase === 'not_started'
+                ? 'Pulsa Iniciar partida'
+                : phase === 'finished'
+                  ? 'Vargas eliminado'
+                  : phase === 'resolution'
+                    ? 'Siguiente ronda automática'
+                    : seconds !== null && seconds <= 5
+                      ? 'El combate está próximo'
+                      : 'Prepara tu formación'}
         </small>
       </div>
       <span className="phase-time" aria-label="Tiempo de fase">
-        {seconds === null ? '—' : `${seconds.toFixed(1)}s`}
+        {seconds === null || phase === 'not_started' || phase === 'finished'
+          ? '—'
+          : `${seconds.toFixed(1)}s`}
       </span>
     </div>
   );

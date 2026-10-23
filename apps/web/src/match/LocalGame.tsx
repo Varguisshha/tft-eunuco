@@ -1,5 +1,5 @@
 import { useRef, useState, useSyncExternalStore } from 'react';
-import { deployedCount, interestFor, levelRule } from '@tft/game-core';
+import { deployedCount, interestFor, levelRule, type LocalMatchCoordinator } from '@tft/game-core';
 import { GameCanvas } from '../game/GameCanvas';
 import { PhaseClock } from './PhaseClock';
 import './gameHud.css';
@@ -7,54 +7,56 @@ import { LocalSession } from './LocalSession';
 import { UnitInspector } from './UnitInspector';
 import { Bench } from './Bench';
 import { Shop } from './Shop';
-export function LocalGame({ session }: { session: LocalSession }) {
+import { DevelopmentClock } from './DevelopmentClock';
+export function LocalGame({
+  session,
+  onNew,
+  onReplace,
+}: {
+  session: LocalSession;
+  onNew: () => void;
+  onReplace: (c: LocalMatchCoordinator) => void;
+}) {
   const view = useSyncExternalStore(session.subscribe, session.getSnapshot);
   const state = session.getMatch();
+  const coordinator = session.coordinator;
+  const clock = coordinator?.getClock();
+  const phase = clock?.currentPhase ?? state.phase;
   const [zoom, setZoom] = useState(1);
   const rule = levelRule(state),
-    preparing = state.phase === 'preparation';
+    preparing = session.editable;
   const journal = useRef<HTMLDialogElement>(null);
   return (
-    <main className={`local-game game-hud phase-${state.phase}`}>
+    <main className={`local-game game-hud phase-${phase}`}>
       <header className="match-heading">
         <div className="round-emblem">
           <span>RONDA</span>
           <h1>{String(state.round).padStart(2, '0')}</h1>
         </div>
         <PhaseClock
-          phase={state.phase}
+          phase={phase}
           frame={session.combatFrame()}
-          paused={view.combat.mode === 'paused'}
+          paused={clock ? clock.clockState === 'paused' : view.combat.mode === 'paused'}
+          {...(phase !== 'combat' && clock ? { authoritativeRemainingMs: clock.remainingMs } : {})}
         />
         <div className="round-actions">
-          {preparing ? (
-            <button
-              className="button combat-primary"
-              disabled={deployedCount(state) === 0 || deployedCount(state) > state.level}
-              onClick={() => session.dispatch({ type: 'start_combat' })}
-            >
-              Iniciar combate →
+          {phase === 'not_started' ? (
+            <button className="button combat-primary" onClick={() => coordinator?.start()}>
+              Iniciar partida
             </button>
-          ) : state.phase === 'combat' ? (
-            <>
-              <button className="button" onClick={() => session.pauseCombat()}>
-                {view.combat.mode === 'paused' ? 'Reanudar' : 'Pausar'}
-              </button>
-              <button
-                className="button"
-                aria-pressed={view.combat.speed === 2}
-                onClick={() => session.setSpeed(view.combat.speed === 1 ? 2 : 1)}
-              >
-                ×{view.combat.speed}
-              </button>
-            </>
+          ) : phase === 'finished' ? (
+            <button className="button combat-primary" onClick={onNew}>
+              Nueva partida
+            </button>
           ) : (
-            <button
-              className="button combat-primary"
-              onClick={() => session.dispatch({ type: 'next_round', round: state.round })}
-            >
-              Siguiente ronda →
-            </button>
+            <span className="automatic-label">
+              {phase === 'resolution'
+                ? `Siguiente: ronda ${state.round + 1}`
+                : 'Rondas automáticas'}
+            </span>
+          )}
+          {coordinator?.development && (
+            <DevelopmentClock coordinator={coordinator} onReplace={onReplace} />
           )}
         </div>
       </header>
@@ -88,45 +90,45 @@ export function LocalGame({ session }: { session: LocalSession }) {
           ))}
         <p className="rail-note">
           Duelo local · sin clasificación online
-          {state.health.south === 0 || state.health.north === 0
-            ? ' · Prueba abierta a 0 de vida'
-            : ''}
+          {phase === 'finished' ? ' · Vargas eliminado' : ''}
         </p>
-        {state.phase === 'resolution' && state.lastReward && (
-          <section className="round-reward" aria-label="Recompensas de ronda">
+        {(state.phase === 'resolution' || phase === 'finished') && state.lastReward && (
+          <section
+            className={`round-reward ${phase === 'finished' ? 'elimination-panel' : ''}`}
+            aria-label={phase === 'finished' ? 'Partida finalizada' : 'Recompensas de ronda'}
+          >
             <strong>
-              {state.lastReward.outcome === 'win'
-                ? 'Victoria jade'
-                : state.lastReward.outcome === 'loss'
-                  ? 'Derrota jade'
-                  : 'Doble derrota'}{' '}
+              {phase === 'finished'
+                ? 'Vargas eliminado'
+                : state.lastReward.outcome === 'win'
+                  ? 'Victoria jade'
+                  : state.lastReward.outcome === 'loss'
+                    ? 'Derrota jade'
+                    : 'Doble derrota'}{' '}
               <span>+{state.lastReward.credited} oro</span>
             </strong>
             <p>
-              {state.combat?.result?.reason === 'timeout'
-                ? 'Tiempo agotado'
-                : state.lastReward.outcome === 'double_loss'
-                  ? 'Eliminación mutua'
-                  : 'Eliminación'}{' '}
-              · Tick {state.combat?.result?.tick}
-            </p>
-            <p>
-              Base {state.lastReward.base} · Intereses {state.lastReward.interest} (sobre{' '}
-              {state.lastReward.bank} oro) · Victoria {state.lastReward.victory} · Racha{' '}
-              {state.lastReward.streak} · +{state.lastReward.xp} XP
-              {state.lastReward.overflow > 0
-                ? ` · ${state.lastReward.overflow} oro excede el límite`
-                : ''}
-            </p>
-            <p>
               {state.healthLedger
                 .slice(-2)
-                .map(
-                  (e) =>
-                    `${e.side === 'south' ? 'Vargas' : 'Florin'}: −${e.applied} vida (base ${e.base} + supervivientes ${e.survivors}; ${e.hpAfter} restante)`,
-                )
+                .map((e) => `${e.side === 'south' ? 'Vargas' : 'Florin'} −${e.applied} vida`)
                 .join(' · ')}
             </p>
+            <p>
+              +{state.lastReward.xp} XP · Racha {Math.abs(state.streak)}{' '}
+              {state.streak > 0 ? 'victorias' : state.streak < 0 ? 'derrotas' : ''}
+            </p>
+            <details>
+              <summary>Desglose de la ronda</summary>
+              <p>
+                {state.combat?.result?.reason === 'timeout' ? 'Tiempo agotado' : 'Eliminación'} ·
+                Tick {state.combat?.result?.tick}
+              </p>
+              <p>
+                Base {state.lastReward.base} · Intereses {state.lastReward.interest} (sobre{' '}
+                {state.lastReward.bank} oro) · Victoria {state.lastReward.victory} · Racha{' '}
+                {state.lastReward.streak} · Exceso {state.lastReward.overflow}
+              </p>
+            </details>
           </section>
         )}
 

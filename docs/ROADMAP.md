@@ -18,11 +18,15 @@ Overtime determinista, protocolo3, doble derrota, vida y registro de daño míni
 
 ## F0-P4 — completado y validado
 
-Partida local convertida en HUD de viewport: tablero adaptativo protagonista, dos participantes locales, inspector contextual, banquillo9 y tienda5, economía compacta y registros en diálogo. Arena técnica independiente preservada. Verificación visual real en 1280×720, 1366×768, 1440×900, 1920×1080 y 2560×1440, sin overflow del documento ni controles esenciales fuera del viewport. 172 pruebas, tipos/lint/build/formato correctos; interacciones, guardado previo, rondas, overtime en tick 352 y resultados comprobados. Evidencia y límites en VALIDATION.md; estructura en GAME_UI_SPEC.md. P4 queda como cambios locales sobre `1079713`.
+Partida local convertida en HUD de viewport: tablero adaptativo protagonista, dos participantes locales, inspector contextual, banquillo9 y tienda5, economía compacta y registros en diálogo. Arena técnica independiente preservada. Verificación visual real en 1280×720, 1366×768, 1440×900, 1920×1080 y 2560×1440, sin overflow del documento ni controles esenciales fuera del viewport. 172 pruebas, tipos/lint/build/formato correctos; interacciones, guardado previo, rondas, overtime en tick 352 y resultados comprobados. Evidencia y límites en VALIDATION.md; estructura en GAME_UI_SPEC.md. P4 fue preservado antes de P5: módulos identificables en `b71448c`; archivos compartidos junto con P4.1 en `ffa9265`.
 
-## Siguiente paso: F0-P5, pendiente de encargo
+## F0-P5 — completado y validado
 
-Definir el reloj autoritativo de ronda y sus transiciones: preparación de 30 s, combate hasta 45 s, transición aproximada de 5 s. Precisar pausa, recarga/reconexión e idempotencia antes de automatizar. `PhaseClock` ya admite tiempo externo, pero el flujo sigue manual. No se ha implementado F0-P5.
+Coordinador/reloj puro, fases automáticas30/45máximo/5s, autoridad de plazos, una simulación por combate, liquidación retenida, guardado de restante/traza/posición, migración no destructiva, eliminación local y depuración aislada. 227 pruebas (200 previas intactas), check y formato; recorrido real con DOLEA, recargas, doble derrota, eliminación, Arena y cinco tamaños. Ver VALIDATION, MATCH_CLOCK_SPEC y AUTOMATIC_ROUNDS.
+
+## Siguiente paso recomendado, sin iniciar F0-P6
+
+Acordar el alcance y contrato del siguiente hito de autoridad remota: identidad de comandos, publicación de snapshots, reconexión y persistencia de servidor. El puerto está preparado, pero no se ha instalado Colyseus ni implementado red. También queda pendiente producir las animaciones todavía cubiertas por fallbacks; P5 no altera esos assets.
 
 ## Dirección de producto futura
 
@@ -36,4 +40,4 @@ Servidor Node/Colyseus, identidad y emparejamientos de cuatro jugadores, recepci
 
 ## F0-P4.1 — completado y validado
 
-Contrato universal por evolución/estado, recursos parciales, resolver central, pipeline reproducible, dos Attack reales de8frames,3★ con apariencia2★, retratos y muestreo por reloj de combate. Roster nuevo versionado con DOLEA, guardados previos preservados, inspector y duelos de Arena. 200 pruebas correctas, check/formato y verificación visual en cinco tamaños. Ver VALIDATION.md para pruebas y límites. F0-P5 sigue pendiente; no se automatiza ninguna fase.
+Contrato universal por evolución/estado, recursos parciales, resolver central, pipeline reproducible, dos Attack reales de8frames,3★ con apariencia2★, retratos y muestreo por reloj de combate. Roster nuevo versionado con DOLEA, guardados previos preservados, inspector y duelos de Arena. 200 pruebas correctas, check/formato y verificación visual en cinco tamaños. Ver VALIDATION.md para pruebas y límites. P4.1 fue preservado en `ffa9265` antes de iniciar P5; la automatización se incorpora en el hito P5 descrito arriba.

@@ -8,7 +8,7 @@ import { synergyLabel } from './uiLabels';
 import { purchaseAvailability } from './purchaseAvailability';
 export function Shop({ session }: { session: LocalSession }) {
   const state = session.getMatch(),
-    preparing = state.phase === 'preparation',
+    preparing = session.editable,
     rule = levelRule(state);
   const purchaseErrors = useMemo(() => purchaseAvailability(state), [state]);
   return (
@@ -50,7 +50,7 @@ export function Shop({ session }: { session: LocalSession }) {
                   ? `Comprar ${d.name}, oferta ${i + 1}, ${d.cost} oro`
                   : `Oferta ${i + 1} vacía`
               }
-              disabled={!!purchaseErrors[i]}
+              disabled={!preparing || !!purchaseErrors[i]}
               onClick={() => offer && session.dispatch({ type: 'buy_unit', offerId: offer.id })}
             >
               {d ? (
@@ -67,7 +67,9 @@ export function Shop({ session }: { session: LocalSession }) {
                     ★ · {state.units.filter((u) => u.definitionId === d.id && u.stars === 1).length}{' '}
                     copias de 1★
                   </small>
-                  <span className="offer-state">{purchaseErrors[i] || 'Reclutar +'}</span>
+                  <span className="offer-state">
+                    {!preparing ? 'Tienda cerrada' : purchaseErrors[i] || 'Reclutar +'}
+                  </span>
                 </>
               ) : (
                 <span className="empty-offer">Sin oferta</span>

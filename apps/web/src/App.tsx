@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CURRENT_ECONOMY_CONFIG } from '@tft/game-data';
-import { createMatch } from '@tft/game-core';
+import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
+import { AUTOMATIC_SAVE_KEY, DEVELOPMENT_SAVE_KEY, decodeSave } from './match/automaticSave';
+import { attachAutomaticHost } from './match/automaticHost';
 import { Arena } from './Arena';
 import { BoardSession } from './game/session';
 import { LocalGame } from './match/LocalGame';
@@ -20,38 +22,65 @@ export function App() {
   });
   const [hasSave, setHasSave] = useState(() => {
     try {
-      return !!localStorage.getItem(SAVE_KEY);
+      return !!(localStorage.getItem(AUTOMATIC_SAVE_KEY) || localStorage.getItem(SAVE_KEY));
     } catch {
       return false;
     }
   });
-  const save = (s: ReturnType<typeof createMatch>) => {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(s));
-    setHasSave(true);
-  };
-  const start = () => {
+  const time = { now: () => performance.now() };
+  const attach = (coordinator: LocalMatchCoordinator) =>
+    setSession(new LocalSession(coordinator.getMatch(), undefined, coordinator));
+  useEffect(() => {
+    const coordinator = session?.coordinator;
+    if (!coordinator) return;
+    return attachAutomaticHost(
+      coordinator,
+      (text) => {
+        localStorage.setItem(
+          coordinator.development ? DEVELOPMENT_SAVE_KEY : AUTOMATIC_SAVE_KEY,
+          text,
+        );
+        if (!coordinator.development) setHasSave(true);
+      },
+      () => setNotice('No se pudo guardar. La partida continúa en memoria.'),
+    );
+  }, [session]);
+  const create = (development = false) => {
     const n = Number(seed);
     if (!seed.trim() || !Number.isInteger(n) || n < 0 || n > 0xffffffff) {
       setNotice('La semilla debe ser un entero entre 0 y 4294967295.');
       return;
     }
-    const state = createMatch(n, CURRENT_ECONOMY_CONFIG);
-    try {
-      save(state);
-    } catch {
-      setNotice('Guardado no disponible; podrás jugar en memoria.');
-    }
-    setSession(new LocalSession(state, save));
+    attach(
+      new LocalMatchCoordinator(createMatch(n, CURRENT_ECONOMY_CONFIG), {
+        matchId: crypto.randomUUID(),
+        time,
+        development,
+      }),
+    );
+    setNotice('');
   };
-  const resume = () => {
+  const resume = (development = false) => {
     try {
-      const text = localStorage.getItem(SAVE_KEY);
-      if (!text) throw new Error();
-      setSession(new LocalSession(restoreMatch(text), save));
+      const text = localStorage.getItem(development ? DEVELOPMENT_SAVE_KEY : AUTOMATIC_SAVE_KEY);
+      if (text) attach(decodeSave(text, time));
+      else {
+        if (development) throw new Error('No development save');
+        const old = localStorage.getItem(SAVE_KEY);
+        if (!old) throw new Error('No save');
+        const state = restoreMatch(old);
+        attach(
+          LocalMatchCoordinator.migrate(
+            state,
+            state.combat ? runCombat(state.combat.input) : null,
+            { matchId: crypto.randomUUID(), time },
+          ),
+        );
+      }
       setNotice('');
     } catch {
       setNotice(
-        'No se pudo validar la partida guardada. Puedes iniciar otra; el guardado se conserva hasta entonces.',
+        'No se pudo validar el guardado. Se conserva intacto; no se ha iniciado otra partida.',
       );
     }
   };
@@ -76,19 +105,24 @@ export function App() {
         >
           Arena de pruebas
         </button>
-        <span>F0–P4.1 · LOCAL</span>
+        <span>F0–P5 · LOCAL</span>
       </nav>
+      {notice && session && (
+        <p className="save-notice" role="status">
+          {notice}
+        </p>
+      )}
       {screen === 'arena' ? (
         <Arena providedSession={arena} />
       ) : session ? (
-        <LocalGame session={session} />
+        <LocalGame session={session} onNew={() => setSession(null)} onReplace={attach} />
       ) : (
         <main className="local-lobby">
           <span className="eyebrow">ECONOMÍA · FORMACIÓN · COMBATE</span>
           <h1>Cada moneda cuenta.</h1>
           <p>
             Construye un equipo, mejora tus personajes y decide cuándo ahorrar o gastar. Una partida
-            local de rondas abiertas, con DOLEA y los cuatro personajes de prueba.
+            local de rondas automáticas, con DOLEA y los cuatro personajes de prueba.
           </p>
           <div className="lobby-rules">
             <span>
@@ -112,14 +146,24 @@ export function App() {
           </label>
           <div className="lobby-actions">
             {hasSave && (
-              <button className="button combat-primary" onClick={resume}>
+              <button className="button combat-primary" onClick={() => resume()}>
                 Continuar partida guardada
               </button>
             )}
-            <button className="button combat-primary" onClick={start}>
-              {hasSave ? 'Iniciar nueva partida' : 'Iniciar partida local'}
+            <button className="button combat-primary" onClick={() => create()}>
+              {hasSave ? 'Crear nueva partida' : 'Crear partida local'}
             </button>
           </div>
+          <details className="lobby-development">
+            <summary>Herramientas de desarrollo local</summary>
+            <p>Partida aislada, con guardado propio y controles técnicos. Sin autoridad online.</p>
+            <button className="button" onClick={() => create(true)}>
+              Crear partida de desarrollo
+            </button>
+            <button className="button" onClick={() => resume(true)}>
+              Recuperar prueba de desarrollo
+            </button>
+          </details>
           <small>
             Se guarda en este navegador. Una nueva partida sustituye el guardado de esta versión.
             Sin cuentas ni conexión.

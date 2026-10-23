@@ -100,3 +100,16 @@ Fuentes Phaser consultadas para P2: [Graphics](https://docs.phaser.io/api-docume
 - Alpha<=8 se limpia solo en derivados; nearest-neighbor y escala por evolución, apoyo inferior estable. No se generan ilustraciones alternativas.
 - Skill animate aplicada al propósito de indicar estados e interrupciones; se mantiene Phaser y el reloj existente por la necesidad específica del juego. Sin biblioteca de motion adicional.
 - Vargas y Florin nombran los participantes de prueba a petición del usuario.
+
+## F0-P5 — ciclo, autoridad y recuperación
+
+- Separar el reloj puro/inyectable de su host del navegador y del renderer. Preparación30s y resolución5s por deadlines; comprobar cada intención al recibirla, con partida/fase/revisión.
+- Añadir un envoltorio versionado `f0p5-1` sin reescribir reglas económicas/combatientes ni los contratos históricos. Estados not_started/preparation/combat/resolution/finished, pausa solo en desarrollo y bandera de recuperación.
+- Retener la primera traza en `RoundAuthority` y liquidar con las mismas funciones económicas. El temporizador de combate nunca paga. Esperar `combat_end` más600ms visuales; una victoria temprana no espera45s.
+- Tablero vacío al deadline: derrota por el motor existente. No introducir despliegue automático, regalos ni bloqueo permanente.
+- Usar deadlines para planificación y resolución; reproducción limitada a100ms por pulso para no omitir una batalla tras suspensión. No recuperar rondas atrasadas en bucle. El máximo45s sigue siendo tiempo lógico de simulación, no una garantía de pared bajo suspensión.
+- Congelar durante el cierre, persistir restante y posición, rebasar origen monotónico al recuperar. Snapshots por diferencias reducen el tamaño del guardado. Fallo de almacenamiento se comunica; caída abrupta puede perder hasta500ms desde el último checkpoint temporal.
+- Mantener las claves anteriores. Migrar al continuar, validando el historial histórico; los guardados antiguos sin posición visual reinician el combate pendiente una vez. Un estado histórico ya sin vida y sin combate pendiente se detiene sin nuevo pago.
+- Fin local cuando Vargas llega a0, después de pagar la ronda. Florin permanece como oponente de pruebas. Sin clasificación, red, cuentas ni cambios a Overtime.
+- Depuración optativa con partida/clave separadas; pausa, avance, duraciones8/2s, repetición desde checkpoint de memoria, recarga e inspección. La partida normal no expone esas ventajas.
+- Preservación Git inicial: módulos P4 identificables en `b71448c`; archivos solapados del HUD y P4.1 verificados juntos en `ffa9265`. No se reconstruyó un hito histórico completo artificialmente a partir de archivos solapados. Los32PNG originales/duplicados en Sprites permanecieron fuera de esos commits.

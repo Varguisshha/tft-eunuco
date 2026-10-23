@@ -40,6 +40,10 @@ export class CombatPlayback {
       this.elapsed + deltaMs * this.speed,
     );
   }
+  seek(timeMs: number): void {
+    if (!Number.isFinite(timeMs) || timeMs < 0) throw new RangeError('Invalid playback position');
+    this.elapsed = Math.min(timeMs, this.replay.result.tick * TICK_MS + 600);
+  }
   frame(): PlaybackFrame {
     const tick = Math.min(this.replay.result.tick, Math.floor(this.elapsed / TICK_MS));
     return {

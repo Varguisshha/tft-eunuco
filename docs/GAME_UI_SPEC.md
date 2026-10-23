@@ -39,3 +39,11 @@ Botones con nombres accesibles, estados disabled/aria-pressed, foco visible, reg
 P5 podrá alimentar 30 s de preparación, hasta 45 s de combate y aproximadamente 5 s de transición desde una autoridad de ronda. Debe definir pausas, reentrada, restauración y comandos idempotentes antes de conectar esos tiempos. El reloj visual de reproducción no deberá convertirse en autoridad económica. F0-P4 no implementa esa fase.
 
 Guardados y protocolos permanecen f0p3.1-1, misma clave local y replay de validación. No hay migración, nuevas dependencias, servicios ni arte definitivo.
+
+## Extensión F0-P5 — estados y reloj
+
+Se conserva el HUD, cámara y áreas de P4. La cabecera muestra preparada/inicio explícito, preparación30s, combate por reproducción, Overtime, resolución5s o finalizada. Últimos5s: fondo/tono ámbar y «El combate está próximo», sin parpadeo ni movimiento adicional. En modo normal no hay iniciar combate, siguiente ronda, pausa ni velocidad. Solo Iniciar partida y Nueva partida cuando corresponden.
+
+Tienda/banquillo permanecen visibles y cerrados antes del inicio y fuera de preparación; el plazo se valida también en core. Resolución y eliminación usan un panel lateral compacto con resultado/oro/daño/XP/racha y detalle desplegable. Durante esas fases se compactan las tarjetas de participantes para que la recompensa sea legible incluso a1280×720. El tablero nunca queda cubierto por el resultado. Contador/siguiente ronda siguen en la cabecera. Vargas y Florin son los nombres de prueba.
+
+La depuración solo aparece en partidas creadas desde el desplegable técnico del lobby, en un diálogo aparte. El guardado de pruebas no reemplaza el normal. Recuperar conserva el restante y no realiza rondas durante la ausencia. Las cinco resoluciones de escritorio de P4 siguen siendo el criterio; tamaños inferiores mantienen el comportamiento adaptativo anterior.

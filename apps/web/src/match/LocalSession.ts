@@ -10,6 +10,7 @@ import {
   sameHex,
   validateMatchState,
   type MatchError,
+  type LocalMatchCoordinator,
 } from '@tft/game-core';
 import {
   TICK_MS,
@@ -51,10 +52,20 @@ export class LocalSession implements BoardPort {
   private invalid = false;
   private save: ((state: MatchState) => void) | undefined;
   dropOutside: ((unitId: string, x: number, y: number) => boolean) | undefined;
-  constructor(state: MatchState = createMatch(), save?: (state: MatchState) => void) {
+  constructor(
+    state: MatchState = createMatch(),
+    save?: (state: MatchState) => void,
+    readonly coordinator?: LocalMatchCoordinator,
+  ) {
     this.match = validateMatchState(state);
     this.save = save;
-    if (state.phase === 'combat' || state.phase === 'resolution') {
+    if (coordinator) {
+      this.syncCoordinator();
+      if (coordinator.recoveredFromSave)
+        this.message =
+          'Partida recuperada con el tiempo guardado, sin recompensas durante la ausencia.';
+      coordinator.subscribe(() => this.syncCoordinator());
+    } else if (state.phase === 'combat' || state.phase === 'resolution') {
       this.playback = new CombatPlayback(runCombat(state.combat!.input));
       if (state.phase === 'resolution') {
         this.playback.advance(this.playback.replay.result.tick * TICK_MS + 600);
@@ -64,7 +75,31 @@ export class LocalSession implements BoardPort {
     this.publish();
   }
   get editable() {
-    return this.match.phase === 'preparation';
+    return this.coordinator
+      ? this.coordinator.getClock().currentPhase === 'preparation' &&
+          this.coordinator.getClock().clockState === 'running' &&
+          this.coordinator.getClock().remainingMs > 0
+      : this.match.phase === 'preparation';
+  }
+  private syncCoordinator(): void {
+    const c = this.coordinator!;
+    const previous = this.match;
+    this.match = c.getMatch();
+    const trace = c.getReplay();
+    if (trace && this.playback?.replay !== trace) this.playback = new CombatPlayback(trace);
+    if (!trace) this.playback = null;
+    this.playback?.seek(c.getPlaybackMs());
+    this.paused = c.getClock().clockState === 'paused';
+    if (previous.phase !== this.match.phase)
+      this.message =
+        this.match.phase === 'combat'
+          ? 'Combate automático en curso.'
+          : this.match.phase === 'resolution'
+            ? 'Ronda liquidada. Recompensas recibidas una vez.'
+            : 'Nueva preparación. Organiza tu formación.';
+    if (c.getClock().currentPhase === 'finished')
+      this.message = 'Vargas ha sido eliminado. Partida finalizada.';
+    this.publish();
   }
   getMatch = () => this.match;
   getSnapshot = () => this.view;
@@ -133,14 +168,26 @@ export class LocalSession implements BoardPort {
     this.listeners.forEach((l) => l());
   }
   dispatch(command: MatchCommand): boolean {
-    const result = applyMatchAction(this.match, commandFor(this.match, command));
+    const before = this.match;
+    const c = this.coordinator;
+    const accepted = c?.submit({
+      matchId: c.getClock().matchId,
+      phaseId: c.getClock().phaseId,
+      expectedRevision: before.revision,
+      command,
+    });
+    const result = c
+      ? accepted
+        ? { ok: true as const, state: c.getMatch() }
+        : { ok: false as const, error: c.lastRejection ?? ('wrong-phase' as const) }
+      : applyMatchAction(this.match, commandFor(this.match, command));
     if (!result.ok) {
       this.message = MATCH_ERRORS[result.error];
       this.invalid = true;
       this.publish();
       return false;
     }
-    const oldUnits = new Set(this.match.units.map((u) => u.id));
+    const oldUnits = new Set(before.units.map((u) => u.id));
     this.match = result.state;
     this.invalid = false;
     if (command.type === 'buy_unit')
@@ -150,7 +197,7 @@ export class LocalSession implements BoardPort {
         this.selectedId;
     if (this.selectedId && !this.match.units.some((u) => u.id === this.selectedId))
       this.selectedId = null;
-    if (command.type === 'start_combat') {
+    if (!c && command.type === 'start_combat') {
       this.playback = new CombatPlayback(runCombat(this.match.combat!.input));
       this.playback.setSpeed(this.speed);
       this.paused = false;
@@ -190,6 +237,7 @@ export class LocalSession implements BoardPort {
     return true;
   }
   advanceCombat(delta: number): void {
+    if (this.coordinator) return; // Application host owns automatic time, never Phaser.
     if (!this.playback || this.match.phase !== 'combat' || this.paused) return;
     const old = this.playback.frame().tick;
     this.playback.advance(delta);
@@ -197,12 +245,14 @@ export class LocalSession implements BoardPort {
     else if (old !== this.playback.frame().tick) this.publish();
   }
   pauseCombat(): void {
+    if (this.coordinator) return;
     if (this.match.phase !== 'combat') return;
     this.paused = !this.paused;
     this.playback?.setPaused(this.paused);
     this.publish();
   }
   setSpeed(speed: 1 | 2): void {
+    if (this.coordinator) return;
     this.speed = speed;
     this.playback?.setSpeed(speed);
     this.publish();

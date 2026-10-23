@@ -95,3 +95,11 @@ El contrato de reloj admite un tiempo autoritativo futuro; hoy los cambios de fa
 ## F0-P4.1: recursos y catálogo versionado
 
 El contrato v2 y su resolver viven en sprite-contract. El importador Node/sharp produce hojas y metadatos; web precarga el registro y muestrea frames con el reloj de CombatPlayback. Señales visuales derivadas de eventos no conceden autoridad al renderer. Nuevos personajes se registran sin rutas específicas en PhaserUnitVisual. Catálogo opcional f0p4.1 en EconomyConfig selecciona cinco definiciones; configuración histórica mantiene cuatro y replay idéntico. DOLEA comparte motor, economía, habilidades y escalado existentes. Arena incorpora evoluciones, inspector de frames y avance manual de un tick. Detalles en CHARACTER_INTEGRATION.md y SPRITE_PIPELINE.md.
+
+## Extensión vigente F0-P5: coordinación automática
+
+El ciclo normal ahora lo gobierna `packages/game-core/src/match/coordinator.ts`, sobre `clock.ts` y los contratos de `packages/shared/src/match-clock.ts`. Es código puro con `TimeSource` inyectable. `RoundAuthority` conserva la traza de una única simulación y reutiliza la liquidación del motor económico. `apps/web/src/match/automaticHost.ts` conecta pulsos y persistencia al ciclo de vida de la sesión; no depende de montar Phaser. `LocalSession` es el adaptador visual y `CombatPlayback.seek` solo muestrea. La Arena sigue con su sesión manual independiente.
+
+El nuevo guardado versionado contiene el envoltorio temporal, el estado histórico, IDs de liquidación y traza comprimida por diferencias de snapshots. No se vuelve a simular al recuperar P5. La migración histórica conserva reglas/catálogo y la clave previa. `MatchCoordinator` define el puerto sustituible para una autoridad remota futura; los métodos técnicos son específicos del adaptador local. No se ha instalado red ni servidor. Véanse MATCH_CLOCK_SPEC y AUTOMATIC_ROUNDS para estados, cuatro dominios temporales y límites.
+
+Las secciones anteriores relativas a botones manuales o a la segunda simulación describen los hitos históricos y la ruta de compatibilidad, no el flujo normal vigente.
