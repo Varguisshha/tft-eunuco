@@ -8,6 +8,7 @@ import {
   replayMatch,
   runCombat,
   sameHex,
+  scaledProfile,
   validateMatchState,
   type MatchError,
   type LocalMatchCoordinator,
@@ -117,6 +118,33 @@ export class LocalSession implements BoardPort {
           .stars
       : 1);
   selected = (): OwnedUnit | undefined => this.match.units.find((u) => u.id === this.selectedId);
+  /** Read-only view model: inspection never dispatches a gameplay command. */
+  inspection() {
+    const owned = this.selected();
+    const rival = opponentUnits(this.match).find((u) => u.id === this.selectedId);
+    const unit = owned ?? rival;
+    if (!unit) return null;
+    const live = this.combatFrame()?.state.units.find((u) => u.id === unit.id);
+    const stars = this.starsFor(unit.id);
+    const profile = live?.profile ?? scaledProfile(unit.definitionId, stars, this.match.config);
+    return {
+      id: unit.id,
+      definitionId: unit.definitionId,
+      stars,
+      owned,
+      profile,
+      hp: live?.hp ?? profile.stats.maxHp,
+      mana: live?.mana ?? profile.stats.startingMana,
+      side: owned ? ('south' as const) : ('north' as const),
+    };
+  }
+  /** Pointer clicks deselect empty ground; keyboard activation still places units. */
+  pointerActivate(hex: HexCoord): void {
+    const units = this.combatFrame()?.state.units ?? this.getSnapshot().board.units;
+    const unit = units.find((u) => sameHex(u.position, hex));
+    if (unit) this.select(unit.id);
+    else this.cancel();
+  }
   private publish(): void {
     const board = {
       units: [
@@ -287,7 +315,13 @@ export class LocalSession implements BoardPort {
     return this.dispatch({ type: 'move_unit', unitId: id, to: { kind: 'board', hex } });
   }
   activate(hex: HexCoord): void {
-    if (!this.editable) return;
+    const units = this.combatFrame()?.state.units ?? this.getSnapshot().board.units;
+    const atCursor = units.find((u) => sameHex(u.position, hex));
+    if (!this.editable || atCursor?.owner === 'north') {
+      if (atCursor) this.select(atCursor.id);
+      else this.cancel();
+      return;
+    }
     if (this.selectedId && this.selected()) this.move(this.selectedId, hex);
     else {
       const found = this.match.units.find(

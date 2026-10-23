@@ -22,3 +22,24 @@ export function canvasSize(width: number, height: number, pixelRatio: number) {
     density,
   };
 }
+
+/** Local HUD rail is an overlay; fit around it without resizing when inspection opens. */
+export function fitLocalBoardView(
+  width: number,
+  height: number,
+  projection: Projection,
+  density: number,
+) {
+  const left = (width / density >= 650 ? 172 : 8) * density;
+  const right = 16 * density;
+  const top = 16 * density;
+  const bottom = 28 * density;
+  const availableWidth = Math.max(1, width - left - right);
+  const availableHeight = Math.max(1, height - top - bottom);
+  const fit = fitBoardView(availableWidth, availableHeight, projection);
+  return {
+    ...fit,
+    x: fit.x - (left - right) / (2 * fit.zoom),
+    y: fit.y - (top - bottom) / (2 * fit.zoom),
+  };
+}

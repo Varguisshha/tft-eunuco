@@ -14,7 +14,7 @@ import { createProjection, hexCorners, hexToWorld, WORLD, worldToHex } from './p
 import { PhaserUnitVisual } from './visualAdapter';
 import { CombatRenderer } from './CombatRenderer';
 import { CHARACTER_ASSETS } from './characterAssets';
-import { fitBoardView } from './viewport';
+import { fitLocalBoardView } from './viewport';
 
 export class BoardScene extends Phaser.Scene {
   private projection = createProjection();
@@ -30,7 +30,7 @@ export class BoardScene extends Phaser.Scene {
     private fitted = false,
   ) {
     super('board');
-    if (fitted) this.projection = createProjection(0.38);
+    if (fitted) this.projection = createProjection(0.32);
   }
   preload(): void {
     for (const manifest of CHARACTER_ASSETS)
@@ -116,7 +116,8 @@ export class BoardScene extends Phaser.Scene {
     if (!camera) return;
     if (this.fitted) {
       const { width, height } = this.scale;
-      const fit = fitBoardView(width, height, this.projection);
+      const density = width / this.game.canvas.getBoundingClientRect().width;
+      const fit = fitLocalBoardView(width, height, this.projection, density);
       camera
         .setSize(width, height)
         .setZoom(fit.zoom * this.zoomLevel)
@@ -149,6 +150,7 @@ export class BoardScene extends Phaser.Scene {
     const unit = currentUnits.find((u) => u.id === hitId) ?? unitAt({ units: currentUnits }, hex);
     if (!this.session.editable) {
       if (unit) this.session.select(unit.id);
+      else this.session.pointerActivate?.(hex);
       return;
     }
     this.press = {
@@ -157,7 +159,7 @@ export class BoardScene extends Phaser.Scene {
       y: pointer.y,
       dragging: false,
     };
-    if (unit && !state.paletteId) this.session.select(unit.id);
+    if (unit && !state.paletteId && !this.session.pointerActivate) this.session.select(unit.id);
   }
   private pointerUp(pointer: Phaser.Input.Pointer): void {
     if (!this.press) return;
@@ -166,6 +168,7 @@ export class BoardScene extends Phaser.Scene {
     const hex = worldToHex(this.pointerWorld(pointer), this.projection);
     if (press.dragging && press.unitId) this.session.move(press.unitId, hex);
     else if (press.unitId) this.session.select(press.unitId);
+    else if (this.session.pointerActivate) this.session.pointerActivate(hex);
     else this.session.activate(hex);
     this.sync();
   }

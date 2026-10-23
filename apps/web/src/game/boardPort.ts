@@ -15,5 +15,6 @@ export type BoardPort = Pick<
   | 'setCursor'
 > & {
   dropOutside?: ((unitId: string, clientX: number, clientY: number) => boolean) | undefined;
+  pointerActivate?: (hex: import('@tft/shared').HexCoord) => void;
   starsFor?: (unitId: string) => number;
 };

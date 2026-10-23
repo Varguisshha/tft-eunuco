@@ -17,7 +17,7 @@ export function LocalGame({
   onNew: () => void;
   onReplace: (c: LocalMatchCoordinator) => void;
 }) {
-  const view = useSyncExternalStore(session.subscribe, session.getSnapshot);
+  const view = useSyncExternalStore(session.subscribe, session.getSnapshot, session.getSnapshot);
   const state = session.getMatch();
   const coordinator = session.coordinator;
   const clock = coordinator?.getClock();
@@ -60,159 +60,180 @@ export function LocalGame({
           )}
         </div>
       </header>
-      <aside className="player-rail" aria-label="Participantes locales">
-        <div className="rail-heading">
-          <span className="eyebrow">EN ESTA ARENA</span>
-          <h2>Participantes</h2>
-        </div>
-        {[...(['south', 'north'] as const)]
-          .sort((a, b) => state.health[b] - state.health[a])
-          .map((side) => (
-            <article key={side} className={`player-banner ${side}`}>
-              <span className="player-sigil" aria-hidden="true">
-                {side === 'south' ? 'V' : 'F'}
-              </span>
-              <div>
-                <h3>{side === 'south' ? 'Vargas' : 'Florin'}</h3>
-                <small>{side === 'south' ? 'Tu formación' : 'Rival local de prueba'}</small>
-              </div>
-              <strong>
-                {state.health[side]}
-                <small> VIDA</small>
-              </strong>
-              <meter
-                aria-label={side === 'south' ? 'Vida de Vargas' : 'Vida de Florin'}
-                min={0}
-                max={state.config.roundDamage.initialHp}
-                value={state.health[side]}
-              />
-            </article>
-          ))}
-        <p className="rail-note">
-          Duelo local · sin clasificación online
-          {phase === 'finished' ? ' · Vargas eliminado' : ''}
-        </p>
-        {(state.phase === 'resolution' || phase === 'finished') && state.lastReward && (
-          <section
-            className={`round-reward ${phase === 'finished' ? 'elimination-panel' : ''}`}
-            aria-label={phase === 'finished' ? 'Partida finalizada' : 'Recompensas de ronda'}
-          >
-            <strong>
-              {phase === 'finished'
-                ? 'Vargas eliminado'
-                : state.lastReward.outcome === 'win'
-                  ? 'Victoria jade'
-                  : state.lastReward.outcome === 'loss'
-                    ? 'Derrota jade'
-                    : 'Doble derrota'}{' '}
-              <span>+{state.lastReward.credited} oro</span>
-            </strong>
-            <p>
-              {state.healthLedger
-                .slice(-2)
-                .map((e) => `${e.side === 'south' ? 'Vargas' : 'Florin'} −${e.applied} vida`)
-                .join(' · ')}
-            </p>
-            <p>
-              +{state.lastReward.xp} XP · Racha {Math.abs(state.streak)}{' '}
-              {state.streak > 0 ? 'victorias' : state.streak < 0 ? 'derrotas' : ''}
-            </p>
-            <details>
-              <summary>Desglose de la ronda</summary>
-              <p>
-                {state.combat?.result?.reason === 'timeout' ? 'Tiempo agotado' : 'Eliminación'} ·
-                Tick {state.combat?.result?.tick}
-              </p>
-              <p>
-                Base {state.lastReward.base} · Intereses {state.lastReward.interest} (sobre{' '}
-                {state.lastReward.bank} oro) · Victoria {state.lastReward.victory} · Racha{' '}
-                {state.lastReward.streak} · Exceso {state.lastReward.overflow}
-              </p>
-            </details>
-          </section>
-        )}
-
-        <button className="button journal-button" onClick={() => journal.current?.showModal()}>
-          Registro de partida ↗
-        </button>
-      </aside>
-      <section className="local-board" aria-label="Tablero de partida local">
-        <div className="local-board-title">
-          <span>Florin · Ámbar</span>
-          <div className="local-zoom">
-            <button aria-label="Alejar tablero" onClick={() => setZoom(0.85)}>
-              −
-            </button>
-            <button aria-label="Restablecer zoom" onClick={() => setZoom(1)}>
-              {Math.round(zoom * 100)}%
-            </button>
-            <button aria-label="Acercar tablero" onClick={() => setZoom(1.15)}>
-              +
-            </button>
+      <div className="battlefield">
+        <aside className="player-rail" aria-label="Participantes locales">
+          <div className="rail-heading">
+            <h2>En esta arena</h2>
           </div>
-        </div>
-        <GameCanvas session={session} zoom={zoom} fitted hideTimer />
-        <div className="local-board-footer">
-          <span>Vargas · Jade</span>
-          <span>
-            {preparing
-              ? `${deployedCount(state)} / ${state.level} unidades`
-              : `Tick ${view.combat.tick} · ×${view.combat.speed}`}
-          </span>
-        </div>
-      </section>
-      <UnitInspector session={session} view={view} />
-      <p className={`match-feedback ${view.invalid ? 'invalid' : ''}`} role="status">
-        {view.message}
-      </p>
+          {[...(['south', 'north'] as const)]
+            .sort((a, b) => state.health[b] - state.health[a])
+            .map((side) => (
+              <article
+                key={side}
+                className={`player-banner ${side} ${state.health[side] === 0 ? 'eliminated' : ''}`}
+              >
+                <span className="player-sigil" aria-hidden="true">
+                  {side === 'south' ? 'V' : 'F'}
+                </span>
+                <div>
+                  <h3>{side === 'south' ? 'Vargas' : 'Florin'}</h3>
+                  <small>
+                    {state.health[side] === 0
+                      ? 'Eliminado'
+                      : side === 'south'
+                        ? 'Tú · Jade'
+                        : 'Rival actual'}
+                  </small>
+                </div>
+                <strong>
+                  {state.health[side]}
+                  <small> VIDA</small>
+                </strong>
+                <meter
+                  aria-label={side === 'south' ? 'Vida de Vargas' : 'Vida de Florin'}
+                  min={0}
+                  max={state.config.roundDamage.initialHp}
+                  value={state.health[side]}
+                />
+              </article>
+            ))}
+
+          {(state.phase === 'resolution' || phase === 'finished') && state.lastReward && (
+            <section
+              className={`round-reward ${phase === 'finished' ? 'elimination-panel' : ''}`}
+              aria-label={phase === 'finished' ? 'Partida finalizada' : 'Recompensas de ronda'}
+            >
+              <strong>
+                {phase === 'finished'
+                  ? 'Vargas eliminado'
+                  : state.lastReward.outcome === 'win'
+                    ? 'Victoria jade'
+                    : state.lastReward.outcome === 'loss'
+                      ? 'Derrota jade'
+                      : 'Doble derrota'}{' '}
+                <span>+{state.lastReward.credited} oro</span>
+              </strong>
+              <p>
+                {state.healthLedger
+                  .slice(-2)
+                  .map((e) => `${e.side === 'south' ? 'Vargas' : 'Florin'} −${e.applied} vida`)
+                  .join(' · ')}
+              </p>
+              <p>
+                +{state.lastReward.xp} XP · Racha {Math.abs(state.streak)}{' '}
+                {state.streak > 0 ? 'victorias' : state.streak < 0 ? 'derrotas' : ''}
+              </p>
+              <details>
+                <summary>Desglose de la ronda</summary>
+                <p>
+                  {state.combat?.result?.reason === 'timeout' ? 'Tiempo agotado' : 'Eliminación'} ·
+                  Tick {state.combat?.result?.tick}
+                </p>
+                <p>
+                  Base {state.lastReward.base} · Intereses {state.lastReward.interest} (sobre{' '}
+                  {state.lastReward.bank} oro) · Victoria {state.lastReward.victory} · Racha{' '}
+                  {state.lastReward.streak} · Exceso {state.lastReward.overflow}
+                </p>
+              </details>
+            </section>
+          )}
+
+          <button className="button journal-button" onClick={() => journal.current?.showModal()}>
+            Registro de partida
+          </button>
+        </aside>
+        <section className="local-board" aria-label="Tablero de partida local">
+          <div className="local-board-title">
+            <span>Florin · Ámbar</span>
+            <div className="local-zoom">
+              <button aria-label="Alejar tablero" onClick={() => setZoom(0.85)}>
+                −
+              </button>
+              <button aria-label="Restablecer zoom" onClick={() => setZoom(1)}>
+                {Math.round(zoom * 100)}%
+              </button>
+              <button aria-label="Acercar tablero" onClick={() => setZoom(1.15)}>
+                +
+              </button>
+            </div>
+          </div>
+          <GameCanvas session={session} zoom={zoom} fitted hideTimer />
+          <div className="local-board-footer">
+            <span>Vargas · Jade</span>
+            <span>
+              {phase === 'preparation'
+                ? `${deployedCount(state)} / ${state.level} unidades`
+                : phase === 'not_started'
+                  ? 'Despliega tu formación al iniciar'
+                  : phase === 'combat'
+                    ? 'Combate automático'
+                    : phase === 'resolution'
+                      ? 'Ronda liquidada'
+                      : 'Partida finalizada'}
+            </span>
+          </div>
+        </section>
+        <UnitInspector session={session} view={view} />
+        <p className={`match-feedback ${view.invalid ? 'invalid' : ''}`} role="status">
+          {view.message}
+        </p>
+      </div>
       <Bench session={session} view={view} />
-      <section className="economy-bar" aria-label="Economía">
-        <div className="gold-readout">
-          <span>Oro</span>
-          <strong>
-            {state.gold}
-            <small> ◈</small>
-          </strong>
-          <span>
-            Interés previsto <b>+{interestFor(state.gold, state.config)}</b>
-          </span>
-        </div>
-        <div className="level-readout">
-          <span>
-            Nivel <strong>{state.level}</strong>{' '}
+      <div className="recruitment-dock">
+        <section className="economy-bar" aria-label="Economía">
+          <div className="gold-readout">
+            <span>Oro</span>
+            <strong>
+              {state.gold}
+              <small> ◈</small>
+            </strong>
+            <span>
+              Interés previsto <b>+{interestFor(state.gold, state.config)}</b>
+            </span>
+          </div>
+          <div className="level-readout">
+            <span>
+              Nivel <strong>{state.level}</strong>{' '}
+              <small>
+                · {deployedCount(state)}/{state.level} desplegadas
+              </small>
+            </span>
+            <progress
+              aria-label="Experiencia de nivel"
+              value={state.level === state.config.maxLevel ? 1 : state.xp}
+              max={state.level === state.config.maxLevel ? 1 : rule.xpToNext}
+            />
             <small>
-              · {deployedCount(state)}/{state.level} desplegadas
+              {state.level === state.config.maxLevel
+                ? 'Nivel máximo'
+                : `${state.xp} / ${rule.xpToNext} XP · +${state.config.passiveXp} por ronda`}
             </small>
-          </span>
-          <progress
-            aria-label="Experiencia de nivel"
-            value={state.level === state.config.maxLevel ? 1 : state.xp}
-            max={state.level === state.config.maxLevel ? 1 : rule.xpToNext}
-          />
-          <small>
-            {state.level === state.config.maxLevel
-              ? 'Nivel máximo'
-              : `${state.xp} / ${rule.xpToNext} XP · +${state.config.passiveXp} por ronda`}
-          </small>
-        </div>
-        <button
-          className="button"
-          disabled={
-            !preparing || state.level === state.config.maxLevel || state.gold < state.config.xpCost
-          }
-          onClick={() => session.dispatch({ type: 'buy_xp' })}
-        >
-          Comprar {state.config.xpPurchase} XP <b>{state.config.xpCost} ◈</b>
-        </button>
-        <div className="streak-readout">
-          <span>Racha</span>
-          <strong>{Math.abs(state.streak)}</strong>
-          <small>
-            {state.streak > 0 ? 'victorias' : state.streak < 0 ? 'derrotas' : 'sin racha'}
-          </small>
-        </div>
-      </section>
-      <Shop session={session} />
+          </div>
+          <button
+            className="button"
+            disabled={
+              !preparing ||
+              state.level === state.config.maxLevel ||
+              state.gold < state.config.xpCost
+            }
+            onClick={() => session.dispatch({ type: 'buy_xp' })}
+          >
+            Comprar {state.config.xpPurchase} XP <b>{state.config.xpCost} ◈</b>
+          </button>
+          <div className="streak-readout">
+            <span>Racha</span>
+            <strong>{Math.abs(state.streak)}</strong>
+            <small>
+              {state.streak > 0 ? 'victorias' : state.streak < 0 ? 'derrotas' : 'sin racha'}
+            </small>
+          </div>
+        </section>
+        <Shop session={session} />
+      </div>
+      <p className="sr-only" id="board-instructions">
+        Selecciona una unidad para inspeccionarla. Arrastra para mover. Flechas e Intro sobre el
+        tablero para colocar; Escape para cerrar la ficha.
+      </p>
       <dialog className="match-journal" ref={journal} aria-labelledby="journal-title">
         <header>
           <h2 id="journal-title">Registro de partida</h2>

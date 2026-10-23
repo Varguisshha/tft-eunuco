@@ -1,3 +1,19 @@
+# F0-P5.1 — Game HUD V2 (vigente)
+
+La partida usa cuatro filas: cabecera compacta, campo flexible, banquillo9 y franja de reclutamiento. Canvas ocupa el campo; participantes156px flotan a la izquierda. No existe columna derecha permanente. Economía/XP, tienda5 y renovar/bloquear se agrupan abajo. Se mantiene la identidad jade/ámbar y el arte existente.
+
+La ficha aparece solo al seleccionar propia o rival, también en combate. Vida/maná proceden del snapshot vivo; perfiles, estrellas y habilidades del catálogo/core. Cierra por terreno vacío, botón o Escape; no roba foco al abrir ni bloquea la arena fuera de su rectángulo. Si el foco estaba dentro al cerrar, vuelve al tablero. Apertura140ms/salida120ms con reduced-motion. Arrastre se separa del clic tras5px; Intro conserva colocación propia y permite inspección de rivales/combate.
+
+Encadre local0,32; cámara con margen HUD172/16/16/28px CSS más margen de sprites en mundo. Inspector280px/310px, posición absoluta, scroll interno, sin resize de canvas. A100% cabe la huella completa; zoom115% puede recortar extremos. Nueve plazas compactas pegadas al campo, retratos y estrellas; tarjetas priorizan retratos y estados sin repetir todos los detalles.
+
+Contrato desktop>=1100px: no scroll vertical/horizontal; validado1280×720,1366×768,1440×900,1920×1080,2560×1440. Bajo1100px flujo vertical; inspector permanece superpuesto dentro del campo.390×844 comprobado sin overflow horizontal. Arena técnica conserva su UI.
+
+F0-P5 permanece íntegro: reloj único, preparación30s, combate máximo45s, resolución5s, eliminación y recuperación. Sin cambios económicos, de combate, sprites ni guardados. Véase [informe y evidencia](F0_P51_REPORT.md).
+
+---
+
+## Histórico F0-P4/F0-P5 (sustituido en distribución por V2)
+
 # F0-P4 — Interfaz de partida local
 
 ## Composición

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getUnitDefinition } from '@tft/game-data';
 import { PixelUnit } from '../game/PixelUnit';
 import type { LocalSession } from './LocalSession';
@@ -9,6 +9,7 @@ export function Bench({
   session: LocalSession;
   view: ReturnType<LocalSession['getSnapshot']>;
 }) {
+  const [dropSlot, setDropSlot] = useState<number | null>(null);
   const state = session.getMatch(),
     preparing = session.editable;
   useEffect(() => {
@@ -27,6 +28,7 @@ export function Bench({
   };
   const drop = (event: React.DragEvent, slot: number) => {
     event.preventDefault();
+    setDropSlot(null);
     const id = event.dataTransfer.getData('application/x-tft-unit');
     if (id && preparing) session.bench(slot, id);
   };
@@ -49,13 +51,18 @@ export function Bench({
             <button
               key={slot}
               data-bench-slot={slot}
-              className={`bench-slot ${u?.id === view.selectedId ? 'selected' : ''}`}
+              className={`bench-slot ${u?.id === view.selectedId ? 'selected' : ''} ${dropSlot === slot ? 'drop-target' : ''}`}
               disabled={!preparing && !u}
               aria-label={`Banquillo ${slot + 1}${d && u ? `: ${d.name}, ${u.stars} estrellas` : ': vacío'}`}
               draggable={!!u && preparing}
               onDragStart={(e) => u && drag(e, u.id)}
+              onDragEnd={() => setDropSlot(null)}
+              onDragLeave={() => setDropSlot(null)}
               onDragOver={(e) => {
-                if (preparing) e.preventDefault();
+                if (preparing) {
+                  e.preventDefault();
+                  setDropSlot(slot);
+                }
               }}
               onDrop={(e) => drop(e, slot)}
               onClick={() => (u ? session.select(u.id) : session.bench(slot))}

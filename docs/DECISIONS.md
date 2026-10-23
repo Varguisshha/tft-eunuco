@@ -1,3 +1,12 @@
+## F0-P5.1 — decisiones de HUD V2
+
+- Campo continuo con rail flotante y ficha contextual, eliminando espacio derecho reservado.
+- Banquillo encima de tienda; economía y acciones frecuentes a sus extremos, siempre visibles en escritorio.
+- Clic vacío deselecciona; arrastre y colocación por teclado/controles mantienen comandos existentes. Inspección rival y combate es lectura, nunca un comando de juego.
+- Ajuste visual0,32 y márgenes de cámara mantienen cabezas y terreno fuera del rail. Inspector no modifica cámara y puede solapar su borde derecho.
+- Se conserva borde inferior por coste solicitado en cartas pese al aviso estilístico del detector.
+- Sin cambios de paquetes lógicos, sprites originales, pipeline, reloj ni persistencia; F0-P6 fuera de alcance.
+
 # Decisiones técnicas
 
 Fecha de consulta y ejecución: **22 de octubre de 2026**.

@@ -1,3 +1,9 @@
+## Estado vigente — F0-P5.1 completado
+
+Game HUD V2 implementado: arena dominante, clasificación compacta, banquillo integrado, tienda con retratos, economía junto a compras e inspector flotante de ambos equipos. Validación246tests, cinco viewportsdesktop y recorrido real. F0-P5 conservado. Detalle: [informe](F0_P51_REPORT.md).
+
+**F0-P6 no iniciado.** Pendientes para etapas futuras: contenido y arte definitivo, animaciones restantes, más participantes y validación táctil/multinavegador.
+
 # Roadmap
 
 ## F0-P1 — completado y preservado

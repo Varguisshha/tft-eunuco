@@ -1,3 +1,13 @@
+# Validación F0-P5.1 — 23 de octubre de 2026
+
+Auditoría inicial227tests/22archivos, typecheck/lint/build correctos; Git solo `Sprites/` sin seguimiento. Final246tests/24archivos:19nuevas, todas las227anteriores intactas. Suite cubre HUD con autoridad real, selección propia/rival/teclado, fases, compras/fusiones/venta, bloqueo, guardados y encuadre conDPR1/2.
+
+Navegador integrado en4173: cinco capturasdesktop, sin scroll del documento; inspecciónDOLEA/rival y cierre sin mover canvas; compras/fusión2★, arrastresambossentidos/intercambio, venta,XP,renovar,bloquear. Ronda1 y2 liquidadas naturalmente y avancea3; recarga real en combate pausado44,8s conserva saldo1,vida100/96 y estado de tienda. Arena3★ y overtime438→450 doblederrota comprobados.390×844 sin overflowhorizontal, ficha vertical y scrollinterno. Capturas y medidas en `artifacts/f0p51/`.
+
+Revisión independiente `ship` tras corregir acceso de teclado y grid móvil heredado. Detector: aviso único por borde inferior de coste, conservado conforme al brief. No auditoría exhaustiva de frames, dispositivos táctiles, WCAG ni matriz multinavegador. Incidencias de selectores/tiempos registradas sin presentarlas como éxitos. Comparativa y detalle reproducible en [F0_P51_REPORT.md](F0_P51_REPORT.md).
+
+---
+
 # Validación F0-P5 — 23 de octubre de 2026
 
 ## Auditoría y preservación

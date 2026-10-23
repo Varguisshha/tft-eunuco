@@ -1,3 +1,9 @@
+## F0-P5.1 — presentación e interacción
+
+`LocalGame` compone battlefield relativo y dock inferior. `UnitInspector` se superpone sin participar en el layout de canvas. `LocalSession.inspection()` expone lectura combinada de unidades propias/rivales y snapshot vivo, sin alterar MatchState. `BoardPort.pointerActivate?` opta por deselect local; Arena conserva activate y selección originales. La selección durante arrastre se difiere al soltar para evitar fichas que intercepten el gesto.
+
+`fitLocalBoardView` envuelve el encuadre existente con márgenes CSS convertidos a densidad de render. Proyección0,32 solo local. Coordenadas, pathfinding y motor intactos. El pequeño timeout de salida del inspector no controla fases. Sin cambios de contratos, persistencia ni módulos de reglas. Tests HUD usan autoridad real y SSR para estados; browser valida interacciones/Phaser.
+
 # Arquitectura F0-P3
 
 ## Límites

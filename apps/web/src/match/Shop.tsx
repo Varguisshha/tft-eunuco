@@ -63,12 +63,9 @@ export function Shop({ session }: { session: LocalSession }) {
                   <span>
                     {ROLE_LABELS[d.role]} · {d.synergies.map(synergyLabel).join(' / ')}
                   </span>
-                  <small>
-                    ★ · {state.units.filter((u) => u.definitionId === d.id && u.stars === 1).length}{' '}
-                    copias de 1★
-                  </small>
+
                   <span className="offer-state">
-                    {!preparing ? 'Tienda cerrada' : purchaseErrors[i] || 'Reclutar +'}
+                    {!preparing ? 'Tienda cerrada' : purchaseErrors[i] || 'Reclutar'}
                   </span>
                 </>
               ) : (
