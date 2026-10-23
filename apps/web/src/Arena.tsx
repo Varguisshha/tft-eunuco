@@ -6,7 +6,9 @@ import {
   CURRENT_ECONOMY_CONFIG,
   abilityPresentation,
 } from '@tft/game-data';
-import { scaledProfile } from '@tft/game-core';
+import { scaledProfile, overtimeModifiers } from '@tft/game-core';
+import { passiveReadout } from './game/combatFeedback';
+import { PassiveStatus } from './game/PassiveStatus';
 import { SpritePreview } from './game/SpritePreview';
 import { CombatControls } from './game/CombatControls';
 import { PixelUnit } from './game/PixelUnit';
@@ -74,7 +76,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
           Laboratorio de combate
         </div>
         <span className="version">
-          F0–P4.1 <span>·</span> PROTOTIPO LOCAL
+          F0–P6A.1 <span>·</span> PROTOTIPO LOCAL
         </span>
       </header>
       <main id="arena">
@@ -304,15 +306,24 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                           </dd>
                         </div>
                         <div>
-                          <dt>Ataques/s base</dt>
-                          <dd>{profile.stats.attackSpeedMilli / 1000}</dd>
+                          <dt>{liveUnit ? 'Ataques/s efectivos' : 'Ataques/s base'}</dt>
+                          <dd>
+                            {liveUnit && combatFrame
+                              ? Math.floor(
+                                  (effectiveStat(liveUnit, 'attackSpeedMilli') *
+                                    overtimeModifiers(combatFrame.tick, session.combatOvertime())
+                                      .attackSpeedMilli) /
+                                    1000,
+                                ) / 1000
+                              : profile.stats.attackSpeedMilli / 1000}
+                          </dd>
                         </div>
                         <div>
                           <dt>Objetivo</dt>
                           <dd className="mono">{liveUnit?.targetId ?? '—'}</dd>
                         </div>
                         <div>
-                          <dt>Estado</dt>
+                          <dt>Estado de unidad</dt>
                           <dd>
                             {liveUnit?.deathTick !== null && liveUnit?.deathTick !== undefined
                               ? 'Eliminada'
@@ -332,6 +343,11 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                     {ability?.name ?? 'Sin habilidad'}
                     {ability?.passive && ` · ${ability.passive.name}`}
                   </p>
+                  {profile && ability?.passive && (
+                    <PassiveStatus
+                      value={passiveReadout(profile, liveUnit, combatFrame?.tick ?? 0)}
+                    />
+                  )}
                 </>
               ) : (
                 <div className="empty-inspector">
@@ -399,7 +415,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
           <div className="combat-legend">
             <span>Vida: jade / ámbar</span>
             <span>Maná: azul</span>
-            <span>Escudo: contorno claro</span>
+            <span>Escudo: segmento cian y valor ESC</span>
             <span>Aturdimiento: cruz amarilla</span>
             <span>Modificador: triángulo verde</span>
           </div>
@@ -454,13 +470,15 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
         <details className="ability-diagnostics">
           <summary>Eventos de habilidades y sinergias</summary>
           <ol>
-            {combatFrame.recentEvents
+            {(combatFrame.feedbackEvents ?? combatFrame.recentEvents)
               .filter(
                 (e) =>
                   e.type === 'passive_trigger' ||
                   e.type === 'ability_cast' ||
                   e.type === 'trait_activate' ||
                   e.type === 'status_apply' ||
+                  e.type === 'status_expire' ||
+                  (e.type === 'damage' && e.payload.absorbed > 0) ||
                   e.type === 'shield_apply',
               )
               .slice(-24)

@@ -1,3 +1,13 @@
+## F0-P6A.1 — pasivas visibles y escudos autoritativos
+
+- Auditoría inicial y 314 pruebas correctas. P6A preservado en `d3ddc8d`; originales excluidos, sin push.
+- El problema era visual: Volumen eterno se activaba y su escudo absorbía daño. No se cambian motor, contratos, balance, economía, Overtime ni reloj.
+- Un adaptador puro comparte lectura de contadores/eventos entre Phaser, inspector local y Arena. Sin contadores se muestra «Sin datos»; preparación expresa disponibilidad futura.
+- Escudo cian contiguo a vida, valor exacto y contorno defensivo; ninguna animación conserva cantidades agotadas. El indicador positivo representa la concesión real, no la variación de HP.
+- Ventana de feedback separada de 1600 ms, prioridad visual para selección y límite de ráfagas para reducir saturación. Reducción de movimiento sin desplazamiento de cifras.
+- Diagnósticos aislados de sinergias y navegación por eventos solo en Arena. Miembros ficticios fuera del roster. No se modifica el HUD general ni se añade audio.
+- 332 pruebas en 30 archivos y controles de tipos/lint/build correctos. [Informe, capturas y límites](F0_P6A1_REPORT.md). P6B no iniciado.
+
 ## F0-P6A — decisiones de habilidades y sinergias
 
 - Una habilidad principal activa, pasiva o mixta; una sola identidad visual. Pasiva pura sin maná ficticio.

@@ -1,3 +1,4 @@
+import { feedbackMoment } from './combatFeedback';
 import {
   runCombat,
   moveUnit,
@@ -117,6 +118,7 @@ export class BoardSession {
     });
   }
   combatFrame = () => this.playback?.frame() ?? null;
+  combatOvertime = () => this.playback?.replay.input.overtime;
   get editable(): boolean {
     return this.snapshot.combat.mode === 'preparation';
   }
@@ -241,6 +243,20 @@ export class BoardSession {
     this.patch({
       combat: { ...this.snapshot.combat, mode: paused ? 'paused' : 'playing' },
       message: paused ? 'Reproducción pausada.' : 'Reproducción reanudada.',
+    });
+  }
+  seekFeedback(moment: import('./combatFeedback').FeedbackMoment): void {
+    if (!this.playback || !this.snapshot.selectedId) return;
+    const tick = feedbackMoment(this.playback.replay.events, this.snapshot.selectedId, moment);
+    if (tick === null) {
+      this.patch({ message: 'Ese evento no existe para la unidad seleccionada en esta traza.' });
+      return;
+    }
+    this.playback.seek(tick * 100);
+    this.playback.setPaused(true);
+    this.patch({
+      combat: { ...this.snapshot.combat, tick, mode: 'paused', result: null },
+      message: `Traza pausada en tick ${tick}. Sin volver a simular.`,
     });
   }
   stepCombat(): void {

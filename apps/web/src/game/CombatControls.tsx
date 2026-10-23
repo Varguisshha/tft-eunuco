@@ -82,6 +82,11 @@ export function CombatControls({
             <option value="traits-2">2 miembros · diagnóstico</option>
             <option value="traits-3">3 miembros · diagnóstico</option>
             <option value="passive-overtime">Pasiva durante overtime</option>
+            <option value="hortaleza-2">Hortaleza · 2 miembros</option>
+            <option value="hortaleza-3">Hortaleza · 3 miembros</option>
+            <option value="padel-1">Llama de Pádel · 1 miembro</option>
+            <option value="padel-2">Llama de Pádel · 2 miembros</option>
+            <option value="padel-3">Llama de Pádel · 3 miembros</option>
           </select>
         </label>
         {preparing ? (
@@ -117,6 +122,27 @@ export function CombatControls({
             <button className="button quiet" onClick={() => session.returnToPreparation()}>
               Volver a preparación
             </button>
+            <label className="arena-scenario">
+              Revisar escudo · unidad seleccionada
+              <select
+                aria-label="Momento de pasiva y escudo"
+                value=""
+                onChange={(e) => {
+                  if (e.target.value)
+                    session.seekFeedback(
+                      e.target.value as import('./combatFeedback').FeedbackMoment,
+                    );
+                }}
+              >
+                <option value="">Saltar a evento real…</option>
+                <option value="start">Inicio · disponibilidad</option>
+                <option value="passive">Activación de pasiva</option>
+                <option value="shield">Escudo recibido</option>
+                <option value="absorption">Primera absorción</option>
+                <option value="depleted">Escudo agotado</option>
+                <option value="expiration">Escudo expirado</option>
+              </select>
+            </label>
           </>
         )}
       </div>

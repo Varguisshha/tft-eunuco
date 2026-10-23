@@ -1,0 +1,27 @@
+.passive-readout {
+  display: grid;
+  gap: 3px;
+  margin: 8px 0;
+  padding: 7px 8px;
+  background: #182c25;
+  color: #cad9c0;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.passive-readout strong {
+  font-size: 12px;
+  color: #d2ebc1;
+}
+.passive-readout[data-state='activated'] {
+  background: #244449;
+}
+.passive-readout[data-state='activated'] strong {
+  color: #acf2ef;
+}
+.passive-readout[data-state='consumed'] strong,
+.passive-readout[data-state='inactive'] strong {
+  color: #d4c9a9;
+}
+.passive-readout span {
+  overflow-wrap: anywhere;
+}

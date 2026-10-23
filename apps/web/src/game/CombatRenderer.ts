@@ -1,4 +1,4 @@
-import { effectiveStat } from '@tft/game-core';
+import { shieldBar, unitFeedback, feedbackLanes, FEEDBACK_WINDOW_MS } from './combatFeedback';
 import Phaser from 'phaser';
 import { TICK_MS, type CombatUnit } from '@tft/shared';
 import { axialToCartesian, type Point } from '@tft/game-core';
@@ -11,6 +11,36 @@ export class CombatRenderer {
   private graphics: Phaser.GameObjects.Graphics;
   private overtimeLabel: Phaser.GameObjects.Text;
   private labels = new Map<string, Phaser.GameObjects.Text>();
+  private reducedMotion =
+    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  private label(
+    key: string,
+    content: string,
+    color: string,
+    x: number,
+    y: number,
+    alpha = 1,
+    size = 13,
+  ) {
+    let text = this.labels.get(key);
+    if (!text) {
+      text = this.scene.add
+        .text(0, 0, content, {
+          fontFamily: 'monospace',
+          fontSize: `${size}px`,
+          fontStyle: 'bold',
+          color,
+          backgroundColor: '#101f1a',
+          padding: { x: 3, y: 2 },
+          stroke: '#101916',
+          strokeThickness: 2,
+        })
+        .setOrigin(0.5)
+        .setDepth(4200);
+      this.labels.set(key, text);
+    }
+    text.setText(content).setPosition(Math.round(x), Math.round(y)).setAlpha(alpha);
+  }
   constructor(
     private scene: Phaser.Scene,
     private projection: Projection,
@@ -47,6 +77,7 @@ export class CombatRenderer {
     selectedId: string | null,
   ): void {
     const g = this.graphics.clear();
+    const activeLabels = new Set<string>();
     const { timeMs, state } = frame;
     this.overtimeLabel
       .setVisible(frame.overtime && this.overtimeDecoration)
@@ -59,6 +90,28 @@ export class CombatRenderer {
         WORLD.height - 20,
       );
     const positions = new Map(state.units.map((u) => [u.id, this.position(u, timeMs)]));
+    const feedbackByUnit = new Map(
+      state.units.map((u) => [
+        u.id,
+        unitFeedback(u, frame.feedbackEvents ?? frame.recentEvents, timeMs),
+      ]),
+    );
+    const lanes = feedbackLanes(
+      state.units.flatMap((u) => {
+        const f = feedbackByUnit.get(u.id)!,
+          p = positions.get(u.id)!;
+        if (u.deathTick !== null || (!f.passive && !f.shield)) return [];
+        return [
+          {
+            id: u.id,
+            x: p.x,
+            y: p.y - 79 * (visuals.get(u.id)?.renderScale ?? 1) - 32,
+            width: Math.max(100, Math.min(28, f.passive?.name.length ?? 0) * 8 + 8),
+          },
+        ];
+      }),
+      selectedId,
+    );
     for (const unit of state.units) {
       const visual = visuals.get(unit.id),
         p = positions.get(unit.id);
@@ -113,26 +166,54 @@ export class CombatRenderer {
       if (damage && timeMs - damage.tick * TICK_MS < 120) visual.sprite.setTint(0xffb49b);
       const x = Math.round(p.x - 23),
         y = Math.round(p.y - 79 * visual.renderScale);
-      g.fillStyle(0x0a1510).fillRect(x - 2, y - 2, 50, 14);
+      const bar = shieldBar(unit);
+      g.fillStyle(0x0a1510).fillRect(x - 2, y - 2, 50, 16);
       g.fillStyle(unit.owner === 'south' ? 0xb8d4a3 : 0xe2b47b).fillRect(
         x,
         y,
-        (46 * unit.hp) / effectiveStat(unit, 'maxHp'),
-        4,
+        46 * bar.hpFraction,
+        6,
       );
       if (unit.profile.stats.maxMana > 0)
-        g.fillStyle(0x78b6d1).fillRect(x, y + 6, (46 * unit.mana) / unit.profile.stats.maxMana, 3);
-      const shield = unit.statuses
-        .filter((s) => s.kind === 'shield')
-        .reduce((sum, s) => sum + s.amount, 0);
-      if (shield) {
-        g.fillStyle(0xd8e7e7).fillRect(
-          x,
-          y + 10,
-          Math.min(46, (46 * shield) / effectiveStat(unit, 'maxHp')),
-          2,
-        );
-        g.lineStyle(1, 0xb5dcdf, 0.65).strokeEllipse(p.x, p.y - 28, 54, 66);
+        g.fillStyle(0x78b6d1).fillRect(x, y + 9, (46 * unit.mana) / unit.profile.stats.maxMana, 3);
+      if (bar.shield > 0) {
+        const start = x + 46 * bar.hpFraction;
+        const width = 46 * bar.shieldFraction;
+        g.fillStyle(0x8ce9e8).fillRect(start, y, width, 6);
+        g.lineStyle(1, 0x142f33).lineBetween(start, y, start, y + 6);
+        const key = `shield:${unit.id}`;
+        activeLabels.add(key);
+        this.label(key, `${bar.shield} ESC`, '#acf2ef', x + 70, y + 3, 1, 11);
+        g.lineStyle(2, 0x8ce9e8, 0.65).strokeRect(p.x - 26, p.y - 62, 52, 60);
+      }
+      const feedback = feedbackByUnit.get(unit.id)!;
+      const lane = lanes.get(unit.id);
+      const fade = (age: number) => Math.min(1, (FEEDBACK_WINDOW_MS - age) / 200);
+      if (feedback.passive) {
+        const f = feedback.passive,
+          key = `passive:${unit.id}:${f.key}`;
+        const name = f.name.length > 28 ? `${f.name.slice(0, 27)}…` : f.name;
+        if (lane !== undefined) {
+          activeLabels.add(key);
+          this.label(key, name, '#ecf6d0', p.x, y - 42 + lane, fade(f.age));
+        }
+        // A single defensive flash, sampled from event time; no timer or gameplay side effect.
+        if (f.age < 240) {
+          const strength = this.reducedMotion?.matches ? 0.45 : 1 - f.age / 240;
+          g.lineStyle(3, feedback.shield ? 0xacf2ef : 0xd2ebc1, strength);
+          for (const dx of [-1, 1])
+            for (const dy of [-1, 1]) {
+              const cx = p.x + dx * 30,
+                cy = p.y - 32 + dy * 34;
+              g.lineBetween(cx, cy, cx - dx * 10, cy).lineBetween(cx, cy, cx, cy - dy * 10);
+            }
+        }
+      }
+      if (feedback.shield && lane !== undefined) {
+        const f = feedback.shield,
+          key = `grant:${unit.id}:${f.key}`;
+        activeLabels.add(key);
+        this.label(key, `+${f.amount} escudo`, '#acf2ef', p.x, y - 22 + lane, fade(f.age));
       }
       if (unit.statuses.some((s) => s.kind === 'stun')) {
         g.fillStyle(0xeed67f).fillRect(p.x - 3, y - 13, 6, 6);
@@ -163,7 +244,6 @@ export class CombatRenderer {
       );
       g.fillStyle(0xfff2c1).fillRect(x - 3, y - 3, 6, 6);
     }
-    const activeLabels = new Set<string>();
     for (const event of frame.recentEvents) {
       const age = timeMs - event.tick * TICK_MS;
       if (event.type === 'ability_cast' && event.payload.stage === 'resolve' && age < 500) {
@@ -210,8 +290,10 @@ export class CombatRenderer {
         }
         text
           .setPosition(
-            p.x + ((event.order % 3) - 1) * 10,
-            p.y - 90 * (visuals.get(targetId)?.renderScale ?? 1) - age / 28,
+            p.x - 45 + ((event.order % 3) - 1) * 10,
+            p.y -
+              79 * (visuals.get(targetId)?.renderScale ?? 1) -
+              (this.reducedMotion?.matches ? 12 : age / 28),
           )
           .setAlpha(1 - age / 650);
       }

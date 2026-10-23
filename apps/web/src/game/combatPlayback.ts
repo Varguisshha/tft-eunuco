@@ -6,12 +6,14 @@ import {
   type CombatEventV3,
 } from '@tft/shared';
 import { unitAnimationCue, type VisualCue } from './animationPlayback';
+import { FEEDBACK_WINDOW_MS } from './combatFeedback';
 export interface PlaybackFrame {
   timeMs: number;
   animationCues: ReadonlyMap<string, VisualCue>;
   tick: number;
   state: CombatState;
   recentEvents: CombatEventV3[];
+  feedbackEvents?: CombatEventV3[];
   overtime: boolean;
   remainingTicks: number;
   overtimeIntro: number;
@@ -64,6 +66,9 @@ export class CombatPlayback {
       state: this.replay.snapshots[tick]!,
       recentEvents: this.replay.events.filter(
         (e) => e.tick <= tick && e.tick * TICK_MS > this.elapsed - 700,
+      ),
+      feedbackEvents: this.replay.events.filter(
+        (e) => e.tick <= tick && e.tick * TICK_MS > this.elapsed - FEEDBACK_WINDOW_MS,
       ),
     };
   }

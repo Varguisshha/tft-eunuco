@@ -1,5 +1,22 @@
 # Protocolo de combate v3 — Overtime y doble derrota
 
+## Auditoría de pasivas y escudos — F0-P6A.1
+
+El protocolo existente es suficiente: **sin nuevos eventos, campos, versión o duplicaciones** en P6A.1. Se conservan protocolo 3 y reglas `f0p6a-1`; las secciones de Overtime inferiores documentan también reglas históricas `f0p3.1-1`.
+
+Eventos modernos incorporados en P6A, que completan la tabla histórica inferior:
+
+| Tipo              | Payload                                                  |
+| ----------------- | -------------------------------------------------------- |
+| `passive_trigger` | `unitId`, `abilityId`, `ruleId`, `trigger`, `activation` |
+| `trait_activate`  | `side`, `traitId`, `count`, `threshold`, `unitIds`       |
+
+Una pasiva de umbral sigue el orden autoritativo `damage` → `passive_trigger` → `shield_apply`. El golpe que cruza el umbral ya ha aplicado su daño; el escudo protege golpes posteriores. `shield_apply.status.amount` expresa la concesión real tras modificadores, y `shieldAfter` el total. El snapshot conserva estados independientes para acumulaciones.
+
+`damage.absorbed` permite mostrar absorción sin curación; `amount` es HP perdido, con `hpAfter` y `shieldAfter` resultantes. Al agotar un estado se emite `status_expire` con `reason: consumed` antes del evento `damage` de ese impacto. Para identificar qué expiró se enlaza `statusId` con el estado recibido en `shield_apply`; `duration` distingue expiración temporal y `death` eliminación. La presentación del total toma el snapshot del tick, por lo que no deja restos al agotarse o expirar.
+
+Los contadores `CombatUnit.passiveState` confirman disponibilidad y consumo. Su ausencia en un registro antiguo no permite afirmar que una pasiva moderna esté disponible o activada. Los efectos visuales son una lectura de la traza, nunca una fuente de eventos. Pausar y buscar un momento no reemite eventos ni vuelve a simular.
+
 Fuente: `packages/shared/src/combat.ts`; reglas de emisión en [COMBAT_SPEC](COMBAT_SPEC.md). Todos los contratos de esta versión son Zod strict, datos JSON sin clases, fechas, Map ni referencias gráficas.
 
 Cada evento: `{ protocolVersion: 3, tick: entero >= 0, order: entero >= 0, type, payload }`. La clave `(tick,order)` ordena los eventos de un combate; no identifica globalmente una partida. `order` se reinicia a cero cada tick. No se ordenan por tiempo de llegada al cliente. Cambios de reglas que afecten determinismo exigirán otra `rulesVersion`; cambios incompatibles de estructura, otro protocolo. Las versiones desconocidas se rechazan, no se adaptan silenciosamente.

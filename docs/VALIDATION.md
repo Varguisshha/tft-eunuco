@@ -1,3 +1,15 @@
+# Validación F0-P6A.1 — 23 de octubre de 2026
+
+Base auditada: **314 pruebas / 29 archivos**, tipos/lint/build correctos; preservada en `d3ddc8d`. Resultado: **332 pruebas / 30 archivos**, tipos, lint y build correctos. Se mantienen los casos previos; 18 nuevos casos cubren ciclo de escudo, contadores de pasiva, inspector real, eventos, replays, navegación por traza, sinergias y cadencia. Persiste el aviso conocido de tamaño del chunk Phaser.
+
+Navegador IAB real, semilla 42: pasiva disponible en tick 0; activación en tick 75 con HP281 y escudo72; absorción en tick85 con HP281/escudo37; agotamiento en tick95 con HP281/escudo0 y pasiva consumida. Overtime: tick316, concesión54. Nueva simulación reinicia la disponibilidad. La activación única durante toda la traza y la expiración temporal se verifican automáticamente; no se presentan como recorridos manuales completos.
+
+Comprobados Hortaleza2/3, Llama1/2/3 y ambas3 en Arena. La partida de desarrollo avanzó automáticamente desde ronda1 hasta preparación de ronda8; el panel de reloj registró liquidaciones1–7. Se pausó después para conservar la muestra. El guardado de desarrollo es independiente del normal.
+
+Capturas locales en `artifacts/p6a1/`: activación, absorción parcial, agotamiento, Overtime, diagnósticos, rondas y HUD local. Cinco tamaños de escritorio (1280×720, 1366×768, 1440×900, 1920×1080, 2560×1440) sin scroll de página en partida local; comprobación adicional390×844 sin desbordamiento horizontal, con scroll vertical esperado. Arena técnica conserva su página larga. Se revisaron visualmente activación/consumo y HUD1280/móvil; las medidas del resto no equivalen a una auditoría exhaustiva de cada píxel.
+
+La pasada visual corrigió el rótulo ambiguo «Estado» por «Estado de unidad» y actualizó las insignias de fase. Confirmación final tras compilar. Sin cambios en recursos originales ni fase P6B. [Informe de 13 puntos](F0_P6A1_REPORT.md).
+
 # Validación F0-P6A — 23 de octubre de 2026
 
 Base previa: 273 pruebas/26 archivos, tipos/lint/build correctos. Preservación específica `335df32`. Resultado de fase y comandos finales en [F0_P6A_REPORT](F0_P6A_REPORT.md). Nuevas suites de contratos, habilidades, pasivas, sinergias y presentación/persistencia: 41 casos; **314 pruebas en29archivos pasan**, con tipos/lint/build y formato correctos. Diff sin errores de espacios. Aviso de tamaño del chunk de Phaser conservado.

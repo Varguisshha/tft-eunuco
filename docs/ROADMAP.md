@@ -1,4 +1,10 @@
-## Estado vigente — F0-P6A implementado
+## Estado vigente — F0-P6A.1 implementado
+
+Pasivas y escudos visibles desde eventos/snapshots reales, estado compartido de inspector, diagnósticos aislados de sinergias y salto a momentos de la traza. Motor y balance originales conservados. 332 pruebas correctas; capturas y alcance de validación en [informe P6A.1](F0_P6A1_REPORT.md).
+
+**F0-P6B no iniciado.** Los apartados inferiores registran hitos anteriores.
+
+## F0-P6A implementado
 
 Contrato universal activo/pasivo/mixto, sinergias por composición, triggers deterministas, Volumen Sucio, Hortaleza/Llama de Pádel, iconos originales, lateral y ficha conectados. Catálogos antiguos preservados; diagnósticos separados; documentación de ampliación disponible. Ver [informe](F0_P6A_REPORT.md) y [validación](VALIDATION.md).
 

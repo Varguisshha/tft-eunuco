@@ -1,4 +1,18 @@
-# Sistema de habilidades — F0-P6A
+# Sistema de habilidades — F0-P6A.1
+
+## Lectura visual de pasivas y escudos
+
+La auditoría P6A.1 confirma que Volumen eterno ya funcionaba. No se modifican motor, balance ni protocolo. `combatFeedback.ts` convierte snapshots y eventos reales en presentación compartida por Arena técnica y partida local; `PassiveStatus` muestra la misma lectura en ambos inspectores.
+
+- `passiveReadout` consulta `passiveState` (`count` y `lastTick`) y los límites/cooldowns de las reglas. **Disponible** espera su condición; **Activada** identifica los 1600 ms lógicos posteriores a una activación; **Consumida** significa que no quedan activaciones en ese combate, aunque todavía pueda existir escudo. Una unidad muerta o en banquillo está **Inactiva**. Preparación dice **Disponible al iniciar**, sin confirmar un evento futuro. Los registros sin contadores modernos dicen **Sin datos**; las habilidades sin pasiva moderna, **No aplicable**.
+- `shieldBar` suma estados `shield` reales. Vida verde/jade o ámbar y escudo cian son segmentos contiguos de una capacidad visual `max(vida máxima efectiva, vida actual + escudo)`. El número `ESC` conserva el valor exacto incluso si el segmento es estrecho. Al consumir, expirar o eliminar la unidad desaparece el escudo visual; no se interpola una reserva inexistente.
+- `unitFeedback` lee `passive_trigger` y `shield_apply`. El nombre sale del componente pasivo del perfil correspondiente a `abilityId`; si no se identifica usa «Pasiva activada». El indicador positivo usa el importe aplicado después de Overtime, suma concesiones del mismo tick y reemplaza ráfagas anteriores. Nunca compara HP para inventar una activación.
+- Nombre y ganancia duran 1600 ms del reloj del replay, con 200 ms finales de desvanecimiento. Cuatro remates pixelados forman un destello defensivo de 240 ms; el contorno cian persiste mientras haya escudo. Con movimiento reducido el destello mantiene una intensidad tenue y las cifras de daño no se desplazan. No hay audio ni temporizadores que ejecuten lógica.
+- Los rótulos transitorios usan tres alturas, hasta seis grupos simultáneos, con prioridad para la unidad seleccionada. Si no cabe un grupo se omite su ráfaga; las barras/cantidades actuales permanecen. Los nombres de más de 28 caracteres se abrevian sobre el tablero; el inspector conserva el nombre completo. No se garantiza ausencia total de solapamientos de barras en formaciones densas.
+
+`CombatPlayback.feedbackEvents` amplía únicamente la ventana de presentación a 1600 ms; `recentEvents` mantiene sus 700 ms originales. Pausa, salto, repetición y velocidad usan el mismo tiempo lógico. La Arena puede saltar al primer evento real de pasiva, concesión, absorción, agotamiento o expiración de la unidad seleccionada; si no existe, lo indica sin simular un efecto falso.
+
+Validación y reproducción: [informe P6A.1](F0_P6A1_REPORT.md).
 
 Contrato v1 en `packages/shared/src/abilities.ts`; datos en `packages/game-data/src/abilities.ts`; ejecución en `packages/game-core/src/combat/engine.ts`. JSON estricto validado por Zod, sin funciones ni evaluación de código.
 

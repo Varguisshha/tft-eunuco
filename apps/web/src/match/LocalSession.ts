@@ -24,6 +24,7 @@ import {
 import type { SessionSnapshot } from '../game/session';
 import type { BoardPort } from '../game/boardPort';
 import { CombatPlayback } from '../game/combatPlayback';
+import { passiveReadout } from '../game/combatFeedback';
 export const MATCH_ERRORS: Record<MatchError, string> = {
   'invalid-action': 'Acción inválida.',
   'invalid-state': 'El estado de partida no supera la validación.',
@@ -162,6 +163,12 @@ export class LocalSession implements BoardPort {
       owned,
       profile,
       shield: live ? shieldTotal(live) : 0,
+      passive: passiveReadout(
+        baseProfile,
+        live,
+        frame?.tick ?? 0,
+        !owned || owned.location.kind === 'board',
+      ),
       statuses: live?.statuses ?? [],
       hp: live?.hp ?? profile.stats.maxHp,
       mana: live?.mana ?? profile.stats.startingMana,

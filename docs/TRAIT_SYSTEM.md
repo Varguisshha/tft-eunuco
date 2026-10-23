@@ -1,4 +1,22 @@
-# Sistema de sinergias — F0-P6A
+# Sistema de sinergias — F0-P6A.1
+
+## Diagnóstico comprobado en P6A.1
+
+Sin cambios de balance. Arena añade `hortaleza-2/3` y `padel-1/2/3`, además de conservar `traits-2/3`, habilidades por estrellas y pasiva en Overtime. Semilla de referencia: **42**. Las membresías ficticias solo existen en la entrada de diagnóstico, fuera de tienda y roster jugable. En diagnósticos aislados los acompañantes y el rival no infligen daño para permitir observar la cadencia; DOLEA conserva sus estadísticas base.
+
+| Formación   | Vida máxima de DOLEA 1★ | Armadura | Ataques/s |
+| ----------- | ----------------------: | -------: | --------: |
+| Un miembro  |                     600 |       45 |       0,8 |
+| Hortaleza 2 |                     700 |       45 |       0,8 |
+| Hortaleza 3 |                     820 |       60 |       0,8 |
+| Llama 2     |                     600 |       45 |     0,896 |
+| Llama 3     |                     600 |       45 |         1 |
+| Ambas 2     |                     700 |       45 |     0,896 |
+| Ambas 3     |                     820 |       60 |         1 |
+
+La cadencia se verifica con eventos `attack_start`, no solo con una etiqueta: primeros inicios `[1,14,26,39]`, `[1,13,24,35]` y `[1,11,21,31]` para 1/2/3 miembros de Llama. La carga sobrante se conserva. Overtime reduce el intervalo medio en los tres escenarios; el inspector técnico muestra la velocidad efectiva con su modificador actual.
+
+Las pruebas comprueban duplicados por definición, exclusión de banquillo, retirada 3→2→1, no acumulación de umbrales y repetición desde los datos base sin mutación. El navegador confirma estadísticas efectivas en los escenarios aislados y combinados. Véase [informe](F0_P6A1_REPORT.md).
 
 `TraitDefinition` v1 contiene ID, nombre, descripción, icono, información visual, destinatarios, política de acumulación y umbrales ordenados. Definiciones validadas en shared; valores provisionales centralizados en game-data. Un perfil admite cero, una o dos membresías distintas; no exige dos.
 

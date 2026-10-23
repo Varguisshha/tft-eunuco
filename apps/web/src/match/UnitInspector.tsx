@@ -1,4 +1,5 @@
 import { ContentIcon } from './hud/ContentIcon';
+import { PassiveStatus } from '../game/PassiveStatus';
 import { useEffect, useRef, useState } from 'react';
 import { axialToOffset, offsetToAxial, sellValue } from '@tft/game-core';
 import {
@@ -106,6 +107,7 @@ export function UnitInspector({
             {ability.passive && (
               <div className="ability-component">
                 <h4>Pasiva — {ability.passive.name}</h4>
+                <PassiveStatus value={selected.passive} />
                 <p>{ability.passive.description}</p>
               </div>
             )}

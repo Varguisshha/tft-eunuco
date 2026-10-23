@@ -40,17 +40,35 @@ export type AbilityScenario =
   | 'ability-3'
   | 'traits-2'
   | 'traits-3'
-  | 'passive-overtime';
+  | 'passive-overtime'
+  | 'hortaleza-2'
+  | 'hortaleza-3'
+  | 'padel-1'
+  | 'padel-2'
+  | 'padel-3';
 /** Diagnostic memberships never enter matchCatalog or the shop pool. */
 export function createAbilityScenario(scenario: AbilityScenario, seed: number): CombatInput {
-  const count = scenario === 'traits-3' ? 3 : scenario === 'traits-2' ? 2 : 1;
+  const isolatedTrait = scenario.startsWith('hortaleza-') || scenario.startsWith('padel-');
+  const count =
+    scenario === 'traits-3' || (isolatedTrait && scenario.endsWith('-3'))
+      ? 3
+      : scenario === 'traits-2' || (isolatedTrait && scenario.endsWith('-2'))
+        ? 2
+        : 1;
   const units: CombatInput['units'] = [];
   const stars = scenario === 'ability-3' ? 3 : scenario === 'ability-2' ? 2 : 1;
   const scale = [1000, 1800, 3240][stars - 1]!;
   for (let i = 0; i < count; i++) {
     const definitionId = i === 0 ? 'dolea' : i === 1 ? 'test-k01' : 'test-v02';
     const profile = structuredClone(CURRENT_COMBAT_PROFILES[definitionId]!);
-    profile.traits = ['hortaleza', 'llama-de-padel'];
+    profile.traits = isolatedTrait
+      ? [scenario.startsWith('hortaleza-') ? 'hortaleza' : 'llama-de-padel']
+      : ['hortaleza', 'llama-de-padel'];
+    if (isolatedTrait && i > 0) {
+      profile.stats.attack = 0;
+      profile.ability = null;
+      profile.passive = null;
+    }
     if (i === 0) {
       profile.stats.maxHp = Math.floor((profile.stats.maxHp * scale) / 1000);
       profile.stats.attack = Math.floor((profile.stats.attack * scale) / 1000);
@@ -80,6 +98,7 @@ export function createAbilityScenario(scenario: AbilityScenario, seed: number): 
     Object.assign(units[0]!.profile.stats, { armor: 0, attack: 0 });
     Object.assign(enemy.stats, { attack: 220, attackSpeedMilli: 32 });
   }
+  if (isolatedTrait) enemy.stats.attack = 0;
   units.push({
     id: 'diagnostic-rival',
     definitionId: 'test-v02',
