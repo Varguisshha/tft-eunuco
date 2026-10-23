@@ -105,7 +105,7 @@ export function App() {
         >
           Arena de pruebas
         </button>
-        <span>F0–P5.1 · LOCAL</span>
+        <span>F0–P5.3 · LOCAL</span>
       </nav>
       {notice && session && (
         <p className="save-notice" role="status">

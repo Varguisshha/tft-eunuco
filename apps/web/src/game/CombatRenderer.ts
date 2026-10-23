@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { TICK_MS, type CombatUnit } from '@tft/shared';
-import type { Point } from '@tft/game-core';
-import { WORLD, hexToWorld, type Projection } from './projection';
+import { axialToCartesian, type Point } from '@tft/game-core';
+import { WORLD, hexToWorld, projectPoint, type Projection } from './projection';
 import type { PlaybackFrame } from './combatPlayback';
 import type { PhaserUnitVisual } from './visualAdapter';
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
@@ -15,7 +15,7 @@ export class CombatRenderer {
     private projection: Projection,
     private overtimeDecoration = true,
   ) {
-    this.graphics = scene.add.graphics().setDepth(2000);
+    this.graphics = scene.add.graphics().setDepth(4000);
     this.overtimeLabel = scene.add
       .text(WORLD.width / 2, 80, 'OVERTIME', {
         fontFamily: 'monospace',
@@ -26,16 +26,19 @@ export class CombatRenderer {
         strokeThickness: 6,
       })
       .setOrigin(0.5)
-      .setDepth(2200)
+      .setDepth(4300)
       .setVisible(false);
   }
   private position(unit: CombatUnit, timeMs: number): Point {
     const action = unit.action;
     if (action?.kind !== 'move') return hexToWorld(unit.position, this.projection);
-    const from = hexToWorld(action.from, this.projection),
-      to = hexToWorld(action.to, this.projection);
+    const from = axialToCartesian(action.from),
+      to = axialToCartesian(action.to);
     const t = clamp((timeMs / TICK_MS - action.startTick) / (action.endTick - action.startTick));
-    return { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t };
+    return projectPoint(
+      { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t },
+      this.projection,
+    );
   }
   render(
     frame: PlaybackFrame,
@@ -108,7 +111,7 @@ export class CombatRenderer {
         .find((e) => e.type === 'damage' && e.payload.targetId === unit.id);
       if (damage && timeMs - damage.tick * TICK_MS < 120) visual.sprite.setTint(0xffb49b);
       const x = Math.round(p.x - 23),
-        y = Math.round(p.y - 79);
+        y = Math.round(p.y - 79 * visual.renderScale);
       g.fillStyle(0x0a1510).fillRect(x - 2, y - 2, 50, 14);
       g.fillStyle(unit.owner === 'south' ? 0xb8d4a3 : 0xe2b47b).fillRect(
         x,
@@ -200,11 +203,14 @@ export class CombatRenderer {
               strokeThickness: 3,
             })
             .setOrigin(0.5)
-            .setDepth(2100);
+            .setDepth(4100);
           this.labels.set(key, text);
         }
         text
-          .setPosition(p.x + ((event.order % 3) - 1) * 10, p.y - 90 - age / 28)
+          .setPosition(
+            p.x + ((event.order % 3) - 1) * 10,
+            p.y - 90 * (visuals.get(targetId)?.renderScale ?? 1) - age / 28,
+          )
           .setAlpha(1 - age / 650);
       }
     }

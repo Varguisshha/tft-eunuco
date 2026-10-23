@@ -1,75 +1,132 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { levelRule } from '@tft/game-core';
 import { getUnitDefinition } from '@tft/game-data';
 import { PixelUnit } from '../game/PixelUnit';
-import { ROLE_LABELS } from '../game/pixelArt';
 import type { LocalSession } from './LocalSession';
 import { synergyLabel } from './uiLabels';
 import { purchaseAvailability } from './purchaseAvailability';
+import { GameButton } from './hud/GameButton';
+import { GameFrame } from './hud/GameFrame';
+import { GameIcon, type GameIconName } from './hud/GameIcon';
+const traitIcon = (id: string): GameIconName =>
+  id === 'test-alloy' ? 'alloy' : id === 'test-pulse' ? 'pulse' : 'neutral';
 export function Shop({ session }: { session: LocalSession }) {
   const state = session.getMatch(),
     preparing = session.editable,
     rule = levelRule(state);
   const purchaseErrors = useMemo(() => purchaseAvailability(state), [state]);
+  const [purchases, setPurchases] = useState<Record<number, string>>({});
   return (
-    <section className="shop-section" aria-label="Tienda de personajes">
+    <section
+      className={`shop-section ${state.shopLocked ? 'is-locked' : ''}`}
+      aria-label="Tienda de personajes"
+    >
       <div className="section-line">
-        <div>
+        <div className="shop-control-heading">
           <h2>Tienda</h2>
-          <span className="shop-odds">
-            Probabilidades propias · C1 {rule.odds[0]}% / C2 {rule.odds[1]}% / C3 {rule.odds[2]}%
+          <span className="shop-odds" aria-label="Probabilidades por coste">
+            {rule.odds.map((odds, i) => (
+              <span key={i} className={`odds-cost-${i + 1}`}>
+                <b>C{i + 1}</b> {odds}%
+              </span>
+            ))}
           </span>
         </div>
         <div className="shop-actions">
-          <button
-            className="button"
+          <GameButton
+            label="Renovar"
+            icon="refresh"
+            cost={state.config.rerollCost}
+            tone="gold"
             disabled={!preparing || state.gold < state.config.rerollCost}
-            onClick={() => session.dispatch({ type: 'reroll_shop' })}
-          >
-            Renovar · {state.config.rerollCost} ◈
-          </button>
-          <button
-            className={`button ${state.shopLocked ? 'locked' : ''}`}
-            aria-pressed={state.shopLocked}
+            onAction={() => {
+              const ok = session.dispatch({ type: 'reroll_shop' });
+              if (ok) setPurchases({});
+              return ok;
+            }}
+          />
+          <GameButton
+            label={state.shopLocked ? 'Desbloquear tienda' : 'Bloquear tienda'}
+            icon={state.shopLocked ? 'lock' : 'unlock'}
+            active={state.shopLocked}
             disabled={!preparing}
-            onClick={() => session.dispatch({ type: 'lock_shop', locked: !state.shopLocked })}
-          >
-            {state.shopLocked ? 'Desbloquear tienda' : 'Bloquear tienda'}
-          </button>
+            title="Conserva las ofertas para la siguiente ronda. Puedes seguir comprando."
+            onAction={() => session.dispatch({ type: 'lock_shop', locked: !state.shopLocked })}
+          />
         </div>
+        <span className="shop-lock-note">
+          {state.shopLocked ? 'Ofertas reservadas' : 'Cambian en la próxima ronda'}
+        </span>
       </div>
       <div className="shop-offers">
         {state.shop.map((offer, i) => {
           const d = getUnitDefinition(offer?.definitionId ?? '');
+          const error = !preparing ? 'Tienda cerrada' : purchaseErrors[i];
+          const status = !d
+            ? 'empty'
+            : !preparing
+              ? 'closed'
+              : purchaseErrors[i] === 'Falta oro'
+                ? 'unaffordable'
+                : purchaseErrors[i]
+                  ? 'unavailable'
+                  : 'available';
           return (
             <button
+              type="button"
               className={`shop-offer cost-${d?.cost ?? 0}`}
               key={offer?.id ?? `empty-${i}`}
+              data-state={status}
               aria-label={
                 offer && d
                   ? `Comprar ${d.name}, oferta ${i + 1}, ${d.cost} oro`
                   : `Oferta ${i + 1} vacía`
               }
+              aria-describedby={d ? `offer-detail-${i}` : undefined}
               disabled={!preparing || !!purchaseErrors[i]}
-              onClick={() => offer && session.dispatch({ type: 'buy_unit', offerId: offer.id })}
+              onClick={() => {
+                if (offer && d && session.dispatch({ type: 'buy_unit', offerId: offer.id }))
+                  setPurchases((previous) => ({ ...previous, [i]: d.name }));
+              }}
             >
+              <GameFrame card />
               {d ? (
                 <>
-                  <div className="offer-art">
-                    <PixelUnit role={d.role} spriteId={d.spriteId} />
-                    <span className="offer-price">{d.cost} ◈</span>
-                  </div>
-                  <strong>{d.name}</strong>
-                  <span>
-                    {ROLE_LABELS[d.role]} · {d.synergies.map(synergyLabel).join(' / ')}
+                  <span className="offer-traits" id={`offer-detail-${i}`}>
+                    {d.synergies.slice(0, 2).map((id) => (
+                      <span className="offer-trait" key={id}>
+                        <GameIcon name={traitIcon(id)} />
+                        <span>{synergyLabel(id)}</span>
+                      </span>
+                    ))}
+                    <span className="trait-provisional">Sinergias provisionales</span>
                   </span>
-
-                  <span className="offer-state">
-                    {!preparing ? 'Tienda cerrada' : purchaseErrors[i] || 'Reclutar'}
+                  {state.shopLocked && (
+                    <span className="offer-lock" aria-label="Oferta reservada">
+                      <GameIcon name="lock" />
+                    </span>
+                  )}
+                  <span className="offer-art">
+                    <PixelUnit role={d.role} spriteId={d.spriteId} />
+                  </span>
+                  <span className="offer-footer">
+                    <strong>{d.name}</strong>
+                    <span className="offer-price">
+                      <GameIcon name="gold" />
+                      {d.cost}
+                    </span>
+                  </span>
+                  {error && <span className="offer-state">{error}</span>}
+                  <span className="offer-intent" aria-hidden="true">
+                    Reclutar
                   </span>
                 </>
               ) : (
-                <span className="empty-offer">Sin oferta</span>
+                <span className={`empty-offer ${purchases[i] ? 'is-purchased' : ''}`}>
+                  <GameIcon name={purchases[i] ? 'check' : 'neutral'} />
+                  <strong>{purchases[i] ? 'Reclutado' : 'Sin oferta'}</strong>
+                  {purchases[i] && <span>{purchases[i]}</span>}
+                </span>
               )}
             </button>
           );

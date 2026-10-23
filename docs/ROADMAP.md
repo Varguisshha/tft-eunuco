@@ -1,3 +1,13 @@
+## F0-P5.3 — tienda y controles implementados
+
+Dock de cinco cartas con sinergias arriba, retratos y precio inferior, marcos originales por coste y controles Game HUD reutilizables. Referencia TFT PC y validación visual de escritorio, sinergias aún provisionales. Véase [informe](F0_P53_REPORT.md). F0-P6 no iniciado.
+
+## F0-P5.2 — completado
+
+Mar de Cristal integrado desde la imagen exacta: contrato reutilizable, calibración proyectiva y herramienta de desarrollo, cuadrícula temporal, pies/profundidad/cámara, preservación de HUD V2 y Arena técnica. 273 tests; cinco tamaños de escritorio, arrastres, recuperación y Overtime comprobados. Véase [informe](F0_P52_REPORT.md).
+
+Pendiente para futuros hitos: formaciones pobladas y validación de rendimiento en más dispositivos, animaciones restantes y contrato de red acordado. No se ha iniciado F0-P6.
+
 ## Estado vigente — F0-P5.1 completado
 
 Game HUD V2 implementado: arena dominante, clasificación compacta, banquillo integrado, tienda con retratos, economía junto a compras e inspector flotante de ambos equipos. Validación246tests, cinco viewportsdesktop y recorrido real. F0-P5 conservado. Detalle: [informe](F0_P51_REPORT.md).

@@ -1,3 +1,7 @@
+## F0-P5.2 — arenas visuales configurables
+
+`apps/web/src/arenas` incorpora contrato v1, geometría proyectiva, cámara y calibración. LocalGame pasa Mar de Cristal a GameCanvas; BoardScene proyecta centros/polígonos y usa la inversa para input. Imagen y suelo comparten cámara uniforme. CombatRenderer interpola en plano lógico antes de proyectar; PhaserUnitVisual ancla pies y escala uniformemente por profundidad. Arena técnica conserva su proyección afín y terreno. Sin cambios de core, economía, reloj, guardados ni sprites. Detalle en [ARENA_SYSTEM.md](ARENA_SYSTEM.md) y [calibración](MAR_DE_CRISTAL_CALIBRATION.md).
+
 ## F0-P5.1 — presentación e interacción
 
 `LocalGame` compone battlefield relativo y dock inferior. `UnitInspector` se superpone sin participar en el layout de canvas. `LocalSession.inspection()` expone lectura combinada de unidades propias/rivales y snapshot vivo, sin alterar MatchState. `BoardPort.pointerActivate?` opta por deselect local; Arena conserva activate y selección originales. La selección durante arrastre se difiere al soltar para evitar fichas que intercepten el gesto.

@@ -1,3 +1,13 @@
+## F0-P5.2 — decisiones de arena
+
+- Fuente exacta nueva de la raíz, identificada por SHA-256; WebP sin pérdida con igualdad de píxeles, original intacto.
+- Homografía por convergencia del pavimento (residual afín aproximado 107 px tras ampliar la cuadrícula). Inversa + redondeo cúbico lógico; no nearest-center proyectado.
+- Contrato visual independiente del motor, con 56 celdas y perímetro validado por todos sus vértices.
+- Calibración exclusiva de desarrollo, persistencia separada, rechazo de propuestas inválidas y restauración oficial al cerrar.
+- Fondo y mundo bajo una cámara uniforme; el cartel de Carrefour y el campo completo tienen prioridad sobre cover, según el ajuste solicitado. Se admite espacio lateral del color del HUD y zoom acotado.
+- Escala uniforme suave por Y, pies del manifiesto, sombras bajo cuerpos y orden por apoyo; sin deformación de sprites.
+- F0-P5.1 preservado en `7fc1ec6`; ningún original añadido a ese commit. Sin remoto/push, dependencias nuevas o cambios de autoridad. [Informe](F0_P52_REPORT.md).
+
 ## F0-P5.1 — decisiones de HUD V2
 
 - Campo continuo con rail flotante y ficha contextual, eliminando espacio derecho reservado.

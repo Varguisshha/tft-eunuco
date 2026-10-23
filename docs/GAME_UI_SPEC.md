@@ -1,3 +1,19 @@
+## Ajuste de espacio de arena
+
+El banquillo ahora es una bandeja flotante dentro del campo, sin fila externa. El campo gana 68/86px y la imagen se muestra completa al100%, con escala uniforme. Los nueve destinos permanecen accesibles, el inspector termina antes de la bandeja y el margen de cámara evita que el zoom esconda hexágonos debajo. En móvil los destinos pueden desplazarse horizontalmente. Esta disposición sustituye la fila de banquillo descrita en el historial posterior.
+
+## Actualización F0-P5.3: tienda PC
+
+La presentación vigente del dock sustituye las tarjetas y botones económicos de P5.1: cinco fichas continuas con rasgos provisionales apilados arriba, retrato proporcional, placa inferior nombre izquierdo/coste derecho y marco por coste. GameFrame/GameIcon/GameButton comparten geometría escalonada y estados; onCue prepara audio futuro sin reproducirlo. Bloquear reserva ofertas sin impedir la compra. Detalle y evidencia en [F0_P53_REPORT.md](F0_P53_REPORT.md); tokens en DESIGN.md.
+
+# F0-P5.2 — Mar de Cristal (vigente)
+
+Se conserva la composición de HUD V2. El encuadre uniforme mantiene visibles el cartel de Carrefour y las 56 celdas ampliadas; en formatos anchos admite espacio lateral del color del HUD para evitar recortarlos. Las 56 celdas se calibran sobre asfalto mediante homografía; no se dibuja el antiguo terreno encima. Cuadrícula oculta sin interacción y en combate; selección/arrastre durante preparación revela destinos, ocupación y prohibiciones. Un drop aceptado cierra la selección visual.
+
+Inspector, economía, tienda, banquillo y reloj mantienen dimensiones y comportamiento. Texto superpuesto recibe fondo discreto para contraste. Calibración solo en partidas de desarrollo, nunca en partidas normales. Encadre/zoom priorizan celdas y cabezas sobre los detalles periféricos; inspector no provoca resize. Cinco resoluciones de escritorio sin scroll. Parámetros y límites en [MAR_DE_CRISTAL_CALIBRATION.md](MAR_DE_CRISTAL_CALIBRATION.md).
+
+---
+
 # F0-P5.1 — Game HUD V2 (vigente)
 
 La partida usa cuatro filas: cabecera compacta, campo flexible, banquillo9 y franja de reclutamiento. Canvas ocupa el campo; participantes156px flotan a la izquierda. No existe columna derecha permanente. Economía/XP, tienda5 y renovar/bloquear se agrupan abajo. Se mantiene la identidad jade/ámbar y el arte existente.

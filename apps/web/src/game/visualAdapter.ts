@@ -15,6 +15,7 @@ import {
 import type { UnitDefinition } from '@tft/shared';
 import { characterManifest } from './characterAssets';
 import { pixelRects } from './pixelArt';
+import { characterDepth, characterScale, type ArenaDefinition } from '../arenas/arena';
 
 export function registerPlaceholder(
   scene: Phaser.Scene,
@@ -55,6 +56,7 @@ export class PhaserUnitVisual implements UnitVisual {
     private scene: Phaser.Scene,
     definition: UnitDefinition,
     side: 'north' | 'south',
+    private arena?: ArenaDefinition,
   ) {
     this.meta = SpriteMetadataSchema.parse(registerPlaceholder(scene, definition));
     this.manifest = characterManifest(definition.spriteId);
@@ -71,12 +73,26 @@ export class PhaserUnitVisual implements UnitVisual {
     this.setFacing(side === 'south' ? 'right' : 'left');
     this.play('idle');
   }
+  get renderScale(): number {
+    return this.arena ? characterScale(this.arena, this.foot.y) : 1;
+  }
   setFootPosition(x: number, y: number): void {
     this.foot = { x, y };
-    this.stars.setPosition(x, y + 14).setDepth(y + 12);
-    const offset = this.asset ? { x: 0, y: 0 } : originOffset(this.meta, this.scale, this.flipped);
-    this.marker.setPosition(x, y).setDepth(y + 9);
-    this.sprite.setPosition(x + offset.x, y + offset.y).setDepth(y + 10);
+    const factor = this.renderScale;
+    const depth = this.arena ? characterDepth(y) : y + 10;
+    this.sprite.setScale(this.scale * factor);
+    this.stars
+      .setPosition(x, y + 14 * factor)
+      .setScale(factor)
+      .setDepth(this.arena ? 4200 : y + 12);
+    const offset = this.asset
+      ? { x: 0, y: 0 }
+      : originOffset(this.meta, this.scale * factor, this.flipped);
+    this.marker
+      .setPosition(x, y)
+      .setScale(factor)
+      .setDepth(this.arena ? 100 : y + 9);
+    this.sprite.setPosition(x + offset.x, y + offset.y).setDepth(depth);
   }
   setSelected(selected: boolean): void {
     this.marker.setStrokeStyle(
@@ -147,6 +163,11 @@ export class PhaserUnitVisual implements UnitVisual {
       this.play(this.animation, this.timeMs, this.timing);
     }
     this.stars.setText(count > 1 ? '★'.repeat(count) : '');
+  }
+  setVisible(visible: boolean): void {
+    this.sprite.setVisible(visible);
+    this.marker.setVisible(visible);
+    this.stars.setVisible(visible);
   }
   setOpacity(alpha: number): void {
     this.stars.setAlpha(alpha);

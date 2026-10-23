@@ -15,7 +15,10 @@ export function Bench({
   useEffect(() => {
     session.dropOutside = (id, x, y) => {
       const target = document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-bench-slot]');
-      return target ? session.bench(Number(target.dataset.benchSlot), id) : false;
+      if (!target) return false;
+      session.bench(Number(target.dataset.benchSlot), id);
+      // A rejected bench drop must not fall through to the ground behind the tray.
+      return true;
     };
     return () => {
       session.dropOutside = undefined;

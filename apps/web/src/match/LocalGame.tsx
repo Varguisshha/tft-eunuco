@@ -3,11 +3,15 @@ import { deployedCount, interestFor, levelRule, type LocalMatchCoordinator } fro
 import { GameCanvas } from '../game/GameCanvas';
 import { PhaseClock } from './PhaseClock';
 import './gameHud.css';
+import './hud/recruitment.css';
+import { GameButton } from './hud/GameButton';
+import { GameIcon } from './hud/GameIcon';
 import { LocalSession } from './LocalSession';
 import { UnitInspector } from './UnitInspector';
 import { Bench } from './Bench';
 import { Shop } from './Shop';
 import { DevelopmentClock } from './DevelopmentClock';
+import { MAR_DE_CRISTAL } from '../arenas/marDeCristal';
 export function LocalGame({
   session,
   onNew,
@@ -157,7 +161,14 @@ export function LocalGame({
               </button>
             </div>
           </div>
-          <GameCanvas session={session} zoom={zoom} fitted hideTimer />
+          <GameCanvas
+            session={session}
+            zoom={zoom}
+            fitted
+            hideTimer
+            arena={MAR_DE_CRISTAL}
+            development={coordinator?.development ?? false}
+          />
           <div className="local-board-footer">
             <span>Vargas · Jade</span>
             <span>
@@ -177,15 +188,17 @@ export function LocalGame({
         <p className={`match-feedback ${view.invalid ? 'invalid' : ''}`} role="status">
           {view.message}
         </p>
+        <Bench session={session} view={view} />
       </div>
-      <Bench session={session} view={view} />
       <div className="recruitment-dock">
         <section className="economy-bar" aria-label="Economía">
           <div className="gold-readout">
             <span>Oro</span>
             <strong>
               {state.gold}
-              <small> ◈</small>
+              <small>
+                <GameIcon name="gold" />
+              </small>
             </strong>
             <span>
               Interés previsto <b>+{interestFor(state.gold, state.config)}</b>
@@ -209,17 +222,17 @@ export function LocalGame({
                 : `${state.xp} / ${rule.xpToNext} XP · +${state.config.passiveXp} por ronda`}
             </small>
           </div>
-          <button
-            className="button"
+          <GameButton
+            label={`Comprar ${state.config.xpPurchase} XP`}
+            icon="xp"
+            cost={state.config.xpCost}
             disabled={
               !preparing ||
               state.level === state.config.maxLevel ||
               state.gold < state.config.xpCost
             }
-            onClick={() => session.dispatch({ type: 'buy_xp' })}
-          >
-            Comprar {state.config.xpPurchase} XP <b>{state.config.xpCost} ◈</b>
-          </button>
+            onAction={() => session.dispatch({ type: 'buy_xp' })}
+          />
           <div className="streak-readout">
             <span>Racha</span>
             <strong>{Math.abs(state.streak)}</strong>

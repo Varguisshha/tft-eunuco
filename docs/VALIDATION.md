@@ -1,3 +1,31 @@
+## Ajuste posterior: arena completa y banquillo superpuesto
+
+El campo recupera los 68/86px de la antigua fila de reservas. Banquillo flotante compacto, inspector y mensajes separados; cámara contain al100% y límites de casillas protegidos incluso al acercar. 273 tests, tipos, lint y build correctos. Diez casos de cámara (cinco tamaños y DPR1/2) verifican ahora también cuatro bordes originales a85/100% y336 vértices fuera del área del banquillo en los tres niveles de zoom. Capturas finales reales en1920×1080,1440×900,1280×720 y móvil auxiliar en `artifacts/arena-overlay/`.
+
+Recorrido real: compra DOLEA, arrastre de reserva1 a pista, regreso de pista a reserva2 superpuesta, selección e inspector al115%. El drop DOM se resuelve antes del hexágono de fondo, incluso si el destino rechaza la acción. El reloj pasó a resolución antes de la pausa final; ambos arrastres se habían confirmado en preparación. Revisión independiente de seis capturas sin defectos materiales nuevos. No se repitió una prueba de banquillo lleno ni una matriz multinavegador. Imagen y sprites originales intactos.
+
+# Validación F0-P5.3 — 23 de octubre de 2026
+
+Tienda y botones económicos rediseñados con marcos e iconos originales, sinergias provisionales apiladas, retratos y franja nombre/precio. Referencias visuales reales de TFT PC consultadas antes de implementar. Cinco ofertas simultáneas sin scroll en 1920×1080, 1440×900 y 1280×720; DOLEA real, coste3, hover, pressed, bloqueo, falta de oro, compra y renovación comprobados. Comparativa anterior de 1920 recapturada tras detectar nombres erróneos en imágenes de 1440.
+
+Revisión visual independiente: corregido el solapamiento de rótulos de R-03; cuatro capturas finales revisadas. Evidencia, incidencias, arquitectura y límites en [F0_P53_REPORT.md](F0_P53_REPORT.md). Motor y contratos económicos intactos. Comprobación final: typecheck, lint, 273 tests en 26 archivos y build correctos.
+
+---
+
+## Ajuste de encuadre y ampliación de pista
+
+Cartel de Carrefour incluido en los límites de cámara; envolvente de cuadrícula +58,5 %. Verificados 336 vértices dentro del asfalto y selección inversa con los nuevos parámetros. Las pruebas de cámara verifican cartel, cabezas y celdas en cinco tamaños, DPR 1/2 y tres niveles de zoom, sustituyendo la condición anterior de cover obligatorio. 273 tests correctos; typecheck, lint y build correctos. Cinco capturas reales sin scroll en `artifacts/f0p52/framing-carrefour-*.png`, más `grid-expanded.png`.
+
+# Validación F0-P5.2 — 23 de octubre de 2026
+
+Baseline: 246 tests/24 archivos, typecheck/lint/build correctos. P5.1 preservado en `7fc1ec6`. Comprobación final `pnpm check`, formato y diff correctos. Resultado: 273 tests/26 archivos (27 nuevos, previos intactos), geometría/cámara/DOLEA/autoridad/guardados/Arena. Original PNG conservado y derivado WebP con los mismos píxeles decodificados.
+
+Navegador real: cinco resoluciones 1280×720–2560×1440 sin scroll; calibración y escenario vacío; DOLEA 1★/2★ en la plaza; inspector; arrastres tablero/banquillo/zoom; recarga de combate a44,9s; Overtime10,8s; victoria +6oro y avance automático a ronda4. Arena técnica3★, combate y pausa conservados. Consola sin errores/avisos en la consulta final del recorrido.
+
+Pruebas iniciales detectaron recorte de cabeza a1280×720: corregido ajustando controles. No se afirma prueba GPU, carga máxima, táctil ni multinavegador. Evidencias, parámetros, microbenchmark y límites en [F0_P52_REPORT.md](F0_P52_REPORT.md), [ARENA_SYSTEM.md](ARENA_SYSTEM.md) y [MAR_DE_CRISTAL_CALIBRATION.md](MAR_DE_CRISTAL_CALIBRATION.md). Capturas en `artifacts/f0p52/`.
+
+---
+
 # Validación F0-P5.1 — 23 de octubre de 2026
 
 Auditoría inicial227tests/22archivos, typecheck/lint/build correctos; Git solo `Sprites/` sin seguimiento. Final246tests/24archivos:19nuevas, todas las227anteriores intactas. Suite cubre HUD con autoridad real, selección propia/rival/teclado, fases, compras/fusiones/venta, bloqueo, guardados y encuadre conDPR1/2.

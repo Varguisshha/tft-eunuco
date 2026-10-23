@@ -5,21 +5,36 @@ import { BoardScene } from './BoardScene';
 import type { BoardPort } from './boardPort';
 import { WORLD } from './projection';
 import { canvasSize } from './viewport';
+import type { ArenaDefinition } from '../arenas/arena';
+import { ArenaCalibration, type CalibrationState } from '../arenas/ArenaCalibration';
+import type { HexCoord } from '@tft/shared';
+import type { Point } from '@tft/game-core';
 export function GameCanvas({
   session,
   zoom,
   fitted = false,
   hideTimer = false,
+  arena,
+  development = false,
 }: {
   session: BoardPort;
   zoom: number;
   fitted?: boolean;
   hideTimer?: boolean;
+  arena?: ArenaDefinition;
+  development?: boolean;
 }) {
   useSyncExternalStore(session.subscribe, session.getSnapshot);
   const frame = session.combatFrame();
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<BoardScene | null>(null);
+  const [calibration, setCalibration] = useState<CalibrationState | null>(
+    arena ? { enabled: false, controls: arena.projection.controls } : null,
+  );
+  const [calibrationHover, setCalibrationHover] = useState<{
+    hex: HexCoord | null;
+    point: Point;
+  } | null>(null);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -34,6 +49,11 @@ export function GameCanvas({
       const size = canvasSize(rect.width, rect.height, window.devicePixelRatio);
       game.scale.setZoom(1 / size.density);
       game.scale.resize(size.width, size.height);
+      const reserves = host.current.closest('.battlefield')?.querySelector('.bench-section');
+      if (scene.current)
+        scene.current.bottomOverlay = reserves
+          ? Math.max(0, rect.bottom - reserves.getBoundingClientRect().top + 4)
+          : 0;
       scene.current?.fitView();
       densityQuery?.removeEventListener('change', resize);
       densityQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
@@ -49,7 +69,11 @@ export function GameCanvas({
           }
         },
         fitted,
+        arena,
       );
+      board.onCalibrationHover = (hex, point) => setCalibrationHover({ hex, point });
+      board.onAssetError = () =>
+        setError('No se pudo cargar la imagen de la arena. Recarga para volver a intentarlo');
       scene.current = board;
       game = new Phaser.Game({
         type: Phaser.WEBGL,
@@ -89,11 +113,21 @@ export function GameCanvas({
       scene.current = null;
       game?.destroy(true);
     };
-  }, [session, fitted]);
+  }, [session, fitted, arena]);
+  useEffect(() => {
+    if (ready && calibration)
+      scene.current?.setCalibration(
+        calibration.controls,
+        development && calibration.enabled,
+        calibration.showGrid ?? true,
+        calibration.showUnits ?? true,
+      );
+  }, [ready, calibration, development]);
   useEffect(() => {
     if (ready) scene.current?.setViewZoom(zoom);
   }, [zoom, ready]);
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.target !== event.currentTarget) return;
     const { cursor } = session.getSnapshot();
     const { column, row } = axialToOffset(cursor);
     const movement: Record<string, [number, number]> = {
@@ -124,14 +158,26 @@ export function GameCanvas({
       aria-describedby="board-instructions"
       onKeyDown={onKeyDown}
       onDragOver={(event) => {
-        if (session.editable) event.preventDefault();
+        if (session.editable) {
+          event.preventDefault();
+          scene.current?.externalDragAt(event.clientX, event.clientY);
+        }
       }}
+      onDragLeave={() => scene.current?.endExternalDrag()}
       onDrop={(event) => {
         event.preventDefault();
         const id = event.dataTransfer.getData('application/x-tft-unit');
         if (id && session.editable) scene.current?.dropFromBench(id, event.clientX, event.clientY);
       }}
     >
+      {arena && development && calibration && (
+        <ArenaCalibration
+          arena={arena}
+          state={calibration}
+          onChange={setCalibration}
+          hover={calibrationHover}
+        />
+      )}
       {frame && !hideTimer && (
         <div
           className={`battle-timer ${frame.overtime ? 'is-overtime' : ''}`}
