@@ -107,7 +107,9 @@ function TraitRows({
                 <small>{row.active ? `Nivel ${row.level} · Activa` : 'Inactiva'}</small>
                 {internal.length > 0 && (
                   <small>
-                    {casts} lanz. · {kills} elim.
+                    {row.trait.id === 'upm'
+                      ? `${casts} Créditos`
+                      : `${casts} lanz. · ${kills} elim.`}
                   </small>
                 )}
               </span>

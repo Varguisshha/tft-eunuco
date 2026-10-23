@@ -43,6 +43,21 @@ const slots = z.strictObject({
 export const CharacterManifestSchema = z.strictObject({
   version: z.literal(2),
   id: z.string().min(1),
+  provenance: z
+    .strictObject({
+      characterId: z.string().min(1),
+      sourceStarLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+      nativeAppearance: z.enum(['star1', 'star2', 'star3']),
+      pending: z.array(z.enum(['idle', 'walk', 'attack', 'ability', 'death'])),
+    })
+    .optional(),
+  fallbacks: z
+    .strictObject({
+      star1: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+      star2: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+      star3: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+    })
+    .optional(),
   evolutions: z.strictObject({ star1: slots, star2: slots, star3: slots }),
 });
 export type CharacterManifest = z.infer<typeof CharacterManifestSchema>;
@@ -62,7 +77,10 @@ export function resolveAnimation(
   stars: VisualStars,
   requested: AnimationName,
 ): ResolvedAnimation {
-  for (let n = stars; n >= 1; n--)
+  const order: VisualStars[] = manifest?.fallbacks
+    ? [stars, ...manifest.fallbacks[`star${stars}`]]
+    : ([3, 2, 1] as const).filter((n) => n <= stars);
+  for (const n of [...new Set(order)])
     for (const state of requested === 'attack'
       ? (['attack'] as const)
       : ([requested, 'attack'] as const)) {

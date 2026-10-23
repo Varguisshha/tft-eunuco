@@ -65,15 +65,29 @@ export const CHARACTER_ROSTER: readonly UnitDefinition[] = CATALOG_F0P41.map((d)
       }
     : d,
 );
+export const VARGAS_ROSTER: readonly UnitDefinition[] = [
+  ...CHARACTER_ROSTER,
+  {
+    id: 'vargas',
+    name: 'VARGAS',
+    role: 'assassin',
+    cost: 3,
+    synergies: ['upm', 'el-depredador'],
+    activeAbilityId: 'copita-perhaps',
+    passiveAbilityId: 'copita-perhaps',
+    spriteId: 'vargas',
+  },
+];
 export function matchCatalog(config: {
-  catalog?: 'f0p4.1' | 'f0p6a' | 'f0p6b1' | 'f0p6b2' | undefined;
+  catalog?: 'f0p4.1' | 'f0p6a' | 'f0p6b1' | 'f0p6b2' | 'f0p6b3' | undefined;
 }): readonly UnitDefinition[] {
+  if (config.catalog === 'f0p6b3') return VARGAS_ROSTER;
   if (config.catalog === 'f0p6a' || config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2')
     return CHARACTER_ROSTER;
   return config.catalog === 'f0p4.1' ? CATALOG_F0P41 : UNIT_DEFINITIONS;
 }
 export function getUnitDefinition(id: string): UnitDefinition | undefined {
-  return CHARACTER_ROSTER.find((unit) => unit.id === id);
+  return VARGAS_ROSTER.find((unit) => unit.id === id);
 }
 export * from './combat';
 export * from './economy';
@@ -83,3 +97,6 @@ export * from './combatScenarios';
 export * from './abilities';
 export * from './statsScenarios';
 export * from './mechanicsScenarios';
+
+export * from './vargas';
+export * from './vargasScenarios';

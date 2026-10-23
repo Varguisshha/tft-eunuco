@@ -1,8 +1,10 @@
-import { DOLEA_ABILITY, TRAIT_DEFINITIONS } from './abilities';
+import { VARGAS_ABILITY, VARGAS_MECHANICS } from './vargas';
+import { DOLEA_ABILITY, TRAIT_DEFINITIONS, VARGAS_TRAITS } from './abilities';
 import {
   ADVANCED_STATS_DEFAULTS,
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
+  CHARACTER_RULES,
   COMBAT_RULES,
   CombatInputSchema,
   CombatProfileSchema,
@@ -174,15 +176,17 @@ export function createAdvancedCombatInput(board: BoardState, seed: number): Comb
   });
 }
 export const hasTraits = (catalog: string | undefined) =>
-  catalog === 'f0p6a' || catalog === 'f0p6b1' || catalog === 'f0p6b2';
+  catalog === 'f0p6a' || catalog === 'f0p6b1' || catalog === 'f0p6b2' || catalog === 'f0p6b3';
 export const combatRulesFor = (catalog: string | undefined) =>
-  catalog === 'f0p6b2'
-    ? MECHANICS_RULES
-    : catalog === 'f0p6b1'
-      ? ADVANCED_COMBAT_RULES
-      : hasTraits(catalog)
-        ? CURRENT_COMBAT_RULES
-        : COMBAT_RULES;
+  catalog === 'f0p6b3'
+    ? CHARACTER_RULES
+    : catalog === 'f0p6b2'
+      ? MECHANICS_RULES
+      : catalog === 'f0p6b1'
+        ? ADVANCED_COMBAT_RULES
+        : hasTraits(catalog)
+          ? CURRENT_COMBAT_RULES
+          : COMBAT_RULES;
 
 export function createMechanicsCombatInput(
   board: BoardState,
@@ -193,5 +197,48 @@ export function createMechanicsCombatInput(
     ...createAdvancedCombatInput(board, seed),
     rulesVersion: MECHANICS_RULES,
     combatId,
+  });
+}
+
+export const VARGAS_COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
+  ...ADVANCED_COMBAT_PROFILES,
+  vargas: CombatProfileSchema.parse({
+    starLevel: 1,
+    stats: {
+      ...base,
+      ...ADVANCED_STATS_DEFAULTS,
+      maxHp: 700,
+      attack: 70,
+      abilityPower: 0,
+      attackSpeedMilli: 800,
+      armor: 25,
+      magicResist: 25,
+      critChanceMilli: 200,
+      critMultiplierMilli: 1500,
+      maxMana: 70,
+      startingMana: 0,
+      range: 1,
+    },
+    ability: null,
+    passive: null,
+    championAbility: VARGAS_ABILITY,
+    traits: ['upm', 'el-depredador'],
+    mechanics: VARGAS_MECHANICS,
+  }),
+};
+export function createVargasCombatInput(
+  board: BoardState,
+  seed: number,
+  combatId: string,
+): CombatInput {
+  return CombatInputSchema.parse({
+    protocolVersion: COMBAT_PROTOCOL,
+    rulesVersion: CHARACTER_RULES,
+    traits: VARGAS_TRAITS,
+    seed,
+    combatId,
+    maxTicks: MAX_COMBAT_TICKS,
+    obstacles: [],
+    units: board.units.map((u) => ({ ...u, profile: VARGAS_COMBAT_PROFILES[u.definitionId] })),
   });
 }

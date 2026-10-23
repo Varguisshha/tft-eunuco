@@ -216,5 +216,73 @@
       "Sprites/DOLEA NIVEL 2 ATAQUE 8.png: 26604 near-transparent pixels removed in derived assets (alpha <= 8)",
       "Sprites/DOLEA NIVEL 2 ATAQUE 8.png: 388524 partial-alpha pixels preserved; nearest-neighbor only"
     ]
+  },
+  {
+    "character": "vargas",
+    "star": 2,
+    "state": "attack",
+    "output": "sprites/vargas/star2/attack.png",
+    "frameWidth": 144,
+    "frameHeight": 128,
+    "scale": 0.08847926267281106,
+    "frames": [
+      {
+        "file": "Sprites/vargas/star2/attack/frame-1.png",
+        "sha256": "dce4ecd65080deaa309dac3fb5f801b635736571ed10413457eaaa4c9097c24a",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 210, "top": 123, "width": 868, "height": 1042 },
+        "solid": { "left": 211, "top": 124, "width": 866, "height": 1040 },
+        "foot": { "x": 590.5, "y": 1164 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-2.png",
+        "sha256": "21d9832ea7a888e30be1be3364395bd89e2ec2f8e179fed27c7e441c77eae567",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 295, "top": 104, "width": 845, "height": 1086 },
+        "solid": { "left": 296, "top": 105, "width": 843, "height": 1085 },
+        "foot": { "x": 717, "y": 1190 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-3.png",
+        "sha256": "5f1a65f893b097da73f3c52b6d4c81c32ba0b1d205b2e1ed68d20a05319e60c7",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 191, "top": 53, "width": 1028, "height": 1159 },
+        "solid": { "left": 192, "top": 54, "width": 1027, "height": 1155 },
+        "foot": { "x": 650.5, "y": 1209 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-4.png",
+        "sha256": "1b49f552a7b3e33dfaf60597341469ccabaac30db8b680d983fca57183152fa4",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 185, "top": 89, "width": 1053, "height": 1088 },
+        "solid": { "left": 186, "top": 91, "width": 1051, "height": 1085 },
+        "foot": { "x": 679, "y": 1176 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-5.png",
+        "sha256": "6eefb2769842956c8b83545397baf81432c1ad2b1ff9eef00f1094c625aaf73b",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 145, "top": 116, "width": 1058, "height": 1080 },
+        "solid": { "left": 146, "top": 118, "width": 1055, "height": 1078 },
+        "foot": { "x": 786.5, "y": 1196 }
+      }
+    ],
+    "anomalies": [
+      "Sprites/vargas/star2/attack/frame-1.png: 20261 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-1.png: 345221 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-2.png: 34400 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-2.png: 379697 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-3.png: 23463 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-3.png: 458036 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-4.png: 31088 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-4.png: 387965 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-5.png: 34218 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-5.png: 396475 partial-alpha pixels preserved; nearest-neighbor only"
+    ]
   }
 ]

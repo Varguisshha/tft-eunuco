@@ -16,6 +16,7 @@ export const ModifiableStatSchema = z.enum([
   'critMultiplierMilli',
 ]);
 const effectBase = {
+  timing: z.literal('after_damage').optional(),
   target: z.enum(['self', 'target', 'allies', 'enemies']),
   radius: z.number().int().min(0).max(14),
   center: z.enum(['source', 'target']).optional(),
@@ -38,6 +39,16 @@ export const CoreEffectSchema = z
       amount,
       damageType: DamageTypeSchema,
       canCrit: z.boolean().optional(),
+      healFromDamageMilli: z
+        .union([
+          z.number().int().min(0).max(1000),
+          z.tuple([
+            z.number().int().min(0).max(1000),
+            z.number().int().min(0).max(1000),
+            z.number().int().min(0).max(1000),
+          ]),
+        ])
+        .optional(),
       powerScaling: PowerScalingSchema.optional(),
       amountByStars: z.tuple([amount, amount, amount]).optional(),
     }),
@@ -63,6 +74,14 @@ export const CoreEffectSchema = z
         stat: ModifiableStatSchema,
         amount: z.number().int().min(-10000).max(10000),
         duration: ticks.nullable(),
+        amountByStars: z
+          .tuple([
+            z.number().int().min(-1000).max(10000),
+            z.number().int().min(-1000).max(10000),
+            z.number().int().min(-1000).max(10000),
+          ])
+          .optional(),
+        durationByStars: z.tuple([ticks, ticks, ticks]).optional(),
         mode: ModifierModeSchema.optional(),
       })
       .refine(
@@ -161,6 +180,11 @@ export const isMechanicEffect = (effect: CombatEffect): effect is MechanicEffect
     'periodic',
   ].includes(effect.kind);
 export const AbilityConditionSchema = z.discriminatedUnion('kind', [
+  z.strictObject({
+    kind: z.literal('stack_count'),
+    stackId: id,
+    minimum: z.number().int().min(0).max(100),
+  }),
   z.strictObject({ kind: z.literal('hp_below'), ratioMilli: z.number().int().min(1).max(1000) }),
   z.strictObject({
     kind: z.literal('enemies_nearby'),

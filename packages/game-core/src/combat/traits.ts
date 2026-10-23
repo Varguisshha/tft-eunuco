@@ -1,6 +1,7 @@
 import {
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
+  CHARACTER_RULES,
   type CombatStatus,
   type CombatInput,
   type CombatEffect,
@@ -73,7 +74,8 @@ export function prepareTraitProfiles(input: CombatInput) {
           for (const bonus of threshold.bonuses) {
             if (
               input.rulesVersion === ADVANCED_COMBAT_RULES ||
-              input.rulesVersion === MECHANICS_RULES
+              input.rulesVersion === MECHANICS_RULES ||
+              input.rulesVersion === CHARACTER_RULES
             ) {
               modifiers.push({
                 unitId: unit.id,

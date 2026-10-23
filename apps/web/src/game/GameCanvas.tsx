@@ -35,10 +35,13 @@ export function GameCanvas({
     hex: HexCoord | null;
     point: Point;
   } | null>(null);
-  const [ready, setReady] = useState(false);
+  const [readyScene, setReadyScene] = useState<BoardScene | null>(null);
+  const ready = readyScene !== null;
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     if (!host.current) return;
+    setReadyScene(null);
+    setError(null);
     let live = true;
     let game: Phaser.Game | undefined;
     let observer: ResizeObserver | undefined;
@@ -64,7 +67,7 @@ export function GameCanvas({
         session,
         () => {
           if (live) {
-            setReady(true);
+            setReadyScene(board);
             if (fitted) resize();
           }
         },
@@ -115,17 +118,17 @@ export function GameCanvas({
     };
   }, [session, fitted, arena]);
   useEffect(() => {
-    if (ready && calibration)
+    if (readyScene && scene.current === readyScene && calibration)
       scene.current?.setCalibration(
         calibration.controls,
         development && calibration.enabled,
         calibration.showGrid ?? true,
         calibration.showUnits ?? true,
       );
-  }, [ready, calibration, development]);
+  }, [readyScene, calibration, development]);
   useEffect(() => {
-    if (ready) scene.current?.setViewZoom(zoom);
-  }, [zoom, ready]);
+    if (readyScene && scene.current === readyScene) readyScene.setViewZoom(zoom);
+  }, [zoom, readyScene]);
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.target !== event.currentTarget) return;
     const { cursor } = session.getSnapshot();

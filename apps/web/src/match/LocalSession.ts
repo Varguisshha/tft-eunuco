@@ -65,7 +65,9 @@ export class LocalSession implements BoardPort {
     this.save = save;
     if (coordinator) {
       this.syncCoordinator();
-      if (coordinator.recoveredFromSave)
+      if (coordinator.development)
+        this.message = 'Prueba DEV aislada. Edita la formación o inicia el combate.';
+      else if (coordinator.recoveredFromSave)
         this.message =
           'Partida recuperada con el tiempo guardado, sin recompensas durante la ausencia.';
       coordinator.subscribe(() => this.syncCoordinator());

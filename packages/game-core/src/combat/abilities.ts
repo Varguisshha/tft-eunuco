@@ -19,6 +19,11 @@ export function abilityConditions(
 ) {
   return conditions.every((condition) => {
     switch (condition.kind) {
+      case 'stack_count':
+        return (
+          (unit.mechanics?.stacks.find((s) => s.definitionId === condition.stackId)?.count ?? 0) >=
+          condition.minimum
+        );
       case 'hp_below':
         return unit.hp * 1000 < effectiveStat(unit, 'maxHp') * condition.ratioMilli;
       case 'not_stunned':

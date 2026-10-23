@@ -40,6 +40,10 @@ export class LocalMatchCoordinator implements MatchCoordinator {
   readonly development: boolean;
   constructor(state: MatchState, options: CoordinatorOptions) {
     this.state = validateMatchState(state);
+    if (state.development && !options.development)
+      throw new Error('DEV match cannot become normal');
+    if (!options.development && options.matchId.startsWith('dev-'))
+      throw new Error('DEV identity in normal match');
     this.development = options.development ?? false;
     this.clock = new MatchClock(options.time, options.matchId, state.round);
     this.lastPulse = this.clock.now();

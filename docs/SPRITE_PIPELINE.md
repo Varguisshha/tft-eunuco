@@ -43,3 +43,7 @@ Para poses sin pies visibles, saltos, efectos distantes o recortes originales, l
 Salida: Attack1, 1024×128 (8 celdas128×128); Attack2,896×128 (8 celdas112×128), más dos retratos. No se creó una tercera evolución gráfica. El informe conserva nombres exactos, SHA-256, dimensiones, límites, apoyos, escala y anomalías por fuente. Los originales no se modificaron, renombraron ni eliminaron.
 
 Marcador provisional: frame3 en 1★ (índice2), frame6 en 2★ (índice5), por la primera extensión de contacto clara de cada secuencia inspeccionada. Hay otras extensiones de puño en el arte; NO representan golpes mecánicos adicionales. El orden suministrado se conserva. Cambiar `impactFrames` en config y reimportar permite revisar esta decisión.
+
+## Integración F0-P6B.3
+
+VARGAS tiene5 fuentes RGBA1254×1254 de Nivel2 original, preservadas byte a byte en la carpeta canónica star2/attack. No había ficheros VARGAS ni1y5 en Sprites/. Los cinco adjuntos son transparentes; secuencia1→5 inspeccionada y documentada en `Sprites/vargas/PROVENANCE.json`. Una hoja star2/attack y un retrato derivados, sin duplicados de hojas1/3. El manifiesto admite procedencia y listas explícitas `fallbacks`; siempre busca recursos propios antes de esas referencias. Si no hay listas, se conserva la búsqueda inferior histórica de DOLEA. Los huecos futuros se importan por estrella/estado sin tocar gameplay. [Procedimiento y carencias](VARGAS_CHARACTER.md).

@@ -40,7 +40,7 @@ export type HealthEntry = z.infer<typeof HealthEntrySchema>;
 export const EconomyConfigSchema = z
   .strictObject({
     version: z.literal(MATCH_RULES),
-    catalog: z.enum(['f0p4.1', 'f0p6a', 'f0p6b1', 'f0p6b2']).optional(),
+    catalog: z.enum(['f0p4.1', 'f0p6a', 'f0p6b1', 'f0p6b2', 'f0p6b3']).optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
     goldCap: nat.positive(),
@@ -129,6 +129,7 @@ export const LedgerEntrySchema = z.strictObject({
     'interest',
     'victory',
     'streak',
+    'development',
   ]),
   requested: z.number().int().safe(),
   delta: z.number().int().safe(),
@@ -161,6 +162,20 @@ export type MatchCommand = MatchAction extends infer A
     : never
   : never;
 export const MatchStateSchema = z.strictObject({
+  development: z
+    .strictObject({
+      tainted: z.literal(true),
+      version: z.literal(1),
+      healthAdjustments: z.array(
+        z.strictObject({
+          index: nat,
+          side: z.enum(['north', 'south']),
+          before: nat,
+          after: z.number().int().min(1).max(100),
+        }),
+      ),
+    })
+    .optional(),
   rulesVersion: z.literal(MATCH_RULES),
   config: EconomyConfigSchema,
   seed: CombatSeedSchema,

@@ -123,5 +123,76 @@
         "death": null
       }
     }
+  },
+  {
+    "version": 2,
+    "id": "vargas",
+    "provenance": {
+      "characterId": "vargas",
+      "sourceStarLevel": 2,
+      "nativeAppearance": "star2",
+      "pending": ["idle", "walk", "ability", "death"]
+    },
+    "fallbacks": { "star1": [2], "star2": [], "star3": [2] },
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "vargas:star2:attack",
+          "url": "/sprites/vargas/star2/attack.png",
+          "frameWidth": 144,
+          "frameHeight": 128,
+          "frameCount": 5,
+          "frames": [0, 1, 2, 3, 4],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 111 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 3,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/vargas/star2/attack/frame-1.png",
+              "sha256": "dce4ecd65080deaa309dac3fb5f801b635736571ed10413457eaaa4c9097c24a"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-2.png",
+              "sha256": "21d9832ea7a888e30be1be3364395bd89e2ec2f8e179fed27c7e441c77eae567"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-3.png",
+              "sha256": "5f1a65f893b097da73f3c52b6d4c81c32ba0b1d205b2e1ed68d20a05319e60c7"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-4.png",
+              "sha256": "1b49f552a7b3e33dfaf60597341469ccabaac30db8b680d983fca57183152fa4"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-5.png",
+              "sha256": "6eefb2769842956c8b83545397baf81432c1ad2b1ff9eef00f1094c625aaf73b"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    }
   }
 ]

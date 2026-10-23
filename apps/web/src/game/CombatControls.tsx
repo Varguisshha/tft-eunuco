@@ -1,4 +1,4 @@
-import { MECHANICS_SCENARIOS } from '@tft/game-data';
+import { MECHANICS_SCENARIOS, VARGAS_SCENARIOS } from '@tft/game-data';
 import type { AbilityScenario } from '@tft/game-data';
 import { useState } from 'react';
 import type { BoardSession, SessionSnapshot } from './session';
@@ -150,6 +150,31 @@ export function CombatControls({
                     'dolea-mechanics': 'DOLEA · motor de mecánicas',
                   }[id]
                 }
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="arena-scenario">
+          VARGAS y sinergias
+          <select
+            aria-label="Diagnóstico VARGAS"
+            value=""
+            disabled={!preparing}
+            onChange={(e) => {
+              if (e.target.value)
+                session.loadVargasScenario(
+                  e.target.value as import('@tft/game-data').VargasScenario,
+                );
+            }}
+          >
+            <option value="">Cargar VARGAS…</option>
+            {VARGAS_SCENARIOS.map((id) => (
+              <option key={id} value={id}>
+                {id.startsWith('upm')
+                  ? `UPM · ${id.slice(-1)} miembros ficticios`
+                  : id === 'depredador-10'
+                    ? 'El Depredador · 10 rivales'
+                    : `VARGAS ${id.slice(-1)}★ · arte nativo 2★`}
               </option>
             ))}
           </select>

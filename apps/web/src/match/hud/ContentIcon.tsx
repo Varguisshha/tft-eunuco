@@ -1,5 +1,8 @@
 /** Presentation-only registry: contracts contain stable IDs, never asset paths. */
 export const CONTENT_ICONS: Readonly<Record<string, string>> = {
+  upm: '/assets/icons/upm.svg',
+  'el-depredador': '/assets/icons/el-depredador.svg',
+  'copita-perhaps': '/assets/icons/copita-perhaps.svg',
   hortaleza: '/assets/icons/hortaleza.svg',
   'llama-de-padel': '/assets/icons/llama-de-padel.svg',
   'volumen-sucio': '/assets/icons/volumen-sucio.svg',

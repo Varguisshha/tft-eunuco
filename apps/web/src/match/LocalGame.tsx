@@ -12,12 +12,10 @@ import { LocalSession } from './LocalSession';
 import { UnitInspector } from './UnitInspector';
 import { Bench } from './Bench';
 import { Shop } from './Shop';
-import { DevelopmentClock } from './DevelopmentClock';
 import { MAR_DE_CRISTAL } from '../arenas/marDeCristal';
 export function LocalGame({
   session,
   onNew,
-  onReplace,
 }: {
   session: LocalSession;
   onNew: () => void;
@@ -62,7 +60,7 @@ export function LocalGame({
             </span>
           )}
           {coordinator?.development && (
-            <DevelopmentClock coordinator={coordinator} onReplace={onReplace} />
+            <span className="dev-environment">DEV · PRUEBA AISLADA</span>
           )}
         </div>
       </header>
@@ -288,6 +286,7 @@ export function LocalGame({
                     <td>
                       {
                         {
+                          development: 'Ajuste DEV',
                           initial: 'Oro inicial',
                           buy: 'Compra',
                           sell: 'Venta',

@@ -135,3 +135,7 @@ Las secciones anteriores relativas a botones manuales o a la segunda simulación
 ## F0-P6B.2 — operaciones de mecánicas
 
 `shared/mechanics.ts` versiona stacks, atribuciones, contexto causal y acciones especiales. `game-core/combat/mechanics.ts` implementa las operaciones mediante un puente al estado exclusivo de `CombatEngine`. Las definiciones de stacks y progreso se ejecutan en la misma cola de pasivas; no existe un segundo motor por personaje. Cada evento visual procede de esa autoridad. Las partidas nuevas seleccionan `f0p6b2`; los catálogos anteriores conservan sus adaptadores. Véase [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).
+
+## Integración F0-P6B.3
+
+Nuevo contenido `f0p6b3` / `f0p6b3-1` conserva los catálogos y trazas anteriores. VARGAS se expresa en datos; el motor añade recuperación sobre daño a HP, efectos tras daño, modificadores por estrella y condiciones de stacks. La capacidad DEV tiene subpaths propios y borradores validados, sin ampliar el protocolo normal. `GameCanvas` usa identidad de escena preparada al cambiar de sesión. [Personaje](VARGAS_CHARACTER.md), [DEV](DEVELOPER_MODE.md), [validación](F0_P6B3_REPORT.md).

@@ -45,3 +45,7 @@ Coste2, Vanguardia/tanque cuerpo a cuerpo, Hortaleza y Llama de Pádel. Habilida
 Un futuro diseño puede declarar stacks, recompensas por eliminación atribuida, sinergia única 1/1, contadores individuales/de equipo, mejora y repetición de cast, salto y ataque inmediato. Debe fijar explícitamente impacto frente a liberación, duración/refresco/consumo, ámbito de contadores, objetivo adicional, maná y permisos de procs, interrupción y presupuesto causal. No usar eventos de animación para resolver acciones.
 
 No se incorpora todavía a VARGAS ni sus sprites, Copita Perhaps, Blackhaus RPP, UPM o **El Depredador**. Sus datos jugables pertenecen a F0-P6B.3. Los diagnósticos actuales son ficticios y no se deben copiar al roster como balance definitivo. Véase [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).
+
+## Integración F0-P6B.3
+
+VARGAS demuestra la incorporación por datos: coste3, rol assassin, AD/HP escalados una sola vez, mixed, dos membresías y stacks versionados. Su apariencia original es star2; star1/star3 referencian star2 explícitamente. Cada próxima incorporación debe declarar procedencia real, activos faltantes, política de fallback y versión de catálogo, probar pool/fusión/replay y mantener perfiles anteriores. No añadir ramas del motor por nombre. [Contrato aplicado](VARGAS_CHARACTER.md).

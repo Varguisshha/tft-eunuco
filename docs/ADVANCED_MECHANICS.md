@@ -143,3 +143,7 @@ El inspector contextual muestra contadores, acumulaciones, duración, fuentes es
 7. Añadir casos reproducibles de cancelación, simultaneidad, Overtime, serialización y compatibilidad antes de incorporar contenido al catálogo.
 
 VARGAS, Copita Perhaps, Blackhaus RPP, UPM y **El Depredador** quedan para F0-P6B.3, que no se inicia en esta entrega.
+
+## Integración F0-P6B.3
+
+`StackDefinition.automatic:false` permite registrar un stack y sus modificadores/umbrales sin compilar una segunda ganancia automática: Resaca y Depredador usan reglas explícitas. Condición genérica `stack_count` con mínimo se evalúa antes de aplicar las tareas de la señal; esto distingue «al alcanzar» de «eliminaciones posteriores». B3 mantiene un índice privado de receptores de progreso independiente de reglas ya elegibles, para contar casts desde el umbral2; no añade contadores Créditos ni cambia B2. Repeticiones y saltos conservan linaje, reservas, cancelación y límites B2. [Mecánicas VARGAS](VARGAS_CHARACTER.md).

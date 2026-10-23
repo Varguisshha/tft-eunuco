@@ -70,3 +70,8 @@ export const MECHANICS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...ADVANCED_ECONOMY_CONFIG,
   catalog: 'f0p6b2',
 });
+
+export const VARGAS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...MECHANICS_ECONOMY_CONFIG,
+  catalog: 'f0p6b3',
+});

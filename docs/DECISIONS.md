@@ -176,3 +176,7 @@ Fuentes Phaser consultadas para P2: [Graphics](https://docs.phaser.io/api-docume
 - Aplicar solo presentación contextual y assets existentes. No iniciar F0-P6B.3.
 
 Detalles y limitaciones en [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md). Se preservó P6B.1 en `c5cb131` tras verificar 427 pruebas antes de editar.
+
+## Integración F0-P6B.3
+
+Decisiones B3: coste3 y estadísticas solicitadas; catálogo/reglas nuevos; condiciones previas a ganancia para kills posteriores2/6; cura sobre HP con recuperación tras daños comprometidos; arte oficialmente nativo2★, listas explícitas1/3→2 sin hojas duplicadas; DEV reserva copias reales y guarda marca irreversible en la sesión normal del coordinador, ledger y auditoría separados. Acceso por compilación local, excluido del paquete público. Se conserva refresh del último efecto y potencia B2. No hay multiplayer, cuentas, objetos, aumentos ni fase posterior. [Personaje](VARGAS_CHARACTER.md) y [controlador](DEVELOPER_MODE.md).

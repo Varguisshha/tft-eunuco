@@ -81,3 +81,7 @@ Contrato universal por evolución/estado, recursos parciales, resolver central, 
 Motor genérico de stacks, eliminaciones atribuidas, progreso de sinergias, mejora/repetición y saltos con ataque inmediato implementado bajo nuevas reglas explícitas. Incluye diagnósticos técnicos y feedback contextual. Evidencias y estado de comprobaciones en [F0_P6B2_REPORT.md](F0_P6B2_REPORT.md).
 
 **Punto de parada:** F0-P6B.3 no iniciada. VARGAS y sus contenidos futuros siguen fuera del catálogo.
+
+## Integración F0-P6B.3
+
+Implementada exclusivamente F0-P6B.3: VARGAS, sus habilidades/sinergias, importación nativa2★ y Modo Desarrollador aislado. Los diagnósticos UPM usan miembros ficticios fuera de tienda. No se inicia otra fase. Pendientes artísticos explícitos: apariencias1★/3★ y clips idle/walk/ability/death. Balance provisional; siguiente paso recomendado: revisar partidas de prueba y recibir recursos nativos faltantes antes de cambiar contenido. [Informe](F0_P6B3_REPORT.md).

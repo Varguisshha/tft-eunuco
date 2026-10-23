@@ -53,7 +53,13 @@ export async function build(root = process.cwd()) {
   const manifests = [],
     report = [];
   for (const c of config.characters) {
-    const manifest = { version: 2, id: c.id, evolutions: {} };
+    const manifest = {
+      version: 2,
+      id: c.id,
+      ...(c.provenance ? { provenance: c.provenance } : {}),
+      ...(c.fallbacks ? { fallbacks: c.fallbacks } : {}),
+      evolutions: {},
+    };
     const legacy = await list(path.join(root, c.sourceRoot));
     for (const star of [1, 2, 3]) {
       const slots = Object.fromEntries(states.map((s) => [s, null]));
@@ -270,8 +276,10 @@ export async function build(root = process.cwd()) {
       for (const state of states) {
         const m = manifests.find((m) => m.id === id);
         let selected = null;
-        for (let n = star; n >= 1 && !selected; n--)
-          for (const name of state === 'attack' ? ['attack'] : [state, 'attack'])
+        for (const n of m?.fallbacks
+          ? [star, ...m.fallbacks[`star${star}`]]
+          : Array.from({ length: star }, (_, i) => star - i))
+          for (const name of selected ? [] : state === 'attack' ? ['attack'] : [state, 'attack'])
             if (m?.evolutions[`star${n}`][name]) {
               selected = { star: n, state: name };
               break;

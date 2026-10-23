@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import {
   MECHANICS_RULES,
+  CHARACTER_RULES,
   ProfileMechanicsSchema,
   UnitMechanicsSchema,
   MechanicsStateSchema,
@@ -39,6 +40,7 @@ const RulesSchema = z.enum([
   CURRENT_COMBAT_RULES,
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
+  CHARACTER_RULES,
 ]);
 export const MAX_COMBAT_TICKS = 450;
 export const OVERTIME_START_TICK = 300;
@@ -173,7 +175,8 @@ export const CombatInputSchema = z
       )
     )
       ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
-    const mechanics = input.rulesVersion === MECHANICS_RULES;
+    const mechanics =
+      input.rulesVersion === MECHANICS_RULES || input.rulesVersion === CHARACTER_RULES;
     const advanced = input.rulesVersion === ADVANCED_COMBAT_RULES || mechanics;
     if (mechanics && !input.combatId)
       ctx.addIssue({ code: 'custom', message: 'Mechanics rules require combatId' });
@@ -253,7 +256,35 @@ export const CombatInputSchema = z
           ...t.thresholds.flatMap((r) => r.effects),
           ...(t.progress?.rules.flatMap((r) => r.effects) ?? []),
         ]) ?? [],
+      )
+      .flatMap<import('./abilities').CombatEffect>((e) =>
+        'extraEffects' in e ? [e, ...e.extraEffects] : [e],
       );
+    if (
+      input.rulesVersion !== CHARACTER_RULES &&
+      (allEffects.some(
+        (e) =>
+          ('timing' in e && e.timing !== undefined) ||
+          ('healFromDamageMilli' in e && e.healFromDamageMilli !== undefined) ||
+          ('durationByStars' in e && e.durationByStars !== undefined) ||
+          (e.kind === 'modifier' && e.amountByStars !== undefined),
+      ) ||
+        input.units.some(
+          (u) =>
+            u.profile.mechanics?.stacks.some(
+              (s) =>
+                s.automatic !== undefined || s.conditions.some((c) => c.kind === 'stack_count'),
+            ) ||
+            u.profile.championAbility?.active?.conditions.some((c) => c.kind === 'stack_count') ||
+            u.profile.championAbility?.passive?.rules.some((r) =>
+              r.conditions.some((c) => c.kind === 'stack_count'),
+            ),
+        ) ||
+        input.traits?.some((t) =>
+          t.progress?.rules.some((r) => r.conditions.some((c) => c.kind === 'stack_count')),
+        ))
+    )
+      ctx.addIssue({ code: 'custom', message: 'Character extensions require f0p6b3-1' });
     if (!mechanics && allEffects.some(isMechanicEffect))
       ctx.addIssue({
         code: 'custom',
@@ -277,7 +308,15 @@ export const CombatInputSchema = z
       for (const e of allEffects)
         if (
           (e.kind === 'stack_gain' || e.kind === 'stack_consume') &&
-          !input.units.some((u) => u.profile.mechanics?.stacks.some((d) => d.id === e.stackId))
+          !input.units.some((u) => u.profile.mechanics?.stacks.some((d) => d.id === e.stackId)) &&
+          !(
+            input.rulesVersion === CHARACTER_RULES &&
+            input.traits?.some(
+              (t) =>
+                t.progress?.rules.some((r) => r.effects.includes(e)) &&
+                !input.units.some((u) => u.profile.traits?.includes(t.id)),
+            )
+          )
         )
           ctx.addIssue({ code: 'custom', message: 'Unknown stack definition' });
       if (

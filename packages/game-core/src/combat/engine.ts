@@ -5,6 +5,7 @@ import { activeAbility, abilityConditions } from './abilities';
 import {
   CombatInputSchema,
   MECHANICS_RULES,
+  CHARACTER_RULES,
   isMechanicEffect,
   type ChainContext,
   CombatStateSchema,
@@ -168,7 +169,7 @@ export class CombatEngine {
         deathTick: null,
       })),
     };
-    if (this.input.rulesVersion === MECHANICS_RULES)
+    if (this.input.rulesVersion === MECHANICS_RULES || this.input.rulesVersion === CHARACTER_RULES)
       this.mechanics = new CombatMechanics({
         input: this.input,
         state: () => this.state,
@@ -325,12 +326,34 @@ export class CombatEngine {
   private resolveEffects(tasks: EffectTask[]): void {
     // All actions finishing this tick are committed before any damage. Support first; deaths last.
     const eligible = new Set(this.state.units.filter(isAlive).map((u) => u.id));
-    const priority = (task: EffectTask) => (task.effect.kind === 'damage' ? 1 : 0);
+    const priority = (task: EffectTask) =>
+      'timing' in task.effect && task.effect.timing === 'after_damage'
+        ? 2
+        : task.effect.kind === 'damage'
+          ? 1
+          : 0;
+    const recovery: { source: CombatUnit; amount: number }[] = [];
+    const recover = () => {
+      for (const { source, amount } of recovery.splice(0))
+        if (isAlive(source))
+          this.resolveEffects([
+            {
+              source,
+              target: source,
+              effect: { kind: 'heal', target: 'self', radius: 0, amount },
+              cause: 'ability',
+            },
+          ]);
+    };
     const sorted = tasks
       .map((task, index) => ({ task, index }))
       .sort((a, b) => priority(a.task) - priority(b.task) || a.index - b.index);
     for (const { task } of sorted) {
       const { source, target, effect, cause } = task;
+      if (priority(task) === 2) {
+        recover();
+        if (!isAlive(target)) continue;
+      }
       if (!eligible.has(target.id)) continue;
       const context = this.mechanics ? (task.context ?? this.mechanics.root()) : undefined;
       if (this.mechanics && !this.mechanics.budget('effects', source, context!)) continue;
@@ -360,10 +383,18 @@ export class CombatEngine {
             critical = roll.critical;
           }
         }
+        const beforeHp = target.hp;
         this.damage(source, target, amount, effect.damageType, cause, critical, {
           ...(context ? { context } : {}),
           ...(task.attackId ? { attackId: task.attackId } : {}),
         });
+        if (effect.healFromDamageMilli !== undefined) {
+          const ratio =
+            typeof effect.healFromDamageMilli === 'number'
+              ? effect.healFromDamageMilli
+              : effect.healFromDamageMilli[(source.profile.starLevel ?? 1) - 1]!;
+          recovery.push({ source, amount: Math.floor(((beforeHp - target.hp) * ratio) / 1000) });
+        }
       } else if (effect.kind === 'heal') {
         const healed = Math.min(
           scaleCombatAmount(
@@ -411,7 +442,13 @@ export class CombatEngine {
           kind: effect.kind,
           stat: effect.kind === 'modifier' ? effect.stat : null,
           amount,
-          expiresTick: effect.duration === null ? null : this.state.tick + effect.duration,
+          expiresTick:
+            effect.duration === null
+              ? null
+              : this.state.tick +
+                (effect.kind === 'modifier' && effect.durationByStars
+                  ? effect.durationByStars[(source.profile.starLevel ?? 1) - 1]!
+                  : effect.duration),
           ...(advancedRules(this.input.rulesVersion) && effect.kind === 'modifier'
             ? { mode: effect.mode ?? ('flat' as const), origin: task.origin ?? ('active' as const) }
             : {}),
@@ -435,6 +472,7 @@ export class CombatEngine {
         if (effect.kind === 'stun') this.cancel(target, 'stun');
       }
     }
+    recover();
   }
   private damage(
     source: CombatUnit,

@@ -1,6 +1,6 @@
 import { combatStatsView } from '../combat/stats';
 import { DEFAULT_OVERTIME } from '@tft/shared';
-import { TRAIT_DEFINITIONS } from '@tft/game-data';
+import { traitsFor } from '@tft/game-data';
 import { analyzeTraits, prepareTraitProfiles } from '../combat/traits';
 import type {
   MatchState,
@@ -13,6 +13,7 @@ import {
   COMBAT_PROFILES,
   CURRENT_COMBAT_PROFILES,
   ADVANCED_COMBAT_PROFILES,
+  VARGAS_COMBAT_PROFILES,
   hasTraits,
   combatRulesFor,
   getUnitDefinition,
@@ -45,15 +46,18 @@ export function scaledProfile(
   config: EconomyConfig,
 ): CombatProfile {
   const source = (
-    config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
-      ? ADVANCED_COMBAT_PROFILES
-      : config.catalog === 'f0p6a'
-        ? CURRENT_COMBAT_PROFILES
-        : COMBAT_PROFILES
+    config.catalog === 'f0p6b3'
+      ? VARGAS_COMBAT_PROFILES
+      : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
+        ? ADVANCED_COMBAT_PROFILES
+        : config.catalog === 'f0p6a'
+          ? CURRENT_COMBAT_PROFILES
+          : COMBAT_PROFILES
   )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
-  if (config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2') profile.starLevel = stars;
+  if (config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2' || config.catalog === 'f0p6b3')
+    profile.starLevel = stars;
   const scale = config.statScaleMilli[stars - 1]!;
   const amount = (n: number) => Math.min(1_000_000, Math.floor((n * scale) / 1000));
   profile.stats.maxHp = amount(profile.stats.maxHp);
@@ -80,7 +84,7 @@ export function matchTraits(state: MatchState) {
       deployed: u.location.kind === 'board',
       traits: scaledProfile(u.definitionId, u.stars, state.config).traits ?? [],
     })),
-    hasTraits(state.config.catalog) ? TRAIT_DEFINITIONS : [],
+    hasTraits(state.config.catalog) ? traitsFor(state.config.catalog) : [],
   );
 }
 export function formationProfiles(state: MatchState) {
@@ -105,9 +109,14 @@ export function formationProfiles(state: MatchState) {
     overtime: DEFAULT_OVERTIME,
     obstacles: [],
     units,
-    ...(hasTraits(state.config.catalog) ? { traits: [...TRAIT_DEFINITIONS] } : {}),
+    ...(hasTraits(state.config.catalog) ? { traits: [...traitsFor(state.config.catalog)] } : {}),
   });
-  if (state.config.catalog !== 'f0p6b1' && state.config.catalog !== 'f0p6b2') return prepared.units;
+  if (
+    state.config.catalog !== 'f0p6b1' &&
+    state.config.catalog !== 'f0p6b2' &&
+    state.config.catalog !== 'f0p6b3'
+  )
+    return prepared.units;
   return prepared.units.map((unit) => ({
     ...unit,
     profile: {

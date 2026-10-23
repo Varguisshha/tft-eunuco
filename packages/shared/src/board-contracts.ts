@@ -15,7 +15,7 @@ export type CombatSeed = z.infer<typeof CombatSeedSchema>;
 export const UnitDefinitionSchema = z.strictObject({
   id,
   name: z.string().min(1),
-  role: z.enum(['vanguard', 'striker', 'ranger', 'support']),
+  role: z.enum(['vanguard', 'striker', 'ranger', 'support', 'assassin']),
   cost: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   synergies: z.tuple([id], id).refine((items) => items.length <= 2, 'One or two synergies'),
   activeAbilityId: id.nullable(),

@@ -17,7 +17,10 @@
     "test:watch": "vitest",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "build:local": "pnpm --filter @tft/web exec vite build --mode local-test --outDir dist-dev",
+    "preview:local": "pnpm --filter @tft/web exec vite preview --outDir dist-dev --host 127.0.0.1 --port 4173",
+    "verify:public": "node scripts/build/verify-public.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

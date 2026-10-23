@@ -11,8 +11,8 @@ import {
 } from '@tft/game-core';
 import {
   getUnitDefinition,
-  CHARACTER_ROSTER,
-  ADVANCED_ECONOMY_CONFIG,
+  VARGAS_ROSTER,
+  VARGAS_ECONOMY_CONFIG,
   abilityPresentation,
 } from '@tft/game-data';
 import { scaledProfile } from '@tft/game-core';
@@ -66,7 +66,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
     liveUnit?.profile ??
     session.diagnosticProfile(selected?.id ?? '') ??
     (definition
-      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), ADVANCED_ECONOMY_CONFIG)
+      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), VARGAS_ECONOMY_CONFIG)
       : undefined);
   const stats = liveUnit
     ? combatStatsView(liveUnit, combatFrame?.tick ?? 0, session.combatOvertime())
@@ -178,7 +178,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                 <span>Selecciona y coloca</span>
               </div>
               <div className="unit-roster">
-                {CHARACTER_ROSTER.map((unit) => (
+                {VARGAS_ROSTER.map((unit) => (
                   <button
                     key={unit.id}
                     className={`roster-unit ${state.paletteId === unit.id ? 'active' : ''}`}

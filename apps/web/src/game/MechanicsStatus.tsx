@@ -25,7 +25,8 @@ export function MechanicsStatus({ value }: { value: MechanicsReadout }) {
       ))}
       {value.progress.map((p) => (
         <p key={p.id} title="Progreso interno de combate; no añade miembros a la sinergia.">
-          {p.scope} · {p.casts} lanzamientos · {p.kills} eliminaciones
+          {p.scope} · {p.casts} {p.name === 'upm' ? 'Créditos (lanzamientos)' : 'lanzamientos'} ·{' '}
+          {p.kills} eliminaciones
         </p>
       ))}
       {value.effects.length > 0 && (

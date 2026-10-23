@@ -5,12 +5,14 @@ export const ROLE_LABELS: Record<UnitDefinition['role'], string> = {
   striker: 'Duelista',
   ranger: 'Tirador',
   support: 'Mago',
+  assassin: 'Asesino',
 };
 export const ROLE_COLORS: Record<UnitDefinition['role'], string> = {
   vanguard: '#88bca5',
   striker: '#dfae72',
   ranger: '#a6afcf',
   support: '#c0bb85',
+  assassin: '#d3a16d',
 };
 /** Original 32 × 40 sprites, authored as integer rectangles; no external artwork. */
 export function pixelRects(role: UnitDefinition['role']): PixelRect[] {

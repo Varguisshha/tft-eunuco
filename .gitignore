@@ -8,3 +8,4 @@ coverage/
 !.env.example
 .impeccable/
 artifacts/
+dist-dev/

@@ -61,7 +61,7 @@
   stroke: var(--cost-tone, #b8c9a9);
   stroke-width: 2;
 }
-.game-hud .game-button {
+:is(.game-hud, .developer-console) .game-button {
   --frame-edge: #688575;
   --frame-light: #adc4af;
   display: flex;
@@ -85,7 +85,7 @@
     background-color 120ms ease-out,
     color 120ms ease-out;
 }
-.game-hud .game-button.tone-gold {
+:is(.game-hud, .developer-console) .game-button.tone-gold {
   --frame-edge: #a28e5b;
   --frame-light: #e8cd83;
   background: #393323;
@@ -112,24 +112,24 @@
   width: 16px;
   height: 16px;
 }
-.game-hud .game-button:hover:not(:disabled) {
+:is(.game-hud, .developer-console) .game-button:hover:not(:disabled) {
   background: #38553e;
   --frame-edge: #c7d6ae;
 }
-.game-hud .game-button.tone-gold:hover:not(:disabled) {
+:is(.game-hud, .developer-console) .game-button.tone-gold:hover:not(:disabled) {
   background: #51472b;
   --frame-edge: #f2d58a;
 }
-.game-hud .game-button:active:not(:disabled) {
+:is(.game-hud, .developer-console) .game-button:active:not(:disabled) {
   background: #17271f;
   translate: 0 1px;
 }
-.game-hud .game-button[aria-pressed='true'] {
+:is(.game-hud, .developer-console) .game-button[aria-pressed='true'] {
   background: #394b2b;
   --frame-edge: #d9d69e;
   --frame-light: #e9dfac;
 }
-.game-hud .game-button:disabled {
+:is(.game-hud, .developer-console) .game-button:disabled {
   opacity: 1;
   color: #9ea99e;
   background: #1a2723;
@@ -137,7 +137,7 @@
   --frame-edge: #46574c;
   --frame-light: #718471;
 }
-.game-hud .game-button:disabled .game-button-cost {
+:is(.game-hud, .developer-console) .game-button:disabled .game-button-cost {
   color: #b8ae91;
 }
 .game-hud .action-receipt {
@@ -524,7 +524,7 @@
   .game-hud .trait-provisional {
     font-size: 10px;
   }
-  .game-hud .game-button {
+  :is(.game-hud, .developer-console) .game-button {
     min-height: 47px;
     font-size: 13px;
   }
@@ -599,7 +599,7 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .game-hud .game-button,
+  :is(.game-hud, .developer-console) .game-button,
   .game-hud .offer-art .pixel-unit {
     transition: none;
   }

@@ -18,6 +18,10 @@ import {
   createAbilityScenario,
   createStatsScenario,
   createMechanicsScenario,
+  createVargasScenario,
+  createVargasCombatInput,
+  VARGAS_ECONOMY_CONFIG,
+  type VargasScenario,
   type MechanicsScenario,
   type StatsScenario,
   type AbilityScenario,
@@ -244,6 +248,27 @@ export class BoardSession {
       message: `Mecánicas de prueba: ${scenario}. Solo diagnóstico.`,
     });
   }
+  loadVargasScenario(scenario: VargasScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createVargasScenario(scenario, this.snapshot.combat.seed);
+    for (const unit of this.scenarioInput.units)
+      this.visualStars.set(unit.id, unit.profile.starLevel ?? 1);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: scenario.startsWith('upm') ? 'mechanics-source' : 'diagnostic-vargas',
+      paletteId: null,
+      invalid: false,
+      message: `Diagnóstico ${scenario}. Miembros ficticios fuera del catálogo.`,
+    });
+  }
   traitInput = () => this.playback?.replay.input ?? this.scenarioInput;
   diagnosticProfile(id: string) {
     return this.scenarioInput?.units.find((u) => u.id === id)?.profile;
@@ -269,15 +294,27 @@ export class BoardSession {
                   this.scenarioInput!.units.find(
                     (p) => p.id === u.id && p.definitionId === u.definitionId,
                   )?.profile ??
-                    scaledProfile(u.definitionId, this.starsFor(u.id), ADVANCED_ECONOMY_CONFIG),
+                    scaledProfile(
+                      u.definitionId,
+                      this.starsFor(u.id),
+                      this.scenarioInput!.rulesVersion === 'f0p6b3-1'
+                        ? VARGAS_ECONOMY_CONFIG
+                        : ADVANCED_ECONOMY_CONFIG,
+                    ),
                 ),
               })),
             }
           : repeat && this.lastInput
             ? this.lastInput
-            : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
-                ? createAdvancedCombatInput
-                : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
+            : this.snapshot.board.units.some((u) => u.definitionId === 'vargas')
+              ? createVargasCombatInput(
+                  this.snapshot.board,
+                  this.snapshot.combat.seed,
+                  `arena-${this.snapshot.combat.seed}`,
+                )
+              : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
+                  ? createAdvancedCombatInput
+                  : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
       if (!repeat && this.scenarioInput && !this.scenarioInput.combatId) {
         setup.rulesVersion = this.scenarioInput.rulesVersion;
         setup.traits =

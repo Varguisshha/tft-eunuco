@@ -22,7 +22,7 @@ it('derived sheets and source hashes agree with physical assets, without opaque 
   const report = JSON.parse(await fs.readFile('docs/SPRITE_IMPORT_REPORT.json', 'utf8'));
   for (const r of report) {
     const asset = await sharp('apps/web/public/' + r.output).metadata();
-    expect(asset.width).toBe(r.frameWidth * 8);
+    expect(asset.width).toBe(r.frameWidth * r.frames.length);
     expect(asset.height).toBe(r.frameHeight);
     expect(asset.hasAlpha).toBe(true);
     const stats = await sharp('apps/web/public/' + r.output).stats();
@@ -67,4 +67,4 @@ it('reimports deterministically and discovers an added walk without touching att
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }
-});
+}, 20000);

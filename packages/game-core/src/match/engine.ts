@@ -1,4 +1,4 @@
-import { TRAIT_DEFINITIONS, hasTraits, combatRulesFor } from '@tft/game-data';
+import { traitsFor, hasTraits, combatRulesFor } from '@tft/game-data';
 import {
   CombatInputSchema,
   COMBAT_PROTOCOL,
@@ -128,7 +128,7 @@ function freeBench(state: MatchState): number {
     ) ?? -1
   );
 }
-function combine(state: MatchState): void {
+export function combine(state: MatchState): void {
   for (const d of matchCatalog(state.config))
     for (const stars of [1, 2] as const) {
       let candidates = state.units.filter((u) => u.definitionId === d.id && u.stars === stars);
@@ -147,7 +147,7 @@ function combine(state: MatchState): void {
       }
     }
 }
-function addXp(state: MatchState, amount: number): void {
+export function addXp(state: MatchState, amount: number): void {
   if (state.level === state.config.maxLevel) return;
   state.totalXp += amount;
   state.xp += amount;
@@ -205,10 +205,10 @@ function startCombat(state: MatchState, allowEmpty = false): void {
     input: CombatInputSchema.parse({
       protocolVersion: COMBAT_PROTOCOL,
       rulesVersion: combatRulesFor(state.config.catalog),
-      ...(state.config.catalog === 'f0p6b2'
+      ...(state.config.catalog === 'f0p6b2' || state.config.catalog === 'f0p6b3'
         ? { combatId: `match-${state.seed}-round-${state.round}` }
         : {}),
-      ...(hasTraits(state.config.catalog) ? { traits: TRAIT_DEFINITIONS } : {}),
+      ...(hasTraits(state.config.catalog) ? { traits: traitsFor(state.config.catalog) } : {}),
       seed: next.value,
       maxTicks: MAX_COMBAT_TICKS,
       obstacles: [],

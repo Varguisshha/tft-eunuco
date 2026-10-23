@@ -14,7 +14,7 @@ import type {
   StackState,
   TraitProgress,
 } from '@tft/shared';
-import { MECHANICS_LIMITS } from '@tft/shared';
+import { MECHANICS_LIMITS, CHARACTER_RULES } from '@tft/shared';
 import { analyzeTraits } from './traits';
 import { activeAbility } from './abilities';
 import { effectiveStat, isAlive, isStunned, compareIds } from './math';
@@ -74,6 +74,7 @@ export class CombatMechanics {
   private lethal = new Map<string, { attribution: KillAttribution; context: ChainContext }>();
   private confirmed = new Set<string>();
   private traitEntries = new Map<string, RuleEntry[]>();
+  private traitCounters = new Map<string, TraitProgress[]>();
   private budgetTick = -1;
   private effects = 0;
   private signals = 0;
@@ -134,6 +135,7 @@ export class CombatMechanics {
         for (const unit of recipients) {
           const progress = shared ?? make(unit.id);
           if (!shared) state.mechanics.traits.push(progress);
+          this.traitCounters.set(unit.id, [...(this.traitCounters.get(unit.id) ?? []), progress]);
           const entries = this.traitEntries.get(unit.id) ?? [];
           entries.push(
             ...trait.progress.rules
@@ -209,25 +211,30 @@ export class CombatMechanics {
       runtime: unit.passiveState!,
     }));
     for (const [index, stack] of (unit.profile.mechanics?.stacks ?? []).entries())
-      entries.push({
-        abilityId: stack.id,
-        runtime: unit.passiveState!,
-        rule: {
-          id: `@stack:${index}`,
-          trigger: stack.trigger,
-          conditions: stack.conditions,
-          effects: [
-            { kind: 'stack_gain', target: 'self', radius: 0, stackId: stack.id, amount: 1 },
-          ],
-          maxActivations: 450,
-          cooldownTicks: 0,
-        },
-      });
+      if (stack.automatic !== false)
+        entries.push({
+          abilityId: stack.id,
+          runtime: unit.passiveState!,
+          rule: {
+            id: `@stack:${index}`,
+            trigger: stack.trigger,
+            conditions: stack.conditions,
+            effects: [
+              { kind: 'stack_gain', target: 'self', radius: 0, stackId: stack.id, amount: 1 },
+            ],
+            maxActivations: 450,
+            cooldownTicks: 0,
+          },
+        });
     return [...entries, ...(this.traitEntries.get(unit.id) ?? [])];
   }
   count(unit: CombatUnit, kind: 'casts' | 'kills') {
     unit.mechanics![kind]++;
-    const unique = new Set((this.traitEntries.get(unit.id) ?? []).map((e) => e.progress!));
+    const unique = new Set(
+      this.host.input.rulesVersion === CHARACTER_RULES
+        ? (this.traitCounters.get(unit.id) ?? [])
+        : (this.traitEntries.get(unit.id) ?? []).map((e) => e.progress!),
+    );
     for (const progress of unique) progress[kind]++;
     return {
       unit: unit.mechanics![kind],

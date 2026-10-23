@@ -14,6 +14,30 @@
         "star2": 5
       },
       "alphaCutoff": 8
+    },
+    {
+      "id": "vargas",
+      "sourceRoot": "Sprites",
+      "bodyHeight": 96,
+      "displayHeight": 64,
+      "facing": "right",
+      "mirrorAllowed": true,
+      "fps": 10,
+      "impactFrames": {
+        "star2": 3
+      },
+      "alphaCutoff": 8,
+      "provenance": {
+        "characterId": "vargas",
+        "sourceStarLevel": 2,
+        "nativeAppearance": "star2",
+        "pending": ["idle", "walk", "ability", "death"]
+      },
+      "fallbacks": {
+        "star1": [2],
+        "star2": [],
+        "star3": [2]
+      }
     }
   ],
   "genericCharacters": ["test-k01", "test-v02", "test-r03", "test-m04"]

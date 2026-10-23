@@ -7,6 +7,7 @@ import {
   AbilityConditionSchema,
 } from './abilities';
 export const MECHANICS_RULES = 'f0p6b2-1' as const;
+export const CHARACTER_RULES = 'f0p6b3-1' as const;
 export const MECHANICS_LIMITS = Object.freeze({
   chainDepth: 8,
   effectsPerTick: 4096,
@@ -36,6 +37,7 @@ export const StackDefinitionSchema = z
     id,
     name: id,
     trigger: PassiveTriggerSchema,
+    automatic: z.boolean().optional(),
     conditions: z.array(AbilityConditionSchema).max(8),
     maxStacks: z.number().int().min(1).max(100),
     durationTicks: z.number().int().min(1).max(450).nullable(),

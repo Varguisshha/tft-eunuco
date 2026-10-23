@@ -50,6 +50,10 @@ export function validateMatchState(value: unknown): MatchState {
     const offered = state.shop.filter((o) => o?.definitionId === d.id).length;
     fail((state.pool[d.id] ?? -1) + owned + offered !== expected, 'Copy conservation');
   }
+  fail(
+    !state.development && state.ledger.some((e) => e.reason === 'development'),
+    'DEV ledger in normal match',
+  );
   let gold = 0;
   state.ledger.forEach((e, i) => {
     gold += e.delta;
@@ -63,7 +67,24 @@ export function validateMatchState(value: unknown): MatchState {
     north: state.config.roundDamage.initialHp,
     south: state.config.roundDamage.initialHp,
   };
+  let adjustmentIndex = 0;
+  const adjustments = state.development?.healthAdjustments ?? [];
+  const adjust = (index: number) => {
+    while (adjustmentIndex < adjustments.length && adjustments[adjustmentIndex]!.index === index) {
+      const a = adjustments[adjustmentIndex++]!;
+      fail(health[a.side] !== a.before, 'DEV health conservation');
+      health[a.side] = a.after;
+    }
+  };
+  fail(
+    adjustments.some(
+      (a, i) =>
+        a.index > state.healthLedger.length || (i > 0 && a.index < adjustments[i - 1]!.index),
+    ),
+    'DEV health order',
+  );
   state.healthLedger.forEach((entry, i) => {
+    adjust(i);
     fail(
       entry.round !== Math.floor(i / 2) + 1 || entry.side !== (i % 2 ? 'south' : 'north'),
       'Health ledger order',
@@ -78,6 +99,7 @@ export function validateMatchState(value: unknown): MatchState {
     fail(entry.outcome === 'win' && entry.requested !== 0, 'Winner damage');
     health[entry.side] = entry.hpAfter;
   });
+  adjust(state.healthLedger.length);
   fail(
     health.north !== state.health.north || health.south !== state.health.south,
     'Health balance',

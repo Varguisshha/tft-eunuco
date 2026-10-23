@@ -117,3 +117,7 @@ No se implementan VARGAS, sus sprites o habilidades, UPM ni El Depredador. No ha
 `advancedRules` reconoce también `f0p6b2-1`; las fórmulas, caps y PRNG de P6B.1 permanecen disponibles sin modificación retroactiva. Los modificadores por acumulación se suman como fuentes identificables, con porcentaje sobre la base escalada y retirada al consumir/expirar. No se multiplican estrellas otra vez.
 
 La potencia de un cast mejorado/adicional se aplica después de resolver AD/AP y antes de crítico, Overtime y mitigación. Un básico inmediato de salto calcula AD, variación y crítico una sola vez al aterrizar. Un proyectil conserva su básico comprometido y se confirma al impactar. DOLEA conserva sus estadísticas. [Mecánicas y pruebas](ADVANCED_MECHANICS.md).
+
+## Integración F0-P6B.3
+
+B3 usa HP700/1260/2268 y AD70/126/226 de VARGAS, sin multiplicar otra vez los ratios280/420/700 % AD. AS800milli, AP0, crítico200/1500, defensas25, maná0/70. Un daño crítico autorizado afecta la recuperación por HP real; Blackhaus lo desactiva explícitamente. Sus bonos de AS son porcentajes aditivos de base, con importe/duración por estrella. Recuperación porcentual del daño se calcula después de mitigación, escudo y recorte, y recibe Overtime de curación después. Los campos B3 son rechazados bajo reglas anteriores. [Ejemplos y límites](VARGAS_CHARACTER.md).
