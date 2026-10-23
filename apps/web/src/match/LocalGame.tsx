@@ -147,7 +147,7 @@ export function LocalGame({
           <button className="button journal-button" onClick={() => journal.current?.showModal()}>
             Registro de partida
           </button>
-          <TraitRail state={state} />
+          <TraitRail state={state} combatState={session.combatFrame()?.state} />
         </aside>
         <section className="local-board" aria-label="Tablero de partida local">
           <div className="local-board-title">

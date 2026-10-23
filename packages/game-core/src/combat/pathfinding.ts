@@ -44,7 +44,7 @@ export function blockedCells(
   for (const u of units)
     if (isAlive(u) && u.id !== exceptId) {
       blocked.add(hexKey(u.position));
-      if (u.action?.kind === 'move') blocked.add(hexKey(u.action.to));
+      if (u.action?.kind === 'move' || u.action?.kind === 'jump') blocked.add(hexKey(u.action.to));
     }
   return blocked;
 }

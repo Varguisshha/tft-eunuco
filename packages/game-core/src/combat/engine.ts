@@ -1,8 +1,12 @@
+import { CombatMechanics, type Emit, type DamageContext, type MechanicSignal } from './mechanics';
 import { advancedRules, effectAmount, criticalRoll } from './stats';
 import { prepareTraitProfiles } from './traits';
 import { activeAbility, abilityConditions } from './abilities';
 import {
   CombatInputSchema,
+  MECHANICS_RULES,
+  isMechanicEffect,
+  type ChainContext,
   CombatStateSchema,
   COMBAT_PROTOCOL,
   MAX_COMBAT_TICKS,
@@ -15,7 +19,6 @@ import {
   type CombatReplay,
   type CombatResult,
   type DamageType,
-  type PassiveTrigger,
 } from '@tft/shared';
 import { overtimeModifiers, scaleCombatAmount } from './overtime';
 import { hexDistance } from '../hex';
@@ -36,6 +39,9 @@ type EffectTask = {
   cause: 'attack' | 'ability';
   critical?: boolean;
   origin?: 'active' | 'passive' | 'trait';
+  context?: ChainContext | undefined;
+  attackId?: string | undefined;
+  powerMilli?: number | undefined;
 };
 /** Local mutable implementation with exclusive ownership; public snapshots/events are deep copies. */
 export class CombatEngine {
@@ -43,23 +49,32 @@ export class CombatEngine {
   private state: CombatState;
   private events: CombatEventV3[] = [];
   private order = 0;
-  private triggers: {
-    unit: CombatUnit;
-    trigger: PassiveTrigger['kind'];
-    beforeHp?: number;
-    target?: CombatUnit;
-    key?: string;
-  }[] = [];
+  private mechanics?: CombatMechanics;
+  private triggers: MechanicSignal[] = [];
   private flushPassives(): void {
     while (this.triggers.length) {
       const signal = this.triggers.shift()!;
       const unit = signal.unit,
         main = unit.profile.championAbility;
-      if (!isAlive(unit) || !main?.passive) continue;
+      if (!isAlive(unit)) continue;
+      const context = this.mechanics ? (signal.context ?? this.mechanics.root()) : undefined;
+      if (this.mechanics && !this.mechanics.budget('signals', unit, context!)) {
+        this.triggers = [];
+        break;
+      }
+      const entries =
+        this.mechanics?.rules(unit) ??
+        (main?.passive?.rules ?? []).map((rule) => ({
+          rule,
+          abilityId: main!.id,
+          runtime: (unit.passiveState ??= {}),
+          progress: undefined,
+        }));
       const tasks: EffectTask[] = [];
-      for (const rule of main.passive.rules) {
+      for (const entry of entries) {
+        const rule = entry.rule;
         if (rule.trigger.kind !== signal.trigger) continue;
-        const runtime = ((unit.passiveState ??= {})[rule.id] ??= {
+        const runtime = (entry.runtime[rule.id] ??= {
           count: 0,
           seen: 0,
           lastTick: -450,
@@ -67,11 +82,26 @@ export class CombatEngine {
         runtime.seen++;
         if (
           runtime.count >= rule.maxActivations ||
-          runtime.lastTick === this.state.tick ||
+          (!this.mechanics && runtime.lastTick === this.state.tick) ||
           this.state.tick - runtime.lastTick < rule.cooldownTicks
         )
           continue;
-        if (rule.trigger.kind === 'attack' && runtime.seen % rule.trigger.every !== 0) continue;
+        if (
+          (rule.trigger.kind === 'attack' || rule.trigger.kind === 'attack_hit') &&
+          runtime.seen % rule.trigger.every !== 0
+        )
+          continue;
+        if (
+          rule.trigger.kind === 'ability_cast' &&
+          rule.trigger.every &&
+          (!context?.countAsCast ||
+            (entry.progress
+              ? (signal.castCounts?.traits[entry.progress.traitId] ?? entry.progress.casts)
+              : (signal.castCounts?.unit ?? unit.mechanics?.casts ?? runtime.seen)) %
+              rule.trigger.every !==
+              0)
+        )
+          continue;
         if (
           rule.trigger.kind === 'effect_expired' &&
           rule.trigger.key &&
@@ -88,17 +118,28 @@ export class CombatEngine {
         )
           continue;
         if (!abilityConditions(unit, this.state.units, rule.conditions)) continue;
+        const nextContext = this.mechanics ? this.mechanics.child(context!, unit) : undefined;
+        if (this.mechanics && !nextContext) continue;
+        if (nextContext) {
+          nextContext.trigger = signal.trigger;
+          nextContext.conditions = rule.conditions;
+        }
         runtime.count++;
         runtime.lastTick = this.state.tick;
         this.emit('passive_trigger', {
           unitId: unit.id,
-          abilityId: main.id,
+          abilityId: entry.abilityId,
           ruleId: rule.id,
           trigger: signal.trigger,
           activation: runtime.count,
         });
         for (const effect of rule.effects)
-          tasks.push(...this.effectTasks(unit, signal.target ?? unit, effect, 'passive'));
+          tasks.push(
+            ...this.effectTasks(unit, signal.target ?? unit, effect, 'passive').map((task) => ({
+              ...task,
+              ...(nextContext ? { context: nextContext } : {}),
+            })),
+          );
       }
       this.resolveEffects(tasks);
     }
@@ -127,6 +168,27 @@ export class CombatEngine {
         deathTick: null,
       })),
     };
+    if (this.input.rulesVersion === MECHANICS_RULES)
+      this.mechanics = new CombatMechanics({
+        input: this.input,
+        state: () => this.state,
+        emit: this.emit.bind(this),
+        apply: (source, target, effects, context, powerMilli, origin = 'active') =>
+          this.resolveEffects(
+            effects.flatMap((effect) =>
+              this.effectTasks(source, target, effect, origin).map((task) => ({
+                ...task,
+                context,
+                powerMilli,
+              })),
+            ),
+          ),
+        signal: (signal) => this.triggers.push(signal),
+        damage: (source, target, amount, type, meta) =>
+          this.damage(source, target, amount, type, 'ability', false, meta),
+        attack: (source, target, context) => this.immediateAttack(source, target, context),
+        cancel: (unit, reason) => this.cancel(unit, reason),
+      });
     if (advancedRules(this.input.rulesVersion))
       for (const u of this.state.units) u.hp = effectiveStat(u, 'maxHp');
     this.emit('combat_start', {
@@ -161,10 +223,7 @@ export class CombatEngine {
   allEvents(): CombatEventV3[] {
     return JSON.parse(JSON.stringify(this.events)) as CombatEventV3[];
   }
-  private emit<T extends CombatEventV3['type']>(
-    type: T,
-    payload: Extract<CombatEventV3, { type: T }>['payload'],
-  ): void {
+  private emit: Emit = (type, payload) => {
     const entry = {
       protocolVersion: COMBAT_PROTOCOL,
       tick: this.state.tick,
@@ -173,7 +232,8 @@ export class CombatEngine {
       payload,
     } as CombatEventV3;
     this.events.push(JSON.parse(JSON.stringify(entry)) as CombatEventV3);
-  }
+    return entry;
+  };
   private getUnit(id: string): CombatUnit | undefined {
     return this.state.units.find((u) => u.id === id);
   }
@@ -182,6 +242,7 @@ export class CombatEngine {
     reason: 'stun' | 'death' | 'invalid-target' | 'combat-end',
   ): void {
     if (!unit.action) return;
+    this.mechanics?.cancelAction(unit);
     this.emit('action_cancel', { unitId: unit.id, action: unit.action.kind, reason });
     unit.action = null;
   }
@@ -191,7 +252,19 @@ export class CombatEngine {
     ability: NonNullable<ReturnType<typeof activeAbility>>,
   ): void {
     unit.mana -= ability.manaCost;
-    this.triggers.push({ unit, trigger: 'ability_cast', target });
+    const context = this.mechanics?.root();
+    if (context) {
+      context.trigger = 'ability_cast';
+      context.conditions = ability.conditions;
+    }
+    const castCounts = this.mechanics?.count(unit, 'casts');
+    this.triggers.push({
+      unit,
+      trigger: 'ability_cast',
+      target,
+      ...(context ? { context } : {}),
+      ...(castCounts ? { castCounts } : {}),
+    });
     const endTick = this.state.tick + ability.castTicks;
     unit.action = {
       kind: 'cast',
@@ -199,12 +272,14 @@ export class CombatEngine {
       endTick,
       targetId: target.id,
       abilityId: ability.id,
+      ...(context ? { castId: context.causalId, context } : {}),
     };
     this.emit('ability_cast', {
       unitId: unit.id,
       targetId: target.id,
       abilityId: ability.id,
       stage: 'start',
+      ...(context ? { castId: context.causalId, additional: false } : {}),
       endTick,
       manaAfter: unit.mana,
       center: ability.targeting === 'current_enemy' ? target.position : unit.position,
@@ -237,7 +312,9 @@ export class CombatEngine {
                   : u.owner !== source.owner &&
                     hexDistance(
                       u.position,
-                      effect.center === 'source' ? source.position : target.position,
+                      'center' in effect && effect.center === 'source'
+                        ? source.position
+                        : target.position,
                     ) <= effect.radius),
             );
     return targets
@@ -254,8 +331,23 @@ export class CombatEngine {
       .sort((a, b) => priority(a.task) - priority(b.task) || a.index - b.index);
     for (const { task } of sorted) {
       const { source, target, effect, cause } = task;
-      const amountValue = effectAmount(effect, source, target);
       if (!eligible.has(target.id)) continue;
+      const context = this.mechanics ? (task.context ?? this.mechanics.root()) : undefined;
+      if (this.mechanics && !this.mechanics.budget('effects', source, context!)) continue;
+      if (isMechanicEffect(effect)) {
+        this.mechanics?.apply(source, target, effect, context!);
+        continue;
+      }
+      const amountValue =
+        task.powerMilli === undefined
+          ? effectAmount(effect, source, target)
+          : Math.max(
+              -1000000,
+              Math.min(
+                1000000,
+                Math.floor((effectAmount(effect, source, target) * task.powerMilli) / 1000),
+              ),
+            );
       if (effect.kind === 'damage') {
         let amount = amountValue;
         let critical = task.critical;
@@ -268,7 +360,10 @@ export class CombatEngine {
             critical = roll.critical;
           }
         }
-        this.damage(source, target, amount, effect.damageType, cause, critical);
+        this.damage(source, target, amount, effect.damageType, cause, critical, {
+          ...(context ? { context } : {}),
+          ...(task.attackId ? { attackId: task.attackId } : {}),
+        });
       } else if (effect.kind === 'heal') {
         const healed = Math.min(
           scaleCombatAmount(
@@ -348,6 +443,7 @@ export class CombatEngine {
     type: DamageType,
     cause: 'attack' | 'ability',
     critical?: boolean,
+    meta: DamageContext = {},
   ): void {
     if (target.hp <= 0) return;
     let remaining = mitigateDamage(
@@ -378,7 +474,7 @@ export class CombatEngine {
     const beforeHp = target.hp;
     const damage = Math.min(target.hp, remaining);
     target.hp -= damage;
-    this.emit('damage', {
+    const damageEvent = this.emit('damage', {
       sourceId: source.id,
       targetId: target.id,
       amount: damage,
@@ -389,19 +485,58 @@ export class CombatEngine {
       cause,
       impact: target.position,
       ...(critical !== undefined ? { critical } : {}),
+      ...(this.mechanics
+        ? {
+            causalId: meta.context?.causalId ?? `damage-${this.state.tick}-${this.order}`,
+            responsibleId: meta.responsibleId === undefined ? source.id : meta.responsibleId,
+            ...(meta.attackId ? { attackId: meta.attackId } : {}),
+            ...(meta.origin ? { origin: meta.origin } : {}),
+          }
+        : {}),
     });
+    if (this.mechanics) {
+      if (cause === 'attack') this.mechanics.confirm(source, target, damageEvent, meta);
+      if (damage > 0 && (meta.context?.allowSourceProcs ?? true))
+        this.triggers.push({
+          unit: source,
+          target,
+          trigger: 'damage_dealt',
+          context: meta.context,
+        });
+      if (target.hp <= 0)
+        this.mechanics.lethalDamage(
+          source,
+          target,
+          damageEvent as Extract<CombatEventV3, { type: 'damage' }>,
+          meta,
+        );
+    }
     if (damage > 0)
-      this.triggers.push({ unit: target, trigger: 'hp_crossed', beforeHp, target: source });
+      this.triggers.push({
+        unit: target,
+        trigger: 'hp_crossed',
+        beforeHp,
+        target: source,
+        ...(meta.context ? { context: meta.context } : {}),
+      });
     if (damage + absorbed > 0) {
-      this.triggers.push({ unit: target, trigger: 'damage_received', target: source });
-      if (target.hp <= 0) this.triggers.push({ unit: source, trigger: 'kill', target });
-      if (cause === 'attack') this.gainMana(source, 10);
-      this.gainMana(target, 5);
+      this.triggers.push({
+        unit: target,
+        trigger: 'damage_received',
+        target: source,
+        ...(meta.context ? { context: meta.context } : {}),
+      });
+      if (!this.mechanics && target.hp <= 0)
+        this.triggers.push({ unit: source, trigger: 'kill', target });
+      if (cause === 'attack' && (meta.context?.grantMana ?? true)) this.gainMana(source, 10);
+      if (meta.context?.grantMana ?? true) this.gainMana(target, 5);
     }
   }
   private settleDeaths(): void {
+    const dead: CombatUnit[] = [];
     for (const unit of this.state.units)
       if (unit.hp <= 0 && unit.deathTick === null) {
+        dead.push(unit);
         unit.deathTick = this.state.tick;
         this.cancel(unit, 'death');
         for (const status of unit.statuses)
@@ -410,8 +545,45 @@ export class CombatEngine {
         unit.targetId = null;
         this.emit('unit_death', { unitId: unit.id, position: unit.position });
       }
+    this.mechanics?.settleDeaths(dead);
+  }
+  private stabilize(): void {
+    if (!this.mechanics) return;
+    for (
+      let i = 0;
+      i < 1024 &&
+      (this.triggers.length || this.state.units.some((u) => u.hp <= 0 && u.deathTick === null));
+      i++
+    ) {
+      this.settleDeaths();
+      this.flushPassives();
+    }
+    this.settleDeaths();
+  }
+  private immediateAttack(source: CombatUnit, target: CombatUnit, context: ChainContext): void {
+    if (!isAlive(source) || !isAlive(target)) return;
+    const random = randomUint32(this.state.rngState);
+    this.state.rngState = random.state;
+    const raw = Math.min(
+      1000000,
+      Math.floor((effectiveStat(source, 'attack') * (950 + (random.value % 101))) / 1000),
+    );
+    const roll = criticalRoll(source, raw, this.state.rngState);
+    this.state.rngState = roll.rngState;
+    const attackId = `chain-${this.state.effectCounter++}`;
+    this.emit('chain_attack', {
+      unitId: source.id,
+      targetId: target.id,
+      attackId,
+      causalId: context.causalId,
+    });
+    this.damage(source, target, roll.amount, 'physical', 'attack', roll.critical, {
+      context,
+      attackId,
+    });
   }
   private checkEnd(): void {
+    this.stabilize();
     const sides = new Set(this.state.units.filter(isAlive).map((u) => u.owner));
     let result: CombatResult | null = null;
     if (sides.size <= 1)
@@ -425,6 +597,7 @@ export class CombatEngine {
       result = { outcome: 'double_loss', winner: null, reason: 'timeout', tick: this.state.tick };
     if (!result) return;
     for (const unit of this.state.units) this.cancel(unit, 'combat-end');
+    this.mechanics?.finish();
     this.state.projectiles = [];
     this.state.result = result;
     this.emit('combat_end', result);
@@ -446,6 +619,7 @@ export class CombatEngine {
         endTick: MAX_COMBAT_TICKS,
         modifiers: this.input.overtime,
       });
+    this.mechanics?.expireStacks();
     // 1. Expiration, then charge accumulation. A stun ending now no longer blocks this tick.
     for (const unit of this.state.units.filter(isAlive)) {
       for (const status of unit.statuses.filter(
@@ -469,8 +643,10 @@ export class CombatEngine {
             1000,
         );
     }
+    this.mechanics?.periodics();
     this.flushPassives();
     this.settleDeaths();
+    this.stabilize();
     // 2. Arrivals. Each destination was exclusively reserved; origins stay occupied in transit.
     for (const unit of this.state.units.filter(isAlive))
       if (unit.action?.kind === 'move' && unit.action.endTick <= this.state.tick) {
@@ -499,12 +675,21 @@ export class CombatEngine {
           },
           cause: 'attack',
           ...(projectile.critical !== undefined ? { critical: projectile.critical } : {}),
+          ...(projectile.context
+            ? { context: projectile.context, attackId: projectile.attackId }
+            : {}),
         });
     }
     this.state.projectiles = this.state.projectiles.filter((p) => p.impactTick > this.state.tick);
     for (const unit of this.state.units.filter(isAlive)) {
       const action = unit.action;
-      if (!action || action.kind === 'move' || action.endTick > this.state.tick) continue;
+      if (
+        !action ||
+        action.kind === 'move' ||
+        action.kind === 'jump' ||
+        action.endTick > this.state.tick
+      )
+        continue;
       if (isStunned(unit)) {
         this.cancel(unit, 'stun');
         continue;
@@ -538,6 +723,7 @@ export class CombatEngine {
             rawDamage: action.rawDamage,
             damageType: 'physical' as const,
             ...(action.critical !== undefined ? { critical: action.critical } : {}),
+            ...(action.context ? { context: action.context, attackId: action.attackId } : {}),
           };
           this.state.projectiles.push(projectile);
           this.emit('projectile_launch', projectile);
@@ -554,6 +740,7 @@ export class CombatEngine {
             },
             cause: 'attack',
             ...(action.critical !== undefined ? { critical: action.critical } : {}),
+            ...(action.context ? { context: action.context, attackId: action.attackId } : {}),
           });
       } else {
         const ability = activeAbility(unit.profile);
@@ -563,6 +750,7 @@ export class CombatEngine {
           targetId: target.id,
           abilityId: ability.id,
           stage: 'resolve',
+          ...(action.context ? { castId: action.castId, additional: false } : {}),
           endTick: this.state.tick,
           manaAfter: unit.mana,
           center:
@@ -570,10 +758,22 @@ export class CombatEngine {
               ? unit.position
               : target.position,
         });
-        for (const effect of ability.effects) tasks.push(...this.effectTasks(unit, target, effect));
+        for (const effect of [...ability.effects, ...(action.empower?.extraEffects ?? [])])
+          tasks.push(
+            ...this.effectTasks(unit, target, effect).map((task) => ({
+              ...task,
+              ...(action.context
+                ? { context: action.context, powerMilli: action.empower?.powerMilli ?? 1000 }
+                : {}),
+            })),
+          );
       }
     }
     this.resolveEffects(tasks);
+    this.stabilize();
+    this.mechanics?.arrivals();
+    this.stabilize();
+    this.mechanics?.repeats();
     this.flushPassives();
     this.settleDeaths();
     this.checkEnd();
@@ -638,6 +838,8 @@ export class CombatEngine {
           rawDamage = roll.amount;
           critical = roll.critical;
         }
+        const context = this.mechanics?.root();
+        if (context) context.trigger = 'attack_hit';
         const ranged = unit.profile.stats.range > 1;
         const endTick = this.state.tick + unit.profile.stats.attackWindupTicks;
         unit.action = {
@@ -647,6 +849,7 @@ export class CombatEngine {
           targetId: target.id,
           rawDamage,
           ranged,
+          ...(context ? { context, attackId: context.causalId } : {}),
           ...(critical !== undefined ? { critical } : {}),
         };
         this.emit('attack_start', {

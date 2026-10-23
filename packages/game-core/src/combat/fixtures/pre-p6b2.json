@@ -1,0 +1,69 @@
+{
+  "traces": [
+    {
+      "scenario": "basic-normal",
+      "seed": 42,
+      "hash": "8cf4857be418da564fe4736b1be6ff805abbc84300b0788a6f715fd1fe8a0169"
+    },
+    {
+      "scenario": "basic-critical",
+      "seed": 42,
+      "hash": "da3739e980b92b6de72f7747f769ef109a79cfa4beb26ba1973d2bb7822988db"
+    },
+    {
+      "scenario": "physical-ad",
+      "seed": 42,
+      "hash": "61950db370b1a3ee98fb5f1e04ef78ca53028535ccb6f9c3a026a87b7f7765be"
+    },
+    {
+      "scenario": "magic-ap",
+      "seed": 42,
+      "hash": "dde5f8278175952222c4a50aecf97ed47ccc24f5a2eaa9b57adf08bd84e0ec9c"
+    },
+    {
+      "scenario": "physical-ap",
+      "seed": 42,
+      "hash": "72007bb18503ca30fffb00329f65febc62f1f50169936f9a0522911f650f2694"
+    },
+    {
+      "scenario": "magic-ad",
+      "seed": 42,
+      "hash": "a40e1f0c14590679cc17f6c500a474973e6478dbc91e02b351894d0c32bc9e47"
+    },
+    {
+      "scenario": "mixed",
+      "seed": 42,
+      "hash": "2646dfd6e1254d7047b977330b5de155b8a48f2d016ec0b6a2eeeeaa8a30b0a0"
+    },
+    {
+      "scenario": "modifiers",
+      "seed": 42,
+      "hash": "aa72500d4b6f69074784675c0fb895b8345effc882ea92bce2243b767702aa5d"
+    },
+    {
+      "scenario": "speed-stack",
+      "seed": 42,
+      "hash": "22800b452f61d5d5293d45bf339c4a96681b287a47766a8f98e4b8efca515ba8"
+    },
+    {
+      "scenario": "support",
+      "seed": 42,
+      "hash": "d0a458526f97fde2528c70247ec639be01ed384daff2dba7ad0183e302b299d2"
+    },
+    {
+      "scenario": "stats-overtime",
+      "seed": 42,
+      "hash": "146800ce48481f6f9bc77988ee50d5f041993990485a94c8ce428c556c626c4f"
+    },
+    {
+      "scenario": "dolea-advanced",
+      "seed": 42,
+      "hash": "94a27ed23b388aceefbc7a69a04a70421c57546f14dd3ad40cfd02c03c28c3cb"
+    }
+  ],
+  "save": {
+    "text": "{\"rulesVersion\":\"f0p3.1-1\",\"config\":{\"version\":\"f0p3.1-1\",\"catalog\":\"f0p6b1\",\"initialGold\":10,\"roundDamage\":{\"initialHp\":100,\"roundsPerStage\":3,\"baseByStage\":[2,3,4,5,6],\"survivorByStars\":[1,2,3]},\"goldCap\":999,\"initialLevel\":2,\"maxLevel\":7,\"benchSize\":9,\"shopSize\":5,\"rerollCost\":2,\"xpCost\":4,\"xpPurchase\":4,\"passiveXp\":2,\"baseIncome\":[2,3,4,5],\"victoryGold\":1,\"interestDivisor\":10,\"interestCap\":5,\"streaks\":[{\"from\":1,\"gold\":0},{\"from\":2,\"gold\":1},{\"from\":4,\"gold\":2},{\"from\":6,\"gold\":3}],\"levels\":[{\"level\":2,\"xpToNext\":2,\"odds\":[80,20,0]},{\"level\":3,\"xpToNext\":6,\"odds\":[60,35,5]},{\"level\":4,\"xpToNext\":10,\"odds\":[40,45,15]},{\"level\":5,\"xpToNext\":20,\"odds\":[25,45,30]},{\"level\":6,\"xpToNext\":36,\"odds\":[15,40,45]},{\"level\":7,\"xpToNext\":0,\"odds\":[10,30,60]}],\"copiesByCost\":[29,22,18],\"starCopies\":[1,3,9],\"statScaleMilli\":[1000,1800,3240],\"sellCopyMultipliers\":[1,3,9],\"opponents\":[{\"fromRound\":1,\"definitions\":[\"test-v02\"],\"stars\":1},{\"fromRound\":3,\"definitions\":[\"test-k01\",\"test-r03\"],\"stars\":1},{\"fromRound\":5,\"definitions\":[\"test-k01\",\"test-v02\",\"test-m04\"],\"stars\":1},{\"fromRound\":8,\"definitions\":[\"test-k01\",\"test-v02\",\"test-r03\",\"test-m04\"],\"stars\":2},{\"fromRound\":12,\"definitions\":[\"test-k01\",\"test-v02\",\"test-r03\",\"test-m04\",\"test-r03\"],\"stars\":2}]},\"seed\":42,\"shopRng\":3790224677,\"combatRng\":4078388278,\"revision\":3,\"nextActionSeq\":3,\"nextEntity\":6,\"phase\":\"combat\",\"round\":1,\"gold\":8,\"health\":{\"north\":100,\"south\":100},\"healthLedger\":[],\"level\":2,\"xp\":0,\"totalXp\":0,\"streak\":0,\"units\":[{\"id\":\"unit-5\",\"definitionId\":\"dolea\",\"stars\":1,\"location\":{\"kind\":\"board\",\"hex\":{\"q\":0,\"r\":4}}}],\"shop\":[{\"id\":\"offer-0\",\"definitionId\":\"test-k01\"},{\"id\":\"offer-1\",\"definitionId\":\"test-v02\"},{\"id\":\"offer-2\",\"definitionId\":\"test-k01\"},null,{\"id\":\"offer-4\",\"definitionId\":\"test-r03\"}],\"shopLocked\":false,\"pool\":{\"test-k01\":27,\"test-v02\":21,\"test-r03\":21,\"test-m04\":18,\"dolea\":21},\"ledger\":[{\"seq\":0,\"round\":1,\"reason\":\"initial\",\"requested\":10,\"delta\":10,\"balance\":10,\"reference\":\"initial\"},{\"seq\":1,\"round\":1,\"reason\":\"buy\",\"requested\":-2,\"delta\":-2,\"balance\":8,\"reference\":\"offer-3\"}],\"history\":[{\"seq\":0,\"expectedRevision\":0,\"type\":\"buy_unit\",\"offerId\":\"offer-3\"},{\"seq\":1,\"expectedRevision\":1,\"type\":\"move_unit\",\"unitId\":\"unit-5\",\"to\":{\"kind\":\"board\",\"hex\":{\"q\":0,\"r\":4}}},{\"seq\":2,\"expectedRevision\":2,\"type\":\"start_combat\"}],\"combat\":{\"round\":1,\"bank\":8,\"input\":{\"protocolVersion\":3,\"rulesVersion\":\"f0p6b1-1\",\"seed\":3584406797,\"maxTicks\":450,\"overtime\":{\"damageMilli\":[1250,2000],\"attackSpeedMilli\":[1200,1750],\"healMilli\":[800,400],\"shieldMilli\":[800,400]},\"units\":[{\"id\":\"unit-5\",\"definitionId\":\"dolea\",\"owner\":\"south\",\"position\":{\"q\":0,\"r\":4},\"profile\":{\"stats\":{\"maxHp\":600,\"attack\":40,\"abilityPower\":0,\"critChanceMilli\":0,\"critMultiplierMilli\":1500,\"armor\":45,\"magicResist\":35,\"attackSpeedMilli\":800,\"range\":1,\"maxMana\":70,\"startingMana\":0,\"moveTicks\":4,\"attackWindupTicks\":2},\"starLevel\":1,\"ability\":null,\"passive\":null,\"championAbility\":{\"id\":\"volumen-sucio\",\"name\":\"VOLUMEN SUCIO\",\"description\":\"Aguante y fuerza: un escudo de emergencia y un golpe que refuerza su defensa.\",\"icon\":\"volumen-sucio\",\"version\":1,\"type\":\"mixed\",\"active\":{\"name\":\"Press de banca\",\"description\":\"Con 70 de maná, inflige 100 / 180 / 324 de daño físico (1★ / 2★ / 3★) a los enemigos adyacentes. Gana +20 de armadura durante 4 s; se renueva sin acumularse.\",\"manaCost\":70,\"initialMana\":0,\"castTicks\":3,\"targeting\":\"adjacent_enemies\",\"conditions\":[],\"effects\":[{\"target\":\"enemies\",\"radius\":1,\"center\":\"source\",\"starScaling\":\"stat\",\"kind\":\"damage\",\"amount\":100,\"damageType\":\"physical\"},{\"target\":\"self\",\"radius\":0,\"starScaling\":\"flat\",\"stacking\":\"refresh\",\"key\":\"press-armor\",\"kind\":\"modifier\",\"stat\":\"armor\",\"amount\":20,\"duration\":40}],\"animation\":\"ability\",\"manaConsumption\":\"on_start\",\"priority\":\"before_attack\",\"interrupts\":\"stun_or_death\"},\"passive\":{\"name\":\"Volumen eterno\",\"description\":\"La primera vez que DOLEA baja del 50 % de vida durante el combate, obtiene un escudo equivalente al 12 % de su vida máxima. Dura hasta el final del combate.\",\"rules\":[{\"id\":\"volumen-eterno\",\"trigger\":{\"kind\":\"hp_crossed\",\"thresholdMilli\":500},\"conditions\":[],\"effects\":[{\"target\":\"self\",\"radius\":0,\"scaling\":{\"stat\":\"maxHp\",\"basis\":\"source\",\"ratioMilli\":120},\"starScaling\":\"flat\",\"kind\":\"shield\",\"amount\":0,\"duration\":450}],\"maxActivations\":1,\"cooldownTicks\":0}]}},\"traits\":[\"hortaleza\",\"llama-de-padel\"]}},{\"id\":\"rival-0\",\"definitionId\":\"test-v02\",\"owner\":\"north\",\"position\":{\"q\":1,\"r\":2},\"profile\":{\"stats\":{\"maxHp\":340,\"attack\":58,\"abilityPower\":0,\"critChanceMilli\":0,\"critMultiplierMilli\":1500,\"armor\":15,\"magicResist\":15,\"attackSpeedMilli\":1250,\"range\":1,\"maxMana\":40,\"startingMana\":0,\"moveTicks\":3,\"attackWindupTicks\":2},\"starLevel\":1,\"ability\":{\"id\":\"test-overdrive\",\"name\":\"Impulso de prueba\",\"manaCost\":40,\"castTicks\":3,\"effects\":[{\"target\":\"target\",\"radius\":0,\"kind\":\"damage\",\"amount\":85,\"damageType\":\"true\"},{\"target\":\"self\",\"radius\":0,\"kind\":\"modifier\",\"stat\":\"attack\",\"amount\":20,\"duration\":25}]},\"passive\":null}}],\"traits\":[{\"id\":\"hortaleza\",\"name\":\"HORTALEZA\",\"description\":\"La fortaleza del barrio. Sus miembros aguantan juntos la primera línea.\",\"icon\":\"hortaleza\",\"version\":1,\"visual\":{\"tone\":\"jade\",\"provisional\":true},\"stacking\":\"highest\",\"recipients\":\"members\",\"thresholds\":[{\"count\":2,\"description\":\"+100 de vida máxima para Hortaleza.\",\"bonuses\":[{\"stat\":\"maxHp\",\"mode\":\"flat\",\"amount\":100}],\"effects\":[]},{\"count\":3,\"description\":\"+220 de vida máxima y +15 de armadura para Hortaleza.\",\"bonuses\":[{\"stat\":\"maxHp\",\"mode\":\"flat\",\"amount\":220},{\"stat\":\"armor\",\"mode\":\"flat\",\"amount\":15}],\"effects\":[]}]},{\"id\":\"llama-de-padel\",\"name\":\"LLAMA DE PÁDEL\",\"description\":\"Cada intercambio enciende el siguiente golpe. Sus miembros atacan con más ritmo.\",\"icon\":\"llama-de-padel\",\"version\":1,\"visual\":{\"tone\":\"amber\",\"provisional\":true},\"stacking\":\"highest\",\"recipients\":\"members\",\"thresholds\":[{\"count\":2,\"description\":\"+12 % de velocidad de ataque para Llama de Pádel.\",\"bonuses\":[{\"stat\":\"attackSpeedMilli\",\"mode\":\"percent_milli\",\"amount\":120}],\"effects\":[]},{\"count\":3,\"description\":\"+25 % de velocidad de ataque para Llama de Pádel.\",\"bonuses\":[{\"stat\":\"attackSpeedMilli\",\"mode\":\"percent_milli\",\"amount\":250}],\"effects\":[]}]}],\"obstacles\":[]},\"result\":null},\"lastReward\":null,\"lastUpgrades\":[]}",
+    "hash": "c219637dcd673883755da9d1ad2dd12a6da1e40c80f4ecb5bb5b14e2f17c80a0",
+    "trace": "c18a9f12b497b2bad6ed72ae2278d120ed5780472fbce311b376c3c80950bb25"
+  }
+}

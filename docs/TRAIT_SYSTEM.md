@@ -56,3 +56,9 @@ Ambas usan `highest`; nivel 3 no suma nivel 2. DOLEA es el único miembro perman
 3. Crear icono original independiente y mapear su ID en `ContentIcon`.
 4. Probar duplicados, banquillo, estrellas, ambos equipos, máximo umbral y regeneración desde base en otra ronda.
 5. Verificar lateral, foco/clic/Escape, tienda e inspector en cinco tamaños de escritorio.
+
+## Sinergias únicas y progresivas — F0-P6B.2
+
+Los umbrales de un miembro ya son compatibles con el análisis por definiciones desplegadas distintas: un personaje con copias o más estrellas sigue mostrando 1/1; el banquillo no activa la sinergia. La novedad es `progress: {version: 1, scope, rules}`. Cada regla declara un `memberThreshold` existente. Las estadísticas iniciales permanecen en los umbrales normales; contadores y reglas dinámicas viven en el estado de combate.
+
+`scope: unit` separa runtime y contadores de cada receptor; `team` los comparte por sinergia/bando. Una señal conserva su ordinal para distinguir el tercer lanzamiento aunque varios coincidan en tick. La membresía se fija al iniciar; progreso y eliminaciones no añaden miembros. El lateral y los tooltips muestran ambos conceptos. Los casos 1/1 y 2/4/6 son exclusivamente ficticios, fuera del catálogo jugable. [Contrato completo](ADVANCED_MECHANICS.md).

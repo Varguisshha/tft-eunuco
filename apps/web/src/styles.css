@@ -1810,3 +1810,63 @@ dd {
   background: #111e18;
   padding: 6px;
 }
+
+/* P6B.2: contextual mechanics, using the existing quiet inspector language. */
+.mechanics-status {
+  border-top: 1px solid #a8c7a42e;
+  padding-top: 12px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.mechanics-status h4 {
+  color: #dce8cd;
+  margin: 0 0 10px;
+  font-size: 12px;
+}
+.mechanics-status dl {
+  margin: 0;
+}
+.mechanics-status dl > div,
+.mechanic-stack {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  padding: 5px 0;
+}
+.mechanics-status dd {
+  margin: 0;
+  color: #e6d4a9;
+  font-variant-numeric: tabular-nums;
+}
+.mechanic-stack small {
+  grid-column: 1 / -1;
+  color: #99ac9d;
+}
+.mechanics-status p,
+.mechanics-status small {
+  color: #a2b4a5;
+  font-size: 11px;
+}
+.mechanics-status summary {
+  cursor: pointer;
+  padding: 8px 0;
+  color: #cfdbc6;
+}
+.mechanics-status ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mechanics-status li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+}
+.arena-viewport > .trait-rail {
+  position: absolute;
+  left: 12px;
+  top: 56px;
+  width: 170px;
+  z-index: 12;
+}

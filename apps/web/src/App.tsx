@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ADVANCED_ECONOMY_CONFIG } from '@tft/game-data';
+import { MECHANICS_ECONOMY_CONFIG } from '@tft/game-data';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
 import { AUTOMATIC_SAVE_KEY, DEVELOPMENT_SAVE_KEY, decodeSave } from './match/automaticSave';
 import { attachAutomaticHost } from './match/automaticHost';
@@ -52,7 +52,7 @@ export function App() {
       return;
     }
     attach(
-      new LocalMatchCoordinator(createMatch(n, ADVANCED_ECONOMY_CONFIG), {
+      new LocalMatchCoordinator(createMatch(n, MECHANICS_ECONOMY_CONFIG), {
         matchId: crypto.randomUUID(),
         time,
         development,
@@ -105,7 +105,7 @@ export function App() {
         >
           Arena de pruebas
         </button>
-        <span>F0–P6B.1 · LOCAL</span>
+        <span>F0–P6B.2 · LOCAL</span>
       </nav>
       {notice && session && (
         <p className="save-notice" role="status">

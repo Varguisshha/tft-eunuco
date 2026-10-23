@@ -45,7 +45,7 @@ export function scaledProfile(
   config: EconomyConfig,
 ): CombatProfile {
   const source = (
-    config.catalog === 'f0p6b1'
+    config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
       ? ADVANCED_COMBAT_PROFILES
       : config.catalog === 'f0p6a'
         ? CURRENT_COMBAT_PROFILES
@@ -53,7 +53,7 @@ export function scaledProfile(
   )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
-  if (config.catalog === 'f0p6b1') profile.starLevel = stars;
+  if (config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2') profile.starLevel = stars;
   const scale = config.statScaleMilli[stars - 1]!;
   const amount = (n: number) => Math.min(1_000_000, Math.floor((n * scale) / 1000));
   profile.stats.maxHp = amount(profile.stats.maxHp);
@@ -67,7 +67,8 @@ export function scaledProfile(
     ...(principal?.active?.effects ?? []),
     ...(principal?.passive?.rules.flatMap((r) => r.effects) ?? []),
   ])
-    if ('amount' in effect && effect.starScaling === 'stat') effect.amount = amount(effect.amount);
+    if ('amount' in effect && 'starScaling' in effect && effect.starScaling === 'stat')
+      effect.amount = amount(effect.amount);
   return profile;
 }
 
@@ -106,7 +107,7 @@ export function formationProfiles(state: MatchState) {
     units,
     ...(hasTraits(state.config.catalog) ? { traits: [...TRAIT_DEFINITIONS] } : {}),
   });
-  if (state.config.catalog !== 'f0p6b1') return prepared.units;
+  if (state.config.catalog !== 'f0p6b1' && state.config.catalog !== 'f0p6b2') return prepared.units;
   return prepared.units.map((unit) => ({
     ...unit,
     profile: {

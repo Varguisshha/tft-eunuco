@@ -64,3 +64,9 @@ export const ADVANCED_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...CURRENT_ECONOMY_CONFIG,
   catalog: 'f0p6b1',
 });
+
+/** New engine contract; economic values and playable content remain identical. */
+export const MECHANICS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...ADVANCED_ECONOMY_CONFIG,
+  catalog: 'f0p6b2',
+});

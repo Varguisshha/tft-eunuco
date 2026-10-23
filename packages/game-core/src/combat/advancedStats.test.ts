@@ -37,7 +37,15 @@ const modifier = (
   amount: number,
   mode: 'flat' | 'percent_milli' = 'flat',
   duration: number | null = 20,
-): CombatEffect => ({ kind: 'modifier', target: 'self', radius: 0, stat, amount, mode, duration });
+): Extract<CombatEffect, { kind: 'modifier' }> => ({
+  kind: 'modifier',
+  target: 'self',
+  radius: 0,
+  stat,
+  amount,
+  mode,
+  duration,
+});
 function passive(input: CombatInput, effects: CombatEffect[]) {
   input.units[0]!.profile.passive = { id: 'diagnostic-passive', trigger: 'combat_start', effects };
 }
@@ -94,8 +102,10 @@ describe('advanced contracts and neutral defaults', () => {
     passive(input, [{ ...modifier('attack', 20), stacking: 'refresh' }]);
     expect(CombatInputSchema.safeParse(input).success).toBe(false);
     const old = createAbilityScenario('ability-1', 42);
-    old.units[0]!.profile.championAbility!.passive!.rules[0]!.effects[0]!.stacking = 'refresh';
-    delete old.units[0]!.profile.championAbility!.passive!.rules[0]!.effects[0]!.key;
+    const effect = old.units[0]!.profile.championAbility!.passive!.rules[0]!.effects[0]!;
+    if (effect.kind !== 'shield') throw Error('Expected historical shield');
+    effect.stacking = 'refresh';
+    delete effect.key;
     expect(CombatInputSchema.safeParse(old).success).toBe(true);
   });
   it.each([999, 5001, Infinity])('rejects invalid multiplier %s', (value) => {

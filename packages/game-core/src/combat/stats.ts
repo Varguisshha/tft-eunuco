@@ -1,5 +1,6 @@
 import {
   ADVANCED_COMBAT_RULES,
+  MECHANICS_RULES,
   ADVANCED_STATS_DEFAULTS,
   STAT_LIMITS,
   type CombatProfile,
@@ -29,7 +30,7 @@ export function effectAmount(effect: CombatEffect, source: CombatUnit, target: C
   }
   return (
     base +
-    (effect.scaling
+    ('scaling' in effect && effect.scaling
       ? Math.floor(
           (effectiveStat(effect.scaling.basis === 'source' ? source : target, effect.scaling.stat) *
             effect.scaling.ratioMilli) /
@@ -73,7 +74,8 @@ export function combatStatsView(unit: CombatUnit, tick = 0, overtime?: OvertimeC
     startingMana: unit.profile.stats.startingMana,
   };
 }
-export const advancedRules = (version: string) => version === ADVANCED_COMBAT_RULES;
+export const advancedRules = (version: string) =>
+  version === ADVANCED_COMBAT_RULES || version === MECHANICS_RULES;
 
 export function baseStatsView(profile: CombatProfile) {
   return {

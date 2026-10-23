@@ -92,3 +92,9 @@ Una emisión en `tick:300`, `order:0`, antes de expiraciones/carga/acciones de e
 La entrada y combat_start también incluyen `overtime` para fijar la configuración del replay. El esquema valida tick/order del evento y configuración; el motor garantiza emisión única por combate. El schema de lote no representa identidad global ni autenticación: futuros receptores deberán deduplicar lotes por identidad de combate. No hay oro, rachas ni vida del jugador en este evento.
 
 combat_end conserva winner/reason/tick y añade outcome. Doble eliminación: `{outcome:'double_loss',winner:null,reason:'elimination',tick:t}`. Límite: mismo outcome, reason timeout, tick450 (o límite reducido de test). El tick del payload debe coincidir con el envelope. Tick450 no contiene efectos nuevos, únicamente cancelaciones terminales y combat_end. La traza incluye snapshot450 final.
+
+## Eventos aditivos de F0-P6B.2
+
+Se conserva transporte v3 y se negocian reglas `f0p6b2-1`. Nuevos tipos estrictos: `stack_gain`, `stack_consume`, `stack_threshold`, `attack_confirmed`, `kill_attributed`, `ability_empowered`, `ability_repeat`, `jump_start`, `jump_end`, `chain_attack`, `periodic_apply` y `mechanics_limit`. Todos heredan tick/orden/protocolo. Los payloads registran fuente, destinatario y causalidad según la operación; la atribución incluye combate y referencia exacta `{tick, order}` al daño letal.
+
+`damage` sigue siendo la única pérdida de vida: los indicadores no duplican daño. Bajo reglas nuevas añade responsable, causalidad, origen periódico/ambiental y `attackId` cuando corresponde. `ability_cast` distingue cast original/adicional y padre; las cancelaciones incluyen salto. Los campos adicionales no se rellenan en trazas antiguas. Contratos en `packages/shared/src/combat.ts`; semántica en [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).

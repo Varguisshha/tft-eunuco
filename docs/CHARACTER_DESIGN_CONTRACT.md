@@ -39,3 +39,9 @@ Separar cambios de presentación (descripción/icono/assets) de cambios de regla
 ## Primer caso: DOLEA
 
 Coste2, Vanguardia/tanque cuerpo a cuerpo, Hortaleza y Llama de Pádel. Habilidad mixta Volumen Sucio: Volumen eterno (primer cruce bajo50 %, escudo12 % de vida efectiva) y Press de banca (0/70maná, daño físico100/180/324 adyacente, +20armadura4s renovable). Detalles en ABILITY_SYSTEM y TRAIT_SYSTEM. No hay diseños definitivos nuevos para otros amigos.
+
+## Herramientas disponibles desde F0-P6B.2
+
+Un futuro diseño puede declarar stacks, recompensas por eliminación atribuida, sinergia única 1/1, contadores individuales/de equipo, mejora y repetición de cast, salto y ataque inmediato. Debe fijar explícitamente impacto frente a liberación, duración/refresco/consumo, ámbito de contadores, objetivo adicional, maná y permisos de procs, interrupción y presupuesto causal. No usar eventos de animación para resolver acciones.
+
+No se incorpora todavía a VARGAS ni sus sprites, Copita Perhaps, Blackhaus RPP, UPM o **El Depredador**. Sus datos jugables pertenecen a F0-P6B.3. Los diagnósticos actuales son ficticios y no se deben copiar al roster como balance definitivo. Véase [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).

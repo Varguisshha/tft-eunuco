@@ -441,3 +441,15 @@ Inventario de entregables:
 - docs: ARCHITECTURE.md, GAME_DESIGN_V0.1.md, SPRITE_SPEC.md, ROADMAP.md, DECISIONS.md, VALIDATION.md.
 
 En el momento de este registro histórico F0-P2 aún no estaba iniciado. El estado actual está descrito al comienzo del documento.
+
+## F0-P6B.2 — 23 de octubre de 2026
+
+Antes de editar: `pnpm check` correcto con 427 pruebas; F0-P6B.1 preservada en `c5cb131`. Después: 531 pruebas en 35 archivos, tipos, lint y compilación correctos. Son las 427 anteriores más 104 comprobaciones de mecánicas, compatibilidad y presentación. Las pruebas antiguas no pierden aserciones: dos accesos a efectos se estrechan por discriminante para adaptarse a la nueva unión tipada.
+
+Regresión congelada: 27 trazas anteriores, 12 de estadísticas P6B.1 y tres guardados capturados; se comparan referencias completas de eventos, snapshots y PRNG. Incluye guardado/restauración con deltas y continuidad del coordinador automático bajo el catálogo nuevo.
+
+Se observó un timeout de 5 s en la prueba antigua de importación física de sprites con toda la suite concurrente. La misma prueba pasó aislada; se limitó Vitest a cuatro trabajadores, sin cambiar sus aserciones ni timeout. La suite completa volvió a pasar. La compilación mantiene el aviso de tamaño de chunks (aplicación ~551 kB; Phaser ~1,367 kB sin comprimir).
+
+Navegador real: diagnósticos de acumulación/consumo y +20% durante 3 s, eliminación y marca/escudo, sinergia 1/1 con tooltip, progresión 6/6 y tercer cast ×1.5, repetición gratuita con contador original 3, salto y básico inmediato, repetición de semilla y DOLEA con escudo 72 en tick 75. Se verificó la partida de desarrollo separada del guardado normal y la arena Mar de Cristal. Evidencias y comprobaciones de viewport en [F0_P6B2_REPORT.md](F0_P6B2_REPORT.md).
+
+El laboratorio técnico conserva su documento desplazable; el criterio de pantalla sin scroll vertical corresponde al HUD de partida. La geometría y los archivos originales de arenas/sprites permanecen intactos. F0-P6B.3 no iniciada.

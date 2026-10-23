@@ -111,3 +111,9 @@ El protocolo se mantiene en3 con metadatos opcionales aditivos; `rulesVersion` d
 Arena tiene un selector «AD, AP y críticos» con12 escenarios: básicos0/100 %, físico AD, mágico AP, físico AP, mágico AD, mixto, modificadores, velocidad, apoyo, Overtime y DOLEA avanzado. Todos usan semilla42 de referencia y perfiles ficticios fuera de tienda/pool. El selector de eventos salta al primer impacto, crítico, modificador, expiración u Overtime real y pausa la misma traza.
 
 No se implementan VARGAS, sus sprites o habilidades, UPM ni El Depredador. No hay críticos de apoyo, robo de vida, objetos, aumentos, red ni balance definitivo. Evidencia, resultados y limitaciones de navegador: [informe de fase](F0_P6B1_REPORT.md).
+
+## Integración F0-P6B.2
+
+`advancedRules` reconoce también `f0p6b2-1`; las fórmulas, caps y PRNG de P6B.1 permanecen disponibles sin modificación retroactiva. Los modificadores por acumulación se suman como fuentes identificables, con porcentaje sobre la base escalada y retirada al consumir/expirar. No se multiplican estrellas otra vez.
+
+La potencia de un cast mejorado/adicional se aplica después de resolver AD/AP y antes de crítico, Overtime y mitigación. Un básico inmediato de salto calcula AD, variación y crítico una sola vez al aterrizar. Un proyectil conserva su básico comprometido y se confirma al impactar. DOLEA conserva sus estadísticas. [Mecánicas y pruebas](ADVANCED_MECHANICS.md).

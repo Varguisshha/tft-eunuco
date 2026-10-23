@@ -122,7 +122,12 @@ export function unitFeedback(unit: CombatUnit, events: readonly CombatEventV3[],
   );
   const trigger = [...recent]
     .reverse()
-    .find((e) => e.type === 'passive_trigger' && e.payload.unitId === unit.id);
+    .find(
+      (e) =>
+        e.type === 'passive_trigger' &&
+        e.payload.unitId === unit.id &&
+        !e.payload.ruleId.startsWith('@'),
+    );
   const grants = recent.filter(
     (e) => e.type === 'shield_apply' && e.payload.unitId === unit.id && e.payload.status.amount > 0,
   );
@@ -156,6 +161,14 @@ export function unitFeedback(unit: CombatUnit, events: readonly CombatEventV3[],
 }
 
 export type FeedbackMoment =
+  | 'stack'
+  | 'stack-consume'
+  | 'stack-expiration'
+  | 'kill'
+  | 'empower'
+  | 'repeat'
+  | 'jump'
+  | 'chain'
   | 'start'
   | 'passive'
   | 'shield'
@@ -188,6 +201,22 @@ export function feedbackMoment(
     ),
   );
   const event = events.find((e) => {
+    if (moment === 'stack')
+      return e.type === 'stack_gain' && e.payload.unitId === unitId && e.payload.count > 0;
+    if (moment === 'stack-consume' || moment === 'stack-expiration')
+      return (
+        e.type === 'stack_consume' &&
+        e.payload.unitId === unitId &&
+        e.payload.reason === (moment === 'stack-consume' ? 'threshold' : 'duration')
+      );
+    if (moment === 'kill') return e.type === 'kill_attributed' && e.payload.killerId === unitId;
+    if (moment === 'empower') return e.type === 'ability_empowered' && e.payload.unitId === unitId;
+    if (moment === 'repeat')
+      return (
+        e.type === 'ability_repeat' && e.payload.unitId === unitId && e.payload.stage === 'resolve'
+      );
+    if (moment === 'jump') return e.type === 'jump_start' && e.payload.unitId === unitId;
+    if (moment === 'chain') return e.type === 'chain_attack' && e.payload.unitId === unitId;
     if (moment === 'overtime') return e.type === 'overtime_start';
     if (moment === 'outgoing' || moment === 'critical')
       return (
@@ -227,5 +256,5 @@ export function feedbackMoment(
       (moment !== 'depleted' || e.payload.shieldAfter === 0)
     );
   });
-  return event?.tick ?? null;
+  return event ? event.tick + (moment === 'jump' ? 1 : 0) : null;
 }

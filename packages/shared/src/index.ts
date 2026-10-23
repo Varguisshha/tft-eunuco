@@ -10,3 +10,4 @@ export * from './match-clock';
 export * from './abilities';
 
 export * from './advanced-stats';
+export * from './mechanics';

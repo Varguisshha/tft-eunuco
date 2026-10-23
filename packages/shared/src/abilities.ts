@@ -30,7 +30,7 @@ const effectBase = {
   stacking: z.enum(['stack', 'refresh']).optional(),
   key: id.optional(),
 };
-export const EffectSchema = z
+export const CoreEffectSchema = z
   .discriminatedUnion('kind', [
     z.strictObject({
       ...effectBase,
@@ -80,7 +80,86 @@ export const EffectSchema = z
         message: 'Explicit star amounts cannot also multiply by star stats',
       });
   });
+const specialBase = {
+  target: z.enum(['self', 'target', 'allies', 'enemies']),
+  radius: z.number().int().min(0).max(14),
+};
+const power = z.number().int().min(0).max(4000);
+const chainPolicy = {
+  maxChain: z.number().int().min(1).max(8),
+  allowSourceProcs: z.boolean(),
+  grantMana: z.boolean(),
+};
+export const MechanicEffectSchema = z.discriminatedUnion('kind', [
+  z.strictObject({
+    ...specialBase,
+    kind: z.literal('stack_gain'),
+    stackId: id,
+    amount: z.number().int().min(1).max(100),
+  }),
+  z.strictObject({
+    ...specialBase,
+    kind: z.literal('stack_consume'),
+    stackId: id,
+    amount: z.number().int().min(1).max(100),
+  }),
+  z.strictObject({
+    ...specialBase,
+    kind: z.literal('cooldown'),
+    ruleId: id,
+    abilityId: id.optional(),
+    mode: z.enum(['reset', 'reduce']),
+    ticks: z.number().int().min(0).max(450),
+  }),
+  z.strictObject({
+    ...specialBase,
+    kind: z.literal('ability_empower'),
+    powerMilli: power,
+    extraEffects: z.array(CoreEffectSchema).max(8),
+  }),
+  z.strictObject({
+    ...specialBase,
+    ...chainPolicy,
+    kind: z.literal('ability_repeat'),
+    delayTicks: z.number().int().min(1).max(30),
+    targetPolicy: z.enum(['same_only', 'same_or_nearest', 'nearest']),
+    countAsCast: z.boolean(),
+    powerMilli: power,
+    extraEffects: z.array(CoreEffectSchema).max(8),
+  }),
+  z.strictObject({
+    ...specialBase,
+    ...chainPolicy,
+    kind: z.literal('jump'),
+    duration: z.number().int().min(1).max(20),
+    immediateAttack: z.boolean(),
+    allowKillChain: z.boolean(),
+    retarget: z.enum(['cancel', 'adjacent']),
+  }),
+  z.strictObject({
+    ...specialBase,
+    kind: z.literal('periodic'),
+    amount,
+    damageType: DamageTypeSchema,
+    powerScaling: PowerScalingSchema.optional(),
+    intervalTicks: ticks,
+    duration: ticks,
+    responsible: z.enum(['source', 'none']),
+  }),
+]);
+export const EffectSchema = z.union([CoreEffectSchema, MechanicEffectSchema]);
 export type CombatEffect = z.infer<typeof EffectSchema>;
+export type MechanicEffect = z.infer<typeof MechanicEffectSchema>;
+export const isMechanicEffect = (effect: CombatEffect): effect is MechanicEffect =>
+  [
+    'stack_gain',
+    'stack_consume',
+    'cooldown',
+    'ability_empower',
+    'ability_repeat',
+    'jump',
+    'periodic',
+  ].includes(effect.kind);
 export const AbilityConditionSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('hp_below'), ratioMilli: z.number().int().min(1).max(1000) }),
   z.strictObject({
@@ -94,11 +173,16 @@ export const PassiveTriggerSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('combat_start') }),
   z.strictObject({ kind: z.literal('attack'), every: z.number().int().min(1).max(100) }),
   z.strictObject({ kind: z.literal('damage_received') }),
+  z.strictObject({ kind: z.literal('damage_dealt') }),
+  z.strictObject({ kind: z.literal('attack_hit'), every: z.number().int().min(1).max(100) }),
   z.strictObject({
     kind: z.literal('hp_crossed'),
     thresholdMilli: z.number().int().min(1).max(999),
   }),
-  z.strictObject({ kind: z.literal('ability_cast') }),
+  z.strictObject({
+    kind: z.literal('ability_cast'),
+    every: z.number().int().min(1).max(100).optional(),
+  }),
   z.strictObject({ kind: z.literal('kill') }),
   z.strictObject({ kind: z.literal('effect_expired'), key: id.optional() }),
 ]);
@@ -169,6 +253,16 @@ export const TraitDefinitionSchema = z
     visual: z.strictObject({ tone: z.enum(['jade', 'amber']), provisional: z.boolean() }),
     stacking: z.enum(['highest', 'cumulative']),
     recipients: z.enum(['members', 'team']),
+    progress: z
+      .strictObject({
+        version: z.literal(1),
+        scope: z.enum(['unit', 'team']),
+        rules: z
+          .array(PassiveRuleSchema.extend({ memberThreshold: z.number().int().min(1).max(56) }))
+          .min(1)
+          .max(8),
+      })
+      .optional(),
     thresholds: z
       .array(
         z.strictObject({

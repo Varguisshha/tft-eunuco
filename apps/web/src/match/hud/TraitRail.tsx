@@ -1,10 +1,44 @@
 import { useId, useState } from 'react';
-import { matchTraits } from '@tft/game-core';
+import { analyzeTraits, matchTraits } from '@tft/game-core';
 import { getUnitDefinition } from '@tft/game-data';
-import type { MatchState } from '@tft/shared';
+import type { MatchState, CombatInput, CombatState, TraitProgress } from '@tft/shared';
 import { ContentIcon } from './ContentIcon';
-export function TraitRail({ state }: { state: MatchState }) {
-  const rows = matchTraits(state).filter((t) => t.count > 0);
+export function TraitRail({
+  state,
+  combatState,
+}: {
+  state: MatchState;
+  combatState?: CombatState | undefined;
+}) {
+  return <TraitRows rows={matchTraits(state)} progress={combatState?.mechanics?.traits ?? []} />;
+}
+export function CombatTraitRail({
+  input,
+  state,
+}: {
+  input: CombatInput;
+  state?: CombatState | undefined;
+}) {
+  const rows = analyzeTraits(
+    input.units
+      .filter((u) => u.owner === 'south')
+      .map((u) => ({
+        definitionId: u.definitionId,
+        traits: u.profile.traits ?? [],
+        deployed: true,
+      })),
+    input.traits ?? [],
+  );
+  return <TraitRows rows={rows} progress={state?.mechanics?.traits ?? []} />;
+}
+function TraitRows({
+  rows: all,
+  progress,
+}: {
+  rows: ReturnType<typeof analyzeTraits>;
+  progress: TraitProgress[];
+}) {
+  const rows = all.filter((t) => t.count > 0);
   const [opened, setOpened] = useState<string | null>(null);
   const uid = useId();
   const [anchor, setAnchor] = useState({ left: 170, top: 220 });
@@ -27,8 +61,11 @@ export function TraitRail({ state }: { state: MatchState }) {
     <section className="trait-rail" aria-label="Sinergias de la formación">
       <h2>Sinergias</h2>
       {rows.map((row) => {
+        const internal = progress.filter((p) => p.traitId === row.trait.id && p.side === 'south');
+        const casts = internal.reduce((n, p) => n + p.casts, 0),
+          kills = internal.reduce((n, p) => n + p.kills, 0);
         const tooltipId = `${uid}-${row.trait.id}`;
-        const progress = row.nextThreshold ?? row.thresholds.at(-1)!.count;
+        const memberGoal = row.nextThreshold ?? row.thresholds.at(-1)!.count;
         return (
           <div
             key={row.trait.id}
@@ -68,10 +105,15 @@ export function TraitRail({ state }: { state: MatchState }) {
               <span className="trait-title">
                 <strong>{row.trait.name}</strong>
                 <small>{row.active ? `Nivel ${row.level} · Activa` : 'Inactiva'}</small>
+                {internal.length > 0 && (
+                  <small>
+                    {casts} lanz. · {kills} elim.
+                  </small>
+                )}
               </span>
               <b className="trait-count">
                 {row.count}
-                <small>/{progress}</small>
+                <small>/{memberGoal}</small>
               </b>
             </button>
             <div className="trait-tooltip" id={tooltipId} role="tooltip" style={anchor}>
@@ -95,6 +137,15 @@ export function TraitRail({ state }: { state: MatchState }) {
                 {row.count} {row.count === 1 ? 'personaje distinto' : 'personajes distintos'} ·{' '}
                 {row.nextThreshold ? `Próximo umbral: ${row.nextThreshold}` : 'Umbral máximo'}
               </p>
+              {internal.length > 0 && (
+                <p>
+                  Progreso interno{' '}
+                  {internal[0]!.scope === 'team'
+                    ? 'compartido por equipo'
+                    : 'individual por unidad'}
+                  : {casts} lanzamientos y {kills} eliminaciones en total. No añade miembros.
+                </p>
+              )}
               <p className="trait-contributors">
                 {row.contributors.map((id) => getUnitDefinition(id)?.name ?? id).join(' · ')}
               </p>

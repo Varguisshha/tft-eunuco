@@ -1,3 +1,4 @@
+import { mechanicsReadout } from '../game/mechanicsReadout';
 import { baseStatsView, combatStatsView, formationProfiles, shieldTotal } from '@tft/game-core';
 import {
   applyMatchAction,
@@ -156,6 +157,7 @@ export class LocalSession implements BoardPort {
         !owned || owned.location.kind === 'board',
       ),
       statuses: live?.statuses ?? [],
+      mechanics: mechanicsReadout(live, frame?.state),
       hp: live?.hp ?? profile.stats.maxHp,
       mana: live?.mana ?? profile.stats.startingMana,
       side: owned ? ('south' as const) : ('north' as const),

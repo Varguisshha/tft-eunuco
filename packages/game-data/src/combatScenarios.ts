@@ -73,7 +73,7 @@ export function createAbilityScenario(scenario: AbilityScenario, seed: number): 
       profile.stats.maxHp = Math.floor((profile.stats.maxHp * scale) / 1000);
       profile.stats.attack = Math.floor((profile.stats.attack * scale) / 1000);
       for (const effect of profile.championAbility!.active!.effects)
-        if ('amount' in effect && effect.starScaling === 'stat')
+        if ('amount' in effect && 'starScaling' in effect && effect.starScaling === 'stat')
           effect.amount = Math.floor((effect.amount * scale) / 1000);
     }
     units.push({

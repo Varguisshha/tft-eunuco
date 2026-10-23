@@ -17,10 +17,14 @@ import {
   createCombatScenario,
   createAbilityScenario,
   createStatsScenario,
+  createMechanicsScenario,
+  type MechanicsScenario,
   type StatsScenario,
   type AbilityScenario,
   type CombatScenario,
   COMBAT_PROFILES,
+  ADVANCED_ECONOMY_CONFIG,
+  TRAIT_DEFINITIONS,
   ECONOMY_CONFIG,
 } from '@tft/game-data';
 import {
@@ -221,18 +225,60 @@ export class BoardSession {
       message: `Diagnóstico P6A: ${scenario}. Membresías ficticias solo en este escenario.`,
     });
   }
+  loadMechanicsScenario(scenario: MechanicsScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createMechanicsScenario(scenario, this.snapshot.combat.seed);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: scenario === 'dolea-mechanics' ? 'diagnostic-dolea' : 'mechanics-source',
+      paletteId: null,
+      invalid: false,
+      message: `Mecánicas de prueba: ${scenario}. Solo diagnóstico.`,
+    });
+  }
+  traitInput = () => this.playback?.replay.input ?? this.scenarioInput;
   diagnosticProfile(id: string) {
     return this.scenarioInput?.units.find((u) => u.id === id)?.profile;
   }
   startCombat(repeat = false): void {
     try {
       const setup =
-        repeat && this.lastInput
-          ? this.lastInput
-          : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
-              ? createAdvancedCombatInput
-              : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
-      if (!repeat && this.scenarioInput) {
+        !repeat && this.scenarioInput?.combatId
+          ? {
+              ...structuredClone(this.scenarioInput),
+              traits: [
+                ...new Map(
+                  [...TRAIT_DEFINITIONS, ...(this.scenarioInput.traits ?? [])].map((t) => [
+                    t.id,
+                    t,
+                  ]),
+                ).values(),
+              ],
+              seed: this.snapshot.combat.seed,
+              units: this.snapshot.board.units.map((u) => ({
+                ...u,
+                profile: structuredClone(
+                  this.scenarioInput!.units.find(
+                    (p) => p.id === u.id && p.definitionId === u.definitionId,
+                  )?.profile ??
+                    scaledProfile(u.definitionId, this.starsFor(u.id), ADVANCED_ECONOMY_CONFIG),
+                ),
+              })),
+            }
+          : repeat && this.lastInput
+            ? this.lastInput
+            : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
+                ? createAdvancedCombatInput
+                : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
+      if (!repeat && this.scenarioInput && !this.scenarioInput.combatId) {
         setup.rulesVersion = this.scenarioInput.rulesVersion;
         setup.traits =
           setup.rulesVersion === ADVANCED_COMBAT_RULES

@@ -1,3 +1,4 @@
+import { MECHANICS_SCENARIOS } from '@tft/game-data';
 import type { AbilityScenario } from '@tft/game-data';
 import { useState } from 'react';
 import type { BoardSession, SessionSnapshot } from './session';
@@ -115,6 +116,44 @@ export function CombatControls({
             <option value="dolea-advanced">DOLEA · reglas avanzadas</option>
           </select>
         </label>
+        <label className="arena-scenario">
+          Mecánicas avanzadas
+          <select
+            aria-label="Diagnóstico de mecánicas"
+            value=""
+            disabled={!preparing}
+            onChange={(e) => {
+              if (e.target.value)
+                session.loadMechanicsScenario(
+                  e.target.value as import('@tft/game-data').MechanicsScenario,
+                );
+            }}
+          >
+            <option value="">Cargar diagnóstico…</option>
+            {MECHANICS_SCENARIOS.map((id) => (
+              <option key={id} value={id}>
+                {
+                  {
+                    'stack-cycle': 'Acumulaciones · ciclo de 5',
+                    'kill-marks': 'Eliminaciones · sinergia 1/1',
+                    'periodic-credit': 'Daño periódico · responsable',
+                    'environment-credit': 'Daño ambiental · sin asesino',
+                    'simultaneous-credit': 'Eliminaciones simultáneas',
+                    'progress-2': 'Progresión · 2 miembros',
+                    'progress-4': 'Progresión · 4 miembros',
+                    'progress-6': 'Progresión · 6, contador individual',
+                    'progress-team': 'Progresión · contador de equipo',
+                    'free-repeat': 'Reejecución gratuita',
+                    'jump-chain': 'Salto y ataque encadenado',
+                    'jump-blocked': 'Salto · destino bloqueado',
+                    'jump-cancel': 'Salto · interrupción',
+                    'dolea-mechanics': 'DOLEA · motor de mecánicas',
+                  }[id]
+                }
+              </option>
+            ))}
+          </select>
+        </label>
         {preparing ? (
           <button
             className="button combat-primary"
@@ -172,6 +211,14 @@ export function CombatControls({
                 <option value="modifier">Modificador aplicado</option>
                 <option value="modifier-expiration">Modificador expirado</option>
                 <option value="overtime">Inicio de overtime</option>
+                <option value="stack">Acumulación confirmada</option>
+                <option value="stack-consume">Consumo del umbral</option>
+                <option value="stack-expiration">Acumulación expirada</option>
+                <option value="kill">Eliminación atribuida</option>
+                <option value="empower">Habilidad mejorada</option>
+                <option value="repeat">Reejecución resuelta</option>
+                <option value="jump">Salto en curso</option>
+                <option value="chain">Ataque encadenado</option>
               </select>
             </label>
           </>

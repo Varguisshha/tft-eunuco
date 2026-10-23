@@ -83,3 +83,9 @@ Vida y ataque base escalan ×1 / ×1,8 / ×3,24. Armadura, maná, duración y po
 Catálogo nuevo `f0p6a`, reglas nuevas `f0p6a-1`, protocolo de transporte v3 conservado. El parser admite además reglas históricas `f0p3.1-1`; rechaza campos modernos bajo reglas antiguas. Los catálogos anteriores conservan perfiles congelados y sus habilidades. La traza guardada se reproduce sin reinterpretarla con datos nuevos.
 
 Para añadir una operación única: extender la unión validada, implementar resolución pura, definir orden y límites, añadir pruebas y una versión de reglas. Nunca introducir una condición por nombre de personaje. Para modificar balance publicado, crear una versión de catálogo/reglas que preserve los perfiles de los guardados anteriores; no editar silenciosamente una versión histórica. Un cambio solo de icono no requiere migrar combate.
+
+## Extensión F0-P6B.2
+
+Las reglas de pasiva admiten `attack_hit` y `damage_dealt`; `ability_cast.every` usa el ordinal individual o compartido capturado al emitir la señal. `attack` conserva liberación, no impacto. Los stacks compilan reglas internas reservadas `@stack:N` y reutilizan este ejecutor.
+
+Nuevos efectos tipados: ganancia/consumo de stacks, cooldown de regla pasiva, mejora del cast actual, repetición gratuita controlada, salto y fuente periódica. Curaciones, escudos y modificadores normales sirven como recompensas por eliminación. Una repetición distingue coste, maná generado, señales, contador y objetivo; nunca genera otra repetición. Cancelar su cast padre cancela sus adicionales pendientes. Véase [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).

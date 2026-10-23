@@ -1,5 +1,13 @@
 import { z } from 'zod';
 import {
+  MECHANICS_RULES,
+  ProfileMechanicsSchema,
+  UnitMechanicsSchema,
+  MechanicsStateSchema,
+  ChainContextSchema,
+  KillAttributionSchema,
+} from './mechanics';
+import {
   ADVANCED_COMBAT_RULES,
   ModifierModeSchema,
   ModifierOriginSchema,
@@ -7,6 +15,8 @@ import {
 } from './advanced-stats';
 import {
   EffectSchema,
+  CoreEffectSchema,
+  isMechanicEffect,
   ChampionAbilitySchema,
   ModifiableStatSchema,
   TraitDefinitionSchema,
@@ -24,7 +34,12 @@ import {
 export const COMBAT_PROTOCOL = 3 as const;
 export const COMBAT_RULES = 'f0p3.1-1' as const;
 export const CURRENT_COMBAT_RULES = 'f0p6a-1' as const;
-const RulesSchema = z.enum([COMBAT_RULES, CURRENT_COMBAT_RULES, ADVANCED_COMBAT_RULES]);
+const RulesSchema = z.enum([
+  COMBAT_RULES,
+  CURRENT_COMBAT_RULES,
+  ADVANCED_COMBAT_RULES,
+  MECHANICS_RULES,
+]);
 export const MAX_COMBAT_TICKS = 450;
 export const OVERTIME_START_TICK = 300;
 const increase = z
@@ -84,6 +99,7 @@ export const PassiveSchema = z.strictObject({
 export const CombatProfileSchema = z
   .strictObject({
     stats: CombatStatsSchema,
+    mechanics: ProfileMechanicsSchema.optional(),
     starLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
     ability: AbilitySchema.nullable(),
     passive: PassiveSchema.nullable(),
@@ -115,11 +131,13 @@ const advancedEffect = (e: import('./abilities').CombatEffect) =>
   ('powerScaling' in e && e.powerScaling !== undefined) ||
   ('amountByStars' in e && e.amountByStars !== undefined) ||
   ('canCrit' in e && e.canCrit !== undefined) ||
+  isMechanicEffect(e) ||
   (e.kind === 'modifier' && (e.mode !== undefined || e.duration === null || advancedStat(e.stat)));
 export const CombatInputSchema = z
   .strictObject({
     protocolVersion: z.literal(COMBAT_PROTOCOL),
     rulesVersion: RulesSchema,
+    combatId: id.optional(),
     seed: CombatSeedSchema,
     maxTicks: duration.default(MAX_COMBAT_TICKS),
     overtime: OvertimeConfigSchema.default(DEFAULT_OVERTIME),
@@ -144,18 +162,28 @@ export const CombatInputSchema = z
         [u.profile.ability, u.profile.passive].some((a) =>
           a?.effects.some(
             (e) =>
-              e.center ||
-              e.scaling ||
-              e.starScaling ||
-              e.stacking ||
-              e.key ||
+              ('center' in e && e.center) ||
+              ('scaling' in e && e.scaling) ||
+              ('starScaling' in e && e.starScaling) ||
+              ('stacking' in e && e.stacking) ||
+              ('key' in e && e.key) ||
               (e.kind === 'modifier' && e.stat === 'maxHp'),
           ),
         ),
       )
     )
       ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
-    const advanced = input.rulesVersion === ADVANCED_COMBAT_RULES;
+    const mechanics = input.rulesVersion === MECHANICS_RULES;
+    const advanced = input.rulesVersion === ADVANCED_COMBAT_RULES || mechanics;
+    if (mechanics && !input.combatId)
+      ctx.addIssue({ code: 'custom', message: 'Mechanics rules require combatId' });
+    if (
+      !mechanics &&
+      (input.combatId ||
+        input.units.some((u) => u.profile.mechanics) ||
+        input.traits?.some((t) => t.progress))
+    )
+      ctx.addIssue({ code: 'custom', message: 'Mechanics metadata requires f0p6b2-1' });
     for (const unit of input.units) {
       const p = unit.profile;
       const fields = [p.stats.abilityPower, p.stats.critChanceMilli, p.stats.critMultiplierMilli];
@@ -172,7 +200,20 @@ export const CombatInputSchema = z
         ...(p.championAbility?.active?.effects ?? []),
         ...(p.championAbility?.passive?.rules.flatMap((r) => r.effects) ?? []),
       ];
-      if (advanced && effects.some((e) => e.stacking === 'refresh' && !e.key))
+      if (
+        !mechanics &&
+        (effects.some(isMechanicEffect) ||
+          p.championAbility?.passive?.rules.some(
+            (r) =>
+              ['attack_hit', 'damage_dealt'].includes(r.trigger.kind) ||
+              (r.trigger.kind === 'ability_cast' && r.trigger.every !== undefined),
+          ))
+      )
+        ctx.addIssue({
+          code: 'custom',
+          message: 'New operations and triggers require mechanics rules',
+        });
+      if (advanced && effects.some((e) => 'stacking' in e && e.stacking === 'refresh' && !e.key))
         ctx.addIssue({ code: 'custom', message: 'Advanced refresh requires a stable source key' });
       if (!advanced && effects.some(advancedEffect))
         ctx.addIssue({ code: 'custom', message: 'Advanced effects require f0p6b1-1' });
@@ -189,13 +230,66 @@ export const CombatInputSchema = z
     if (
       advanced &&
       input.traits?.some((t) =>
-        t.thresholds.some((r) => r.effects.some((e) => e.stacking === 'refresh' && !e.key)),
+        t.thresholds.some((r) =>
+          r.effects.some((e) => 'stacking' in e && e.stacking === 'refresh' && !e.key),
+        ),
       )
     )
       ctx.addIssue({
         code: 'custom',
         message: 'Advanced trait refresh requires a stable source key',
       });
+    const allEffects = input.units
+      .flatMap((u) => [
+        ...(u.profile.ability?.effects ?? []),
+        ...(u.profile.passive?.effects ?? []),
+        ...(u.profile.championAbility?.active?.effects ?? []),
+        ...(u.profile.championAbility?.passive?.rules.flatMap((r) => r.effects) ?? []),
+        ...(u.profile.mechanics?.stacks.flatMap((d) => d.thresholds.flatMap((t) => t.effects)) ??
+          []),
+      ])
+      .concat(
+        input.traits?.flatMap((t) => [
+          ...t.thresholds.flatMap((r) => r.effects),
+          ...(t.progress?.rules.flatMap((r) => r.effects) ?? []),
+        ]) ?? [],
+      );
+    if (!mechanics && allEffects.some(isMechanicEffect))
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Mechanic operations require f0p6b2-1, including traits',
+      });
+    if (advanced && allEffects.some((e) => 'stacking' in e && e.stacking === 'refresh' && !e.key))
+      ctx.addIssue({ code: 'custom', message: 'Refresh operations require a stable key' });
+    if (mechanics) {
+      for (const t of input.traits ?? [])
+        if (
+          t.progress &&
+          (new Set(t.progress.rules.map((r) => r.id)).size !== t.progress.rules.length ||
+            t.progress.rules.some(
+              (r) => !t.thresholds.some((th) => th.count === r.memberThreshold),
+            ))
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Progress rule IDs must be unique and reference declared member thresholds',
+          });
+      for (const e of allEffects)
+        if (
+          (e.kind === 'stack_gain' || e.kind === 'stack_consume') &&
+          !input.units.some((u) => u.profile.mechanics?.stacks.some((d) => d.id === e.stackId))
+        )
+          ctx.addIssue({ code: 'custom', message: 'Unknown stack definition' });
+      if (
+        input.units.some((u) =>
+          u.profile.championAbility?.passive?.rules.some((r) => r.id.startsWith('@')),
+        )
+      )
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Rule IDs beginning with @ are reserved for compiled operations',
+        });
+    }
     const board = BoardStateSchema.safeParse({
       units: input.units.map(({ id, definitionId, owner, position }) => ({
         id,
@@ -244,6 +338,8 @@ export const CombatActionSchema = z.discriminatedUnion('kind', [
     rawDamage: amount,
     ranged: z.boolean(),
     critical: z.boolean().optional(),
+    attackId: id.optional(),
+    context: ChainContextSchema.optional(),
   }),
   z.strictObject({
     kind: z.literal('cast'),
@@ -251,10 +347,31 @@ export const CombatActionSchema = z.discriminatedUnion('kind', [
     endTick: natural,
     targetId: id,
     abilityId: id,
+    castId: id.optional(),
+    context: ChainContextSchema.optional(),
+    empower: z
+      .strictObject({
+        powerMilli: z.number().int().min(0).max(4000),
+        extraEffects: z.array(CoreEffectSchema).max(8),
+      })
+      .optional(),
+  }),
+  z.strictObject({
+    kind: z.literal('jump'),
+    id,
+    startTick: natural,
+    endTick: natural,
+    from: HexCoordSchema,
+    to: HexCoordSchema,
+    targetId: id,
+    immediateAttack: z.boolean(),
+    retarget: z.enum(['cancel', 'adjacent']),
+    context: ChainContextSchema,
   }),
 ]);
 export type CombatAction = z.infer<typeof CombatActionSchema>;
 export const CombatUnitSchema = CombatantSpecSchema.extend({
+  mechanics: UnitMechanicsSchema.optional(),
   passiveState: z
     .record(
       id,
@@ -285,6 +402,8 @@ export const ProjectileSchema = z.strictObject({
   rawDamage: amount,
   damageType: DamageTypeSchema,
   critical: z.boolean().optional(),
+  attackId: id.optional(),
+  context: ChainContextSchema.optional(),
 });
 export type CombatProjectile = z.infer<typeof ProjectileSchema>;
 export const CombatResultSchema = z
@@ -304,6 +423,7 @@ export type CombatResult = z.infer<typeof CombatResultSchema>;
 export const CombatStateSchema = z.strictObject({
   protocolVersion: z.literal(COMBAT_PROTOCOL),
   rulesVersion: RulesSchema,
+  mechanics: MechanicsStateSchema.optional(),
   tick: natural,
   rngState: CombatSeedSchema,
   effectCounter: natural,
@@ -359,6 +479,10 @@ export const CombatEventV3Schema = z
         damageType: DamageTypeSchema,
         cause: z.enum(['attack', 'ability']),
         critical: z.boolean().optional(),
+        attackId: id.optional(),
+        responsibleId: id.nullable().optional(),
+        origin: z.enum(['periodic', 'environment']).optional(),
+        causalId: id.optional(),
         impact: HexCoordSchema,
       }),
     ),
@@ -392,6 +516,9 @@ export const CombatEventV3Schema = z
         endTick: natural,
         manaAfter: amount,
         center: HexCoordSchema,
+        castId: id.optional(),
+        additional: z.boolean().optional(),
+        parentCastId: id.optional(),
       }),
     ),
     event('status_apply', z.strictObject({ unitId: id, status: CombatStatusSchema })),
@@ -407,8 +534,121 @@ export const CombatEventV3Schema = z
       'action_cancel',
       z.strictObject({
         unitId: id,
-        action: z.enum(['move', 'attack', 'cast']),
+        action: z.enum(['move', 'attack', 'cast', 'jump']),
         reason: z.enum(['stun', 'death', 'invalid-target', 'combat-end']),
+      }),
+    ),
+    event(
+      'stack_gain',
+      z.strictObject({
+        unitId: id,
+        sourceId: id,
+        stackId: id,
+        name: id,
+        amount: natural,
+        count: natural,
+        maxStacks: natural,
+        expiresTick: natural.nullable(),
+        causalId: id,
+      }),
+    ),
+    event(
+      'stack_consume',
+      z.strictObject({
+        unitId: id,
+        sourceId: id,
+        stackId: id,
+        amount: natural,
+        count: natural,
+        reason: z.enum(['manual', 'threshold', 'duration', 'death']),
+        causalId: id,
+      }),
+    ),
+    event(
+      'stack_threshold',
+      z.strictObject({
+        unitId: id,
+        sourceId: id,
+        stackId: id,
+        thresholdId: id,
+        count: natural,
+        causalId: id,
+      }),
+    ),
+    event(
+      'attack_confirmed',
+      z.strictObject({
+        unitId: id,
+        targetId: id,
+        attackId: id,
+        damageEvent: z.strictObject({ tick: natural, order: natural }),
+        causalId: id,
+      }),
+    ),
+    event('kill_attributed', KillAttributionSchema),
+    event(
+      'ability_empowered',
+      z.strictObject({
+        unitId: id,
+        castId: id,
+        powerMilli: natural,
+        extraEffects: natural,
+        causalId: id,
+      }),
+    ),
+    event(
+      'ability_repeat',
+      z.strictObject({
+        unitId: id,
+        targetId: id,
+        actionId: id,
+        parentCastId: id,
+        stage: z.enum(['scheduled', 'resolve', 'cancel']),
+        causalId: id,
+      }),
+    ),
+    event(
+      'jump_start',
+      z.strictObject({
+        unitId: id,
+        targetId: id,
+        actionId: id,
+        from: HexCoordSchema,
+        to: HexCoordSchema,
+        endTick: natural,
+        causalId: id,
+      }),
+    ),
+    event(
+      'jump_end',
+      z.strictObject({
+        unitId: id,
+        targetId: id,
+        actionId: id,
+        position: HexCoordSchema,
+        outcome: z.enum(['landed', 'cancelled']),
+        causalId: id,
+      }),
+    ),
+    event('chain_attack', z.strictObject({ unitId: id, targetId: id, attackId: id, causalId: id })),
+    event(
+      'periodic_apply',
+      z.strictObject({
+        unitId: id,
+        sourceId: id,
+        statusId: id,
+        expiresTick: natural,
+        amount: natural,
+        responsibleId: id.nullable(),
+        causalId: id,
+      }),
+    ),
+    event(
+      'mechanics_limit',
+      z.strictObject({
+        unitId: id.nullable(),
+        reason: z.enum(['tick_budget', 'chain_budget', 'pending_limit']),
+        causalId: id,
       }),
     ),
     event('unit_death', z.strictObject({ unitId: id, position: HexCoordSchema })),

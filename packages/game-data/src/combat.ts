@@ -2,6 +2,7 @@ import { DOLEA_ABILITY, TRAIT_DEFINITIONS } from './abilities';
 import {
   ADVANCED_STATS_DEFAULTS,
   ADVANCED_COMBAT_RULES,
+  MECHANICS_RULES,
   COMBAT_RULES,
   CombatInputSchema,
   CombatProfileSchema,
@@ -173,10 +174,24 @@ export function createAdvancedCombatInput(board: BoardState, seed: number): Comb
   });
 }
 export const hasTraits = (catalog: string | undefined) =>
-  catalog === 'f0p6a' || catalog === 'f0p6b1';
+  catalog === 'f0p6a' || catalog === 'f0p6b1' || catalog === 'f0p6b2';
 export const combatRulesFor = (catalog: string | undefined) =>
-  catalog === 'f0p6b1'
-    ? ADVANCED_COMBAT_RULES
-    : hasTraits(catalog)
-      ? CURRENT_COMBAT_RULES
-      : COMBAT_RULES;
+  catalog === 'f0p6b2'
+    ? MECHANICS_RULES
+    : catalog === 'f0p6b1'
+      ? ADVANCED_COMBAT_RULES
+      : hasTraits(catalog)
+        ? CURRENT_COMBAT_RULES
+        : COMBAT_RULES;
+
+export function createMechanicsCombatInput(
+  board: BoardState,
+  seed: number,
+  combatId: string,
+): CombatInput {
+  return CombatInputSchema.parse({
+    ...createAdvancedCombatInput(board, seed),
+    rulesVersion: MECHANICS_RULES,
+    combatId,
+  });
+}

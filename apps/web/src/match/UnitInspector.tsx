@@ -1,3 +1,4 @@
+import { MechanicsStatus } from '../game/MechanicsStatus';
 import { ADVANCED_STATS_DEFAULTS } from '@tft/shared';
 import { ContentIcon } from './hud/ContentIcon';
 import { PassiveStatus } from '../game/PassiveStatus';
@@ -128,6 +129,7 @@ export function UnitInspector({
           <p>Sin habilidad configurada.</p>
         )}
       </section>
+      <MechanicsStatus value={selected.mechanics} />
       <div className="inspector-vitals">
         <label>
           Vida{' '}

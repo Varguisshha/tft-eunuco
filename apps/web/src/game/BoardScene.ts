@@ -279,7 +279,11 @@ export class BoardScene extends Phaser.Scene {
     for (const unit of units) {
       let visual = this.visuals.get(unit.id);
       if (!visual) {
-        const def = getUnitDefinition(unit.definitionId);
+        const def =
+          getUnitDefinition(unit.definitionId) ??
+          (unit.definitionId.startsWith('fixture-member-')
+            ? getUnitDefinition('test-v02')
+            : undefined);
         if (!def) continue;
         visual = new PhaserUnitVisual(this, def, unit.owner, this.arena);
         this.visuals.set(unit.id, visual);

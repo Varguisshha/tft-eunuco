@@ -163,3 +163,16 @@ Fuentes Phaser consultadas para P2: [Graphics](https://docs.phaser.io/api-docume
 - Fin local cuando Vargas llega a0, después de pagar la ronda. Florin permanece como oponente de pruebas. Sin clasificación, red, cuentas ni cambios a Overtime.
 - Depuración optativa con partida/clave separadas; pausa, avance, duraciones8/2s, repetición desde checkpoint de memoria, recarga e inspección. La partida normal no expone esas ventajas.
 - Preservación Git inicial: módulos P4 identificables en `b71448c`; archivos solapados del HUD y P4.1 verificados juntos en `ffa9265`. No se reconstruyó un hito histórico completo artificialmente a partir de archivos solapados. Los32PNG originales/duplicados en Sprites permanecieron fuera de esos commits.
+
+## F0-P6B.2 — contratos, autoridad y compatibilidad
+
+- Mantener protocolo 3 con reglas/catálogo nuevos explícitos `f0p6b2-1`/`f0p6b2`; rechazar nuevas operaciones bajo reglas antiguas.
+- Reutilizar la cola y runtime de pasivas para stacks y progreso. Reservar prefijo `@` para reglas compiladas.
+- Confirmar básicos por identidad de impacto, incluso absorbido; reservar `damage_dealt` para pérdida efectiva de vida.
+- Crédito letal único por referencia a evento. Comprometer simultáneos antes de muertes; fuentes muertas reciben crédito pero no recompensas.
+- Fijar membresía al comenzar, separar progreso, capturar ordinales de cast al emitir cada señal.
+- Repetición gratuita, contadores/señales/maná explícitos, cancelación ligada al padre y prohibición absoluta de repetirse a sí misma.
+- Reservar origen/destino de salto, resolver ataques inmediatos después de impactos ordinarios y limitar las ramas causales a ocho pasos, con topes adicionales por tick.
+- Aplicar solo presentación contextual y assets existentes. No iniciar F0-P6B.3.
+
+Detalles y limitaciones en [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md). Se preservó P6B.1 en `c5cb131` tras verificar 427 pruebas antes de editar.

@@ -75,3 +75,9 @@ Servidor Node/Colyseus, identidad y emparejamientos de cuatro jugadores, recepci
 ## F0-P4.1 — completado y validado
 
 Contrato universal por evolución/estado, recursos parciales, resolver central, pipeline reproducible, dos Attack reales de8frames,3★ con apariencia2★, retratos y muestreo por reloj de combate. Roster nuevo versionado con DOLEA, guardados previos preservados, inspector y duelos de Arena. 200 pruebas correctas, check/formato y verificación visual en cinco tamaños. Ver VALIDATION.md para pruebas y límites. P4.1 fue preservado en `ffa9265` antes de iniciar P5; la automatización se incorpora en el hito P5 descrito arriba.
+
+## F0-P6B.2
+
+Motor genérico de stacks, eliminaciones atribuidas, progreso de sinergias, mejora/repetición y saltos con ataque inmediato implementado bajo nuevas reglas explícitas. Incluye diagnósticos técnicos y feedback contextual. Evidencias y estado de comprobaciones en [F0_P6B2_REPORT.md](F0_P6B2_REPORT.md).
+
+**Punto de parada:** F0-P6B.3 no iniciada. VARGAS y sus contenidos futuros siguen fuera del catálogo.

@@ -205,6 +205,9 @@ function startCombat(state: MatchState, allowEmpty = false): void {
     input: CombatInputSchema.parse({
       protocolVersion: COMBAT_PROTOCOL,
       rulesVersion: combatRulesFor(state.config.catalog),
+      ...(state.config.catalog === 'f0p6b2'
+        ? { combatId: `match-${state.seed}-round-${state.round}` }
+        : {}),
       ...(hasTraits(state.config.catalog) ? { traits: TRAIT_DEFINITIONS } : {}),
       seed: next.value,
       maxTicks: MAX_COMBAT_TICKS,

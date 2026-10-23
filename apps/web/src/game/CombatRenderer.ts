@@ -1,8 +1,9 @@
+import { combatVisualPosition, mechanicsFeedback } from './mechanicsVisuals';
 import { shieldBar, unitFeedback, feedbackLanes, FEEDBACK_WINDOW_MS } from './combatFeedback';
 import Phaser from 'phaser';
 import { TICK_MS, type CombatUnit } from '@tft/shared';
-import { axialToCartesian, type Point } from '@tft/game-core';
-import { WORLD, hexToWorld, projectPoint, type Projection } from './projection';
+import type { Point } from '@tft/game-core';
+import { WORLD, hexToWorld, type Projection } from './projection';
 import type { PlaybackFrame } from './combatPlayback';
 import type { PhaserUnitVisual } from './visualAdapter';
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
@@ -61,16 +62,9 @@ export class CombatRenderer {
       .setVisible(false);
   }
   private position(unit: CombatUnit, timeMs: number): Point {
-    const action = unit.action;
-    if (action?.kind !== 'move') return hexToWorld(unit.position, this.projection);
-    const from = axialToCartesian(action.from),
-      to = axialToCartesian(action.to);
-    const t = clamp((timeMs / TICK_MS - action.startTick) / (action.endTick - action.startTick));
-    return projectPoint(
-      { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t },
-      this.projection,
-    );
+    return combatVisualPosition(unit, timeMs, this.projection);
   }
+
   render(
     frame: PlaybackFrame,
     visuals: ReadonlyMap<string, PhaserUnitVisual>,
@@ -93,7 +87,11 @@ export class CombatRenderer {
     const feedbackByUnit = new Map(
       state.units.map((u) => [
         u.id,
-        unitFeedback(u, frame.feedbackEvents ?? frame.recentEvents, timeMs),
+        (() => {
+          const events = frame.feedbackEvents ?? frame.recentEvents;
+          const feedback = unitFeedback(u, events, timeMs);
+          return { ...feedback, passive: mechanicsFeedback(u, events, timeMs) ?? feedback.passive };
+        })(),
       ]),
     );
     const lanes = feedbackLanes(
@@ -129,7 +127,15 @@ export class CombatRenderer {
         continue;
       }
       const action = unit.action;
-      if (action?.kind === 'move') {
+      if (action?.kind === 'jump') {
+        const to = hexToWorld(action.to, this.projection);
+        visual.setFacing(to.x >= p.x ? 'right' : 'left');
+        const t = clamp(
+          (timeMs / TICK_MS - action.startTick) / (action.endTick - action.startTick),
+        );
+        if (!this.reducedMotion?.matches) visual.sprite.y -= Math.sin(t * Math.PI) * 26;
+        g.lineStyle(1, 0xb7e0c3, 0.45).strokeEllipse(p.x, p.y, 22, 8);
+      } else if (action?.kind === 'move') {
         const target = hexToWorld(action.to, this.projection);
         visual.setFacing(target.x >= p.x ? 'right' : 'left');
         if (!visual.hasRealAsset)
@@ -185,6 +191,23 @@ export class CombatRenderer {
         activeLabels.add(key);
         this.label(key, `${bar.shield} ESC`, '#acf2ef', x + 70, y + 3, 1, 11);
         g.lineStyle(2, 0x8ce9e8, 0.65).strokeRect(p.x - 26, p.y - 62, 52, 60);
+      }
+      const stacks = unit.mechanics?.stacks ?? [];
+      if (stacks.length) {
+        const key = `stacks:${unit.id}`;
+        activeLabels.add(key);
+        this.label(
+          key,
+          stacks
+            .slice(0, 2)
+            .map((s) => `${s.count}/${s.maxStacks}`)
+            .join(' · '),
+          '#e8d7a8',
+          p.x,
+          y + 27,
+          1,
+          11,
+        );
       }
       const feedback = feedbackByUnit.get(unit.id)!;
       const lane = lanes.get(unit.id);

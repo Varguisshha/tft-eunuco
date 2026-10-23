@@ -147,3 +147,9 @@ Resultado explícito `outcome: win | double_loss`. `win` exige `winner` no nulo 
 Reproductor: un indicador Phaser por escena, reutilizado y ocultado al volver a preparación; escala de entrada durante 600 ms del reloj visual. Contador DOM accesible junto al canvas en Arena y Partida local: tiempo lógico hasta límite, cero al terminar. Pausa congela contador y transición; ×2 avanza ambos. Saltar frames o recuperar una resolución conserva el estado de overtime aunque su evento de inicio ya no esté en efectos recientes. Repetir crea una línea temporal nueva.
 
 Arena incluye tres escenarios técnicos con perfiles sintéticos legales, separados del rival local: victoria durante overtime, supervivencia hasta 450 y eliminación mutua. Sirven para reproducir límites sin modificar el catálogo ni la economía del jugador.
+
+## F0-P6B.2 — confirmación, crédito y acciones derivadas
+
+Las reglas `f0p6b2-1` requieren `combatId`. Un básico nuevo conserva `attackId` hasta su impacto; solo el impacto válido emite `attack_confirmed` y `attack_hit`. Una muerte registra el evento letal una vez y activa `kill` después de marcar todas las muertes comprometidas del lote. El crédito persiste para una fuente muerta; sus recompensas póstumas se omiten. El daño sin responsable usa asesino nulo.
+
+Tras impactos ordinarios se estabilizan muertes/pasivas, aterrizan los saltos, se resuelven sus básicos opcionales y las repeticiones controladas. Las reservas incluyen origen y destino en tránsito. Cada rama derivada tiene profundidad/presupuesto máximo ocho, además de límites por tick. No cambian el tick terminal, Overtime ni las reglas históricas. Orden y políticas completos en [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).

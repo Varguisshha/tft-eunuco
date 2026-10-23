@@ -1,3 +1,6 @@
+import { MechanicsStatus } from './game/MechanicsStatus';
+import { mechanicsReadout } from './game/mechanicsReadout';
+import { CombatTraitRail } from './match/hud/TraitRail';
 import { useState, useSyncExternalStore } from 'react';
 import {
   axialToOffset,
@@ -54,7 +57,11 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
     (u) => u.id === state.selectedId,
   );
   const liveUnit = combatFrame?.state.units.find((u) => u.id === state.selectedId);
-  const definition = getUnitDefinition(selected?.definitionId ?? state.paletteId ?? '');
+  const definition =
+    getUnitDefinition(selected?.definitionId ?? state.paletteId ?? '') ??
+    (selected && session.diagnosticProfile(selected.id)
+      ? { ...getUnitDefinition('test-v02')!, id: selected.definitionId, name: 'Unidad de prueba' }
+      : undefined);
   const profile =
     liveUnit?.profile ??
     session.diagnosticProfile(selected?.id ?? '') ??
@@ -87,7 +94,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
           Laboratorio de combate
         </div>
         <span className="version">
-          F0–P6B.1 <span>·</span> PROTOTIPO LOCAL
+          F0–P6B.2 <span>·</span> PROTOTIPO LOCAL
         </span>
       </header>
       <main id="arena">
@@ -121,6 +128,9 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                 Territorio ámbar <small>4 filas</small>
               </div>
               <GameCanvas session={session} zoom={zoom} />
+              {session.traitInput() && (
+                <CombatTraitRail input={session.traitInput()!} state={combatFrame?.state} />
+              )}
               <div className="territory south">
                 <span />
                 Territorio jade <small>4 filas</small>
@@ -347,16 +357,19 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                               ? 'Eliminada'
                               : liveUnit?.statuses.some((s) => s.kind === 'stun')
                                 ? 'Aturdida'
-                                : liveUnit?.action?.kind === 'cast'
-                                  ? 'Lanzando'
-                                  : liveUnit?.statuses.some((s) => s.kind === 'shield')
-                                    ? 'Con escudo'
-                                    : 'Disponible'}
+                                : liveUnit?.action?.kind === 'jump'
+                                  ? 'Saltando'
+                                  : liveUnit?.action?.kind === 'cast'
+                                    ? 'Lanzando'
+                                    : liveUnit?.statuses.some((s) => s.kind === 'shield')
+                                      ? 'Con escudo'
+                                      : 'Disponible'}
                           </dd>
                         </div>
                       </>
                     )}
                   </dl>
+                  <MechanicsStatus value={mechanicsReadout(liveUnit, combatFrame?.state)} />
                   <p className="pending-note">
                     {ability?.name ?? 'Sin habilidad'}
                     {ability?.passive && ` · ${ability.passive.name}`}
@@ -498,7 +511,21 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                   e.type === 'status_expire' ||
                   e.type === 'damage' ||
                   e.type === 'heal' ||
-                  e.type === 'shield_apply',
+                  e.type === 'shield_apply' ||
+                  [
+                    'stack_gain',
+                    'stack_consume',
+                    'stack_threshold',
+                    'attack_confirmed',
+                    'kill_attributed',
+                    'ability_empowered',
+                    'ability_repeat',
+                    'jump_start',
+                    'jump_end',
+                    'chain_attack',
+                    'periodic_apply',
+                    'mechanics_limit',
+                  ].includes(e.type),
               )
               .slice(-24)
               .map((e) => (
