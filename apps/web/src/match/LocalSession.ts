@@ -1,3 +1,4 @@
+import { effectiveStat, formationProfiles, shieldTotal, overtimeModifiers } from '@tft/game-core';
 import {
   applyMatchAction,
   commandFor,
@@ -124,15 +125,44 @@ export class LocalSession implements BoardPort {
     const rival = opponentUnits(this.match).find((u) => u.id === this.selectedId);
     const unit = owned ?? rival;
     if (!unit) return null;
-    const live = this.combatFrame()?.state.units.find((u) => u.id === unit.id);
+    const frame = this.combatFrame();
+    const live = frame?.state.units.find((u) => u.id === unit.id);
     const stars = this.starsFor(unit.id);
-    const profile = live?.profile ?? scaledProfile(unit.definitionId, stars, this.match.config);
+    const baseProfile =
+      live?.profile ??
+      formationProfiles(this.match).find((u) => u.id === unit.id)?.profile ??
+      scaledProfile(unit.definitionId, stars, this.match.config);
+    const profile = live
+      ? {
+          ...baseProfile,
+          stats: {
+            ...baseProfile.stats,
+            ...Object.fromEntries(
+              (['maxHp', 'attack', 'armor', 'magicResist', 'attackSpeedMilli'] as const).map(
+                (stat) => [
+                  stat,
+                  stat === 'attackSpeedMilli' && frame
+                    ? Math.floor(
+                        (effectiveStat(live, stat) *
+                          overtimeModifiers(frame.state.tick, this.playback?.replay.input.overtime)
+                            .attackSpeedMilli) /
+                          1000,
+                      )
+                    : effectiveStat(live, stat),
+                ],
+              ),
+            ),
+          },
+        }
+      : baseProfile;
     return {
       id: unit.id,
       definitionId: unit.definitionId,
       stars,
       owned,
       profile,
+      shield: live ? shieldTotal(live) : 0,
+      statuses: live?.statuses ?? [],
       hp: live?.hp ?? profile.stats.maxHp,
       mana: live?.mana ?? profile.stats.startingMana,
       side: owned ? ('south' as const) : ('north' as const),

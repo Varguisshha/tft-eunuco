@@ -1,9 +1,11 @@
+import { TraitRail } from './hud/TraitRail';
 import { useRef, useState, useSyncExternalStore } from 'react';
 import { deployedCount, interestFor, levelRule, type LocalMatchCoordinator } from '@tft/game-core';
 import { GameCanvas } from '../game/GameCanvas';
 import { PhaseClock } from './PhaseClock';
 import './gameHud.css';
 import './hud/recruitment.css';
+import './hud/traits.css';
 import { GameButton } from './hud/GameButton';
 import { GameIcon } from './hud/GameIcon';
 import { LocalSession } from './LocalSession';
@@ -145,6 +147,7 @@ export function LocalGame({
           <button className="button journal-button" onClick={() => journal.current?.showModal()}>
             Registro de partida
           </button>
+          <TraitRail state={state} />
         </aside>
         <section className="local-board" aria-label="Tablero de partida local">
           <div className="local-board-title">

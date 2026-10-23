@@ -1,3 +1,9 @@
+## Estado vigente — F0-P6A implementado
+
+Contrato universal activo/pasivo/mixto, sinergias por composición, triggers deterministas, Volumen Sucio, Hortaleza/Llama de Pádel, iconos originales, lateral y ficha conectados. Catálogos antiguos preservados; diagnósticos separados; documentación de ampliación disponible. Ver [informe](F0_P6A_REPORT.md) y [validación](VALIDATION.md).
+
+**F0-P6B no iniciado.** Pendientes: balance definitivo, siguientes personajes autorizados, animación propia de Press de banca y futuras extensiones de efectos. Red, objetos y aumentos siguen fuera de alcance. Los registros inferiores son históricos; sus menciones de F0-P6 no iniciado corresponden al cierre de cada hito.
+
 ## F0-P5.3 — tienda y controles implementados
 
 Dock de cinco cartas con sinergias arriba, retratos y precio inferior, marcos originales por coste y controles Game HUD reutilizables. Referencia TFT PC y validación visual de escritorio, sinergias aún provisionales. Véase [informe](F0_P53_REPORT.md). F0-P6 no iniciado.

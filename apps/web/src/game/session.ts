@@ -13,6 +13,8 @@ import {
   UNIT_DEFINITIONS,
   createCombatInput,
   createCombatScenario,
+  createAbilityScenario,
+  type AbilityScenario,
   type CombatScenario,
   COMBAT_PROFILES,
   ECONOMY_CONFIG,
@@ -166,6 +168,32 @@ export class BoardSession {
             ? 'ambos sobreviven hasta 450.'
             : 'eliminación simultánea.'),
     });
+  }
+  loadAbilityScenario(scenario: AbilityScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createAbilityScenario(scenario, this.snapshot.combat.seed);
+    this.visualStars.set(
+      'diagnostic-dolea',
+      scenario === 'ability-3' ? 3 : scenario === 'ability-2' ? 2 : 1,
+    );
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: 'diagnostic-dolea',
+      paletteId: null,
+      invalid: false,
+      message: `Diagnóstico P6A: ${scenario}. Membresías ficticias solo en este escenario.`,
+    });
+  }
+  diagnosticProfile(id: string) {
+    return this.scenarioInput?.units.find((u) => u.id === id)?.profile;
   }
   startCombat(repeat = false): void {
     try {

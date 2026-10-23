@@ -1,12 +1,20 @@
 # Diseño de juego v0.1
 
+## Vigente F0-P6A
+
+DOLEA incorpora **Volumen Sucio**, una sola habilidad mixta: Volumen eterno otorga escudo12 % de su vida máxima efectiva en el primer cruce bajo50 %; Press de banca consume70maná, inflige100/180/324daño físico adyacente y concede20armadura4s, renovable sin acumular. Solo vivo, una pasiva por combate, Overtime y estrellas respetados.
+
+Sus sinergias reales son **Hortaleza** (2:+100vida;3:+220vida/+15armadura) y **Llama de Pádel** (2:+12 %AS;3:+25 %AS). Cuentan personajes distintos desplegados, no copias, estrellas o banquillo; se aplica el mayor umbral. Los valores son provisionales. DOLEA es el único miembro permanente; activaciones2/3 se prueban con membresías sintéticas fuera del catálogo.
+
+Sinergias en columna izquierda con iconos originales y tooltip accesible; tienda conserva composición P5.3; inspector cerrado por defecto con habilidad principal única y valores efectivos. Habilidades puramente pasivas no presentan barra de maná. No se modifican economía, pool, fusionado, reloj, arena ni sprites. Véanse ABILITY_SYSTEM, TRAIT_SYSTEM y CHARACTER_DESIGN_CONTRACT.
+
 ## Confirmado por el encargo
 
 - Autobattler web original, desktop-first, pixel-art retro moderno.
 - Tablero hexagonal isométrico, 7 × 4 por jugador y 7 × 8 en el duelo combinado.
 - Futuras partidas inicialmente de 4 jugadores.
 - Costes de unidad 1, 2 y 3; una sinergia habitual y segunda opcional.
-- Habilidad activa y pasiva por personaje.
+- Una habilidad principal por personaje: activa, pasiva o mixta (decisión vigente F0-P6A).
 - Combate automático animado en directo: reposo, desplazamiento, ataque, habilidad y muerte.
 - Servidor autoritativo futuro; simulación determinista y tick de 100 ms.
 - Arte definitivo a cargo de otro colaborador; esta fase solo usa placeholders originales generados por código.

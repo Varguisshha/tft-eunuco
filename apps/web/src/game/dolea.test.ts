@@ -11,12 +11,12 @@ import { LocalSession, restoreMatch } from '../match/LocalSession';
 import { BoardSession } from './session';
 import { CombatPlayback } from './combatPlayback';
 import { unitAnimationCue } from './animationPlayback';
-it('adds a neutral provisional cost-2 melee tank without removing reference units', () => {
+it('adds real memberships to the cost-2 melee tank while preserving the historical profile', () => {
   expect(CHARACTER_ROSTER).toHaveLength(5);
   expect(CHARACTER_ROSTER.find((d) => d.id === 'dolea')).toMatchObject({
     cost: 2,
     role: 'vanguard',
-    synergies: ['prototype-neutral'],
+    synergies: ['hortaleza', 'llama-de-padel'],
   });
   expect(COMBAT_PROFILES.dolea!.stats.range).toBe(1);
   expect(COMBAT_PROFILES.dolea!.ability?.id).toBe('test-bastion');

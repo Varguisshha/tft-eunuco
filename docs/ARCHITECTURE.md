@@ -1,3 +1,13 @@
+## F0-P6A — habilidades y sinergias deterministas
+
+Shared valida ChampionAbility v1 (activa/pasiva/mixta), desencadenantes, condiciones, efectos y TraitDefinition v1. Game-data conserva perfiles históricos y publica catálogo `f0p6a`/reglas `f0p6a-1`. Protocolo v3 admite ambas reglas sin reinterpretar guardados. Los perfiles modernos no mezclan campos de habilidad históricos.
+
+Pipeline lógico: formación → perfiles escalados por estrellas → `prepareTraitProfiles` sobre copia → vida y estado de pasivas nuevo → simulación por ticks → eventos/snapshots → reproducción. `analyzeTraits`/`matchTraits` son puros y cuentan definiciones desplegadas distintas. El motor procesa pasivas después de los lotes de efectos comprometidos, con límites de activación y cooldown. Las activas consumen maná al inicio y resuelven en tick lógico.
+
+Presentación: `TraitRail` muestra composición calculada por core; `ContentIcon` resuelve archivos visuales; `UnitInspector` representa una identidad con componentes; `LocalSession.inspection` entrega estadísticas efectivas, incluidos estados y velocidad de Overtime. Phaser solo lee eventos y solicita `ability` al resolver de animaciones. Diagnósticos de Arena están fuera del catálogo/pool. No se cambian geometría de Mar de Cristal, temporizadores ni fórmulas económicas.
+
+Contratos y ampliación: [ABILITY_SYSTEM](ABILITY_SYSTEM.md), [TRAIT_SYSTEM](TRAIT_SYSTEM.md), [CHARACTER_DESIGN_CONTRACT](CHARACTER_DESIGN_CONTRACT.md). Evidencia y límites: [informe P6A](F0_P6A_REPORT.md).
+
 ## F0-P5.2 — arenas visuales configurables
 
 `apps/web/src/arenas` incorpora contrato v1, geometría proyectiva, cámara y calibración. LocalGame pasa Mar de Cristal a GameCanvas; BoardScene proyecta centros/polígonos y usa la inversa para input. Imagen y suelo comparten cámara uniforme. CombatRenderer interpola en plano lógico antes de proyectar; PhaserUnitVisual ancla pies y escala uniformemente por profundidad. Arena técnica conserva su proyección afín y terreno. Sin cambios de core, economía, reloj, guardados ni sprites. Detalle en [ARENA_SYSTEM.md](ARENA_SYSTEM.md) y [calibración](MAR_DE_CRISTAL_CALIBRATION.md).

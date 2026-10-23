@@ -1,15 +1,14 @@
+import { ContentIcon } from './hud/ContentIcon';
 import { useMemo, useState } from 'react';
 import { levelRule } from '@tft/game-core';
-import { getUnitDefinition } from '@tft/game-data';
+import { getTraitDefinition, matchCatalog } from '@tft/game-data';
 import { PixelUnit } from '../game/PixelUnit';
 import type { LocalSession } from './LocalSession';
 import { synergyLabel } from './uiLabels';
 import { purchaseAvailability } from './purchaseAvailability';
 import { GameButton } from './hud/GameButton';
 import { GameFrame } from './hud/GameFrame';
-import { GameIcon, type GameIconName } from './hud/GameIcon';
-const traitIcon = (id: string): GameIconName =>
-  id === 'test-alloy' ? 'alloy' : id === 'test-pulse' ? 'pulse' : 'neutral';
+import { GameIcon } from './hud/GameIcon';
 export function Shop({ session }: { session: LocalSession }) {
   const state = session.getMatch(),
     preparing = session.editable,
@@ -60,7 +59,7 @@ export function Shop({ session }: { session: LocalSession }) {
       </div>
       <div className="shop-offers">
         {state.shop.map((offer, i) => {
-          const d = getUnitDefinition(offer?.definitionId ?? '');
+          const d = matchCatalog(state.config).find((d) => d.id === offer?.definitionId);
           const error = !preparing ? 'Tienda cerrada' : purchaseErrors[i];
           const status = !d
             ? 'empty'
@@ -95,11 +94,13 @@ export function Shop({ session }: { session: LocalSession }) {
                   <span className="offer-traits" id={`offer-detail-${i}`}>
                     {d.synergies.slice(0, 2).map((id) => (
                       <span className="offer-trait" key={id}>
-                        <GameIcon name={traitIcon(id)} />
+                        <ContentIcon id={getTraitDefinition(id)?.icon ?? id} />
                         <span>{synergyLabel(id)}</span>
                       </span>
                     ))}
-                    <span className="trait-provisional">Sinergias provisionales</span>
+                    {!d.synergies.some((id) => getTraitDefinition(id)) && (
+                      <span className="trait-provisional">Sinergias provisionales</span>
+                    )}
                   </span>
                   {state.shopLocked && (
                     <span className="offer-lock" aria-label="Oferta reservada">

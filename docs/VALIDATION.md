@@ -1,3 +1,15 @@
+# Validación F0-P6A — 23 de octubre de 2026
+
+Base previa: 273 pruebas/26 archivos, tipos/lint/build correctos. Preservación específica `335df32`. Resultado de fase y comandos finales en [F0_P6A_REPORT](F0_P6A_REPORT.md). Nuevas suites de contratos, habilidades, pasivas, sinergias y presentación/persistencia: 41 casos; **314 pruebas en29archivos pasan**, con tipos/lint/build y formato correctos. Diff sin errores de espacios. Aviso de tamaño del chunk de Phaser conservado.
+
+Navegador real IAB: DOLEA comprado y desplegado en Mar de Cristal; ambos contadores1/2; tooltip clic/foco/Escape; una habilidad mixta con retrato e iconos. Cinco viewports1920×1080,1440×900,1366×768,1280×720,2560×1440: ancho/alto de documento iguales al viewport, sin scroll de página. Inspector puede desplazarse internamente. Móvil auxiliar390×844 tiene altura1023, sin overflow horizontal; no es objetivo de paridad desktop.
+
+Arena: lanzamiento en tick53/resolución56, maná consumido y armadura45→65→45 en tick96; pasiva tick75 con vida281/600 y escudo72; Overtime final con escudo54. Diagnóstico2:700HP/45armadura/0,896ataques/s; diagnóstico3:820HP/60armadura/1ataque/s y eventos `trait_activate` de ambos rasgos. Evoluciones2★/3★:1080/1944vida; resolver Ability→Attack2★ para ambas, sin modificar sprites. Escenarios1/2/3 y Overtime tienen además pruebas deterministas y serialización.
+
+Guardado/reanudación automática: pruebas para catálogo ausente, f0p4.1 y f0p6a comparan estado y traza restaurados y continúan hasta ronda2 con igualdad. Recuperación de prueba local también verificada mediante navegador. Fusión/pool y reloj cubiertos por la suite conservada; no se repitió manualmente una fusión de nueve copias en navegador. No se afirma validación multinavegador ni auditoría WCAG completa.
+
+Revisión visual independiente: corrigió precedencia de `traits.css`; confirmación final **SHIP** sobre inspector1280/390/1920 y tooltip actualizado. Documenter registra extensión del sistema en el brief local, sin cambiar identidad global. Evidencia en `artifacts/p6a/`; capturas `*-accepted.png` son las finales del HUD. Capturas tempranas con badge P5.3 son históricas y no constituyen evidencia final P6A.
+
 ## Ajuste posterior: arena completa y banquillo superpuesto
 
 El campo recupera los 68/86px de la antigua fila de reservas. Banquillo flotante compacto, inspector y mensajes separados; cámara contain al100% y límites de casillas protegidos incluso al acercar. 273 tests, tipos, lint y build correctos. Diez casos de cámara (cinco tamaños y DPR1/2) verifican ahora también cuatro bordes originales a85/100% y336 vértices fuera del área del banquillo en los tres niveles de zoom. Capturas finales reales en1920×1080,1440×900,1280×720 y móvil auxiliar en `artifacts/arena-overlay/`.

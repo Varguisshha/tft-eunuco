@@ -12,3 +12,6 @@ export * from './combat/overtime';
 export * from './match/roundDamage';
 export * from './match/clock';
 export * from './match/coordinator';
+
+export * from './combat/traits';
+export * from './combat/abilities';

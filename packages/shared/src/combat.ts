@@ -1,5 +1,14 @@
 import { z } from 'zod';
 import {
+  EffectSchema,
+  ChampionAbilitySchema,
+  ModifiableStatSchema,
+  TraitDefinitionSchema,
+  DamageTypeSchema,
+} from './abilities';
+export { EffectSchema, DamageTypeSchema } from './abilities';
+export type { CombatEffect, DamageType } from './abilities';
+import {
   BoardStateSchema,
   CombatSeedSchema,
   HexCoordSchema,
@@ -8,6 +17,8 @@ import {
 } from './board-contracts';
 export const COMBAT_PROTOCOL = 3 as const;
 export const COMBAT_RULES = 'f0p3.1-1' as const;
+export const CURRENT_COMBAT_RULES = 'f0p6a-1' as const;
+const RulesSchema = z.enum([COMBAT_RULES, CURRENT_COMBAT_RULES]);
 export const MAX_COMBAT_TICKS = 450;
 export const OVERTIME_START_TICK = 300;
 const increase = z
@@ -33,8 +44,6 @@ const id = z.string().min(1).max(80);
 const natural = z.number().int().min(0).max(Number.MAX_SAFE_INTEGER);
 const amount = z.number().int().min(0).max(1_000_000);
 const duration = z.number().int().min(1).max(450);
-export const DamageTypeSchema = z.enum(['physical', 'magic', 'true']);
-export type DamageType = z.infer<typeof DamageTypeSchema>;
 export const CombatStatsSchema = z
   .strictObject({
     maxHp: amount.min(1),
@@ -43,36 +52,13 @@ export const CombatStatsSchema = z
     magicResist: z.number().int().min(-1_000_000).max(1_000_000),
     attackSpeedMilli: z.number().int().min(1).max(5000),
     range: z.number().int().min(1).max(14),
-    maxMana: amount.min(1),
+    maxMana: amount,
     startingMana: amount,
     moveTicks: duration.max(20),
     attackWindupTicks: duration.max(20),
   })
   .refine((s) => s.startingMana <= s.maxMana, 'Starting mana exceeds capacity');
 export type CombatStats = z.infer<typeof CombatStatsSchema>;
-const effectBase = {
-  target: z.enum(['self', 'target', 'allies', 'enemies']),
-  radius: z.number().int().min(0).max(14),
-};
-export const EffectSchema = z.discriminatedUnion('kind', [
-  z.strictObject({
-    ...effectBase,
-    kind: z.literal('damage'),
-    amount,
-    damageType: DamageTypeSchema,
-  }),
-  z.strictObject({ ...effectBase, kind: z.literal('heal'), amount }),
-  z.strictObject({ ...effectBase, kind: z.literal('shield'), amount, duration }),
-  z.strictObject({
-    ...effectBase,
-    kind: z.literal('modifier'),
-    stat: z.enum(['attack', 'armor', 'magicResist', 'attackSpeedMilli']),
-    amount: z.number().int().min(-10000).max(10000),
-    duration,
-  }),
-  z.strictObject({ ...effectBase, kind: z.literal('stun'), duration }),
-]);
-export type CombatEffect = z.infer<typeof EffectSchema>;
 export const AbilitySchema = z.strictObject({
   id,
   name: id,
@@ -91,24 +77,67 @@ export const CombatProfileSchema = z
     stats: CombatStatsSchema,
     ability: AbilitySchema.nullable(),
     passive: PassiveSchema.nullable(),
+    championAbility: ChampionAbilitySchema.optional(),
+    traits: z
+      .array(id)
+      .max(2)
+      .refine((ids) => new Set(ids).size === ids.length, 'Duplicate membership')
+      .optional(),
   })
   .refine(
     (p) => !p.ability || p.ability.manaCost <= p.stats.maxMana,
     'Ability cost exceeds capacity',
+  )
+  .refine(
+    (p) =>
+      !p.championAbility ||
+      (!p.ability &&
+        !p.passive &&
+        p.stats.maxMana === (p.championAbility.active?.manaCost ?? 0) &&
+        p.stats.startingMana === (p.championAbility.active?.initialMana ?? 0)),
+    'Principal ability owns mana and excludes legacy components',
   );
 export type CombatProfile = z.infer<typeof CombatProfileSchema>;
 export const CombatantSpecSchema = UnitInstanceSchema.extend({ profile: CombatProfileSchema });
 export const CombatInputSchema = z
   .strictObject({
     protocolVersion: z.literal(COMBAT_PROTOCOL),
-    rulesVersion: z.literal(COMBAT_RULES),
+    rulesVersion: RulesSchema,
     seed: CombatSeedSchema,
     maxTicks: duration.default(MAX_COMBAT_TICKS),
     overtime: OvertimeConfigSchema.default(DEFAULT_OVERTIME),
     units: z.array(CombatantSpecSchema).max(56),
+    traits: z.array(TraitDefinitionSchema).max(100).optional(),
     obstacles: z.array(HexCoordSchema).max(56).default([]),
   })
   .superRefine((input, ctx) => {
+    if (
+      input.rulesVersion === COMBAT_RULES &&
+      (input.traits || input.units.some((u) => u.profile.championAbility || u.profile.traits))
+    )
+      ctx.addIssue({ code: 'custom', message: 'Extended abilities require f0p6a rules' });
+    if (new Set(input.traits?.map((t) => t.id)).size !== (input.traits?.length ?? 0))
+      ctx.addIssue({ code: 'custom', message: 'Duplicate traits' });
+    for (const u of input.units)
+      if (u.profile.traits?.some((id) => !input.traits?.some((t) => t.id === id)))
+        ctx.addIssue({ code: 'custom', message: 'Unknown trait membership' });
+    if (
+      input.rulesVersion === COMBAT_RULES &&
+      input.units.some((u) =>
+        [u.profile.ability, u.profile.passive].some((a) =>
+          a?.effects.some(
+            (e) =>
+              e.center ||
+              e.scaling ||
+              e.starScaling ||
+              e.stacking ||
+              e.key ||
+              (e.kind === 'modifier' && e.stat === 'maxHp'),
+          ),
+        ),
+      )
+    )
+      ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
     const board = BoardStateSchema.safeParse({
       units: input.units.map(({ id, definitionId, owner, position }) => ({
         id,
@@ -133,7 +162,8 @@ export const CombatStatusSchema = z.strictObject({
   id,
   sourceId: id,
   kind: z.enum(['shield', 'modifier', 'stun']),
-  stat: z.enum(['attack', 'armor', 'magicResist', 'attackSpeedMilli']).nullable(),
+  stat: ModifiableStatSchema.nullable(),
+  key: id.optional(),
   amount: z.number().int().min(-1_000_000).max(1_000_000),
   expiresTick: natural,
 });
@@ -164,6 +194,16 @@ export const CombatActionSchema = z.discriminatedUnion('kind', [
 ]);
 export type CombatAction = z.infer<typeof CombatActionSchema>;
 export const CombatUnitSchema = CombatantSpecSchema.extend({
+  passiveState: z
+    .record(
+      id,
+      z.strictObject({
+        count: natural,
+        seen: natural,
+        lastTick: z.number().int().min(-450).max(450),
+      }),
+    )
+    .optional(),
   hp: amount,
   mana: amount,
   attackCharge: z.number().int().min(0).max(29999),
@@ -201,7 +241,7 @@ export const CombatResultSchema = z
 export type CombatResult = z.infer<typeof CombatResultSchema>;
 export const CombatStateSchema = z.strictObject({
   protocolVersion: z.literal(COMBAT_PROTOCOL),
-  rulesVersion: z.literal(COMBAT_RULES),
+  rulesVersion: RulesSchema,
   tick: natural,
   rngState: CombatSeedSchema,
   effectCounter: natural,
@@ -218,7 +258,7 @@ export const CombatEventV3Schema = z
     event(
       'combat_start',
       z.strictObject({
-        rulesVersion: z.literal(COMBAT_RULES),
+        rulesVersion: RulesSchema,
         seed: CombatSeedSchema,
         maxTicks: duration,
         overtime: OvertimeConfigSchema,
@@ -229,7 +269,7 @@ export const CombatEventV3Schema = z
     event(
       'overtime_start',
       z.strictObject({
-        rulesVersion: z.literal(COMBAT_RULES),
+        rulesVersion: RulesSchema,
         startTick: z.literal(OVERTIME_START_TICK),
         endTick: z.literal(MAX_COMBAT_TICKS),
         modifiers: OvertimeConfigSchema,
@@ -263,6 +303,20 @@ export const CombatEventV3Schema = z
     event(
       'shield_apply',
       z.strictObject({ unitId: id, status: CombatStatusSchema, shieldAfter: amount }),
+    ),
+    event(
+      'passive_trigger',
+      z.strictObject({ unitId: id, abilityId: id, ruleId: id, trigger: id, activation: natural }),
+    ),
+    event(
+      'trait_activate',
+      z.strictObject({
+        side: SideSchema,
+        traitId: id,
+        count: natural,
+        threshold: natural,
+        unitIds: z.array(id),
+      }),
     ),
     event('mana_gain', z.strictObject({ unitId: id, amount, manaAfter: amount })),
     event(
@@ -310,7 +364,7 @@ export type CombatEventV3 = z.infer<typeof CombatEventV3Schema>;
 export const CombatBatchSchema = z
   .strictObject({
     protocolVersion: z.literal(COMBAT_PROTOCOL),
-    rulesVersion: z.literal(COMBAT_RULES),
+    rulesVersion: RulesSchema,
     fromTick: natural,
     toTick: natural,
     events: z.array(CombatEventV3Schema),

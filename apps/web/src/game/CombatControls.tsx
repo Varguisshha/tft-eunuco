@@ -1,3 +1,4 @@
+import type { AbilityScenario } from '@tft/game-data';
 import { useState } from 'react';
 import type { BoardSession, SessionSnapshot } from './session';
 export function CombatControls({
@@ -62,6 +63,25 @@ export function CombatControls({
             <option value="overtime">Victoria en overtime</option>
             <option value="timeout">Tiempo agotado · 450</option>
             <option value="mutual">Eliminación mutua</option>
+          </select>
+        </label>
+        <label className="arena-scenario">
+          Sinergias y habilidades
+          <select
+            aria-label="Diagnóstico P6A"
+            value=""
+            disabled={!preparing}
+            onChange={(e) => {
+              if (e.target.value) session.loadAbilityScenario(e.target.value as AbilityScenario);
+            }}
+          >
+            <option value="">Cargar diagnóstico…</option>
+            <option value="ability-1">Volumen Sucio · 1★</option>
+            <option value="ability-2">Volumen Sucio · 2★</option>
+            <option value="ability-3">Volumen Sucio · 3★</option>
+            <option value="traits-2">2 miembros · diagnóstico</option>
+            <option value="traits-3">3 miembros · diagnóstico</option>
+            <option value="passive-overtime">Pasiva durante overtime</option>
           </select>
         </label>
         {preparing ? (

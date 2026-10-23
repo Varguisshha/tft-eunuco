@@ -1,8 +1,9 @@
+import { DOLEA_ABILITY, TRAIT_DEFINITIONS } from './abilities';
 import {
   CombatInputSchema,
   CombatProfileSchema,
   COMBAT_PROTOCOL,
-  COMBAT_RULES,
+  CURRENT_COMBAT_RULES,
   MAX_COMBAT_TICKS,
   type BoardState,
   type CombatInput,
@@ -118,15 +119,27 @@ export const COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
     },
   }),
 };
+/** New rule catalog; historical profiles above are immutable replay inputs. */
+export const CURRENT_COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
+  ...COMBAT_PROFILES,
+  dolea: CombatProfileSchema.parse({
+    stats: { ...COMBAT_PROFILES.dolea!.stats, maxMana: 70, startingMana: 0 },
+    ability: null,
+    passive: null,
+    championAbility: DOLEA_ABILITY,
+    traits: ['hortaleza', 'llama-de-padel'],
+  }),
+};
 export function createCombatInput(board: BoardState, seed: number): CombatInput {
   return CombatInputSchema.parse({
     protocolVersion: COMBAT_PROTOCOL,
-    rulesVersion: COMBAT_RULES,
+    rulesVersion: CURRENT_COMBAT_RULES,
+    traits: TRAIT_DEFINITIONS,
     seed,
     maxTicks: MAX_COMBAT_TICKS,
     obstacles: [],
     units: board.units.map((u) => {
-      const profile = COMBAT_PROFILES[u.definitionId];
+      const profile = CURRENT_COMBAT_PROFILES[u.definitionId];
       if (!profile) throw new Error(`Unknown combat profile: ${u.definitionId}`);
       return { ...u, profile };
     }),

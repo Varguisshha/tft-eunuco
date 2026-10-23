@@ -1,6 +1,11 @@
 import { useState, useSyncExternalStore } from 'react';
-import { axialToOffset, offsetToAxial } from '@tft/game-core';
-import { getUnitDefinition, CHARACTER_ROSTER, ECONOMY_CONFIG } from '@tft/game-data';
+import { axialToOffset, offsetToAxial, effectiveStat, shieldTotal } from '@tft/game-core';
+import {
+  getUnitDefinition,
+  CHARACTER_ROSTER,
+  CURRENT_ECONOMY_CONFIG,
+  abilityPresentation,
+} from '@tft/game-data';
 import { scaledProfile } from '@tft/game-core';
 import { SpritePreview } from './game/SpritePreview';
 import { CombatControls } from './game/CombatControls';
@@ -44,9 +49,11 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
   const definition = getUnitDefinition(selected?.definitionId ?? state.paletteId ?? '');
   const profile =
     liveUnit?.profile ??
+    session.diagnosticProfile(selected?.id ?? '') ??
     (definition
-      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), ECONOMY_CONFIG)
+      ? scaledProfile(definition.id, session.starsFor(selected?.id ?? ''), CURRENT_ECONOMY_CONFIG)
       : undefined);
+  const ability = profile ? abilityPresentation(profile) : null;
   const activeCoord = state.hover ?? selected?.position ?? state.cursor;
   const offset = axialToOffset(activeCoord);
   const friendlyCount = combatFrame
@@ -264,6 +271,18 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                           : 'Sin desplegar'}
                       </dd>
                     </div>
+                    {liveUnit && (
+                      <>
+                        <div>
+                          <dt>Armadura efectiva</dt>
+                          <dd>{effectiveStat(liveUnit, 'armor')}</dd>
+                        </div>
+                        <div>
+                          <dt>Escudo</dt>
+                          <dd>{shieldTotal(liveUnit)}</dd>
+                        </div>
+                      </>
+                    )}
                     {profile && (
                       <>
                         <div>
@@ -310,8 +329,8 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                     )}
                   </dl>
                   <p className="pending-note">
-                    {profile?.ability?.name ?? 'Sin habilidad'} ·{' '}
-                    {profile?.passive ? 'Pasiva: blindaje inicial' : 'Sin pasiva en este perfil'}
+                    {ability?.name ?? 'Sin habilidad'}
+                    {ability?.passive && ` · ${ability.passive.name}`}
                   </p>
                 </>
               ) : (
@@ -431,6 +450,28 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
         )}
         <SpritePreview />
       </main>
+      {combatFrame && (
+        <details className="ability-diagnostics">
+          <summary>Eventos de habilidades y sinergias</summary>
+          <ol>
+            {combatFrame.recentEvents
+              .filter(
+                (e) =>
+                  e.type === 'passive_trigger' ||
+                  e.type === 'ability_cast' ||
+                  e.type === 'trait_activate' ||
+                  e.type === 'status_apply' ||
+                  e.type === 'shield_apply',
+              )
+              .slice(-24)
+              .map((e) => (
+                <li key={`${e.tick}-${e.order}`}>
+                  Tick {e.tick} · {e.type} · {JSON.stringify(e.payload)}
+                </li>
+              ))}
+          </ol>
+        </details>
+      )}
     </div>
   );
 }

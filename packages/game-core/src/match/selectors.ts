@@ -1,3 +1,6 @@
+import { DEFAULT_OVERTIME } from '@tft/shared';
+import { TRAIT_DEFINITIONS } from '@tft/game-data';
+import { analyzeTraits, prepareTraitProfiles } from '../combat/traits';
 import type {
   MatchState,
   OwnedUnit,
@@ -5,7 +8,7 @@ import type {
   EconomyConfig,
   CombatProfile,
 } from '@tft/shared';
-import { COMBAT_PROFILES, getUnitDefinition } from '@tft/game-data';
+import { COMBAT_PROFILES, CURRENT_COMBAT_PROFILES, getUnitDefinition } from '@tft/game-data';
 import { sameHex } from '../hex';
 export const definition = (id: string) => {
   const d = getUnitDefinition(id);
@@ -33,7 +36,9 @@ export function scaledProfile(
   stars: OwnedUnit['stars'],
   config: EconomyConfig,
 ): CombatProfile {
-  const source = COMBAT_PROFILES[definitionId];
+  const source = (config.catalog === 'f0p6a' ? CURRENT_COMBAT_PROFILES : COMBAT_PROFILES)[
+    definitionId
+  ];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
   const scale = config.statScaleMilli[stars - 1]!;
@@ -44,5 +49,48 @@ export function scaledProfile(
     for (const effect of ability?.effects ?? [])
       if (effect.kind === 'damage' || effect.kind === 'heal' || effect.kind === 'shield')
         effect.amount = amount(effect.amount);
+  const principal = profile.championAbility;
+  for (const effect of [
+    ...(principal?.active?.effects ?? []),
+    ...(principal?.passive?.rules.flatMap((r) => r.effects) ?? []),
+  ])
+    if ('amount' in effect && effect.starScaling === 'stat') effect.amount = amount(effect.amount);
   return profile;
+}
+
+/** Same core computation feeds preparation HUD and combat initialization. */
+export function matchTraits(state: MatchState) {
+  return analyzeTraits(
+    state.units.map((u) => ({
+      definitionId: u.definitionId,
+      deployed: u.location.kind === 'board',
+      traits: scaledProfile(u.definitionId, u.stars, state.config).traits ?? [],
+    })),
+    state.config.catalog === 'f0p6a' ? TRAIT_DEFINITIONS : [],
+  );
+}
+export function formationProfiles(state: MatchState) {
+  const units = state.units.flatMap((u) =>
+    u.location.kind === 'board'
+      ? [
+          {
+            id: u.id,
+            definitionId: u.definitionId,
+            owner: 'south' as const,
+            position: u.location.hex,
+            profile: scaledProfile(u.definitionId, u.stars, state.config),
+          },
+        ]
+      : [],
+  );
+  return prepareTraitProfiles({
+    protocolVersion: 3,
+    rulesVersion: state.config.catalog === 'f0p6a' ? 'f0p6a-1' : 'f0p3.1-1',
+    seed: 0,
+    maxTicks: 450,
+    overtime: DEFAULT_OVERTIME,
+    obstacles: [],
+    units,
+    ...(state.config.catalog === 'f0p6a' ? { traits: [...TRAIT_DEFINITIONS] } : {}),
+  }).units;
 }

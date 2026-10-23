@@ -1,3 +1,4 @@
+import { effectiveStat } from '@tft/game-core';
 import Phaser from 'phaser';
 import { TICK_MS, type CombatUnit } from '@tft/shared';
 import { axialToCartesian, type Point } from '@tft/game-core';
@@ -116,10 +117,11 @@ export class CombatRenderer {
       g.fillStyle(unit.owner === 'south' ? 0xb8d4a3 : 0xe2b47b).fillRect(
         x,
         y,
-        (46 * unit.hp) / unit.profile.stats.maxHp,
+        (46 * unit.hp) / effectiveStat(unit, 'maxHp'),
         4,
       );
-      g.fillStyle(0x78b6d1).fillRect(x, y + 6, (46 * unit.mana) / unit.profile.stats.maxMana, 3);
+      if (unit.profile.stats.maxMana > 0)
+        g.fillStyle(0x78b6d1).fillRect(x, y + 6, (46 * unit.mana) / unit.profile.stats.maxMana, 3);
       const shield = unit.statuses
         .filter((s) => s.kind === 'shield')
         .reduce((sum, s) => sum + s.amount, 0);
@@ -127,7 +129,7 @@ export class CombatRenderer {
         g.fillStyle(0xd8e7e7).fillRect(
           x,
           y + 10,
-          Math.min(46, (46 * shield) / unit.profile.stats.maxHp),
+          Math.min(46, (46 * shield) / effectiveStat(unit, 'maxHp')),
           2,
         );
         g.lineStyle(1, 0xb5dcdf, 0.65).strokeEllipse(p.x, p.y - 28, 54, 66);

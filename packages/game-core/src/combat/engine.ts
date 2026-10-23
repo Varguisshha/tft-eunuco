@@ -1,8 +1,9 @@
+import { prepareTraitProfiles } from './traits';
+import { activeAbility, abilityConditions } from './abilities';
 import {
   CombatInputSchema,
   CombatStateSchema,
   COMBAT_PROTOCOL,
-  COMBAT_RULES,
   MAX_COMBAT_TICKS,
   OVERTIME_START_TICK,
   type CombatInput,
@@ -13,6 +14,7 @@ import {
   type CombatReplay,
   type CombatResult,
   type DamageType,
+  type PassiveTrigger,
 } from '@tft/shared';
 import { overtimeModifiers, scaleCombatAmount } from './overtime';
 import { hexDistance } from '../hex';
@@ -38,19 +40,81 @@ export class CombatEngine {
   private state: CombatState;
   private events: CombatEventV3[] = [];
   private order = 0;
+  private triggers: {
+    unit: CombatUnit;
+    trigger: PassiveTrigger['kind'];
+    beforeHp?: number;
+    target?: CombatUnit;
+    key?: string;
+  }[] = [];
+  private flushPassives(): void {
+    while (this.triggers.length) {
+      const signal = this.triggers.shift()!;
+      const unit = signal.unit,
+        main = unit.profile.championAbility;
+      if (!isAlive(unit) || !main?.passive) continue;
+      const tasks: EffectTask[] = [];
+      for (const rule of main.passive.rules) {
+        if (rule.trigger.kind !== signal.trigger) continue;
+        const runtime = ((unit.passiveState ??= {})[rule.id] ??= {
+          count: 0,
+          seen: 0,
+          lastTick: -450,
+        });
+        runtime.seen++;
+        if (
+          runtime.count >= rule.maxActivations ||
+          runtime.lastTick === this.state.tick ||
+          this.state.tick - runtime.lastTick < rule.cooldownTicks
+        )
+          continue;
+        if (rule.trigger.kind === 'attack' && runtime.seen % rule.trigger.every !== 0) continue;
+        if (
+          rule.trigger.kind === 'effect_expired' &&
+          rule.trigger.key &&
+          rule.trigger.key !== signal.key
+        )
+          continue;
+        if (
+          rule.trigger.kind === 'hp_crossed' &&
+          !(
+            signal.beforeHp !== undefined &&
+            signal.beforeHp * 1000 >= effectiveStat(unit, 'maxHp') * rule.trigger.thresholdMilli &&
+            unit.hp * 1000 < effectiveStat(unit, 'maxHp') * rule.trigger.thresholdMilli
+          )
+        )
+          continue;
+        if (!abilityConditions(unit, this.state.units, rule.conditions)) continue;
+        runtime.count++;
+        runtime.lastTick = this.state.tick;
+        this.emit('passive_trigger', {
+          unitId: unit.id,
+          abilityId: main.id,
+          ruleId: rule.id,
+          trigger: signal.trigger,
+          activation: runtime.count,
+        });
+        for (const effect of rule.effects)
+          tasks.push(...this.effectTasks(unit, signal.target ?? unit, effect));
+      }
+      this.resolveEffects(tasks);
+    }
+  }
   constructor(input: CombatInput) {
     this.input = CombatInputSchema.parse(input);
     this.input.units.sort((a, b) => compareIds(a.id, b.id));
+    const prepared = prepareTraitProfiles(this.input);
     this.state = {
       protocolVersion: COMBAT_PROTOCOL,
-      rulesVersion: COMBAT_RULES,
+      rulesVersion: this.input.rulesVersion,
       tick: 0,
       rngState: this.input.seed,
       effectCounter: 0,
       projectiles: [],
       result: null,
-      units: this.input.units.map((u) => ({
+      units: prepared.units.map((u) => ({
         ...u,
+        ...(u.profile.championAbility ? { passiveState: {} } : {}),
         hp: u.profile.stats.maxHp,
         mana: u.profile.stats.startingMana,
         attackCharge: 10000,
@@ -61,18 +125,28 @@ export class CombatEngine {
       })),
     };
     this.emit('combat_start', {
-      rulesVersion: COMBAT_RULES,
+      rulesVersion: this.input.rulesVersion,
       seed: this.input.seed,
       maxTicks: this.input.maxTicks,
       overtime: this.input.overtime,
       units: this.snapshot().units,
       obstacles: this.input.obstacles,
     });
+    for (const activation of prepared.activations) this.emit('trait_activate', activation);
     const tasks: EffectTask[] = [];
+    for (const { unitId, effect } of prepared.effects) {
+      const u = this.getUnit(unitId)!;
+      tasks.push(...this.effectTasks(u, u, effect));
+    }
     for (const u of this.state.units)
       for (const effect of u.profile.passive?.effects ?? [])
         tasks.push(...this.effectTasks(u, u, effect));
     this.resolveEffects(tasks);
+    if (this.state.tick === 0)
+      for (const unit of this.state.units) this.triggers.push({ unit, trigger: 'combat_start' });
+    this.flushPassives();
+    this.settleDeaths();
+    this.flushPassives();
     this.settleDeaths();
     this.checkEnd();
   }
@@ -106,6 +180,31 @@ export class CombatEngine {
     this.emit('action_cancel', { unitId: unit.id, action: unit.action.kind, reason });
     unit.action = null;
   }
+  private beginCast(
+    unit: CombatUnit,
+    target: CombatUnit,
+    ability: NonNullable<ReturnType<typeof activeAbility>>,
+  ): void {
+    unit.mana -= ability.manaCost;
+    this.triggers.push({ unit, trigger: 'ability_cast', target });
+    const endTick = this.state.tick + ability.castTicks;
+    unit.action = {
+      kind: 'cast',
+      startTick: this.state.tick,
+      endTick,
+      targetId: target.id,
+      abilityId: ability.id,
+    };
+    this.emit('ability_cast', {
+      unitId: unit.id,
+      targetId: target.id,
+      abilityId: ability.id,
+      stage: 'start',
+      endTick,
+      manaAfter: unit.mana,
+      center: ability.targeting === 'current_enemy' ? target.position : unit.position,
+    });
+  }
   private gainMana(unit: CombatUnit, amount: number): void {
     if (!isAlive(unit)) return;
     const gained = Math.min(amount, unit.profile.stats.maxMana - unit.mana);
@@ -126,7 +225,10 @@ export class CombatEngine {
                   ? u.owner === source.owner &&
                     hexDistance(u.position, source.position) <= effect.radius
                   : u.owner !== source.owner &&
-                    hexDistance(u.position, target.position) <= effect.radius),
+                    hexDistance(
+                      u.position,
+                      effect.center === 'source' ? source.position : target.position,
+                    ) <= effect.radius),
             );
     return targets
       .filter(isAlive)
@@ -142,16 +244,30 @@ export class CombatEngine {
       .sort((a, b) => priority(a.task) - priority(b.task) || a.index - b.index);
     for (const { task } of sorted) {
       const { source, target, effect, cause } = task;
+      const amountValue =
+        'amount' in effect
+          ? effect.amount +
+            (effect.scaling
+              ? Math.floor(
+                  (effectiveStat(
+                    effect.scaling.basis === 'source' ? source : target,
+                    effect.scaling.stat,
+                  ) *
+                    effect.scaling.ratioMilli) /
+                    1000,
+                )
+              : 0)
+          : 0;
       if (!eligible.has(target.id)) continue;
       if (effect.kind === 'damage')
-        this.damage(source, target, effect.amount, effect.damageType, cause);
+        this.damage(source, target, amountValue, effect.damageType, cause);
       else if (effect.kind === 'heal') {
         const healed = Math.min(
           scaleCombatAmount(
-            effect.amount,
+            amountValue,
             overtimeModifiers(this.state.tick, this.input.overtime).healMilli,
           ),
-          target.profile.stats.maxHp - target.hp,
+          effectiveStat(target, 'maxHp') - target.hp,
         );
         if (healed > 0) {
           target.hp += healed;
@@ -163,27 +279,46 @@ export class CombatEngine {
           });
         }
       } else {
+        const previousMaxHp = effectiveStat(target, 'maxHp');
+        if (effect.stacking === 'refresh' && effect.key) {
+          for (const old of target.statuses.filter(
+            (s) => s.sourceId === source.id && s.key === effect.key,
+          ))
+            this.emit('status_expire', { unitId: target.id, statusId: old.id, reason: 'consumed' });
+          target.statuses = target.statuses.filter(
+            (s) => s.sourceId !== source.id || s.key !== effect.key,
+          );
+        }
         const amount =
           effect.kind === 'stun'
             ? 0
             : effect.kind === 'shield'
               ? Math.min(
                   scaleCombatAmount(
-                    effect.amount,
+                    amountValue,
                     overtimeModifiers(this.state.tick, this.input.overtime).shieldMilli,
                   ),
                   1_000_000 - shieldTotal(target),
                 )
-              : effect.amount;
+              : Math.max(-1_000_000, Math.min(1_000_000, amountValue));
         const status = {
           id: `effect-${this.state.effectCounter++}`,
           sourceId: source.id,
+          ...(effect.key ? { key: effect.key } : {}),
           kind: effect.kind,
           stat: effect.kind === 'modifier' ? effect.stat : null,
           amount,
           expiresTick: this.state.tick + effect.duration,
         };
         target.statuses.push(status);
+        if (effect.kind === 'modifier' && effect.stat === 'maxHp')
+          target.hp = Math.max(
+            1,
+            Math.min(
+              effectiveStat(target, 'maxHp'),
+              target.hp + effectiveStat(target, 'maxHp') - previousMaxHp,
+            ),
+          );
         if (effect.kind === 'shield')
           this.emit('shield_apply', {
             unitId: target.id,
@@ -224,6 +359,7 @@ export class CombatEngine {
       }
       if (remaining === 0) break;
     }
+    const beforeHp = target.hp;
     const damage = Math.min(target.hp, remaining);
     target.hp -= damage;
     this.emit('damage', {
@@ -237,7 +373,11 @@ export class CombatEngine {
       cause,
       impact: target.position,
     });
+    if (damage > 0)
+      this.triggers.push({ unit: target, trigger: 'hp_crossed', beforeHp, target: source });
     if (damage + absorbed > 0) {
+      this.triggers.push({ unit: target, trigger: 'damage_received', target: source });
+      if (target.hp <= 0) this.triggers.push({ unit: source, trigger: 'kill', target });
       if (cause === 'attack') this.gainMana(source, 10);
       this.gainMana(target, 5);
     }
@@ -284,16 +424,23 @@ export class CombatEngine {
     }
     if (this.state.tick === OVERTIME_START_TICK)
       this.emit('overtime_start', {
-        rulesVersion: COMBAT_RULES,
+        rulesVersion: this.input.rulesVersion,
         startTick: OVERTIME_START_TICK,
         endTick: MAX_COMBAT_TICKS,
         modifiers: this.input.overtime,
       });
     // 1. Expiration, then charge accumulation. A stun ending now no longer blocks this tick.
     for (const unit of this.state.units.filter(isAlive)) {
-      for (const status of unit.statuses.filter((s) => s.expiresTick <= this.state.tick))
+      for (const status of unit.statuses.filter((s) => s.expiresTick <= this.state.tick)) {
         this.emit('status_expire', { unitId: unit.id, statusId: status.id, reason: 'duration' });
+        this.triggers.push({
+          unit,
+          trigger: 'effect_expired',
+          ...(status.key ? { key: status.key } : {}),
+        });
+      }
       unit.statuses = unit.statuses.filter((s) => s.expiresTick > this.state.tick);
+      unit.hp = Math.min(unit.hp, effectiveStat(unit, 'maxHp'));
       if (!isStunned(unit) && unit.attackCharge < 10000)
         unit.attackCharge += Math.floor(
           (effectiveStat(unit, 'attackSpeedMilli') *
@@ -301,6 +448,8 @@ export class CombatEngine {
             1000,
         );
     }
+    this.flushPassives();
+    this.settleDeaths();
     // 2. Arrivals. Each destination was exclusively reserved; origins stay occupied in transit.
     for (const unit of this.state.units.filter(isAlive))
       if (unit.action?.kind === 'move' && unit.action.endTick <= this.state.tick) {
@@ -342,13 +491,17 @@ export class CombatEngine {
       if (
         !target ||
         !isAlive(target) ||
-        hexDistance(unit.position, target.position) > unit.profile.stats.range
+        hexDistance(unit.position, target.position) >
+          (action.kind === 'cast' && activeAbility(unit.profile)?.targeting === 'adjacent_enemies'
+            ? 1
+            : unit.profile.stats.range)
       ) {
         this.cancel(unit, 'invalid-target');
         continue;
       }
       unit.action = null;
       if (action.kind === 'attack') {
+        this.triggers.push({ unit, trigger: 'attack', target });
         if (action.ranged) {
           const projectile = {
             id: `projectile-${this.state.effectCounter++}`,
@@ -379,7 +532,7 @@ export class CombatEngine {
             cause: 'attack',
           });
       } else {
-        const ability = unit.profile.ability;
+        const ability = activeAbility(unit.profile);
         if (!ability) continue;
         this.emit('ability_cast', {
           unitId: unit.id,
@@ -388,12 +541,16 @@ export class CombatEngine {
           stage: 'resolve',
           endTick: this.state.tick,
           manaAfter: unit.mana,
-          center: target.position,
+          center:
+            ability.targeting === 'adjacent_enemies' || ability.targeting === 'self'
+              ? unit.position
+              : target.position,
         });
         for (const effect of ability.effects) tasks.push(...this.effectTasks(unit, target, effect));
       }
     }
     this.resolveEffects(tasks);
+    this.flushPassives();
     this.settleDeaths();
     this.checkEnd();
     if (this.state.result)
@@ -403,6 +560,26 @@ export class CombatEngine {
     const offset = (this.state.tick - 1) % Math.max(1, units.length);
     for (const unit of [...units.slice(offset), ...units.slice(0, offset)]) {
       if (!isAlive(unit) || isStunned(unit) || unit.action) continue;
+      const ability = activeAbility(unit.profile);
+      const canCast =
+        ability &&
+        unit.mana >= ability.manaCost &&
+        abilityConditions(unit, units, ability.conditions);
+      if (canCast && ability.targeting === 'self') {
+        this.beginCast(unit, unit, ability);
+        continue;
+      }
+      if (canCast && ability.targeting === 'adjacent_enemies') {
+        const adjacent = units.find(
+          (u) =>
+            isAlive(u) && u.owner !== unit.owner && hexDistance(u.position, unit.position) <= 1,
+        );
+        if (adjacent) {
+          unit.targetId = adjacent.id;
+          this.beginCast(unit, adjacent, ability);
+          continue;
+        }
+      }
       const choice = chooseTarget(unit, units, this.input.obstacles);
       unit.targetId = choice?.target.id ?? null;
       if (!choice) continue;
@@ -420,26 +597,8 @@ export class CombatEngine {
         this.emit('move_start', { unitId: unit.id, from: unit.position, to, endTick });
         continue;
       }
-      const ability = unit.profile.ability;
-      if (ability && unit.mana >= ability.manaCost) {
-        unit.mana -= ability.manaCost;
-        const endTick = this.state.tick + ability.castTicks;
-        unit.action = {
-          kind: 'cast',
-          startTick: this.state.tick,
-          endTick,
-          targetId: target.id,
-          abilityId: ability.id,
-        };
-        this.emit('ability_cast', {
-          unitId: unit.id,
-          targetId: target.id,
-          abilityId: ability.id,
-          stage: 'start',
-          endTick,
-          manaAfter: unit.mana,
-          center: target.position,
-        });
+      if (canCast && ability.targeting === 'current_enemy') {
+        this.beginCast(unit, target, ability);
       } else if (unit.attackCharge >= 10000) {
         unit.attackCharge -= 10000;
         const random = randomUint32(this.state.rngState);
@@ -466,6 +625,9 @@ export class CombatEngine {
         });
       }
     }
+    this.flushPassives();
+    this.settleDeaths();
+    this.checkEnd();
     return JSON.parse(JSON.stringify(this.events.slice(start))) as CombatEventV3[];
   }
 }

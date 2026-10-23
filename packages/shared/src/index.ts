@@ -6,3 +6,5 @@ export * as LegacyCombatV2 from './combat-v2';
 
 export { CombatEventV2Schema, type CombatEventV2 } from './combat-v2';
 export * from './match-clock';
+
+export * from './abilities';

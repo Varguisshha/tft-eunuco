@@ -56,5 +56,5 @@ export const ECONOMY_CONFIG = EconomyConfigSchema.parse({
 /** New games opt into the expanded catalog; historic config remains byte-stable. */
 export const CURRENT_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...ECONOMY_CONFIG,
-  catalog: 'f0p4.1',
+  catalog: 'f0p6a',
 });

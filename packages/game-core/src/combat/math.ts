@@ -25,7 +25,7 @@ export function mitigateDamage(
 }
 export function effectiveStat(
   unit: CombatUnit,
-  stat: 'attack' | 'armor' | 'magicResist' | 'attackSpeedMilli',
+  stat: 'maxHp' | 'attack' | 'armor' | 'magicResist' | 'attackSpeedMilli',
 ): number {
   const total =
     unit.profile.stats[stat] +
@@ -33,6 +33,7 @@ export function effectiveStat(
       .filter((s) => s.kind === 'modifier' && s.stat === stat)
       .reduce((sum, s) => sum + s.amount, 0);
   if (stat === 'attackSpeedMilli') return Math.max(1, Math.min(5000, total));
+  if (stat === 'maxHp') return Math.max(1, Math.min(1_000_000, total));
   if (stat === 'attack') return Math.max(0, Math.min(1_000_000, total));
   return Math.max(-10000, Math.min(10000, total));
 }

@@ -1,6 +1,12 @@
+import { ContentIcon } from './hud/ContentIcon';
 import { useEffect, useRef, useState } from 'react';
 import { axialToOffset, offsetToAxial, sellValue } from '@tft/game-core';
-import { getUnitDefinition } from '@tft/game-data';
+import {
+  getUnitDefinition,
+  abilityPresentation,
+  getTraitDefinition,
+  matchCatalog,
+} from '@tft/game-data';
 import { PixelUnit } from '../game/PixelUnit';
 import { ROLE_LABELS } from '../game/pixelArt';
 import type { LocalSession } from './LocalSession';
@@ -29,7 +35,9 @@ export function UnitInspector({
     return () => window.clearTimeout(timer);
   }, [session, view.selectedId]);
   const selected = current ?? retained;
-  const def = getUnitDefinition(selected?.definitionId ?? '');
+  const def =
+    matchCatalog(session.getMatch().config).find((d) => d.id === selected?.definitionId) ??
+    getUnitDefinition(selected?.definitionId ?? '');
   const cursor = axialToOffset(view.cursor);
   const close = () => {
     const containedFocus = panel.current?.contains(document.activeElement);
@@ -48,7 +56,8 @@ export function UnitInspector({
     return () => document.removeEventListener('keydown', escape);
   }, [session, view.selectedId]);
   if (!selected || !def) return null;
-  const { stats, ability, passive } = selected.profile;
+  const { stats } = selected.profile;
+  const ability = abilityPresentation(selected.profile);
   const editable = session.editable && !!selected.owned;
   return (
     <aside
@@ -77,6 +86,45 @@ export function UnitInspector({
           </div>
         </div>
       </div>
+      <section className="inspector-abilities" aria-label="Habilidad principal">
+        {ability ? (
+          <>
+            <header className="ability-heading">
+              <ContentIcon id={ability.icon} active />
+              <div>
+                <h3>{ability.name}</h3>
+                <p>
+                  {ability.type === 'mixed'
+                    ? 'Mixta'
+                    : ability.type === 'active'
+                      ? 'Activa'
+                      : 'Pasiva'}
+                  {ability.active ? ` · ${ability.active.manaCost} maná` : ' · Sin maná'}
+                </p>
+              </div>
+            </header>
+            {ability.passive && (
+              <div className="ability-component">
+                <h4>Pasiva — {ability.passive.name}</h4>
+                <p>{ability.passive.description}</p>
+              </div>
+            )}
+            {ability.active && (
+              <div className="ability-component">
+                <h4>Activa — {ability.active.name}</h4>
+                <p>{ability.active.description}</p>
+              </div>
+            )}
+            {selected.statuses.some((s) => s.kind === 'modifier') && (
+              <p className="effective-status-note">
+                Bonificaciones temporales incluidas en las estadísticas.
+              </p>
+            )}
+          </>
+        ) : (
+          <p>Sin habilidad configurada.</p>
+        )}
+      </section>
       <div className="inspector-vitals">
         <label>
           Vida{' '}
@@ -85,13 +133,20 @@ export function UnitInspector({
           </strong>
           <meter min={0} max={stats.maxHp} value={selected.hp} />
         </label>
-        <label>
-          Maná{' '}
-          <strong>
-            {selected.mana} / {stats.maxMana}
-          </strong>
-          <meter min={0} max={stats.maxMana || 1} value={selected.mana} />
-        </label>
+        {stats.maxMana > 0 && (
+          <label>
+            Maná{' '}
+            <strong>
+              {selected.mana} / {stats.maxMana}
+            </strong>
+            <meter min={0} max={stats.maxMana || 1} value={selected.mana} />
+          </label>
+        )}
+        {selected.shield > 0 && (
+          <p className="inspector-shield">
+            Escudo activo <strong>{selected.shield}</strong>
+          </p>
+        )}
       </div>
       <dl className="combat-stats">
         <div>
@@ -99,7 +154,7 @@ export function UnitInspector({
           <dd>{stats.attack}</dd>
         </div>
         <div>
-          <dt>Ataques/s base</dt>
+          <dt>Ataques/s</dt>
           <dd>{stats.attackSpeedMilli / 1000}</dd>
         </div>
         <div>
@@ -123,30 +178,16 @@ export function UnitInspector({
           </dd>
         </div>
       </dl>
-      <section className="inspector-abilities" aria-label="Habilidades provisionales">
-        <h3>{ability?.name ?? 'Sin habilidad activa'}</h3>
-        <p>
-          {ability ? `Activa provisional · ${ability.manaCost} maná` : 'Sin activa configurada'}
-        </p>
-        <h3>Pasiva</h3>
-        <p>
-          {passive
-            ? `Provisional · ${passive.trigger === 'combat_start' ? 'al iniciar combate' : passive.trigger}`
-            : 'Sin pasiva configurada'}
-        </p>
-        {passive && (
-          <p>
-            {passive.effects
-              .map((effect) =>
-                effect.kind === 'shield' ? `Escudo: ${effect.amount}` : effect.kind,
-              )
-              .join(' · ')}
-          </p>
+      <section className="inspector-traits" aria-label="Sinergias del personaje">
+        {def.synergies.map((id) => (
+          <span key={id}>
+            <ContentIcon id={getTraitDefinition(id)?.icon ?? id} />
+            {synergyLabel(id)}
+          </span>
+        ))}
+        {!def.synergies.some((id) => getTraitDefinition(id)) && (
+          <p>Afinidades provisionales, sin efectos activos.</p>
         )}
-      </section>
-      <section className="synergy-panel" aria-label="Afinidades informativas">
-        <h3>{def.synergies.map(synergyLabel).join(' · ')}</h3>
-        <p>Afinidades provisionales, sin efectos activos.</p>
       </section>
       {selected.owned && (
         <>

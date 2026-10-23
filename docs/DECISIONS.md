@@ -1,3 +1,14 @@
+## F0-P6A — decisiones de habilidades y sinergias
+
+- Una habilidad principal activa, pasiva o mixta; una sola identidad visual. Pasiva pura sin maná ficticio.
+- Contratos estrictos v1, listas acotadas, triggers tipados y estado serializable. Sin código arbitrario ni ramas por personaje.
+- Una activación por regla/tick y máximo por combate. Daños simultáneos comprometidos preceden al escudo reactivo; muerto no activa pasiva.
+- Sinergias por definiciones desplegadas distintas, umbral mayor por defecto y preparación sobre clones. Sin acumulación entre rondas.
+- DOLEA: escudo12 % de vida efectiva una vez bajo50 %, activa0/70maná con100/180/324daño y20armadura4s renovable. Balance en datos, estrellas explícitas, fallback Ability→Attack.
+- Nuevo catálogo `f0p6a` y reglas `f0p6a-1`, manteniendo wire v3 y perfiles históricos. No migrar automáticamente el balance de partidas anteriores.
+- Iconos SVG originales pequeños en registro visual; lateral y tooltip propios preservan arena/dock. Las unidades de diagnóstico no entran al pool.
+- P5.3 y banquillo flotante preservados en `335df32`; originales excluidos, sin remoto/push. F0-P6B no iniciado.
+
 ## F0-P5.2 — decisiones de arena
 
 - Fuente exacta nueva de la raíz, identificada por SHA-256; WebP sin pérdida con igualdad de píxeles, original intacto.

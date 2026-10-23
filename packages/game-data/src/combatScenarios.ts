@@ -1,5 +1,5 @@
 import { CombatInputSchema, type CombatInput } from '@tft/shared';
-import { createCombatInput } from './combat';
+import { createCombatInput, CURRENT_COMBAT_PROFILES } from './combat';
 /** Synthetic, legal profiles for the internal Arena only. Never used by local opponents. */
 export type CombatScenario = 'overtime' | 'timeout' | 'mutual';
 export function createCombatScenario(scenario: CombatScenario, seed: number): CombatInput {
@@ -32,4 +32,61 @@ export function createCombatScenario(scenario: CombatScenario, seed: number): Co
       );
   }
   return CombatInputSchema.parse(input);
+}
+
+export type AbilityScenario =
+  | 'ability-1'
+  | 'ability-2'
+  | 'ability-3'
+  | 'traits-2'
+  | 'traits-3'
+  | 'passive-overtime';
+/** Diagnostic memberships never enter matchCatalog or the shop pool. */
+export function createAbilityScenario(scenario: AbilityScenario, seed: number): CombatInput {
+  const count = scenario === 'traits-3' ? 3 : scenario === 'traits-2' ? 2 : 1;
+  const units: CombatInput['units'] = [];
+  const stars = scenario === 'ability-3' ? 3 : scenario === 'ability-2' ? 2 : 1;
+  const scale = [1000, 1800, 3240][stars - 1]!;
+  for (let i = 0; i < count; i++) {
+    const definitionId = i === 0 ? 'dolea' : i === 1 ? 'test-k01' : 'test-v02';
+    const profile = structuredClone(CURRENT_COMBAT_PROFILES[definitionId]!);
+    profile.traits = ['hortaleza', 'llama-de-padel'];
+    if (i === 0) {
+      profile.stats.maxHp = Math.floor((profile.stats.maxHp * scale) / 1000);
+      profile.stats.attack = Math.floor((profile.stats.attack * scale) / 1000);
+      for (const effect of profile.championAbility!.active!.effects)
+        if ('amount' in effect && effect.starScaling === 'stat')
+          effect.amount = Math.floor((effect.amount * scale) / 1000);
+    }
+    units.push({
+      id: i === 0 ? 'diagnostic-dolea' : `diagnostic-member-${i}`,
+      definitionId,
+      owner: 'south',
+      position: { q: i, r: 4 },
+      profile,
+    });
+  }
+  const enemy = structuredClone(CURRENT_COMBAT_PROFILES['test-v02']!);
+  enemy.ability = null;
+  enemy.passive = null;
+  Object.assign(enemy.stats, {
+    maxHp: 20000,
+    attack: stars === 1 ? 60 : 100,
+    range: 14,
+    attackSpeedMilli: 1000,
+    armor: 0,
+  });
+  if (scenario === 'passive-overtime') {
+    Object.assign(units[0]!.profile.stats, { armor: 0, attack: 0 });
+    Object.assign(enemy.stats, { attack: 220, attackSpeedMilli: 32 });
+  }
+  units.push({
+    id: 'diagnostic-rival',
+    definitionId: 'test-v02',
+    owner: 'north',
+    position: { q: 0, r: 3 },
+    profile: enemy,
+  });
+  const base = createCombatInput({ units: [] }, seed);
+  return CombatInputSchema.parse({ ...base, units });
 }
