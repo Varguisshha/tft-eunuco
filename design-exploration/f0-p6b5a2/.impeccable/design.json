@@ -1,0 +1,1212 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T13:51:54.364257+00:00",
+  "title": "Design System: Festival Pop — exploración cromática local",
+  "extensions": {
+    "colorMeta": {
+      "example-royal-surface-primary": {
+        "displayName": "Ejemplo Royal Pop · surface.primary",
+        "role": "neutral",
+        "canonical": "#373078",
+        "tonalRamp": [
+          "oklch(15% 0.11857 283.074)",
+          "oklch(26% 0.11857 283.074)",
+          "oklch(38% 0.11857 283.074)",
+          "oklch(49% 0.11857 283.074)",
+          "oklch(61% 0.11857 283.074)",
+          "oklch(72% 0.11857 283.074)",
+          "oklch(84% 0.11857 283.074)",
+          "oklch(95% 0.11857 283.074)"
+        ]
+      },
+      "example-royal-surface-elevated": {
+        "displayName": "Ejemplo Royal Pop · surface.elevated",
+        "role": "neutral",
+        "canonical": "#413A7D",
+        "tonalRamp": [
+          "oklch(15% 0.10958 284.898)",
+          "oklch(26% 0.10958 284.898)",
+          "oklch(38% 0.10958 284.898)",
+          "oklch(49% 0.10958 284.898)",
+          "oklch(61% 0.10958 284.898)",
+          "oklch(72% 0.10958 284.898)",
+          "oklch(84% 0.10958 284.898)",
+          "oklch(95% 0.10958 284.898)"
+        ]
+      },
+      "example-royal-surface-overlay": {
+        "displayName": "Ejemplo Royal Pop · surface.overlay",
+        "role": "neutral",
+        "canonical": "#2D2762",
+        "tonalRamp": [
+          "oklch(15% 0.10072 283.597)",
+          "oklch(26% 0.10072 283.597)",
+          "oklch(38% 0.10072 283.597)",
+          "oklch(49% 0.10072 283.597)",
+          "oklch(61% 0.10072 283.597)",
+          "oklch(72% 0.10072 283.597)",
+          "oklch(84% 0.10072 283.597)",
+          "oklch(95% 0.10072 283.597)"
+        ]
+      },
+      "example-royal-surface-canvas": {
+        "displayName": "Ejemplo Royal Pop · surface.canvas",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-surface-paper": {
+        "displayName": "Ejemplo Royal Pop · surface.paper",
+        "role": "neutral",
+        "canonical": "#D2C2DF",
+        "tonalRamp": [
+          "oklch(15% 0.04341 310.027)",
+          "oklch(26% 0.04341 310.027)",
+          "oklch(38% 0.04341 310.027)",
+          "oklch(49% 0.04341 310.027)",
+          "oklch(61% 0.04341 310.027)",
+          "oklch(72% 0.04341 310.027)",
+          "oklch(84% 0.04341 310.027)",
+          "oklch(95% 0.04341 310.027)"
+        ]
+      },
+      "example-royal-border-primary": {
+        "displayName": "Ejemplo Royal Pop · border.primary",
+        "role": "neutral",
+        "canonical": "#8465E8",
+        "tonalRamp": [
+          "oklch(15% 0.18986 290.456)",
+          "oklch(26% 0.18986 290.456)",
+          "oklch(38% 0.18986 290.456)",
+          "oklch(49% 0.18986 290.456)",
+          "oklch(61% 0.18986 290.456)",
+          "oklch(72% 0.18986 290.456)",
+          "oklch(84% 0.18986 290.456)",
+          "oklch(95% 0.18986 290.456)"
+        ]
+      },
+      "example-royal-border-highlight": {
+        "displayName": "Ejemplo Royal Pop · border.highlight",
+        "role": "neutral",
+        "canonical": "#AF98E3",
+        "tonalRamp": [
+          "oklch(15% 0.10914 297.728)",
+          "oklch(26% 0.10914 297.728)",
+          "oklch(38% 0.10914 297.728)",
+          "oklch(49% 0.10914 297.728)",
+          "oklch(61% 0.10914 297.728)",
+          "oklch(72% 0.10914 297.728)",
+          "oklch(84% 0.10914 297.728)",
+          "oklch(95% 0.10914 297.728)"
+        ]
+      },
+      "example-royal-border-frame": {
+        "displayName": "Ejemplo Royal Pop · border.frame",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-text-primary": {
+        "displayName": "Ejemplo Royal Pop · text.primary",
+        "role": "neutral",
+        "canonical": "#F4EADB",
+        "tonalRamp": [
+          "oklch(15% 0.02271 78.216)",
+          "oklch(26% 0.02271 78.216)",
+          "oklch(38% 0.02271 78.216)",
+          "oklch(49% 0.02271 78.216)",
+          "oklch(61% 0.02271 78.216)",
+          "oklch(72% 0.02271 78.216)",
+          "oklch(84% 0.02271 78.216)",
+          "oklch(95% 0.02271 78.216)"
+        ]
+      },
+      "example-royal-text-secondary": {
+        "displayName": "Ejemplo Royal Pop · text.secondary",
+        "role": "neutral",
+        "canonical": "#D8CECC",
+        "tonalRamp": [
+          "oklch(15% 0.01149 31.071)",
+          "oklch(26% 0.01149 31.071)",
+          "oklch(38% 0.01149 31.071)",
+          "oklch(49% 0.01149 31.071)",
+          "oklch(61% 0.01149 31.071)",
+          "oklch(72% 0.01149 31.071)",
+          "oklch(84% 0.01149 31.071)",
+          "oklch(95% 0.01149 31.071)"
+        ]
+      },
+      "example-royal-text-onPaper": {
+        "displayName": "Ejemplo Royal Pop · text.onPaper",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-text-onAccent": {
+        "displayName": "Ejemplo Royal Pop · text.onAccent",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-accent-primary": {
+        "displayName": "Ejemplo Royal Pop · accent.primary",
+        "role": "primary",
+        "canonical": "#46B9EC",
+        "tonalRamp": [
+          "oklch(15% 0.12519 231.218)",
+          "oklch(26% 0.12519 231.218)",
+          "oklch(38% 0.12519 231.218)",
+          "oklch(49% 0.12519 231.218)",
+          "oklch(61% 0.12519 231.218)",
+          "oklch(72% 0.12519 231.218)",
+          "oklch(84% 0.12519 231.218)",
+          "oklch(95% 0.12519 231.218)"
+        ]
+      },
+      "example-royal-accent-secondary": {
+        "displayName": "Ejemplo Royal Pop · accent.secondary",
+        "role": "primary",
+        "canonical": "#F6C454",
+        "tonalRamp": [
+          "oklch(15% 0.13945 84.640)",
+          "oklch(26% 0.13945 84.640)",
+          "oklch(38% 0.13945 84.640)",
+          "oklch(49% 0.13945 84.640)",
+          "oklch(61% 0.13945 84.640)",
+          "oklch(72% 0.13945 84.640)",
+          "oklch(84% 0.13945 84.640)",
+          "oklch(95% 0.13945 84.640)"
+        ]
+      },
+      "example-royal-button-default": {
+        "displayName": "Ejemplo Royal Pop · button.default",
+        "role": "neutral",
+        "canonical": "#6A51BA",
+        "tonalRamp": [
+          "oklch(15% 0.15872 290.714)",
+          "oklch(26% 0.15872 290.714)",
+          "oklch(38% 0.15872 290.714)",
+          "oklch(49% 0.15872 290.714)",
+          "oklch(61% 0.15872 290.714)",
+          "oklch(72% 0.15872 290.714)",
+          "oklch(84% 0.15872 290.714)",
+          "oklch(95% 0.15872 290.714)"
+        ]
+      },
+      "example-royal-button-hover": {
+        "displayName": "Ejemplo Royal Pop · button.hover",
+        "role": "neutral",
+        "canonical": "#6B55A8",
+        "tonalRamp": [
+          "oklch(15% 0.12833 293.558)",
+          "oklch(26% 0.12833 293.558)",
+          "oklch(38% 0.12833 293.558)",
+          "oklch(49% 0.12833 293.558)",
+          "oklch(61% 0.12833 293.558)",
+          "oklch(72% 0.12833 293.558)",
+          "oklch(84% 0.12833 293.558)",
+          "oklch(95% 0.12833 293.558)"
+        ]
+      },
+      "example-royal-button-pressed": {
+        "displayName": "Ejemplo Royal Pop · button.pressed",
+        "role": "neutral",
+        "canonical": "#58449D",
+        "tonalRamp": [
+          "oklch(15% 0.13887 290.114)",
+          "oklch(26% 0.13887 290.114)",
+          "oklch(38% 0.13887 290.114)",
+          "oklch(49% 0.13887 290.114)",
+          "oklch(61% 0.13887 290.114)",
+          "oklch(72% 0.13887 290.114)",
+          "oklch(84% 0.13887 290.114)",
+          "oklch(95% 0.13887 290.114)"
+        ]
+      },
+      "example-royal-button-active": {
+        "displayName": "Ejemplo Royal Pop · button.active",
+        "role": "neutral",
+        "canonical": "#46B9EC",
+        "tonalRamp": [
+          "oklch(15% 0.12519 231.218)",
+          "oklch(26% 0.12519 231.218)",
+          "oklch(38% 0.12519 231.218)",
+          "oklch(49% 0.12519 231.218)",
+          "oklch(61% 0.12519 231.218)",
+          "oklch(72% 0.12519 231.218)",
+          "oklch(84% 0.12519 231.218)",
+          "oklch(95% 0.12519 231.218)"
+        ]
+      },
+      "example-royal-button-activeHover": {
+        "displayName": "Ejemplo Royal Pop · button.activeHover",
+        "role": "neutral",
+        "canonical": "#60C0E9",
+        "tonalRamp": [
+          "oklch(15% 0.10768 228.504)",
+          "oklch(26% 0.10768 228.504)",
+          "oklch(38% 0.10768 228.504)",
+          "oklch(49% 0.10768 228.504)",
+          "oklch(61% 0.10768 228.504)",
+          "oklch(72% 0.10768 228.504)",
+          "oklch(84% 0.10768 228.504)",
+          "oklch(95% 0.10768 228.504)"
+        ]
+      },
+      "example-royal-button-activePressed": {
+        "displayName": "Ejemplo Royal Pop · button.activePressed",
+        "role": "neutral",
+        "canonical": "#41A5D6",
+        "tonalRamp": [
+          "oklch(15% 0.11637 233.554)",
+          "oklch(26% 0.11637 233.554)",
+          "oklch(38% 0.11637 233.554)",
+          "oklch(49% 0.11637 233.554)",
+          "oklch(61% 0.11637 233.554)",
+          "oklch(72% 0.11637 233.554)",
+          "oklch(84% 0.11637 233.554)",
+          "oklch(95% 0.11637 233.554)"
+        ]
+      },
+      "example-royal-button-disabled": {
+        "displayName": "Ejemplo Royal Pop · button.disabled",
+        "role": "neutral",
+        "canonical": "#5D558C",
+        "tonalRamp": [
+          "oklch(15% 0.08726 289.369)",
+          "oklch(26% 0.08726 289.369)",
+          "oklch(38% 0.08726 289.369)",
+          "oklch(49% 0.08726 289.369)",
+          "oklch(61% 0.08726 289.369)",
+          "oklch(72% 0.08726 289.369)",
+          "oklch(84% 0.08726 289.369)",
+          "oklch(95% 0.08726 289.369)"
+        ]
+      },
+      "example-royal-button-disabledText": {
+        "displayName": "Ejemplo Royal Pop · button.disabledText",
+        "role": "neutral",
+        "canonical": "#CEC5C7",
+        "tonalRamp": [
+          "oklch(15% 0.01041 2.042)",
+          "oklch(26% 0.01041 2.042)",
+          "oklch(38% 0.01041 2.042)",
+          "oklch(49% 0.01041 2.042)",
+          "oklch(61% 0.01041 2.042)",
+          "oklch(72% 0.01041 2.042)",
+          "oklch(84% 0.01041 2.042)",
+          "oklch(95% 0.01041 2.042)"
+        ]
+      },
+      "example-royal-button-disabledBorder": {
+        "displayName": "Ejemplo Royal Pop · button.disabledBorder",
+        "role": "neutral",
+        "canonical": "#837AA0",
+        "tonalRamp": [
+          "oklch(15% 0.05788 295.468)",
+          "oklch(26% 0.05788 295.468)",
+          "oklch(38% 0.05788 295.468)",
+          "oklch(49% 0.05788 295.468)",
+          "oklch(61% 0.05788 295.468)",
+          "oklch(72% 0.05788 295.468)",
+          "oklch(84% 0.05788 295.468)",
+          "oklch(95% 0.05788 295.468)"
+        ]
+      },
+      "example-royal-card-paper": {
+        "displayName": "Ejemplo Royal Pop · card.paper",
+        "role": "neutral",
+        "canonical": "#F4EADB",
+        "tonalRamp": [
+          "oklch(15% 0.02271 78.216)",
+          "oklch(26% 0.02271 78.216)",
+          "oklch(38% 0.02271 78.216)",
+          "oklch(49% 0.02271 78.216)",
+          "oklch(61% 0.02271 78.216)",
+          "oklch(72% 0.02271 78.216)",
+          "oklch(84% 0.02271 78.216)",
+          "oklch(95% 0.02271 78.216)"
+        ]
+      },
+      "example-royal-card-motif": {
+        "displayName": "Ejemplo Royal Pop · card.motif",
+        "role": "neutral",
+        "canonical": "#C2AEE1",
+        "tonalRamp": [
+          "oklch(15% 0.07439 302.624)",
+          "oklch(26% 0.07439 302.624)",
+          "oklch(38% 0.07439 302.624)",
+          "oklch(49% 0.07439 302.624)",
+          "oklch(61% 0.07439 302.624)",
+          "oklch(72% 0.07439 302.624)",
+          "oklch(84% 0.07439 302.624)",
+          "oklch(95% 0.07439 302.624)"
+        ]
+      },
+      "example-royal-card-motifInk": {
+        "displayName": "Ejemplo Royal Pop · card.motifInk",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-card-footer": {
+        "displayName": "Ejemplo Royal Pop · card.footer",
+        "role": "neutral",
+        "canonical": "#373078",
+        "tonalRamp": [
+          "oklch(15% 0.11857 283.074)",
+          "oklch(26% 0.11857 283.074)",
+          "oklch(38% 0.11857 283.074)",
+          "oklch(49% 0.11857 283.074)",
+          "oklch(61% 0.11857 283.074)",
+          "oklch(72% 0.11857 283.074)",
+          "oklch(84% 0.11857 283.074)",
+          "oklch(95% 0.11857 283.074)"
+        ]
+      },
+      "example-royal-card-trait": {
+        "displayName": "Ejemplo Royal Pop · card.trait",
+        "role": "neutral",
+        "canonical": "#2D2762",
+        "tonalRamp": [
+          "oklch(15% 0.10072 283.597)",
+          "oklch(26% 0.10072 283.597)",
+          "oklch(38% 0.10072 283.597)",
+          "oklch(49% 0.10072 283.597)",
+          "oklch(61% 0.10072 283.597)",
+          "oklch(72% 0.10072 283.597)",
+          "oklch(84% 0.10072 283.597)",
+          "oklch(95% 0.10072 283.597)"
+        ]
+      },
+      "example-royal-card-text": {
+        "displayName": "Ejemplo Royal Pop · card.text",
+        "role": "neutral",
+        "canonical": "#F4EADB",
+        "tonalRamp": [
+          "oklch(15% 0.02271 78.216)",
+          "oklch(26% 0.02271 78.216)",
+          "oklch(38% 0.02271 78.216)",
+          "oklch(49% 0.02271 78.216)",
+          "oklch(61% 0.02271 78.216)",
+          "oklch(72% 0.02271 78.216)",
+          "oklch(84% 0.02271 78.216)",
+          "oklch(95% 0.02271 78.216)"
+        ]
+      },
+      "example-royal-card-code": {
+        "displayName": "Ejemplo Royal Pop · card.code",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-game-playerLifeFill": {
+        "displayName": "Ejemplo Royal Pop · game.playerLifeFill",
+        "role": "neutral",
+        "canonical": "#267264",
+        "tonalRamp": [
+          "oklch(15% 0.07717 178.454)",
+          "oklch(26% 0.07717 178.454)",
+          "oklch(38% 0.07717 178.454)",
+          "oklch(49% 0.07717 178.454)",
+          "oklch(61% 0.07717 178.454)",
+          "oklch(72% 0.07717 178.454)",
+          "oklch(84% 0.07717 178.454)",
+          "oklch(95% 0.07717 178.454)"
+        ]
+      },
+      "example-royal-game-rivalLifeFill": {
+        "displayName": "Ejemplo Royal Pop · game.rivalLifeFill",
+        "role": "neutral",
+        "canonical": "#986035",
+        "tonalRamp": [
+          "oklch(15% 0.09338 56.630)",
+          "oklch(26% 0.09338 56.630)",
+          "oklch(38% 0.09338 56.630)",
+          "oklch(49% 0.09338 56.630)",
+          "oklch(61% 0.09338 56.630)",
+          "oklch(72% 0.09338 56.630)",
+          "oklch(84% 0.09338 56.630)",
+          "oklch(95% 0.09338 56.630)"
+        ]
+      },
+      "example-royal-game-life": {
+        "displayName": "Ejemplo Royal Pop · game.life",
+        "role": "neutral",
+        "canonical": "#70E0A3",
+        "tonalRamp": [
+          "oklch(15% 0.13565 157.662)",
+          "oklch(26% 0.13565 157.662)",
+          "oklch(38% 0.13565 157.662)",
+          "oklch(49% 0.13565 157.662)",
+          "oklch(61% 0.13565 157.662)",
+          "oklch(72% 0.13565 157.662)",
+          "oklch(84% 0.13565 157.662)",
+          "oklch(95% 0.13565 157.662)"
+        ]
+      },
+      "example-royal-game-enemyLife": {
+        "displayName": "Ejemplo Royal Pop · game.enemyLife",
+        "role": "neutral",
+        "canonical": "#FFB56F",
+        "tonalRamp": [
+          "oklch(15% 0.12225 63.208)",
+          "oklch(26% 0.12225 63.208)",
+          "oklch(38% 0.12225 63.208)",
+          "oklch(49% 0.12225 63.208)",
+          "oklch(61% 0.12225 63.208)",
+          "oklch(72% 0.12225 63.208)",
+          "oklch(84% 0.12225 63.208)",
+          "oklch(95% 0.12225 63.208)"
+        ]
+      },
+      "example-royal-game-mana": {
+        "displayName": "Ejemplo Royal Pop · game.mana",
+        "role": "neutral",
+        "canonical": "#66C9ED",
+        "tonalRamp": [
+          "oklch(15% 0.10569 224.416)",
+          "oklch(26% 0.10569 224.416)",
+          "oklch(38% 0.10569 224.416)",
+          "oklch(49% 0.10569 224.416)",
+          "oklch(61% 0.10569 224.416)",
+          "oklch(72% 0.10569 224.416)",
+          "oklch(84% 0.10569 224.416)",
+          "oklch(95% 0.10569 224.416)"
+        ]
+      },
+      "example-royal-game-shield": {
+        "displayName": "Ejemplo Royal Pop · game.shield",
+        "role": "neutral",
+        "canonical": "#B4DDF0",
+        "tonalRamp": [
+          "oklch(15% 0.05029 227.743)",
+          "oklch(26% 0.05029 227.743)",
+          "oklch(38% 0.05029 227.743)",
+          "oklch(49% 0.05029 227.743)",
+          "oklch(61% 0.05029 227.743)",
+          "oklch(72% 0.05029 227.743)",
+          "oklch(84% 0.05029 227.743)",
+          "oklch(95% 0.05029 227.743)"
+        ]
+      },
+      "example-royal-game-gold": {
+        "displayName": "Ejemplo Royal Pop · game.gold",
+        "role": "neutral",
+        "canonical": "#F6C454",
+        "tonalRamp": [
+          "oklch(15% 0.13945 84.640)",
+          "oklch(26% 0.13945 84.640)",
+          "oklch(38% 0.13945 84.640)",
+          "oklch(49% 0.13945 84.640)",
+          "oklch(61% 0.13945 84.640)",
+          "oklch(72% 0.13945 84.640)",
+          "oklch(84% 0.13945 84.640)",
+          "oklch(95% 0.13945 84.640)"
+        ]
+      },
+      "example-royal-game-cost1": {
+        "displayName": "Ejemplo Royal Pop · game.cost1",
+        "role": "neutral",
+        "canonical": "#A9B5C7",
+        "tonalRamp": [
+          "oklch(15% 0.02902 258.370)",
+          "oklch(26% 0.02902 258.370)",
+          "oklch(38% 0.02902 258.370)",
+          "oklch(49% 0.02902 258.370)",
+          "oklch(61% 0.02902 258.370)",
+          "oklch(72% 0.02902 258.370)",
+          "oklch(84% 0.02902 258.370)",
+          "oklch(95% 0.02902 258.370)"
+        ]
+      },
+      "example-royal-game-cost2": {
+        "displayName": "Ejemplo Royal Pop · game.cost2",
+        "role": "neutral",
+        "canonical": "#74E1CD",
+        "tonalRamp": [
+          "oklch(15% 0.10534 180.144)",
+          "oklch(26% 0.10534 180.144)",
+          "oklch(38% 0.10534 180.144)",
+          "oklch(49% 0.10534 180.144)",
+          "oklch(61% 0.10534 180.144)",
+          "oklch(72% 0.10534 180.144)",
+          "oklch(84% 0.10534 180.144)",
+          "oklch(95% 0.10534 180.144)"
+        ]
+      },
+      "example-royal-game-cost3": {
+        "displayName": "Ejemplo Royal Pop · game.cost3",
+        "role": "neutral",
+        "canonical": "#FFB755",
+        "tonalRamp": [
+          "oklch(15% 0.14020 71.948)",
+          "oklch(26% 0.14020 71.948)",
+          "oklch(38% 0.14020 71.948)",
+          "oklch(49% 0.14020 71.948)",
+          "oklch(61% 0.14020 71.948)",
+          "oklch(72% 0.14020 71.948)",
+          "oklch(84% 0.14020 71.948)",
+          "oklch(95% 0.14020 71.948)"
+        ]
+      },
+      "example-royal-game-danger": {
+        "displayName": "Ejemplo Royal Pop · game.danger",
+        "role": "neutral",
+        "canonical": "#FF817A",
+        "tonalRamp": [
+          "oklch(15% 0.15462 24.751)",
+          "oklch(26% 0.15462 24.751)",
+          "oklch(38% 0.15462 24.751)",
+          "oklch(49% 0.15462 24.751)",
+          "oklch(61% 0.15462 24.751)",
+          "oklch(72% 0.15462 24.751)",
+          "oklch(84% 0.15462 24.751)",
+          "oklch(95% 0.15462 24.751)"
+        ]
+      },
+      "example-royal-game-damagePhysical": {
+        "displayName": "Ejemplo Royal Pop · game.damagePhysical",
+        "role": "neutral",
+        "canonical": "#FFD166",
+        "tonalRamp": [
+          "oklch(15% 0.13478 86.062)",
+          "oklch(26% 0.13478 86.062)",
+          "oklch(38% 0.13478 86.062)",
+          "oklch(49% 0.13478 86.062)",
+          "oklch(61% 0.13478 86.062)",
+          "oklch(72% 0.13478 86.062)",
+          "oklch(84% 0.13478 86.062)",
+          "oklch(95% 0.13478 86.062)"
+        ]
+      },
+      "example-royal-game-damageMagic": {
+        "displayName": "Ejemplo Royal Pop · game.damageMagic",
+        "role": "neutral",
+        "canonical": "#B9A3FF",
+        "tonalRamp": [
+          "oklch(15% 0.13066 294.104)",
+          "oklch(26% 0.13066 294.104)",
+          "oklch(38% 0.13066 294.104)",
+          "oklch(49% 0.13066 294.104)",
+          "oklch(61% 0.13066 294.104)",
+          "oklch(72% 0.13066 294.104)",
+          "oklch(84% 0.13066 294.104)",
+          "oklch(95% 0.13066 294.104)"
+        ]
+      },
+      "example-royal-game-threshold": {
+        "displayName": "Ejemplo Royal Pop · game.threshold",
+        "role": "neutral",
+        "canonical": "#74E1CD",
+        "tonalRamp": [
+          "oklch(15% 0.10534 180.144)",
+          "oklch(26% 0.10534 180.144)",
+          "oklch(38% 0.10534 180.144)",
+          "oklch(49% 0.10534 180.144)",
+          "oklch(61% 0.10534 180.144)",
+          "oklch(72% 0.10534 180.144)",
+          "oklch(84% 0.10534 180.144)",
+          "oklch(95% 0.10534 180.144)"
+        ]
+      },
+      "example-royal-game-thresholdInk": {
+        "displayName": "Ejemplo Royal Pop · game.thresholdInk",
+        "role": "neutral",
+        "canonical": "#152D2B",
+        "tonalRamp": [
+          "oklch(15% 0.03040 188.622)",
+          "oklch(26% 0.03040 188.622)",
+          "oklch(38% 0.03040 188.622)",
+          "oklch(49% 0.03040 188.622)",
+          "oklch(61% 0.03040 188.622)",
+          "oklch(72% 0.03040 188.622)",
+          "oklch(84% 0.03040 188.622)",
+          "oklch(95% 0.03040 188.622)"
+        ]
+      },
+      "example-royal-game-track": {
+        "displayName": "Ejemplo Royal Pop · game.track",
+        "role": "neutral",
+        "canonical": "#171E2B",
+        "tonalRamp": [
+          "oklch(15% 0.02729 262.502)",
+          "oklch(26% 0.02729 262.502)",
+          "oklch(38% 0.02729 262.502)",
+          "oklch(49% 0.02729 262.502)",
+          "oklch(61% 0.02729 262.502)",
+          "oklch(72% 0.02729 262.502)",
+          "oklch(84% 0.02729 262.502)",
+          "oklch(95% 0.02729 262.502)"
+        ]
+      },
+      "example-royal-tooltip-surface": {
+        "displayName": "Ejemplo Royal Pop · tooltip.surface",
+        "role": "neutral",
+        "canonical": "#2D2762",
+        "tonalRamp": [
+          "oklch(15% 0.10072 283.597)",
+          "oklch(26% 0.10072 283.597)",
+          "oklch(38% 0.10072 283.597)",
+          "oklch(49% 0.10072 283.597)",
+          "oklch(61% 0.10072 283.597)",
+          "oklch(72% 0.10072 283.597)",
+          "oklch(84% 0.10072 283.597)",
+          "oklch(95% 0.10072 283.597)"
+        ]
+      },
+      "example-royal-tooltip-text": {
+        "displayName": "Ejemplo Royal Pop · tooltip.text",
+        "role": "neutral",
+        "canonical": "#F4EADB",
+        "tonalRamp": [
+          "oklch(15% 0.02271 78.216)",
+          "oklch(26% 0.02271 78.216)",
+          "oklch(38% 0.02271 78.216)",
+          "oklch(49% 0.02271 78.216)",
+          "oklch(61% 0.02271 78.216)",
+          "oklch(72% 0.02271 78.216)",
+          "oklch(84% 0.02271 78.216)",
+          "oklch(95% 0.02271 78.216)"
+        ]
+      },
+      "example-royal-result-surface": {
+        "displayName": "Ejemplo Royal Pop · result.surface",
+        "role": "neutral",
+        "canonical": "#373078",
+        "tonalRamp": [
+          "oklch(15% 0.11857 283.074)",
+          "oklch(26% 0.11857 283.074)",
+          "oklch(38% 0.11857 283.074)",
+          "oklch(49% 0.11857 283.074)",
+          "oklch(61% 0.11857 283.074)",
+          "oklch(72% 0.11857 283.074)",
+          "oklch(84% 0.11857 283.074)",
+          "oklch(95% 0.11857 283.074)"
+        ]
+      },
+      "example-royal-result-title": {
+        "displayName": "Ejemplo Royal Pop · result.title",
+        "role": "neutral",
+        "canonical": "#46B9EC",
+        "tonalRamp": [
+          "oklch(15% 0.12519 231.218)",
+          "oklch(26% 0.12519 231.218)",
+          "oklch(38% 0.12519 231.218)",
+          "oklch(49% 0.12519 231.218)",
+          "oklch(61% 0.12519 231.218)",
+          "oklch(72% 0.12519 231.218)",
+          "oklch(84% 0.12519 231.218)",
+          "oklch(95% 0.12519 231.218)"
+        ]
+      },
+      "example-royal-counter-surface": {
+        "displayName": "Ejemplo Royal Pop · counter.surface",
+        "role": "neutral",
+        "canonical": "#2D2762",
+        "tonalRamp": [
+          "oklch(15% 0.10072 283.597)",
+          "oklch(26% 0.10072 283.597)",
+          "oklch(38% 0.10072 283.597)",
+          "oklch(49% 0.10072 283.597)",
+          "oklch(61% 0.10072 283.597)",
+          "oklch(72% 0.10072 283.597)",
+          "oklch(84% 0.10072 283.597)",
+          "oklch(95% 0.10072 283.597)"
+        ]
+      },
+      "example-royal-counter-text": {
+        "displayName": "Ejemplo Royal Pop · counter.text",
+        "role": "neutral",
+        "canonical": "#F4EADB",
+        "tonalRamp": [
+          "oklch(15% 0.02271 78.216)",
+          "oklch(26% 0.02271 78.216)",
+          "oklch(38% 0.02271 78.216)",
+          "oklch(49% 0.02271 78.216)",
+          "oklch(61% 0.02271 78.216)",
+          "oklch(72% 0.02271 78.216)",
+          "oklch(84% 0.02271 78.216)",
+          "oklch(95% 0.02271 78.216)"
+        ]
+      },
+      "example-royal-material-highlight": {
+        "displayName": "Ejemplo Royal Pop · material.highlight",
+        "role": "neutral",
+        "canonical": "#C7B5E0",
+        "tonalRamp": [
+          "oklch(15% 0.06280 304.046)",
+          "oklch(26% 0.06280 304.046)",
+          "oklch(38% 0.06280 304.046)",
+          "oklch(49% 0.06280 304.046)",
+          "oklch(61% 0.06280 304.046)",
+          "oklch(72% 0.06280 304.046)",
+          "oklch(84% 0.06280 304.046)",
+          "oklch(95% 0.06280 304.046)"
+        ]
+      },
+      "example-royal-material-shadow": {
+        "displayName": "Ejemplo Royal Pop · material.shadow",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-phase-surface": {
+        "displayName": "Ejemplo Royal Pop · phase.surface",
+        "role": "neutral",
+        "canonical": "#D2C2DF",
+        "tonalRamp": [
+          "oklch(15% 0.04341 310.027)",
+          "oklch(26% 0.04341 310.027)",
+          "oklch(38% 0.04341 310.027)",
+          "oklch(49% 0.04341 310.027)",
+          "oklch(61% 0.04341 310.027)",
+          "oklch(72% 0.04341 310.027)",
+          "oklch(84% 0.04341 310.027)",
+          "oklch(95% 0.04341 310.027)"
+        ]
+      },
+      "example-royal-phase-text": {
+        "displayName": "Ejemplo Royal Pop · phase.text",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-phase-timer": {
+        "displayName": "Ejemplo Royal Pop · phase.timer",
+        "role": "neutral",
+        "canonical": "#523F90",
+        "tonalRamp": [
+          "oklch(15% 0.12847 290.815)",
+          "oklch(26% 0.12847 290.815)",
+          "oklch(38% 0.12847 290.815)",
+          "oklch(49% 0.12847 290.815)",
+          "oklch(61% 0.12847 290.815)",
+          "oklch(72% 0.12847 290.815)",
+          "oklch(84% 0.12847 290.815)",
+          "oklch(95% 0.12847 290.815)"
+        ]
+      },
+      "example-royal-emblem-surface": {
+        "displayName": "Ejemplo Royal Pop · emblem.surface",
+        "role": "neutral",
+        "canonical": "#6A51BA",
+        "tonalRamp": [
+          "oklch(15% 0.15872 290.714)",
+          "oklch(26% 0.15872 290.714)",
+          "oklch(38% 0.15872 290.714)",
+          "oklch(49% 0.15872 290.714)",
+          "oklch(61% 0.15872 290.714)",
+          "oklch(72% 0.15872 290.714)",
+          "oklch(84% 0.15872 290.714)",
+          "oklch(95% 0.15872 290.714)"
+        ]
+      },
+      "example-royal-emblem-text": {
+        "displayName": "Ejemplo Royal Pop · emblem.text",
+        "role": "neutral",
+        "canonical": "#F4EADB",
+        "tonalRamp": [
+          "oklch(15% 0.02271 78.216)",
+          "oklch(26% 0.02271 78.216)",
+          "oklch(38% 0.02271 78.216)",
+          "oklch(49% 0.02271 78.216)",
+          "oklch(61% 0.02271 78.216)",
+          "oklch(72% 0.02271 78.216)",
+          "oklch(84% 0.02271 78.216)",
+          "oklch(95% 0.02271 78.216)"
+        ]
+      },
+      "example-royal-emblem-activeSurface": {
+        "displayName": "Ejemplo Royal Pop · emblem.activeSurface",
+        "role": "neutral",
+        "canonical": "#F6C454",
+        "tonalRamp": [
+          "oklch(15% 0.13945 84.640)",
+          "oklch(26% 0.13945 84.640)",
+          "oklch(38% 0.13945 84.640)",
+          "oklch(49% 0.13945 84.640)",
+          "oklch(61% 0.13945 84.640)",
+          "oklch(72% 0.13945 84.640)",
+          "oklch(84% 0.13945 84.640)",
+          "oklch(95% 0.13945 84.640)"
+        ]
+      },
+      "example-royal-emblem-activeText": {
+        "displayName": "Ejemplo Royal Pop · emblem.activeText",
+        "role": "neutral",
+        "canonical": "#191636",
+        "tonalRamp": [
+          "oklch(15% 0.06041 284.645)",
+          "oklch(26% 0.06041 284.645)",
+          "oklch(38% 0.06041 284.645)",
+          "oklch(49% 0.06041 284.645)",
+          "oklch(61% 0.06041 284.645)",
+          "oklch(72% 0.06041 284.645)",
+          "oklch(84% 0.06041 284.645)",
+          "oklch(95% 0.06041 284.645)"
+        ]
+      },
+      "example-royal-state-locked": {
+        "displayName": "Ejemplo Royal Pop · state.locked",
+        "role": "neutral",
+        "canonical": "#46B9EC",
+        "tonalRamp": [
+          "oklch(15% 0.12519 231.218)",
+          "oklch(26% 0.12519 231.218)",
+          "oklch(38% 0.12519 231.218)",
+          "oklch(49% 0.12519 231.218)",
+          "oklch(61% 0.12519 231.218)",
+          "oklch(72% 0.12519 231.218)",
+          "oklch(84% 0.12519 231.218)",
+          "oklch(95% 0.12519 231.218)"
+        ]
+      },
+      "example-royal-state-insufficient": {
+        "displayName": "Ejemplo Royal Pop · state.insufficient",
+        "role": "neutral",
+        "canonical": "#FF817A",
+        "tonalRamp": [
+          "oklch(15% 0.15462 24.751)",
+          "oklch(26% 0.15462 24.751)",
+          "oklch(38% 0.15462 24.751)",
+          "oklch(49% 0.15462 24.751)",
+          "oklch(61% 0.15462 24.751)",
+          "oklch(72% 0.15462 24.751)",
+          "oklch(84% 0.15462 24.751)",
+          "oklch(95% 0.15462 24.751)"
+        ]
+      },
+      "example-royal-state-selected": {
+        "displayName": "Ejemplo Royal Pop · state.selected",
+        "role": "neutral",
+        "canonical": "#46B9EC",
+        "tonalRamp": [
+          "oklch(15% 0.12519 231.218)",
+          "oklch(26% 0.12519 231.218)",
+          "oklch(38% 0.12519 231.218)",
+          "oklch(49% 0.12519 231.218)",
+          "oklch(61% 0.12519 231.218)",
+          "oklch(72% 0.12519 231.218)",
+          "oklch(84% 0.12519 231.218)",
+          "oklch(95% 0.12519 231.218)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Bungee / alias Pop",
+        "purpose": "Titular de detalles, compartido por las seis variantes."
+      },
+      "body": {
+        "displayName": "DM Sans / alias DM",
+        "purpose": "Lectura compartida; pesos locales 400/700."
+      },
+      "economy-label": {
+        "displayName": "Etiqueta económica compacta",
+        "purpose": "DM Sans final de la cascada C; no el display de reglas iniciales."
+      }
+    },
+    "shadows": [
+      {
+        "name": "frame",
+        "value": "drop-shadow(0 5px 3px #11132a45)",
+        "purpose": "Marco C heredado."
+      },
+      {
+        "name": "inspector",
+        "value": "drop-shadow(0 12px 12px #17132866)",
+        "purpose": "Ficha superpuesta C."
+      },
+      {
+        "name": "detail-frame",
+        "value": "drop-shadow(0 6px 6px #11132850)",
+        "purpose": "Marco ampliado en la lámina de detalle."
+      }
+    ],
+    "motion": [
+      {
+        "name": "action-transition",
+        "value": "transform 110ms ease-out, filter 110ms ease-out",
+        "purpose": "Acción C heredada; palette.css anula el brillo por filtro."
+      },
+      {
+        "name": "hover-offset",
+        "value": "translateY(-2px)",
+        "purpose": "Hover habilitado."
+      },
+      {
+        "name": "pressed-offset",
+        "value": "translateY(3px)",
+        "purpose": "Pulsación habilitada."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none !important",
+        "purpose": "CSS de C; la galería elimina también scroll-behavior smooth."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "inherited-label-compaction",
+        "value": "1400px"
+      },
+      {
+        "name": "gallery-two-columns",
+        "value": "1200px"
+      },
+      {
+        "name": "gallery-one-column",
+        "value": "700px"
+      }
+    ],
+    "exploration": {
+      "status": "awaiting-human-palette-selection",
+      "approvedBase": "Festival Pop C geometry and visual language only",
+      "approvedPalette": null,
+      "scope": "design-exploration/f0-p6b5a2 only; not production",
+      "examplePalette": "royal-pop",
+      "exampleIsApproved": false,
+      "variants": [
+        {
+          "name": "Royal Pop",
+          "slug": "royal-pop",
+          "status": "unapproved",
+          "normativeTokens": "../royal-pop/tokens.json",
+          "tokenCount": 64
+        },
+        {
+          "name": "Neon Playground",
+          "slug": "neon-playground",
+          "status": "unapproved",
+          "normativeTokens": "../neon-playground/tokens.json",
+          "tokenCount": 64
+        },
+        {
+          "name": "Tropical Party",
+          "slug": "tropical-party",
+          "status": "unapproved",
+          "normativeTokens": "../tropical-party/tokens.json",
+          "tokenCount": 64
+        },
+        {
+          "name": "Coastal Mint",
+          "slug": "coastal-mint",
+          "status": "unapproved",
+          "normativeTokens": "../coastal-mint/tokens.json",
+          "tokenCount": 64
+        },
+        {
+          "name": "Soft Royal",
+          "slug": "soft-royal",
+          "status": "unapproved",
+          "normativeTokens": "../soft-royal/tokens.json",
+          "tokenCount": 64
+        },
+        {
+          "name": "Warm Sand",
+          "slug": "warm-sand",
+          "status": "unapproved",
+          "normativeTokens": "../warm-sand/tokens.json",
+          "tokenCount": 64
+        }
+      ],
+      "sourceCount": 384,
+      "compositions": {
+        "count": 18,
+        "width": 1920,
+        "height": 1080,
+        "views": [
+          "screen",
+          "inspector",
+          "components"
+        ],
+        "supplementsSeparate": true
+      },
+      "contrast": {
+        "passingPairs": 216,
+        "disabledExemptPairs": 6,
+        "fullWCAGAudit": false
+      },
+      "captureProvenance": "Original source assets retain identical bytes. Browser JPEG captures converted to PNG without resizing; captured pixels are not bit-identical.",
+      "tonalRampScope": "Synthesized OKLCH panel metadata only; not observed runtime tokens, not palette proposals and not approved. The six tokens.json files remain normative.",
+      "snippetScope": "Eight reduced static specimens extracted from source C/gallery; Royal Pop fallbacks are illustrative and unapproved. Fonts use the local Pop/DM aliases with family fallbacks."
+    }
+  },
+  "components": [
+    {
+      "name": "Royal Pop — ejemplo no aprobado: acción normal",
+      "kind": "button",
+      "refersTo": "example-royal-action",
+      "description": "Extracción reducida del control C; ejemplo estático documental sin operación económica.",
+      "html": "<button type=\"button\" class=\"ds-action\"><svg class=\"ds-frame\" viewBox=\"0 0 230 70\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 27L27 0H195L218 17H230V43L203 70H35L12 53H0Z\" fill=\"var(--border-frame, #191636)\"/><path d=\"M7 30L30 7H193L215 23H223V40L200 63H37L15 47H7Z\" fill=\"var(--border-highlight, #AF98E3)\"/><path class=\"ds-fill\" d=\"M14 33L33 14H190L211 30H216V37L197 56H40L19 40H14Z\"/><path d=\"M33 21H182M21 38V29\" stroke=\"var(--material-highlight, #C7B5E0)\" opacity=\".4\" stroke-width=\"3\"/><path d=\"M188 49H202V35M28 21V35H14\" fill=\"none\" stroke=\"var(--border-frame, #191636)\" stroke-width=\"4\"/></svg><span class=\"ds-face\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" aria-hidden=\"true\"><path d=\"M28 16A12 12 0 1 0 24 26 M23 2L30 9L23 16 M30 9H18\"/></svg><b>Renovar</b></span></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 5px 3px #11132a45)}.ds-icon{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linejoin:bevel;stroke-linecap:round;flex:none}.ds-action{position:relative;border:0;padding:0;background:none;width:230px;height:67px;cursor:pointer;transition:transform 110ms ease-out,filter 110ms ease-out}.ds-fill{fill:var(--button-default, #6A51BA)}.ds-face{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;min-height:100%;padding:0 21px;color:var(--text-primary, #F4EADB)}.ds-face b{font:700 17px Pop,Bungee,sans-serif;white-space:nowrap}.ds-action:focus-visible{outline:3px solid var(--accent-primary, #46B9EC);outline-offset:4px}.ds-action:hover{transform:translateY(-2px)}.ds-action:hover .ds-fill{fill:var(--button-hover, #6B55A8)}.ds-action:active{transform:translateY(3px)}.ds-action:active .ds-fill{fill:var(--button-pressed, #58449D)}@media(prefers-reduced-motion:reduce){.ds-action{transition:none}}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: acción active",
+      "kind": "button",
+      "refersTo": "example-royal-action-active",
+      "description": "Extracción reducida del control C; ejemplo estático documental sin operación económica.",
+      "html": "<button type=\"button\" class=\"ds-action\" aria-pressed=\"true\"><svg class=\"ds-frame\" viewBox=\"0 0 230 70\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 27L27 0H195L218 17H230V43L203 70H35L12 53H0Z\" fill=\"var(--border-frame, #191636)\"/><path d=\"M7 30L30 7H193L215 23H223V40L200 63H37L15 47H7Z\" fill=\"var(--border-highlight, #AF98E3)\"/><path class=\"ds-fill\" d=\"M14 33L33 14H190L211 30H216V37L197 56H40L19 40H14Z\"/><path d=\"M33 21H182M21 38V29\" stroke=\"var(--material-highlight, #C7B5E0)\" opacity=\".4\" stroke-width=\"3\"/><path d=\"M188 49H202V35M28 21V35H14\" fill=\"none\" stroke=\"var(--border-frame, #191636)\" stroke-width=\"4\"/></svg><span class=\"ds-face\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" aria-hidden=\"true\"><path d=\"M28 16A12 12 0 1 0 24 26 M23 2L30 9L23 16 M30 9H18\"/></svg><b>Renovar</b></span></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 5px 3px #11132a45)}.ds-icon{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linejoin:bevel;stroke-linecap:round;flex:none}.ds-action{position:relative;border:0;padding:0;background:none;width:230px;height:67px;cursor:pointer;transition:transform 110ms ease-out,filter 110ms ease-out}.ds-fill{fill:var(--button-active, #46B9EC)}.ds-face{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;min-height:100%;padding:0 21px;color:var(--text-onAccent, #191636)}.ds-face b{font:700 17px Pop,Bungee,sans-serif;white-space:nowrap}.ds-action:focus-visible{outline:3px solid var(--accent-primary, #46B9EC);outline-offset:4px}.ds-action:hover{transform:translateY(-2px)}.ds-action:hover .ds-fill{fill:var(--button-activeHover, #60C0E9)}.ds-action:active{transform:translateY(3px)}.ds-action:active .ds-fill{fill:var(--button-activePressed, #41A5D6)}@media(prefers-reduced-motion:reduce){.ds-action{transition:none}}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: acción disabled",
+      "kind": "button",
+      "refersTo": "example-royal-action-disabled",
+      "description": "Extracción reducida del control C; ejemplo estático documental sin operación económica.",
+      "html": "<button type=\"button\" class=\"ds-action\" disabled><svg class=\"ds-frame\" viewBox=\"0 0 230 70\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 27L27 0H195L218 17H230V43L203 70H35L12 53H0Z\" fill=\"var(--border-frame, #191636)\"/><path d=\"M7 30L30 7H193L215 23H223V40L200 63H37L15 47H7Z\" fill=\"var(--border-highlight, #AF98E3)\"/><path class=\"ds-fill\" d=\"M14 33L33 14H190L211 30H216V37L197 56H40L19 40H14Z\"/><path d=\"M33 21H182M21 38V29\" stroke=\"var(--material-highlight, #C7B5E0)\" opacity=\".4\" stroke-width=\"3\"/><path d=\"M188 49H202V35M28 21V35H14\" fill=\"none\" stroke=\"var(--border-frame, #191636)\" stroke-width=\"4\"/></svg><span class=\"ds-face\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" aria-hidden=\"true\"><path d=\"M28 16A12 12 0 1 0 24 26 M23 2L30 9L23 16 M30 9H18\"/></svg><b>Renovar</b></span></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 5px 3px #11132a45)}.ds-icon{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linejoin:bevel;stroke-linecap:round;flex:none}.ds-action{position:relative;border:0;padding:0;background:none;width:230px;height:67px;cursor:pointer;transition:transform 110ms ease-out,filter 110ms ease-out}.ds-fill{fill:var(--button-disabled, #5D558C)}.ds-face{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;min-height:100%;padding:0 21px;color:var(--button-disabledText, #CEC5C7)}.ds-face b{font:700 17px Pop,Bungee,sans-serif;white-space:nowrap}.ds-action:focus-visible{outline:3px solid var(--accent-primary, #46B9EC);outline-offset:4px}.ds-action:disabled{cursor:default}@media(prefers-reduced-motion:reduce){.ds-action{transition:none}}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: participante",
+      "kind": "card",
+      "refersTo": "example-royal-participant",
+      "description": "Nombre, cifra, etiqueta y vida del participante de la composición C.",
+      "html": "<div class=\"ds-participant\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" aria-hidden=\"true\"><path d=\"M5 4H27V17L16 29L5 17Z\"/></svg><b>Vargas</b><strong>100</strong><small>Tú · Jade</small><i></i></div>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 5px 3px #11132a45)}.ds-icon{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linejoin:bevel;stroke-linecap:round;flex:none}.ds-participant{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr) 60px;grid-template-rows:31px 18px;gap:5px 8px;width:220px;height:91px;padding:12px 13px 14px;font-family:DM,\"DM Sans\",sans-serif;background:var(--surface-paper, #D2C2DF);color:var(--text-onPaper, #191636);border-radius:0 18px 18px 0;border-bottom:5px solid var(--game-life, #70E0A3);clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}.ds-participant .ds-icon{grid-column:1;grid-row:1;width:28px;height:28px;color:var(--phase-timer, #523F90)}.ds-participant>b{grid-column:2;grid-row:1;font:700 20px DM,\"DM Sans\",sans-serif}.ds-participant>strong{grid-column:3;grid-row:1;text-align:right;font:700 22px Pop,Bungee,sans-serif;font-variant-numeric:tabular-nums}.ds-participant>small{grid-column:1/-1;grid-row:2;padding-left:38px;font-size:14px;white-space:nowrap}.ds-participant>i{position:absolute;left:17px;right:17px;bottom:7px;height:3px;background:var(--game-playerLifeFill, #267264)}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: umbral alcanzado",
+      "kind": "chip",
+      "description": "Hito estático de El Depredador en el inspector, con número y etiqueta.",
+      "html": "<span class=\"ds-milestone\">4 · +15 AD</span>",
+      "css": ".ds-milestone{display:inline-block;padding:5px;font:700 10px DM,\"DM Sans\",sans-serif;text-align:center;background:var(--game-threshold, #74E1CD);color:var(--game-thresholdInk, #152D2B)}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: tooltip complementario",
+      "kind": "custom",
+      "description": "Muestra estática de galería, fuera de las 18 láminas; no simula eventos del juego.",
+      "html": "<div class=\"ds-sample\"><svg class=\"ds-sample-frame\" viewBox=\"0 0 400 175\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 27L27 0H365L388 17H400V148L373 175H35L12 158H0Z\" fill=\"var(--border-frame, #191636)\"/><path d=\"M7 30L30 7H363L385 23H393V145L370 168H37L15 152H7Z\" fill=\"var(--border-primary, #8465E8)\"/><path class=\"ds-sample-fill\" d=\"M14 33L33 14H360L381 30H386V142L367 161H40L19 145H14Z\"/><path d=\"M33 21H352M21 38V134\" stroke=\"var(--material-highlight, #C7B5E0)\" opacity=\".4\" stroke-width=\"3\"/></svg><strong>Copita Perhaps</strong><p>Mixta · 70 maná</p><p>Consumo · +20 % velocidad · 3.0 s</p></div>",
+      "css": ".ds-sample{position:relative;isolation:isolate;min-height:175px;width:400px;padding:30px;color:var(--text-primary, #F4EADB);font-family:DM,\"DM Sans\",sans-serif}.ds-sample-frame{position:absolute;inset:0;width:100%;height:100%;z-index:-1}.ds-sample-fill{fill:var(--tooltip-surface, #2D2762)}.ds-sample strong{font:17px Pop,Bungee,sans-serif;display:block}.ds-sample p{font-size:13px;margin:8px 0;max-width:40ch}.ds-milestones{display:flex;gap:4px;margin:10px 0}.ds-milestones span{font-size:12px;background:var(--game-threshold, #74E1CD);color:var(--game-thresholdInk, #152D2B);padding:4px 7px}.ds-milestones span:last-child{background:var(--surface-elevated, #413A7D);color:var(--text-secondary, #D8CECC)}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: resultado complementario",
+      "kind": "custom",
+      "description": "Muestra estática de galería, fuera de las 18 láminas; no simula eventos del juego.",
+      "html": "<div class=\"ds-sample\"><svg class=\"ds-sample-frame\" viewBox=\"0 0 400 175\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 27L27 0H365L388 17H400V148L373 175H35L12 158H0Z\" fill=\"var(--border-frame, #191636)\"/><path d=\"M7 30L30 7H363L385 23H393V145L370 168H37L15 152H7Z\" fill=\"var(--border-primary, #8465E8)\"/><path class=\"ds-sample-fill\" d=\"M14 33L33 14H360L381 30H386V142L367 161H40L19 145H14Z\"/><path d=\"M33 21H352M21 38V134\" stroke=\"var(--material-highlight, #C7B5E0)\" opacity=\".4\" stroke-width=\"3\"/></svg><strong>Victoria</strong><p>Resultado ilustrativo</p><p>Vargas · Ronda 03 · +5 de interés</p></div>",
+      "css": ".ds-sample{position:relative;isolation:isolate;min-height:175px;width:400px;padding:30px;color:var(--text-primary, #F4EADB);font-family:DM,\"DM Sans\",sans-serif}.ds-sample-frame{position:absolute;inset:0;width:100%;height:100%;z-index:-1}.ds-sample-fill{fill:var(--result-surface, #373078)}.ds-sample strong{font:17px Pop,Bungee,sans-serif;display:block}.ds-sample p{font-size:13px;margin:8px 0;max-width:40ch}.ds-milestones{display:flex;gap:4px;margin:10px 0}.ds-milestones span{font-size:12px;background:var(--game-threshold, #74E1CD);color:var(--game-thresholdInk, #152D2B);padding:4px 7px}.ds-milestones span:last-child{background:var(--surface-elevated, #413A7D);color:var(--text-secondary, #D8CECC)}.ds-sample strong{color:var(--result-title, #46B9EC)}"
+    },
+    {
+      "name": "Royal Pop — ejemplo no aprobado: contador complementario",
+      "kind": "custom",
+      "description": "Muestra estática de galería, fuera de las 18 láminas; no simula eventos del juego.",
+      "html": "<div class=\"ds-sample\"><svg class=\"ds-sample-frame\" viewBox=\"0 0 400 175\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 27L27 0H365L388 17H400V148L373 175H35L12 158H0Z\" fill=\"var(--border-frame, #191636)\"/><path d=\"M7 30L30 7H363L385 23H393V145L370 168H37L15 152H7Z\" fill=\"var(--border-primary, #8465E8)\"/><path class=\"ds-sample-fill\" d=\"M14 33L33 14H360L381 30H386V142L367 161H40L19 145H14Z\"/><path d=\"M33 21H352M21 38V134\" stroke=\"var(--material-highlight, #C7B5E0)\" opacity=\".4\" stroke-width=\"3\"/></svg><strong>El Depredador · 5</strong><div class=\"ds-milestones\"><span>2 · Curación</span><span>4 · +15 AD</span><span>6 · Salto</span></div><p>Siguiente umbral: 6</p></div>",
+      "css": ".ds-sample{position:relative;isolation:isolate;min-height:175px;width:400px;padding:30px;color:var(--text-primary, #F4EADB);font-family:DM,\"DM Sans\",sans-serif}.ds-sample-frame{position:absolute;inset:0;width:100%;height:100%;z-index:-1}.ds-sample-fill{fill:var(--counter-surface, #2D2762)}.ds-sample strong{font:17px Pop,Bungee,sans-serif;display:block}.ds-sample p{font-size:13px;margin:8px 0;max-width:40ch}.ds-milestones{display:flex;gap:4px;margin:10px 0}.ds-milestones span{font-size:12px;background:var(--game-threshold, #74E1CD);color:var(--game-thresholdInk, #152D2B);padding:4px 7px}.ds-milestones span:last-child{background:var(--surface-elevated, #413A7D);color:var(--text-secondary, #D8CECC)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Medallones de torneo · cerámica tintada · encastres pixelados",
+    "overview": "Festival Pop C es la base elegida por el usuario y su grupo: medallones de torneo, cerámica tintada y encastres pixelados. Esta documentación describe únicamente la exploración local F0-P6B.5-A2 terminada en código. Las seis interpretaciones cromáticas siguen pendientes de selección humana; ninguna constituye el sistema aprobado del juego.\n\nLa composición, las siluetas, los recursos y la tipografía de C se conservan para comparar color en igualdad de condiciones. El documento global del producto describe el HUD P6B.4 y sigue siendo independiente. La recomendación editorial de Royal Pop en el informe no concede aprobación ni comienza F0-P6B.5-B.",
+    "keyCharacteristics": [
+      "Base Festival Pop C confirmada; seis paletas sin aprobar.",
+      "Un renderer compartido, tres vistas por familia y 18 composiciones PC.",
+      "Medallones, placas recortadas y marcos SVG paramétricos heredados de C.",
+      "Arte original, semánticas y datos de muestra constantes.",
+      "Galería operativa; economía y combate ilustrativos."
+    ],
+    "rules": [
+      {
+        "name": "The Color Comparison Rule",
+        "body": "Cambiar únicamente los tokens cromáticos de la familia; conservar composición, tipografía, geometría, contenido y recursos de C.",
+        "section": "colors"
+      },
+      {
+        "name": "The Semantic Continuity Rule",
+        "body": "Conservar vida jade, rival ámbar, maná azul, escudo frío, peligro coral, daño físico amarillo, daño mágico lavanda y umbrales menta; costes uno plata, dos menta y tres oro, acompañados por números y pips.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Usar Bungee para la identidad y las cifras destacadas, DM Sans para lectura y etiquetas económicas compactas, tal como resuelve la cascada de C.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do mantener las seis familias y sus fuentes de tokens disponibles hasta la selección humana.",
+      "Do conservar arena, sprites, cifras, cinco ofertas y nueve plazas de C para comparar color.",
+      "Do acompañar categorías y estados con texto, cifras, iconos y pips.",
+      "Do tratar tooltip, resultado, contador y estados adicionales como muestras de galería separadas de las 18 composiciones.",
+      "Do mantener explícitos el foco, los estados deshabilitados y el movimiento reducido."
+    ],
+    "donts": [
+      "Don't interpretar el ejemplo Royal Pop del frontmatter, la selección inicial del comparador o la recomendación del informe como aprobación.",
+      "Don't trasladar esta exploración al HUD real, modificar el sistema global ni iniciar F0-P6B.5-B antes de la elección humana.",
+      "Don't cambiar recorte, zoom, proyección, imagen o viñeta de Mar de Cristal por paleta.",
+      "Don't convertir datos estáticos, contadores o controles de economía de muestra en afirmaciones sobre una partida real.",
+      "Don't declarar conformidad WCAG completa, comodidad prolongada o identidad de píxeles entre capturas a partir de esta evidencia."
+    ]
+  }
+}
