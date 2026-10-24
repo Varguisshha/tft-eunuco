@@ -56,9 +56,14 @@ export function PhaseClock({ phase, frame, paused, authoritativeRemainingMs }: P
         </small>
       </div>
       <span className="phase-time" aria-label="Tiempo de fase">
-        {seconds === null || phase === 'not_started' || phase === 'finished'
-          ? '—'
-          : `${seconds.toFixed(1)}s`}
+        {seconds === null || phase === 'not_started' || phase === 'finished' ? (
+          '—'
+        ) : (
+          <>
+            {seconds.toFixed(1)}
+            <small className="phase-unit">s</small>
+          </>
+        )}
       </span>
     </div>
   );

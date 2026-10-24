@@ -1,3 +1,15 @@
+# Estado vigente — F0-P6B.5-B implementado
+
+Festival Pop C × Neon Playground integrado en el juego real: tokens, componentes SVG, tipografía, cinco ofertas, nueve plazas, economía, clasificación, sinergias, ficha contextual y herramientas DEV. Mecánicas y recursos originales conservados. Suite: 619 pruebas en 42 archivos, con tipos/lint/build y verificación de exclusión DEV pública.
+
+La fidelidad se compara con las tres composiciones aprobadas, con cinco resoluciones reales y revisión independiente. Se registran las adaptaciones obligatorias de cámara, casillas, estrellas y datos de combate. [Informe de implementación](NEON_PLAYGROUND_IMPLEMENTATION.md).
+
+**F0-P7A no iniciado.** Preparación: componentes y tokens reutilizables, criterios para nuevos personajes/arenas y validación reproducible. Cualquier fase futura requiere encargo separado; no se implementan multijugador, personajes nuevos, objetos ni aumentos.
+
+Las secciones siguientes registran cierres anteriores y no describen el estado actual.
+
+---
+
 ## F0-P6B.4 — actualización vigente
 
 Implementada F0-P6B.4: sistema visual común, tienda PC, contadores reales y escala ampliada con fixtures densos. Se detiene aquí; no se inicia otra fase. Persisten pendientes artísticos de clips/apariencias ya declarados en P6B.3. Próximo paso recomendado: jugar partidas con este HUD y priorizar recursos artísticos pendientes sin cambiar balance por esta fase.

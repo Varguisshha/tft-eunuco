@@ -1,3 +1,4 @@
+import { synergyLabel } from '../uiLabels';
 import { useId, useState } from 'react';
 import { analyzeTraits, matchTraits } from '@tft/game-core';
 import { getUnitDefinition } from '@tft/game-data';
@@ -103,7 +104,7 @@ function TraitRows({
             >
               <ContentIcon id={row.trait.icon} active={row.active} />
               <span className="trait-title">
-                <strong>{row.trait.id === 'upm' ? 'UPM' : row.trait.name}</strong>
+                <strong>{row.trait.id === 'upm' ? 'UPM' : synergyLabel(row.trait.id)}</strong>
                 <small>{row.active ? `Nivel ${row.level} · Activa` : 'Inactiva'}</small>
                 {internal.length > 0 && (
                   <small>

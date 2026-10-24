@@ -1,3 +1,5 @@
+import { GameFrame } from './match/hud/GameFrame';
+import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { VARGAS_ECONOMY_CONFIG } from '@tft/game-data';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
@@ -92,22 +94,32 @@ export function App() {
         className={`screen-nav ${screen === 'local' && session ? 'in-match' : ''}`}
         aria-label="Pantalla"
       >
-        <a className="nav-brand" href="#">
-          TFT EUNUCO
-        </a>
-        <button
-          aria-current={screen === 'local' ? 'page' : undefined}
-          onClick={() => setScreen('local')}
-        >
-          Partida local
-        </button>
-        <button
-          aria-current={screen === 'arena' ? 'page' : undefined}
-          onClick={() => setScreen('arena')}
-        >
-          Arena de pruebas
-        </button>
-        <span>F0–P6B.4 · LOCAL</span>
+        <details className="match-menu" open={!session || screen !== 'local'}>
+          <summary aria-label="Opciones de partida">
+            <GameFrame compact />
+            <GameIcon name="stats" />
+          </summary>
+          <div className="match-menu-content">
+            <a className="nav-brand" href="#" aria-label="TFT EUNUCO">
+              TFT EUNUCO
+            </a>
+            <button
+              aria-label="Partida local"
+              aria-current={screen === 'local' ? 'page' : undefined}
+              onClick={() => setScreen('local')}
+            >
+              Partida local
+            </button>
+            <button
+              aria-label="Arena de pruebas"
+              aria-current={screen === 'arena' ? 'page' : undefined}
+              onClick={() => setScreen('arena')}
+            >
+              Arena de pruebas
+            </button>
+            <span>F0–P6B.5-B · LOCAL</span>
+          </div>
+        </details>
       </nav>
       {notice && session && (
         <p className="save-notice" role="status">

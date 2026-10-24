@@ -1,0 +1,74 @@
+$ pnpm typecheck && pnpm lint && pnpm test && pnpm build
+$ tsc --noEmit
+$ eslint . --max-warnings 0
+
+/Users/vargas/Proyectos/TFT EUNUCO/design-exploration/f0-p6b5a/shared/app.js
+   2:18    error  'URL' is not defined                                                   no-undef
+   3:27    error  'URL' is not defined                                                   no-undef
+   4:16    error  'location' is not defined                                              no-undef
+  10:53    error  'document' is not defined                                              no-undef
+  44:33    error  'cost' is assigned a value but never used                              @typescript-eslint/no-unused-vars
+  46:6     error  The value assigned to 'shapes' is not used in subsequent statements    no-useless-assignment
+  84:17    error  'document' is not defined                                              no-undef
+  84:1943  error  'URLSearchParams' is not defined                                       no-undef
+  84:1959  error  'location' is not defined                                              no-undef
+  85:19    error  'document' is not defined                                              no-undef
+  85:57    error  'document' is not defined                                              no-undef
+  86:1     error  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  86:5     error  'URLSearchParams' is not defined                                       no-undef
+  86:21    error  'location' is not defined                                              no-undef
+  87:29    error  'document' is not defined                                              no-undef
+  87:78    error  'innerWidth' is not defined                                            no-undef
+  87:94    error  'innerHeight' is not defined                                           no-undef
+  87:186   error  'innerWidth' is not defined                                            no-undef
+  87:248   error  'innerHeight' is not defined                                           no-undef
+  88:1     error  'addEventListener' is not defined                                      no-undef
+  89:1     error  'document' is not defined                                              no-undef
+  89:98    error  'location' is not defined                                              no-undef
+  89:131   error  'document' is not defined                                              no-undef
+  89:195   error  'location' is not defined                                              no-undef
+
+/Users/vargas/Proyectos/TFT EUNUCO/design-exploration/f0-p6b5a/shared/provisional-art.mjs
+  71:82  error  'URL' is not defined  no-undef
+
+/Users/vargas/Proyectos/TFT EUNUCO/design-exploration/f0-p6b5a2/comparison/verify-captures.mjs
+  28:271  error  'Buffer' is not defined   no-undef
+  34:1    error  'console' is not defined  no-undef
+  34:191  error  'process' is not defined  no-undef
+
+/Users/vargas/Proyectos/TFT EUNUCO/design-exploration/f0-p6b5a2/shared/app.js
+   3:18    error  'URL' is not defined                                                   no-undef
+   4:27    error  'URL' is not defined                                                   no-undef
+   5:16    error  'location' is not defined                                              no-undef
+  12:90    error  'document' is not defined                                              no-undef
+  46:33    error  'cost' is assigned a value but never used                              @typescript-eslint/no-unused-vars
+  48:6     error  The value assigned to 'shapes' is not used in subsequent statements    no-useless-assignment
+  86:17    error  'document' is not defined                                              no-undef
+  86:1943  error  'URLSearchParams' is not defined                                       no-undef
+  86:1959  error  'location' is not defined                                              no-undef
+  87:19    error  'document' is not defined                                              no-undef
+  87:57    error  'document' is not defined                                              no-undef
+  88:1     error  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  88:5     error  'URLSearchParams' is not defined                                       no-undef
+  88:21    error  'location' is not defined                                              no-undef
+  89:29    error  'document' is not defined                                              no-undef
+  89:78    error  'innerWidth' is not defined                                            no-undef
+  89:94    error  'innerHeight' is not defined                                           no-undef
+  89:186   error  'innerWidth' is not defined                                            no-undef
+  89:248   error  'innerHeight' is not defined                                           no-undef
+  90:1     error  'addEventListener' is not defined                                      no-undef
+  91:1     error  'document' is not defined                                              no-undef
+  91:98    error  'location' is not defined                                              no-undef
+  91:131   error  'document' is not defined                                              no-undef
+  91:195   error  'location' is not defined                                              no-undef
+
+/Users/vargas/Proyectos/TFT EUNUCO/design-exploration/f0-p6b5a2/shared/gallery.js
+   2:12   error  'document' is not defined  no-undef
+  10:19   error  'document' is not defined  no-undef
+  12:1    error  'document' is not defined  no-undef
+  13:301  error  'window' is not defined    no-undef
+
+✖ 56 problems (56 errors, 0 warnings)
+
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

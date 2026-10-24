@@ -1,3 +1,17 @@
+# F0-P6B.5-B — decisiones vigentes, 24 de octubre de 2026
+
+- Adoptar Festival Pop C × Neon Playground por selección expresa del usuario; sustituir el sistema carbón/jade/latón del HUD y no elegir Royal Pop.
+- Reutilizar los 64 tokens, Bungee con licencia, geometría SVG y composición originales aprobados. Reconstruirlos como componentes funcionales, sin ilustraciones nuevas ni sustitución de retratos.
+- Mantener autoridad, estadísticas, economía, probabilidades, temporizadores, proyección, casillas, sprites y escala 1.4. La referencia visual no autoriza falsificar un estado de partida.
+- Reproducir las cajas principales del HUD a 1920; conservar el encuadre real de cámara necesario para que las casillas no queden bajo el banquillo. Documentar su diferencia objetiva respecto al montaje estático.
+- Mostrar información completa de inspector mediante scroll interno con cierre fijo. Mantener barras completas e iconos de vida/maná de la referencia.
+- Añadir solo un fixture DEV comparativo, con tiempo fijo explícito, pool validado y almacenamiento aislado. No entra en el build público ni altera las partidas normales.
+- Excluir los prototipos históricos del lint de aplicación tras encontrar 56 errores de scripts standalone; no reducir reglas ni omitir pruebas del juego.
+
+Evidencia, alternativas forzadas por restricciones y alcance de verificación: [NEON_PLAYGROUND_IMPLEMENTATION.md](NEON_PLAYGROUND_IMPLEMENTATION.md). Decisiones inferiores conservadas como historial.
+
+---
+
 ## F0-P6B.4 — actualización vigente
 
 Se evoluciona el sistema existente sin dependencia visual nueva. Marcos SVG originales, carbón/jade/latón; rasgos de tienda inferiores por requisito explícito. CombatCounter v1 separa progressGoal de max para que Depredador7 no parezca7/6. Escala1.4 se aplica en escena y se preserva contrato legado del adaptador. Lateral desplazable independiente en pantallas bajas evita ocultar controles/feedback. No se versiona combate/guardado porque no cambian reglas.

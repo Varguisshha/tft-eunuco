@@ -1,3 +1,17 @@
+# F0-P6B.5-B — frontera de presentación Neon
+
+`LocalGame` compone la cabecera, clasificación, campo y dock de reclutamiento con `neonHud.css` y `neonTokens.css`. Shop/Bench/UnitInspector/PhaseClock siguen leyendo LocalSession; las acciones económicas y las fases permanecen en la autoridad existente. GameFrame admite geometría de carta/panel/control y un marco compacto; GameButton conserva onAction/onCue, coste y estado accesible, incorporando un rótulo visible opcional. ContentIcon mantiene el registro/fallback de iconos y adopta los glifos originales de la exploración aprobada.
+
+Phaser solo cambia su color de fondo cuando hay arena. `GameCanvas.resize`, `fitArenaView`, homografía, coordenadas, selección y sprites no cambian. El tamaño/posición CSS del canvas participa en el encuadre existente, sin implementar otra cámara. El inspector tiene scroll propio y cierre fuera del contenedor desplazable.
+
+`development/neonReference.ts` es un fixture comparativo aislado: restaura un snapshot validado, reserva copias reales del pool, fija 52 oro/nivel4/XP4/ronda3/18.4s y una formación rival diagnóstica equivalente. La fuente de tiempo fija pertenece solo a ese controlador DEV; una prueba DEV normal o partida normal usa su reloj habitual. El fixture no modifica catálogos de producción ni formatos. Continúa bajo `__DEVTOOLS__`, importación diferida y exclusión del bundle público. Su botón dice explícitamente que usa reloj fijo y permite avanzar fase. Guardados DEV siguen rechazados por la recuperación normal.
+
+La lógica de paquetes y los assets originales no cambian. Se excluyen de lint únicamente los prototipos históricos de `design-exploration/**`, ajenos al bundle; las reglas de aplicación y las pruebas se conservan. [Informe técnico/visual](NEON_PLAYGROUND_IMPLEMENTATION.md).
+
+---
+
+## Arquitectura histórica previa
+
 ## F0-P6B.4 — actualización vigente
 
 La capa de presentación añade combatCounters.ts (contrato v1), GameCounter, GameIconButton y visualScale.ts. BoardScene aplica escala1.4 a arte real en Mar de Cristal; visualAdapter conserva default legado1 y hitbounds originales. CombatRenderer solo consume snapshots/eventos, incluyendo estela de daño180ms. BoardSession incorpora fixtures visuales4v4/8v8 internos. No se alteran shared, game-core, game-data, schemas, guardado ni reglas f0p6b3-1.

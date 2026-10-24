@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { levelRule } from '@tft/game-core';
 import { getTraitDefinition, matchCatalog } from '@tft/game-data';
 import { PixelUnit } from '../game/PixelUnit';
+import { ROLE_LABELS } from '../game/pixelArt';
 import type { LocalSession } from './LocalSession';
 import { synergyLabel } from './uiLabels';
 import { purchaseAvailability } from './purchaseAvailability';
@@ -46,6 +47,7 @@ export function Shop({ session }: { session: LocalSession }) {
           />
           <GameButton
             label={state.shopLocked ? 'Desbloquear tienda' : 'Bloquear tienda'}
+            displayLabel={state.shopLocked ? 'Desbloquear' : 'Bloquear'}
             icon={state.shopLocked ? 'lock' : 'unlock'}
             active={state.shopLocked}
             disabled={!preparing}
@@ -89,6 +91,22 @@ export function Shop({ session }: { session: LocalSession }) {
               }}
             >
               <GameFrame card />
+              {d && (
+                <>
+                  <span className="offer-motif" aria-hidden="true" />
+                  <span className="offer-medallion" aria-hidden="true">
+                    <GameIcon name="gold" />
+                  </span>
+                  <span className="offer-role">
+                    {d.id === 'vargas' || d.id === 'dolea' ? ROLE_LABELS[d.role] : 'Provisional'}
+                  </span>
+                  <span className="offer-pips" aria-hidden="true">
+                    {Array.from({ length: d.cost }, (_, n) => (
+                      <i key={n} />
+                    ))}
+                  </span>
+                </>
+              )}
               {d ? (
                 <>
                   {state.shopLocked && (
@@ -101,7 +119,11 @@ export function Shop({ session }: { session: LocalSession }) {
                   </span>
                   <span className="offer-traits" id={`offer-detail-${i}`}>
                     {d.synergies.slice(0, 2).map((id) => (
-                      <span className="offer-trait" key={id}>
+                      <span
+                        className="offer-trait"
+                        key={id}
+                        title={getTraitDefinition(id)?.name ?? synergyLabel(id)}
+                      >
                         <ContentIcon id={getTraitDefinition(id)?.icon ?? id} />
                         <span>{id === 'upm' ? 'UPM' : synergyLabel(id)}</span>
                       </span>

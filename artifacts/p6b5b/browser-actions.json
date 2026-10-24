@@ -1,0 +1,67 @@
+[
+  {
+    "action": "XP",
+    "economy": "ORO\n48\nInterés previsto\n+4\nNIVEL 4\n8 / 10 XP\nComprar XP\n4\nRacha\n2\nvictorias"
+  },
+  {
+    "action": "reroll",
+    "economy": "ORO\n46\nInterés previsto\n+4\nNIVEL 4\n8 / 10 XP\nComprar XP\n4\nRacha\n2\nvictorias"
+  },
+  {
+    "action": "lock",
+    "pressed": "true"
+  },
+  {
+    "action": "buy while locked",
+    "economy": "ORO\n44\nInterés previsto\n+4\nNIVEL 4\n8 / 10 XP\nComprar XP\n4\nRacha\n2\nvictorias",
+    "bench": "Banquillo\n2 / 9 plazas\n1\nVARGAS\n2\n3\nK-01\n4\n5\n6\n7\n8\n9"
+  },
+  {
+    "action": "sale after original sequence",
+    "gold": 47
+  },
+  {
+    "action": "zero-gold refusal",
+    "buyEnabled": false,
+    "xpEnabled": false,
+    "rerollEnabled": false
+  },
+  {
+    "action": "drag board to bench and back",
+    "formationAfterOut": 3,
+    "formationAfterReturn": 4
+  },
+  {
+    "action": "DOLEA fusion",
+    "stars": 2,
+    "maxHp": 1080
+  },
+  {
+    "action": "automatic real-time DEV rounds",
+    "observedRound": 5,
+    "lastSettlementRound": 4,
+    "pausedCombatSeconds": 43.7
+  },
+  {
+    "action": "DEV recovery after reload",
+    "round": 5,
+    "phase": "combat",
+    "pausedCombatSeconds": 43.7
+  },
+  {
+    "action": "overtime technical scenario",
+    "finalTick": 357,
+    "eventReviewTick": 300,
+    "remainingSeconds": 15
+  },
+  {
+    "action": "hover and focus renewal",
+    "hover": true,
+    "focus": true,
+    "surface": "#cef078"
+  },
+  {
+    "action": "inspector close while internally scrolled",
+    "visibleAndClicked": true
+  }
+]

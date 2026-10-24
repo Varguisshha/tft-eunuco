@@ -1,15 +1,14 @@
+import { GameFrame } from './hud/GameFrame';
 import { GameIconButton } from './hud/GameIconButton';
 import { TraitRail } from './hud/TraitRail';
 import { useRef, useState, useSyncExternalStore } from 'react';
 import { deployedCount, interestFor, levelRule, type LocalMatchCoordinator } from '@tft/game-core';
 import { GameCanvas } from '../game/GameCanvas';
 import { PhaseClock } from './PhaseClock';
-import './gameHud.css';
-import './hud/recruitment.css';
-import './hud/traits.css';
-import './hud/visualSystem.css';
+
 import { GameButton } from './hud/GameButton';
 import { GameIcon } from './hud/GameIcon';
+import './hud/neonHud.css';
 import { LocalSession } from './LocalSession';
 import { UnitInspector } from './UnitInspector';
 import { Bench } from './Bench';
@@ -35,16 +34,23 @@ export function LocalGame({
   return (
     <main className={`local-game game-hud phase-${phase}`}>
       <header className="match-heading">
-        <div className="round-emblem">
-          <span>RONDA</span>
-          <h1>{String(state.round).padStart(2, '0')}</h1>
+        <div className="match-logo">
+          TFT <b>EUNUCO</b>
         </div>
-        <PhaseClock
-          phase={phase}
-          frame={session.combatFrame()}
-          paused={clock ? clock.clockState === 'paused' : view.combat.mode === 'paused'}
-          {...(phase !== 'combat' && clock ? { authoritativeRemainingMs: clock.remainingMs } : {})}
-        />
+        <div className="phase-plate">
+          <div className="round-emblem">
+            <span>RONDA</span>
+            <h1>{String(state.round).padStart(2, '0')}</h1>
+          </div>
+          <PhaseClock
+            phase={phase}
+            frame={session.combatFrame()}
+            paused={clock ? clock.clockState === 'paused' : view.combat.mode === 'paused'}
+            {...(phase !== 'combat' && clock
+              ? { authoritativeRemainingMs: clock.remainingMs }
+              : {})}
+          />
+        </div>
         <div className="round-actions">
           {phase === 'not_started' ? (
             <GameButton
@@ -81,7 +87,7 @@ export function LocalGame({
       <div className="battlefield">
         <aside className="player-rail" aria-label="Participantes locales">
           <div className="rail-heading">
-            <h2>En esta arena</h2>
+            <h2>Clasificación</h2>
           </div>
           {[...(['south', 'north'] as const)]
             .sort((a, b) => state.health[b] - state.health[a])
@@ -91,7 +97,7 @@ export function LocalGame({
                 className={`player-banner ${side} ${state.health[side] === 0 ? 'eliminated' : ''}`}
               >
                 <span className="player-sigil" aria-hidden="true">
-                  {side === 'south' ? 'V' : 'F'}
+                  <GameIcon name="shield" />
                 </span>
                 <div>
                   <h3>{side === 'south' ? 'Vargas' : 'Florin'}</h3>
@@ -100,7 +106,7 @@ export function LocalGame({
                       ? 'Eliminado'
                       : side === 'south'
                         ? 'Tú · Jade'
-                        : 'Rival actual'}
+                        : 'Rival · Ámbar'}
                   </small>
                 </div>
                 <strong>
@@ -186,6 +192,13 @@ export function LocalGame({
             arena={MAR_DE_CRISTAL}
             development={coordinator?.development ?? false}
           />
+          <div className="formation-readout">
+            <strong>
+              <GameIcon name="shield" />
+              {deployedCount(state)} / {state.level}
+            </strong>
+            <span>Tu formación</span>
+          </div>
           <div className="local-board-footer">
             <span>Vargas · Jade</span>
             <span>
@@ -209,6 +222,7 @@ export function LocalGame({
       </div>
       <div className="recruitment-dock">
         <section className="economy-bar" aria-label="Economía">
+          <GameFrame width={246} height={231} />
           <div className="gold-readout">
             <span>Oro</span>
             <strong>
@@ -234,13 +248,19 @@ export function LocalGame({
               max={state.level === state.config.maxLevel ? 1 : rule.xpToNext}
             />
             <small>
-              {state.level === state.config.maxLevel
-                ? 'Nivel máximo'
-                : `${state.xp} / ${rule.xpToNext} XP · +${state.config.passiveXp} por ronda`}
+              {state.level === state.config.maxLevel ? (
+                'Nivel máximo'
+              ) : (
+                <>
+                  {state.xp} / {rule.xpToNext} XP
+                  <span className="xp-hint"> · +{state.config.passiveXp} por ronda</span>
+                </>
+              )}
             </small>
           </div>
           <GameButton
             label={`Comprar ${state.config.xpPurchase} XP`}
+            displayLabel="Comprar XP"
             icon="xp"
             cost={state.config.xpCost}
             disabled={
@@ -250,7 +270,7 @@ export function LocalGame({
             }
             onAction={() => session.dispatch({ type: 'buy_xp' })}
           />
-          <div className="streak-readout">
+          <div className="streak-readout" title="Racha de rondas">
             <span>Racha</span>
             <strong>{Math.abs(state.streak)}</strong>
             <small>

@@ -7,6 +7,8 @@ export default tseslint.config(
       '**/dist-dev/**',
       '**/node_modules/**',
       'artifacts/**',
+      // Historical standalone prototypes are not application source.
+      'design-exploration/**',
       '.impeccable/**',
     ],
   },

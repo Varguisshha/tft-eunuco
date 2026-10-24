@@ -1,3 +1,17 @@
+# F0-P6B.5-B — especificación vigente del HUD Neon
+
+Festival Pop C × Neon Playground reemplaza visualmente el HUD anterior. Fuente de verdad: las tres composiciones aprobadas en `design-exploration/f0-p6b5a2/neon-playground/`. Cinco fichas continuas, nueve plazas flotantes, clasificación Vargas/Florin y sinergias a la izquierda, economía abajo, acciones a la derecha e inspector contextual. Se abre solo con selección y no redimensiona el campo.
+
+En las fichas, retrato proporcional dominante; rasgos abajo a la izquierda encima del nombre; nombre inferior izquierdo y coste inferior derecho. Se conservan estados disponibles, hover/foco, compra/reclutado, insuficiente, bloqueado y deshabilitado por fase. Renovar y bloquear comparten silueta original C y acento lima; XP usa placa azul; economía usa magenta y oro semántico. Los controles siguen autorizados por LocalSession/coordinador, con etiquetas accesibles completas aunque el rótulo visible sea breve.
+
+El inspector mantiene retrato, estrellas, coste/rol, dos barras completas de vida/maná, AD/AP/críticos, estadísticas restantes, habilidades, pasivas y contadores reales. El contenido se desplaza internamente y el cierre queda fijo. DOLEA conserva Volumen Sucio; VARGAS conserva Copita Perhaps y Blackhaus RPP. Antes de combatir no se inventan acumulaciones de muestra. El Depredador distingue miembros de eliminaciones y UPM conserva el progreso individual del motor.
+
+Escritorio validado: 1280×720, 1366×768, 1440×900, 1920×1080 y 2560×1440. Cinco ofertas y controles económicos completos, sin scroll del documento. DEV se pliega y mantiene sus herramientas y guardado separados; normal conserva reloj real. La referencia DEV con reloj fijo está identificada y sirve exclusivamente para comparación visual. Cámara/proyección y recursos de personajes permanecen intactos.
+
+[Tokens y reglas](GAME_VISUAL_SYSTEM.md) · [informe y discrepancias](NEON_PLAYGROUND_IMPLEMENTATION.md). Los apartados inferiores son históricos y quedan sustituidos en identidad/distribución por esta sección.
+
+---
+
 ## F0-P6B.4 — actualización vigente
 
 La norma vigente de tienda es retrato dominante, sinergias **abajo a la izquierda sobre el nombre**, coste abajo a la derecha. Sustituye la posición superior histórica de P5.3. Controles comparten marco metálico original; inspector contextual incorpora contadores reales. A ≤800px de altura, participantes permanecen fijos y solo la lista de sinergias se desplaza; avisos quedan fuera. Cinco tamaños de escritorio conservan cinco tarjetas sin scroll de página.

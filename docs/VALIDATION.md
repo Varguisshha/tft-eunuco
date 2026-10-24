@@ -1,3 +1,19 @@
+# Validación F0-P6B.5-B — 24 de octubre de 2026
+
+Base real: 614 pruebas/41 archivos. La primera ejecución de `pnpm check` encontró 56 errores de lint en los prototipos históricos standalone. Tras excluir `design-exploration/**` del lint de aplicación, la base completa pasó. No se borraron pruebas ni se alteraron reglas. Resultado: 619 pruebas/42 archivos, tipos, lint y build correctos. `verify:public` confirma que el controlador, panel, comandos y almacenamiento DEV no se incluyen en el bundle público. Persiste el aviso conocido de tamaño de chunks.
+
+Cinco resoluciones reales: 1280×720, 1366×768, 1440×900, 1920×1080 y 2560×1440; documento del mismo tamaño que el viewport, sin scroll vertical ni horizontal ni imágenes incompletas. Comparación 1920 de pantalla, inspector VARGAS y detalle de fichas/controles frente a Neon aprobado. Se midieron las cajas principales y se documentó el encuadre diferente exigido por cámara/casillas protegidas.
+
+Navegador: XP52→48, renovación48→46, compra bloqueada46→44 y venta44→47; bloqueo accesible activo; con oro0 se rechazan compra/XP/renovación. Fusión real DOLEA1★→2★, nuevo arte y 1080HP; arrastre tablero→banquillo→casilla legal y ficha contextual. Inspector VARGAS muestra AD/AP/críticos, Resaca1/5 y +4% de velocidad durante combate, eliminaciones/lanzamientos y umbrales de Depredador reales. DOLEA muestra Volumen Sucio. Registro abierto/cerrado. DEV: oro, XP, vida rival, formación, pausa/reanudación y recuperación tras recarga; ronda5/combat43.7s se recuperó con reloj pausado, sin alterar el slot normal.
+
+Ciclo automático real en DEV con duraciones diagnósticas cortas: preparación→combate→resolución y liquidaciones hasta ronda5. Overtime técnico: ejecución de escenario de victoria hasta tick357 y salto al evento real tick300 con15s restantes y velocidad1.2. Esto valida Overtime en Arena técnica; no se afirma haber alcanzado naturalmente Overtime en una partida local normal durante esta fase.
+
+La consulta de consola recogió errores de recarga en caliente de ediciones intermedias; la comprobación final se hace desde una recarga limpia y se registra por fecha en `artifacts/p6b5b/console-final.json`. No se atribuye ausencia de errores a toda la sesión de edición. Movimiento reducido se conserva y comprueba por código; no se cambió la preferencia del sistema. Hover/foco/pressed se revisan en los componentes y mediante ejecución real de controles; no se afirma disponer de una captura de cada milisegundo de pressed.
+
+Revisión Impeccable independiente: seis hallazgos en primera pasada, corregidos en bloque y recapturados; el veredicto final `ship` para esas seis correcciones se guarda en `artifacts/p6b5b/finish-verdict.md`. Detector ejecutado una sola vez; bordes inferiores de referencia y feedback son intencionales, y los avisos de fuentes/tokens se resuelven actualizando la autoridad documental aprobada. Alcance y limitaciones completos en [NEON_PLAYGROUND_IMPLEMENTATION.md](NEON_PLAYGROUND_IMPLEMENTATION.md).
+
+---
+
 ## F0-P6B.4 — actualización vigente
 
 Baseline601 pruebas/40 archivos conservado. Resultado final614 pruebas/41 archivos; typecheck, lint y build correctos. verify:public confirma ausencia de controlador/panel/comandos/guardado DEV en bundle público. Pruebas nuevas cubren estado autoritativo, atribución, consumo/duración, UPM, render semántico, tarjetas, escala/huella y fixtures4v4/8v8. Navegador real en cinco tamaños, compras/XP/renovación/bloqueo, selección/arrastre, inspector, consumo/salto/overtime y densidad. Consola consultada sin errores. Detalle de evidencia y límites en F0_P6B4_REPORT.md; no extrapolar a todos los navegadores ni rendimiento exhaustivo.

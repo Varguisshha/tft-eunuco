@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUnitDefinition } from '@tft/game-data';
+import { GameIcon } from './hud/GameIcon';
 import { PixelUnit } from '../game/PixelUnit';
 import type { LocalSession } from './LocalSession';
 export function Bench({
@@ -75,10 +76,16 @@ export function Bench({
                 <>
                   <PixelUnit role={d.role} spriteId={d.spriteId} stars={u.stars} />
                   <span className="bench-name">{d.name}</span>
-                  <span className="stars">{'★'.repeat(u.stars)}</span>
+                  <span className="stars">
+                    {Array.from({ length: u.stars }, (_, i) => (
+                      <GameIcon key={i} name="star" />
+                    ))}
+                  </span>
                 </>
               ) : (
-                <span className="empty-slot">+</span>
+                <span className="empty-slot">
+                  <GameIcon name="plus" />
+                </span>
               )}
             </button>
           );

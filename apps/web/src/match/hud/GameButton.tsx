@@ -4,6 +4,7 @@ import { GameIcon, type GameIconName } from './GameIcon';
 export type HudCue = 'hover' | 'press' | 'success';
 export function GameButton({
   label,
+  displayLabel,
   icon,
   cost,
   disabled,
@@ -14,6 +15,7 @@ export function GameButton({
   title,
 }: {
   label: string;
+  displayLabel?: string;
   icon: GameIconName;
   cost?: number;
   disabled: boolean;
@@ -47,7 +49,7 @@ export function GameButton({
     >
       <GameFrame />
       <GameIcon name={icon} />
-      <span className="game-button-label">{label}</span>
+      <span className="game-button-label">{displayLabel ?? label}</span>
       {cost !== undefined && (
         <span className="game-button-cost">
           <GameIcon name="gold" />

@@ -7,21 +7,21 @@
   font-size: 12px;
 }
 .dev-access details {
-  background: #11221f;
-  border: 1px solid #8d7851;
+  background: var(--neon-surface-overlay);
+  border: 1px solid var(--neon-border-primary);
   padding: 8px 12px;
   max-width: 280px;
 }
 .dev-access summary {
   cursor: pointer;
-  color: #edce91;
+  color: var(--neon-game-gold);
 }
 .dev-access .button {
   margin: 4px;
 }
 .dev-environment {
   font-size: 11px;
-  color: #edce91;
+  color: var(--neon-game-gold);
 }
 .developer-console {
   position: fixed;
@@ -29,30 +29,30 @@
   right: 16px;
   top: 98px;
   width: min(390px, calc(100vw - 32px));
-  color: #e6dfca;
-  background: #101e1c;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-overlay);
   box-shadow: 0 12px 32px #040b09b3;
   font-size: 12px;
-  border: 1px solid #8d7851;
+  border: 1px solid var(--neon-border-primary);
 }
 .developer-console > header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #25342b;
+  background: var(--neon-surface-primary);
   min-height: 40px;
 }
 .dev-fold,
 .dev-return {
   background: none;
   border: 0;
-  color: #edce91;
+  color: var(--neon-game-gold);
   padding: 10px 12px;
   cursor: pointer;
   font-size: 11px;
 }
 .dev-return {
-  color: #dbdfcd;
+  color: var(--neon-text-secondary);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -62,14 +62,14 @@
   padding: 14px;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: #8d7851 #14251f;
+  scrollbar-color: var(--neon-border-primary) var(--neon-surface-overlay);
 }
 .dev-scroll h2 {
   font:
     600 20px 'Space Grotesk',
     sans-serif;
   margin: 0 0 6px;
-  color: #f0e7d3;
+  color: var(--neon-text-primary);
 }
 .dev-scroll p {
   line-height: 1.5;
@@ -77,23 +77,23 @@
 }
 .dev-result {
   padding: 8px;
-  background: #223b30;
-  color: #c4e4c9;
+  background: var(--neon-surface-elevated);
+  color: var(--neon-game-life);
   min-height: 34px;
 }
 .dev-result.is-error {
-  background: #482b25;
-  color: #ffe0ca;
+  background: var(--neon-surface-elevated);
+  color: var(--neon-state-danger);
 }
 .dev-scroll fieldset {
   border: 0;
-  border-top: 1px solid #465447;
+  border-top: 1px solid var(--neon-border-primary);
   margin: 20px 0 0;
   padding: 10px 0 0;
   min-width: 0;
 }
 .dev-scroll legend {
-  color: #edce91;
+  color: var(--neon-game-gold);
   font-weight: 600;
   padding-right: 12px;
 }
@@ -108,13 +108,13 @@
 .dev-scroll select {
   width: 100%;
   min-width: 0;
-  background: #1e3029;
-  color: #f1e8d3;
-  border: 1px solid #677561;
+  background: var(--neon-surface-primary);
+  color: var(--neon-text-primary);
+  border: 1px solid var(--neon-border-highlight);
   border-radius: 0;
   padding: 7px;
   font: inherit;
-  caret-color: #edce91;
+  caret-color: var(--neon-game-gold);
 }
 .dev-scroll .game-button {
   width: 100%;
@@ -143,21 +143,21 @@
 }
 .dev-scroll :focus-visible,
 .developer-console > header :focus-visible {
-  outline: 2px solid #efd39a;
+  outline: 2px solid var(--neon-focus);
   outline-offset: 2px;
 }
 .dev-scroll small {
-  color: #bcc7b4;
+  color: var(--neon-text-secondary);
   line-height: 1.5;
 }
 .dev-diagnostics {
   margin-top: 20px;
-  border-top: 1px solid #465447;
+  border-top: 1px solid var(--neon-border-primary);
   padding-top: 12px;
 }
 .dev-diagnostics summary {
   cursor: pointer;
-  color: #edce91;
+  color: var(--neon-game-gold);
 }
 .dev-diagnostics dl {
   display: grid;
@@ -166,7 +166,7 @@
   font-variant-numeric: tabular-nums;
 }
 .dev-diagnostics dt {
-  color: #b6c3b0;
+  color: var(--neon-text-secondary);
 }
 .dev-diagnostics dd {
   margin: 0;
@@ -174,7 +174,7 @@
 }
 .dev-diagnostics ol {
   padding-left: 18px;
-  color: #c3cdbb;
+  color: var(--neon-text-secondary);
   line-height: 1.6;
 }
 @media (max-height: 780px) {
@@ -187,9 +187,10 @@
 }
 /* The folded tool lives in the navigation's free area, clear of the inspector. */
 .developer-console:not(.is-open) {
-  top: 0;
-  right: 160px;
-  width: 320px;
+  top: auto;
+  bottom: 2px;
+  right: 24px;
+  width: auto;
   border: 0;
   box-shadow: none;
   background: transparent;

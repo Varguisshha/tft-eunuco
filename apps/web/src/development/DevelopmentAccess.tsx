@@ -1,3 +1,4 @@
+import { createNeonReference } from './neonReference';
 import { useEffect, useRef, useState } from 'react';
 import { DevelopmentController } from '@tft/game-core/development';
 import type { DevelopmentCommand } from '@tft/shared/development';
@@ -178,6 +179,20 @@ export default function DevelopmentAccess({
       {opened && (
         <div className="dev-scroll">
           <h2>Laboratorio de partida</h2>
+          <GameButton
+            label="Cargar referencia Neon"
+            icon="stats"
+            disabled={false}
+            onAction={() => {
+              const next = createNeonReference();
+              setController(next);
+              setMessage(
+                'Referencia Neon · reloj fijo 18.4 s · datos reales. Usa avanzar fase para combatir.',
+              );
+              onReplace(next.coordinator);
+              return true;
+            }}
+          />
           <p>Pool real reservado · guardado aislado · semilla {state.seed}</p>
           <p
             className={`dev-result ${controller.audit.at(-1)?.ok === false ? 'is-error' : ''}`}

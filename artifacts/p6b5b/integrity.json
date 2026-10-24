@@ -1,0 +1,16 @@
+{
+  "baseline": "976a22e",
+  "protectedPaths": [
+    "packages",
+    "apps/web/src/arenas",
+    "apps/web/src/game/projection.ts",
+    "apps/web/src/game/visualScale.ts",
+    "apps/web/public/assets/units",
+    "scripts/sprites"
+  ],
+  "changedProtectedPaths": [],
+  "fontSha256": "c4f5361ce120af3e6b9156d0bf379fa19cda2ea0cd18ac01fd99596c6bf66e3f",
+  "finalTests": 619,
+  "testFiles": 42,
+  "publicDevelopmentExclusionVerified": true
+}

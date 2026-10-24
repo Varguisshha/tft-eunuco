@@ -85,7 +85,7 @@ export function GameCanvas({
         parent: host.current,
         width: WORLD.width,
         height: WORLD.height,
-        backgroundColor: '#111e18',
+        backgroundColor: arena ? '#0F1125' : '#111e18',
         scene: [board],
         banner: false,
         audio: { noAudio: true },

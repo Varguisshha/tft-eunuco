@@ -75,7 +75,9 @@ export class BoardScene extends Phaser.Scene {
     } else if (!this.arena) this.drawTechnicalGround();
     this.overlay = this.add.graphics().setDepth(2);
     this.combatRenderer = new CombatRenderer(this, this.projection, !this.fitted);
-    this.cameras.main.setBackgroundColor('#111e18').centerOn(WORLD.width / 2, WORLD.height / 2);
+    this.cameras.main
+      .setBackgroundColor(this.arena ? '#0F1125' : '#111e18')
+      .centerOn(WORLD.width / 2, WORLD.height / 2);
     this.input.on('pointermove', this.pointerMove, this);
     this.input.on('pointerdown', this.pointerDown, this);
     this.input.on('pointerup', this.pointerUp, this);
