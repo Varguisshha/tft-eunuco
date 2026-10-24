@@ -6,6 +6,8 @@
 }
 /* The approved C composition is the layout authority; game data remains live. */
 :root {
+  /* CSS viewport space, never physical display pixels; stop growing on wide monitors. */
+  --neon-hud-unit: clamp(0.66px, min(0.0520833333vw, 0.1dvh), 0.82px);
   --hud-text: var(--neon-text-primary);
   --hud-muted: var(--neon-text-secondary);
   --hud-gold: var(--neon-game-gold);
@@ -16,7 +18,7 @@ body {
   background: var(--neon-surface-canvas);
 }
 .game-hud {
-  --u: clamp(0.58px, 0.0520833333vw, 1.5px);
+  --u: var(--neon-hud-unit);
   position: relative;
   isolation: isolate;
   display: block;
@@ -211,7 +213,7 @@ body {
   margin: 0;
   border: 0;
   background: none;
-  --nav-u: clamp(0.58px, 0.0520833333vw, 1.5px);
+  --nav-u: var(--neon-hud-unit);
 }
 .screen-nav.in-match .match-menu {
   position: relative;
@@ -894,7 +896,7 @@ body {
   background: var(--neon-button-default);
   border-bottom-color: var(--neon-state-selected);
 }
-/* Exact recruitment proportions at 1920×1080; the scale only adapts to the viewport. */
+/* Recruitment retains its proportions; desktop sizing is bounded below. */
 .game-hud .recruitment-dock {
   position: absolute;
   left: calc(23 * var(--u));
@@ -1974,27 +1976,6 @@ body {
     font-size: 10px;
   }
 }
-@media (min-width: 2200px) {
-  .game-hud .local-inspector {
-    max-height: 65vh;
-  }
-  .inspector-scroll {
-    padding-right: 6px;
-  }
-  .game-hud .local-unit-title span {
-    font-size: 15px;
-  }
-  .game-hud .combat-stats dd {
-    font-size: 21px;
-  }
-  .combat-stats dt,
-  .counter-detail {
-    font-size: 13px;
-  }
-  .ability-component p {
-    font-size: 14px;
-  }
-}
 @media (max-width: 1099px) {
   .game-hud {
     height: 850px;
@@ -2379,4 +2360,78 @@ body {
 .game-hud .inspector-close {
   background: var(--neon-surface-primary);
   box-shadow: 0 0 0 3px var(--neon-surface-primary);
+}
+
+/* Bounded desktop composition: additional screen space belongs to the arena.
+   This overrides the original percentage-scaled 1920 prototype layout only. */
+@media (min-width: 1100px) {
+  .game-hud {
+    --dock-bottom: 28px;
+    --dock-height: calc(231 * var(--u));
+    --bench-height: calc(104 * var(--u));
+    --dock-width: min(calc(100% - 46 * var(--u)), calc(1874 * var(--u)));
+  }
+  .game-hud .local-board {
+    left: 0;
+    width: 100%;
+  }
+  .phase-plate {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(650 * var(--u));
+  }
+  .game-hud .recruitment-dock {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: var(--dock-width);
+    bottom: var(--dock-bottom);
+    height: var(--dock-height);
+  }
+  .game-hud .shop-offers {
+    min-height: 0;
+  }
+  .game-hud .bench-section {
+    left: 50%;
+    top: auto;
+    transform: translateX(-50%);
+    width: calc(1164 * var(--u));
+    height: var(--bench-height);
+    bottom: calc(var(--dock-bottom) + var(--dock-height) + 12 * var(--u));
+  }
+  .game-hud .player-rail {
+    bottom: calc(var(--dock-bottom) + var(--dock-height) + 12 * var(--u));
+    max-height: none;
+  }
+  .game-hud .local-inspector {
+    top: calc(141 * var(--u));
+    bottom: calc(var(--dock-bottom) + var(--dock-height) + var(--bench-height) + 24 * var(--u));
+    width: clamp(300px, 25vw, 336px);
+    height: auto;
+    max-height: 654px;
+  }
+  .game-hud .gold-readout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: calc(42 * var(--u)) 1fr;
+    align-items: center;
+  }
+  .game-hud .gold-readout > span:first-child {
+    position: static;
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 5px;
+  }
+  .game-hud .gold-readout > strong {
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: start;
+  }
+  .game-hud .match-feedback {
+    bottom: 8px;
+  }
+  .bench-section h2 {
+    font: 700 max(11px, calc(13 * var(--u))) / 1.2 'DM Sans';
+  }
 }

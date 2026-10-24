@@ -207,13 +207,17 @@ Los valores del frontmatter son normativos. Usar las familias semánticas aproba
 
 FestivalPop es el alias local del archivo Bungee aprobado (`/assets/fonts/bungee.ttf`, SIL OFL). DM Sans se sirve desde la dependencia local ya existente. El nombre del alias no implica otra fuente. Las cifras del HUD son tabulares.
 
-A escala de referencia 1920: ronda (29px), temporizador (37px), oro (39px), nombres de oferta (21px), precios (23px), nombre del inspector (25px), acciones (17px) y contadores (26px) usan FestivalPop. DM Sans sostiene datos y explicaciones (10–15px; cuerpo de habilidad 12px/1.5). Comprar XP usa DM Sans en su control económico. La monoespaciada queda para diagnóstico.
+En la geometría nominal del prototipo (antes de aplicar la unidad de HUD): ronda (29px), temporizador (37px), oro (39px), nombres de oferta (21px), precios (23px), nombre del inspector (25px), acciones (17px) y contadores (26px) usan FestivalPop. DM Sans sostiene datos y explicaciones (10–15px; cuerpo de habilidad 12px/1.5). Comprar XP usa DM Sans en su control económico. La monoespaciada queda para diagnóstico.
 
-El HUD escala con la unidad proporcional definida en Layout; tamaños mínimos de 9–14px protegen datos y controles según el rol. En escritorios de altura hasta 800px se compactan títulos y contenido secundario; desde 2200px se amplían datos internos del inspector. No convertir las explicaciones extensas en titulares de bloque.
+El HUD escala con la unidad proporcional definida en Layout; tamaños mínimos de 9–14px protegen datos y controles según el rol. En escritorios de altura hasta 800px se compactan títulos y contenido secundario; los datos internos del inspector mantienen tamaños acotados incluso en monitores grandes. No convertir las explicaciones extensas en titulares de bloque.
 
 ## Layout
 
-La superficie PC ocupa `100dvh`, a ancho completo, con capas absolutas y sin scroll del documento en los cinco objetivos 1280 × 720, 1366 × 768, 1440 × 900, 1920 × 1080 y 2560 × 1440. La unidad de composición es `clamp(0.58px, 0.0520833333vw, 1.5px)`; porcentajes verticales conservan las relaciones del prototipo. Las medidas detalladas de fase, dock, banquillo e inspector se documentan en el brief de la superficie.
+La superficie PC ocupa `100dvh`, con capas superpuestas. Tras la corrección solicitada para portátil de 13 pulgadas y monitor de 27, el HUD deja de crecer proporcionalmente en ventanas grandes: `--neon-hud-unit: clamp(0.66px, min(0.0520833333vw, 0.1dvh), 0.82px)`. Se usa el espacio CSS disponible, sin inferir pulgadas físicas ni modificar el zoom del navegador.
+
+En escritorio ≥1100px, la tienda se centra y conserva cinco ofertas, con ancho máximo de aproximadamente1537px y alto máximo189.4px. El banquillo centra sus nueve plazas inmediatamente encima y limita su ancho a954.5px/alto85.3px. Clasificación, rasgos, cabecera y ajustes comparten la unidad acotada. El lateral puede aprovechar espacio hasta la tienda, sin recortar las cuatro sinergias de la formación de referencia. El inspector mide300–336px de ancho, como máximo654px de alto y se limita al espacio libre sobre el banquillo, con desplazamiento interno. Oro y etiqueta usan columnas independientes para conservar lectura con999 monedas.
+
+El canvas ocupa el ancho disponible y mantiene el ajuste de cámara existente; el espacio adicional se dedica a la arena. No se aplica transform/zoom global al juego. Paleta, marcos, sprites, proyección y reglas permanecen. Capturas y medidas actuales: `artifacts/hud-density/`; las cajas originales del prototipo se conservan como referencia histórica, no como obligación de llenar cualquier monitor. Validado sin scroll en ocho viewports de1280×720 a3840×2160, incluyendo1454×873 y2539×1339.
 
 El canvas conserva cámara/proyección y 56 casillas legales. Su reserva sobre el banquillo mantiene el borde jugable visible; la posición de la ilustración difiere justificadamente del montaje estático. Abrir el inspector no crea columna ni reduce el canvas. Rasgos, tooltip, inspector y registro admiten desplazamiento interno; el cierre de ficha queda fuera de su contenido desplazable.
 

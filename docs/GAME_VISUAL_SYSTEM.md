@@ -1,3 +1,9 @@
+## Ajuste vigente — densidad adaptable de escritorio
+
+A petición del usuario, tienda, banquillo, sinergias y cabecera dejan de crecer indefinidamente con el monitor. La unidad de HUD se limita a0.82px; tienda centrada de hasta1536.68×189.42px y banquillo de hasta954.48×85.28px. El portátil conserva tamaños cercanos a los anteriores; el espacio extra de monitores grandes se dedica al escenario. Inspector300–336px, alto limitado y scroll interno; cifras de oro y etiqueta separadas. No cambian colores, gráficos ni mecánicas. Esta regla sustituye el escalado porcentual y las cajas fijas anteriores como distribución vigente. Evidencia y medidas: artifacts/hud-density/.
+
+---
+
 # Sistema visual vigente — Festival Pop C × Neon Playground
 
 F0-P6B.5-B implementa la dirección elegida explícitamente por el usuario. Sustituye carbón/jade/latón del HUD por el sistema exacto de `design-exploration/f0-p6b5a2/neon-playground/`; Royal Pop no se adopta. El historial inferior conserva las decisiones anteriores y no define la identidad vigente.

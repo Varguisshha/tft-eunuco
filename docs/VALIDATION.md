@@ -1,3 +1,11 @@
+## Ajuste de densidad para portátil/monitor — 24 de octubre de2026
+
+619 pruebas/42 archivos, tipos/lint/build correctos. Ocho viewports de navegador:1280×720,1366×768,1440×900,1454×873,1920×1080,2539×1339,2560×1440 y3840×2160. Cinco ofertas, nueve plazas, cuatro sinergias de referencia accesibles, sin scroll del documento ni imágenes incompletas. Inspector abierto/cerrado en720p y2539×1339; datos completos mediante scroll interno. Oro999 no solapa su etiqueta; XP queda deshabilitada en nivel7; renovar999→997 y bloqueo funcionan. No se cambian simulación, cámara, proyección ni recursos.
+
+Las medidas son píxeles CSS y ventanas redimensionadas del navegador integrado; no se afirma una prueba física en ambos monitores ni en Safari. Capturas actuales y medidas en artifacts/hud-density/.
+
+---
+
 # Validación F0-P6B.5-B — 24 de octubre de 2026
 
 Base real: 614 pruebas/41 archivos. La primera ejecución de `pnpm check` encontró 56 errores de lint en los prototipos históricos standalone. Tras excluir `design-exploration/**` del lint de aplicación, la base completa pasó. No se borraron pruebas ni se alteraron reglas. Resultado: 619 pruebas/42 archivos, tipos, lint y build correctos. `verify:public` confirma que el controlador, panel, comandos y almacenamiento DEV no se incluyen en el bundle público. Persiste el aviso conocido de tamaño de chunks.

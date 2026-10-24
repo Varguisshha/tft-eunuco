@@ -1,3 +1,9 @@
+## Ajuste vigente — densidad adaptable de escritorio
+
+A petición del usuario, tienda, banquillo, sinergias y cabecera dejan de crecer indefinidamente con el monitor. La unidad de HUD se limita a0.82px; tienda centrada de hasta1536.68×189.42px y banquillo de hasta954.48×85.28px. El portátil conserva tamaños cercanos a los anteriores; el espacio extra de monitores grandes se dedica al escenario. Inspector300–336px, alto limitado y scroll interno; cifras de oro y etiqueta separadas. No cambian colores, gráficos ni mecánicas. Esta regla sustituye el escalado porcentual y las cajas fijas anteriores como distribución vigente. Evidencia y medidas: artifacts/hud-density/.
+
+---
+
 # F0-P6B.5-B — especificación vigente del HUD Neon
 
 Festival Pop C × Neon Playground reemplaza visualmente el HUD anterior. Fuente de verdad: las tres composiciones aprobadas en `design-exploration/f0-p6b5a2/neon-playground/`. Cinco fichas continuas, nueve plazas flotantes, clasificación Vargas/Florin y sinergias a la izquierda, economía abajo, acciones a la derecha e inspector contextual. Se abre solo con selección y no redimensiona el campo.

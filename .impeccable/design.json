@@ -338,6 +338,25 @@
       ],
       "contract": "artifacts/p6b5b/CONTRACT.md",
       "scope": "Partida local; P6B.4 queda como historia. Cámara, casillas legales y estado autoritativo prevalecen sobre el montaje estático."
+    },
+    "hudLayout": {
+      "policy": "bounded-desktop",
+      "minimumWidth": 1100,
+      "unit": "clamp(0.66px, min(0.0520833333vw, 0.1dvh), 0.82px)",
+      "maximumDockCssPixels": [
+        1536.68,
+        189.42
+      ],
+      "maximumBenchCssPixels": [
+        954.48,
+        85.28
+      ],
+      "inspectorWidthCssPixels": [
+        300,
+        336
+      ],
+      "inspectorMaximumHeightCssPixels": 654,
+      "authority": "User requested compact, consistent HUD for 13-inch laptop and 27-inch monitor; supersedes original percentage scaling. Colors and component geometry unchanged."
     }
   },
   "components": [
