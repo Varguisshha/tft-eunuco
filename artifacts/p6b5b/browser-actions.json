@@ -63,5 +63,11 @@
   {
     "action": "inspector close while internally scrolled",
     "visibleAndClicked": true
+  },
+  {
+    "action": "change selected character after internal scroll",
+    "previousScroll": 259.5,
+    "selectedAfter": "DOLEA",
+    "newScroll": 0
   }
 ]

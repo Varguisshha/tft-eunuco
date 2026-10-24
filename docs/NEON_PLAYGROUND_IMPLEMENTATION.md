@@ -8,7 +8,7 @@ El HUD sustituye la identidad carbón/jade/latón por Festival Pop C × Neon Pla
 
 ## 2. Componentes modificados
 
-`LocalGame`, `Shop`, `Bench`, `UnitInspector`, `PhaseClock`, `TraitRail`, `GameFrame`, `GameButton`, `GameIcon` y `ContentIcon`, junto con navegación y presentación DEV. `neonHud.css` reemplaza los cuatro estilos anteriores de partida y `neonTokens.css` centraliza los colores. `displayLabel` permite rótulos visibles breves sin perder etiquetas accesibles completas. Cierre fijo del inspector, Escape y retorno de foco conservados; datos extensos con scroll interno. Ajustes usa un marco compacto de 65×61; cartas/controles/paneles conservan las cajas vectoriales aprobadas.
+`LocalGame`, `Shop`, `Bench`, `UnitInspector`, `PhaseClock`, `TraitRail`, `GameFrame`, `GameButton`, `GameIcon` y `ContentIcon`, junto con navegación y presentación DEV. `neonHud.css` reemplaza los cuatro estilos anteriores de partida y `neonTokens.css` centraliza los colores. `displayLabel` permite rótulos visibles breves sin perder etiquetas accesibles completas. Cierre fijo del inspector, Escape, retorno de foco y reinicio del scroll al cambiar de personaje conservados; datos extensos con scroll interno. Ajustes usa un marco compacto de 65×61; cartas/controles/paneles conservan las cajas vectoriales aprobadas.
 
 ## 3. Recursos gráficos y licencias
 

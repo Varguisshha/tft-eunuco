@@ -28,7 +28,7 @@ export function UnitInspector({
 }) {
   const panel = useRef<HTMLElement>(null);
   useEffect(() => {
-    panel.current?.scrollTo({ top: 0 });
+    panel.current?.querySelector<HTMLElement>('.inspector-scroll')?.scrollTo({ top: 0 });
   }, [view.selectedId]);
   const current = session.inspection();
   const [retained, setRetained] = useState(current);
