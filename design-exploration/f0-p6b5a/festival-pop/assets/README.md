@@ -1,0 +1,1 @@
+Marcos SVG e iconos originales exportados del preview de esta dirección. Los tres marcos de carta muestran costes1/2/3; button.svg muestra la cara de acción; inspector.svg, la placa contextual. Se incluyen símbolos de iconos en icons.svg. Los cambios de estado y la tipografía viven en ../tokens.json y ../../shared/styles.css. No forman parte del bundle del juego.

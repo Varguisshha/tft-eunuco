@@ -1,0 +1,65 @@
+[
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html?inspector",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html?detail",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html?inspector",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html?detail",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-pop/index.html",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-pop/index.html?inspector",
+    "width": 1920
+  },
+  {
+    "fonts": "loaded",
+    "height": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-pop/index.html?detail",
+    "width": 1920
+  }
+]
