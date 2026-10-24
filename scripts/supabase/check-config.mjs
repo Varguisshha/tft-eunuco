@@ -1,3 +1,6 @@
+import process from 'node:process';
+import console from 'node:console';
+import { Buffer } from 'node:buffer';
 // Prints presence and safety findings only. Never prints configuration values.
 import { readFileSync, existsSync } from 'node:fs';
 const config = { ...process.env };
