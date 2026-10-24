@@ -9,3 +9,6 @@ coverage/
 .impeccable/
 artifacts/
 dist-dev/
+
+# Supabase local link/cache metadata
+supabase/.temp/

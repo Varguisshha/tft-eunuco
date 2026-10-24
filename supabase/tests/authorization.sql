@@ -15,6 +15,9 @@ do $$ begin
  exception when raise_exception then if SQLERRM='NO INVITATION ACCEPTED' then raise; end if; end;
 end $$;
 insert into auth.users values ('00000000-0000-4000-8000-000000000001','one@example.test',jsonb_build_object('username','ONE','invitation',repeat('a',64)));
+-- Reproduce GoTrue's post-insert metadata write without retaining the invitation.
+update auth.users set raw_user_meta_data = raw_user_meta_data || jsonb_build_object('invitation',repeat('a',64),'email_verified',false)
+where id='00000000-0000-4000-8000-000000000001';
 do $$ begin
  if (select username from public.player_profiles limit 1) <> 'one' then raise exception 'normalization'; end if;
  if exists(select 1 from auth.users where raw_user_meta_data ? 'invitation') then raise exception 'raw secret retained'; end if;

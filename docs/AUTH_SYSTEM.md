@@ -1,4 +1,4 @@
-> **F0-P7B.1-R (24/10/2026): parcialmente validada.** CLI2.120.0 instalada, sin autenticación ni proyecto vinculado; el propietario solicita crear un proyecto en su organización. Suite local689/49 correcta. Activación, migración y E2E remotos pendientes de acceso. Estado y reanudación: [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md).
+> **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
 
 # Cuentas — F0-P7B.1
 

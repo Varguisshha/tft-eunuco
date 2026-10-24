@@ -1,33 +1,58 @@
 # F0-P7B.1-R — Activación real (parcial)
 
-Fecha: 24 de octubre de 2026. **La integración remota no está activada ni validada.** El propietario ha indicado que hay que crear un proyecto en su organización. Falta autenticar la CLI para identificar esa organización, comprobar recursos existentes y verificar que la creación no active costes.
+Fecha: 24 de octubre de 2026. **Proyecto remoto creado y vinculado; flujo principal E2E verificado; escenarios adicionales pendientes.** El usuario solicitó una organización independiente. Se creó TFT EUNUCO en Free y su proyecto de desarrollo sin borrar Sillage ni alterar los otros proyectos.
 
-## Resultado de la auditoría
+## Estado final verificable
 
-| Área                    | Resultado real                                                                                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Conexión                | CLI instalada 2.120.0; consulta `projects list` rechazada por falta de autenticación. Sin conector Supabase disponible.                           |
-| Proyecto de desarrollo  | Ninguno vinculado a este repositorio; no se puede enumerar la cuenta sin login. No se ha creado ninguno.                                          |
-| SDK                     | Supabase JS2.118.0 existente, sin reinstalar ni reconstruir.                                                                                      |
-| Configuración           | No hay variables SUPABASE/SMTP/RESEND en el entorno; solo `.env.example`, sin valores reales.                                                     |
-| Migraciones             | 202610240001_accounts.sql inspeccionada. Historial remoto, conflictos, propietarios y aplicación pendientes de acceso.                            |
-| RLS                     | Validación anterior en PostgreSQL aislado; no sustituye las pruebas con dos identidades en Supabase remoto.                                       |
-| Invitaciones            | Implementación existente preservada; emisión y concurrencia remotas pendientes.                                                                   |
-| Correo                  | Sin proveedor/proyecto accesible; no se ha enviado ni recibido ningún correo real.                                                                |
-| Registro y login        | E2E remoto pendiente; ninguna cuenta creada ni verificación desactivada.                                                                          |
-| Sesiones y recuperación | Persistencia, renovación, revocación y recuperación reales pendientes.                                                                            |
-| Perfiles                | Creación/edición/uniqueness remotas pendientes.                                                                                                   |
-| Colyseus                | Integración existente conservada; no se ha afirmado una autenticación real contra Supabase.                                                       |
-| Dos cuentas             | Pendiente de dos cuentas de prueba autorizadas y entrega de email funcional.                                                                      |
-| Tests locales           | `pnpm check`:689 pruebas en49 archivos, typecheck/lint/build correctos. `pnpm verify:public` correcto.                                            |
-| Git                     | Base f0ac0bd, misma rama; recursos ajenos intactos. Sin push. Cambios de esta revisión: preflight, comprobación de configuración y documentación. |
-| P7B.2                   | No iniciada. Criterio de éxito remoto de P7B.1-R aún no alcanzado.                                                                                |
+| Área                  | Resultado                                                                                                                                                                                                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Conexión              | API Auth, PostgreSQL y servidor Colyseus conectados al proyecto real.                                                                                                                                                                                                                            |
+| Proyecto              | `tft-eunuco-dev` / `qiombjvkaolllnjqzspz`, organización TFT EUNUCO / `xreevrfhfpwmhtggfhry`, eu-west-1, Free/Nano verificado. Sillage intacto.                                                                                                                                                   |
+| Migraciones           | `202610240001` y `202610240002` aplicadas; inspección previa y dry-run sin conflictos.                                                                                                                                                                                                           |
+| RLS                   | Pruebas REST con dos usuarios y prueba SQL remota transaccional correctas; lectura anónima rechazada.                                                                                                                                                                                            |
+| Invitaciones          | CLI privada emitió dos tokens ligados a email; registros consumieron una vez cada invitación y crearon perfiles/auditoría. Limpieza de metadata corregida y comprobada. Expiración, reutilización, email distinto y unicidad/rollback verificados por SQL remoto; concurrencia GoTrue pendiente. |
+| Correo                | Gmail SMTP guardado por propietario; dos confirmaciones y recuperación recibidas. Solo pruebas, entregabilidad de producción no acreditada.                                                                                                                                                      |
+| Registro/login        | Dos registros API con invitación y confirmación real; login posterior y rechazo previo a confirmar comprobados. Registro visual PKCE no repetido.                                                                                                                                                |
+| Sesiones/recuperación | Refresh real, logout/revocación y socket revocado rechazado; recarga del navegador conserva identidad. Recuperación iniciada desde Safari con PKCE; propietario cambió contraseña e inició sesión; Safari muestra Vargas, contraseña anterior rechazada.                                         |
+| Perfiles              | UUID persistente, edición propia/avatar, lectura autenticada, unicidad, identidad inmutable y bloqueo cruzado A/B correctos.                                                                                                                                                                     |
+| Colyseus              | Producción sin mocks, identidad Supabase real; tokens falsos/ausentes, duplicados y cambio de identidad rechazados.                                                                                                                                                                              |
+| Partida               | Dos compradores, despliegue, mismo trace/resultado, daño/recompensas coherentes y ronda 2.                                                                                                                                                                                                       |
+| Tests                 | 689 pruebas/49 archivos, typecheck/lint/build y verify:public correctos. Regresión SQL local y remota correctas. Scripts opt-in añadidos y lint posterior correcto.                                                                                                                              |
+| Límites               | Concurrencia contra GoTrue remoto, enlaces caducados/reutilizados, registro visual PKCE y expiración natural de JWT no se declaran superados.                                                                                                                                                    |
+| Acción manual         | Ninguna necesaria para el flujo principal. Vargas tiene contraseña elegida por propietario; Florin conserva credencial temporal privada. Para usar Florin personalmente, solicitar recuperación desde la web.                                                                                    |
+| Git                   | Misma rama, sin push, recursos ajenos preservados. Cambios: migración correctiva, regresión SQL, escenarios de integración y documentación.                                                                                                                                                      |
+| P7B.2                 | No iniciada. Criterio principal de dos cuentas y partida real demostrado; matriz exhaustiva adicional sigue parcial.                                                                                                                                                                             |
 
-## Paso necesario del propietario
+## Pruebas reales completadas después de activar Gmail
 
-Ejecutar `supabase login` en su terminal y completar la autenticación oficial. No pegar tokens, contraseñas ni enlaces sensibles en el chat. Después indicar que el login ha terminado; se podrá listar organizaciones/proyectos y seleccionar el destino autorizado. Si hay varias organizaciones, habrá que identificar la correcta. No crear un proyecto hasta comprobar la organización y disponibilidad sin costes.
+- Propietario guardó Gmail SMTP en Supabase y confirmó la recepción y apertura de los dos correos de registro. Auth creó ambas cuentas sin sesión antes de confirmar; el login previo rechazó ambas con `email_not_confirmed`.
+- Registro realizado mediante API Auth pública y dos invitaciones emitidas por la CLI privada existente. Contraseñas aleatorias solo en ficheros privados 0600 fuera del repositorio. No se usó autoconfirm ni creación administrativa de usuarios.
+- Tras confirmación: login válido, UUID persistente, perfil automático, edición propia y avatar, lectura compartida, bloqueo de edición ajena en ambos sentidos, UUID inmutable, nombre duplicado rechazado, private y RPC administrativa inaccesibles, refresh real y contraseña incorrecta rechazada.
+- Colyseus de producción en 127.0.0.1:2567 con entorno público: dos cuentas reales Vargas/Florin, UUID distinto de sessionId, nombre falsificado ignorado, token falso/ausente y duplicación de cuenta rechazados; tiendas privadas, compra y despliegue por ambos jugadores, reloj automático, mismo trace, daño/resultado coherente, 11 oro por jugador y ronda 2. Cambio de identidad en socket rechazado con 4001.
+- Trace SHA256: `b86ea067c3dcff0bab989f5b02f4c5deb381faa6158a9b5fb72e251c414ae758`. Vida en ronda 2: 97/97. Un cierre 4002 en el registro corresponde a la prueba deliberada de cuenta duplicada.
+- Logout real: RPC de sesión devuelve false, socket con JWT revocado rechazado y refresh invalidado. Al concluir se revocaron globalmente las sesiones temporales de las dos cuentas; no se eliminaron cuentas ni perfiles.
+- Navegador integrado: login real de Vargas, edición y guardado del avatar Pulso, recarga y restauración sin credenciales. Capturas de inicio/perfil/edición a escritorio y perfil móvil; no se cambió el HUD. La pestaña local y guardados se conservaron.
+- `pnpm check` repetido: 689/49 correctos, typecheck/lint/build correctos. `pnpm verify:public` correcto. Fixture SQL aislada con ambas migraciones y regresión de reescritura de metadata: correcta.
 
-Más adelante serán necesarias dos direcciones de prueba autorizadas para correo y, si no sirve el SMTP predeterminado, configuración de un SMTP autorizado. No se solicitan claves en texto abierto ni se contrata un proveedor.
+## Corrección encontrada con GoTrue real
+
+La limpieza del AFTER INSERT no bastaba: GoTrue vuelve a escribir raw_user_meta_data después del trigger inicial. Se observaron 2 cuentas con el campo de invitación persistido. La migración aditiva `202610240002_redact_invitation_metadata.sql` incorpora limpieza BEFORE UPDATE de ese campo y sanea únicamente el campo consumido de cuentas con auditoría de invitación. Prueba remota en transacción con ROLLBACK: elimina invitación y conserva otros metadatos. Dry-run y aplicación confirmados; recuento posterior: 0 invitaciones en metadata. La prueba SQL local ahora reproduce la escritura posterior de GoTrue.
+
+## Recuperación real completada
+
+Recuperación solicitada desde el formulario del juego en Safari, que usa SDK PKCE. El propietario confirmó recepción, cambio de contraseña (sin revelarla) e inicio de sesión. Se observó la pantalla autenticada de Vargas en Safari y el login con la contraseña temporal anterior devolvió `invalid_credentials`. Se eliminó la contraseña obsoleta del fichero privado de pruebas. No se leyó ni almacenó la nueva contraseña.
+
+Los dos registros iniciales se realizaron por API Auth y usaron confirmación implícita; esto valida entrega/verificación y no sustituye una prueba de registro visual PKCE. Los tokens temporales de esas pruebas fueron revocados. El flujo de recuperación sí se originó desde el SDK PKCE de la web. No guardar enlaces completos en logs/capturas.
+
+## Reproducción de escenarios reales
+
+Los scripts `scripts/supabase/validate-real-auth.mjs`, `validate-real-match.mjs` y `validate-real-logout.mjs` son opt-in: requieren `TFT_E2E_DIR` apuntando a ficheros privados de las dos cuentas autorizadas y `.env.local` con URL/clave pública. No contienen contraseñas ni emails de los usuarios. No se ejecutan con la suite local. auth requiere `vargas_test.json` y `florin_test.json` (email, password, user_id), genera sesiones privadas; match usa esas sesiones y el servidor real; logout revoca la sesión de Florin. Solo usar cuentas de prueba autorizadas: auth modifica nombre visible y avatar y prueba restricciones; match espera una ronda real. Las contraseñas temporales pueden dejar de servir después de recuperación; no reintentar usando credenciales antiguas.
+
+Evidencias locales en `artifacts/p7b1r/` (directorio ignorado): real-match.log, redaction-sql.log, home-authenticated.png, edit-desktop.png, profile-mobile.png. La primera captura edit-mobile se tomó durante el ajuste de viewport y no se considera evidencia visual válida; profile-mobile sí se inspeccionó después de estabilizarse.
+
+## Evidencia y recuperación
+
+La consulta múltiple de preflight por CLI devolvió solo el último resultado; se repitieron individualmente todas las consultas de catálogo en transacciones de solo lectura. No había objetos de la aplicación ni conflictos. La primera simulación falló con el rol temporal de CLI; se repitió con la contraseña DB del proyecto capturada de forma privada y terminó correctamente. La aplicación posterior y el historial remoto confirmaron la versión. No se ejecutaron reset, repair, DROP ni borrado de usuarios. Ante cambios posteriores, usar migraciones correctivas revisadas sin eliminar cuentas/perfiles.
 
 ## Reanudación segura
 
@@ -43,10 +68,14 @@ Más adelante serán necesarias dos direcciones de prueba autorizadas para corre
 
 ## Correo: documentación comprobada
 
-El [SMTP predeterminado de Supabase](https://supabase.com/docs/guides/auth/auth-smtp) solo permite direcciones del equipo y actualmente limita a2 mensajes/hora; esto no demuestra qué proveedor tendrá el proyecto por crear. Para otras direcciones habrá que configurar SMTP adecuado. No se ha contratado ningún servicio ni realizado ninguna entrega.
+El [SMTP predeterminado de Supabase](https://supabase.com/docs/guides/auth/auth-smtp) solo permite direcciones del equipo y actualmente limita a2 mensajes/hora; el panel confirma que este proyecto todavía usa ese servicio. Para otras direcciones habrá que configurar SMTP adecuado. No se ha contratado ningún servicio ni realizado ninguna entrega.
 
-La [referencia CLI](https://supabase.com/docs/reference/cli/supabase-projects-create) y la ayuda de la CLI instalada se consultaron para preparar el acceso. No se ejecutó creación remota.
+La [referencia CLI](https://supabase.com/docs/reference/cli/supabase-projects-create) y la ayuda de la CLI instalada se consultaron para preparar el acceso. Se crearon la organización y el proyecto indicados, sin activar un plan de pago.
 
 ## Límites de esta revisión
 
-No hay nuevas capturas de estados autenticados: sin configuración no se pueden acreditar. Se conserva Neon Playground y la validación visual anterior de estados públicos. No se ha cambiado UI, motor, economía, arena, guardados, personajes o mecánicas. La ausencia de acceso remoto bloquea esas operaciones, no invalida las689 pruebas locales.
+Hay capturas de inicio y perfil autenticados y edición; se conserva Neon Playground. El registro visual con invitación todavía no se declara acreditado. No se ha cambiado UI, motor, economía, arena, guardados, personajes o mecánicas. Dos cuentas y entrega están verificadas; siguen pendientes registro visual PKCE, caducidad/reutilización de enlaces, expiración natural de JWT y concurrencia de invitaciones contra GoTrue remoto. Las pruebas locales no sustituyen esos escenarios.
+
+## SQL remoto reproducible
+
+`supabase db query --linked --file supabase/tests/remote-authorization.sql --output json` ejecuta una fixture transaccional sobre el proyecto de desarrollo: no bootstrap, colisiones de IDs detectadas, eliminación limitada a la sesión creada dentro de esa transacción y ROLLBACK final. No usar sobre producción. Comprueba email/invitación ausente/caducada/reutilizada, normalización, auditoría, unicidad con rollback de consumo, grants/RLS y revocación. La ejecución remota terminó correctamente y no dejó cuentas fixture persistentes. No equivale a concurrencia ni a entrega de correo por GoTrue.
