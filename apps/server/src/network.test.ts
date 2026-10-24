@@ -8,7 +8,31 @@ import {
   type ActionReceipt,
 } from '@tft/shared';
 import { createServer } from './server';
-const server = createServer();
+import { MatchRoom } from './MatchRoom';
+class LegacyTestRoom extends MatchRoom {
+  private fixtureSeat = 0;
+  protected verify = async () => ({
+    userId: 'fixture',
+    name: 'Fixture',
+    avatarId: 'jade' as const,
+    expiresAt: Date.now() + 3600000,
+    token: 'fixture',
+  });
+  static async onAuth() {
+    return { legacyFixture: true } as never;
+  }
+  onJoin(client: import('@colyseus/core').Client) {
+    const first = this.fixtureSeat++ === 0;
+    super.onJoin(client, undefined, {
+      userId: first ? 'vargas' : 'florin',
+      name: first ? 'Vargas' : 'Florin',
+      avatarId: 'jade',
+      expiresAt: Date.now() + 3600000,
+      token: 'fixture',
+    });
+  }
+}
+const server = createServer(LegacyTestRoom);
 const clients: Room[] = [];
 beforeAll(() => server.listen(2568, '127.0.0.1'));
 afterAll(async () => {

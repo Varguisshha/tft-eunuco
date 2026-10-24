@@ -1,0 +1,2 @@
+$ node scripts/build/verify-public.mjs
+Public bundle: no DEV controller, panel, command schema or isolated storage code.

@@ -1,3 +1,11 @@
+# Actualización F0-P7B.1
+
+Versión f0p7b1-1. Matchmaking usa client.auth.token; static onAuth devuelve identidad validada mediante Supabase y perfil. authenticate renueva el token del mismo UUID; cambio de usuario/caducidad/revocación cierran socket. snapshots jamás contienen token/email. name pasa de enum Vargas/Florin a texto validado (máximo32). Comandos, economía y reloj mantienen autoridad previa.
+
+Ver [AUTH_SYSTEM.md](AUTH_SYSTEM.md), [PLAYER_PROFILES.md](PLAYER_PROFILES.md), [SUPABASE_SETUP.md](SUPABASE_SETUP.md) y [PRIVATE_REGISTRATION.md](PRIVATE_REGISTRATION.md). El contenido anterior se conserva como histórico.
+
+---
+
 # Protocolo de servidor f0p7a-1
 
 Transporte Colyseus 0.18/WebSocket, sala `test_match`. Schemas en `packages/shared/src/network.ts`.

@@ -37,8 +37,11 @@ export class RemoteCoordinator implements MatchCoordinator {
       const v = NetworkCombatSchema.parse(raw);
       if (v.matchId !== room.roomId) return;
       this.traceId = v.combatId;
-      // The canonical trace is identical on both sockets. Only the view is rotated for Florin.
-      this.replay = this.snapshot?.playerId === 'florin' ? reversePerspective(v.replay) : v.replay;
+      // The canonical trace is identical on both sockets. Only the north seat view is rotated.
+      this.replay =
+        this.snapshot?.players.find((p) => p.id === this.snapshot.playerId)?.side === 'north'
+          ? reversePerspective(v.replay)
+          : v.replay;
     });
     room.onMessage('state_snapshot', (raw: unknown) => this.receive(raw));
     room.onMessage('action_receipt', (raw: unknown) => {
@@ -76,8 +79,15 @@ export class RemoteCoordinator implements MatchCoordinator {
     this.pingTimer = setInterval(() => room.send('ping', performance.now()), 2000);
     room.send('ping', performance.now());
   }
-  static async connect(mode: 'create' | 'join', matchId = '') {
-    const client = new Client('http://127.0.0.1:2567');
+  static async connect(mode: 'create' | 'join', matchId = '', token: string) {
+    const endpoint = new URL(import.meta.env.VITE_GAME_SERVER_URL || 'http://127.0.0.1:2567');
+    if (
+      !['127.0.0.1', 'localhost', '[::1]'].includes(endpoint.hostname) &&
+      !['https:', 'wss:'].includes(endpoint.protocol)
+    )
+      throw new Error('El servidor remoto requiere una conexión segura.');
+    const client = new Client(endpoint.href);
+    client.auth.token = token;
     const room =
       mode === 'create' ? await client.create('test_match') : await client.joinById(matchId);
     const coordinator = new RemoteCoordinator(room);
@@ -153,7 +163,10 @@ export class RemoteCoordinator implements MatchCoordinator {
       : 0;
   get names() {
     const own = this.snapshot.players.find((p) => p.id === this.snapshot.playerId)!;
-    return { south: own.name, north: own.name === 'Vargas' ? 'Florin' : 'Vargas' };
+    return {
+      south: own.name,
+      north: this.snapshot.players.find((p) => p.id !== own.id)?.name ?? 'Esperando rival',
+    };
   }
   get status() {
     return `${this.notice} · ${this.snapshot.players.filter((p) => p.connected).length}/2 conectados`;

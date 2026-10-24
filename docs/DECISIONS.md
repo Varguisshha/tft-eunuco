@@ -1,3 +1,11 @@
+# Actualización F0-P7B.1
+
+Registro cerrado mediante trigger transaccional en auth.users, consumo de invitación y perfil atómicos. Se evita apertura accidental por olvidar configurar un hook. RLS y permisos por columna; usernames ASCII normalizados. Verificación getUser/getClaims + sesión activa en servidor. PKCE y almacenamiento gestionado por SDK. Sin proyecto configurado: pruebas controladas y E2E externo pendiente.
+
+Ver [AUTH_SYSTEM.md](AUTH_SYSTEM.md), [PLAYER_PROFILES.md](PLAYER_PROFILES.md), [SUPABASE_SETUP.md](SUPABASE_SETUP.md) y [PRIVATE_REGISTRATION.md](PRIVATE_REGISTRATION.md). El contenido anterior se conserva como histórico.
+
+---
+
 # Actualización F0-P7A
 
 F0-P7A: mensajes Colyseus explícitos en lugar de sincronizar el estado interno completo. Reutilizar economía mediante externalCopies calculado por autoridad. Pool y RNG privados; formaciones desplegadas públicas. Resultado precalculado visible en payload. Rotación visual de Florin; simulación canónica única. Loopback y memoria; ninguna cuenta, persistencia, hosting o P7B.

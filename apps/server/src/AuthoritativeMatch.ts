@@ -32,7 +32,7 @@ import {
 interface Participant {
   id: string;
   sessionId: string;
-  name: 'Vargas' | 'Florin';
+  name: string;
   connected: boolean;
   state: MatchState;
   sequence: number;
@@ -62,11 +62,13 @@ export class AuthoritativeMatch {
       ]),
     );
   }
-  join(sessionId: string) {
+  join(sessionId: string, identity?: { userId: string; name: string }) {
+    if (identity && this.players.some((p) => p.id === identity.userId))
+      throw new Error('Esta cuenta ya participa.');
     if (this.players.length >= 2 || this.clock.snapshot().currentPhase !== 'not_started')
       throw new Error('Session full');
     const index = this.players.length,
-      id = index === 0 ? 'vargas' : 'florin';
+      id = identity?.userId ?? (index === 0 ? 'vargas' : 'florin');
     const state = createMatch(this.seed(), VARGAS_ECONOMY_CONFIG);
     state.shop = Array(5).fill(null);
     state.shopRng = (state.seed ^ 0x9e3779b9) >>> 0;
@@ -75,7 +77,7 @@ export class AuthoritativeMatch {
     const p: Participant = {
       id,
       sessionId,
-      name: index === 0 ? 'Vargas' : 'Florin',
+      name: identity?.name ?? (index === 0 ? 'Vargas' : 'Florin'),
       connected: true,
       state,
       sequence: 0,

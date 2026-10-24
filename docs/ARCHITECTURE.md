@@ -1,3 +1,11 @@
+# Actualización F0-P7B.1
+
+Supabase Auth y PostgreSQL incorporan identidad persistente. AccountPortal/AccountService/session.ts separan cuentas de la partida local. MatchRoom valida identidad y AuthoritativeMatch recibe UUID/nombre de perfil. El motor, balance, arena y HUD no cambian.
+
+Ver [AUTH_SYSTEM.md](AUTH_SYSTEM.md), [PLAYER_PROFILES.md](PLAYER_PROFILES.md), [SUPABASE_SETUP.md](SUPABASE_SETUP.md) y [PRIVATE_REGISTRATION.md](PRIVATE_REGISTRATION.md). El contenido anterior se conserva como histórico.
+
+---
+
 # Actualización F0-P7A
 
 F0-P7A incorpora apps/server con Colyseus0.18, AuthoritativeMatch y proyecciones privadas. LocalSession comparte presentación mediante authority, manteniendo coordinator local separado de RemoteCoordinator. No hay cambios artísticos ni de guardados.

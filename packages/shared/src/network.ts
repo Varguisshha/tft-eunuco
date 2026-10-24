@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { MatchActionSchema, MatchStateSchema, OwnedUnitSchema } from './match';
 import { CombatBatchSchema } from './combat';
 import { PhaseSnapshotSchema, ReplaySchema } from './match-clock';
-export const NETWORK_VERSION = 'f0p7a-1' as const;
+export const NETWORK_VERSION = 'f0p7b1-1' as const;
 const id = z.string().min(1).max(160);
 const nat = z.number().int().safe().nonnegative();
 export const PlayerIntentSchema = z.discriminatedUnion('type', [
@@ -26,7 +26,7 @@ export const NetworkCommandSchema = z.strictObject({
 export type NetworkCommand = z.infer<typeof NetworkCommandSchema>;
 export const PublicPlayerSchema = z.strictObject({
   id,
-  name: z.enum(['Vargas', 'Florin']),
+  name: z.string().min(1).max(32),
   side: z.enum(['south', 'north']),
   connected: z.boolean(),
   hp: nat,

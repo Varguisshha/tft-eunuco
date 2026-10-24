@@ -1,3 +1,11 @@
+# Actualización F0-P7B.1
+
+El acceso de producción a test_match requiere Supabase verificado. El UUID de cuenta es propietario; sessionId solo identifica la conexión. Dos perfiles diferentes reemplazan Vargas/Florin en online. No se implementan salas finales ni matchmaking. Los nombres provisionales quedan solo en local y fixtures explícitas.
+
+Ver [AUTH_SYSTEM.md](AUTH_SYSTEM.md), [PLAYER_PROFILES.md](PLAYER_PROFILES.md), [SUPABASE_SETUP.md](SUPABASE_SETUP.md) y [PRIVATE_REGISTRATION.md](PRIVATE_REGISTRATION.md). El contenido anterior se conserva como histórico.
+
+---
+
 # F0-P7A — Fundación multijugador
 
 ## Arquitectura implementada

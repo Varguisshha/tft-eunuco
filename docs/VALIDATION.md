@@ -1,3 +1,11 @@
+# Actualización F0-P7B.1
+
+P7B.1: baseline644 tests en44 archivos. SQL/RLS probado en PostgreSQL aislado; concurrencia8 solicitudes con1 aceptación. SDK de Auth y sockets autenticados con dobles; no cuentas reales ni correo real. Evidencias y resultado final en F0_P7B1_REPORT.md. Capturas en artifacts/p7b1. Se mantiene la suite P7A con un proveedor legacy exclusivamente en el archivo de pruebas, sin cambiar sus aserciones.
+
+Ver [AUTH_SYSTEM.md](AUTH_SYSTEM.md), [PLAYER_PROFILES.md](PLAYER_PROFILES.md), [SUPABASE_SETUP.md](SUPABASE_SETUP.md) y [PRIVATE_REGISTRATION.md](PRIVATE_REGISTRATION.md). El contenido anterior se conserva como histórico.
+
+---
+
 # F0-P7A — validación multijugador
 
 Baseline619tests; resultado644tests/44archivos. Typecheck/lint/build cliente y servidor correctos; servidor compilado arrancado. Red real: dos sockets independientes, privacidad, pool concurrente, duplicados, tercero, identidad, DEV, límite de frecuencia, traza idéntica, liquidación y acción tardía. Dos pestañas reales completaron dos combates y llegaron a preparación de ronda3 con reloj/HP coincidentes. Sin cambios CSS/sprites/arena.

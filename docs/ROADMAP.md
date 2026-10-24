@@ -1,3 +1,11 @@
+# Actualización F0-P7B.1
+
+F0-P7B.1 implementa cuentas, perfiles e invitaciones; falta validación con Supabase real configurado. F0-P7B.2 NO iniciada: UUID y perfil público quedan preparados para futuros códigos de sala, lista de participantes y estado listo.
+
+Ver [AUTH_SYSTEM.md](AUTH_SYSTEM.md), [PLAYER_PROFILES.md](PLAYER_PROFILES.md), [SUPABASE_SETUP.md](SUPABASE_SETUP.md) y [PRIVATE_REGISTRATION.md](PRIVATE_REGISTRATION.md). El contenido anterior se conserva como histórico.
+
+---
+
 # Actualización F0-P7A
 
 F0-P7A implementa la fundación autoritativa de dos jugadores. La ejecución/validación se documenta en F0_P7A_REPORT.md. F0-P7B NO se inicia. Cuentas, salas privadas definitivas, matchmaking público, persistencia, despliegue, espectadores y reconexión permanecen fuera de alcance.

@@ -1,4 +1,4 @@
-import { Multiplayer } from './network/Multiplayer';
+import { AccountPortal } from './auth/AccountPortal';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
@@ -14,7 +14,13 @@ const DevelopmentAccess = __DEVTOOLS__
   ? lazy(() => import('./development/DevelopmentAccess'))
   : null;
 export function App() {
-  const [screen, setScreen] = useState<'local' | 'arena' | 'online'>('local');
+  const [screen, setScreen] = useState<'local' | 'arena' | 'online'>(
+    location.search.includes('code=') ||
+      location.hash.includes('access_token=') ||
+      /(?:[?#&])error=/.test(location.search + location.hash)
+      ? 'online'
+      : 'local',
+  );
   const [arena] = useState(() => new BoardSession());
   const [session, setSession] = useState<LocalSession | null>(null);
   const [seed, setSeed] = useState('42');
@@ -127,7 +133,7 @@ export function App() {
             >
               Multijugador de prueba
             </button>
-            <span>F0–P7A</span>
+            <span>F0–P7B.1</span>
           </div>
         </details>
       </nav>
@@ -137,7 +143,7 @@ export function App() {
         </p>
       )}
       {screen === 'online' ? (
-        <Multiplayer />
+        <AccountPortal onLocal={() => setScreen('local')} />
       ) : screen === 'arena' ? (
         <Arena providedSession={arena} />
       ) : session ? (

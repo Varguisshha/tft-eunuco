@@ -11,6 +11,7 @@
   "dependencies": {
     "@colyseus/core": "0.18.23",
     "@colyseus/ws-transport": "0.18.4",
+    "@supabase/supabase-js": "^2.118.0",
     "@tft/game-core": "workspace:*",
     "@tft/game-data": "workspace:*",
     "@tft/shared": "workspace:*",
