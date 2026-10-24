@@ -1,3 +1,11 @@
+# Actualización F0-P7A
+
+F0-P7A: mensajes Colyseus explícitos en lugar de sincronizar el estado interno completo. Reutilizar economía mediante externalCopies calculado por autoridad. Pool y RNG privados; formaciones desplegadas públicas. Resultado precalculado visible en payload. Rotación visual de Florin; simulación canónica única. Loopback y memoria; ninguna cuenta, persistencia, hosting o P7B.
+
+Véase [arquitectura multijugador](MULTIPLAYER_ARCHITECTURE.md), [protocolo](SERVER_PROTOCOL.md) y [partida autoritativa](AUTHORITATIVE_MATCH.md). Las afirmaciones históricas «servidor no implementado» de las secciones inferiores quedan superadas por esta actualización.
+
+---
+
 # F0-P6B.5-B — decisiones vigentes, 24 de octubre de 2026
 
 - Adoptar Festival Pop C × Neon Playground por selección expresa del usuario; sustituir el sistema carbón/jade/latón del HUD y no elegir Royal Pop.

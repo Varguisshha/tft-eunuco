@@ -1,3 +1,11 @@
+# F0-P7A — validación multijugador
+
+Baseline619tests; resultado644tests/44archivos. Typecheck/lint/build cliente y servidor correctos; servidor compilado arrancado. Red real: dos sockets independientes, privacidad, pool concurrente, duplicados, tercero, identidad, DEV, límite de frecuencia, traza idéntica, liquidación y acción tardía. Dos pestañas reales completaron dos combates y llegaron a preparación de ronda3 con reloj/HP coincidentes. Sin cambios CSS/sprites/arena.
+
+verify:public correcto. Prettier de archivos de entrega correcto; format:check global mantiene67 incidencias preexistentes ajenas en .21st/design-exploration. No se declara verde global de formato. Informe y límites: [F0_P7A_REPORT.md](F0_P7A_REPORT.md). Evidencia: artifacts/p7a.
+
+---
+
 ## Ajuste de densidad para portátil/monitor — 24 de octubre de2026
 
 619 pruebas/42 archivos, tipos/lint/build correctos. Ocho viewports de navegador:1280×720,1366×768,1440×900,1454×873,1920×1080,2539×1339,2560×1440 y3840×2160. Cinco ofertas, nueve plazas, cuatro sinergias de referencia accesibles, sin scroll del documento ni imágenes incompletas. Inspector abierto/cerrado en720p y2539×1339; datos completos mediante scroll interno. Oro999 no solapa su etiqueta; XP queda deshabilitada en nivel7; renovar999→997 y bloqueo funcionan. No se cambian simulación, cámara, proyección ni recursos.

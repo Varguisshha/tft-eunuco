@@ -1,3 +1,11 @@
+# Actualización F0-P7A
+
+F0-P7A incorpora apps/server con Colyseus0.18, AuthoritativeMatch y proyecciones privadas. LocalSession comparte presentación mediante authority, manteniendo coordinator local separado de RemoteCoordinator. No hay cambios artísticos ni de guardados.
+
+Véase [arquitectura multijugador](MULTIPLAYER_ARCHITECTURE.md), [protocolo](SERVER_PROTOCOL.md) y [partida autoritativa](AUTHORITATIVE_MATCH.md). Las afirmaciones históricas «servidor no implementado» de las secciones inferiores quedan superadas por esta actualización.
+
+---
+
 # F0-P6B.5-B — frontera de presentación Neon
 
 `LocalGame` compone la cabecera, clasificación, campo y dock de reclutamiento con `neonHud.css` y `neonTokens.css`. Shop/Bench/UnitInspector/PhaseClock siguen leyendo LocalSession; las acciones económicas y las fases permanecen en la autoridad existente. GameFrame admite geometría de carta/panel/control y un marco compacto; GameButton conserva onAction/onCue, coste y estado accesible, incorporando un rótulo visible opcional. ContentIcon mantiene el registro/fallback de iconos y adopta los glifos originales de la exploración aprobada.

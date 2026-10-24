@@ -1,3 +1,11 @@
+# Actualización F0-P7A
+
+Online usa MatchClock monotónico en Node. El servidor liquida por deadline de traza+600ms sin esperar animaciones; los clientes estiman tiempo con ping/pong y buscan el tick vigente. No aplica el límite de delta100ms local. Preparación30s y resolución5s se conservan.
+
+Véase [arquitectura multijugador](MULTIPLAYER_ARCHITECTURE.md), [protocolo](SERVER_PROTOCOL.md) y [partida autoritativa](AUTHORITATIVE_MATCH.md). Las afirmaciones históricas «servidor no implementado» de las secciones inferiores quedan superadas por esta actualización.
+
+---
+
 # Reloj de partida — F0-P5
 
 ## Autoridad y contratos

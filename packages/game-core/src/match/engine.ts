@@ -218,7 +218,7 @@ function startCombat(state: MatchState, allowEmpty = false): void {
   };
   state.phase = 'combat';
 }
-function resolve(state: MatchState, cached?: CombatReplay): void {
+function resolve(state: MatchState, cached?: CombatReplay, multiplayer = false): void {
   const combat = state.combat!;
   const replay = cached ?? runCombat(combat.input);
   combat.result = replay.result;
@@ -233,8 +233,11 @@ function resolve(state: MatchState, cached?: CombatReplay): void {
       .units.filter((u) => u.hp > 0)
       .map((u) => ({
         side: u.owner,
-        stars:
-          u.owner === 'south' ? state.units.find((owned) => owned.id === u.id)!.stars : rivalStars,
+        stars: multiplayer
+          ? (u.profile.starLevel ?? 1)
+          : u.owner === 'south'
+            ? state.units.find((owned) => owned.id === u.id)!.stars
+            : rivalStars,
       })),
     state.config.roundDamage,
   );
@@ -294,12 +297,30 @@ function resolve(state: MatchState, cached?: CombatReplay): void {
 export function applyMatchAction(original: MatchState, value: unknown): MatchOutcome {
   return applyAction(original, value);
 }
-function applyAction(original: MatchState, value: unknown, cached?: CombatReplay): MatchOutcome {
+export interface EconomyContext {
+  externalCopies: Readonly<Record<string, number>>;
+  prefix: string;
+}
+/** Server-only composition boundary; network handlers never accept this context from clients. */
+export function applySharedEconomy(
+  original: MatchState,
+  value: unknown,
+  context: EconomyContext,
+  cached?: CombatReplay,
+): MatchOutcome {
+  return applyAction(original, value, cached, context);
+}
+function applyAction(
+  original: MatchState,
+  value: unknown,
+  cached?: CombatReplay,
+  context?: EconomyContext,
+): MatchOutcome {
   const parsed = MatchActionSchema.safeParse(value);
   if (!parsed.success) return { ok: false, state: original, error: 'invalid-action' };
   let state: MatchState;
   try {
-    state = validateMatchState(original);
+    state = validateMatchState(original, context?.externalCopies);
   } catch {
     return { ok: false, state: original, error: 'invalid-state' };
   }
@@ -310,14 +331,14 @@ function applyAction(original: MatchState, value: unknown, cached?: CombatReplay
     if (action.type === 'resolve_round') {
       if (state.phase !== 'combat') reject('wrong-phase');
       if (action.round !== state.round) reject('wrong-round');
-      resolve(state, cached);
+      resolve(state, cached, !!context);
     } else if (action.type === 'next_round') {
       if (state.phase !== 'resolution') reject('wrong-phase');
       if (action.round !== state.round) reject('wrong-round');
       state.round++;
       state.phase = 'preparation';
       state.combat = null;
-      if (!state.shopLocked) refreshShop(state);
+      if (!state.shopLocked) refreshShop(state, context?.prefix);
     } else {
       if (state.phase !== 'preparation') reject('wrong-phase');
       state.lastUpgrades = [];
@@ -330,7 +351,7 @@ function applyAction(original: MatchState, value: unknown, cached?: CombatReplay
           state.shop[slot] = null;
           // Temporary off-bench candidate is private to this transaction; validate only after fusion.
           const unit: OwnedUnit = {
-            id: `unit-${state.nextEntity++}`,
+            id: `${context?.prefix ?? ''}unit-${state.nextEntity++}`,
             definitionId: offer.definitionId,
             stars: 1,
             location: { kind: 'bench', slot: freeBench(state) },
@@ -357,7 +378,7 @@ function applyAction(original: MatchState, value: unknown, cached?: CombatReplay
         }
         case 'reroll_shop':
           ledger(state, 'reroll', -state.config.rerollCost, `reroll-${state.revision}`);
-          refreshShop(state);
+          refreshShop(state, context?.prefix);
           break;
         case 'lock_shop':
           state.shopLocked = action.locked;
@@ -387,7 +408,7 @@ function applyAction(original: MatchState, value: unknown, cached?: CombatReplay
     state.history.push(action);
     state.revision++;
     state.nextActionSeq++;
-    return { ok: true, state: validateMatchState(state) };
+    return { ok: true, state: validateMatchState(state, context?.externalCopies) };
   } catch (error) {
     if (error instanceof RuleError) return { ok: false, state: original, error: error.code };
     throw error;

@@ -14,7 +14,10 @@ export function Shop({ session }: { session: LocalSession }) {
   const state = session.getMatch(),
     preparing = session.editable,
     rule = levelRule(state);
-  const purchaseErrors = useMemo(() => purchaseAvailability(state), [state]);
+  const purchaseErrors = useMemo(
+    () => session.remote?.purchaseErrors ?? purchaseAvailability(state),
+    [state, session],
+  );
   const [purchases, setPurchases] = useState<Record<number, string>>({});
   return (
     <section

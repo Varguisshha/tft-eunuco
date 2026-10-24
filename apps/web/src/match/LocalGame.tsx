@@ -24,7 +24,7 @@ export function LocalGame({
 }) {
   const view = useSyncExternalStore(session.subscribe, session.getSnapshot, session.getSnapshot);
   const state = session.getMatch();
-  const coordinator = session.coordinator;
+  const coordinator = session.authority;
   const clock = coordinator?.getClock();
   const phase = clock?.currentPhase ?? state.phase;
   const [zoom, setZoom] = useState(1);
@@ -100,7 +100,7 @@ export function LocalGame({
                   <GameIcon name="shield" />
                 </span>
                 <div>
-                  <h3>{side === 'south' ? 'Vargas' : 'Florin'}</h3>
+                  <h3>{session.names[side]}</h3>
                   <small>
                     {state.health[side] === 0
                       ? 'Eliminado'
@@ -114,7 +114,7 @@ export function LocalGame({
                   <small> VIDA</small>
                 </strong>
                 <meter
-                  aria-label={side === 'south' ? 'Vida de Vargas' : 'Vida de Florin'}
+                  aria-label={`Vida de ${session.names[side]}`}
                   min={0}
                   max={state.config.roundDamage.initialHp}
                   value={state.health[side]}
@@ -129,7 +129,7 @@ export function LocalGame({
             >
               <strong>
                 {phase === 'finished'
-                  ? 'Vargas eliminado'
+                  ? 'Partida finalizada'
                   : state.lastReward.outcome === 'win'
                     ? 'Victoria jade'
                     : state.lastReward.outcome === 'loss'
@@ -140,7 +140,7 @@ export function LocalGame({
               <p>
                 {state.healthLedger
                   .slice(-2)
-                  .map((e) => `${e.side === 'south' ? 'Vargas' : 'Florin'} −${e.applied} vida`)
+                  .map((e) => `${session.names[e.side]} −${e.applied} vida`)
                   .join(' · ')}
               </p>
               <p>
@@ -175,7 +175,7 @@ export function LocalGame({
         </aside>
         <section className="local-board" aria-label="Tablero de partida local">
           <div className="local-board-title">
-            <span>Florin · Ámbar</span>
+            <span>{session.names.north} · Ámbar</span>
             <div className="local-zoom">
               <GameIconButton label="Alejar tablero" icon="minus" onAction={() => setZoom(0.85)} />
               <button aria-label="Restablecer zoom" onClick={() => setZoom(1)}>
@@ -200,7 +200,7 @@ export function LocalGame({
             <span>Tu formación</span>
           </div>
           <div className="local-board-footer">
-            <span>Vargas · Jade</span>
+            <span>{session.names.south} · Jade</span>
             <span>
               {phase === 'preparation'
                 ? `${deployedCount(state)} / ${state.level} unidades`
@@ -295,7 +295,7 @@ export function LocalGame({
           <summary>Registro de vida · {state.healthLedger.length} movimientos</summary>
           {state.healthLedger.map((e) => (
             <p key={`${e.round}-${e.side}`}>
-              Ronda {e.round} · {e.side === 'south' ? 'Vargas' : 'Florin'} ·{' '}
+              Ronda {e.round} · {session.names[e.side]} ·{' '}
               {e.outcome === 'win' ? 'Victoria' : 'Derrota'} · daño {e.requested}, aplicado{' '}
               {e.applied} · vida {e.hpBefore} → {e.hpAfter}
             </p>

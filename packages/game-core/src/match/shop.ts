@@ -3,7 +3,7 @@ import { matchCatalog } from '@tft/game-data';
 import { randomUint32 } from '../combat/math';
 import { levelRule } from './selectors';
 /** Mutates only the transaction-owned draft. Each offered unit reserves one copy. */
-export function refreshShop(state: MatchState): void {
+export function refreshShop(state: MatchState, prefix = ''): void {
   for (const offer of state.shop) if (offer) state.pool[offer.definitionId]!++;
   state.shop = Array.from({ length: state.config.shopSize }, () => null);
   const roll = (max: number) => {
@@ -31,6 +31,6 @@ export function refreshShop(state: MatchState): void {
       return copy < 0;
     })!;
     state.pool[selected.id]!--;
-    state.shop[slot] = { id: `offer-${state.nextEntity++}`, definitionId: selected.id };
+    state.shop[slot] = { id: `${prefix}offer-${state.nextEntity++}`, definitionId: selected.id };
   }
 }

@@ -1,3 +1,11 @@
+# Actualización F0-P7A
+
+Online publica combat_trace f0p7a-1 con matchId/combatId/startedAt y replay completo, idéntico en ambos sockets. Se valida orden/contigüidad. Florin rota exclusivamente presentación; no ejecuta otra simulación. La publicación anticipada permite inspeccionar el resultado futuro en un cliente modificado.
+
+Véase [arquitectura multijugador](MULTIPLAYER_ARCHITECTURE.md), [protocolo](SERVER_PROTOCOL.md) y [partida autoritativa](AUTHORITATIVE_MATCH.md). Las afirmaciones históricas «servidor no implementado» de las secciones inferiores quedan superadas por esta actualización.
+
+---
+
 # Protocolo de combate v3 — Overtime y doble derrota
 
 ## Extensión aditiva de estadísticas — F0-P6B.1

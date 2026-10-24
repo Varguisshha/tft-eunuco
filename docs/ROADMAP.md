@@ -1,3 +1,11 @@
+# Actualización F0-P7A
+
+F0-P7A implementa la fundación autoritativa de dos jugadores. La ejecución/validación se documenta en F0_P7A_REPORT.md. F0-P7B NO se inicia. Cuentas, salas privadas definitivas, matchmaking público, persistencia, despliegue, espectadores y reconexión permanecen fuera de alcance.
+
+Véase [arquitectura multijugador](MULTIPLAYER_ARCHITECTURE.md), [protocolo](SERVER_PROTOCOL.md) y [partida autoritativa](AUTHORITATIVE_MATCH.md). Las afirmaciones históricas «servidor no implementado» de las secciones inferiores quedan superadas por esta actualización.
+
+---
+
 # Estado vigente — F0-P6B.5-B implementado
 
 Festival Pop C × Neon Playground integrado en el juego real: tokens, componentes SVG, tipografía, cinco ofertas, nueve plazas, economía, clasificación, sinergias, ficha contextual y herramientas DEV. Mecánicas y recursos originales conservados. Suite: 619 pruebas en 42 archivos, con tipos/lint/build y verificación de exclusión DEV pública.

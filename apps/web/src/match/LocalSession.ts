@@ -1,3 +1,4 @@
+import type { RemoteCoordinator } from '../network/RemoteCoordinator';
 import { mechanicsReadout } from '../game/mechanicsReadout';
 import { baseStatsView, combatStatsView, formationProfiles, shieldTotal } from '@tft/game-core';
 import {
@@ -60,17 +61,18 @@ export class LocalSession implements BoardPort {
     state: MatchState = createMatch(),
     save?: (state: MatchState) => void,
     readonly coordinator?: LocalMatchCoordinator,
+    readonly remote?: RemoteCoordinator,
   ) {
-    this.match = validateMatchState(state);
+    this.match = remote ? state : validateMatchState(state);
     this.save = save;
-    if (coordinator) {
+    if (coordinator || remote) {
       this.syncCoordinator();
-      if (coordinator.development)
+      if (coordinator?.development)
         this.message = 'Prueba DEV aislada. Edita la formación o inicia el combate.';
-      else if (coordinator.recoveredFromSave)
+      else if (coordinator?.recoveredFromSave)
         this.message =
           'Partida recuperada con el tiempo guardado, sin recompensas durante la ausencia.';
-      coordinator.subscribe(() => this.syncCoordinator());
+      (coordinator ?? remote)!.subscribe(() => this.syncCoordinator());
     } else if (state.phase === 'combat' || state.phase === 'resolution') {
       this.playback = new CombatPlayback(runCombat(state.combat!.input));
       if (state.phase === 'resolution') {
@@ -80,15 +82,24 @@ export class LocalSession implements BoardPort {
     }
     this.publish();
   }
+  get authority() {
+    return this.remote ?? this.coordinator;
+  }
+  get names() {
+    return this.remote?.names ?? { south: 'Vargas', north: 'Florin' };
+  }
+  private rivals() {
+    return this.remote ? this.remote.rivals() : opponentUnits(this.match);
+  }
   get editable() {
-    return this.coordinator
-      ? this.coordinator.getClock().currentPhase === 'preparation' &&
-          this.coordinator.getClock().clockState === 'running' &&
-          this.coordinator.getClock().remainingMs > 0
+    return this.authority
+      ? this.authority.getClock().currentPhase === 'preparation' &&
+          this.authority.getClock().clockState === 'running' &&
+          this.authority.getClock().remainingMs > 0
       : this.match.phase === 'preparation';
   }
   private syncCoordinator(): void {
-    const c = this.coordinator!;
+    const c = this.authority!;
     const previous = this.match;
     this.match = c.getMatch();
     const trace = c.getReplay();
@@ -103,8 +114,8 @@ export class LocalSession implements BoardPort {
           : this.match.phase === 'resolution'
             ? 'Ronda liquidada. Recompensas recibidas una vez.'
             : 'Nueva preparación. Organiza tu formación.';
-    if (c.getClock().currentPhase === 'finished')
-      this.message = 'Vargas ha sido eliminado. Partida finalizada.';
+    if (c.getClock().currentPhase === 'finished') this.message = 'Partida finalizada.';
+    if (this.remote) this.message = this.remote.status;
     this.publish();
   }
   getMatch = () => this.match;
@@ -118,6 +129,7 @@ export class LocalSession implements BoardPort {
   combatFrame = () => this.playback?.frame() ?? null;
   starsFor = (id: string) =>
     this.match.units.find((u) => u.id === id)?.stars ??
+    this.remote?.rivals().find((u) => u.id === id)?.stars ??
     (id.startsWith('rival-')
       ? [...this.match.config.opponents].reverse().find((t) => t.fromRound <= this.match.round)!
           .stars
@@ -126,7 +138,7 @@ export class LocalSession implements BoardPort {
   /** Read-only view model: inspection never dispatches a gameplay command. */
   inspection() {
     const owned = this.selected();
-    const rival = opponentUnits(this.match).find((u) => u.id === this.selectedId);
+    const rival = this.rivals().find((u) => u.id === this.selectedId);
     const unit = owned ?? rival;
     if (!unit) return null;
     const frame = this.combatFrame();
@@ -187,7 +199,7 @@ export class LocalSession implements BoardPort {
               ]
             : [],
         ),
-        ...opponentUnits(this.match).map(({ id, definitionId, owner, position }) => ({
+        ...this.rivals().map(({ id, definitionId, owner, position }) => ({
           id,
           definitionId,
           owner,
@@ -224,13 +236,18 @@ export class LocalSession implements BoardPort {
   }
   dispatch(command: MatchCommand): boolean {
     const before = this.match;
-    const c = this.coordinator;
+    const c = this.authority;
     const accepted = c?.submit({
       matchId: c.getClock().matchId,
       phaseId: c.getClock().phaseId,
       expectedRevision: before.revision,
       command,
     });
+    if (this.remote) {
+      this.message = this.remote.status;
+      this.publish();
+      return accepted ?? false;
+    }
     const result = c
       ? accepted
         ? { ok: true as const, state: c.getMatch() }
@@ -292,7 +309,7 @@ export class LocalSession implements BoardPort {
     return true;
   }
   advanceCombat(delta: number): void {
-    if (this.coordinator) return; // Application host owns automatic time, never Phaser.
+    if (this.authority) return; // Application host owns automatic time, never Phaser.
     if (!this.playback || this.match.phase !== 'combat' || this.paused) return;
     const old = this.playback.frame().tick;
     this.playback.advance(delta);
@@ -300,14 +317,14 @@ export class LocalSession implements BoardPort {
     else if (old !== this.playback.frame().tick) this.publish();
   }
   pauseCombat(): void {
-    if (this.coordinator) return;
+    if (this.authority) return;
     if (this.match.phase !== 'combat') return;
     this.paused = !this.paused;
     this.playback?.setPaused(this.paused);
     this.publish();
   }
   setSpeed(speed: 1 | 2): void {
-    if (this.coordinator) return;
+    if (this.authority) return;
     this.speed = speed;
     this.playback?.setSpeed(speed);
     this.publish();

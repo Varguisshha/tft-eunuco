@@ -9,7 +9,7 @@
   "scripts": {
     "sprites:import": "node scripts/sprites/import.mjs",
     "dev": "pnpm --filter @tft/web dev",
-    "build": "pnpm --filter @tft/web build",
+    "build": "pnpm --filter @tft/web build && pnpm --filter @tft/server build",
     "preview": "pnpm --filter @tft/web preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
@@ -20,7 +20,8 @@
     "format:check": "prettier --check .",
     "build:local": "pnpm --filter @tft/web exec vite build --mode local-test --outDir dist-dev",
     "preview:local": "pnpm --filter @tft/web exec vite preview --outDir dist-dev --host 127.0.0.1 --port 4173",
-    "verify:public": "node scripts/build/verify-public.mjs"
+    "verify:public": "node scripts/build/verify-public.mjs",
+    "dev:server": "pnpm --filter @tft/server dev"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

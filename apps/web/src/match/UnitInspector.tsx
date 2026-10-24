@@ -87,7 +87,7 @@ export function UnitInspector({
             <h2 id="inspected-name">{def.name}</h2>
             <span>
               {ROLE_LABELS[def.role]} · <GameIcon name="gold" /> {def.cost} ·{' '}
-              {selected.side === 'south' ? 'Vargas' : 'Florin'}
+              {session.names[selected.side]}
             </span>
             <div className="stars" aria-label={`${selected.stars} estrellas`}>
               {'★'.repeat(selected.stars)}

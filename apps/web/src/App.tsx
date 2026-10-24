@@ -1,3 +1,4 @@
+import { Multiplayer } from './network/Multiplayer';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
@@ -13,7 +14,7 @@ const DevelopmentAccess = __DEVTOOLS__
   ? lazy(() => import('./development/DevelopmentAccess'))
   : null;
 export function App() {
-  const [screen, setScreen] = useState<'local' | 'arena'>('local');
+  const [screen, setScreen] = useState<'local' | 'arena' | 'online'>('local');
   const [arena] = useState(() => new BoardSession());
   const [session, setSession] = useState<LocalSession | null>(null);
   const [seed, setSeed] = useState('42');
@@ -91,10 +92,13 @@ export function App() {
   return (
     <>
       <nav
-        className={`screen-nav ${screen === 'local' && session ? 'in-match' : ''}`}
+        className={`screen-nav ${(screen === 'local' && session) || screen === 'online' ? 'in-match' : ''}`}
         aria-label="Pantalla"
       >
-        <details className="match-menu" open={!session || screen !== 'local'}>
+        <details
+          className="match-menu"
+          open={(!session && screen === 'local') || screen === 'arena'}
+        >
           <summary aria-label="Opciones de partida">
             <GameFrame compact />
             <GameIcon name="stats" />
@@ -117,7 +121,13 @@ export function App() {
             >
               Arena de pruebas
             </button>
-            <span>F0–P6B.5-B · LOCAL</span>
+            <button
+              onClick={() => setScreen('online')}
+              aria-current={screen === 'online' ? 'page' : undefined}
+            >
+              Multijugador de prueba
+            </button>
+            <span>F0–P7A</span>
           </div>
         </details>
       </nav>
@@ -126,7 +136,9 @@ export function App() {
           {notice}
         </p>
       )}
-      {screen === 'arena' ? (
+      {screen === 'online' ? (
+        <Multiplayer />
+      ) : screen === 'arena' ? (
         <Arena providedSession={arena} />
       ) : session ? (
         <LocalGame session={session} onNew={() => setSession(null)} onReplace={attach} />

@@ -3,7 +3,10 @@ import { matchCatalog } from '@tft/game-data';
 import { isInBounds } from '../hex';
 import { copiesOf, definition, sameLocation, levelRule } from './selectors';
 /** Semantic validation for loads and every authority transaction; never silently repairs units. */
-export function validateMatchState(value: unknown): MatchState {
+export function validateMatchState(
+  value: unknown,
+  externalCopies: Readonly<Record<string, number>> = {},
+): MatchState {
   const state = MatchStateSchema.parse(value);
   const fail = (condition: boolean, message: string) => {
     if (condition) throw new Error(message);
@@ -48,7 +51,10 @@ export function validateMatchState(value: unknown): MatchState {
       .filter((u) => u.definitionId === d.id)
       .reduce((n, u) => n + copiesOf(u, state.config), 0);
     const offered = state.shop.filter((o) => o?.definitionId === d.id).length;
-    fail((state.pool[d.id] ?? -1) + owned + offered !== expected, 'Copy conservation');
+    fail(
+      (state.pool[d.id] ?? -1) + owned + offered + (externalCopies[d.id] ?? 0) !== expected,
+      'Copy conservation',
+    );
   }
   fail(
     !state.development && state.ledger.some((e) => e.reason === 'development'),

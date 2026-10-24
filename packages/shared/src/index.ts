@@ -11,3 +11,7 @@ export * from './abilities';
 
 export * from './advanced-stats';
 export * from './mechanics';
+
+export * from './network';
+
+export * from './perspective';

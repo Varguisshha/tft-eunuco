@@ -1,3 +1,11 @@
+# Actualización F0-P7A
+
+Online: dos conexiones → inicio explícito → preparación30s → una simulación servidor → reproducción tickFinal×100ms+600ms → liquidación única → resolución5s → siguiente ronda. Finaliza si cualquiera llega a0. La política local descrita abajo permanece local.
+
+Véase [arquitectura multijugador](MULTIPLAYER_ARCHITECTURE.md), [protocolo](SERVER_PROTOCOL.md) y [partida autoritativa](AUTHORITATIVE_MATCH.md). Las afirmaciones históricas «servidor no implementado» de las secciones inferiores quedan superadas por esta actualización.
+
+---
+
 # Flujo vigente de rondas — F0-P5
 
 La Partida local usa `LocalMatchCoordinator` y un reloj independiente de React/Phaser. La Arena mantiene `BoardSession` manual y no participa en la economía ni en los guardados automáticos.
