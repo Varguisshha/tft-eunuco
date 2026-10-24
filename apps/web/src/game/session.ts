@@ -269,6 +269,34 @@ export class BoardSession {
       message: `Diagnóstico ${scenario}. Miembros ficticios fuera del catálogo.`,
     });
   }
+  /** Visual stress fixture only; uses unchanged roster profiles and combat rules. */
+  loadVisualFormation(count: 4 | 8): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const units: UnitInstance[] = (['south', 'north'] as const).flatMap((owner) =>
+      Array.from({ length: count }, (_, i) => ({
+        id: `visual-${owner}-${i}`,
+        definitionId: ['vargas', 'dolea', 'vargas', 'test-r03'][i % 4]!,
+        owner,
+        position: offsetToAxial(
+          1 + (i % 4),
+          owner === 'south' ? 4 + Math.floor(i / 4) : 3 - Math.floor(i / 4),
+        ),
+      })),
+    );
+    this.scenarioInput = createVargasCombatInput(
+      { units },
+      this.snapshot.combat.seed,
+      `visual-${count}-${this.snapshot.combat.seed}`,
+    );
+    this.patch({
+      board: { units },
+      selectedId: null,
+      paletteId: null,
+      invalid: false,
+      message: `Prueba visual ${count} contra ${count}. Perfiles reales, sin cambios de balance.`,
+    });
+  }
   traitInput = () => this.playback?.replay.input ?? this.scenarioInput;
   diagnosticProfile(id: string) {
     return this.scenarioInput?.units.find((u) => u.id === id)?.profile;

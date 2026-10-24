@@ -1,3 +1,4 @@
+import { combatCounters } from './combatCounters';
 import type { CombatState, CombatUnit } from '@tft/shared';
 const statNames: Record<string, string> = {
   attack: 'AD',
@@ -16,6 +17,7 @@ export function mechanicsReadout(unit: CombatUnit | undefined, state: CombatStat
       (t) => t.side === unit.owner && (t.unitId === unit.id || t.scope === 'team'),
     ) ?? [];
   const useful =
+    !!unit.profile.championAbility?.passive ||
     unit.mechanics.stacks.length > 0 ||
     unit.mechanics.casts > 0 ||
     unit.mechanics.kills > 0 ||
@@ -24,6 +26,7 @@ export function mechanicsReadout(unit: CombatUnit | undefined, state: CombatStat
   const remaining = (tick: number | null) =>
     tick === null ? 'Este combate' : `${Math.max(0, (tick - state.tick) / 10).toFixed(1)} s`;
   return {
+    counters: combatCounters(unit, state),
     casts: unit.mechanics.casts,
     kills: unit.mechanics.kills,
     stacks: unit.mechanics.stacks.map((s) => ({

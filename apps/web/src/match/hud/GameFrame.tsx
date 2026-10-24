@@ -9,10 +9,10 @@ export function GameFrame({ card = false }: { card?: boolean }) {
     >
       <path
         className="frame-outer"
-        d="M9 1H191V5H195V9H199V151H195V155H191V159H9V155H5V151H1V9H5V5H9Z"
+        d="M9 1H191L199 9V151L191 159H9L1 151V9Z"
       />
-      <path className="frame-inset" d="M12 6H188V11H194V149H188V154H12V149H6V11H12Z" />
-      <path className="frame-light" d="M15 3H185 M3 16V45 M197 115V144 M15 157H185" />
+      <path className="frame-inset" d="M13 6H187L194 13V147L187 154H13L6 147V13Z" />
+      <path className="frame-light" d="M18 3H182 M3 18V42 M197 118V142 M18 157H182" />
       {card && (
         <path
           className="frame-corners"

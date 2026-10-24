@@ -1,0 +1,363 @@
+/* P6B.4 — engraved charcoal plates. The arena remains the continuous backdrop. */
+.game-hud,
+.developer-console,
+.app {
+  --game-ink: #101a18;
+  --game-metal: #263a32;
+  --game-text: #edf0dc;
+  --game-muted: #bac9ba;
+  --game-edge: #728878;
+  --game-brass: #e8cd83;
+  --game-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  font-variant-numeric: tabular-nums;
+}
+:is(.game-hud, .developer-console) .game-button {
+  background-image: linear-gradient(180deg, #ffffff0b, transparent 45%, #030b0840);
+  padding: 10px 15px;
+  clip-path: polygon(
+    8px 0,
+    calc(100% - 8px) 0,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    0 calc(100% - 8px),
+    0 8px
+  );
+}
+:is(.game-hud, .developer-console) .game-button::before {
+  content: '';
+  position: absolute;
+  inset: 7px auto 7px 5px;
+  width: 2px;
+  background: var(--frame-light);
+  opacity: 0.45;
+}
+:is(.game-hud, .developer-console) .game-button:focus-visible {
+  outline: none;
+  --frame-edge: #fff2c4;
+  --frame-light: #fff2c4;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.game-hud .game-button[aria-pressed='true']::before {
+  opacity: 1;
+}
+.game-hud .shop-offer {
+  background-image: radial-gradient(ellipse at 65% 40%, #ffffff12, transparent 65%);
+}
+.game-hud .shop-offer .offer-art {
+  padding: 0;
+}
+.game-hud .recruitment-dock .offer-art .pixel-unit {
+  height: 100%;
+  width: 86%;
+  right: -2%;
+  object-position: center bottom;
+}
+.game-hud .shop-offer .offer-traits {
+  top: auto;
+  bottom: 43px;
+  left: 13px;
+  right: 10px;
+  gap: 3px;
+}
+.game-hud .offer-trait {
+  background: #101a18ee;
+  padding: 2px 5px 2px 2px;
+  font-weight: 600;
+}
+.game-hud .shop-offer .offer-footer {
+  background-image: linear-gradient(180deg, #ffffff0c, #030b0833);
+  padding-inline: 10px;
+  border-top-color: var(--frame-edge);
+}
+.game-hud .shop-offer .offer-state,
+.game-hud .shop-offer .offer-intent {
+  top: 8px;
+  bottom: auto;
+  left: 9px;
+  right: auto;
+  max-width: calc(100% - 35px);
+}
+.game-hud .shop-offer:hover:not(:disabled) .pixel-unit {
+  transform: none;
+}
+.game-hud .shop-offer:focus-visible {
+  outline: 2px solid #fff2c4;
+  outline-offset: 2px;
+}
+.game-hud .is-locked .shop-offer {
+  --frame-light: #eed496;
+}
+.game-hud .shop-offer[data-state='empty'] .frame-corners {
+  opacity: 0.35;
+}
+.game-hud .local-inspector,
+.trait-tooltip,
+.developer-console {
+  background: #111e1af5;
+  border-color: #718476;
+  color: var(--game-text);
+  box-shadow: 0 12px 28px #03090766;
+}
+.game-hud .local-inspector {
+  border-top: 2px solid #c1cba4;
+}
+.game-hud .local-unit-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #4d6254;
+}
+.game-hud .local-unit-title .pixel-unit {
+  height: 78px;
+  width: 62px;
+}
+.game-hud .local-inspector h3,
+.game-hud .local-inspector h4 {
+  color: #e1dfbd;
+}
+.game-hud .player-banner {
+  background: #13231df2;
+  border-color: #718476;
+}
+.game-hud .player-banner.north {
+  background: #29271df2;
+}
+.game-hud .trait-trigger {
+  border-radius: 0;
+  background: #14231eeb;
+}
+.game-hud .trait-count {
+  color: #e6dfb7;
+}
+.game-hud .trait-row.is-active .trait-trigger {
+  border-color: #90a77a;
+}
+.game-hud .phase-clock {
+  padding: 5px 16px;
+  border-inline: 1px solid #60735c;
+  background: #102018c9;
+}
+.game-hud .phase-time {
+  color: #f5e2ac;
+}
+.game-hud .gold-readout {
+  border-bottom: 1px solid #8b7d53;
+  padding-bottom: 5px;
+}
+.game-hud .level-readout {
+  color: #dae5cb;
+}
+.game-hud .button,
+.game-hud .zoom-controls button,
+.developer-console button:not(.game-button) {
+  border-radius: 0;
+  border-color: #657c69;
+  background: #20382bed;
+  color: #e9eedb;
+}
+.game-hud .button:hover:not(:disabled),
+.developer-console button:hover:not(:disabled) {
+  background-color: #36533c;
+}
+.game-hud .button:disabled {
+  background: #1a2723;
+  color: #a1b0a3;
+}
+.game-counter {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid #3e5346;
+  color: #e5ecd8;
+}
+.game-counter .content-icon {
+  width: 22px;
+  height: 22px;
+}
+.game-counter .counter-name {
+  font-size: 12px;
+  line-height: 1.3;
+}
+.game-counter > strong {
+  color: #eedaa3;
+  font:
+    700 20px 'Space Grotesk',
+    sans-serif;
+}
+.game-counter > strong small {
+  font-size: 12px;
+  color: #bdccb7;
+}
+.game-counter > meter {
+  grid-column: 2 / -1;
+  width: 100%;
+  height: 7px;
+}
+.game-counter meter::-webkit-meter-bar {
+  background: #0a1510;
+  border: 0;
+  border-radius: 0;
+}
+.game-counter meter::-webkit-meter-optimum-value {
+  background: #a6c58d;
+}
+.game-counter[data-state='active'] meter::-webkit-meter-optimum-value {
+  background: var(--game-brass);
+}
+.counter-detail,
+.counter-thresholds {
+  grid-column: 2 / -1;
+  font-size: 11px;
+  color: #becdbb;
+  line-height: 1.45;
+}
+.counter-thresholds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.counter-thresholds [data-reached='true'] {
+  color: var(--game-brass);
+}
+.mechanics-status > h4 {
+  margin: 14px 0 3px;
+}
+.mechanics-status details {
+  margin-top: 10px;
+}
+.mechanics-status li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.visual-scale-control {
+  position: absolute;
+  top: 42px;
+  left: 190px;
+  z-index: 6;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #14221eef;
+  color: #e8ebd8;
+  padding: 5px 8px;
+  font-size: 11px;
+}
+.visual-scale-control select {
+  color: inherit;
+  background: #22372b;
+  border: 1px solid #8c9e78;
+}
+@media (min-width: 1700px) {
+  .game-hud .shop-offer .offer-traits {
+    bottom: 48px;
+  }
+}
+@media (max-height: 800px) {
+  .game-hud .local-unit-title .pixel-unit {
+    height: 60px;
+  }
+  .game-counter {
+    padding-block: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-counter,
+  .game-hud .game-button {
+    transition: none;
+  }
+}
+
+.game-icon-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 0;
+  background: #21382b;
+  color: #e5eacb;
+  padding: 7px;
+}
+.game-icon-button:hover:not(:disabled) {
+  background: #3a563c;
+}
+.game-icon-button:disabled {
+  color: #9cad9e;
+  background: #19291f;
+}
+.game-hud .inspector-close {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.game-hud .inspector-close .game-icon-button {
+  width: 30px;
+  height: 30px;
+}
+.game-hud .player-rail > .game-button {
+  min-height: 34px;
+  font-size: 11px;
+  padding: 7px 9px;
+}
+.game-hud .player-rail > .game-button .game-icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (min-width: 1100px) and (max-height: 800px) {
+  .game-hud .player-rail {
+    top: 8px;
+    gap: 4px;
+    max-height: calc(100% - 70px);
+  }
+  .game-hud .trait-rail {
+    margin-top: 0;
+  }
+  .game-hud .trait-rail h2 {
+    margin-bottom: 4px;
+  }
+  .game-hud .trait-row {
+    margin-bottom: 3px;
+  }
+  .game-hud .trait-trigger {
+    min-height: 40px;
+    padding-block: 4px;
+  }
+  .game-hud .trait-title small {
+    margin-top: 1px;
+  }
+  .game-hud .match-feedback {
+    bottom: 8px;
+  }
+}
+
+/* Keep participant controls fixed; only the trait list scrolls when combat adds progress. */
+@media (min-width: 1100px) and (max-height: 800px) {
+  .game-hud .player-rail {
+    bottom: 70px;
+    max-height: none;
+    overflow: visible;
+  }
+  .game-hud .player-rail > :not(.trait-rail) {
+    flex-shrink: 0;
+  }
+  .game-hud .player-banner {
+    padding: 4px 8px;
+    gap: 2px 6px;
+  }
+  .game-hud .trait-rail {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #8c9e78 #14231e;
+  }
+  .game-hud .trait-title small {
+    line-height: 1.2;
+  }
+}

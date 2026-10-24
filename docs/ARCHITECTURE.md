@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+La capa de presentación añade combatCounters.ts (contrato v1), GameCounter, GameIconButton y visualScale.ts. BoardScene aplica escala1.4 a arte real en Mar de Cristal; visualAdapter conserva default legado1 y hitbounds originales. CombatRenderer solo consume snapshots/eventos, incluyendo estela de daño180ms. BoardSession incorpora fixtures visuales4v4/8v8 internos. No se alteran shared, game-core, game-data, schemas, guardado ni reglas f0p6b3-1.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 ## F0-P6B.1 — estadísticas y críticos
 
 `shared/advanced-stats.ts` declara reglas `f0p6b1-1`, límites/valores neutrales, ratios de AD/AP por estrellas y modos/orígenes de modificador. Los contratos existentes añaden campos opcionales para conservar sus registros históricos; las entradas avanzadas exigen datos explícitos y las anteriores rechazan esa semántica nueva.

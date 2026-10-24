@@ -1,3 +1,4 @@
+import { characterVisualScale, originalHitBounds } from './visualScale';
 import Phaser from 'phaser';
 import {
   originOffset,
@@ -73,8 +74,29 @@ export class PhaserUnitVisual implements UnitVisual {
     this.setFacing(side === 'south' ? 'right' : 'left');
     this.play('idle');
   }
+  private visualMultiplier = 1;
+  setVisualMultiplier(value: number): void {
+    this.visualMultiplier = value;
+    this.setFootPosition(this.foot.x, this.foot.y);
+  }
+  containsPoint(x: number, y: number): boolean {
+    const b = this.hitBounds;
+    return x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height;
+  }
+  get hitBounds() {
+    const bounds = this.sprite.getBounds();
+    return originalHitBounds(
+      bounds,
+      this.foot,
+      this.asset && this.arena ? this.visualMultiplier : 1,
+    );
+  }
   get renderScale(): number {
-    return this.arena ? characterScale(this.arena, this.foot.y) : 1;
+    return characterVisualScale(
+      this.arena ? characterScale(this.arena, this.foot.y) : 1,
+      !!this.asset && !!this.arena,
+      this.visualMultiplier,
+    );
   }
   setFootPosition(x: number, y: number): void {
     this.foot = { x, y };

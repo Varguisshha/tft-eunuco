@@ -1,3 +1,4 @@
+import { GameIconButton } from './hud/GameIconButton';
 import { TraitRail } from './hud/TraitRail';
 import { useRef, useState, useSyncExternalStore } from 'react';
 import { deployedCount, interestFor, levelRule, type LocalMatchCoordinator } from '@tft/game-core';
@@ -6,6 +7,7 @@ import { PhaseClock } from './PhaseClock';
 import './gameHud.css';
 import './hud/recruitment.css';
 import './hud/traits.css';
+import './hud/visualSystem.css';
 import { GameButton } from './hud/GameButton';
 import { GameIcon } from './hud/GameIcon';
 import { LocalSession } from './LocalSession';
@@ -45,13 +47,25 @@ export function LocalGame({
         />
         <div className="round-actions">
           {phase === 'not_started' ? (
-            <button className="button combat-primary" onClick={() => coordinator?.start()}>
-              Iniciar partida
-            </button>
+            <GameButton
+              label="Iniciar partida"
+              icon="play"
+              disabled={false}
+              onAction={() => {
+                coordinator?.start();
+                return true;
+              }}
+            />
           ) : phase === 'finished' ? (
-            <button className="button combat-primary" onClick={onNew}>
-              Nueva partida
-            </button>
+            <GameButton
+              label="Nueva partida"
+              icon="refresh"
+              disabled={false}
+              onAction={() => {
+                onNew();
+                return true;
+              }}
+            />
           ) : (
             <span className="automatic-label">
               {phase === 'resolution'
@@ -142,24 +156,26 @@ export function LocalGame({
             </section>
           )}
 
-          <button className="button journal-button" onClick={() => journal.current?.showModal()}>
-            Registro de partida
-          </button>
+          <GameButton
+            label="Registro de partida"
+            icon="journal"
+            disabled={false}
+            onAction={() => {
+              journal.current?.showModal();
+              return true;
+            }}
+          />
           <TraitRail state={state} combatState={session.combatFrame()?.state} />
         </aside>
         <section className="local-board" aria-label="Tablero de partida local">
           <div className="local-board-title">
             <span>Florin · Ámbar</span>
             <div className="local-zoom">
-              <button aria-label="Alejar tablero" onClick={() => setZoom(0.85)}>
-                −
-              </button>
+              <GameIconButton label="Alejar tablero" icon="minus" onAction={() => setZoom(0.85)} />
               <button aria-label="Restablecer zoom" onClick={() => setZoom(1)}>
                 {Math.round(zoom * 100)}%
               </button>
-              <button aria-label="Acercar tablero" onClick={() => setZoom(1.15)}>
-                +
-              </button>
+              <GameIconButton label="Acercar tablero" icon="plus" onAction={() => setZoom(1.15)} />
             </div>
           </div>
           <GameCanvas

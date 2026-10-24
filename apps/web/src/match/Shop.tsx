@@ -91,17 +91,6 @@ export function Shop({ session }: { session: LocalSession }) {
               <GameFrame card />
               {d ? (
                 <>
-                  <span className="offer-traits" id={`offer-detail-${i}`}>
-                    {d.synergies.slice(0, 2).map((id) => (
-                      <span className="offer-trait" key={id}>
-                        <ContentIcon id={getTraitDefinition(id)?.icon ?? id} />
-                        <span>{synergyLabel(id)}</span>
-                      </span>
-                    ))}
-                    {!d.synergies.some((id) => getTraitDefinition(id)) && (
-                      <span className="trait-provisional">Sinergias provisionales</span>
-                    )}
-                  </span>
                   {state.shopLocked && (
                     <span className="offer-lock" aria-label="Oferta reservada">
                       <GameIcon name="lock" />
@@ -109,6 +98,17 @@ export function Shop({ session }: { session: LocalSession }) {
                   )}
                   <span className="offer-art">
                     <PixelUnit role={d.role} spriteId={d.spriteId} />
+                  </span>
+                  <span className="offer-traits" id={`offer-detail-${i}`}>
+                    {d.synergies.slice(0, 2).map((id) => (
+                      <span className="offer-trait" key={id}>
+                        <ContentIcon id={getTraitDefinition(id)?.icon ?? id} />
+                        <span>{id === 'upm' ? 'UPM' : synergyLabel(id)}</span>
+                      </span>
+                    ))}
+                    {!d.synergies.some((id) => getTraitDefinition(id)) && (
+                      <span className="trait-provisional">Sinergias provisionales</span>
+                    )}
                   </span>
                   <span className="offer-footer">
                     <strong>{d.name}</strong>

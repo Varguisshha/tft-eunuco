@@ -1,3 +1,4 @@
+import { CHARACTER_SCALE_CANDIDATES, DEFAULT_CHARACTER_SCALE } from './visualScale';
 import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from 'react';
 import Phaser from 'phaser';
 import { axialToOffset, offsetToAxial } from '@tft/game-core';
@@ -26,6 +27,7 @@ export function GameCanvas({
 }) {
   useSyncExternalStore(session.subscribe, session.getSnapshot);
   const frame = session.combatFrame();
+  const [visualScale, setVisualScale] = useState(DEFAULT_CHARACTER_SCALE);
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<BoardScene | null>(null);
   const [calibration, setCalibration] = useState<CalibrationState | null>(
@@ -129,6 +131,9 @@ export function GameCanvas({
   useEffect(() => {
     if (readyScene && scene.current === readyScene) readyScene.setViewZoom(zoom);
   }, [zoom, readyScene]);
+  useEffect(() => {
+    if (readyScene && scene.current === readyScene) readyScene.setVisualMultiplier(visualScale);
+  }, [readyScene, visualScale]);
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.target !== event.currentTarget) return;
     const { cursor } = session.getSnapshot();
@@ -173,6 +178,22 @@ export function GameCanvas({
         if (id && session.editable) scene.current?.dropFromBench(id, event.clientX, event.clientY);
       }}
     >
+      {arena && development && (
+        <label className="visual-scale-control">
+          Escala visual
+          <select
+            aria-label="Escala visual de personajes"
+            value={visualScale}
+            onChange={(e) => setVisualScale(Number(e.target.value))}
+          >
+            {CHARACTER_SCALE_CANDIDATES.map((n) => (
+              <option key={n} value={n}>
+                {n === 1 ? 'Original' : `+${Math.round((n - 1) * 100)} %`}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       {arena && development && calibration && (
         <ArenaCalibration
           arena={arena}

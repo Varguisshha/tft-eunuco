@@ -1,3 +1,5 @@
+import { GameButton } from './hud/GameButton';
+import { GameIconButton } from './hud/GameIconButton';
 import { MechanicsStatus } from '../game/MechanicsStatus';
 import { ADVANCED_STATS_DEFAULTS } from '@tft/shared';
 import { ContentIcon } from './hud/ContentIcon';
@@ -71,11 +73,9 @@ export function UnitInspector({
       aria-label="Unidad de partida seleccionada"
       aria-labelledby="inspected-name"
     >
-      <button className="inspector-close" aria-label="Cerrar ficha de unidad" onClick={close}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m6 6 12 12M18 6 6 18" />
-        </svg>
-      </button>
+      <div className="inspector-close">
+        <GameIconButton label="Cerrar ficha de unidad" icon="close" onAction={close} />
+      </div>
       <div className="local-unit-title">
         <PixelUnit role={def.role} spriteId={def.spriteId} stars={selected.stars} />
         <div>
@@ -89,6 +89,7 @@ export function UnitInspector({
           </div>
         </div>
       </div>
+      <MechanicsStatus value={selected.mechanics} />
       <section className="inspector-abilities" aria-label="Habilidad principal">
         {ability ? (
           <>
@@ -129,7 +130,6 @@ export function UnitInspector({
           <p>Sin habilidad configurada.</p>
         )}
       </section>
-      <MechanicsStatus value={selected.mechanics} />
       <div className="inspector-vitals">
         <label>
           Vida{' '}
@@ -214,13 +214,14 @@ export function UnitInspector({
       </section>
       {selected.owned && (
         <>
-          <button
-            className="button sell-button"
+          <GameButton
+            label={`Vender ${def.name}`}
+            icon="gold"
+            cost={sellValue(selected.owned, session.getMatch().config)}
+            tone="gold"
             disabled={!editable}
-            onClick={() => session.dispatch({ type: 'sell_unit', unitId: selected.id })}
-          >
-            Vender {def.name} · {sellValue(selected.owned, session.getMatch().config)} oro
-          </button>
+            onAction={() => session.dispatch({ type: 'sell_unit', unitId: selected.id })}
+          />
           <details className="placement-details">
             <summary>Colocar sin arrastrar</summary>
             <div className="local-placement">

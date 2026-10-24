@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+Membresía sigue contando personajes distintos desplegados. El lateral separa el número1/1 de El Depredador de eliminaciones/progreso individual; tooltip desglosa unidades. El inspector distingue kills y stacks, hitos2/4/6 y bonus reales. UPM usa créditos/lanzamientos del progreso individual y no suma miembros. La etiqueta compacta UPM no cambia el nombre del catálogo.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 # Sistema de sinergias — F0-P6B.1
 
 ## Fuentes estadísticas en reglas avanzadas

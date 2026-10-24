@@ -1,3 +1,4 @@
+import { MAR_DE_CRISTAL } from './arenas/marDeCristal';
 import { MechanicsStatus } from './game/MechanicsStatus';
 import { mechanicsReadout } from './game/mechanicsReadout';
 import { CombatTraitRail } from './match/hud/TraitRail';
@@ -52,6 +53,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
   const state = useSyncExternalStore(session.subscribe, session.getSnapshot);
   const [zoom, setZoom] = useState(1);
   const [help, setHelp] = useState(false);
+  const [visualArena, setVisualArena] = useState(false);
   const combatFrame = session.combatFrame();
   const selected = (combatFrame?.state.units ?? state.board.units).find(
     (u) => u.id === state.selectedId,
@@ -110,6 +112,34 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
             Restaurar formación
           </button>
         </div>
+        <div className="visual-lab-controls">
+          <label>
+            <input
+              type="checkbox"
+              checked={visualArena}
+              onChange={(e) => setVisualArena(e.target.checked)}
+            />{' '}
+            Vista Mar de Cristal
+          </label>
+          <button
+            className="button"
+            onClick={() => {
+              session.loadVisualFormation(4);
+              setVisualArena(true);
+            }}
+          >
+            Formación visual 4v4
+          </button>
+          <button
+            className="button"
+            onClick={() => {
+              session.loadVisualFormation(8);
+              setVisualArena(true);
+            }}
+          >
+            Formación visual 8v8
+          </button>
+        </div>
         <CombatControls session={session} combat={state.combat} />
         <div className="workspace">
           <section className="arena-panel" aria-label="Arena hexagonal">
@@ -127,7 +157,11 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                 <span />
                 Territorio ámbar <small>4 filas</small>
               </div>
-              <GameCanvas session={session} zoom={zoom} />
+              <GameCanvas
+                session={session}
+                zoom={zoom}
+                {...(visualArena ? { arena: MAR_DE_CRISTAL, development: true, fitted: true } : {})}
+              />
               {session.traitInput() && (
                 <CombatTraitRail input={session.traitInput()!} state={combatFrame?.state} />
               )}

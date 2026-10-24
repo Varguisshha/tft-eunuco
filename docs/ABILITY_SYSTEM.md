@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+El inspector presenta contadores antes de la descripción de habilidad. combatCounters lee mechanics, stacks, passiveState y statuses, sin contar frames. Resaca expone consumo0/5, bonus por acumulación y buff real con duración decreciente. Efectos existentes conservan su lógica. GameCounter representa fuentes genéricas; futuras fuentes deben proceder del motor, no del componente.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 # Sistema de habilidades — F0-P6B.1
 
 ## Escalados y críticos avanzados

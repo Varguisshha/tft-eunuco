@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+Baseline601 pruebas/40 archivos conservado. Resultado final614 pruebas/41 archivos; typecheck, lint y build correctos. verify:public confirma ausencia de controlador/panel/comandos/guardado DEV en bundle público. Pruebas nuevas cubren estado autoritativo, atribución, consumo/duración, UPM, render semántico, tarjetas, escala/huella y fixtures4v4/8v8. Navegador real en cinco tamaños, compras/XP/renovación/bloqueo, selección/arrastre, inspector, consumo/salto/overtime y densidad. Consola consultada sin errores. Detalle de evidencia y límites en F0_P6B4_REPORT.md; no extrapolar a todos los navegadores ni rendimiento exhaustivo.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 # Validación F0-P6B.1 — 23 de octubre de 2026
 
 Base:332 pruebas/30 archivos, tipos/lint/build correctos. P6A.1 preservado en `12a1515`. Antes de editar el motor se capturaron hashes de27 trazas completas y2 guardados históricos con sus trazas; se verifican sin regenerarlos tras los cambios. No se detectó discrepancia con la base anunciada. Una imagen nueva ajena al código se dejó intacta.

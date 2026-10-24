@@ -1,4 +1,9 @@
 export type GameIconName =
+  | 'close'
+  | 'minus'
+  | 'plus'
+  | 'play'
+  | 'journal'
   | 'gold'
   | 'xp'
   | 'refresh'
@@ -11,6 +16,11 @@ export type GameIconName =
 /** Original 24-unit glyphs; one pixel-stepped grammar for economic and trait symbols. */
 export function GameIcon({ name }: { name: GameIconName }) {
   const paths: Record<GameIconName, string> = {
+    close: 'M6 6l12 12M18 6L6 18',
+    minus: 'M4 12h16',
+    plus: 'M4 12h16M12 4v16',
+    play: 'M7 3l13 9-13 9z',
+    journal: 'M5 3h14v18H5zM8 7h8M8 11h8M8 15h5',
     gold: 'M7 3h10v3h3v12h-3v3H7v-3H4V6h3z M9 7h6v10H9z M12 7v10',
     xp: 'M4 13v-5l8-6 8 6v5l-8-6z M4 22v-5l8-6 8 6v5l-8-6z',
     refresh: 'M19 9V5h-4 M19 5l-3-2H8L3 8v8l5 5h8l4-4 M2 10h5 M20 14h-5',

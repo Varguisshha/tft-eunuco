@@ -1870,3 +1870,16 @@ dd {
   width: 170px;
   z-index: 12;
 }
+
+.visual-lab-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 28px 12px;
+  font-size: 12px;
+}
+.visual-lab-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

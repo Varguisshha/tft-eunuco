@@ -1,3 +1,4 @@
+import { DEFAULT_CHARACTER_SCALE } from './visualScale';
 import Phaser from 'phaser';
 import {
   BOARD_HEXES,
@@ -141,6 +142,11 @@ export class BoardScene extends Phaser.Scene {
     this.visuals.forEach((visual) => visual.destroy());
     this.visuals.clear();
   }
+  private visualMultiplier = DEFAULT_CHARACTER_SCALE;
+  setVisualMultiplier(value: number): void {
+    this.visualMultiplier = value;
+    for (const visual of this.visuals.values()) visual.setVisualMultiplier(value);
+  }
   setViewZoom(zoom: number): void {
     this.zoomLevel = zoom;
     this.fitView();
@@ -199,7 +205,7 @@ export class BoardScene extends Phaser.Scene {
         ([, visual]) =>
           visual.sprite.visible &&
           visual.sprite.alpha > 0.05 &&
-          visual.sprite.getBounds().contains(point.x, point.y),
+          visual.containsPoint(point.x, point.y),
       )
       .sort((a, b) => b[1].sprite.depth - a[1].sprite.depth)[0]?.[0];
     const currentUnits = this.session.combatFrame()?.state.units ?? state.board.units;
@@ -286,6 +292,7 @@ export class BoardScene extends Phaser.Scene {
             : undefined);
         if (!def) continue;
         visual = new PhaserUnitVisual(this, def, unit.owner, this.arena);
+        visual.setVisualMultiplier(this.visualMultiplier);
         this.visuals.set(unit.id, visual);
       }
       if (!frame && !(this.press?.dragging && this.press.unitId === unit.id)) {

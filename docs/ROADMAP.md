@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+Implementada F0-P6B.4: sistema visual común, tienda PC, contadores reales y escala ampliada con fixtures densos. Se detiene aquí; no se inicia otra fase. Persisten pendientes artísticos de clips/apariencias ya declarados en P6B.3. Próximo paso recomendado: jugar partidas con este HUD y priorizar recursos artísticos pendientes sin cambiar balance por esta fase.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 ## Estado vigente — F0-P6B.1 implementado
 
 AD/AP independientes del tipo de daño, coeficientes por estrellas, críticos deterministas con permiso por efecto, fuentes de modificadores y composición de velocidad compatibles con Overtime. Nuevas partidas con valores neutrales, guardados históricos preservados. Inspector ampliado y diagnósticos técnicos. [Contrato](ADVANCED_STATS.md), [informe y validación](F0_P6B1_REPORT.md).

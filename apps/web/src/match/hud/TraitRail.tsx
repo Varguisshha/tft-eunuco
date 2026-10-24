@@ -103,17 +103,20 @@ function TraitRows({
             >
               <ContentIcon id={row.trait.icon} active={row.active} />
               <span className="trait-title">
-                <strong>{row.trait.name}</strong>
+                <strong>{row.trait.id === 'upm' ? 'UPM' : row.trait.name}</strong>
                 <small>{row.active ? `Nivel ${row.level} · Activa` : 'Inactiva'}</small>
                 {internal.length > 0 && (
                   <small>
                     {row.trait.id === 'upm'
                       ? `${casts} Créditos`
-                      : `${casts} lanz. · ${kills} elim.`}
+                      : `${kills} elim.${row.trait.id === 'el-depredador' ? ` · Próx. individual ${[2, 4, 6].find((n) => n > Math.max(...internal.map((p) => p.kills))) ?? 'completo'}` : ` · ${casts} lanz.`}`}
                   </small>
                 )}
               </span>
-              <b className="trait-count">
+              <b
+                className="trait-count"
+                aria-label={`${row.count} de ${memberGoal} miembros distintos desplegados`}
+              >
                 {row.count}
                 <small>/{memberGoal}</small>
               </b>
@@ -148,6 +151,11 @@ function TraitRows({
                   : {casts} lanzamientos y {kills} eliminaciones en total. No añade miembros.
                 </p>
               )}
+              {internal.map((p) => (
+                <p key={p.unitId ?? 'team'}>
+                  {p.unitId ?? 'Equipo'}: {p.kills} eliminaciones · {p.casts} lanzamientos
+                </p>
+              ))}
               <p className="trait-contributors">
                 {row.contributors.map((id) => getUnitDefinition(id)?.name ?? id).join(' · ')}
               </p>

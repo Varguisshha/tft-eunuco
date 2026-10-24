@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+Tras comparar0/+20/+30/+40 se aplica+40% al arte real de DOLEA/VARGAS en Mar de Cristal, sobre perspectiva existente. Ambos tienen cuerpo normalizado64; no se exige ese factor para futuros manifiestos. Pies, proporción, orientación, profundidad y huella de input original se conservan. Barras y sombras siguen escala; estrellas no añaden crecimiento. Se verifican4v4/8v8, arrastre y salto. Originales y arena sin modificación.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 # Contrato universal de personajes v2 — F0-P4.1
 
 El contrato vigente es `CharacterManifestSchema`: tres evoluciones, cinco estados obligatorios y recursos opcionales. [Integración y fallbacks](CHARACTER_INTEGRATION.md), [pipeline y fuentes](SPRITE_PIPELINE.md), [cobertura](ANIMATION_COVERAGE.md). DOLEA ya usa dos hojas reales y muestreo sincronizado al combate. El contrato v1 de abajo se mantiene exclusivamente para compatibilidad de placeholders; sus notas de fases anteriores son históricas.

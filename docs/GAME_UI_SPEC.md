@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+La norma vigente de tienda es retrato dominante, sinergias **abajo a la izquierda sobre el nombre**, coste abajo a la derecha. Sustituye la posición superior histórica de P5.3. Controles comparten marco metálico original; inspector contextual incorpora contadores reales. A ≤800px de altura, participantes permanecen fijos y solo la lista de sinergias se desplaza; avisos quedan fuera. Cinco tamaños de escritorio conservan cinco tarjetas sin scroll de página.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 ## Ajuste de espacio de arena
 
 El banquillo ahora es una bandeja flotante dentro del campo, sin fila externa. El campo gana 68/86px y la imagen se muestra completa al100%, con escala uniforme. Los nueve destinos permanecen accesibles, el inspector termina antes de la bandeja y el margen de cámara evita que el zoom esconda hexágonos debajo. En móvil los destinos pueden desplazarse horizontalmente. Esta disposición sustituye la fila de banquillo descrita en el historial posterior.

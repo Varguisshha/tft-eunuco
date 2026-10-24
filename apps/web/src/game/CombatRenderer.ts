@@ -27,7 +27,7 @@ export class CombatRenderer {
     if (!text) {
       text = this.scene.add
         .text(0, 0, content, {
-          fontFamily: 'monospace',
+          fontFamily: 'Space Grotesk, sans-serif',
           fontSize: `${size}px`,
           fontStyle: 'bold',
           color,
@@ -50,7 +50,7 @@ export class CombatRenderer {
     this.graphics = scene.add.graphics().setDepth(4000);
     this.overtimeLabel = scene.add
       .text(WORLD.width / 2, 80, 'OVERTIME', {
-        fontFamily: 'monospace',
+        fontFamily: 'Space Grotesk, sans-serif',
         fontSize: '26px',
         fontStyle: 'bold',
         color: '#ffd08c',
@@ -174,6 +174,18 @@ export class CombatRenderer {
         y = Math.round(p.y - 79 * visual.renderScale);
       const bar = shieldBar(unit);
       g.fillStyle(0x0a1510).fillRect(x - 2, y - 2, 50, 16);
+      if (!this.reducedMotion?.matches && damage?.type === 'damage') {
+        const age = Math.max(0, timeMs - damage.tick * TICK_MS);
+        if (age < 180) {
+          const lost = damage.payload.amount / unit.profile.stats.maxHp;
+          g.fillStyle(0xe5b794, 0.75).fillRect(
+            x,
+            y,
+            46 * Math.min(1, bar.hpFraction + lost * (1 - age / 180)),
+            6,
+          );
+        }
+      }
       g.fillStyle(unit.owner === 'south' ? 0xb8d4a3 : 0xe2b47b).fillRect(
         x,
         y,
@@ -200,7 +212,10 @@ export class CombatRenderer {
           key,
           stacks
             .slice(0, 2)
-            .map((s) => `${s.count}/${s.maxStacks}`)
+            .map(
+              (s) =>
+                `${s.definitionId === 'resaca' ? 'R' : s.definitionId === 'depredador' ? 'D' : 'A'} ${s.count}${s.maxStacks <= 9 ? `/${s.maxStacks}` : ''}`,
+            )
             .join(' · '),
           '#e8d7a8',
           p.x,
@@ -215,7 +230,14 @@ export class CombatRenderer {
       if (feedback.passive) {
         const f = feedback.passive,
           key = `passive:${unit.id}:${f.key}`;
-        const name = f.name.length > 28 ? `${f.name.slice(0, 27)}…` : f.name;
+        const name =
+          unit.id === selectedId
+            ? f.name.length > 28
+              ? `${f.name.slice(0, 27)}…`
+              : f.name
+            : f.name.startsWith('Eliminación')
+              ? 'Eliminación'
+              : 'Activación';
         if (lane !== undefined) {
           activeLabels.add(key);
           this.label(key, name, '#ecf6d0', p.x, y - 42 + lane, fade(f.age));
@@ -300,7 +322,7 @@ export class CombatRenderer {
                 : `${event.payload.critical ? 'CRÍTICO ' : ''}−${event.payload.amount}`;
           text = this.scene.add
             .text(0, 0, content, {
-              fontFamily: 'monospace',
+              fontFamily: 'Space Grotesk, sans-serif',
               fontSize: '13px',
               fontStyle: 'bold',
               color:

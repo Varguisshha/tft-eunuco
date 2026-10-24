@@ -1,3 +1,11 @@
+## F0-P6B.4 — actualización vigente
+
+Se evoluciona el sistema existente sin dependencia visual nueva. Marcos SVG originales, carbón/jade/latón; rasgos de tienda inferiores por requisito explícito. CombatCounter v1 separa progressGoal de max para que Depredador7 no parezca7/6. Escala1.4 se aplica en escena y se preserva contrato legado del adaptador. Lateral desplazable independiente en pantallas bajas evita ocultar controles/feedback. No se versiona combate/guardado porque no cambian reglas.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
 ## F0-P6B.1 — AD/AP y críticos deterministas
 
 - Base verificada:332 pruebas; P6A.1 preservado en `12a1515`. Se excluyen todos los recursos originales, incluida una imagen nueva aportada después. Sin remoto ni push.
