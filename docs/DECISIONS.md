@@ -1,3 +1,5 @@
+> **F0-P7B.1-R (24/10/2026): parcialmente validada.** CLI2.120.0 instalada, sin autenticación ni proyecto vinculado; el propietario solicita crear un proyecto en su organización. Suite local689/49 correcta. Activación, migración y E2E remotos pendientes de acceso. Estado y reanudación: [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md).
+
 # Actualización F0-P7B.1
 
 Registro cerrado mediante trigger transaccional en auth.users, consumo de invitación y perfil atómicos. Se evita apertura accidental por olvidar configurar un hook. RLS y permisos por columna; usernames ASCII normalizados. Verificación getUser/getClaims + sesión activa en servidor. PKCE y almacenamiento gestionado por SDK. Sin proyecto configurado: pruebas controladas y E2E externo pendiente.

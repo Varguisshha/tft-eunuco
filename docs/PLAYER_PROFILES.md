@@ -1,3 +1,5 @@
+> **F0-P7B.1-R (24/10/2026): parcialmente validada.** CLI2.120.0 instalada, sin autenticación ni proyecto vinculado; el propietario solicita crear un proyecto en su organización. Suite local689/49 correcta. Activación, migración y E2E remotos pendientes de acceso. Estado y reanudación: [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md).
+
 # Perfiles persistentes
 
 `public.player_profiles`: user_id UUID PK/FK a auth.users, username único, display_name, avatar_id, created_at, updated_at. No duplica credenciales ni email. No hay estadísticas inventadas. Una tabla futura de resultados podrá referenciar user_id sin cambiar identidad.

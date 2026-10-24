@@ -1,3 +1,5 @@
+> **F0-P7B.1-R (24/10/2026): parcialmente validada.** CLI2.120.0 instalada, sin autenticación ni proyecto vinculado; el propietario solicita crear un proyecto en su organización. Suite local689/49 correcta. Activación, migración y E2E remotos pendientes de acceso. Estado y reanudación: [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md).
+
 # Actualización F0-P7B.1
 
 El acceso de producción a test_match requiere Supabase verificado. El UUID de cuenta es propietario; sessionId solo identifica la conexión. Dos perfiles diferentes reemplazan Vargas/Florin en online. No se implementan salas finales ni matchmaking. Los nombres provisionales quedan solo en local y fixtures explícitas.

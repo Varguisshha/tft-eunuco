@@ -1,3 +1,5 @@
+> **F0-P7B.1-R (24/10/2026): parcialmente validada.** CLI2.120.0 instalada, sin autenticación ni proyecto vinculado; el propietario solicita crear un proyecto en su organización. Suite local689/49 correcta. Activación, migración y E2E remotos pendientes de acceso. Estado y reanudación: [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md).
+
 # Registro por invitación
 
 Registro siempre privado, sin variable de apertura accidental en producción. Aplicar primero `supabase/migrations/202610240001_accounts.sql`. La barrera está en el trigger AFTER INSERT de auth.users; llamar directamente al endpoint signup no la evita. Una creación administrativa sin invitación también será rechazada: la CLI emite invitaciones, no cuentas saltándose la regla.

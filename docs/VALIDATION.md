@@ -1,3 +1,5 @@
+> **F0-P7B.1-R (24/10/2026): parcialmente validada.** CLI2.120.0 instalada, sin autenticación ni proyecto vinculado; el propietario solicita crear un proyecto en su organización. Suite local689/49 correcta. Activación, migración y E2E remotos pendientes de acceso. Estado y reanudación: [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md).
+
 # Actualización F0-P7B.1
 
 P7B.1: baseline644 tests en44 archivos. SQL/RLS probado en PostgreSQL aislado; concurrencia8 solicitudes con1 aceptación. SDK de Auth y sockets autenticados con dobles; no cuentas reales ni correo real. Evidencias y resultado final en F0_P7B1_REPORT.md. Capturas en artifacts/p7b1. Se mantiene la suite P7A con un proveedor legacy exclusivamente en el archivo de pruebas, sin cambiar sus aserciones.
