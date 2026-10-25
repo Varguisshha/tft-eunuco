@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { importComposite } from './composite.mjs';
 import { format } from 'prettier';
 export const states = ['idle', 'walk', 'attack', 'ability', 'death'];
 export function frameNumber(name) {
@@ -256,6 +257,28 @@ export async function build(root = process.cwd()) {
       }
     }
     manifests.push(manifest);
+  }
+  for (const composite of config.composites ?? []) {
+    const manifest = await importComposite(root, composite);
+    manifests.push(manifest);
+    for (const [name, asset] of Object.entries({
+      ...manifest.evolutions.star1,
+      recovery: manifest.composite.recoveryAnimation,
+      projectile: manifest.composite.projectileAnimation,
+      impact: manifest.composite.impactAnimation,
+    })) {
+      if (!asset) continue;
+      report.push({
+        character: composite.id,
+        state: name,
+        output: asset.url.replace(/^\//, ''),
+        appearance: 'pending',
+        frameWidth: asset.frameWidth,
+        frameHeight: asset.frameHeight,
+        anchor: asset.foot,
+        frames: asset.sources,
+      });
+    }
   }
   await fs.writeFile(
     path.join(root, 'apps/web/src/assets/characters.json'),

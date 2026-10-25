@@ -14,6 +14,7 @@ import {
   CURRENT_COMBAT_PROFILES,
   ADVANCED_COMBAT_PROFILES,
   VARGAS_COMBAT_PROFILES,
+  JARAMILLO_COMBAT_PROFILES,
   hasTraits,
   combatRulesFor,
   getUnitDefinition,
@@ -46,17 +47,24 @@ export function scaledProfile(
   config: EconomyConfig,
 ): CombatProfile {
   const source = (
-    config.catalog === 'f0p6b3'
-      ? VARGAS_COMBAT_PROFILES
-      : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
-        ? ADVANCED_COMBAT_PROFILES
-        : config.catalog === 'f0p6a'
-          ? CURRENT_COMBAT_PROFILES
-          : COMBAT_PROFILES
+    config.catalog === 'f0p6c'
+      ? JARAMILLO_COMBAT_PROFILES
+      : config.catalog === 'f0p6b3'
+        ? VARGAS_COMBAT_PROFILES
+        : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
+          ? ADVANCED_COMBAT_PROFILES
+          : config.catalog === 'f0p6a'
+            ? CURRENT_COMBAT_PROFILES
+            : COMBAT_PROFILES
   )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
-  if (config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2' || config.catalog === 'f0p6b3')
+  if (
+    config.catalog === 'f0p6b1' ||
+    config.catalog === 'f0p6b2' ||
+    config.catalog === 'f0p6b3' ||
+    config.catalog === 'f0p6c'
+  )
     profile.starLevel = stars;
   const scale = config.statScaleMilli[stars - 1]!;
   const amount = (n: number) => Math.min(1_000_000, Math.floor((n * scale) / 1000));
@@ -96,7 +104,7 @@ export function formationProfiles(state: MatchState) {
             definitionId: u.definitionId,
             owner: 'south' as const,
             position: u.location.hex,
-            profile: scaledProfile(u.definitionId, u.stars, state.config),
+            profile: scaledOwnedProfile(u, state.config),
           },
         ]
       : [],
@@ -114,7 +122,8 @@ export function formationProfiles(state: MatchState) {
   if (
     state.config.catalog !== 'f0p6b1' &&
     state.config.catalog !== 'f0p6b2' &&
-    state.config.catalog !== 'f0p6b3'
+    state.config.catalog !== 'f0p6b3' &&
+    state.config.catalog !== 'f0p6c'
   )
     return prepared.units;
   return prepared.units.map((unit) => ({
@@ -136,4 +145,20 @@ export function formationProfiles(state: MatchState) {
       },
     },
   }));
+}
+
+/** Permanent unit bonuses are applied once, after general star scaling. */
+export function scaledOwnedProfile(unit: OwnedUnit, config: EconomyConfig): CombatProfile {
+  const profile = scaledProfile(unit.definitionId, unit.stars, config);
+  const definition = profile.championAbility?.passive?.matchProgress;
+  if (definition) {
+    const count = Math.min(
+      definition.maximum,
+      unit.progress?.stacks.find((s) => s.id === definition.id)?.count ?? 0,
+    );
+    profile.stats.attack = Math.floor(
+      (profile.stats.attack * (1000 + count * definition.adPercentMilli)) / 1000,
+    );
+  }
+  return profile;
 }

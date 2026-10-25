@@ -74,3 +74,7 @@ Los umbrales de un miembro ya son compatibles con el análisis por definiciones 
 ## Integración F0-P6B.3
 
 El catálogo B3 añade UPM colectiva acumulativa2/4/6 y EL DEPREDADOR única1/1. Las definiciones históricas siguen congeladas. UPM:100HP/20AP; cura4 % por cast natural desde4; cada tercero150 % y repetición50 % desde6. Créditos nombra los contadores existentes, individuales, sin añadir stack ni miembro. B3 registra progreso desde el primer umbral activo aunque no haya reglas dinámicas todavía elegibles; B2 conserva su ejecución exacta. Depredador:5AD/5 %cura por kill; curaextra desde kill3,15AD una vez en4 y salto desde kill7. Conteos distintos desplegados, bench excluido. Iconos originales; diagnósticos con miembros ficticios fuera del roster. [Detalle](VARGAS_CHARACTER.md).
+
+## F0-P6C · JARAMILLO
+
+FUMÓN cuenta definiciones distintas desplegadas. Umbrales 2: 8 % / 30 ticks; 3: 15 % y primer golpe adicional 60 % AD por enemigo y combate, sin recursión. Solo hay un miembro real, JARAMILLO; umbrales altos se validan con fixtures sintéticos. Hortaleza no cambia.

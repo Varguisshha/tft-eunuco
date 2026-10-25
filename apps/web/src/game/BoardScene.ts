@@ -59,6 +59,19 @@ export class BoardScene extends Phaser.Scene {
         if (file.key === this.arena?.image.key) this.onAssetError?.();
       });
     }
+    for (const manifest of CHARACTER_ASSETS) {
+      for (const asset of manifest.composite
+        ? [
+            manifest.composite.projectileAnimation,
+            manifest.composite.impactAnimation,
+            manifest.composite.recoveryAnimation,
+          ]
+        : [])
+        this.load.spritesheet(asset.textureKey, asset.url, {
+          frameWidth: asset.frameWidth,
+          frameHeight: asset.frameHeight,
+        });
+    }
     for (const manifest of CHARACTER_ASSETS)
       for (const slots of Object.values(manifest.evolutions))
         for (const asset of Object.values(slots)) {

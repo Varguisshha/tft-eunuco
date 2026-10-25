@@ -1,3 +1,4 @@
+import { awardRoundProgress, mergeUnitProgress, clearMatchProgress } from './progress';
 import { traitsFor, hasTraits, combatRulesFor } from '@tft/game-data';
 import {
   CombatInputSchema,
@@ -28,6 +29,7 @@ import {
   levelRule,
   sameLocation,
   scaledProfile,
+  scaledOwnedProfile,
   sellValue,
 } from './selectors';
 import { calculateRoundDamage } from './roundDamage';
@@ -140,6 +142,7 @@ export function combine(state: MatchState): void {
         );
         const survivor = candidates[0]!;
         const consumed = new Set(candidates.slice(1, 3).map((u) => u.id));
+        mergeUnitProgress(survivor, candidates.slice(0, 3), state.config);
         survivor.stars = (stars + 1) as 2 | 3;
         state.units = state.units.filter((u) => !consumed.has(u.id));
         state.lastUpgrades.push({ id: survivor.id, stars: survivor.stars });
@@ -194,7 +197,7 @@ function startCombat(state: MatchState, allowEmpty = false): void {
             definitionId: u.definitionId,
             owner: 'south' as const,
             position: u.location.hex,
-            profile: scaledProfile(u.definitionId, u.stars, state.config),
+            profile: scaledOwnedProfile(u, state.config),
           },
         ]
       : [],
@@ -205,7 +208,9 @@ function startCombat(state: MatchState, allowEmpty = false): void {
     input: CombatInputSchema.parse({
       protocolVersion: COMBAT_PROTOCOL,
       rulesVersion: combatRulesFor(state.config.catalog),
-      ...(state.config.catalog === 'f0p6b2' || state.config.catalog === 'f0p6b3'
+      ...(state.config.catalog === 'f0p6b2' ||
+      state.config.catalog === 'f0p6b3' ||
+      state.config.catalog === 'f0p6c'
         ? { combatId: `match-${state.seed}-round-${state.round}` }
         : {}),
       ...(hasTraits(state.config.catalog) ? { traits: traitsFor(state.config.catalog) } : {}),
@@ -218,7 +223,12 @@ function startCombat(state: MatchState, allowEmpty = false): void {
   };
   state.phase = 'combat';
 }
-function resolve(state: MatchState, cached?: CombatReplay, multiplayer = false): void {
+function resolve(
+  state: MatchState,
+  cached?: CombatReplay,
+  multiplayer = false,
+  progressionEligible = true,
+): void {
   const combat = state.combat!;
   const replay = cached ?? runCombat(combat.input);
   combat.result = replay.result;
@@ -292,6 +302,9 @@ function resolve(state: MatchState, cached?: CombatReplay, multiplayer = false):
   reward.overflow = reward.total - reward.credited;
   addXp(state, reward.xp);
   state.lastReward = reward;
+  awardRoundProgress(state, progressionEligible);
+  if (!multiplayer && (state.health.south === 0 || state.health.north === 0))
+    clearMatchProgress(state);
   state.phase = 'resolution';
 }
 export function applyMatchAction(original: MatchState, value: unknown): MatchOutcome {
@@ -300,6 +313,7 @@ export function applyMatchAction(original: MatchState, value: unknown): MatchOut
 export interface EconomyContext {
   externalCopies: Readonly<Record<string, number>>;
   prefix: string;
+  progressionEligible?: boolean;
 }
 /** Server-only composition boundary; network handlers never accept this context from clients. */
 export function applySharedEconomy(
@@ -331,7 +345,7 @@ function applyAction(
     if (action.type === 'resolve_round') {
       if (state.phase !== 'combat') reject('wrong-phase');
       if (action.round !== state.round) reject('wrong-round');
-      resolve(state, cached, !!context);
+      resolve(state, cached, !!context, context?.progressionEligible ?? true);
     } else if (action.type === 'next_round') {
       if (state.phase !== 'resolution') reject('wrong-phase');
       if (action.round !== state.round) reject('wrong-round');

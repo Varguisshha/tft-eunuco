@@ -1,7 +1,8 @@
 import {
   AuthoritySnapshotSchema,
   CATALOG,
-  RULESET,
+  COMPOSITE_CATALOG,
+  snapshotConfig,
   type AuthoritySnapshot,
 } from './persistence/snapshot';
 import { eliminationPlaces } from './competition';
@@ -15,7 +16,8 @@ import {
   copiesOf,
   MatchClock,
   runCombat,
-  scaledProfile,
+  scaledOwnedProfile,
+  clearMatchProgress,
   validateMatchState,
   type TimeSource,
 } from '@tft/game-core';
@@ -102,6 +104,7 @@ export class AuthoritativeMatch {
     time: TimeSource = { now: () => performance.now() },
     seed?: () => number,
     readonly capacity: 2 | 3 | 4 = 2,
+    readonly config = VARGAS_ECONOMY_CONFIG,
   ) {
     if (![2, 3, 4].includes(capacity)) throw new Error('Invalid capacity');
     this.clock = new MatchClock(time, id);
@@ -112,10 +115,7 @@ export class AuthoritativeMatch {
         return this.rng;
       });
     this.pool = Object.fromEntries(
-      matchCatalog(VARGAS_ECONOMY_CONFIG).map((d) => [
-        d.id,
-        VARGAS_ECONOMY_CONFIG.copiesByCost[d.cost - 1]!,
-      ]),
+      matchCatalog(this.config).map((d) => [d.id, this.config.copiesByCost[d.cost - 1]!]),
     );
   }
   exportState(): AuthoritySnapshot {
@@ -124,8 +124,8 @@ export class AuthoritativeMatch {
     void _deadline;
     return AuthoritySnapshotSchema.parse({
       schema: 1,
-      rules: RULESET,
-      catalog: CATALOG,
+      rules: combatRulesFor(this.config.catalog),
+      catalog: this.config.catalog === 'f0p6c' ? COMPOSITE_CATALOG : CATALOG,
       id: this.id,
       capacity: this.capacity,
       revision: this.revision,
@@ -157,7 +157,13 @@ export class AuthoritativeMatch {
       s.clock.remainingMs > s.clock.phaseDuration
     )
       throw new Error('Invalid authority snapshot');
-    const m = new AuthoritativeMatch(s.id, time, undefined, s.capacity);
+    const m = new AuthoritativeMatch(
+      s.id,
+      time,
+      undefined,
+      s.capacity,
+      snapshotConfig(s.rules, s.catalog),
+    );
     m.rng = s.rng;
     m.pool = s.pool;
     m.revision = s.revision;
@@ -170,7 +176,7 @@ export class AuthoritativeMatch {
     for (const p of s.players) {
       if (
         p.state.development ||
-        JSON.stringify(p.state.config) !== JSON.stringify(VARGAS_ECONOMY_CONFIG) ||
+        JSON.stringify(p.state.config) !== JSON.stringify(m.config) ||
         JSON.stringify(p.state.pool) !== JSON.stringify(s.pool)
       )
         throw new Error('Incompatible economy');
@@ -189,7 +195,7 @@ export class AuthoritativeMatch {
     for (const d of s.duels) {
       if (
         d.replay.input.combatId !== d.pairing.combatId ||
-        d.replay.input.rulesVersion !== RULESET ||
+        d.replay.input.rulesVersion !== combatRulesFor(m.config.catalog) ||
         !m.players.some((p) => p.id === d.pairing.southPlayerId) ||
         !m.players.some((p) => p.id === d.pairing.northPlayerId)
       )
@@ -223,7 +229,7 @@ export class AuthoritativeMatch {
     const index = this.players.length,
       id =
         identity?.userId ?? (index === 0 ? 'vargas' : index === 1 ? 'florin' : `fixture-${index}`);
-    const state = createMatch(this.seed(), VARGAS_ECONOMY_CONFIG);
+    const state = createMatch(this.seed(), this.config);
     state.shop = Array(5).fill(null);
     state.shopRng = (state.seed ^ 0x9e3779b9) >>> 0;
     state.pool = { ...this.pool };
@@ -426,12 +432,12 @@ export class AuthoritativeMatch {
       );
       const input = CombatInputSchema.parse({
         protocolVersion: COMBAT_PROTOCOL,
-        rulesVersion: combatRulesFor(VARGAS_ECONOMY_CONFIG.catalog),
+        rulesVersion: combatRulesFor(this.config.catalog),
         combatId: pairing.combatId,
         seed: this.capacity === 2 ? roundSeed : (seedBase + index) >>> 0,
         maxTicks: MAX_COMBAT_TICKS,
         obstacles: [],
-        traits: traitsFor(VARGAS_ECONOMY_CONFIG.catalog),
+        traits: traitsFor(this.config.catalog),
         units: teams.flatMap((p, i) =>
           p.state.units.flatMap((u) =>
             u.location.kind === 'board'
@@ -441,7 +447,7 @@ export class AuthoritativeMatch {
                     definitionId: u.definitionId,
                     owner: i === 0 ? 'south' : 'north',
                     position: i === 0 ? u.location.hex : reverseHex(u.location.hex),
-                    profile: scaledProfile(u.definitionId, u.stars, p.state.config),
+                    profile: scaledOwnedProfile(u, p.state.config),
                   },
                 ]
               : [],
@@ -512,7 +518,11 @@ export class AuthoritativeMatch {
       const out = applySharedEconomy(
         p.state,
         commandFor(p.state, { type: 'resolve_round', round }),
-        { externalCopies: this.external(p), prefix: `${p.id}-` },
+        {
+          externalCopies: this.external(p),
+          prefix: `${p.id}-`,
+          progressionEligible: duel.pairing.kind === 'human',
+        },
         trace,
       );
       if (!out.ok) throw new Error(out.error);
@@ -572,6 +582,7 @@ export class AuthoritativeMatch {
     this.clock.enter(finished ? 'finished' : 'resolution', round, finished ? 0 : RESOLUTION_MS);
     this.revision++;
     if (finished) {
+      for (const player of this.players) clearMatchProgress(player.state);
       const standings = this.competitivePlayers();
       const winnerIds = standings.filter((p) => p.finalPosition === 1).map((p) => p.id);
       this.finalResult = FinalResultsSchema.parse({

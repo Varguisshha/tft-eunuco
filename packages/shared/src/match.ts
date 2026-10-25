@@ -10,7 +10,25 @@ export const UnitLocationSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('board'), hex: HexCoordSchema }),
 ]);
 export type UnitLocation = z.infer<typeof UnitLocationSchema>;
+export const MatchUnitProgressSchema = z
+  .strictObject({
+    version: z.literal(1),
+    stacks: z
+      .array(
+        z.strictObject({
+          id,
+          count: z.number().int().min(0).max(100),
+          lastRound: z.number().int().positive(),
+        }),
+      )
+      .max(8),
+  })
+  .refine(
+    (p) => new Set(p.stacks.map((s) => s.id)).size === p.stacks.length,
+    'Duplicate match stack',
+  );
 export const OwnedUnitSchema = z.strictObject({
+  progress: MatchUnitProgressSchema.optional(),
   id,
   definitionId: id,
   stars: StarsSchema,
@@ -40,7 +58,7 @@ export type HealthEntry = z.infer<typeof HealthEntrySchema>;
 export const EconomyConfigSchema = z
   .strictObject({
     version: z.literal(MATCH_RULES),
-    catalog: z.enum(['f0p4.1', 'f0p6a', 'f0p6b1', 'f0p6b2', 'f0p6b3']).optional(),
+    catalog: z.enum(['f0p4.1', 'f0p6a', 'f0p6b1', 'f0p6b2', 'f0p6b3', 'f0p6c']).optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
     goldCap: nat.positive(),

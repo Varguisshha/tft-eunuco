@@ -101,3 +101,7 @@ Nuevos efectos tipados: ganancia/consumo de stacks, cooldown de regla pasiva, me
 ## Integración F0-P6B.3
 
 `healFromDamageMilli` pertenece a daño: ratio fijo o terna1/2/3 en0..1000. Guarda daño a HP realmente aplicado después de escudos/overkill y difiere recuperación hasta terminar el lote de daños; fuente muerta no se recupera. La curación atraviesa Overtime una vez. `timing:after_damage` mueve el apoyo tras daños y recuperación, omitiendo receptores muertos. Modificadores admiten `amountByStars` y `durationByStars`; potencia del cast escala importes, no duraciones. `stack_count` lee el valor al recoger reglas. Todos requieren reglas B3, también en extraEffects/condiciones anidadas. Copita Perhaps es una identidad mixed con Resaca/Blackhaus. Las claves refresh conservan reemplazo por el último efecto. [Especificación](VARGAS_CHARACTER.md).
+
+## F0-P6C · JARAMILLO
+
+Cortina de Humo es mixta: Trotamundos progresa entre rondas y la activa entrega efectos con `delivery: projectile`. `armor_reduction` es reutilizable: igual fuerza refresca; solo prevalece la mayor vigente. La activa no hace crítico; básicos y Overtime conservan sus reglas. Véase JARAMILLO_CHARACTER.md.

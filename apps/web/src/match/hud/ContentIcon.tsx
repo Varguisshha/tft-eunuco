@@ -4,6 +4,7 @@ export const CONTENT_ICONS: Readonly<Record<string, string>> = {
   'el-depredador': '/assets/icons/el-depredador.svg',
   'copita-perhaps': '/assets/icons/copita-perhaps.svg',
   hortaleza: '/assets/icons/hortaleza.svg',
+  fumon: '/assets/icons/fumon.svg',
   'llama-de-padel': '/assets/icons/llama-de-padel.svg',
   'volumen-sucio': '/assets/icons/volumen-sucio.svg',
 };

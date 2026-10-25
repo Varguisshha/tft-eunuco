@@ -6,6 +6,7 @@ import {
   CombatInputSchema,
   MECHANICS_RULES,
   CHARACTER_RULES,
+  COMPOSITE_RULES,
   isMechanicEffect,
   type ChainContext,
   CombatStateSchema,
@@ -43,6 +44,7 @@ type EffectTask = {
   context?: ChainContext | undefined;
   attackId?: string | undefined;
   powerMilli?: number | undefined;
+  projectileId?: string;
 };
 /** Local mutable implementation with exclusive ownership; public snapshots/events are deep copies. */
 export class CombatEngine {
@@ -169,7 +171,11 @@ export class CombatEngine {
         deathTick: null,
       })),
     };
-    if (this.input.rulesVersion === MECHANICS_RULES || this.input.rulesVersion === CHARACTER_RULES)
+    if (
+      this.input.rulesVersion === MECHANICS_RULES ||
+      this.input.rulesVersion === CHARACTER_RULES ||
+      this.input.rulesVersion === COMPOSITE_RULES
+    )
       this.mechanics = new CombatMechanics({
         input: this.input,
         state: () => this.state,
@@ -355,7 +361,7 @@ export class CombatEngine {
         if (!isAlive(target)) continue;
       }
       if (!eligible.has(target.id)) continue;
-      const context = this.mechanics ? (task.context ?? this.mechanics.root()) : undefined;
+      let context = this.mechanics ? (task.context ?? this.mechanics.root()) : undefined;
       if (this.mechanics && !this.mechanics.budget('effects', source, context!)) continue;
       if (isMechanicEffect(effect)) {
         this.mechanics?.apply(source, target, effect, context!);
@@ -372,6 +378,18 @@ export class CombatEngine {
               ),
             );
       if (effect.kind === 'damage') {
+        if (effect.oncePerTarget) {
+          if (target.receivedEffects?.includes(effect.oncePerTarget)) continue;
+          (target.receivedEffects ??= []).push(effect.oncePerTarget);
+          if (context) {
+            context = {
+              ...context,
+              allowSourceProcs: false,
+              allowKillChain: false,
+              grantMana: false,
+            };
+          }
+        }
         let amount = amountValue;
         let critical = task.critical;
         if (advancedRules(this.input.rulesVersion)) {
@@ -387,6 +405,7 @@ export class CombatEngine {
         this.damage(source, target, amount, effect.damageType, cause, critical, {
           ...(context ? { context } : {}),
           ...(task.attackId ? { attackId: task.attackId } : {}),
+          ...(task.projectileId ? { projectileId: task.projectileId } : {}),
         });
         if (effect.healFromDamageMilli !== undefined) {
           const ratio =
@@ -412,6 +431,32 @@ export class CombatEngine {
             hpAfter: target.hp,
           });
         }
+      } else if (effect.kind === 'armor_reduction') {
+        // Equal strengths refresh globally; unequal strengths coexist until expiry.
+        // The stat selector takes the strongest, never their sum.
+        const existing = target.statuses.find(
+          (s) => s.group === 'armor-reduction' && s.amount === amountValue,
+        );
+        if (existing) {
+          target.statuses = target.statuses.filter((s) => s.id !== existing.id);
+          this.emit('status_expire', {
+            unitId: target.id,
+            statusId: existing.id,
+            reason: 'consumed',
+          });
+        }
+        const status = {
+          id: `effect-${this.state.effectCounter++}`,
+          sourceId: source.id,
+          kind: 'modifier' as const,
+          group: 'armor-reduction' as const,
+          stat: 'armor' as const,
+          mode: 'percent_milli' as const,
+          amount: amountValue,
+          expiresTick: this.state.tick + effect.duration,
+        };
+        target.statuses.push(status);
+        this.emit('status_apply', { unitId: target.id, status });
       } else {
         const previousMaxHp = effectiveStat(target, 'maxHp');
         if (effect.stacking === 'refresh' && effect.key) {
@@ -521,6 +566,7 @@ export class CombatEngine {
       shieldAfter: shieldTotal(target),
       damageType: type,
       cause,
+      ...(meta.projectileId ? { projectileId: meta.projectileId } : {}),
       impact: target.position,
       ...(critical !== undefined ? { critical } : {}),
       ...(this.mechanics
@@ -700,23 +746,29 @@ export class CombatEngine {
     )) {
       const source = this.getUnit(projectile.sourceId);
       const target = this.getUnit(projectile.targetId);
-      if (source && target && isAlive(target))
-        tasks.push({
-          source,
-          target,
-          effect: {
+      if (source && target && isAlive(target)) {
+        const effects: CombatEffect[] = projectile.effects ?? [
+          {
             kind: 'damage',
             target: 'target',
             radius: 0,
             amount: projectile.rawDamage,
             damageType: projectile.damageType,
           },
-          cause: 'attack',
-          ...(projectile.critical !== undefined ? { critical: projectile.critical } : {}),
-          ...(projectile.context
-            ? { context: projectile.context, attackId: projectile.attackId }
-            : {}),
-        });
+        ];
+        for (const effect of effects)
+          tasks.push({
+            source,
+            target,
+            effect,
+            cause: projectile.cause ?? 'attack',
+            ...(this.input.rulesVersion === COMPOSITE_RULES ? { projectileId: projectile.id } : {}),
+            ...(projectile.critical !== undefined ? { critical: projectile.critical } : {}),
+            ...(projectile.context
+              ? { context: projectile.context, attackId: projectile.attackId }
+              : {}),
+          });
+      }
     }
     this.state.projectiles = this.state.projectiles.filter((p) => p.impactTick > this.state.tick);
     for (const unit of this.state.units.filter(isAlive)) {
@@ -796,6 +848,46 @@ export class CombatEngine {
               ? unit.position
               : target.position,
         });
+        if ('delivery' in ability && ability.delivery === 'projectile') {
+          const effects = ability.effects
+            .filter((e) => !isMechanicEffect(e))
+            .map((e) => {
+              if (!('amount' in e)) return e;
+              const {
+                powerScaling: _power,
+                scaling: _scaling,
+                amountByStars: _stars,
+                ...fixed
+              } = e as typeof e & {
+                powerScaling?: unknown;
+                scaling?: unknown;
+                amountByStars?: unknown;
+              };
+              void _power;
+              void _scaling;
+              void _stars;
+              return { ...fixed, amount: effectAmount(e, unit, target) };
+            });
+          const projectile = {
+            id: `projectile-${this.state.effectCounter++}`,
+            sourceId: unit.id,
+            targetId: target.id,
+            launchTick: this.state.tick,
+            impactTick:
+              this.state.tick +
+              Math.max(2, Math.ceil((hexDistance(unit.position, target.position) * 2) / 3)),
+            from: { ...unit.position },
+            to: { ...target.position },
+            rawDamage: 0,
+            damageType: 'physical' as const,
+            cause: 'ability' as const,
+            effects,
+            ...(action.context ? { context: action.context } : {}),
+          };
+          this.state.projectiles.push(projectile);
+          this.emit('projectile_launch', projectile);
+          continue;
+        }
         for (const effect of [...ability.effects, ...(action.empower?.extraEffects ?? [])])
           tasks.push(
             ...this.effectTasks(unit, target, effect).map((task) => ({

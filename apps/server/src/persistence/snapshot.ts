@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { createHash } from 'node:crypto';
-import { VARGAS_ECONOMY_CONFIG, matchCatalog, combatRulesFor } from '@tft/game-data';
+import {
+  VARGAS_ECONOMY_CONFIG,
+  JARAMILLO_ECONOMY_CONFIG,
+  matchCatalog,
+  combatRulesFor,
+} from '@tft/game-data';
 import {
   MatchStateSchema,
   PhaseSnapshotSchema,
@@ -16,12 +21,21 @@ export const RULESET = combatRulesFor(VARGAS_ECONOMY_CONFIG.catalog);
 export const CATALOG = createHash('sha256')
   .update(JSON.stringify([VARGAS_ECONOMY_CONFIG, matchCatalog(VARGAS_ECONOMY_CONFIG)]))
   .digest('hex');
+export const COMPOSITE_CATALOG = createHash('sha256')
+  .update(JSON.stringify([JARAMILLO_ECONOMY_CONFIG, matchCatalog(JARAMILLO_ECONOMY_CONFIG)]))
+  .digest('hex');
+export function snapshotConfig(rules: string, catalog: string) {
+  if (rules === RULESET && catalog === CATALOG) return VARGAS_ECONOMY_CONFIG;
+  if (rules === combatRulesFor(JARAMILLO_ECONOMY_CONFIG.catalog) && catalog === COMPOSITE_CATALOG)
+    return JARAMILLO_ECONOMY_CONFIG;
+  throw new Error('Incompatible authority catalog/rules');
+}
 const nat = z.number().int().safe().nonnegative();
 const id = z.string().min(1).max(160);
 export const AuthoritySnapshotSchema = z.strictObject({
   schema: z.literal(1),
-  rules: z.literal(RULESET),
-  catalog: z.literal(CATALOG),
+  rules: z.enum([RULESET, 'f0p6c-1']),
+  catalog: z.union([z.literal(CATALOG), z.literal(COMPOSITE_CATALOG)]),
   id,
   capacity: z.union([z.literal(2), z.literal(3), z.literal(4)]),
   revision: nat,

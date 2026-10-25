@@ -75,3 +75,7 @@ Transparencia limpia, sin suavizado accidental; dimensiones constantes; todos lo
 ## F0-P3: estrellas y mejora
 
 Se conservan hojas y placeholders P2. Estrellas se dibujan por separado del sprite y la mejora tiene aviso visual temporal desde el resultado de la transacción. No se necesitan sprites específicos por estrella. Este overlay no cuenta copias ni modifica estadísticas; el escalado se realiza al construir el perfil en core.
+
+## F0-P6C · JARAMILLO
+
+JARAMILLO declara apariencia compartida de evolución desconocida; no se etiqueta nativa 1★. Tres poses corporales recibidas, recuperación 08, vuelo 05–06 e impacto 07 se separan. Ability y evoluciones pendientes usan fallback explícito. Véase COMPOSITE_ATTACK_ANIMATIONS.md.

@@ -12,6 +12,7 @@ import {
   runCombat,
   sameHex,
   scaledProfile,
+  scaledOwnedProfile,
   validateMatchState,
   type MatchError,
   type LocalMatchCoordinator,
@@ -155,7 +156,9 @@ export class LocalSession implements BoardPort {
     const baseProfile =
       live?.profile ??
       formationProfiles(this.match).find((u) => u.id === unit.id)?.profile ??
-      scaledProfile(unit.definitionId, stars, this.match.config);
+      (owned
+        ? scaledOwnedProfile(owned, this.match.config)
+        : scaledProfile(unit.definitionId, stars, this.match.config));
     const profile = live
       ? {
           ...baseProfile,

@@ -1,3 +1,4 @@
+import { JARAMILLO_ECONOMY_CONFIG } from '@tft/game-data';
 import type { DurableMatch } from './persistence/DurableMatch';
 import { Room, ServerError, type Client } from '@colyseus/core';
 import {
@@ -83,7 +84,13 @@ export class MatchRoom extends Room {
   protected manualStart = true;
   protected modernProtocol = false;
   protected createMatch(capacity: 2 | 3 | 4 = 2) {
-    return new AuthoritativeMatch(this.roomId, undefined, undefined, capacity);
+    return new AuthoritativeMatch(
+      this.roomId,
+      undefined,
+      undefined,
+      capacity,
+      JARAMILLO_ECONOMY_CONFIG,
+    );
   }
   onCreate() {
     this.match = this.createMatch();

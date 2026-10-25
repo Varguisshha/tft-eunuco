@@ -47,3 +47,7 @@ Marcador provisional: frame3 en 1★ (índice2), frame6 en 2★ (índice5), por 
 ## Integración F0-P6B.3
 
 VARGAS tiene5 fuentes RGBA1254×1254 de Nivel2 original, preservadas byte a byte en la carpeta canónica star2/attack. No había ficheros VARGAS ni1y5 en Sprites/. Los cinco adjuntos son transparentes; secuencia1→5 inspeccionada y documentada en `Sprites/vargas/PROVENANCE.json`. Una hoja star2/attack y un retrato derivados, sin duplicados de hojas1/3. El manifiesto admite procedencia y listas explícitas `fallbacks`; siempre busca recursos propios antes de esas referencias. Si no hay listas, se conserva la búsqueda inferior histórica de DOLEA. Los huecos futuros se importan por estrella/estado sin tocar gameplay. [Procedimiento y carencias](VARGAS_CHARACTER.md).
+
+## F0-P6C · JARAMILLO
+
+El importador admite `composites` y usa fuentes canónicas de Sprites/jaramillo, anclajes declarados, nearest-neighbor y SHA-256. La regeneración no depende de output/ ni attachments. Las tres poses limpiadas por generación no son idénticas a las fotos; se conserva procedencia separada. Véase COMPOSITE_ATTACK_ANIMATIONS.md.

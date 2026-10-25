@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "character": "jaramillo",
+  "nativeAppearance": "pending",
+  "editing": "Tres poses recibidas con fondo blanco; limpieza con image_gen y normalización. La edición reinterpretó detalles y no es idéntica píxel a píxel. Integración tras instrucción del usuario de continuar. No se inventó una cuarta pose.",
+  "files": [
+    {
+      "file": "Sprites/jaramillo/edited-attack/01-preparacion.png",
+      "sha256": "3b8dc240517930da1bb96cc6ad448ddbf048a48b02b911d481a2220f3079e633"
+    },
+    {
+      "file": "Sprites/jaramillo/edited-attack/02-lanzamiento.png",
+      "sha256": "0b397bff243ebd72c88075c6ff58e94df15dde88877e8d59ff58f81566022312"
+    },
+    {
+      "file": "Sprites/jaramillo/edited-attack/03-final-lanzamiento.png",
+      "sha256": "49dc871230a5e103a9a7f2bc295fe3b208814aba89c8af913ac2d802eb022062"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/ataque_05.png",
+      "sha256": "a23adc486f02d5941ce74ae257e7d96e2416ab350b2d2a7f48a27582ca8b1b4c"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/ataque_06.png",
+      "sha256": "c8ab1fbe560c5fd4fabedba3f383d068c56d83b885391003e45515245d754e73"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/ataque_07.png",
+      "sha256": "4476a8b1d6976f97012656e8c0daf34447e5f7a1f060887794dcd0ea9f50c75f"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/ataque_08.png",
+      "sha256": "c801379e750ce81067a00eaee5b830b4e001cd0d950e19727c81e197807f7baa"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/death_01.png",
+      "sha256": "6e1aac31413e6a87d7ccec471f36bf1ff1a3afd6d47fa6b4c57e2d63c451a4df"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/death_02.png",
+      "sha256": "016b6e378fcaf7980a865478c6b35575ebad8955c1b411099a5fec9978e10f8a"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/death_03.png",
+      "sha256": "1ec531ded55b160cd7b89dddd2ae359c82c4b7d2f6dc94826bdaa50fffe6876d"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/death_04.png",
+      "sha256": "bbe1d633f86425b40a5e0a14550e6a1476195a009ea346e7ddd2a06255c6c30e"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/idle_01.png",
+      "sha256": "585bec48bc2ec8637ddb3da0533fbbf8b7eb3078ffcc890c86e1bfd812c1d467"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/idle_02.png",
+      "sha256": "be8d8cd5b3eb42bcb0fb99f11a163dc31bdb3bd136f5abe56fb1e177695c9046"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/idle_03.png",
+      "sha256": "70ee8b7a9d00100506055dca2b80f28ad7d7e4e210105dd1034c8e6346a605a4"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/idle_04.png",
+      "sha256": "dfdd69b42c0f8363456b172b090fff20d7d8e9af3ec4cf4742f9f4f5c10555c8"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/walk_01.png",
+      "sha256": "af6b856c9abb3998de4c6fd76778dd8cdd9af314afa72d5cb44c8148cbd84a5b"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/walk_02.png",
+      "sha256": "7d86b9e4a383df789efafa88d9079e14aee7be1ea075fe91515cb68219f7b752"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/walk_03.png",
+      "sha256": "98b92d4e150bb2d3acb859a4ddf14977a3af09b4f88d35e84e015f4fa612de76"
+    },
+    {
+      "file": "Sprites/jaramillo/original-frames/walk_04.png",
+      "sha256": "effa217d06499e20dae6f46f48d5c57183cce634b7421d966076bab2fc66947f"
+    },
+    {
+      "file": "Sprites/jaramillo/prepared-attack/frame-1.png",
+      "sha256": "646baf263db065f9def4950711a3edef49a81d07b4ac4b8a18818cc009f951f2"
+    },
+    {
+      "file": "Sprites/jaramillo/prepared-attack/frame-2.png",
+      "sha256": "b5544cda90ee4060dc061c9c517847c7094a3fc41e1b71f48898ece5c03fa4a0"
+    },
+    {
+      "file": "Sprites/jaramillo/prepared-attack/frame-3.png",
+      "sha256": "2e738f8538f01bb3825ad408a51209b187e26a2d40ffa821817f0ddff14cd519"
+    },
+    {
+      "file": "Sprites/jaramillo/received-attack/01-preparacion.png",
+      "sha256": "609fec94d1b4144d2f7cee00b5ee3c56bdb2c7a6ad4fe309c2fe5bd028a65bbc"
+    },
+    {
+      "file": "Sprites/jaramillo/received-attack/02-lanzamiento.png",
+      "sha256": "38e27cfd49b35f64148b26418b9eefd9a30742ba8f828104df4986a83b8ee5f8"
+    },
+    {
+      "file": "Sprites/jaramillo/received-attack/03-final-lanzamiento.png",
+      "sha256": "6a1e0ce17230f390b9f71b6d7c7c35e6c816f35ca2b2e167e62216efbb94aebc"
+    }
+  ]
+}

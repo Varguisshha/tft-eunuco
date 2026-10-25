@@ -74,6 +74,28 @@ export function unitAnimationCue(
       state: 'ability',
       timing: { startMs: last.tick * TICK_MS, endMs: last.tick * TICK_MS + 300 },
     };
+  if (
+    last?.type === 'ability_cast' &&
+    !last.payload.additional &&
+    timeMs < last.payload.endTick * TICK_MS + 160
+  ) {
+    const released = events.some(
+      (e) =>
+        e.type === 'projectile_launch' &&
+        e.payload.cause === 'ability' &&
+        e.payload.sourceId === unit.id &&
+        e.tick === last.payload.endTick,
+    );
+    if (released)
+      return {
+        state: 'ability',
+        timing: {
+          startMs: last.tick * TICK_MS,
+          impactMs: last.payload.endTick * TICK_MS,
+          endMs: last.payload.endTick * TICK_MS + 160,
+        },
+      };
+  }
   if (last?.type === 'attack_start') {
     const next = relevant[index + 1];
     const startMs = last.tick * TICK_MS,

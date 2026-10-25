@@ -194,5 +194,246 @@
         "death": null
       }
     }
+  },
+  {
+    "version": 2,
+    "id": "jaramillo",
+    "provenance": {
+      "characterId": "jaramillo",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["ability"]
+    },
+    "fallbacks": { "star1": [], "star2": [1], "star3": [1] },
+    "evolutions": {
+      "star1": {
+        "idle": {
+          "textureKey": "jaramillo:shared:idle",
+          "url": "/sprites/jaramillo/shared/idle.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": true,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 116 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_01.png",
+              "sha256": "585bec48bc2ec8637ddb3da0533fbbf8b7eb3078ffcc890c86e1bfd812c1d467"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_02.png",
+              "sha256": "be8d8cd5b3eb42bcb0fb99f11a163dc31bdb3bd136f5abe56fb1e177695c9046"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_03.png",
+              "sha256": "70ee8b7a9d00100506055dca2b80f28ad7d7e4e210105dd1034c8e6346a605a4"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_04.png",
+              "sha256": "dfdd69b42c0f8363456b172b090fff20d7d8e9af3ec4cf4742f9f4f5c10555c8"
+            }
+          ]
+        },
+        "walk": {
+          "textureKey": "jaramillo:shared:walk",
+          "url": "/sprites/jaramillo/shared/walk.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": true,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 116 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_01.png",
+              "sha256": "af6b856c9abb3998de4c6fd76778dd8cdd9af314afa72d5cb44c8148cbd84a5b"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_02.png",
+              "sha256": "7d86b9e4a383df789efafa88d9079e14aee7be1ea075fe91515cb68219f7b752"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_03.png",
+              "sha256": "98b92d4e150bb2d3acb859a4ddf14977a3af09b4f88d35e84e015f4fa612de76"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_04.png",
+              "sha256": "effa217d06499e20dae6f46f48d5c57183cce634b7421d966076bab2fc66947f"
+            }
+          ]
+        },
+        "attack": {
+          "textureKey": "jaramillo:shared:attack",
+          "url": "/sprites/jaramillo/shared/attack.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2],
+          "frameCount": 3,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 120 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 1,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-1.png",
+              "sha256": "646baf263db065f9def4950711a3edef49a81d07b4ac4b8a18818cc009f951f2"
+            },
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-2.png",
+              "sha256": "b5544cda90ee4060dc061c9c517847c7094a3fc41e1b71f48898ece5c03fa4a0"
+            },
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-3.png",
+              "sha256": "2e738f8538f01bb3825ad408a51209b187e26a2d40ffa821817f0ddff14cd519"
+            }
+          ]
+        },
+        "ability": null,
+        "death": {
+          "textureKey": "jaramillo:shared:death",
+          "url": "/sprites/jaramillo/shared/death.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 116 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/original-frames/death_01.png",
+              "sha256": "6e1aac31413e6a87d7ccec471f36bf1ff1a3afd6d47fa6b4c57e2d63c451a4df"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_02.png",
+              "sha256": "016b6e378fcaf7980a865478c6b35575ebad8955c1b411099a5fec9978e10f8a"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_03.png",
+              "sha256": "1ec531ded55b160cd7b89dddd2ae359c82c4b7d2f6dc94826bdaa50fffe6876d"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_04.png",
+              "sha256": "bbe1d633f86425b40a5e0a14550e6a1476195a009ea346e7ddd2a06255c6c30e"
+            }
+          ]
+        }
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    },
+    "composite": {
+      "version": 1,
+      "bodyAnimation": "attack",
+      "recoveryAnimation": {
+        "textureKey": "jaramillo:shared:recovery",
+        "url": "/sprites/jaramillo/shared/recovery.png",
+        "frameWidth": 160,
+        "frameHeight": 128,
+        "frames": [0],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.6666666666666666,
+        "foot": { "x": 72, "y": 116 },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_08.png",
+            "sha256": "c801379e750ce81067a00eaee5b830b4e001cd0d950e19727c81e197807f7baa"
+          }
+        ]
+      },
+      "projectileAnimation": {
+        "textureKey": "jaramillo:shared:projectile",
+        "url": "/sprites/jaramillo/shared/projectile.png",
+        "frameWidth": 128,
+        "frameHeight": 64,
+        "frames": [0, 1],
+        "frameCount": 2,
+        "fps": 12,
+        "loop": true,
+        "scale": 0.65,
+        "foot": { "x": 116, "y": 48 },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_05.png",
+            "sha256": "a23adc486f02d5941ce74ae257e7d96e2416ab350b2d2a7f48a27582ca8b1b4c"
+          },
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_06.png",
+            "sha256": "c8ab1fbe560c5fd4fabedba3f383d068c56d83b885391003e45515245d754e73"
+          }
+        ]
+      },
+      "impactAnimation": {
+        "textureKey": "jaramillo:shared:impact",
+        "url": "/sprites/jaramillo/shared/impact.png",
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frames": [0],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.65,
+        "foot": { "x": 72, "y": 90 },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_07.png",
+            "sha256": "4476a8b1d6976f97012656e8c0daf34447e5f7a1f060887794dcd0ea9f50c75f"
+          }
+        ]
+      },
+      "releaseMarker": 1,
+      "projectileOrigin": { "x": 20, "y": -43 },
+      "targetAnchor": { "x": 0, "y": -30 },
+      "visualTiming": { "recoveryMs": 160, "releaseMs": 80, "impactMs": 300 },
+      "fallbackPolicy": "body-only"
+    }
   }
 ]

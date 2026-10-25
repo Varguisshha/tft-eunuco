@@ -1,3 +1,4 @@
+import { progressDefinition } from './progress';
 import { MatchStateSchema, type MatchState } from '@tft/shared';
 import { matchCatalog } from '@tft/game-data';
 import { isInBounds } from '../hex';
@@ -23,6 +24,16 @@ export function validateMatchState(
     fail(!matchCatalog(state.config).some((d) => d.id === u.definitionId), 'Unit outside catalog');
     fail(ids.has(u.id), 'Duplicate unit');
     ids.add(u.id);
+    if (u.progress) {
+      const def = progressDefinition(u, state.config);
+      fail(
+        !def ||
+          u.progress.stacks.some(
+            (s) => s.id !== def.id || s.count > def.maximum || s.lastRound > state.round,
+          ),
+        'Invalid unit progression',
+      );
+    }
     fail(
       u.location.kind === 'board' && (!isInBounds(u.location.hex) || u.location.hex.r < 4),
       'Invalid deployment',

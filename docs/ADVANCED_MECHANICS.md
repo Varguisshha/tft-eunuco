@@ -147,3 +147,7 @@ VARGAS, Copita Perhaps, Blackhaus RPP, UPM y **El Depredador** quedan para F0-P6
 ## Integración F0-P6B.3
 
 `StackDefinition.automatic:false` permite registrar un stack y sus modificadores/umbrales sin compilar una segunda ganancia automática: Resaca y Depredador usan reglas explícitas. Condición genérica `stack_count` con mínimo se evalúa antes de aplicar las tareas de la señal; esto distingue «al alcanzar» de «eliminaciones posteriores». B3 mantiene un índice privado de receptores de progreso independiente de reglas ya elegibles, para contar casts desde el umbral2; no añade contadores Créditos ni cambia B2. Repeticiones y saltos conservan linaje, reservas, cancelación y límites B2. [Mecánicas VARGAS](VARGAS_CHARACTER.md).
+
+## F0-P6C · JARAMILLO
+
+`oncePerTarget` registra el efecto recibido en el objetivo y suprime procs y cadenas del golpe adicional. No confundir este registro de combate con OwnedUnit.progress: Kilómetros usa liquidación autoritativa y persistencia de partida, véase MATCH_PERSISTENT_UNIT_STACKS.md.

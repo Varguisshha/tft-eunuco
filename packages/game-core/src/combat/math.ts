@@ -44,7 +44,9 @@ export function effectiveStat(unit: CombatUnit, stat: EffectiveStat): number {
   const base =
     unit.profile.stats[stat] ??
     ADVANCED_STATS_DEFAULTS[stat as keyof typeof ADVANCED_STATS_DEFAULTS];
-  const modifiers = unit.statuses.filter((s) => s.kind === 'modifier' && s.stat === stat);
+  const modifiers = unit.statuses.filter(
+    (s) => s.kind === 'modifier' && s.stat === stat && s.group !== 'armor-reduction',
+  );
   const flat = modifiers
     .filter((s) => s.mode !== 'percent_milli')
     .reduce((sum, s) => sum + s.amount, 0);
@@ -54,7 +56,14 @@ export function effectiveStat(unit: CombatUnit, stat: EffectiveStat): number {
   // BigInt keeps the sum exact even with many simultaneous percent sources.
   const product = BigInt(base) * BigInt(percent);
   const percentValue = Number(product >= 0n ? product / 1000n : (product - 999n) / 1000n);
-  const total = base + flat + percentValue;
+  let total = base + flat + percentValue;
+  if (stat === 'armor' && total > 0) {
+    const reduction = unit.statuses.reduce(
+      (max, s) => (s.group === 'armor-reduction' ? Math.max(max, s.amount) : max),
+      0,
+    );
+    total = Math.floor((total * (1000 - Math.min(1000, reduction))) / 1000);
+  }
   if (stat === 'attackSpeedMilli')
     return Math.max(1, Math.min(STAT_LIMITS.attackSpeedMilli, total));
   if (stat === 'critChanceMilli') return Math.max(0, Math.min(STAT_LIMITS.critChanceMilli, total));

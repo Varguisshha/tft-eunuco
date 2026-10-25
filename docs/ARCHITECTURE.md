@@ -185,3 +185,7 @@ Nuevo contenido `f0p6b3` / `f0p6b3-1` conserva los catálogos y trazas anteriore
 LobbyHub coordina salas en memoria y canales privados `lobby_gateway`; `private_match` reutiliza MatchRoom/AuthoritativeMatch con roster permitido. El frontend conserva RemoteCoordinator y LocalGame. No se modifica core, economía, arena ni DEV.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+## F0-P6C · JARAMILLO
+
+F0-P6C amplía datos, contratos compartidos y núcleo con JARAMILLO. La persistencia se incorpora a OwnedUnit dentro de snapshots P7D.2; Phaser consume la traza y un contrato visual compuesto. No se añade simulación de cliente, tabla ni subsistema de persistencia. Véanse los tres documentos de JARAMILLO, animaciones compuestas y acumulaciones persistentes.

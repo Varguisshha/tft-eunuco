@@ -1883,3 +1883,8 @@ dd {
   align-items: center;
   gap: 6px;
 }
+
+/* Technical Arena reuses trait widgets outside the match HUD scaling root. */
+#arena {
+  --u: 0.8px;
+}

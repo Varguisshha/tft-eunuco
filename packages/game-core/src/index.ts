@@ -17,3 +17,5 @@ export * from './combat/traits';
 export * from './combat/abilities';
 
 export * from './combat/stats';
+
+export * from './match/progress';

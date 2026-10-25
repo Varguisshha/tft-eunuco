@@ -2,6 +2,7 @@ import {
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
   CHARACTER_RULES,
+  COMPOSITE_RULES,
   ADVANCED_STATS_DEFAULTS,
   STAT_LIMITS,
   type CombatProfile,
@@ -76,7 +77,10 @@ export function combatStatsView(unit: CombatUnit, tick = 0, overtime?: OvertimeC
   };
 }
 export const advancedRules = (version: string) =>
-  version === ADVANCED_COMBAT_RULES || version === MECHANICS_RULES || version === CHARACTER_RULES;
+  version === ADVANCED_COMBAT_RULES ||
+  version === MECHANICS_RULES ||
+  version === CHARACTER_RULES ||
+  version === COMPOSITE_RULES;
 
 export function baseStatsView(profile: CombatProfile) {
   return {

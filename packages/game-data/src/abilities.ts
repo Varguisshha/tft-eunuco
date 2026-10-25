@@ -1,3 +1,4 @@
+import { FUMON_TRAIT } from './jaramillo';
 import { UPM_TRAIT, PREDATOR_TRAIT } from './vargas';
 import { ChampionAbilitySchema, TraitDefinitionSchema, type TraitDefinition } from '@tft/shared';
 export const DOLEA_ABILITY = ChampionAbilitySchema.parse({
@@ -123,9 +124,10 @@ export const TRAIT_DEFINITIONS: readonly TraitDefinition[] = [
   }),
 ];
 export const VARGAS_TRAITS = [...TRAIT_DEFINITIONS, UPM_TRAIT, PREDATOR_TRAIT];
+export const JARAMILLO_TRAITS = [...VARGAS_TRAITS, FUMON_TRAIT];
 export const traitsFor = (catalog: string | undefined) =>
-  catalog === 'f0p6b3' ? VARGAS_TRAITS : TRAIT_DEFINITIONS;
-export const getTraitDefinition = (id: string) => VARGAS_TRAITS.find((t) => t.id === id);
+  catalog === 'f0p6c' ? JARAMILLO_TRAITS : catalog === 'f0p6b3' ? VARGAS_TRAITS : TRAIT_DEFINITIONS;
+export const getTraitDefinition = (id: string) => JARAMILLO_TRAITS.find((t) => t.id === id);
 
 /** Legacy display bridge. New characters author ChampionAbility directly. */
 export function abilityPresentation(profile: import('@tft/shared').CombatProfile) {

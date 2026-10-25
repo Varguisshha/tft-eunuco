@@ -130,6 +130,21 @@ export function UnitInspector({
             </p>
           )}
         </div>
+        {selected.owned &&
+          selected.profile.championAbility?.passive?.matchProgress &&
+          (() => {
+            const rule = selected.profile.championAbility.passive.matchProgress;
+            const count =
+              selected.owned?.progress?.stacks.find((s) => s.id === rule.id)?.count ?? 0;
+            return (
+              <section aria-label="Trotamundos">
+                <strong>
+                  {rule.name} · {count}/{rule.maximum}
+                </strong>
+                <p>+{(count * rule.adPercentMilli) / 10} % AD · progreso de esta unidad</p>
+              </section>
+            );
+          })()}
         <dl className="combat-stats">
           <div>
             <dt title="Daño de ataque; también puede escalar habilidades de cualquier tipo de daño.">
@@ -211,7 +226,7 @@ export function UnitInspector({
               )}
               {selected.statuses.some((s) => s.kind === 'modifier') && (
                 <p className="effective-status-note">
-                  Bonificaciones activas incluidas en las estadísticas.
+                  Modificadores activos incluidos en las estadísticas.
                 </p>
               )}
             </>

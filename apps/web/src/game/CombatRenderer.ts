@@ -1,3 +1,6 @@
+import { characterManifest } from './characterAssets';
+import { compositeFlight } from './compositeVisuals';
+import { sampleAnimationFrame, type AnimationAsset } from '@tft/sprite-contract';
 import { combatVisualPosition, mechanicsFeedback } from './mechanicsVisuals';
 import { shieldBar, unitFeedback, feedbackLanes, FEEDBACK_WINDOW_MS } from './combatFeedback';
 import Phaser from 'phaser';
@@ -9,6 +12,31 @@ import type { PhaserUnitVisual } from './visualAdapter';
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 /** Frame sampling, never timers that resolve combat. Every stat comes from an authority snapshot. */
 export class CombatRenderer {
+  private effects = new Map<string, Phaser.GameObjects.Sprite>();
+  private effect(
+    key: string,
+    asset: AnimationAsset,
+    x: number,
+    y: number,
+    time: number,
+    scale: number,
+    angle = 0,
+  ) {
+    if (!this.scene.textures.exists(asset.textureKey)) return false;
+    let sprite = this.effects.get(key);
+    if (!sprite) {
+      sprite = this.scene.add.sprite(x, y, asset.textureKey).setDepth(4100);
+      this.effects.set(key, sprite);
+    }
+    sprite
+      .setTexture(asset.textureKey, sampleAnimationFrame(asset, 'idle', time))
+      .setOrigin(asset.foot.x / asset.frameWidth, asset.foot.y / asset.frameHeight)
+      .setPosition(x, y)
+      .setScale(asset.scale * scale)
+      .setRotation(angle)
+      .setVisible(true);
+    return true;
+  }
   private graphics: Phaser.GameObjects.Graphics;
   private overtimeLabel: Phaser.GameObjects.Text;
   private labels = new Map<string, Phaser.GameObjects.Text>();
@@ -71,6 +99,7 @@ export class CombatRenderer {
     selectedId: string | null,
   ): void {
     const g = this.graphics.clear();
+    const activeEffects = new Set<string>();
     const activeLabels = new Set<string>();
     const { timeMs, state } = frame;
     this.overtimeLabel
@@ -274,6 +303,36 @@ export class CombatRenderer {
     for (const projectile of state.projectiles) {
       const from = hexToWorld(projectile.from, this.projection);
       const to = positions.get(projectile.targetId) ?? hexToWorld(projectile.to, this.projection);
+      const source = state.units.find((u) => u.id === projectile.sourceId);
+      const composite = characterManifest(source?.definitionId ?? '')?.composite;
+      if (composite) {
+        const scale = visuals.get(projectile.sourceId)?.renderScale ?? 1;
+        const flight = compositeFlight(
+          from,
+          to,
+          projectile.launchTick * TICK_MS,
+          projectile.impactTick * TICK_MS,
+          timeMs,
+          composite.projectileOrigin,
+          composite.targetAnchor,
+          scale,
+        );
+        const key = `flight-${projectile.id}`;
+        if (
+          this.effect(
+            key,
+            composite.projectileAnimation,
+            flight.x,
+            flight.y,
+            timeMs - projectile.launchTick * TICK_MS,
+            scale,
+            flight.angle,
+          )
+        ) {
+          activeEffects.add(key);
+          continue;
+        }
+      }
       const t = clamp(
         (timeMs / TICK_MS - projectile.launchTick) /
           (projectile.impactTick - projectile.launchTick),
@@ -295,6 +354,26 @@ export class CombatRenderer {
         const p = hexToWorld(event.payload.center, this.projection),
           t = age / 500;
         g.lineStyle(3, 0xc3a1e6, 1 - t).strokeEllipse(p.x, p.y, 25 + t * 125, 12 + t * 65);
+      }
+      if (event.type === 'damage' && event.payload.projectileId && age >= 0) {
+        const source = state.units.find((u) => u.id === event.payload.sourceId);
+        const c = characterManifest(source?.definitionId ?? '')?.composite;
+        if (c && age < c.visualTiming.impactMs) {
+          const p = hexToWorld(event.payload.impact, this.projection),
+            scale = visuals.get(event.payload.sourceId)?.renderScale ?? 1,
+            key = `impact-${event.payload.projectileId}`;
+          if (
+            this.effect(
+              key,
+              c.impactAnimation,
+              p.x + c.targetAnchor.x * scale,
+              p.y + c.targetAnchor.y * scale,
+              age,
+              scale,
+            )
+          )
+            activeEffects.add(key);
+        }
       }
       if (event.type === 'damage' && age < 160) {
         const p =
@@ -344,6 +423,11 @@ export class CombatRenderer {
           .setAlpha(1 - age / 650);
       }
     }
+    for (const [key, sprite] of this.effects)
+      if (!activeEffects.has(key)) {
+        sprite.destroy();
+        this.effects.delete(key);
+      }
     for (const [key, label] of this.labels)
       if (!activeLabels.has(key)) {
         label.destroy();
@@ -353,6 +437,8 @@ export class CombatRenderer {
   clear(): void {
     this.overtimeLabel.setVisible(false);
     this.graphics.clear();
+    this.effects.forEach((sprite) => sprite.destroy());
+    this.effects.clear();
     this.labels.forEach((text) => text.destroy());
     this.labels.clear();
   }

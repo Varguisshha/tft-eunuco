@@ -44,3 +44,7 @@ La reserva permite colocar DOLEA libremente. «Duelo de DOLEA» prepara1/2/3★ 
 Las partidas nuevas usan `CURRENT_ECONOMY_CONFIG.catalog='f0p4.1'`. Ausencia de catálogo conserva las cuatro definiciones P3.1 y el mismo RNG. Los guardados anteriores se validan y reproducen exactamente; siguen sin DOLEA hasta iniciar una nueva partida. La clave `tft-eunuco-local-f0p3.1-1` permanece: el campo opcional es una extensión compatible. No hay migración silenciosa, borrado o recompensas al cargar. Un catálogo desconocido se rechaza. La UI ya avisa de que una nueva partida sustituye el guardado actual.
 
 Los participantes visibles son Vargas (jade) y Florin (ámbar), a petición del usuario; son etiquetas de presentación, no IDs ni perfiles personales.
+
+## F0-P6C · JARAMILLO
+
+JARAMILLO se añade solo al catálogo f0p6c. Registro de arte, tienda, inspector, Arena, DEV y servidor comparten definición. Para personajes a distancia usar el contrato compuesto y para progreso entre rondas el contrato de unidad, descritos en COMPOSITE_ATTACK_ANIMATIONS.md y MATCH_PERSISTENT_UNIT_STACKS.md.

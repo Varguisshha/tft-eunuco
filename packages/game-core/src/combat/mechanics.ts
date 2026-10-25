@@ -14,7 +14,7 @@ import type {
   StackState,
   TraitProgress,
 } from '@tft/shared';
-import { MECHANICS_LIMITS, CHARACTER_RULES } from '@tft/shared';
+import { MECHANICS_LIMITS, CHARACTER_RULES, COMPOSITE_RULES } from '@tft/shared';
 import { analyzeTraits } from './traits';
 import { activeAbility } from './abilities';
 import { effectiveStat, isAlive, isStunned, compareIds } from './math';
@@ -35,6 +35,7 @@ export interface MechanicSignal {
   castCounts?: { unit: number; traits: Record<string, number> };
 }
 export interface DamageContext {
+  projectileId?: string;
   context?: ChainContext | undefined;
   attackId?: string;
   responsibleId?: string | null;
@@ -231,7 +232,8 @@ export class CombatMechanics {
   count(unit: CombatUnit, kind: 'casts' | 'kills') {
     unit.mechanics![kind]++;
     const unique = new Set(
-      this.host.input.rulesVersion === CHARACTER_RULES
+      this.host.input.rulesVersion === CHARACTER_RULES ||
+      this.host.input.rulesVersion === COMPOSITE_RULES
         ? (this.traitCounters.get(unit.id) ?? [])
         : (this.traitEntries.get(unit.id) ?? []).map((e) => e.progress!),
     );

@@ -2,7 +2,7 @@ import { AccountPortal } from './auth/AccountPortal';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { VARGAS_ECONOMY_CONFIG } from '@tft/game-data';
+import { JARAMILLO_ECONOMY_CONFIG } from '@tft/game-data';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
 import { AUTOMATIC_SAVE_KEY, decodeSave } from './match/automaticSave';
 import { attachAutomaticHost } from './match/automaticHost';
@@ -66,7 +66,7 @@ export function App() {
       return;
     }
     attach(
-      new LocalMatchCoordinator(createMatch(n, VARGAS_ECONOMY_CONFIG), {
+      new LocalMatchCoordinator(createMatch(n, JARAMILLO_ECONOMY_CONFIG), {
         matchId: crypto.randomUUID(),
         time,
       }),
@@ -159,7 +159,8 @@ export function App() {
           <h1>Cada moneda cuenta.</h1>
           <p>
             Construye un equipo, mejora tus personajes y decide cuándo ahorrar o gastar. Una partida
-            local de rondas automáticas, con DOLEA, VARGAS y los cuatro personajes de prueba.
+            local de rondas automáticas, con DOLEA, VARGAS, JARAMILLO y los cuatro personajes de
+            prueba.
           </p>
           <div className="lobby-rules">
             <span>

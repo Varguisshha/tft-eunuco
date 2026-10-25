@@ -46,8 +46,8 @@ export const CharacterManifestSchema = z.strictObject({
   provenance: z
     .strictObject({
       characterId: z.string().min(1),
-      sourceStarLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-      nativeAppearance: z.enum(['star1', 'star2', 'star3']),
+      sourceStarLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]).nullable(),
+      nativeAppearance: z.enum(['star1', 'star2', 'star3', 'pending']),
       pending: z.array(z.enum(['idle', 'walk', 'attack', 'ability', 'death'])),
     })
     .optional(),
@@ -56,6 +56,24 @@ export const CharacterManifestSchema = z.strictObject({
       star1: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
       star2: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
       star3: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+    })
+    .optional(),
+  composite: z
+    .strictObject({
+      version: z.literal(1),
+      bodyAnimation: z.literal('attack'),
+      recoveryAnimation: AnimationAssetSchema,
+      projectileAnimation: AnimationAssetSchema,
+      impactAnimation: AnimationAssetSchema,
+      releaseMarker: z.number().int().nonnegative(),
+      projectileOrigin: z.strictObject({ x: z.number(), y: z.number() }),
+      targetAnchor: z.strictObject({ x: z.number(), y: z.number() }),
+      visualTiming: z.strictObject({
+        recoveryMs: z.number().positive(),
+        releaseMs: z.number().positive(),
+        impactMs: z.number().positive(),
+      }),
+      fallbackPolicy: z.literal('body-only'),
     })
     .optional(),
   evolutions: z.strictObject({ star1: slots, star2: slots, star3: slots }),

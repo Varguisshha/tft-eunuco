@@ -1,5 +1,7 @@
+import { COMPOSITE_RULES } from '@tft/shared';
+import { JARAMILLO_ABILITY } from './jaramillo';
 import { VARGAS_ABILITY, VARGAS_MECHANICS } from './vargas';
-import { DOLEA_ABILITY, TRAIT_DEFINITIONS, VARGAS_TRAITS } from './abilities';
+import { DOLEA_ABILITY, TRAIT_DEFINITIONS, VARGAS_TRAITS, JARAMILLO_TRAITS } from './abilities';
 import {
   ADVANCED_STATS_DEFAULTS,
   ADVANCED_COMBAT_RULES,
@@ -176,17 +178,23 @@ export function createAdvancedCombatInput(board: BoardState, seed: number): Comb
   });
 }
 export const hasTraits = (catalog: string | undefined) =>
-  catalog === 'f0p6a' || catalog === 'f0p6b1' || catalog === 'f0p6b2' || catalog === 'f0p6b3';
+  catalog === 'f0p6c' ||
+  catalog === 'f0p6a' ||
+  catalog === 'f0p6b1' ||
+  catalog === 'f0p6b2' ||
+  catalog === 'f0p6b3';
 export const combatRulesFor = (catalog: string | undefined) =>
-  catalog === 'f0p6b3'
-    ? CHARACTER_RULES
-    : catalog === 'f0p6b2'
-      ? MECHANICS_RULES
-      : catalog === 'f0p6b1'
-        ? ADVANCED_COMBAT_RULES
-        : hasTraits(catalog)
-          ? CURRENT_COMBAT_RULES
-          : COMBAT_RULES;
+  catalog === 'f0p6c'
+    ? COMPOSITE_RULES
+    : catalog === 'f0p6b3'
+      ? CHARACTER_RULES
+      : catalog === 'f0p6b2'
+        ? MECHANICS_RULES
+        : catalog === 'f0p6b1'
+          ? ADVANCED_COMBAT_RULES
+          : hasTraits(catalog)
+            ? CURRENT_COMBAT_RULES
+            : COMBAT_RULES;
 
 export function createMechanicsCombatInput(
   board: BoardState,
@@ -240,5 +248,48 @@ export function createVargasCombatInput(
     maxTicks: MAX_COMBAT_TICKS,
     obstacles: [],
     units: board.units.map((u) => ({ ...u, profile: VARGAS_COMBAT_PROFILES[u.definitionId] })),
+  });
+}
+
+export const JARAMILLO_COMBAT_PROFILES: Readonly<Record<string, CombatProfile>> = {
+  ...VARGAS_COMBAT_PROFILES,
+  jaramillo: CombatProfileSchema.parse({
+    starLevel: 1,
+    stats: {
+      ...base,
+      ...ADVANCED_STATS_DEFAULTS,
+      maxHp: 550,
+      attack: 48,
+      abilityPower: 0,
+      attackSpeedMilli: 750,
+      armor: 20,
+      magicResist: 20,
+      critChanceMilli: 100,
+      critMultiplierMilli: 1500,
+      maxMana: 70,
+      startingMana: 0,
+      range: 3,
+    },
+    ability: null,
+    passive: null,
+    championAbility: JARAMILLO_ABILITY,
+    traits: ['hortaleza', 'fumon'],
+  }),
+};
+
+export function createJaramilloCombatInput(
+  board: BoardState,
+  seed: number,
+  combatId: string,
+): CombatInput {
+  return CombatInputSchema.parse({
+    protocolVersion: COMBAT_PROTOCOL,
+    rulesVersion: COMPOSITE_RULES,
+    traits: JARAMILLO_TRAITS,
+    seed,
+    combatId,
+    maxTicks: MAX_COMBAT_TICKS,
+    obstacles: [],
+    units: board.units.map((u) => ({ ...u, profile: JARAMILLO_COMBAT_PROFILES[u.definitionId] })),
   });
 }

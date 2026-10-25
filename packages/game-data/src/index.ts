@@ -78,16 +78,30 @@ export const VARGAS_ROSTER: readonly UnitDefinition[] = [
     spriteId: 'vargas',
   },
 ];
+export const JARAMILLO_ROSTER: readonly UnitDefinition[] = [
+  ...VARGAS_ROSTER,
+  {
+    id: 'jaramillo',
+    name: 'JARAMILLO',
+    role: 'ranger',
+    cost: 2,
+    synergies: ['hortaleza', 'fumon'],
+    activeAbilityId: 'cortina-de-humo',
+    passiveAbilityId: 'cortina-de-humo',
+    spriteId: 'jaramillo',
+  },
+];
 export function matchCatalog(config: {
-  catalog?: 'f0p4.1' | 'f0p6a' | 'f0p6b1' | 'f0p6b2' | 'f0p6b3' | undefined;
+  catalog?: 'f0p4.1' | 'f0p6a' | 'f0p6b1' | 'f0p6b2' | 'f0p6b3' | 'f0p6c' | undefined;
 }): readonly UnitDefinition[] {
+  if (config.catalog === 'f0p6c') return JARAMILLO_ROSTER;
   if (config.catalog === 'f0p6b3') return VARGAS_ROSTER;
   if (config.catalog === 'f0p6a' || config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2')
     return CHARACTER_ROSTER;
   return config.catalog === 'f0p4.1' ? CATALOG_F0P41 : UNIT_DEFINITIONS;
 }
 export function getUnitDefinition(id: string): UnitDefinition | undefined {
-  return VARGAS_ROSTER.find((unit) => unit.id === id);
+  return JARAMILLO_ROSTER.find((unit) => unit.id === id);
 }
 export * from './combat';
 export * from './economy';
@@ -100,3 +114,5 @@ export * from './mechanicsScenarios';
 
 export * from './vargas';
 export * from './vargasScenarios';
+
+export * from './jaramillo';

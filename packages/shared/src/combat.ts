@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {
   MECHANICS_RULES,
   CHARACTER_RULES,
+  COMPOSITE_RULES,
   ProfileMechanicsSchema,
   UnitMechanicsSchema,
   MechanicsStateSchema,
@@ -41,6 +42,7 @@ const RulesSchema = z.enum([
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
   CHARACTER_RULES,
+  COMPOSITE_RULES,
 ]);
 export const MAX_COMBAT_TICKS = 450;
 export const OVERTIME_START_TICK = 300;
@@ -176,7 +178,9 @@ export const CombatInputSchema = z
     )
       ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
     const mechanics =
-      input.rulesVersion === MECHANICS_RULES || input.rulesVersion === CHARACTER_RULES;
+      input.rulesVersion === MECHANICS_RULES ||
+      input.rulesVersion === CHARACTER_RULES ||
+      input.rulesVersion === COMPOSITE_RULES;
     const advanced = input.rulesVersion === ADVANCED_COMBAT_RULES || mechanics;
     if (mechanics && !input.combatId)
       ctx.addIssue({ code: 'custom', message: 'Mechanics rules require combatId' });
@@ -242,6 +246,15 @@ export const CombatInputSchema = z
         code: 'custom',
         message: 'Advanced trait refresh requires a stable source key',
       });
+    if (
+      input.rulesVersion !== COMPOSITE_RULES &&
+      input.units.some(
+        (u) =>
+          u.profile.championAbility?.active?.delivery ||
+          u.profile.championAbility?.passive?.matchProgress,
+      )
+    )
+      ctx.addIssue({ code: 'custom', message: 'Composite character contract requires f0p6c-1' });
     const allEffects = input.units
       .flatMap((u) => [
         ...(u.profile.ability?.effects ?? []),
@@ -262,6 +275,7 @@ export const CombatInputSchema = z
       );
     if (
       input.rulesVersion !== CHARACTER_RULES &&
+      input.rulesVersion !== COMPOSITE_RULES &&
       (allEffects.some(
         (e) =>
           ('timing' in e && e.timing !== undefined) ||
@@ -285,6 +299,13 @@ export const CombatInputSchema = z
         ))
     )
       ctx.addIssue({ code: 'custom', message: 'Character extensions require f0p6b3-1' });
+    if (
+      input.rulesVersion !== COMPOSITE_RULES &&
+      allEffects.some(
+        (e) => e.kind === 'armor_reduction' || ('oncePerTarget' in e && e.oncePerTarget),
+      )
+    )
+      ctx.addIssue({ code: 'custom', message: 'Composite effects require f0p6c-1' });
     if (!mechanics && allEffects.some(isMechanicEffect))
       ctx.addIssue({
         code: 'custom',
@@ -310,7 +331,7 @@ export const CombatInputSchema = z
           (e.kind === 'stack_gain' || e.kind === 'stack_consume') &&
           !input.units.some((u) => u.profile.mechanics?.stacks.some((d) => d.id === e.stackId)) &&
           !(
-            input.rulesVersion === CHARACTER_RULES &&
+            (input.rulesVersion === CHARACTER_RULES || input.rulesVersion === COMPOSITE_RULES) &&
             input.traits?.some(
               (t) =>
                 t.progress?.rules.some((r) => r.effects.includes(e)) &&
@@ -359,6 +380,7 @@ export const CombatStatusSchema = z.strictObject({
   origin: ModifierOriginSchema.optional(),
   amount: z.number().int().min(-1_000_000).max(1_000_000),
   expiresTick: natural.nullable(),
+  group: z.literal('armor-reduction').optional(),
 });
 export type CombatStatus = z.infer<typeof CombatStatusSchema>;
 export const CombatActionSchema = z.discriminatedUnion('kind', [
@@ -410,6 +432,7 @@ export const CombatActionSchema = z.discriminatedUnion('kind', [
 ]);
 export type CombatAction = z.infer<typeof CombatActionSchema>;
 export const CombatUnitSchema = CombatantSpecSchema.extend({
+  receivedEffects: z.array(id).max(64).optional(),
   mechanics: UnitMechanicsSchema.optional(),
   passiveState: z
     .record(
@@ -431,6 +454,8 @@ export const CombatUnitSchema = CombatantSpecSchema.extend({
 });
 export type CombatUnit = z.infer<typeof CombatUnitSchema>;
 export const ProjectileSchema = z.strictObject({
+  cause: z.literal('ability').optional(),
+  effects: z.array(CoreEffectSchema).max(8).optional(),
   id,
   sourceId: id,
   targetId: id,
@@ -512,6 +537,7 @@ export const CombatEventV3Schema = z
         sourceId: id,
         targetId: id,
         amount,
+        projectileId: id.optional(),
         absorbed: amount,
         hpAfter: amount,
         shieldAfter: amount,

@@ -4,7 +4,7 @@ import {
   type DevelopmentAudit,
   type DevelopmentCommand,
 } from '@tft/shared/development';
-import { VARGAS_ECONOMY_CONFIG, matchCatalog } from '@tft/game-data';
+import { JARAMILLO_ECONOMY_CONFIG, matchCatalog } from '@tft/game-data';
 import { type AutomaticSave, type MatchState, type UnitLocation } from '@tft/shared';
 import { createMatch, combine, addXp } from '../match/engine';
 import { validateMatchState } from '../match/invariants';
@@ -39,7 +39,7 @@ export class DevelopmentController {
     id = `dev-${crypto.randomUUID()}`,
   ) {
     if (!id.startsWith('dev-')) throw new Error('DEV identity required');
-    const match = createMatch(seed, VARGAS_ECONOMY_CONFIG);
+    const match = createMatch(seed, JARAMILLO_ECONOMY_CONFIG);
     match.development = { version: 1, tainted: true, healthAdjustments: [] };
     this.current = new LocalMatchCoordinator(match, { matchId: id, time, development: true });
     this.watch();

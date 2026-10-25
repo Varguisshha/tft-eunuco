@@ -40,5 +40,237 @@
       }
     }
   ],
-  "genericCharacters": ["test-k01", "test-v02", "test-r03", "test-m04"]
+  "genericCharacters": ["test-k01", "test-v02", "test-r03", "test-m04"],
+  "composites": [
+    {
+      "id": "jaramillo",
+      "clips": {
+        "idle": {
+          "width": 160,
+          "height": 128,
+          "anchor": {
+            "x": 72,
+            "y": 116
+          },
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_01.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 40.5,
+                "y": 149
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_02.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 36.0,
+                "y": 148
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_03.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 41.5,
+                "y": 148
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_04.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 42.0,
+                "y": 148
+              }
+            }
+          ]
+        },
+        "walk": {
+          "width": 160,
+          "height": 128,
+          "anchor": {
+            "x": 72,
+            "y": 116
+          },
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_01.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 47.5,
+                "y": 145
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_02.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 45.0,
+                "y": 148
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_03.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 40.5,
+                "y": 147
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_04.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 49.5,
+                "y": 147
+              }
+            }
+          ]
+        },
+        "death": {
+          "width": 160,
+          "height": 128,
+          "anchor": {
+            "x": 72,
+            "y": 116
+          },
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/original-frames/death_01.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 42.0,
+                "y": 95
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_02.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 53.0,
+                "y": 73
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_03.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 55.0,
+                "y": 47
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_04.png",
+              "scale": 0.6666666666666666,
+              "anchor": {
+                "x": 79.0,
+                "y": 91
+              }
+            }
+          ]
+        },
+        "attack": {
+          "width": 160,
+          "height": 128,
+          "anchor": {
+            "x": 72,
+            "y": 120
+          },
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-1.png",
+              "scale": 1,
+              "anchor": {
+                "x": 60,
+                "y": 120
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-2.png",
+              "scale": 1,
+              "anchor": {
+                "x": 60,
+                "y": 120
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-3.png",
+              "scale": 1,
+              "anchor": {
+                "x": 60,
+                "y": 120
+              }
+            }
+          ]
+        },
+        "recovery": {
+          "width": 160,
+          "height": 128,
+          "anchor": {
+            "x": 72,
+            "y": 116
+          },
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/original-frames/ataque_08.png",
+              "scale": 0.3333333333333333,
+              "anchor": {
+                "x": 73,
+                "y": 292
+              }
+            }
+          ]
+        },
+        "projectile": {
+          "width": 128,
+          "height": 64,
+          "anchor": {
+            "x": 116,
+            "y": 48
+          },
+          "displayScale": 0.65,
+          "fps": 12,
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/original-frames/ataque_05.png",
+              "scale": 0.45,
+              "anchor": {
+                "x": 195,
+                "y": 59
+              }
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/ataque_06.png",
+              "scale": 0.45,
+              "anchor": {
+                "x": 236,
+                "y": 64
+              }
+            }
+          ]
+        },
+        "impact": {
+          "width": 128,
+          "height": 128,
+          "anchor": {
+            "x": 72,
+            "y": 90
+          },
+          "displayScale": 0.65,
+          "frames": [
+            {
+              "file": "Sprites/jaramillo/original-frames/ataque_07.png",
+              "scale": 0.6,
+              "anchor": {
+                "x": 108,
+                "y": 125
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
 }

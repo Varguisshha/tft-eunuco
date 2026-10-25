@@ -36,6 +36,7 @@ export const CoreEffectSchema = z
     z.strictObject({
       ...effectBase,
       kind: z.literal('damage'),
+      oncePerTarget: id.optional(),
       amount,
       damageType: DamageTypeSchema,
       canCrit: z.boolean().optional(),
@@ -89,6 +90,19 @@ export const CoreEffectSchema = z
         'Percent modifier below -100%',
       ),
     z.strictObject({ ...effectBase, kind: z.literal('stun'), duration: ticks }),
+    z.strictObject({
+      ...effectBase,
+      kind: z.literal('armor_reduction'),
+      amount: z.number().int().min(0).max(1000),
+      amountByStars: z
+        .tuple([
+          z.number().int().min(0).max(1000),
+          z.number().int().min(0).max(1000),
+          z.number().int().min(0).max(1000),
+        ])
+        .optional(),
+      duration: ticks,
+    }),
   ])
   .superRefine((e, ctx) => {
     if ('powerScaling' in e && e.powerScaling && e.scaling)
@@ -218,9 +232,24 @@ export const PassiveRuleSchema = z.strictObject({
   maxActivations: z.number().int().min(1).max(450),
   cooldownTicks: z.number().int().min(0).max(450),
 });
+export const MatchStackDefinitionSchema = z.strictObject({
+  version: z.literal(1),
+  id,
+  name: id,
+  trigger: z.literal('competitive_win'),
+  maximum: z.number().int().min(1).max(100),
+  adPercentMilli: z.number().int().min(0).max(1000),
+  fusion: z.literal('maximum'),
+  reset: z.literal('match_end'),
+});
 const component = { name: id, description: z.string().min(1).max(2000) };
 export const PassiveComponentSchema = z
-  .strictObject({ ...component, rules: z.array(PassiveRuleSchema).min(1).max(8) })
+  .strictObject({
+    ...component,
+    rules: z.array(PassiveRuleSchema).max(8),
+    matchProgress: MatchStackDefinitionSchema.optional(),
+  })
+  .refine((p) => p.rules.length > 0 || !!p.matchProgress, 'Empty passive')
   .refine(
     (p) => new Set(p.rules.map((r) => r.id)).size === p.rules.length,
     'Duplicate passive rule IDs',
@@ -231,6 +260,7 @@ export const ActiveComponentSchema = z
     manaCost: amount.min(1),
     initialMana: amount,
     castTicks: ticks.max(30),
+    delivery: z.literal('projectile').optional(),
     targeting: z.enum(['current_enemy', 'adjacent_enemies', 'self']),
     conditions: z.array(AbilityConditionSchema).max(8),
     effects: z.array(EffectSchema).min(1).max(8),
@@ -239,7 +269,14 @@ export const ActiveComponentSchema = z
     priority: z.literal('before_attack'),
     interrupts: z.literal('stun_or_death'),
   })
-  .refine((a) => a.initialMana <= a.manaCost, 'Initial mana exceeds capacity');
+  .refine((a) => a.initialMana <= a.manaCost, 'Initial mana exceeds capacity')
+  .refine(
+    (a) =>
+      a.delivery !== 'projectile' ||
+      (a.targeting === 'current_enemy' &&
+        a.effects.every((e) => !isMechanicEffect(e) && e.target === 'target' && e.radius === 0)),
+    'Projectile delivery requires direct core effects on the current enemy',
+  );
 const identity = {
   id,
   name: id,

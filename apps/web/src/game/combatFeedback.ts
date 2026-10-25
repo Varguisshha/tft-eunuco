@@ -49,6 +49,14 @@ export function passiveReadout(
       label: 'No aplicable',
       detail: 'Sin pasiva con estado disponible.',
     };
+  if (passive.matchProgress)
+    return {
+      state: 'available',
+      label: 'Progreso entre rondas',
+      detail: deployed
+        ? 'Gana Kilómetros al vencer una ronda competitiva. Se conservan durante la partida.'
+        : 'Conserva sus Kilómetros en el banquillo, sin ganar más.',
+    };
   if (!deployed)
     return {
       state: 'inactive',

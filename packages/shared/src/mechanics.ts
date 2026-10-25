@@ -8,6 +8,7 @@ import {
 } from './abilities';
 export const MECHANICS_RULES = 'f0p6b2-1' as const;
 export const CHARACTER_RULES = 'f0p6b3-1' as const;
+export const COMPOSITE_RULES = 'f0p6c-1' as const;
 export const MECHANICS_LIMITS = Object.freeze({
   chainDepth: 8,
   effectsPerTick: 4096,

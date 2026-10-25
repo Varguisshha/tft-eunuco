@@ -245,11 +245,9 @@ Se enumeran candidatos de emparejamiento y se minimiza historial/recencia con de
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
 
-
 ## F0-P7C.3 — ciclo competitivo
 
 Se adopta ranking de competición con puestos compartidos y huecos. HP previo y daño efectivo son los únicos desempates; el daño limitado hace al segundo criterio normalmente redundante. No se introduce azar ni orden de identidad. Se eligen frames públicos por tick para espectadores, evitando entregar la traza determinista futura. El resultado se publica una vez y se retiene en snapshots durante la vida limitada de la sala. [Ejemplos](FINAL_STANDINGS.md).
-
 
 ## F0-P7D.1 — Recuperación autenticada (25/10/2026)
 
@@ -257,9 +255,12 @@ Elegida reentrada autenticada por UUID mediante joinById, sin token nativo de re
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
 
-
 ## F0-P7D.2 — persistencia autoritativa (2026-10-25)
 
 Persistencia por snapshot completo JSONB versionado + CAS transaccional, sin segundo ledger. Congelar tiempo de caída; preservar trazas canónicas. Retener 1 h activa / 5 min final; rechazar corrupción/incompatibilidad al arrancar. Reintentos acotados, fallo cerrado. Sin infraestructura distribuida.
 
 Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.
+
+## F0-P6C · JARAMILLO
+
+P6C: catálogo f0p6c y reglas f0p6c-1 separados de f0p6b3; snapshots históricos conservados. Armadura: máximo vigente, empate refresca. FUMÓN una vez por objetivo global, sin recursión. Evolución gráfica desconocida; tres poses autorizadas más recuperación, sin inventar una cuarta. Limpieza generativa documentada como derivado, no idéntica al original.

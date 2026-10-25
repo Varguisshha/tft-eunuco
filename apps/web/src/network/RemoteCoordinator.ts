@@ -15,7 +15,7 @@ import {
   type TimedCommand,
 } from '@tft/shared';
 import { MAX_RECOVERY_ATTEMPTS, retryDelay, recoveryError } from './retry';
-import { scaledProfile, type MatchError } from '@tft/game-core';
+import { scaledOwnedProfile, type MatchError } from '@tft/game-core';
 import {
   RemoteSnapshotSchema,
   RemoteTraceSchema,
@@ -444,7 +444,7 @@ export class RemoteCoordinator implements MatchCoordinator {
                   definitionId: u.definitionId,
                   owner: 'north' as const,
                   position: reverseHex(u.location.hex),
-                  profile: scaledProfile(u.definitionId, u.stars, this.state.config),
+                  profile: scaledOwnedProfile(u, this.state.config),
                   stars: u.stars,
                 },
               ]

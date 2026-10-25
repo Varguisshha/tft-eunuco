@@ -75,3 +75,8 @@ export const VARGAS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...MECHANICS_ECONOMY_CONFIG,
   catalog: 'f0p6b3',
 });
+
+export const JARAMILLO_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...VARGAS_ECONOMY_CONFIG,
+  catalog: 'f0p6c',
+});

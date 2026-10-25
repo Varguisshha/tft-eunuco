@@ -259,3 +259,76 @@ it.skipIf(!url)('PostgreSQL CAS, atomic rollback, duplicate commit and actual gr
     await repo.pool.end();
   }
 });
+
+it.skipIf(!url)(
+  'P6C Kilómetros survive PostgreSQL storage, a fresh repository and authenticated resume',
+  async () => {
+    if (!url!.includes('127.0.0.1:55439/tft_persistence_test')) throw Error('Unsafe test database');
+    const { AuthoritativeMatch } = await import('../AuthoritativeMatch');
+    const { JARAMILLO_ECONOMY_CONFIG } = await import('@tft/game-data');
+    const m = new AuthoritativeMatch(
+      randomUUID(),
+      { now: () => 1000 },
+      () => 42,
+      2,
+      JARAMILLO_ECONOMY_CONFIG,
+    );
+    for (let i = 0; i < 2; i++)
+      m.join(`progress-${i}`, { userId: randomUUID(), name: `Progress${i}` });
+    m.start('progress-0');
+    const authority = m.exportState();
+    authority.pool.jaramillo!--;
+    for (const p of authority.players) p.state.pool = { ...authority.pool };
+    authority.players[0]!.state.units.push({
+      id: 'persistent-jaramillo',
+      definitionId: 'jaramillo',
+      stars: 1,
+      location: { kind: 'bench', slot: 0 },
+      progress: { version: 1, stacks: [{ id: 'kilometros', count: 6, lastRound: 1 }] },
+    });
+    const document = {
+      id: m.id,
+      revision: 1,
+      commitId: randomUUID(),
+      expiresAt: Date.now() + 900000,
+      status: 'active' as const,
+      authority,
+      lobby: {
+        version: LOBBY_VERSION,
+        roomId: randomUUID(),
+        roomCode: 'JKLMNPQR',
+        hostUserId: m.players[0]!.id,
+        capacity: 2 as const,
+        participants: m.players.map((p) => ({
+          userId: p.id,
+          name: p.name,
+          avatarId: p.avatarId,
+          readyState: true,
+          connected: true,
+        })),
+        status: 'in_match' as const,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 900000,
+        matchId: m.id,
+        revision: 1,
+      },
+    };
+    const writer = new PostgresTestRepository(url!);
+    try {
+      await writer.commit(0, document);
+    } finally {
+      await writer.pool.end();
+    }
+    const reader = new PostgresTestRepository(url!);
+    try {
+      const stored = (await reader.load()).find((s) => s.id === m.id)!;
+      const restored = AuthoritativeMatch.restore(stored.authority);
+      restored.resume('new-session', m.players[0]!.id);
+      expect(restored.players[0]!.state.units).toEqual(authority.players[0]!.state.units);
+      expect(restored.config.catalog).toBe('f0p6c');
+      expect(restored.players[0]!.state.units[0]!.progress!.stacks[0]!.count).toBe(6);
+    } finally {
+      await reader.pool.end();
+    }
+  },
+);

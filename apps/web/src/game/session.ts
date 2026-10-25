@@ -20,6 +20,8 @@ import {
   createMechanicsScenario,
   createVargasScenario,
   createVargasCombatInput,
+  createJaramilloCombatInput,
+  JARAMILLO_ECONOMY_CONFIG,
   VARGAS_ECONOMY_CONFIG,
   type VargasScenario,
   type MechanicsScenario,
@@ -248,6 +250,47 @@ export class BoardSession {
       message: `Mecánicas de prueba: ${scenario}. Solo diagnóstico.`,
     });
   }
+  loadJaramilloScenario(): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const units: UnitInstance[] = [
+      { id: 'jaramillo-demo', definitionId: 'jaramillo', owner: 'south', position: { q: 0, r: 4 } },
+      {
+        id: 'jaramillo-target',
+        definitionId: 'test-k01',
+        owner: 'north',
+        position: { q: 4, r: 0 },
+      },
+    ];
+    this.scenarioInput = createJaramilloCombatInput(
+      { units },
+      this.snapshot.combat.seed,
+      'jaramillo-demo',
+    );
+    this.scenarioInput.units[1]!.profile = structuredClone(this.scenarioInput.units[1]!.profile);
+    this.scenarioInput.units[1]!.profile.stats.maxHp = 8000;
+    this.patch({
+      board: { units },
+      selectedId: 'jaramillo-demo',
+      paletteId: null,
+      invalid: false,
+      message: 'JARAMILLO · diagnóstico de proyectil compuesto. Sin progreso competitivo.',
+    });
+  }
+  seekTime(timeMs: number): void {
+    if (!this.playback) return;
+    this.playback.setPaused(true);
+    this.playback.seek(timeMs);
+    this.patch({
+      combat: {
+        ...this.snapshot.combat,
+        tick: this.playback.frame().tick,
+        mode: 'paused',
+        result: null,
+      },
+      message: 'Traza pausada. Sin volver a simular.',
+    });
+  }
   loadVargasScenario(scenario: VargasScenario): void {
     this.returnToPreparation();
     this.visualStars.clear();
@@ -325,24 +368,32 @@ export class BoardSession {
                     scaledProfile(
                       u.definitionId,
                       this.starsFor(u.id),
-                      this.scenarioInput!.rulesVersion === 'f0p6b3-1'
-                        ? VARGAS_ECONOMY_CONFIG
-                        : ADVANCED_ECONOMY_CONFIG,
+                      this.scenarioInput!.rulesVersion === 'f0p6c-1'
+                        ? JARAMILLO_ECONOMY_CONFIG
+                        : this.scenarioInput!.rulesVersion === 'f0p6b3-1'
+                          ? VARGAS_ECONOMY_CONFIG
+                          : ADVANCED_ECONOMY_CONFIG,
                     ),
                 ),
               })),
             }
           : repeat && this.lastInput
             ? this.lastInput
-            : this.snapshot.board.units.some((u) => u.definitionId === 'vargas')
-              ? createVargasCombatInput(
+            : this.snapshot.board.units.some((u) => u.definitionId === 'jaramillo')
+              ? createJaramilloCombatInput(
                   this.snapshot.board,
                   this.snapshot.combat.seed,
                   `arena-${this.snapshot.combat.seed}`,
                 )
-              : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
-                  ? createAdvancedCombatInput
-                  : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
+              : this.snapshot.board.units.some((u) => u.definitionId === 'vargas')
+                ? createVargasCombatInput(
+                    this.snapshot.board,
+                    this.snapshot.combat.seed,
+                    `arena-${this.snapshot.combat.seed}`,
+                  )
+                : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
+                    ? createAdvancedCombatInput
+                    : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
       if (!repeat && this.scenarioInput && !this.scenarioInput.combatId) {
         setup.rulesVersion = this.scenarioInput.rulesVersion;
         setup.traits =

@@ -154,6 +154,22 @@ export function CombatControls({
             ))}
           </select>
         </label>
+        <button disabled={!preparing} onClick={() => session.loadJaramilloScenario()}>
+          Diagnóstico JARAMILLO
+        </button>
+        {!preparing && (
+          <label>
+            Tiempo de reproducción{' '}
+            <input
+              aria-label="Tiempo de reproducción"
+              type="range"
+              min="0"
+              max="45000"
+              step="25"
+              onChange={(e) => session.seekTime(Number(e.target.value))}
+            />
+          </label>
+        )}
         <label className="arena-scenario">
           VARGAS y sinergias
           <select

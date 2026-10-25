@@ -2,6 +2,7 @@ import {
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
   CHARACTER_RULES,
+  COMPOSITE_RULES,
   type CombatStatus,
   type CombatInput,
   type CombatEffect,
@@ -75,7 +76,8 @@ export function prepareTraitProfiles(input: CombatInput) {
             if (
               input.rulesVersion === ADVANCED_COMBAT_RULES ||
               input.rulesVersion === MECHANICS_RULES ||
-              input.rulesVersion === CHARACTER_RULES
+              input.rulesVersion === CHARACTER_RULES ||
+              input.rulesVersion === COMPOSITE_RULES
             ) {
               modifiers.push({
                 unitId: unit.id,

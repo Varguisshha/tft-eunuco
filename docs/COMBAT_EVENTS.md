@@ -106,3 +106,7 @@ combat_end conserva winner/reason/tick y añade outcome. Doble eliminación: `{o
 Se conserva transporte v3 y se negocian reglas `f0p6b2-1`. Nuevos tipos estrictos: `stack_gain`, `stack_consume`, `stack_threshold`, `attack_confirmed`, `kill_attributed`, `ability_empowered`, `ability_repeat`, `jump_start`, `jump_end`, `chain_attack`, `periodic_apply` y `mechanics_limit`. Todos heredan tick/orden/protocolo. Los payloads registran fuente, destinatario y causalidad según la operación; la atribución incluye combate y referencia exacta `{tick, order}` al daño letal.
 
 `damage` sigue siendo la única pérdida de vida: los indicadores no duplican daño. Bajo reglas nuevas añade responsable, causalidad, origen periódico/ambiental y `attackId` cuando corresponde. `ability_cast` distingue cast original/adicional y padre; las cancelaciones incluyen salto. Los campos adicionales no se rellenan en trazas antiguas. Contratos en `packages/shared/src/combat.ts`; semántica en [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md).
+
+## F0-P6C · JARAMILLO
+
+Las reglas f0p6c-1 añaden entrega activa por projectile_launch (cause/effects opcionales) y vinculan damage mediante projectileId. El humo visual solo aparece con ese daño real. Un proyectil contra un objetivo ya muerto se descarta sin impacto. Protocolo 3 y trazas históricas conservan compatibilidad.

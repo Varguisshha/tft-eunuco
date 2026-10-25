@@ -1,3 +1,4 @@
+import { compositeBody } from './compositeVisuals';
 import { characterVisualScale, originalHitBounds } from './visualScale';
 import Phaser from 'phaser';
 import {
@@ -142,24 +143,33 @@ export class PhaserUnitVisual implements UnitVisual {
     this.timeMs = timeMs;
     this.timing = timing;
     const resolved = resolveAnimation(this.manifest, this.count, animation);
-    const asset =
-      resolved.asset && this.scene.textures.exists(resolved.asset.textureKey)
-        ? resolved.asset
+    const compound =
+      this.manifest?.composite && timing && (animation === 'attack' || animation === 'ability')
+        ? compositeBody(
+            this.manifest,
+            animation,
+            timeMs,
+            timing.startMs,
+            timing.impactMs ?? timing.endMs,
+          )
         : null;
+    const chosen = compound?.asset ?? resolved.asset;
+    const asset = chosen && this.scene.textures.exists(chosen.textureKey) ? chosen : null;
     this.asset = asset;
     if (asset) {
       this.scale = asset.scale;
       this.sprite
         .setTexture(
           asset.textureKey,
-          sampleAnimationFrame(
-            asset,
-            animation,
-            this.reducedMotion.matches && (animation === 'idle' || animation === 'walk')
-              ? 0
-              : timeMs,
-            timing,
-          ),
+          compound?.frame ??
+            sampleAnimationFrame(
+              asset,
+              animation,
+              this.reducedMotion.matches && (animation === 'idle' || animation === 'walk')
+                ? 0
+                : timeMs,
+              timing,
+            ),
         )
         .setOrigin(
           this.flipped ? 1 - asset.foot.x / asset.frameWidth : asset.foot.x / asset.frameWidth,

@@ -148,11 +148,9 @@ F0-P7C.1 implementa motor2–4 y diagnósticos SDK. F0-P7C.2 pendiente: entrada 
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
 
-
 ## F0-P7C.3 — ciclo competitivo
 
 P7C.2 queda preservada en 0f2dfaf. P7C.3 implementa eliminación, continuación entre supervivientes, espectador autorizado y final competitivo. Las notas históricas anteriores que los marcaban pendientes quedan superadas por esta sección. No se inicia P7D, reconexión completa, persistencia tras reinicio ni despliegue.
-
 
 ## F0-P7D.1 — Recuperación autenticada (25/10/2026)
 
@@ -160,9 +158,12 @@ F0-P7D.1 implementado: recuperación autenticada mientras vive el proceso, susti
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
 
-
 ## F0-P7D.2 — persistencia autoritativa (2026-10-25)
 
 F0-P7D.2 implementa persistencia y recuperación de proceso con PostgreSQL, más verificación real aislada. F0-P7D.3 permanece sin iniciar. Escalado, historial permanente, migración de snapshots y respaldo de PostgreSQL no forman parte de esta entrega.
 
 Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.
+
+## F0-P6C · JARAMILLO
+
+F0-P6C incorpora JARAMILLO y los contratos de proyectiles compuestos y Kilómetros persistentes. Quedan como recursos artísticos futuros: confirmación de apariencia nativa, evoluciones 2★/3★ y animación exclusiva Ability. No se inicia otra fase. Evidencias y límites: F0_P6C_REPORT.md.
