@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
 
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
@@ -67,3 +69,9 @@ La futura cuenta debe resolver playerId detrás del transporte sin cambiar econo
 La entrada de usuario pasa por sala privada, código y Listo. El gateway usa la identidad Supabase existente; una fábrica interna crea la partida de dos con whitelist. Lobbies de hasta cuatro sin emparejamientos de cuatro. `test_match` se conserva para compatibilidad y tests, fuera del menú nuevo.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+AuthoritativeMatch admite capacidad interna 2–4, historial y duelos independientes; MatchRoom publica la traza del receptor. Producción conserva capacidad 2. Los escenarios 3/4 solo están registrados en tests SDK con identidades controladas.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

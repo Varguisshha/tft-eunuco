@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 # Actualización F0-P7A
 
 Online usa MatchClock monotónico en Node. El servidor liquida por deadline de traza+600ms sin esperar animaciones; los clientes estiman tiempo con ping/pong y buscan el tick vigente. No aplica el límite de delta100ms local. Preparación30s y resolución5s se conservan.
@@ -60,3 +62,9 @@ Migración explícita al pulsar Continuar si no existe P5: validar el guardado P
 ## Límites de confianza
 
 Las validaciones detectan inconsistencias, no autentican un navegador ni un archivo contra un atacante. En online, el servidor poseerá reloj, pool, RNG, traza y liquidación; no deberá importar un snapshot cliente como autoridad. Los controles de desarrollo no pertenecen a `MatchCoordinator.submit`. No hay protección multiventana, cuentas, reconexión de red o firma criptográfica en P5.
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+El deadline global remoto es inicio+max(tickFinal de los duelos)×100ms+600ms, hasta45600ms. Preparación30000 y resolución5000 sin cambios. Los duelos cortos esperan al largo; el servidor nunca espera ACK del renderer. El reloj del harness SDK es controlado, conservando esos tiempos lógicos.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

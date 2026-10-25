@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
 
 # Actualización F0-P7B.1
@@ -53,3 +55,9 @@ Ambos sockets reciben la traza canónica idéntica. Florin rota solo la presenta
 Se añade protocolo de lobby `f0p7b2-1` separado del protocolo de partida `f0p7b1-1`. Canal `lobby_action`: create_lobby(capacity), join_lobby(roomCode), set_capacity(capacity), set_ready(readyState), leave_lobby, close_lobby, start_match, sync. Todos llevan version y requestId UUID; Zod strict rechaza campos extra. `lobby_event` contiene version, requestId nullable, error nullable y lobby nullable. El snapshot revisionado representa altas, bajas, preparación, anfitrión y destino: reemplaza eventos parciales y evita aplicar deltas fuera de orden. El emisor identifica al actor; nunca se acepta userId en acciones.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+Nuevo protocolo de lectura f0p7c1-1: Pairing/Plan, DuelRecord, PlayerSettlement, RoundSnapshot y DuelMessage. Solo 3/4 diagnósticos usan la lectura nueva; dos conserva f0p7b1-1. Las siete intenciones económicas y el envelope previo no cambian. Sin broadcast de tiendas/trazas ajenas ni semillas maestras.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

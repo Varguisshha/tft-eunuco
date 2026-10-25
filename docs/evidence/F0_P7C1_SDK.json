@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-25",
+  "transport": "independent Colyseus SDK sockets over loopback",
+  "identity": "controlled UUID fixtures, not live Supabase accounts",
+  "clock": "server harness advances logical time; no client clock commands",
+  "scenarios": [
+    {
+      "scenario": "controlled-sdk-3",
+      "liveSupabase": false,
+      "rounds": [
+        {
+          "round": 1,
+          "pairings": [
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000001",
+              "north": "00000000-0000-4000-8000-000000000002"
+            },
+            {
+              "kind": "ghost",
+              "south": "00000000-0000-4000-8000-000000000003",
+              "north": "00000000-0000-4000-8000-000000000002"
+            }
+          ],
+          "ticks": [450, 450],
+          "traceHashes": [
+            "3d435928ac32888191416689640166b4edaee17d292f231dcd644fd07a95d902",
+            "2d7f3b7e90039a85cf6cd9f919f91356011928181278fbf99e78776f36f5ae77"
+          ],
+          "settlements": 3,
+          "hp": [97, 97, 97]
+        },
+        {
+          "round": 2,
+          "pairings": [
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000001",
+              "north": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "kind": "ghost",
+              "south": "00000000-0000-4000-8000-000000000002",
+              "north": "00000000-0000-4000-8000-000000000001"
+            }
+          ],
+          "ticks": [450, 450],
+          "traceHashes": [
+            "ddbcbde502d65eb43edbdf9500315602a0e22eac1a2de4daba82a7fff438d536",
+            "1c5135b9436ee0b17ee0379a70c2f3652165fb286fa4fdf5a405623389f1d6b1"
+          ],
+          "settlements": 6,
+          "hp": [94, 94, 94]
+        },
+        {
+          "round": 3,
+          "pairings": [
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000002",
+              "north": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "kind": "ghost",
+              "south": "00000000-0000-4000-8000-000000000001",
+              "north": "00000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "ticks": [450, 450],
+          "traceHashes": [
+            "3d3e61b7f767c60cfd9fc46b48b94e5ef299e2668e8042682f2ed554568bf78f",
+            "c1e859b2576452ea980da61433996cbbaa9305dfd40696bcf5fdbcb7b2fe5579"
+          ],
+          "settlements": 9,
+          "hp": [91, 91, 91]
+        }
+      ]
+    },
+    {
+      "scenario": "controlled-sdk-4",
+      "liveSupabase": false,
+      "rounds": [
+        {
+          "round": 1,
+          "pairings": [
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000001",
+              "north": "00000000-0000-4000-8000-000000000002"
+            },
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000003",
+              "north": "00000000-0000-4000-8000-000000000004"
+            }
+          ],
+          "ticks": [38, 450],
+          "traceHashes": [
+            "c5a5c6887bd1907a30b6d3bad01a66a026d79bc5fd8fc9c5e819d6a16ab7962e",
+            "22c94c686c179f5b3ce8b1dc77235029d03bfe0ebb50c92ba99cde95e02bb161"
+          ],
+          "settlements": 4,
+          "hp": [98, 98, 97, 97]
+        },
+        {
+          "round": 2,
+          "pairings": [
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000001",
+              "north": "00000000-0000-4000-8000-000000000004"
+            },
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000002",
+              "north": "00000000-0000-4000-8000-000000000003"
+            }
+          ],
+          "ticks": [104, 106],
+          "traceHashes": [
+            "dfcfc461c26ce08ecce40d09c0d7c47e4c424479e9b56469951bd1f724397a1d",
+            "cda0c956075f74a8c652d978ab5a656eb9de8b98a8ae4234ac1480f0883bde3b"
+          ],
+          "settlements": 8,
+          "hp": [98, 98, 94, 94]
+        },
+        {
+          "round": 3,
+          "pairings": [
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000001",
+              "north": "00000000-0000-4000-8000-000000000003"
+            },
+            {
+              "kind": "human",
+              "south": "00000000-0000-4000-8000-000000000002",
+              "north": "00000000-0000-4000-8000-000000000004"
+            }
+          ],
+          "ticks": [104, 104],
+          "traceHashes": [
+            "b7ba221717e7ede8908dfb5d000afd0c91fe7b4d7c2222b9e1bb36bb827ecf40",
+            "1cebb18e443658196186f9754e496296581ccdda891da87e347199a7e644c2f8"
+          ],
+          "settlements": 12,
+          "hp": [98, 98, 91, 91]
+        }
+      ]
+    }
+  ]
+}

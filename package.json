@@ -21,6 +21,7 @@
     "build:local": "pnpm --filter @tft/web exec vite build --mode local-test --outDir dist-dev",
     "preview:local": "pnpm --filter @tft/web exec vite preview --outDir dist-dev --host 127.0.0.1 --port 4173",
     "verify:public": "node scripts/build/verify-public.mjs",
+    "diagnostics:multiplayer": "vitest run apps/server/src/pairings.test.ts apps/server/src/parallel-combats.test.ts apps/server/src/parallel-network.test.ts",
     "dev:server": "pnpm --filter @tft/server dev"
   },
   "devDependencies": {

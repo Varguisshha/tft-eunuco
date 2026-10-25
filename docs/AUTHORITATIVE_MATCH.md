@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 # Partida autoritativa F0-P7A
 
 ## Estado y transacciones
@@ -23,3 +25,9 @@ Los parámetros nuevos de validación/transacción son optativos y la ruta local
 ## Seguridad y alcance
 
 La autoridad solo acepta las siete intenciones permitidas. No hay rutas para modificar oro, nivel arbitrario, vida, seed, ganador o clock. Proporcionar una sesión ajena no autentica: debe coincidir con la del socket. Las acciones sobre ofertas/unidades rivales se rechazan. Sala llena se bloquea y no admite tercer jugador ni sustitución. Sin cuentas, HTTPS público, persistencia, hosting, espectadores, matchmaking público o reconexión completa.
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+El pool/externalCopies se extiende a todos los humanos. El motor coordina dos duelos para 3/4, captura fantasmas sin inventario, valida todas las liquidaciones antes de commit y mantiene ledgers por humano. La proyección nueva omite la contraparte health.north histórica: las vidas públicas proceden de los estados propios.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

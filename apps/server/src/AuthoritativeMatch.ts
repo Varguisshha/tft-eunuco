@@ -1,4 +1,5 @@
 import { randomBytes } from 'node:crypto';
+import { pairRound, deriveSeed, type PairingHistory } from './pairings';
 import { VARGAS_ECONOMY_CONFIG, matchCatalog, combatRulesFor, traitsFor } from '@tft/game-data';
 import {
   applySharedEconomy,
@@ -13,6 +14,16 @@ import {
 } from '@tft/game-core';
 import { refreshShop } from '../../../packages/game-core/src/match/shop';
 import {
+  PAIRING_VERSION,
+  PlayerProfileSchema,
+  RoundSnapshotSchema,
+  PlayerSettlementSchema,
+  DuelRecordSchema,
+  type Pairing,
+  type PairingPlan,
+  type PlayerSettlement,
+  type RoundSnapshot,
+  type PlayerIdentity,
   CombatInputSchema,
   COMBAT_PROTOCOL,
   MAX_COMBAT_TICKS,
@@ -34,9 +45,17 @@ interface Participant {
   sessionId: string;
   name: string;
   connected: boolean;
+  avatarId: PlayerIdentity['avatarId'];
+  eliminated: false;
+  opponents: { round: number; opponentId: string; ghost: boolean }[];
   state: MatchState;
   sequence: number;
   receipts: Map<string, { payload: string; receipt: ActionReceipt }>;
+}
+export interface Duel {
+  pairing: Pairing;
+  replay: CombatReplay;
+  settlement: 'pending' | 'settled';
 }
 /** Synchronous transactions: socket callbacks are serialized by the Node event loop. */
 export class AuthoritativeMatch {
@@ -48,11 +67,19 @@ export class AuthoritativeMatch {
   settlementId: string | null = null;
   simulations = 0;
   private seed: () => number;
+  readonly duels: Duel[] = [];
+  readonly pairingHistory: PairingHistory[] = [];
+  readonly settlements = new Map<string, PlayerSettlement>();
+  plan: PairingPlan | null = null;
+  private pairingSeed: number | null = null;
+  private completedDuels = new Set<string>();
   constructor(
     readonly id: string,
     time: TimeSource = { now: () => performance.now() },
     seed: () => number = () => randomBytes(4).readUInt32LE(),
+    readonly capacity: 2 | 3 | 4 = 2,
   ) {
+    if (![2, 3, 4].includes(capacity)) throw new Error('Invalid capacity');
     this.clock = new MatchClock(time, id);
     this.seed = seed;
     this.pool = Object.fromEntries(
@@ -62,13 +89,23 @@ export class AuthoritativeMatch {
       ]),
     );
   }
-  join(sessionId: string, identity?: { userId: string; name: string }) {
+  join(
+    sessionId: string,
+    identity?: { userId: string; name: string; avatarId?: PlayerIdentity['avatarId'] },
+  ) {
+    if (this.capacity > 2 && !PlayerProfileSchema.shape.user_id.safeParse(identity?.userId).success)
+      throw new Error('Multi-player authority requires verified UUID identities');
+    if (this.players.some((p) => p.sessionId === sessionId)) throw new Error('Duplicate session');
     if (identity && this.players.some((p) => p.id === identity.userId))
       throw new Error('Esta cuenta ya participa.');
-    if (this.players.length >= 2 || this.clock.snapshot().currentPhase !== 'not_started')
+    if (
+      this.players.length >= this.capacity ||
+      this.clock.snapshot().currentPhase !== 'not_started'
+    )
       throw new Error('Session full');
     const index = this.players.length,
-      id = identity?.userId ?? (index === 0 ? 'vargas' : 'florin');
+      id =
+        identity?.userId ?? (index === 0 ? 'vargas' : index === 1 ? 'florin' : `fixture-${index}`);
     const state = createMatch(this.seed(), VARGAS_ECONOMY_CONFIG);
     state.shop = Array(5).fill(null);
     state.shopRng = (state.seed ^ 0x9e3779b9) >>> 0;
@@ -79,6 +116,9 @@ export class AuthoritativeMatch {
       sessionId,
       name: identity?.name ?? (index === 0 ? 'Vargas' : 'Florin'),
       connected: true,
+      avatarId: identity?.avatarId ?? 'jade',
+      eliminated: false,
+      opponents: [],
       state,
       sequence: 0,
       receipts: new Map(),
@@ -100,7 +140,7 @@ export class AuthoritativeMatch {
   start(sessionId: string) {
     if (
       !this.players.some((p) => p.sessionId === sessionId && p.connected) ||
-      this.players.length !== 2 ||
+      this.players.length !== this.capacity ||
       this.players.some((p) => !p.connected) ||
       this.clock.snapshot().currentPhase !== 'not_started'
     )
@@ -183,6 +223,17 @@ export class AuthoritativeMatch {
   }
   pulse() {
     const phase = this.clock.snapshot();
+    if (phase.currentPhase === 'combat') {
+      for (const duel of this.duels) {
+        if (
+          this.clock.now() >= phase.phaseStart + duel.replay.result.tick * 100 + VISUAL_TAIL_MS &&
+          !this.completedDuels.has(duel.pairing.combatId)
+        ) {
+          this.completedDuels.add(duel.pairing.combatId);
+          this.revision++;
+        }
+      }
+    }
     if (phase.clockState !== 'running' || phase.remainingMs > 0) return;
     if (phase.currentPhase === 'preparation') this.begin();
     else if (phase.currentPhase === 'combat') this.settle();
@@ -199,6 +250,9 @@ export class AuthoritativeMatch {
         this.syncPool();
       }
       this.replay = null;
+      this.duels.length = 0;
+      this.plan = null;
+      this.completedDuels.clear();
       this.clock.enter('preparation', this.players[0]!.state.round, PREPARATION_MS);
       this.revision++;
       this.assertConservation();
@@ -206,51 +260,110 @@ export class AuthoritativeMatch {
   }
   private begin() {
     const round = this.players[0]!.state.round;
-    const input = CombatInputSchema.parse({
-      protocolVersion: COMBAT_PROTOCOL,
-      rulesVersion: combatRulesFor(VARGAS_ECONOMY_CONFIG.catalog),
-      combatId: `${this.id}/combat/${round}`,
-      seed: this.seed(),
-      maxTicks: MAX_COMBAT_TICKS,
-      obstacles: [],
-      traits: traitsFor(VARGAS_ECONOMY_CONFIG.catalog),
-      units: this.players.flatMap((p, i) =>
-        p.state.units.flatMap((u) =>
-          u.location.kind === 'board'
-            ? [
-                {
-                  id: u.id,
-                  definitionId: u.definitionId,
-                  owner: i === 0 ? 'south' : 'north',
-                  position: i === 0 ? u.location.hex : reverseHex(u.location.hex),
-                  profile: scaledProfile(u.definitionId, u.stars, p.state.config),
-                },
-              ]
-            : [],
+    // Legacy two-player seed calls and orientation remain byte-for-byte compatible.
+    const roundSeed = this.seed();
+    this.pairingSeed ??= roundSeed;
+    this.plan = pairRound(
+      this.players.map((p) => p.id),
+      round,
+      this.pairingHistory,
+      this.pairingSeed,
+      this.id,
+    );
+    if (this.capacity === 2) {
+      const d = this.plan.pairings[0]!;
+      d.southPlayerId = this.players[0]!.id;
+      d.northPlayerId = this.players[1]!.id;
+      d.combatId = `${this.id}/combat/${round}`;
+    }
+    const seedBase = deriveSeed(this.pairingSeed, `combat:${round}:${roundSeed}`);
+    const duels = this.plan.pairings.map((pairing, index): Duel => {
+      const teams = [pairing.southPlayerId, pairing.northPlayerId].map(
+        (id) => this.players.find((p) => p.id === id)!,
+      );
+      const input = CombatInputSchema.parse({
+        protocolVersion: COMBAT_PROTOCOL,
+        rulesVersion: combatRulesFor(VARGAS_ECONOMY_CONFIG.catalog),
+        combatId: pairing.combatId,
+        seed: this.capacity === 2 ? roundSeed : (seedBase + index) >>> 0,
+        maxTicks: MAX_COMBAT_TICKS,
+        obstacles: [],
+        traits: traitsFor(VARGAS_ECONOMY_CONFIG.catalog),
+        units: teams.flatMap((p, i) =>
+          p.state.units.flatMap((u) =>
+            u.location.kind === 'board'
+              ? [
+                  {
+                    id: u.id,
+                    definitionId: u.definitionId,
+                    owner: i === 0 ? 'south' : 'north',
+                    position: i === 0 ? u.location.hex : reverseHex(u.location.hex),
+                    profile: scaledProfile(u.definitionId, u.stars, p.state.config),
+                  },
+                ]
+              : [],
+          ),
         ),
-      ),
+      });
+      const replay = runCombat(input);
+      DuelRecordSchema.parse({
+        version: PAIRING_VERSION,
+        pairing,
+        rulesVersion: input.rulesVersion,
+        seed: input.seed,
+        result: replay.result,
+        finalTick: replay.result.tick,
+        settlement: 'pending',
+      });
+      return { pairing, replay, settlement: 'pending' };
     });
-    this.replay = runCombat(input);
-    this.simulations++;
-    for (const [i, p] of this.players.entries()) {
+    this.duels.push(...duels);
+    this.simulations += duels.length;
+    this.replay = this.capacity === 2 ? duels[0]!.replay : null;
+    this.pairingHistory.push(structuredClone({ round, pairings: this.plan.pairings }));
+    for (const p of this.players) {
+      const duel = this.duelFor(p.sessionId)!;
+      const side = duel.pairing.southPlayerId === p.id ? 'south' : 'north';
+      p.opponents.push({
+        round,
+        opponentId: side === 'south' ? duel.pairing.northPlayerId : duel.pairing.southPlayerId,
+        ghost: duel.pairing.kind === 'ghost',
+      });
       p.state.phase = 'combat';
       p.state.combat = {
         round,
         bank: p.state.gold,
-        input: i === 0 ? input : reversePerspective(input),
+        input: side === 'south' ? duel.replay.input : reversePerspective(duel.replay.input),
         result: null,
       };
     }
-    // Absolute deadline includes only the existing 600ms visual tail, never renderer acknowledgement.
-    this.clock.enter('combat', round, this.replay.result.tick * 100 + VISUAL_TAIL_MS);
+    // One shared phase; short duels wait for the longest replay and its visual tail.
+    this.clock.enter(
+      'combat',
+      round,
+      Math.max(...duels.map((d) => d.replay.result.tick)) * 100 + VISUAL_TAIL_MS,
+    );
     this.revision++;
+  }
+  duelFor(sessionId: string): Duel | null {
+    const p = this.players.find((p) => p.sessionId === sessionId);
+    if (!p) throw new Error('Unknown session');
+    return (
+      this.duels.find(
+        (d) =>
+          d.pairing.southPlayerId === p.id ||
+          (d.pairing.kind === 'human' && d.pairing.northPlayerId === p.id),
+      ) ?? null
+    );
   }
   private settle() {
     const round = this.players[0]!.state.round,
       id = `${this.id}/round/${round}/settlement`;
-    if (this.settlementId === id) throw new Error('Duplicate settlement');
-    const states = this.players.map((p, i) => {
-      const trace = i === 0 ? this.replay! : reversePerspective(this.replay!);
+    if (this.settlementId === id) return;
+    const states = this.players.map((p) => {
+      const duel = this.duelFor(p.sessionId)!;
+      const trace =
+        duel.pairing.southPlayerId === p.id ? duel.replay : reversePerspective(duel.replay);
       const out = applySharedEconomy(
         p.state,
         commandFor(p.state, { type: 'resolve_round', round }),
@@ -260,8 +373,26 @@ export class AuthoritativeMatch {
       if (!out.ok) throw new Error(out.error);
       return out.state;
     });
+    const settlements = this.players.map((p, i) => {
+      const state = states[i]!;
+      return PlayerSettlementSchema.parse({
+        id: `${id}/${p.id}`,
+        playerId: p.id,
+        round,
+        combatId: this.duelFor(p.sessionId)!.pairing.combatId,
+        outcome: state.lastReward!.outcome,
+        damage: state.healthLedger.at(-1)!.applied,
+        gold: state.lastReward!.credited,
+        xp: state.lastReward!.xp,
+      });
+    });
+    // Commit only after every player's economy and settlement has validated.
     this.players.forEach((p, i) => {
       p.state = states[i]!;
+    });
+    for (const settlement of settlements) this.settlements.set(settlement.id, settlement);
+    this.duels.forEach((d) => {
+      d.settlement = 'settled';
     });
     this.settlementId = id;
     const finished = this.players.some((p) => p.state.health.south === 0);
@@ -270,6 +401,8 @@ export class AuthoritativeMatch {
     this.assertConservation();
   }
   snapshot(sessionId: string): NetworkSnapshot {
+    if (this.capacity !== 2)
+      throw new Error('Use the versioned round snapshot for multi-duel diagnostics');
     const own = this.players.find((p) => p.sessionId === sessionId);
     if (!own) throw new Error('Unknown session');
     return {
@@ -305,5 +438,82 @@ export class AuthoritativeMatch {
       combatId: this.replay?.input.combatId ?? null,
       settlementId: this.settlementId,
     };
+  }
+  roundSnapshot(sessionId: string): RoundSnapshot {
+    const own = this.players.find((p) => p.sessionId === sessionId);
+    if (!own) throw new Error('Unknown session');
+    const clock = this.clock.snapshot();
+    const ranking = [...this.players].sort(
+      (a, b) => b.state.health.south - a.state.health.south || (a.id < b.id ? -1 : 1),
+    );
+    const privateState = PrivatePlayerSchema.parse(
+      Object.fromEntries(
+        Object.keys(PrivatePlayerSchema.shape).map((k) => [k, own.state[k as keyof MatchState]]),
+      ),
+    );
+    return RoundSnapshotSchema.parse({
+      version: PAIRING_VERSION,
+      matchId: this.id,
+      revision: this.revision,
+      serverTime: this.clock.now(),
+      playerId: own.id,
+      clock,
+      own: {
+        ...Object.fromEntries(
+          Object.entries(privateState).filter(([k]) => k !== 'health' && k !== 'healthLedger'),
+        ),
+        hp: own.state.health.south,
+        healthLedger: own.state.healthLedger.filter((e) => e.side === 'south'),
+      },
+      players: this.players.map((p) => {
+        const duel = this.duelFor(p.sessionId);
+        const opponentId = duel
+          ? duel.pairing.southPlayerId === p.id
+            ? duel.pairing.northPlayerId
+            : duel.pairing.southPlayerId
+          : null;
+        return {
+          id: p.id,
+          userId: p.id,
+          name: p.name,
+          avatarId: p.avatarId,
+          connected: p.connected,
+          hp: p.state.health.south,
+          level: p.state.level,
+          eliminated: p.eliminated,
+          formation: p.state.units.filter((u) => u.location.kind === 'board'),
+          opponentId,
+          provisionalPosition:
+            ranking.findIndex((x) => x.state.health.south === p.state.health.south) + 1,
+          lastOutcome: p.state.lastReward?.outcome ?? null,
+          status:
+            clock.currentPhase === 'combat'
+              ? duel && this.completedDuels.has(duel.pairing.combatId)
+                ? 'awaiting_round'
+                : 'fighting'
+              : ['resolution', 'finished'].includes(clock.currentPhase)
+                ? 'resolved'
+                : 'waiting',
+        };
+      }),
+      pairings: this.plan?.pairings ?? [],
+      results: this.duels
+        .filter((d) => d.settlement === 'settled')
+        .map((d) => ({ combatId: d.pairing.combatId, result: d.replay.result })),
+      combatId: this.duelFor(sessionId)?.pairing.combatId ?? null,
+      settlementId: this.settlementId,
+      ownSettlement: this.settlementId
+        ? (this.settlements.get(`${this.settlementId}/${own.id}`) ?? null)
+        : null,
+      purchaseErrors: own.state.shop.map((o) => {
+        if (!o) return 'Sin oferta';
+        const r = applySharedEconomy(
+          own.state,
+          commandFor(own.state, { type: 'buy_unit', offerId: o.id }),
+          { externalCopies: this.external(own), prefix: `${own.id}-` },
+        );
+        return r.ok ? null : r.error;
+      }),
+    });
   }
 }

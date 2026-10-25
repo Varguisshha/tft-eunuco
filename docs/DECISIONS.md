@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
 
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
@@ -228,3 +230,9 @@ Decisiones B3: coste3 y estadísticas solicitadas; catálogo/reglas nuevos; cond
 Decisión P7B2: gateway privado por cuenta + LobbyHub único en memoria, independiente de economía. Códigos de ocho caracteres criptográficos; una sala por cuenta; gracia30s; caducidad15min; relevo al primero conectado por orden de entrada. Solo capacidad2 inicia, siempre dos listos; capacidad3/4 anuncia P7C. Permiso efímero de creación y whitelist UUID impiden acceso arbitrario al destino. Plazo25s para transición y callbacks ligados al intento. Snapshot completo versionado en vez de deltas parciales.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+Se enumeran candidatos de emparejamiento y se minimiza historial/recencia con desempate estable por semilla. Rotación fantasma prioriza receptor y propietario menos utilizados. Se reutiliza economía sin cambiar fórmulas; el acumulador histórico de contraparte no se publica como vida real. Cálculo síncrono de duelos y reproducción simultánea; no se introducen workers ni se abre lobby3/4.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

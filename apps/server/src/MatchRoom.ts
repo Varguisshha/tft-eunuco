@@ -1,5 +1,5 @@
 import { Room, ServerError, type Client } from '@colyseus/core';
-import { NETWORK_VERSION } from '@tft/shared';
+import { NETWORK_VERSION, PAIRING_VERSION } from '@tft/shared';
 import { AuthoritativeMatch } from './AuthoritativeMatch';
 import { verifyIdentity, type VerifiedIdentity } from './auth';
 export class MatchRoom extends Room {
@@ -18,8 +18,12 @@ export class MatchRoom extends Room {
   private published = -1;
   protected ready = new Set<string>();
   private sentCombat = new Map<string, string>();
+  protected createMatch() {
+    return new AuthoritativeMatch(this.roomId);
+  }
   onCreate() {
-    this.match = new AuthoritativeMatch(this.roomId);
+    this.match = this.createMatch();
+    this.maxClients = this.match.capacity;
     this.onMessage('command', (client, payload: unknown) => {
       if (!this.valid(client)) return;
       client.send('action_receipt', this.match.submit(client.sessionId, payload));
@@ -32,11 +36,11 @@ export class MatchRoom extends Room {
         return;
       }
       if (!this.match.start(client.sessionId))
-        client.send('protocol_error', 'Esperando a los dos jugadores.');
+        client.send('protocol_error', 'Esperando a todos los jugadores.');
       this.publish();
     });
     this.onMessage('sync', (client, payload: unknown) => {
-      if (payload !== null) return;
+      if (payload !== null || !this.valid(client)) return;
       this.ready.add(client.sessionId);
       this.sendView(client);
     });
@@ -86,7 +90,7 @@ export class MatchRoom extends Room {
     if (!auth || auth.expiresAt <= Date.now()) throw new ServerError(401, 'Sesión no válida.');
     this.credentials.set(client.sessionId, auth);
     this.match.join(client.sessionId, auth);
-    if (this.match.players.length === 2) void this.lock();
+    if (this.match.players.length === this.match.capacity) void this.lock();
     this.publish();
   }
   onLeave(client: Client) {
@@ -105,11 +109,22 @@ export class MatchRoom extends Room {
     return true;
   }
   private sendView(client: Client) {
-    const snapshot = this.match.snapshot(client.sessionId),
-      combat = this.match.replay;
+    if (!this.valid(client)) return;
+    const modern = this.match.capacity > 2;
+    const snapshot = modern
+        ? this.match.roundSnapshot(client.sessionId)
+        : this.match.snapshot(client.sessionId),
+      duel = this.match.duelFor(client.sessionId),
+      combat = duel?.replay;
     if (combat && this.sentCombat.get(client.sessionId) !== snapshot.combatId) {
       client.send('combat_trace', {
-        version: NETWORK_VERSION,
+        version: modern ? PAIRING_VERSION : NETWORK_VERSION,
+        ...(modern
+          ? {
+              pairing: duel!.pairing,
+              side: duel!.pairing.southPlayerId === snapshot.playerId ? 'south' : 'north',
+            }
+          : {}),
         matchId: this.roomId,
         combatId: snapshot.combatId,
         startedAt: this.match.clock.snapshot().phaseStart,

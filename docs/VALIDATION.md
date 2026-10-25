@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
 
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
@@ -515,3 +517,9 @@ Auditoría inicial: 531 pruebas correctas, tipos/lint/build; F0-P6B.2 ya preserv
 Baseline antes de editar: pnpm check con689 pruebas/49 archivos. Se añaden pruebas de modelo y conexiones reales Colyseus, incluyendo carreras, límites, permisos, inicio único, whitelist, revocación y caducidad del token en un canal activo. E2E Supabase real: Vargas en Safari y Florin en navegador integrado, creación/unión por código, Listo, inicio automático, compra/despliegue, combate/Overtime y ronda8; vida coincidente Florin89/Vargas75. Otra sala comprobó capacidad4 bloqueada, relevo de Florin a Vargas, cierre y rechazo del código revocado. Concurrencia de cuatro identidades y aforo se validan con fixtures, no con cuentas reales adicionales. Ver informe F0_P7B2_REPORT.md para resultados finales y límites visuales.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+Baseline previo712/51 correcto y conservado en commit6868711. Se añaden pruebas de emparejamientos, fantasmas, simultaneidad, Overtime450, pago único, privacidad y SDK3/4. No son cuatro usuarios Supabase reales: no se han creado cuentas remotas. Resultado final: `pnpm check` correcto, 745 pruebas/54 archivos, tipos, lint y compilación; `pnpm verify:public` correcto. Evidencias en F0_P7C1_REPORT.md.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

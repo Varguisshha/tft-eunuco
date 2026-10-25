@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 # Actualización F0-P7A
 
 Online: dos conexiones → inicio explícito → preparación30s → una simulación servidor → reproducción tickFinal×100ms+600ms → liquidación única → resolución5s → siguiente ronda. Finaliza si cualquiera llega a0. La política local descrita abajo permanece local.
@@ -31,3 +33,9 @@ Al cerrar, se guarda el restante; al volver no se descuentan horas de ausencia. 
 La API económica original sigue ofreciendo las operaciones buy/sell/reroll/lock/XP/move/swap, con secuencia/revisión y transacciones validadas. El coordinador añade la ventana temporal sin duplicar fórmulas, pool ni historial.
 
 Detalles completos: [MATCH_CLOCK_SPEC.md](MATCH_CLOCK_SPEC.md), [AUTOMATIC_ROUNDS.md](AUTOMATIC_ROUNDS.md), [ECONOMY_SPEC.md](ECONOMY_SPEC.md). La descripción manual de P3/P3.1 es histórica y queda reemplazada en la aplicación local por este flujo.
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+Para tres/cuatro: preparación30s → emparejar y simular dos duelos → esperar max(tickFinal)×100ms+600ms → liquidación atómica por humano → resolución5s → siguiente ronda. Duelo corto: awaiting_round sin cobro temprano. El primer cero detiene el diagnóstico, sin clasificación final ni eliminación competitiva.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).

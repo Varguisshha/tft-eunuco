@@ -1,3 +1,5 @@
+> **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
+
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
 
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
@@ -131,3 +133,9 @@ Implementada exclusivamente F0-P6B.3: VARGAS, sus habilidades/sinergias, importa
 Implementadas salas privadas, códigos, presencia, anfitrión, Listo e inicio automático de dos cuentas. Lobbies hasta cuatro disponibles; partidas de3/4, matchmaking, persistencia/reconexión y despliegue siguen pendientes. Validación real Vargas–Florin alcanzó ronda8. Punto de parada: **no iniciar F0-P7C**.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+## F0-P7C.1 — Motor de rondas 2–4
+
+F0-P7C.1 implementa motor2–4 y diagnósticos SDK. F0-P7C.2 pendiente: entrada real3/4 y presentación por duelo. F0-P7C.3 pendiente: eliminación competitiva, continuación con sobrevivientes y puestos finales. Sin despliegue ni inicio de la fase siguiente.
+
+Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
