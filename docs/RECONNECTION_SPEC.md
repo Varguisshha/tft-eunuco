@@ -48,3 +48,10 @@ Aviso compacto con progreso por intento, sin porcentaje ficticio. Confirmación 
 Se mantienen secuencias y caché de recibos del participante. `resume_accepted` comunica el siguiente número para que el cliente nuevo no reinicie en cero. Nunca se reproduce la compra cuyo ACK se perdió: el snapshot explica si se aplicó. Reloj y ledger de liquidaciones no se reinician. Una cuenta nueva no puede resucitar, tomar otra perspectiva, obtener tiendas ajenas ni crear una segunda plaza.
 
 La revisión periódica sigue a 5 s en gateway y 15 s en partida; no significa revocación instantánea. Refrescar Supabase manda `authenticate` a ambos sockets y exige el mismo UUID. La retirada de conexión anterior es sincrónica dentro de la autoridad, aunque su cierre físico tarde.
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+La reentrada autenticada funciona también después de reiniciar Node, conservando Match UUID y roster. service_status version 1 informa disponibilidad de persistencia; error congela reloj/reproducción y bloquea acciones. Se mantiene la sustitución de conexión y el filtrado de perspectiva.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

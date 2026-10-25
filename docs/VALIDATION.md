@@ -543,3 +543,12 @@ Baseline: pnpm check, 760 pruebas/56 archivos. P7C.3: 773 pruebas/58 archivos (t
 Base: 58 archivos /773 pruebas correctas antes de editar; commit revisado a236da6. Suite ampliada:61 archivos /791 pruebas; tipos, lint y builds correctos. SDK de2/3/4 clientes independientes con UUID fixture: transición, compra, sustitución, todos offline, Overtime, resolución, eliminado y final. Navegador fixture:4 clientes y recarga con DOLEA/oro8 conservados; reintento manual, sesión inválida simulada, espectador con duelo conservado y Overtime con14,2s restantes al capturar. Capturas en .impeccable/review/p7d1:1280×720,1366×768,1440×900,1920×1080,2560×1440, scrollHeight igual a alto del viewport. No se afirma validación de cuatro personas ni nueva campaña con cuentas Supabase reales. Detector UI sin hallazgos; revisión visual independiente documentada en informe.
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+Base previa: 791 pruebas correctas. Evidencias nuevas: unitarias de snapshot/economía/reloj; PostgreSQL 17 real con SIGKILL para 2/3/4 participantes, CAS/rollback/grants; Supabase real con migración aditiva y permisos; navegador 1920×1080 con recuperación y fallo de almacenamiento. Véase informe F0_P7D2_REPORT.md para recuento final y límites.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.
+
+Validación final P7D.2: `PERSISTENCE_TEST_URL=postgresql://127.0.0.1:55439/tft_persistence_test pnpm check` completado: **808 pruebas / 63 archivos**, incluidas las cuatro de PostgreSQL real. Typecheck, lint y builds correctos. `build:local` y `verify:public` correctos. Advertencia existente de tamaño de chunks Vite (no error).

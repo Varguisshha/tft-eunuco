@@ -256,3 +256,10 @@ Se adopta ranking de competición con puestos compartidos y huecos. HP previo y 
 Elegida reentrada autenticada por UUID mediante joinById, sin token nativo de reconexión: revalida revocación y permite cerrar/reabrir pestaña. Una generación y un socket propietario por participante; conservar recibos/secuencias y adoptar snapshot antes de recuperar controles. Mantener 25s de transición ante pérdida temporal, sin recrear permisos. Cinco reintentos con backoff acotado; los errores de identidad detienen la serie. Se preservó P7C.3 en a236da6 antes de implementar. La deriva previa de PRODUCT.md se reporta, sin reparación incidental.
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+Persistencia por snapshot completo JSONB versionado + CAS transaccional, sin segundo ledger. Congelar tiempo de caída; preservar trazas canónicas. Retener 1 h activa / 5 min final; rechazar corrupción/incompatibilidad al arrancar. Reintentos acotados, fallo cerrado. Sin infraestructura distribuida.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

@@ -5,6 +5,7 @@ import {
   lobbyStartReason,
   type LobbyEvent,
   type LobbySnapshot,
+  LobbySnapshotSchema,
 } from '@tft/shared';
 import type { VerifiedIdentity } from './auth';
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -14,6 +15,7 @@ export type MatchFactory = (
   started: () => void,
   ended: () => void,
   roster: LobbySnapshot['participants'],
+  lobby?: LobbySnapshot,
 ) => Promise<{ id: string; cancel: () => Promise<void> }>;
 type Peer = {
   identity: VerifiedIdentity;
@@ -35,6 +37,22 @@ export class LobbyHub {
     private factory: MatchFactory,
     private now = Date.now,
   ) {}
+  restoreMatch(snapshot: LobbySnapshot, matchId: string) {
+    const lobby = LobbySnapshotSchema.parse({
+      ...snapshot,
+      matchId,
+      status: 'in_match',
+      participants: snapshot.participants.map((p) => ({
+        ...p,
+        connected: false,
+        readyState: false,
+      })),
+    });
+    this.rooms.set(lobby.roomId, lobby);
+    this.codes.set(lobby.roomCode, lobby.roomId);
+    for (const p of lobby.participants) this.membership.set(p.userId, lobby.roomId);
+    return () => this.close(lobby);
+  }
   connect(identity: VerifiedIdentity, send: Peer['send'], supersede?: (() => void) | undefined) {
     const previous = this.peers.get(identity.userId);
     if (previous && !supersede) throw new Error('Tu cuenta ya está conectada en otra ventana.');
@@ -217,6 +235,7 @@ export class LobbyHub {
                     this.close(current);
                 },
                 structuredClone(lobby.participants),
+                structuredClone(lobby),
               );
               if (this.transitions.get(current.roomId) !== transition) {
                 await match.cancel();
@@ -285,9 +304,11 @@ export class LobbyHub {
     this.rooms.delete(lobby.roomId);
     this.codes.delete(lobby.roomCode);
     for (const p of lobby.participants) {
-      this.membership.delete(p.userId);
-      this.absent.delete(p.userId);
-      this.emit(p.userId, null, 'La sala se ha cerrado. Puedes crear otra.');
+      if (this.membership.get(p.userId) === lobby.roomId) {
+        this.membership.delete(p.userId);
+        this.absent.delete(p.userId);
+        this.emit(p.userId, null, 'La sala se ha cerrado. Puedes crear otra.');
+      }
     }
   }
   sweep() {

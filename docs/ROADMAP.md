@@ -159,3 +159,10 @@ P7C.2 queda preservada en 0f2dfaf. P7C.3 implementa eliminación, continuación 
 F0-P7D.1 implementado: recuperación autenticada mientras vive el proceso, sustitución de socket, lobby, fases, espectador, final y reintentos limitados. F0-P7D.2 no iniciado: persistencia tras reinicio, almacenamiento durable y restauración quedan pendientes.
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+F0-P7D.2 implementa persistencia y recuperación de proceso con PostgreSQL, más verificación real aislada. F0-P7D.3 permanece sin iniciar. Escalado, historial permanente, migración de snapshots y respaldo de PostgreSQL no forman parte de esta entrega.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

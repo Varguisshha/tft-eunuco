@@ -19,3 +19,9 @@ export const ResumeAcceptedSchema = z
   })
   .strict();
 export type ResumeAccepted = z.infer<typeof ResumeAcceptedSchema>;
+
+export const ServiceStatusSchema = z.strictObject({
+  version: z.literal(1),
+  available: z.boolean(),
+  message: z.string().min(1).max(200),
+});

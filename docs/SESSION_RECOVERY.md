@@ -43,3 +43,10 @@ Reiniciar Node borra salas, partidas y pertenencia. Un proceso nuevo no puede re
 No se han añadido tablas ni migraciones, modificado SMTP, creado cuentas, enviado correos, desplegado ni hecho push en esta fase. El test de sesión caducada visual es un cierre controlado, no una revocación remota real.
 
 Para P7D.2 quedan definidos los límites del futuro almacenamiento: participante estable, generación, estado económico, pool, reloj, trazas, ledger de liquidaciones, selección de espectador y finalResults. Serialización durable, transacciones, restauración tras caída y coordinación entre procesos quedan **sin implementar**.
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+La limitación histórica de estado únicamente en memoria queda superada para partidas privadas configuradas con el repositorio. No se persisten JWT. El gateway reconstruye la relación UUID–lobby–partida; lobbies en espera sin partida siguen siendo efímeros. Registros incompatibles o expirados no se reinterpretan.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

@@ -81,3 +81,10 @@ Los snapshots de partidas privadas2–4 pasan a `f0p7c3-1` (`CompetitiveSnapshot
 Se añade RECOVERY_VERSION=f0p7d1-1: opciones estrictas recoveryVersion y resume_accepted con matchId, participantId, connectionId, generation, nextSequence, spectateSequence, roundId, phaseId, duelId y revision. state_snapshot/combat_trace/spectate_snapshot/final_results conservan sus contratos y privacidad. La asociación al socket actual y phaseId excluye comandos tardíos; no se reenvían intenciones pendientes. Sala desaparecida usa código522 del Colyseus instalado; códigos de autenticación no permiten backoff infinito.
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+Nuevo service_status: { version: 1, available: boolean, message: string (máx. 200) }. No contiene estado privado. action_receipt positivo se emite después del commit duradero. En un reintento autenticado con nueva conexión, el Request ID puede recuperar el recibo original sin duplicar acciones.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

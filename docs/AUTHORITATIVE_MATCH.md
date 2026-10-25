@@ -44,3 +44,10 @@ Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md)
 ## F0-P7C.3 — ciclo competitivo
 
 P7C.3 sustituye el corte provisional al primer HP cero: ahora continúa con los supervivientes hasta quedar uno o ninguno. Eliminación irreversible al cierre global, inventario liberado una vez y final inmutable. No modifica simulación, fórmulas ni balance. [Reglas](ELIMINATION_RULES.md), [puestos](FINAL_STANDINGS.md), [final](MATCH_COMPLETION.md).
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+exportState/restore conserva economía, pool, RNG, duelos canónicos, recibos, liquidaciones, eliminaciones y final. La restauración valida versiones y conservación, sin ejecutar otra simulación. Las acciones críticas se aplican a un candidato y se confirman tras commit SQL.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

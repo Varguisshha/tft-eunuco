@@ -1,3 +1,4 @@
+import type { DurableMatch } from './persistence/DurableMatch';
 import { Room, ServerError, type Client } from '@colyseus/core';
 import {
   NETWORK_VERSION,
@@ -27,6 +28,57 @@ export class MatchRoom extends Room {
   private sentSpectate = new Map<string, string>();
   private finishScheduled = false;
   private sentCombat = new Map<string, string>();
+  protected durable?: DurableMatch;
+  private transaction = false;
+  private shuttingDown = false;
+  private ticking = false;
+  private lastCheckpoint = 0;
+  protected mutate<T>(operation: () => T): Promise<T> {
+    if (!this.durable) return Promise.resolve(operation());
+    return this.durable
+      .run((candidate) => {
+        const old = this.match;
+        this.match = candidate;
+        this.transaction = true;
+        try {
+          return operation();
+        } finally {
+          this.match = old;
+          this.transaction = false;
+        }
+      })
+      .then((result) => {
+        this.match = this.durable!.match;
+        this.publish();
+        return result;
+      });
+  }
+  private failed() {
+    if (this.shuttingDown) return;
+    if (this.durable) this.match = this.durable.match;
+    this.published = -1;
+    this.publish();
+    for (const client of this.clients)
+      client.send('service_status', {
+        version: 1,
+        available: false,
+        message: 'Servicio temporalmente no disponible. La partida está pausada.',
+      });
+  }
+  async persistShutdown() {
+    this.shuttingDown = true;
+    for (const c of this.clients)
+      c.send('service_status', {
+        version: 1,
+        available: false,
+        message: 'Servidor reiniciando. Tu partida se conservará.',
+      });
+    try {
+      if (this.durable) await this.durable.shutdown();
+    } finally {
+      for (const c of this.clients) void c.leave(4003, 'server_restarting');
+    }
+  }
   protected recoverable = false;
   protected manualStart = true;
   protected modernProtocol = false;
@@ -40,8 +92,17 @@ export class MatchRoom extends Room {
     this.maxClients = this.recoverable ? 16 : this.match.capacity;
     this.onMessage('command', (client, payload: unknown) => {
       if (!this.valid(client)) return;
-      client.send('action_receipt', this.match.submit(client.sessionId, payload));
-      this.publish();
+      if (!this.durable) {
+        client.send('action_receipt', this.match.submit(client.sessionId, payload));
+        this.publish();
+        return;
+      }
+      void this.mutate(() => {
+        if (!this.valid(client)) throw new Error('Old connection');
+        return this.match.submit(client.sessionId, payload);
+      })
+        .then((receipt) => client.send('action_receipt', receipt))
+        .catch(() => this.failed());
     });
     this.onMessage('start', (client, payload: unknown) => {
       if (!this.valid(client)) return;
@@ -56,6 +117,14 @@ export class MatchRoom extends Room {
     this.onMessage('sync', (client, payload: unknown) => {
       if (payload !== null || !this.valid(client)) return;
       this.ready.add(client.sessionId);
+      if (this.durable)
+        client.send('service_status', {
+          version: 1,
+          available: !this.durable.unavailable,
+          message: this.durable.unavailable
+            ? 'Servicio temporalmente no disponible. La partida está pausada.'
+            : 'Servicio disponible',
+        });
       if (this.recoverable) {
         const p = this.match.players.find((p) => p.sessionId === client.sessionId)!;
         const clock = this.match.clock.snapshot();
@@ -82,9 +151,12 @@ export class MatchRoom extends Room {
     });
     this.onMessage('spectate_duel', (client, payload: unknown) => {
       if (!this.valid(client)) return;
-      if (!this.match.spectate(client.sessionId, payload))
-        client.send('protocol_error', 'spectate-denied');
-      this.publish();
+      void this.mutate(() => this.valid(client) && this.match.spectate(client.sessionId, payload))
+        .then((ok) => {
+          if (!ok) client.send('protocol_error', 'spectate-denied');
+          this.publish();
+        })
+        .catch(() => this.failed());
     });
     this.onMessage('ping', (client, payload: unknown) => {
       if (typeof payload === 'number' && Number.isFinite(payload) && payload >= 0)
@@ -119,8 +191,45 @@ export class MatchRoom extends Room {
       }
     }, 15000);
     this.setSimulationInterval(() => {
-      this.match.pulse();
-      this.publish();
+      if (this.durable) {
+        if (this.ticking) return;
+        if (this.durable.unavailable) {
+          this.ticking = true;
+          void this.durable
+            .retry()
+            .then(() => {
+              this.match = this.durable!.match;
+              if (!this.durable!.unavailable) {
+                for (const c of this.clients)
+                  c.send('service_status', {
+                    version: 1,
+                    available: true,
+                    message: 'Partida recuperada',
+                  });
+                this.published = -1;
+                this.publish();
+              }
+            })
+            .finally(() => {
+              this.ticking = false;
+            });
+          return;
+        }
+        const phase = this.match.clock.snapshot();
+        const due = phase.clockState === 'running' && phase.remainingMs <= 0;
+        if (due || Date.now() - this.lastCheckpoint >= 1000) {
+          this.ticking = true;
+          this.lastCheckpoint = Date.now();
+          void this.mutate(() => this.match.pulse())
+            .catch(() => this.failed())
+            .finally(() => {
+              this.ticking = false;
+            });
+        }
+      } else {
+        this.match.pulse();
+        this.publish();
+      }
       for (const client of this.clients)
         if (this.ready.has(client.sessionId)) this.sendSpectator(client);
     }, 50);
@@ -131,6 +240,7 @@ export class MatchRoom extends Room {
     this.clock.setTimeout(() => void this.disconnect(), 3_600_000);
   }
   onJoin(client: Client, _options: unknown, auth?: VerifiedIdentity) {
+    if (this.shuttingDown) throw new ServerError(503, 'Servidor reiniciando');
     if (!auth || auth.expiresAt <= Date.now()) throw new ServerError(401, 'Sesión no válida.');
     this.credentials.set(client.sessionId, auth);
     const existing = this.match.players.find((p) => p.id === auth.userId);
@@ -147,7 +257,9 @@ export class MatchRoom extends Room {
   }
   onLeave(client: Client) {
     this.credentials.delete(client.sessionId);
-    this.match.disconnect(client.sessionId);
+    if (this.durable)
+      void this.mutate(() => this.match.disconnect(client.sessionId)).catch(() => this.failed());
+    else this.match.disconnect(client.sessionId);
     this.sentCombat.delete(client.sessionId);
     this.sentSpectate.delete(client.sessionId);
     this.sentFinal.delete(client.sessionId);
@@ -209,6 +321,7 @@ export class MatchRoom extends Room {
     client.send('spectate_snapshot', frame);
   }
   private publish() {
+    if (this.transaction) return;
     if (this.published === this.match.revision) return;
     this.published = this.match.revision;
     for (const client of this.clients) if (this.ready.has(client.sessionId)) this.sendView(client);

@@ -1,3 +1,7 @@
+import { AuthoritativeMatch } from './AuthoritativeMatch';
+import { DurableMatch } from './persistence/DurableMatch';
+import type { MatchRepository } from './persistence/repository';
+import type { StoredMatch } from './persistence/snapshot';
 import { Room, ServerError, matchMaker, type Client } from '@colyseus/core';
 import { randomUUID } from 'node:crypto';
 import { LobbyCapacitySchema, type LobbySnapshot } from '@tft/shared';
@@ -9,10 +13,17 @@ type Permit = {
   roster: LobbySnapshot['participants'];
   started: () => void;
   ended: () => void;
+  lobby?: LobbySnapshot;
+  saved?: StoredMatch;
 };
 /** A permit never crosses the wire. Client-selected options cannot create a private match. */
-export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = MatchRoom) {
+export function lobbyRooms(
+  verify: VerifyIdentity = verifyIdentity,
+  BaseMatch = MatchRoom,
+  repository?: MatchRepository,
+) {
   const permits = new Map<string, Permit>();
+  const active = new Set<PrivateMatch>();
   class PrivateMatch extends BaseMatch {
     private permit!: Permit;
     private began = false;
@@ -20,50 +31,89 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
     protected manualStart = false;
     protected modernProtocol = true;
     protected createMatch() {
-      return super.createMatch(LobbyCapacitySchema.parse(this.permit.users.length));
+      return this.permit.saved
+        ? AuthoritativeMatch.restore(this.permit.saved.authority)
+        : super.createMatch(LobbyCapacitySchema.parse(this.permit.users.length));
     }
     autoDispose = false;
-    onCreate(options: { ticket?: string } = {}) {
+    async onCreate(options: { ticket?: string } = {}) {
       const permit = permits.get(options.ticket ?? '');
       if (!permit) throw new ServerError(403, 'La partida debe iniciarse desde una sala privada.');
       permits.delete(options.ticket!);
       this.permit = permit;
+      if (repository) this.roomId = permit.saved?.id ?? randomUUID();
       super.onCreate();
+      if (repository && permit.lobby) {
+        this.durable = new DurableMatch(
+          this.match,
+          repository,
+          { ...permit.lobby, matchId: this.roomId },
+          permit.saved,
+        );
+        await this.mutate(() => {});
+      }
+      active.add(this);
+      if (permit.saved)
+        this.clock.setTimeout(
+          () => void this.disconnect(),
+          Math.max(1, permit.saved.expiresAt - Date.now()),
+        );
+      this.began = !!permit.saved && permit.saved.authority.clock.currentPhase !== 'not_started';
       void this.setPrivate(true);
       // Every frozen participant must authenticate and request its first snapshot.
       this.clock.setInterval(() => {
         if (
           !this.began &&
+          !this.durable?.unavailable &&
           this.match.players.length === this.permit.users.length &&
           this.ready.size === this.permit.users.length &&
-          this.clients.every((client) => this.valid(client)) &&
-          this.match.start(this.clients[0]!.sessionId)
+          this.clients.every((client) => this.valid(client))
         ) {
           this.began = true;
-          this.permit.started();
+          void this.mutate(() => this.match.start(this.clients[0]!.sessionId))
+            .then((ok) => {
+              if (ok) this.permit.started();
+              else this.began = false;
+            })
+            .catch(() => {
+              this.began = false;
+            });
         }
       }, 50);
       this.clock.setTimeout(() => {
         if (!this.began) void this.disconnect();
       }, 25_000);
     }
-    onJoin(client: Client, options: unknown, auth?: VerifiedIdentity) {
+    async onJoin(client: Client, options: unknown, auth?: VerifiedIdentity) {
       if (!auth || !this.permit.users.includes(auth.userId))
         throw new ServerError(403, 'No perteneces a esta partida.');
       const frozen = this.permit.roster.find((p) => p.userId === auth.userId)!;
-      super.onJoin(client, options, { ...auth, name: frozen.name, avatarId: frozen.avatarId });
+      await this.mutate(() =>
+        super.onJoin(client, options, { ...auth, name: frozen.name, avatarId: frozen.avatarId }),
+      );
     }
     onLeave(client: Client) {
       super.onLeave(client);
       // Keep authority alive until final retention or the one-hour hard limit.
     }
-    onDispose() {
-      this.permit?.ended();
+    async onDispose() {
+      active.delete(this);
+      try {
+        await this.durable?.close();
+      } finally {
+        this.permit?.ended();
+      }
     }
   }
-  const hub = new LobbyHub(async (users, started, ended, roster) => {
+  const hub = new LobbyHub(async (users, started, ended, roster, lobby) => {
     const ticket = randomUUID();
-    permits.set(ticket, { users: [...users], roster: structuredClone(roster), started, ended });
+    permits.set(ticket, {
+      users: [...users],
+      roster: structuredClone(roster),
+      started,
+      ended,
+      ...(lobby ? { lobby } : {}),
+    });
     try {
       const room = await matchMaker.createRoom('private_match', { ticket });
       return {
@@ -151,5 +201,49 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
       cleanup.unref();
     }
   }
-  return { LobbyRoom, PrivateMatch, hub };
+  async function restore() {
+    if (!repository) return;
+    for (const saved of await repository.load()) {
+      // Validate before creating any transport. Corrupt/incompatible state fails startup closed.
+      AuthoritativeMatch.restore(saved.authority);
+      if (
+        saved.id !== saved.authority.id ||
+        saved.lobby.matchId !== saved.id ||
+        saved.lobby.capacity !== saved.authority.capacity ||
+        saved.authority.players.some(
+          (p) => !saved.lobby.participants.some((member) => member.userId === p.id),
+        )
+      )
+        throw new Error('Invalid recovery membership');
+      const ticket = randomUUID();
+      let ended = () => {};
+      permits.set(ticket, {
+        users: saved.lobby.participants.map((p) => p.userId),
+        roster: saved.lobby.participants,
+        lobby: saved.lobby,
+        saved,
+        started: () => {},
+        ended: () => ended(),
+      });
+      try {
+        const room = await matchMaker.createRoom('private_match', { ticket });
+        ended = hub.restoreMatch(saved.lobby, room.roomId);
+      } finally {
+        permits.delete(ticket);
+      }
+    }
+  }
+  return {
+    LobbyRoom,
+    PrivateMatch,
+    hub,
+    restore,
+    checkpoint: async () => {
+      const results = await Promise.allSettled([...active].map((room) => room.persistShutdown()));
+      if (results.some((r) => r.status === 'rejected'))
+        console.warn(
+          'Persistence checkpoint unavailable during shutdown; recover last durable commit.',
+        );
+    },
+  };
 }

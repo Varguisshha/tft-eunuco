@@ -1,3 +1,9 @@
+import {
+  AuthoritySnapshotSchema,
+  CATALOG,
+  RULESET,
+  type AuthoritySnapshot,
+} from './persistence/snapshot';
 import { eliminationPlaces } from './competition';
 import { randomBytes } from 'node:crypto';
 import { pairRound, deriveSeed, type PairingHistory } from './pairings';
@@ -83,6 +89,7 @@ export class AuthoritativeMatch {
   settlementId: string | null = null;
   simulations = 0;
   private seed: () => number;
+  private rng = randomBytes(4).readUInt32LE();
   readonly duels: Duel[] = [];
   readonly pairingHistory: PairingHistory[] = [];
   readonly settlements = new Map<string, PlayerSettlement>();
@@ -93,18 +100,111 @@ export class AuthoritativeMatch {
   constructor(
     readonly id: string,
     time: TimeSource = { now: () => performance.now() },
-    seed: () => number = () => randomBytes(4).readUInt32LE(),
+    seed?: () => number,
     readonly capacity: 2 | 3 | 4 = 2,
   ) {
     if (![2, 3, 4].includes(capacity)) throw new Error('Invalid capacity');
     this.clock = new MatchClock(time, id);
-    this.seed = seed;
+    this.seed =
+      seed ??
+      (() => {
+        this.rng = (Math.imul(this.rng, 1664525) + 1013904223) >>> 0;
+        return this.rng;
+      });
     this.pool = Object.fromEntries(
       matchCatalog(VARGAS_ECONOMY_CONFIG).map((d) => [
         d.id,
         VARGAS_ECONOMY_CONFIG.copiesByCost[d.cost - 1]!,
       ]),
     );
+  }
+  exportState(): AuthoritySnapshot {
+    const { phaseStart: _start, phaseDeadline: _deadline, ...clock } = this.clock.snapshot();
+    void _start;
+    void _deadline;
+    return AuthoritySnapshotSchema.parse({
+      schema: 1,
+      rules: RULESET,
+      catalog: CATALOG,
+      id: this.id,
+      capacity: this.capacity,
+      revision: this.revision,
+      rng: this.rng,
+      pool: this.pool,
+      clock,
+      players: this.players.map((p) => ({ ...p, receipts: [...p.receipts] })),
+      duels: this.duels,
+      pairingHistory: this.pairingHistory,
+      settlements: [...this.settlements],
+      plan: this.plan,
+      pairingSeed: this.pairingSeed,
+      finalResult: this.finalResult,
+      completedDuels: [...this.completedDuels],
+      settlementId: this.settlementId,
+      simulations: this.simulations,
+    });
+  }
+  static restore(
+    value: unknown,
+    time: TimeSource = { now: () => performance.now() },
+    disconnect = true,
+  ) {
+    const s = AuthoritySnapshotSchema.parse(value);
+    if (
+      s.clock.matchId !== s.id ||
+      s.players.length > s.capacity ||
+      new Set(s.players.map((p) => p.id)).size !== s.players.length ||
+      s.clock.remainingMs > s.clock.phaseDuration
+    )
+      throw new Error('Invalid authority snapshot');
+    const m = new AuthoritativeMatch(s.id, time, undefined, s.capacity);
+    m.rng = s.rng;
+    m.pool = s.pool;
+    m.revision = s.revision;
+    m.settlementId = s.settlementId;
+    m.simulations = s.simulations;
+    m.plan = s.plan;
+    m.pairingSeed = s.pairingSeed;
+    m.finalResult = s.finalResult;
+    m.completedDuels = new Set(s.completedDuels);
+    for (const p of s.players) {
+      if (
+        p.state.development ||
+        JSON.stringify(p.state.config) !== JSON.stringify(VARGAS_ECONOMY_CONFIG) ||
+        JSON.stringify(p.state.pool) !== JSON.stringify(s.pool)
+      )
+        throw new Error('Incompatible economy');
+      m.players.push({
+        ...p,
+        connected: disconnect ? false : p.connected,
+        receipts: new Map(p.receipts),
+      });
+    }
+    m.duels.push(...s.duels);
+    m.pairingHistory.push(...s.pairingHistory);
+    for (const [id, entry] of s.settlements) {
+      if (id !== entry.id) throw new Error('Invalid settlement');
+      m.settlements.set(id, entry);
+    }
+    for (const d of s.duels) {
+      if (
+        d.replay.input.combatId !== d.pairing.combatId ||
+        d.replay.input.rulesVersion !== RULESET ||
+        !m.players.some((p) => p.id === d.pairing.southPlayerId) ||
+        !m.players.some((p) => p.id === d.pairing.northPlayerId)
+      )
+        throw new Error('Invalid duel');
+    }
+    if (
+      s.clock.currentPhase === 'combat' &&
+      (!s.duels.length || s.duels.some((d) => d.settlement !== 'pending'))
+    )
+      throw new Error('Invalid combat phase');
+    if ((s.clock.currentPhase === 'finished') !== !!s.finalResult) throw new Error('Invalid final');
+    m.replay = s.capacity === 2 ? (s.duels[0]?.replay ?? null) : null;
+    m.clock.restore({ ...s.clock, phaseStart: 0, phaseDeadline: s.clock.remainingMs });
+    m.assertConservation();
+    return m;
   }
   join(
     sessionId: string,
@@ -223,7 +323,7 @@ export class AuthoritativeMatch {
       revision: this.revision,
     });
     if (!p || c.sessionId !== sessionId || c.matchId !== this.id) return receipt(false, 'identity');
-    const payload = JSON.stringify(c),
+    const payload = JSON.stringify({ ...c, sessionId: p.id }),
       prior = p.receipts.get(c.requestId);
     if (prior)
       return prior.payload === payload ? prior.receipt : receipt(false, 'request-conflict');

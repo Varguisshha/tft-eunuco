@@ -95,3 +95,10 @@ La autoridad incorpora estado competitivo separado de conexión, liquidación gl
 La conexión deja de ser la identidad competitiva. PrivateMatch admite reentrada autenticada del roster congelado y conserva la autoridad sin sockets hasta el final retenido o el límite duro. LobbyHub permite sustitución de gateway y descubre destinos starting/in_match. El transporte privado tiene margen de 16 reservas/conexiones; la capacidad competitiva sigue siendo 2–4. La versión nativa de reconexión del SDK permanece desactivada.
 
 Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
+
+
+## F0-P7D.2 — persistencia autoritativa (2026-10-25)
+
+Las partidas privadas del servidor normal se recuperan desde PostgreSQL antes de abrir el puerto. MatchRepository separa SQL de la autoridad; DurableMatch serializa commits y publica solo estado duradero. Partida local, Arena técnica y DEV mantienen sus rutas anteriores.
+
+Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.

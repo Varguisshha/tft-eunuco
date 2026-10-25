@@ -1,3 +1,4 @@
+import { ServiceStatusSchema } from '@tft/shared';
 import { Client, type Room } from '@colyseus/sdk';
 import {
   COMPETITIVE_VERSION,
@@ -49,6 +50,9 @@ export class RemoteCoordinator implements MatchCoordinator {
   private timer: ReturnType<typeof setInterval>;
   private pingTimer: ReturnType<typeof setInterval>;
   recoveryStatus = '';
+  private storageAvailable = true;
+  private frozenPlayback = 0;
+  private frozenRemaining = 0;
   recoveryAttempt = 0;
   private getToken: (() => string) | null = null;
   private disposed = false;
@@ -68,6 +72,19 @@ export class RemoteCoordinator implements MatchCoordinator {
       room.onMessage(type, (raw: unknown) => {
         if (!this.disposed && this.room === room) callback(raw);
       });
+    message('service_status', (raw) => {
+      const parsed = ServiceStatusSchema.safeParse(raw);
+      if (!parsed.success) return;
+      const wasAvailable = this.storageAvailable;
+      this.frozenPlayback = this.getPlaybackMs();
+      this.frozenRemaining = this.getClock().remainingMs;
+      this.storageAvailable = parsed.data.available;
+      this.pending = false;
+      this.recoveryStatus = parsed.data.available ? '' : parsed.data.message;
+      this.notice = parsed.data.message;
+      if (parsed.data.available && !wasAvailable) this.room.send('sync', null);
+      this.emit();
+    });
     message('resume_accepted', (raw) => {
       const result = ResumeAcceptedSchema.safeParse(raw);
       if (
@@ -374,23 +391,26 @@ export class RemoteCoordinator implements MatchCoordinator {
     const c = this.snapshot.clock;
     return {
       ...c,
-      clockState: !this.connected ? ('stopped' as const) : c.clockState,
-      remainingMs:
-        c.clockState === 'running'
+      clockState: !this.connected || !this.storageAvailable ? ('stopped' as const) : c.clockState,
+      remainingMs: !this.storageAvailable
+        ? this.frozenRemaining
+        : c.clockState === 'running'
           ? Math.max(0, c.phaseDeadline - (performance.now() + this.offset))
           : c.remainingMs,
     };
   };
   getReplay = () => this.replay;
-  getPlaybackMs = () =>
-    this.replay
-      ? this.snapshot.clock.currentPhase === 'combat'
-        ? Math.min(
-            this.replay.result.tick * 100 + 600,
-            Math.max(0, performance.now() + this.offset - this.snapshot.clock.phaseStart),
-          )
-        : this.replay.result.tick * 100 + 600
-      : 0;
+  getPlaybackMs = (): number =>
+    !this.storageAvailable
+      ? this.frozenPlayback
+      : this.replay
+        ? this.snapshot.clock.currentPhase === 'combat'
+          ? Math.min(
+              this.replay.result.tick * 100 + 600,
+              Math.max(0, performance.now() + this.offset - this.snapshot.clock.phaseStart),
+            )
+          : this.replay.result.tick * 100 + 600
+        : 0;
   get names() {
     if (this.spectator)
       return {
@@ -440,6 +460,7 @@ export class RemoteCoordinator implements MatchCoordinator {
   submit(intent: TimedCommand) {
     if (
       !this.connected ||
+      !this.storageAvailable ||
       this.eliminated ||
       this.finalResults ||
       this.pending ||
