@@ -408,7 +408,7 @@ export function Multiplayer({
                   <p className="lobby-reason">
                     {capacity === 2
                       ? 'Dos jugadores, una partida completa.'
-                      : 'Sala de espera disponible. Las partidas de tres y cuatro llegarán en F0-P7C.'}
+                      : 'Cada jugador tendrá su tienda y su enfrentamiento.'}
                   </p>
                   <LobbyButton
                     active
@@ -452,7 +452,7 @@ export function Multiplayer({
           </section>
         </div>
         <footer className="lobby-footer">
-          Salas privadas · Cuentas verificadas <span>Partidas de 2 · Salas de hasta 4</span>
+          Salas privadas · Cuentas verificadas <span>Partidas de 2 a 4</span>
         </footer>
       </div>
     </main>

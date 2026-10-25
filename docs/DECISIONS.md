@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+Se conecta el motor existente al lobby y se limita la adaptación visual a clasificación compacta, rival y espera. Se preservan arte, arena, escala de sprites, economía y algoritmos. La perspectiva norte se invierte exclusivamente en la proyección del cliente. Las posiciones y empates proceden de provisionalPosition del servidor. Las pruebas de navegador usan identidades fixture explícitas en entradas separadas de loopback, nunca cuentas Supabase nuevas ni comandos DEV de producción.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 > **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
 
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.

@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+Las salas privadas conectan ahora el lobby existente con el motor de 2–4 participantes. LobbyHub congela UUID y perfiles verificados; private_match deriva la capacidad del permiso interno y espera todas las conexiones y suscripciones. RemoteCoordinator acepta el contrato f0p7c1-1 y proyecta únicamente economía propia y duelo autorizado. El motor, sus emparejamientos y las fórmulas no cambian.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 > **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
 
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.

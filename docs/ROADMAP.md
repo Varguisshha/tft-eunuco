@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+F0-P7C.2 implementa salas jugables de 2–4, duelos privados simultáneos, presentación de rival, clasificación provisional y espera global. Validación: 760 pruebas y cuatro clientes de navegador con fixtures explícitos. F0-P7C.3 NO iniciada. Pendientes para una fase posterior: eliminación competitiva completa, espectadores y clasificación definitiva. No hay despliegue ni remoto configurado por esta fase.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 > **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
 
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.

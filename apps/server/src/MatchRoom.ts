@@ -18,8 +18,10 @@ export class MatchRoom extends Room {
   private published = -1;
   protected ready = new Set<string>();
   private sentCombat = new Map<string, string>();
-  protected createMatch() {
-    return new AuthoritativeMatch(this.roomId);
+  protected manualStart = true;
+  protected modernProtocol = false;
+  protected createMatch(capacity: 2 | 3 | 4 = 2) {
+    return new AuthoritativeMatch(this.roomId, undefined, undefined, capacity);
   }
   onCreate() {
     this.match = this.createMatch();
@@ -35,7 +37,7 @@ export class MatchRoom extends Room {
         client.send('protocol_error', 'invalid-payload');
         return;
       }
-      if (!this.match.start(client.sessionId))
+      if (!this.manualStart || !this.match.start(client.sessionId))
         client.send('protocol_error', 'Esperando a todos los jugadores.');
       this.publish();
     });
@@ -100,7 +102,7 @@ export class MatchRoom extends Room {
     this.ready.delete(client.sessionId);
     this.publish();
   }
-  private valid(client: Client) {
+  protected valid(client: Client) {
     const auth = this.credentials.get(client.sessionId);
     if (!auth || auth.expiresAt <= Date.now()) {
       void client.leave(4001);
@@ -110,7 +112,7 @@ export class MatchRoom extends Room {
   }
   private sendView(client: Client) {
     if (!this.valid(client)) return;
-    const modern = this.match.capacity > 2;
+    const modern = this.modernProtocol || this.match.capacity > 2;
     const snapshot = modern
         ? this.match.roundSnapshot(client.sessionId)
         : this.match.snapshot(client.sessionId),

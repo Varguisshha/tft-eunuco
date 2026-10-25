@@ -5,9 +5,9 @@ import { ServerError } from '@colyseus/core';
 import {
   LOBBY_VERSION,
   LobbyEventSchema,
-  NetworkSnapshotSchema,
+  RoundSnapshotSchema,
   type LobbyEvent,
-  type NetworkSnapshot,
+  type RoundSnapshot,
 } from '@tft/shared';
 import { MatchRoom } from './MatchRoom';
 import { createServer } from './server';
@@ -73,12 +73,12 @@ function action(room: Room, type: string, extra = {}) {
   });
 }
 function snapshot(room: Room) {
-  return new Promise<NetworkSnapshot>((resolve, reject) => {
+  return new Promise<RoundSnapshot>((resolve, reject) => {
     const timer = setTimeout(() => reject(Error('snapshot timeout')), 3000);
     const off = room.onMessage('state_snapshot', (raw: unknown) => {
       clearTimeout(timer);
       off();
-      resolve(NetworkSnapshotSchema.parse(raw));
+      resolve(RoundSnapshotSchema.parse(raw));
     });
     room.onMessage('pong', () => {});
     room.onMessage('combat_trace', () => {});

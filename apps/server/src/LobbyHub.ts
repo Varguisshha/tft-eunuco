@@ -13,6 +13,7 @@ export type MatchFactory = (
   users: string[],
   started: () => void,
   ended: () => void,
+  roster: LobbySnapshot['participants'],
 ) => Promise<{ id: string; cancel: () => Promise<void> }>;
 type Peer = { identity: VerifiedIdentity; send: (event: LobbyEvent) => void };
 type Rate = { at: number; count: number };
@@ -212,6 +213,7 @@ export class LobbyHub {
                   else if (current.status === 'in_match' && current.matchId === issuedMatchId)
                     this.close(current);
                 },
+                structuredClone(lobby.participants),
               );
               if (this.transitions.get(current.roomId) !== transition) {
                 await match.cancel();

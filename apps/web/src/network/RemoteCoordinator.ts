@@ -1,18 +1,25 @@
 import { Client, type Room } from '@colyseus/sdk';
 import {
   ActionReceiptSchema,
-  NetworkSnapshotSchema,
-  NetworkCombatSchema,
   NETWORK_VERSION,
-  reversePerspective,
   reverseHex,
   type MatchCoordinator,
   type MatchState,
   type CombatReplay,
-  type NetworkSnapshot,
   type TimedCommand,
 } from '@tft/shared';
 import { scaledProfile, type MatchError } from '@tft/game-core';
+import {
+  RemoteSnapshotSchema,
+  RemoteTraceSchema,
+  authorizedReplay,
+  currentPairing,
+  opponent,
+  ownPlayer,
+  projectRemote,
+  type RemoteSnapshot,
+  type RemoteTrace,
+} from './remoteView';
 export class RemoteCoordinator implements MatchCoordinator {
   readonly development = false;
   readonly recoveredFromSave = false;
@@ -20,7 +27,8 @@ export class RemoteCoordinator implements MatchCoordinator {
   connected = true;
   lastRejection: MatchError | null = null;
   notice = 'Conectado al servidor';
-  private snapshot!: NetworkSnapshot;
+  private snapshot!: RemoteSnapshot;
+  private pendingTrace: RemoteTrace | null = null;
   private state!: MatchState;
   private replay: CombatReplay | null = null;
   private traceId: string | null = null;
@@ -31,17 +39,17 @@ export class RemoteCoordinator implements MatchCoordinator {
   private bestRtt = Infinity;
   private timer: ReturnType<typeof setInterval>;
   private pingTimer: ReturnType<typeof setInterval>;
-  private constructor(readonly room: Room) {
+  constructor(readonly room: Room) {
     room.reconnection.enabled = false;
     room.onMessage('combat_trace', (raw: unknown) => {
-      const v = NetworkCombatSchema.parse(raw);
-      if (v.matchId !== room.roomId) return;
-      this.traceId = v.combatId;
-      // The canonical trace is identical on both sockets. Only the north seat view is rotated.
-      this.replay =
-        this.snapshot?.players.find((p) => p.id === this.snapshot.playerId)?.side === 'north'
-          ? reversePerspective(v.replay)
-          : v.replay;
+      const parsed = RemoteTraceSchema.safeParse(raw);
+      if (!parsed.success || parsed.data.matchId !== room.roomId) return;
+      this.pendingTrace = parsed.data;
+      if (this.snapshot) {
+        this.bindTrace();
+        this.state = projectRemote(this.snapshot, this.replay);
+        this.emit();
+      }
     });
     room.onMessage('state_snapshot', (raw: unknown) => this.receive(raw));
     room.onMessage('action_receipt', (raw: unknown) => {
@@ -108,36 +116,69 @@ export class RemoteCoordinator implements MatchCoordinator {
     return coordinator;
   }
   private receive(raw: unknown) {
-    const s = NetworkSnapshotSchema.parse(raw);
-    if (s.matchId !== this.room.roomId || (this.snapshot && s.revision < this.snapshot.revision))
+    const parsed = RemoteSnapshotSchema.safeParse(raw);
+    if (!parsed.success) {
+      this.notice = 'Estado del servidor incompatible.';
+      return;
+    }
+    const s = parsed.data;
+    if (
+      s.matchId !== this.room.roomId ||
+      !s.players.some((p) => p.id === s.playerId) ||
+      (this.snapshot &&
+        (s.playerId !== this.snapshot.playerId || s.revision < this.snapshot.revision))
+    )
       return;
     if (!this.snapshot) this.offset = s.serverTime - performance.now();
     this.snapshot = s;
-    if (!s.combatId) {
+    if (this.traceId !== s.combatId) {
       this.replay = null;
       this.traceId = null;
     }
-    const combat =
-      this.replay && this.traceId === s.combatId
-        ? {
-            round: s.own.round,
-            bank: s.own.gold,
-            input: this.replay.input,
-            result: s.own.phase === 'resolution' ? this.replay.result : null,
-          }
-        : null;
-    // Presentation projection, deliberately not a local save/authority: hidden fields are absent on wire.
-    this.state = {
-      ...s.own,
-      seed: 0,
-      shopRng: 0,
-      combatRng: 0,
-      nextEntity: 0,
-      pool: {},
-      history: [],
-      combat,
-    };
+    this.bindTrace();
+    this.state = projectRemote(s, this.replay);
     this.emit();
+  }
+  private bindTrace() {
+    if (!this.pendingTrace || this.traceId === this.snapshot.combatId) return;
+    const replay = authorizedReplay(this.snapshot, this.pendingTrace);
+    if (!replay) return;
+    this.replay = replay;
+    this.traceId = this.pendingTrace.combatId;
+    this.pendingTrace = null;
+  }
+  get standings() {
+    const s = this.snapshot;
+    return s.players
+      .map((p) => ({
+        ...p,
+        own: p.id === s.playerId,
+        rival: p.id === opponent(s)?.id,
+        avatarId: 'avatarId' in p ? p.avatarId : 'jade',
+        position: 'provisionalPosition' in p ? p.provisionalPosition : 1,
+      }))
+      .sort((a, b) => a.position - b.position);
+  }
+  get duel() {
+    const s = this.snapshot,
+      own = ownPlayer(s),
+      rival = opponent(s);
+    return {
+      own,
+      rival,
+      pairing: currentPairing(s),
+      awaiting: 'status' in own && own.status === 'awaiting_round',
+      intro:
+        s.clock.currentPhase === 'combat' &&
+        performance.now() + this.offset - s.clock.phaseStart < 2200,
+      outcome: this.replay
+        ? this.replay.result.winner === 'south'
+          ? 'Victoria'
+          : this.replay.result.winner === 'north'
+            ? 'Derrota'
+            : 'Doble derrota'
+        : 'Duelo finalizado',
+    };
   }
   getMatch = () => this.state;
   getClock = () => {
@@ -162,21 +203,20 @@ export class RemoteCoordinator implements MatchCoordinator {
         : this.replay.result.tick * 100 + 600
       : 0;
   get names() {
-    const own = this.snapshot.players.find((p) => p.id === this.snapshot.playerId)!;
     return {
-      south: own.name,
-      north: this.snapshot.players.find((p) => p.id !== own.id)?.name ?? 'Esperando rival',
+      south: ownPlayer(this.snapshot).name,
+      north: opponent(this.snapshot)?.name ?? 'Rival por asignar',
     };
   }
   get status() {
-    return `${this.notice} · ${this.snapshot.players.filter((p) => p.connected).length}/2 conectados`;
+    return `${this.notice} · ${this.snapshot.players.filter((p) => p.connected).length}/${this.snapshot.players.length} conectados`;
   }
   get purchaseErrors() {
     return this.snapshot.purchaseErrors;
   }
   rivals() {
     return this.snapshot.players
-      .filter((p) => p.id !== this.snapshot.playerId)
+      .filter((p) => p.id === opponent(this.snapshot)?.id)
       .flatMap((p) =>
         p.formation.flatMap((u) =>
           u.location.kind === 'board'

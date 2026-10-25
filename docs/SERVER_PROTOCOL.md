@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+Todas las private_match de 2–4 usan RoundSnapshotSchema y DuelMessageSchema, versión f0p7c1-1; test_match de dos conserva el protocolo anterior. El cliente acepta ambas variantes, valida matchId/combatId/roster del duelo/ronda/lado antes de reproducir y admite llegada de traza antes o después del snapshot. Mantiene la identidad del replay entre revisiones para no reiniciarlo. Cada socket recibe su duelo: el propietario de un fantasma no es receptor de ese duelo por ser propietario. Las tiendas ajenas, pool interno y RNG económico no se publican. start manual no inicia private_match.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 > **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
 
 > **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.

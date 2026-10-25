@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+La autoridad de F0-P7C.1 se reutiliza sin cambios de combate, economía o rotación. private_match ya activa su capacidad real de 2–4. El frontend muestra HP, nivel, conexión y posición provisional enviados por el servidor. El resultado visual no liquida nada: awaiting_round espera el cierre global. La sesión sigue en memoria; no hay eliminación competitiva completa, espectadores ni clasificación definitiva.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 > **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
 
 # Partida autoritativa F0-P7A

@@ -57,9 +57,9 @@ export type LobbySnapshot = z.infer<typeof LobbySnapshotSchema>;
 export type LobbyEvent = z.infer<typeof LobbyEventSchema>;
 export function lobbyStartReason(lobby: LobbySnapshot): string | null {
   if (lobby.status !== 'waiting') return 'La sala está iniciando o ya está en partida.';
-  if (lobby.capacity !== 2)
-    return 'Las partidas de tres o cuatro llegarán en F0-P7C. Elige dos plazas para jugar ahora.';
-  if (lobby.participants.length !== 2) return 'Falta otro jugador. Comparte el código de sala.';
+  if (!LobbyCapacitySchema.safeParse(lobby.capacity).success) return 'Capacidad no válida.';
+  if (lobby.participants.length !== lobby.capacity)
+    return 'Faltan participantes. Comparte el código de sala.';
   if (lobby.participants.some((p) => !p.connected))
     return 'Esperando a que todos vuelvan a conectarse.';
   if (lobby.participants.some((p) => !p.readyState)) return 'Todos deben marcarse como listos.';

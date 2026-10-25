@@ -9,6 +9,7 @@ import { PhaseClock } from './PhaseClock';
 import { GameButton } from './hud/GameButton';
 import { GameIcon } from './hud/GameIcon';
 import './hud/neonHud.css';
+import { MultiplayerDuel, MultiplayerStandings } from '../network/MultiplayerHud';
 import { LocalSession } from './LocalSession';
 import { UnitInspector } from './UnitInspector';
 import { Bench } from './Bench';
@@ -32,7 +33,9 @@ export function LocalGame({
     preparing = session.editable;
   const journal = useRef<HTMLDialogElement>(null);
   return (
-    <main className={`local-game game-hud phase-${phase}`}>
+    <main
+      className={`local-game game-hud phase-${phase} ${session.remote ? 'multiplayer-game' : ''}`}
+    >
       <header className="match-heading">
         <div className="match-logo">
           TFT <b>EUNUCO</b>
@@ -46,13 +49,16 @@ export function LocalGame({
             phase={phase}
             frame={session.combatFrame()}
             paused={clock ? clock.clockState === 'paused' : view.combat.mode === 'paused'}
-            {...(phase !== 'combat' && clock
+            remote={!!session.remote}
+            {...((phase !== 'combat' || session.remote) && clock
               ? { authoritativeRemainingMs: clock.remainingMs }
               : {})}
           />
         </div>
         <div className="round-actions">
-          {phase === 'not_started' ? (
+          {phase === 'not_started' && session.remote ? (
+            <span className="automatic-label">Conectando participantes…</span>
+          ) : phase === 'not_started' ? (
             <GameButton
               label="Iniciar partida"
               icon="play"
@@ -85,42 +91,51 @@ export function LocalGame({
         </div>
       </header>
       <div className="battlefield">
-        <aside className="player-rail" aria-label="Participantes locales">
-          <div className="rail-heading">
-            <h2>Clasificación</h2>
-          </div>
-          {[...(['south', 'north'] as const)]
-            .sort((a, b) => state.health[b] - state.health[a])
-            .map((side) => (
-              <article
-                key={side}
-                className={`player-banner ${side} ${state.health[side] === 0 ? 'eliminated' : ''}`}
-              >
-                <span className="player-sigil" aria-hidden="true">
-                  <GameIcon name="shield" />
-                </span>
-                <div>
-                  <h3>{session.names[side]}</h3>
-                  <small>
-                    {state.health[side] === 0
-                      ? 'Eliminado'
-                      : side === 'south'
-                        ? 'Tú · Jade'
-                        : 'Rival · Ámbar'}
-                  </small>
-                </div>
-                <strong>
-                  {state.health[side]}
-                  <small> VIDA</small>
-                </strong>
-                <meter
-                  aria-label={`Vida de ${session.names[side]}`}
-                  min={0}
-                  max={state.config.roundDamage.initialHp}
-                  value={state.health[side]}
-                />
-              </article>
-            ))}
+        <aside
+          className="player-rail"
+          aria-label={session.remote ? 'Participantes' : 'Participantes locales'}
+        >
+          {session.remote ? (
+            <MultiplayerStandings remote={session.remote} />
+          ) : (
+            <>
+              <div className="rail-heading">
+                <h2>Clasificación</h2>
+              </div>
+              {[...(['south', 'north'] as const)]
+                .sort((a, b) => state.health[b] - state.health[a])
+                .map((side) => (
+                  <article
+                    key={side}
+                    className={`player-banner ${side} ${state.health[side] === 0 ? 'eliminated' : ''}`}
+                  >
+                    <span className="player-sigil" aria-hidden="true">
+                      <GameIcon name="shield" />
+                    </span>
+                    <div>
+                      <h3>{session.names[side]}</h3>
+                      <small>
+                        {state.health[side] === 0
+                          ? 'Eliminado'
+                          : side === 'south'
+                            ? 'Tú · Jade'
+                            : 'Rival · Ámbar'}
+                      </small>
+                    </div>
+                    <strong>
+                      {state.health[side]}
+                      <small> VIDA</small>
+                    </strong>
+                    <meter
+                      aria-label={`Vida de ${session.names[side]}`}
+                      min={0}
+                      max={state.config.roundDamage.initialHp}
+                      value={state.health[side]}
+                    />
+                  </article>
+                ))}
+            </>
+          )}
 
           {(state.phase === 'resolution' || phase === 'finished') && state.lastReward && (
             <section
@@ -131,15 +146,19 @@ export function LocalGame({
                 {phase === 'finished'
                   ? 'Partida finalizada'
                   : state.lastReward.outcome === 'win'
-                    ? 'Victoria jade'
+                    ? session.remote
+                      ? 'Victoria'
+                      : 'Victoria jade'
                     : state.lastReward.outcome === 'loss'
-                      ? 'Derrota jade'
+                      ? session.remote
+                        ? 'Derrota'
+                        : 'Derrota jade'
                       : 'Doble derrota'}{' '}
                 <span>+{state.lastReward.credited} oro</span>
               </strong>
               <p>
                 {state.healthLedger
-                  .slice(-2)
+                  .slice(session.remote ? -1 : -2)
                   .map((e) => `${session.names[e.side]} −${e.applied} vida`)
                   .join(' · ')}
               </p>
@@ -173,7 +192,13 @@ export function LocalGame({
           />
           <TraitRail state={state} combatState={session.combatFrame()?.state} />
         </aside>
-        <section className="local-board" aria-label="Tablero de partida local">
+        <section
+          className="local-board"
+          aria-label={
+            session.remote ? 'Tablero de partida multijugador' : 'Tablero de partida local'
+          }
+        >
+          {session.remote && <MultiplayerDuel remote={session.remote} />}
           <div className="local-board-title">
             <span>{session.names.north} · Ámbar</span>
             <div className="local-zoom">

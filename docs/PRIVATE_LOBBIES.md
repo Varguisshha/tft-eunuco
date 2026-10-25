@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+Se puede iniciar una sala completa de 2, 3 o 4 plazas. Todos deben estar conectados y Listo; solo inicia el anfitrión. La capacidad debe coincidir exactamente con el roster. Se conservan códigos, límites, whitelist, recuperación de transición y exclusión de inicios duplicados. Los perfiles y avatares proceden del servidor.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 # Salas privadas — F0-P7B.2
 
 El menú Jugar permite crear una sala, entrar por código o volver a Partida local. Los perfiles siguen en Supabase; las salas están en memoria de un único proceso Colyseus. Reiniciar el servidor elimina salas, códigos y partidas. No hay búsqueda pública, recuperación de combate ni persistencia de salas.
@@ -26,7 +34,7 @@ La preparación es un booleano explícito del emisor. Entrar, salir, cambiar cap
 
 ## Capacidades
 
-Se admiten 2, 3 o 4 plazas. Solo una sala configurada para **2**, con dos participantes conectados y listos, permite jugar. El anfitrión puede reducir la capacidad si caben todos; todos deben prepararse de nuevo. Las salas de 3/4 indican F0-P7C y bloquean el inicio, aunque temporalmente tengan dos ocupantes. No se implementa emparejamiento múltiple.
+Se admiten partidas de 2, 3 o 4 plazas completas, con todos los participantes conectados y listos. El anfitrión puede reducir la capacidad si caben todos; todos deben prepararse de nuevo. Una sala de cuatro con dos ocupantes no puede iniciar. Tres participantes producen un duelo humano y otro contra fantasma; cuatro producen dos duelos humanos.
 
 ## Uso local
 

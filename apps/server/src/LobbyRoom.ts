@@ -1,15 +1,26 @@
 import { Room, ServerError, matchMaker, type Client } from '@colyseus/core';
 import { randomUUID } from 'node:crypto';
+import { LobbyCapacitySchema, type LobbySnapshot } from '@tft/shared';
 import { LobbyHub } from './LobbyHub';
 import { MatchRoom } from './MatchRoom';
 import { verifyIdentity, type VerifiedIdentity, type VerifyIdentity } from './auth';
-type Permit = { users: string[]; started: () => void; ended: () => void };
+type Permit = {
+  users: string[];
+  roster: LobbySnapshot['participants'];
+  started: () => void;
+  ended: () => void;
+};
 /** A permit never crosses the wire. Client-selected options cannot create a private match. */
 export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = MatchRoom) {
   const permits = new Map<string, Permit>();
   class PrivateMatch extends BaseMatch {
     private permit!: Permit;
     private began = false;
+    protected manualStart = false;
+    protected modernProtocol = true;
+    protected createMatch() {
+      return super.createMatch(LobbyCapacitySchema.parse(this.permit.users.length));
+    }
     autoDispose = false;
     onCreate(options: { ticket?: string } = {}) {
       const permit = permits.get(options.ticket ?? '');
@@ -18,11 +29,16 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
       this.permit = permit;
       super.onCreate();
       void this.setPrivate(true);
-      // The existing simulation starts only after both authenticated clients request a snapshot.
+      // Every frozen participant must authenticate and request its first snapshot.
       this.clock.setInterval(() => {
-        if (!this.began && this.match.players.length === 2 && this.ready.size === 2) {
+        if (
+          !this.began &&
+          this.match.players.length === this.permit.users.length &&
+          this.ready.size === this.permit.users.length &&
+          this.clients.every((client) => this.valid(client)) &&
+          this.match.start(this.clients[0]!.sessionId)
+        ) {
           this.began = true;
-          this.match.start(this.clients[0]!.sessionId);
           this.permit.started();
         }
       }, 50);
@@ -33,7 +49,8 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
     onJoin(client: Client, options: unknown, auth?: VerifiedIdentity) {
       if (!auth || !this.permit.users.includes(auth.userId))
         throw new ServerError(403, 'No perteneces a esta partida.');
-      super.onJoin(client, options, auth);
+      const frozen = this.permit.roster.find((p) => p.userId === auth.userId)!;
+      super.onJoin(client, options, { ...auth, name: frozen.name, avatarId: frozen.avatarId });
     }
     onLeave(client: Client) {
       super.onLeave(client);
@@ -43,9 +60,9 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
       this.permit?.ended();
     }
   }
-  const hub = new LobbyHub(async (users, started, ended) => {
+  const hub = new LobbyHub(async (users, started, ended, roster) => {
     const ticket = randomUUID();
-    permits.set(ticket, { users, started, ended });
+    permits.set(ticket, { users: [...users], roster: structuredClone(roster), started, ended });
     try {
       const room = await matchMaker.createRoom('private_match', { ticket });
       return {

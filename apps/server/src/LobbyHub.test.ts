@@ -97,15 +97,16 @@ describe('private lobby authority', () => {
     await f.act(0, 'create_lobby', { capacity: 2 });
     expect(f.event().error).toBeNull();
   });
-  it.each([3, 4])('supports %s seats but blocks its match', async (capacity) => {
+  it.each([3, 4])('supports %s seats and starts only a full ready roster', async (capacity) => {
     const f = fixture();
     await f.pair(capacity);
     for (let i = 2; i < capacity; i++)
       await f.act(i, 'join_lobby', { roomCode: f.lobby().roomCode });
     for (let i = 0; i < capacity; i++) await f.act(i, 'set_ready', { readyState: true });
     await f.act(0, 'start_match');
-    expect(f.event().error).toMatch(/F0-P7C/);
-    expect(f.lobby().status).toBe('waiting');
+    expect(f.event().error).toBeNull();
+    expect(f.lobby().status).toBe('starting');
+    expect(f.lobby().participants).toHaveLength(capacity);
   });
   it('rejects missing, malformed, spoofed and DEV payloads', async () => {
     const f = fixture();
@@ -295,4 +296,61 @@ it('ignores a late failure from an abandoned transition after a new start', asyn
   await old;
   expect(f.lobby().status).toBe('starting');
   expect(f.lobby().matchId).toBe('second-match');
+});
+
+describe('expanded capacity transition guards', () => {
+  it.each([3, 4])('%i seats require full connected and ready roster', async (capacity) => {
+    const factory = vi.fn(async () => ({ id: 'expanded', cancel: async () => {} }));
+    const f = fixture(factory);
+    await f.pair(capacity);
+    await f.ready();
+    await f.act(0, 'start_match');
+    expect(f.event().error).toMatch(/Faltan/);
+    for (let i = 2; i < capacity; i++)
+      await f.act(i, 'join_lobby', { roomCode: f.lobby().roomCode });
+    for (let i = 0; i < capacity - 1; i++) await f.act(i, 'set_ready', { readyState: true });
+    await f.act(0, 'start_match');
+    expect(f.event().error).toMatch(/listos/);
+    await f.act(capacity - 1, 'set_ready', { readyState: true });
+    f.hub.disconnect(ids[capacity - 1]!);
+    await f.act(0, 'start_match');
+    expect(f.event().error).toMatch(/conectarse/);
+    expect(factory).not.toHaveBeenCalled();
+  });
+  it.each([3, 4])(
+    '%i freezes roster and recovers a failed factory without duplicate destinations',
+    async (capacity) => {
+      let reject!: (reason: Error) => void;
+      const factory = vi.fn<MatchFactory>(
+        () =>
+          new Promise((_, fail) => {
+            reject = fail;
+          }),
+      );
+      const f = fixture(factory);
+      await f.pair(capacity);
+      for (let i = 2; i < capacity; i++)
+        await f.act(i, 'join_lobby', { roomCode: f.lobby().roomCode });
+      for (let i = 0; i < capacity; i++) await f.act(i, 'set_ready', { readyState: true });
+      const pending = f.act(0, 'start_match');
+      const [users, , , roster] = factory.mock.calls[0]!;
+      expect(users).toEqual(ids.slice(0, capacity));
+      expect(roster.map((p) => p.userId)).toEqual(users);
+      await f.act(0, 'set_capacity', { capacity: 2 });
+      await f.act(0, 'start_match');
+      await f.act(5, 'join_lobby', { roomCode: f.lobby().roomCode });
+      expect(factory).toHaveBeenCalledTimes(1);
+      expect(users).toHaveLength(capacity);
+      expect(roster.every((p) => p.readyState && p.connected && p.name.startsWith('Player'))).toBe(
+        true,
+      );
+      reject(Error('Controlled failure'));
+      await pending;
+      expect(f.lobby().status).toBe('waiting');
+      expect(f.lobby().matchId).toBeNull();
+      expect(f.lobby().participants.every((p) => !p.readyState)).toBe(true);
+      // Frozen metadata is independent of subsequent lobby resets.
+      expect(roster.every((p) => p.readyState)).toBe(true);
+    },
+  );
 });

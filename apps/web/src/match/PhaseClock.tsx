@@ -4,11 +4,18 @@ import type { PlaybackFrame } from '../game/combatPlayback';
 /** Presentation contract for a future authoritative clock. No timers or phase transitions here. */
 export interface PhaseClockProps {
   phase: MatchPhase;
+  remote?: boolean;
   frame: PlaybackFrame | null;
   paused: boolean;
   authoritativeRemainingMs?: number;
 }
-export function PhaseClock({ phase, frame, paused, authoritativeRemainingMs }: PhaseClockProps) {
+export function PhaseClock({
+  phase,
+  frame,
+  paused,
+  authoritativeRemainingMs,
+  remote,
+}: PhaseClockProps) {
   const fighting = phase === 'combat';
   const overtime = fighting && frame?.overtime;
   const seconds =
@@ -45,9 +52,13 @@ export function PhaseClock({ phase, frame, paused, authoritativeRemainingMs }: P
             : fighting
               ? 'Combate en curso'
               : phase === 'not_started'
-                ? 'Pulsa Iniciar partida'
+                ? remote
+                  ? 'Esperando participantes'
+                  : 'Pulsa Iniciar partida'
                 : phase === 'finished'
-                  ? 'Vargas eliminado'
+                  ? remote
+                    ? 'Resultado provisional'
+                    : 'Vargas eliminado'
                   : phase === 'resolution'
                     ? 'Siguiente ronda automática'
                     : seconds !== null && seconds <= 5

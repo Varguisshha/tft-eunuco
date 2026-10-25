@@ -1,3 +1,11 @@
+# Estado vigente — F0-P7C.2 (25/10/2026)
+
+Se conservan preparación de 30 s, combate de hasta 45 s, cola visual de 600 ms y resolución de 5 s. La presentación del rival dura como máximo los primeros 2,2 s del combate según reloj sincronizado, sin añadir fase ni bloquear interacción. El contador remoto utiliza el deadline global. Si termina antes el duelo propio, awaiting_round muestra resultado y espera, sin compras/movimientos/ingresos anticipados ni replay repetido. La siguiente preparación depende del servidor, nunca de ACK visual.
+
+[Informe, evidencias y limitaciones](MULTIPLAYER_4P_INTEGRATION.md). Las restricciones de capacidad dos que figuran debajo pertenecen al histórico y quedan sustituidas por este estado.
+
+---
+
 > **Estado F0-P7C.1 (25/10/2026):** motor de rondas para 2–4, lobby real limitado a dos. [Informe](F0_P7C1_REPORT.md). Los apartados de fases anteriores son históricos.
 
 # Actualización F0-P7A
