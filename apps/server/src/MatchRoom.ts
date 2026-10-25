@@ -1,5 +1,11 @@
 import { Room, ServerError, type Client } from '@colyseus/core';
-import { NETWORK_VERSION, PAIRING_VERSION } from '@tft/shared';
+import {
+  NETWORK_VERSION,
+  PAIRING_VERSION,
+  RECOVERY_VERSION,
+  ResumeAcceptedSchema,
+  ResumeRequestSchema,
+} from '@tft/shared';
 import { AuthoritativeMatch } from './AuthoritativeMatch';
 import { verifyIdentity, type VerifiedIdentity } from './auth';
 export class MatchRoom extends Room {
@@ -21,6 +27,7 @@ export class MatchRoom extends Room {
   private sentSpectate = new Map<string, string>();
   private finishScheduled = false;
   private sentCombat = new Map<string, string>();
+  protected recoverable = false;
   protected manualStart = true;
   protected modernProtocol = false;
   protected createMatch(capacity: 2 | 3 | 4 = 2) {
@@ -28,7 +35,9 @@ export class MatchRoom extends Room {
   }
   onCreate() {
     this.match = this.createMatch();
-    this.maxClients = this.match.capacity;
+    // Transport headroom permits an authenticated replacement before closing the old socket.
+    // Logical capacity remains in AuthoritativeMatch; private membership gates every join.
+    this.maxClients = this.recoverable ? 16 : this.match.capacity;
     this.onMessage('command', (client, payload: unknown) => {
       if (!this.valid(client)) return;
       client.send('action_receipt', this.match.submit(client.sessionId, payload));
@@ -47,6 +56,28 @@ export class MatchRoom extends Room {
     this.onMessage('sync', (client, payload: unknown) => {
       if (payload !== null || !this.valid(client)) return;
       this.ready.add(client.sessionId);
+      if (this.recoverable) {
+        const p = this.match.players.find((p) => p.sessionId === client.sessionId)!;
+        const clock = this.match.clock.snapshot();
+        client.send(
+          'resume_accepted',
+          ResumeAcceptedSchema.parse({
+            version: RECOVERY_VERSION,
+            matchId: this.roomId,
+            participantId: p.id,
+            connectionId: client.sessionId,
+            generation: p.generation,
+            nextSequence: p.sequence,
+            spectateSequence: p.spectateSequence,
+            roundId: clock.roundId,
+            phaseId: clock.phaseId,
+            duelId: p.eliminated
+              ? p.spectatingDuelId
+              : (this.match.duelFor(client.sessionId)?.pairing.combatId ?? null),
+            revision: this.match.revision,
+          }),
+        );
+      }
       this.sendView(client);
     });
     this.onMessage('spectate_duel', (client, payload: unknown) => {
@@ -102,20 +133,34 @@ export class MatchRoom extends Room {
   onJoin(client: Client, _options: unknown, auth?: VerifiedIdentity) {
     if (!auth || auth.expiresAt <= Date.now()) throw new ServerError(401, 'Sesión no válida.');
     this.credentials.set(client.sessionId, auth);
-    this.match.join(client.sessionId, auth);
-    if (this.match.players.length === this.match.capacity) void this.lock();
+    const existing = this.match.players.find((p) => p.id === auth.userId);
+    if (existing && this.recoverable && ResumeRequestSchema.safeParse(_options).success) {
+      const oldId = existing.sessionId;
+      this.match.resume(client.sessionId, auth.userId);
+      this.credentials.delete(oldId);
+      this.ready.delete(oldId);
+      const old = this.clients.find((c) => c.sessionId === oldId);
+      if (old) void old.leave(4002, 'connection_superseded');
+    } else this.match.join(client.sessionId, auth);
+    if (!this.recoverable && this.match.players.length === this.match.capacity) void this.lock();
     this.publish();
   }
   onLeave(client: Client) {
     this.credentials.delete(client.sessionId);
     this.match.disconnect(client.sessionId);
     this.sentCombat.delete(client.sessionId);
+    this.sentSpectate.delete(client.sessionId);
+    this.sentFinal.delete(client.sessionId);
     this.ready.delete(client.sessionId);
     this.publish();
   }
   protected valid(client: Client) {
     const auth = this.credentials.get(client.sessionId);
-    if (!auth || auth.expiresAt <= Date.now()) {
+    if (
+      !auth ||
+      auth.expiresAt <= Date.now() ||
+      !this.match.players.some((p) => p.sessionId === client.sessionId && p.connected)
+    ) {
       void client.leave(4001);
       return false;
     }

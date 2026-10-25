@@ -68,3 +68,10 @@ Las validaciones detectan inconsistencias, no autentican un navegador ni un arch
 El deadline global remoto es inicio+max(tickFinal de los duelos)×100ms+600ms, hasta45600ms. Preparación30000 y resolución5000 sin cambios. Los duelos cortos esperan al largo; el servidor nunca espera ACK del renderer. El reloj del harness SDK es controlado, conservando esos tiempos lógicos.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+Reconectar no cambia phaseStart ni phaseDeadline. El servidor sigue avanzando incluso con cero clientes. El cliente nuevo estima su offset desde serverTime y ping/pong y hace seek hasta el instante correspondiente de la traza existente. Preparación conserva segundos restantes, resolución conserva liquidación y Overtime no vuelve al tick0. El fixture visual tiene reloj controlado explícito, distinto del reloj continuo normal.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

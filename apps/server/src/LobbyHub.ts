@@ -15,7 +15,11 @@ export type MatchFactory = (
   ended: () => void,
   roster: LobbySnapshot['participants'],
 ) => Promise<{ id: string; cancel: () => Promise<void> }>;
-type Peer = { identity: VerifiedIdentity; send: (event: LobbyEvent) => void };
+type Peer = {
+  identity: VerifiedIdentity;
+  send: (event: LobbyEvent) => void;
+  supersede?: (() => void) | undefined;
+};
 type Rate = { at: number; count: number };
 /** Single-process coordinator. Membership is mutated synchronously before any await. */
 export class LobbyHub {
@@ -31,10 +35,11 @@ export class LobbyHub {
     private factory: MatchFactory,
     private now = Date.now,
   ) {}
-  connect(identity: VerifiedIdentity, send: Peer['send']) {
-    if (this.peers.has(identity.userId))
-      throw new Error('Tu cuenta ya está conectada en otra ventana.');
-    this.peers.set(identity.userId, { identity, send });
+  connect(identity: VerifiedIdentity, send: Peer['send'], supersede?: (() => void) | undefined) {
+    const previous = this.peers.get(identity.userId);
+    if (previous && !supersede) throw new Error('Tu cuenta ya está conectada en otra ventana.');
+    previous?.supersede?.();
+    this.peers.set(identity.userId, { identity, send, supersede });
     this.absent.delete(identity.userId);
     const lobby = this.get(identity.userId);
     const participant = lobby?.participants.find((p) => p.userId === identity.userId);
@@ -51,9 +56,7 @@ export class LobbyHub {
     const p = lobby.participants.find((p) => p.userId === id)!;
     p.connected = false;
     p.readyState = false;
-    if (lobby.status === 'starting')
-      this.fail(lobby, 'Un participante se ha desconectado. Volved a marcaros como listos.');
-    else this.changed(lobby);
+    this.changed(lobby); // Transition keeps its original bounded 25-second deadline.
   }
   private get(id: string) {
     return this.rooms.get(this.membership.get(id) ?? '');

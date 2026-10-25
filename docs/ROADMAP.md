@@ -152,3 +152,10 @@ Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md)
 ## F0-P7C.3 — ciclo competitivo
 
 P7C.2 queda preservada en 0f2dfaf. P7C.3 implementa eliminación, continuación entre supervivientes, espectador autorizado y final competitivo. Las notas históricas anteriores que los marcaban pendientes quedan superadas por esta sección. No se inicia P7D, reconexión completa, persistencia tras reinicio ni despliegue.
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+F0-P7D.1 implementado: recuperación autenticada mientras vive el proceso, sustitución de socket, lobby, fases, espectador, final y reintentos limitados. F0-P7D.2 no iniciado: persistencia tras reinicio, almacenamiento durable y restauración quedan pendientes.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

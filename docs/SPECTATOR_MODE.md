@@ -13,3 +13,10 @@ La simulación se calcula de antemano en servidor, pero el espectador no recibe 
 `CompetitiveSnapshot` conserva la proyección privada propia, congelada y vaciada de inventario tras eliminarse. No expone las proyecciones privadas de otros. Las formaciones públicas siguen disponibles. El contador local interpolado no gobierna la simulación ni decide qué frames autoriza el servidor.
 
 Limitaciones: transmisión por ticks, sin buffer de reconexión ni recuperación de sesión tras recarga; elección manual en cada ronda; no estadísticas persistentes ni espectadores externos. La sala final se conserva hasta cinco minutos y después se libera.
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+La recuperación mantiene eliminated, finalPosition, spectating, selección de duelo y secuencia de espectador. El handshake devuelve la secuencia vigente para continuar sin reiniciar en cero. No entrega combat_trace a eliminados; sendSpectator publica solo frames alcanzados y eventos permitidos. La recarga no resucita ni modifica pool o puesto. Browser y SDK comprobaron conservar selección tras recarga.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

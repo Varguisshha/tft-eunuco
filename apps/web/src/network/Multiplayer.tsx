@@ -14,6 +14,8 @@ import { LocalGame } from '../match/LocalGame';
 import { GameFrame } from '../match/hud/GameFrame';
 import { GameIcon, type GameIconName } from '../match/hud/GameIcon';
 import './lobby.css';
+import { RecoveryNotice } from './RecoveryNotice';
+import { retryDelay, recoveryError, MAX_RECOVERY_ATTEMPTS } from './retry';
 function LobbyButton({
   children,
   icon = 'play',
@@ -57,6 +59,9 @@ export function Multiplayer({
   const [connected, setConnected] = useState(false);
   const [busy, setBusy] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const voluntary = useRef(false);
+  const gatewayFailures = useRef(0);
+  const gatewayTerminal = useRef(false);
   const gateway = useRef<Room | null>(null);
   const remote = useRef<RemoteCoordinator | null>(null);
   const token = useRef(accountSession.access_token);
@@ -71,7 +76,24 @@ export function Multiplayer({
   }, [accountSession.access_token]);
   useEffect(() => {
     let alive = true;
+    let recoveringGateway = false;
+    if (!remote.current) destination.current = null;
     let room: Room | undefined;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
+    const retryGateway = (error?: unknown) => {
+      if (!alive) return;
+      recoveringGateway = true;
+      setConnected(false);
+      const reason = recoveryError(error);
+      gatewayTerminal.current = !!reason;
+      setMessage(reason ?? 'Conexión perdida. Intentando recuperar tu sala…');
+      if (!reason && gatewayFailures.current < MAX_RECOVERY_ATTEMPTS) {
+        retryTimer = setTimeout(
+          () => setAttempt((a) => a + 1),
+          retryDelay(gatewayFailures.current++),
+        );
+      }
+    };
     setMessage('Conectando con las salas…');
     const endpoint = new URL(import.meta.env.VITE_GAME_SERVER_URL || 'http://127.0.0.1:2567');
     const secure =
@@ -109,6 +131,14 @@ export function Multiplayer({
         current.current = e.lobby;
         setLobby(e.lobby);
         if (e.error) setMessage(e.error);
+        if (voluntary.current && e.lobby) {
+          room?.send('lobby_action', {
+            version: LOBBY_VERSION,
+            requestId: crypto.randomUUID(),
+            type: 'leave_lobby',
+          });
+          return;
+        }
         if (e.lobby?.status === 'waiting' && destination.current) {
           destination.current = null;
           remote.current?.dispose();
@@ -116,7 +146,8 @@ export function Multiplayer({
           setSession(null);
         }
         if (
-          e.lobby?.status === 'starting' &&
+          !recoveringGateway &&
+          (e.lobby?.status === 'starting' || e.lobby?.status === 'in_match') &&
           e.lobby.matchId &&
           destination.current !== e.lobby.matchId
         ) {
@@ -125,31 +156,38 @@ export function Multiplayer({
           setMessage('Entrando en la pista…');
           void RemoteCoordinator.connect('join', matchId, token.current)
             .then((c) => {
-              if (!alive || current.current?.matchId !== matchId) {
+              if (
+                !alive ||
+                voluntary.current ||
+                destination.current !== matchId ||
+                current.current?.matchId !== matchId
+              ) {
                 c.dispose();
                 return;
               }
+              remote.current?.dispose();
               remote.current = c;
+              c.enableRecovery(() => token.current);
               c.room.send('authenticate', token.current);
               setSession(new LocalSession(c.getMatch(), undefined, undefined, c));
               setMessage('');
             })
-            .catch(() => {
-              if (alive)
-                setMessage(
-                  'No se pudo entrar. La sala se recuperará automáticamente en unos segundos.',
-                );
+            .catch((error: unknown) => {
+              if (alive) {
+                destination.current = null;
+                retryGateway(error);
+              }
             });
         }
       });
-      room.onLeave(() => {
+      room.onLeave((code) => {
         if (alive) {
           gateway.current = null;
           setConnected(false);
           setBusy(false);
-          setMessage(
-            'Se ha perdido la conexión a la sala. Vuelve a conectar; si la sesión ha caducado, entra desde tu cuenta.',
-          );
+          if (code === 4002 || code === 4001)
+            remote.current?.stopRecovery(recoveryError({ code })!);
+          retryGateway({ code });
         }
       });
       room.send('authenticate', token.current);
@@ -158,25 +196,25 @@ export function Multiplayer({
         requestId: crypto.randomUUID(),
         type: 'sync',
       });
-    })().catch(() => {
-      if (alive)
-        setMessage(
-          'No se pudo conectar. Comprueba el servidor y tu sesión, y vuelve a intentarlo.',
-        );
-    });
+    })().catch((error: unknown) => retryGateway(error));
     return () => {
       alive = false;
       clearTimeout(timeout.current);
+      clearTimeout(retryTimer);
       void room?.leave();
       gateway.current = null;
-      remote.current?.dispose();
-      remote.current = null;
-      destination.current = null;
       pending.current = null;
     };
   }, [attempt]);
+  useEffect(
+    () => () => {
+      remote.current?.dispose();
+    },
+    [],
+  );
   const send = (type: string, extra: Record<string, unknown> = {}) => {
     if (!gateway.current || pending.current) return;
+    if (type === 'create_lobby' || type === 'join_lobby') voluntary.current = false;
     const requestId = crypto.randomUUID();
     pending.current = requestId;
     setBusy(true);
@@ -189,6 +227,7 @@ export function Multiplayer({
     }, 10_000);
   };
   const leave = () => {
+    voluntary.current = true;
     send('leave_lobby');
     remote.current?.dispose();
     remote.current = null;
@@ -199,11 +238,12 @@ export function Multiplayer({
     return (
       <>
         <LocalGame session={session} onNew={leave} onReplace={() => {}} />
+        {remote.current && (
+          <RecoveryNotice coordinator={remote.current} onLeave={leave} onAccount={onAccount} />
+        )}
         <details className="save-notice">
           <summary>Partida privada</summary>
-          <p>
-            Solo los participantes de tu sala pueden entrar. Sin reconexión al combate en esta fase.
-          </p>
+          <p>Tu plaza se conserva mientras esta partida siga disponible en el servidor.</p>
           <button onClick={leave}>Salir de la partida</button>
         </details>
       </>
@@ -444,7 +484,16 @@ export function Multiplayer({
                 {message || (busy ? 'Esperando confirmación…' : '')}
               </p>
               {!connected && (
-                <LobbyButton icon="refresh" onClick={() => setAttempt((a) => a + 1)}>
+                <LobbyButton
+                  icon="refresh"
+                  disabled={
+                    gatewayTerminal.current || gatewayFailures.current < MAX_RECOVERY_ATTEMPTS
+                  }
+                  onClick={() => {
+                    gatewayFailures.current = 0;
+                    setAttempt((a) => a + 1);
+                  }}
+                >
                   Volver a conectar
                 </LobbyButton>
               )}

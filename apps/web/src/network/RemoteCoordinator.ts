@@ -1,6 +1,8 @@
 import { Client, type Room } from '@colyseus/sdk';
 import {
   COMPETITIVE_VERSION,
+  RECOVERY_VERSION,
+  ResumeAcceptedSchema,
   SpectateFrameSchema,
   type SpectateFrame,
   ActionReceiptSchema,
@@ -11,6 +13,7 @@ import {
   type CombatReplay,
   type TimedCommand,
 } from '@tft/shared';
+import { MAX_RECOVERY_ATTEMPTS, retryDelay, recoveryError } from './retry';
 import { scaledProfile, type MatchError } from '@tft/game-core';
 import {
   RemoteSnapshotSchema,
@@ -45,9 +48,40 @@ export class RemoteCoordinator implements MatchCoordinator {
   private bestRtt = Infinity;
   private timer: ReturnType<typeof setInterval>;
   private pingTimer: ReturnType<typeof setInterval>;
-  constructor(readonly room: Room) {
+  recoveryStatus = '';
+  recoveryAttempt = 0;
+  private getToken: (() => string) | null = null;
+  private disposed = false;
+  private recoveryTimer: ReturnType<typeof setTimeout> | undefined;
+  private recoveryRun = 0;
+  private terminal = false;
+  private exhausted = false;
+  constructor(public room: Room) {
+    this.bind(room);
+    this.timer = setInterval(() => this.emit(), 50);
+    this.pingTimer = setInterval(() => {
+      if (this.connected) this.room.send('ping', performance.now());
+    }, 2000);
+  }
+  private bind(room: Room) {
+    const message = (type: string, callback: (raw: unknown) => void) =>
+      room.onMessage(type, (raw: unknown) => {
+        if (!this.disposed && this.room === room) callback(raw);
+      });
+    message('resume_accepted', (raw) => {
+      const result = ResumeAcceptedSchema.safeParse(raw);
+      if (
+        !result.success ||
+        result.data.connectionId !== room.sessionId ||
+        result.data.matchId !== room.roomId
+      )
+        return;
+      this.sequence = result.data.nextSequence;
+      this.spectatorSequence = result.data.spectateSequence + 1;
+      this.selectedSpectatorSequence = result.data.spectateSequence;
+    });
     room.reconnection.enabled = false;
-    room.onMessage('combat_trace', (raw: unknown) => {
+    message('combat_trace', (raw: unknown) => {
       const parsed = RemoteTraceSchema.safeParse(raw);
       if (!parsed.success || parsed.data.matchId !== room.roomId) return;
       this.pendingTrace = parsed.data;
@@ -57,7 +91,7 @@ export class RemoteCoordinator implements MatchCoordinator {
         this.emit();
       }
     });
-    room.onMessage('spectate_snapshot', (raw: unknown) => {
+    message('spectate_snapshot', (raw: unknown) => {
       const parsed = SpectateFrameSchema.safeParse(raw);
       if (!parsed.success || !this.snapshot || !this.eliminated) return;
       const f = parsed.data;
@@ -74,11 +108,11 @@ export class RemoteCoordinator implements MatchCoordinator {
       this.spectator = f;
       this.emit();
     });
-    room.onMessage('final_results', () => {
+    message('final_results', () => {
       /* canonical result is also retained in the snapshot */
     });
-    room.onMessage('state_snapshot', (raw: unknown) => this.receive(raw));
-    room.onMessage('action_receipt', (raw: unknown) => {
+    message('state_snapshot', (raw: unknown) => this.receive(raw));
+    message('action_receipt', (raw: unknown) => {
       const r = ActionReceiptSchema.parse(raw);
       this.pending = false;
       this.notice = r.accepted
@@ -86,11 +120,11 @@ export class RemoteCoordinator implements MatchCoordinator {
         : `Acción rechazada: ${r.reason}`;
       this.emit();
     });
-    room.onMessage('protocol_error', (message: unknown) => {
+    message('protocol_error', (message: unknown) => {
       this.notice = String(message);
       this.emit();
     });
-    room.onMessage('pong', (raw: unknown) => {
+    message('pong', (raw: unknown) => {
       if (!raw || typeof raw !== 'object') return;
       const v = raw as Record<string, unknown>;
       if (typeof v.echo !== 'number' || typeof v.serverTime !== 'number') return;
@@ -101,16 +135,17 @@ export class RemoteCoordinator implements MatchCoordinator {
         this.offset = v.serverTime - (now + v.echo) / 2;
       }
     });
-    room.onLeave(() => {
-      clearInterval(this.timer);
-      clearInterval(this.pingTimer);
+    room.onLeave((code) => {
+      if (this.disposed || this.room !== room) return;
       this.connected = false;
       this.pending = false;
-      this.notice = 'Desconectado. Esta fase no admite reconexión.';
+      const reason = recoveryError({ code });
+      this.terminal = !!reason;
+      this.recoveryStatus = reason ?? 'Conexión perdida. Intentando recuperar tu partida…';
+      this.notice = this.recoveryStatus;
+      if (!reason && this.getToken) this.scheduleRecovery();
       this.emit();
     });
-    this.timer = setInterval(() => this.emit(), 50);
-    this.pingTimer = setInterval(() => room.send('ping', performance.now()), 2000);
     room.send('ping', performance.now());
   }
   static async connect(mode: 'create' | 'join', matchId = '', token: string) {
@@ -123,7 +158,9 @@ export class RemoteCoordinator implements MatchCoordinator {
     const client = new Client(endpoint.href);
     client.auth.token = token;
     const room =
-      mode === 'create' ? await client.create('test_match') : await client.joinById(matchId);
+      mode === 'create'
+        ? await client.create('test_match')
+        : await client.joinById(matchId, { recoveryVersion: RECOVERY_VERSION });
     const coordinator = new RemoteCoordinator(room);
     await new Promise<void>((resolve, reject) => {
       const timeout = setTimeout(() => {
@@ -140,6 +177,85 @@ export class RemoteCoordinator implements MatchCoordinator {
       room.send('sync', null);
     });
     return coordinator;
+  }
+  enableRecovery(getToken: () => string) {
+    this.getToken = getToken;
+  }
+  get canRetry() {
+    return !this.connected && !this.terminal && !this.disposed && this.exhausted;
+  }
+  retry = () => {
+    if (!this.canRetry) return;
+    clearTimeout(this.recoveryTimer);
+    this.recoveryAttempt = 0;
+    this.exhausted = false;
+    this.scheduleRecovery();
+  };
+  private scheduleRecovery() {
+    if (this.disposed || !this.getToken || this.terminal) return;
+    if (this.recoveryAttempt >= MAX_RECOVERY_ATTEMPTS) {
+      this.exhausted = true;
+      this.recoveryStatus = 'No se pudo recuperar la conexión. Puedes volver a intentarlo.';
+      this.emit();
+      return;
+    }
+    const run = ++this.recoveryRun;
+    const delay = retryDelay(this.recoveryAttempt++);
+    this.recoveryStatus = `Conexión perdida · Reintento ${this.recoveryAttempt}/${MAX_RECOVERY_ATTEMPTS}`;
+    this.emit();
+    this.recoveryTimer = setTimeout(() => {
+      void this.recover(run);
+    }, delay);
+  }
+  private async recover(run: number) {
+    let candidate: RemoteCoordinator | undefined;
+    try {
+      const token = this.getToken?.();
+      if (!token) throw { code: 401 };
+      candidate = await RemoteCoordinator.connect('join', this.room.roomId, token);
+      if (this.disposed || run !== this.recoveryRun) {
+        candidate.dispose();
+        return;
+      }
+      // Adopt a fully synchronized connection without replaying any pending command.
+      const room = candidate.room;
+      this.snapshot = candidate.snapshot;
+      this.state = candidate.state;
+      this.replay = candidate.replay;
+      this.traceId = candidate.traceId;
+      this.pendingTrace = candidate.pendingTrace;
+      this.sequence = candidate.sequence;
+      this.spectatorSequence = candidate.spectatorSequence;
+      this.selectedSpectatorSequence = candidate.selectedSpectatorSequence;
+      this.spectator = candidate.spectator;
+      this.offset = candidate.offset;
+      this.bestRtt = candidate.bestRtt;
+      candidate.disposed = true;
+      clearInterval(candidate.timer);
+      clearInterval(candidate.pingTimer);
+      this.room = room;
+      this.bind(room);
+      this.connected = true;
+      this.pending = false;
+      this.recoveryAttempt = 0;
+      this.recoveryStatus = 'Partida recuperada';
+      this.notice = 'Conectado al servidor';
+      room.send('sync', null);
+      this.emit();
+      this.recoveryTimer = setTimeout(() => {
+        this.recoveryStatus = '';
+        this.emit();
+      }, 3500);
+    } catch (error) {
+      candidate?.dispose();
+      if (this.disposed || run !== this.recoveryRun) return;
+      const reason = recoveryError(error);
+      if (reason) {
+        this.terminal = true;
+        this.recoveryStatus = reason;
+        this.emit();
+      } else this.scheduleRecovery();
+    }
   }
   private receive(raw: unknown) {
     const parsed = RemoteSnapshotSchema.safeParse(raw);
@@ -356,7 +472,15 @@ export class RemoteCoordinator implements MatchCoordinator {
   private emit() {
     if (this.snapshot) this.listeners.forEach((l) => l());
   }
+  stopRecovery(reason: string) {
+    this.recoveryStatus = reason;
+    this.terminal = true;
+    this.dispose();
+  }
   dispose() {
+    this.disposed = true;
+    this.recoveryRun++;
+    clearTimeout(this.recoveryTimer);
     this.connected = false;
     this.notice = 'Desconectado. Vuelve a crear o unirte a una sesión.';
     this.emit();

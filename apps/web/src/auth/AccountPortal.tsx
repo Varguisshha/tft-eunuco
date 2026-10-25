@@ -32,7 +32,9 @@ const titles: Record<View, string> = {
 };
 export function AccountPortal({ onLocal }: { onLocal: () => void }) {
   const { session, loading, recovery } = useAccountSession();
-  const [view, setView] = useState<View>('welcome');
+  const [view, setView] = useState<View>(() =>
+    location.hash === '#multiplayer' ? 'play' : 'welcome',
+  );
   const [profile, setProfile] = useState<PlayerProfile | null>(null);
   const [notice, setNotice] = useState(() =>
     /(?:[?#&])error=/.test(location.search + location.hash)
@@ -81,6 +83,12 @@ export function AccountPortal({ onLocal }: { onLocal: () => void }) {
   }, [current, loading]);
   const shown = profile?.user_id === userId ? profile : null;
   const navigate = (next: View) => {
+    if (next === 'play' || location.hash === '#multiplayer')
+      history.replaceState(
+        null,
+        '',
+        location.pathname + location.search + (next === 'play' ? '#multiplayer' : ''),
+      );
     setNotice('');
     setView(next);
   };

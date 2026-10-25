@@ -15,12 +15,17 @@ const DevelopmentAccess = __DEVTOOLS__
   : null;
 export function App() {
   const [screen, setScreen] = useState<'local' | 'arena' | 'online'>(
-    location.search.includes('code=') ||
+    location.hash === '#multiplayer' ||
+      location.search.includes('code=') ||
       location.hash.includes('access_token=') ||
       /(?:[?#&])error=/.test(location.search + location.hash)
       ? 'online'
       : 'local',
   );
+  useEffect(() => {
+    if (screen !== 'online' && location.hash === '#multiplayer')
+      history.replaceState(null, '', location.pathname + location.search);
+  }, [screen]);
   const [arena] = useState(() => new BoardSession());
   const [session, setSession] = useState<LocalSession | null>(null);
   const [seed, setSeed] = useState('42');

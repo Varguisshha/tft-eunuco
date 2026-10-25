@@ -39,3 +39,10 @@ Las pruebas del proveedor usan dobles controlados. No se ha verificado un proyec
 Las salas reutilizan verifyIdentity, sin nuevo sistema de cuentas. Se prohíbe otro canal activo del mismo UUID; token refrescado debe pertenecer al mismo usuario. Revocación periódica cada5s en lobby y15s en partida. El snapshot excluye correo y credenciales. No se modifican RLS, Auth, SMTP ni las migraciones remotas. Evidencia real y fixtures diferenciadas en LOBBY_SECURITY.md.
 
 Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+Cada recuperación usa static onAuth y el verificador existente (UUID remoto, email confirmado, expiración, sesión activa y perfil). No hay nuevo token persistente de reconexión. La nueva conexión sustituye sincrónicamente al socket propietario y retira credenciales del anterior. Refresh conserva UUID; logout desmonta/cancela. 4001 detiene por sesión no válida, 4002 por sustitución. Esta fase usa pruebas controladas; no altera cuentas, correo, SMTP ni configuración remota.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

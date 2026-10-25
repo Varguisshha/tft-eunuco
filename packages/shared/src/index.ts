@@ -19,3 +19,5 @@ export * from './auth';
 export * from './lobby';
 export * from './pairings';
 export * from './competition';
+
+export * from './reconnection';

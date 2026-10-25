@@ -50,6 +50,7 @@ import {
 interface Participant {
   id: string;
   sessionId: string;
+  generation: number;
   name: string;
   connected: boolean;
   avatarId: PlayerIdentity['avatarId'];
@@ -130,6 +131,7 @@ export class AuthoritativeMatch {
     const p: Participant = {
       id,
       sessionId,
+      generation: 1,
       name: identity?.name ?? (index === 0 ? 'Vargas' : 'Florin'),
       connected: true,
       avatarId: identity?.avatarId ?? 'jade',
@@ -151,6 +153,17 @@ export class AuthoritativeMatch {
     this.pool = state.pool;
     this.syncPool();
     this.assertConservation();
+    this.revision++;
+    return p;
+  }
+  /** Called only after server-side identity and frozen membership verification. */
+  resume(sessionId: string, userId: string) {
+    const p = this.players.find((p) => p.id === userId);
+    if (!p || this.players.some((other) => other.sessionId === sessionId))
+      throw new Error('Invalid recovery');
+    p.sessionId = sessionId;
+    p.generation++;
+    p.connected = true;
     this.revision++;
     return p;
   }

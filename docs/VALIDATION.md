@@ -536,3 +536,10 @@ Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md)
 ## F0-P7C.3 — ciclo competitivo
 
 Baseline: pnpm check, 760 pruebas/56 archivos. P7C.3: 773 pruebas/58 archivos (tipos, lint, tests y build); se mantienen las anteriores adaptando expectativas del final provisional al contrato competitivo. Tests nuevos: competition.test.ts, competition-network.test.ts y casos en RemoteCoordinator.test.ts. SDK independientes2/3/4 con reloj controlado: eliminación, pool, espectador, rechazo de acciones y final único. Cuatro clientes de navegador locales con identidades fixture recorrieron 4→3→2→1 en seis rondas; además empate exacto2, cambio humano/fantasma e inspección de DOLEA. No son cuatro cuentas reales Supabase ni cuatro amigos. Capturas en .impeccable/review/p7c3; ver [informe](F0_P7C3_REPORT.md).
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+Base: 58 archivos /773 pruebas correctas antes de editar; commit revisado a236da6. Suite ampliada:61 archivos /791 pruebas; tipos, lint y builds correctos. SDK de2/3/4 clientes independientes con UUID fixture: transición, compra, sustitución, todos offline, Overtime, resolución, eliminado y final. Navegador fixture:4 clientes y recarga con DOLEA/oro8 conservados; reintento manual, sesión inválida simulada, espectador con duelo conservado y Overtime con14,2s restantes al capturar. Capturas en .impeccable/review/p7d1:1280×720,1366×768,1440×900,1920×1080,2560×1440, scrollHeight igual a alto del viewport. No se afirma validación de cuatro personas ni nueva campaña con cuentas Supabase reales. Detector UI sin hallazgos; revisión visual independiente documentada en informe.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

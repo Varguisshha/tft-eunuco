@@ -249,3 +249,10 @@ Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md)
 ## F0-P7C.3 — ciclo competitivo
 
 Se adopta ranking de competición con puestos compartidos y huecos. HP previo y daño efectivo son los únicos desempates; el daño limitado hace al segundo criterio normalmente redundante. No se introduce azar ni orden de identidad. Se eligen frames públicos por tick para espectadores, evitando entregar la traza determinista futura. El resultado se publica una vez y se retiene en snapshots durante la vida limitada de la sala. [Ejemplos](FINAL_STANDINGS.md).
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+Elegida reentrada autenticada por UUID mediante joinById, sin token nativo de reconexión: revalida revocación y permite cerrar/reabrir pestaña. Una generación y un socket propietario por participante; conservar recibos/secuencias y adoptar snapshot antes de recuperar controles. Mantener 25s de transición ante pérdida temporal, sin recrear permisos. Cinco reintentos con backoff acotado; los errores de identidad detienen la serie. Se preservó P7C.3 en a236da6 antes de implementar. La deriva previa de PRODUCT.md se reporta, sin reparación incidental.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

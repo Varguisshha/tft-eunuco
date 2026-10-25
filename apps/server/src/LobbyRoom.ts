@@ -16,6 +16,7 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
   class PrivateMatch extends BaseMatch {
     private permit!: Permit;
     private began = false;
+    protected recoverable = true;
     protected manualStart = false;
     protected modernProtocol = true;
     protected createMatch() {
@@ -54,7 +55,7 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
     }
     onLeave(client: Client) {
       super.onLeave(client);
-      if (this.began && this.clients.length === 0) void this.disconnect();
+      // Keep authority alive until final retention or the one-hour hard limit.
     }
     onDispose() {
       this.permit?.ended();
@@ -118,14 +119,21 @@ export function lobbyRooms(verify: VerifyIdentity = verifyIdentity, BaseMatch = 
       if (!auth || auth.expiresAt <= Date.now()) throw new ServerError(401, 'Sesión caducada.');
       this.identity = auth;
       try {
-        hub.connect(auth, (event) => this.clients[0]?.send('lobby_event', event));
+        hub.connect(
+          auth,
+          (event) => this.clients[0]?.send('lobby_event', event),
+          () => {
+            this.attached = false;
+            void this.clients[0]?.leave(4002, 'connection_superseded');
+          },
+        );
         this.attached = true;
       } catch {
         throw new ServerError(409, 'Tu cuenta ya está conectada en otra ventana.');
       }
     }
     private valid(client: Client) {
-      if (!this.identity || this.identity.expiresAt <= Date.now()) {
+      if (!this.attached || !this.identity || this.identity.expiresAt <= Date.now()) {
         void client.leave(4001);
         return false;
       }

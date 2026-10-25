@@ -95,11 +95,15 @@ it('rejects invalid auth and client-created private destinations', async () => {
   ).rejects.toThrow();
 });
 it('authenticates lobby identities, restricts destination and starts two participants automatically', async () => {
-  const a = await gateway('first'),
-    b = await gateway('second');
+  let a = await gateway('first');
+  const b = await gateway('second');
   a.onMessage('lobby_event', () => {});
   b.onMessage('lobby_event', () => {});
-  await expect(gateway('first')).rejects.toThrow();
+  // P7D.1 replaces the authenticated gateway instead of rejecting a second window.
+  const replaced = new Promise<number>((resolve) => a.onLeave(resolve));
+  a = await gateway('first');
+  a.onMessage('lobby_event', () => {});
+  expect(await replaced).toBe(4002);
   const created = await action(a, 'create_lobby', { capacity: 2 });
   expect(created.lobby!.hostUserId).toBe(identities.first!.userId);
   const joined = await action(b, 'join_lobby', { roomCode: created.lobby!.roomCode.toLowerCase() });

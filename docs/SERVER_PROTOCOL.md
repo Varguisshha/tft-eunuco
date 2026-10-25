@@ -74,3 +74,10 @@ Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md)
 ## F0-P7C.3 — ciclo competitivo
 
 Los snapshots de partidas privadas2–4 pasan a `f0p7c3-1` (`CompetitiveSnapshotSchema`). Los cambios conceptuales player_eliminated/player_spectating/standings_updated/match_finished se representan en ese snapshot versionado, no como cuatro eventos redundantes. Se añaden `spectate_duel`, `spectate_snapshot` y `final_results`; esquemas estrictos en packages/shared/src/competition.ts. SpectateRequest lleva partida/fase/secuencia/duelo; SpectateFrame lleva participante, partida, ronda, combate, secuencia de selección y tick, tiempos y estado público sin RNG. FinalResults lleva completionId, ronda, secuencia, winnerIds y standings. Las trazas de jugadores mantienen PAIRING_VERSION y el diagnóstico legacy2 sigue compatible. No se transmiten trazas completas a eliminados. [Privacidad](SPECTATOR_MODE.md).
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+Se añade RECOVERY_VERSION=f0p7d1-1: opciones estrictas recoveryVersion y resume_accepted con matchId, participantId, connectionId, generation, nextSequence, spectateSequence, roundId, phaseId, duelId y revision. state_snapshot/combat_trace/spectate_snapshot/final_results conservan sus contratos y privacidad. La asociación al socket actual y phaseId excluye comandos tardíos; no se reenvían intenciones pendientes. Sala desaparecida usa código522 del Colyseus instalado; códigos de autenticación no permiten backoff infinito.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).

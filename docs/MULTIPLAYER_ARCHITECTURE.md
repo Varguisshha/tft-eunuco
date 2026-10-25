@@ -88,3 +88,10 @@ Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md)
 ## F0-P7C.3 — ciclo competitivo
 
 La autoridad incorpora estado competitivo separado de conexión, liquidación global de eliminaciones, puestos definitivos y espectadores de la propia partida. Selección de supervivientes y retorno de pool ocurren en AuthoritativeMatch; MatchRoom autoriza frames parciales; RemoteCoordinator consume puestos y resultados sin recalcularlos. Véanse [eliminaciones](ELIMINATION_RULES.md), [espectadores](SPECTATOR_MODE.md) y [finalización](MATCH_COMPLETION.md).
+
+
+## F0-P7D.1 — Recuperación autenticada (25/10/2026)
+
+La conexión deja de ser la identidad competitiva. PrivateMatch admite reentrada autenticada del roster congelado y conserva la autoridad sin sockets hasta el final retenido o el límite duro. LobbyHub permite sustitución de gateway y descubre destinos starting/in_match. El transporte privado tiene margen de 16 reservas/conexiones; la capacidad competitiva sigue siendo 2–4. La versión nativa de reconexión del SDK permanece desactivada.
+
+Esta sección sustituye las limitaciones históricas de «sin reconexión». Especificación: [RECONNECTION_SPEC.md](RECONNECTION_SPEC.md). Flujo, contratos y límites: [SESSION_RECOVERY.md](SESSION_RECOVERY.md).
