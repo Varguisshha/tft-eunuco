@@ -147,3 +147,8 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 F0-P7C.1 implementa motor2–4 y diagnósticos SDK. F0-P7C.2 pendiente: entrada real3/4 y presentación por duelo. F0-P7C.3 pendiente: eliminación competitiva, continuación con sobrevivientes y puestos finales. Sin despliegue ni inicio de la fase siguiente.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+P7C.2 queda preservada en 0f2dfaf. P7C.3 implementa eliminación, continuación entre supervivientes, espectador autorizado y final competitivo. Las notas históricas anteriores que los marcaban pendientes quedan superadas por esta sección. No se inicia P7D, reconexión completa, persistencia tras reinicio ni despliegue.

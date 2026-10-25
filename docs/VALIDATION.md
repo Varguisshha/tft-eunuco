@@ -531,3 +531,8 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 Baseline previo712/51 correcto y conservado en commit6868711. Se añaden pruebas de emparejamientos, fantasmas, simultaneidad, Overtime450, pago único, privacidad y SDK3/4. No son cuatro usuarios Supabase reales: no se han creado cuentas remotas. Resultado final: `pnpm check` correcto, 745 pruebas/54 archivos, tipos, lint y compilación; `pnpm verify:public` correcto. Evidencias en F0_P7C1_REPORT.md.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+Baseline: pnpm check, 760 pruebas/56 archivos. P7C.3: 773 pruebas/58 archivos (tipos, lint, tests y build); se mantienen las anteriores adaptando expectativas del final provisional al contrato competitivo. Tests nuevos: competition.test.ts, competition-network.test.ts y casos en RemoteCoordinator.test.ts. SDK independientes2/3/4 con reloj controlado: eliminación, pool, espectador, rechazo de acciones y final único. Cuatro clientes de navegador locales con identidades fixture recorrieron 4→3→2→1 en seis rondas; además empate exacto2, cambio humano/fantasma e inspección de DOLEA. No son cuatro cuentas reales Supabase ni cuatro amigos. Capturas en .impeccable/review/p7c3; ver [informe](F0_P7C3_REPORT.md).

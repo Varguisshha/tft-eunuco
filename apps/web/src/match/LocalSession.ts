@@ -25,7 +25,7 @@ import {
 } from '@tft/shared';
 import type { SessionSnapshot } from '../game/session';
 import type { BoardPort } from '../game/boardPort';
-import { CombatPlayback } from '../game/combatPlayback';
+import { CombatPlayback, sampleCombatFrame } from '../game/combatPlayback';
 import { passiveReadout } from '../game/combatFeedback';
 export const MATCH_ERRORS: Record<MatchError, string> = {
   'invalid-action': 'Acción inválida.',
@@ -92,6 +92,7 @@ export class LocalSession implements BoardPort {
     return this.remote ? this.remote.rivals() : opponentUnits(this.match);
   }
   get editable() {
+    if (this.remote?.eliminated || this.remote?.finalResults) return false;
     return this.authority
       ? this.authority.getClock().currentPhase === 'preparation' &&
           this.authority.getClock().clockState === 'running' &&
@@ -126,8 +127,14 @@ export class LocalSession implements BoardPort {
       this.listeners.delete(listener);
     };
   };
-  combatFrame = () => this.playback?.frame() ?? null;
+  combatFrame = () => {
+    const f = this.remote?.getSpectatorFrame();
+    return f
+      ? sampleCombatFrame({ ...f.state, rngState: 0 }, f.events, f.observedThroughMs)
+      : (this.playback?.frame() ?? null);
+  };
   starsFor = (id: string) =>
+    this.remote?.getSpectatorFrame()?.state.units.find((u) => u.id === id)?.profile.starLevel ??
     this.match.units.find((u) => u.id === id)?.stars ??
     this.remote?.rivals().find((u) => u.id === id)?.stars ??
     (id.startsWith('rival-')
@@ -139,11 +146,12 @@ export class LocalSession implements BoardPort {
   inspection() {
     const owned = this.selected();
     const rival = this.rivals().find((u) => u.id === this.selectedId);
-    const unit = owned ?? rival;
+    const observed = this.combatFrame()?.state.units.find((u) => u.id === this.selectedId);
+    const unit = owned ?? rival ?? observed;
     if (!unit) return null;
     const frame = this.combatFrame();
     const live = frame?.state.units.find((u) => u.id === unit.id);
-    const stars = this.starsFor(unit.id);
+    const stars = observed?.profile.starLevel ?? this.starsFor(unit.id);
     const baseProfile =
       live?.profile ??
       formationProfiles(this.match).find((u) => u.id === unit.id)?.profile ??
@@ -174,7 +182,7 @@ export class LocalSession implements BoardPort {
       mechanics: mechanicsReadout(live, frame?.state),
       hp: live?.hp ?? profile.stats.maxHp,
       mana: live?.mana ?? profile.stats.startingMana,
-      side: owned ? ('south' as const) : ('north' as const),
+      side: observed?.owner ?? (owned ? ('south' as const) : ('north' as const)),
     };
   }
   /** Pointer clicks deselect empty ground; keyboard activation still places units. */

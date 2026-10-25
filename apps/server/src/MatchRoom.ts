@@ -17,6 +17,9 @@ export class MatchRoom extends Room {
   protected match!: AuthoritativeMatch;
   private published = -1;
   protected ready = new Set<string>();
+  private sentFinal = new Set<string>();
+  private sentSpectate = new Map<string, string>();
+  private finishScheduled = false;
   private sentCombat = new Map<string, string>();
   protected manualStart = true;
   protected modernProtocol = false;
@@ -45,6 +48,12 @@ export class MatchRoom extends Room {
       if (payload !== null || !this.valid(client)) return;
       this.ready.add(client.sessionId);
       this.sendView(client);
+    });
+    this.onMessage('spectate_duel', (client, payload: unknown) => {
+      if (!this.valid(client)) return;
+      if (!this.match.spectate(client.sessionId, payload))
+        client.send('protocol_error', 'spectate-denied');
+      this.publish();
     });
     this.onMessage('ping', (client, payload: unknown) => {
       if (typeof payload === 'number' && Number.isFinite(payload) && payload >= 0)
@@ -81,6 +90,8 @@ export class MatchRoom extends Room {
     this.setSimulationInterval(() => {
       this.match.pulse();
       this.publish();
+      for (const client of this.clients)
+        if (this.ready.has(client.sessionId)) this.sendSpectator(client);
     }, 50);
     // Waiting/abandoned rooms are bounded; the active match does not pause on disconnection.
     this.clock.setTimeout(() => {
@@ -114,9 +125,11 @@ export class MatchRoom extends Room {
     if (!this.valid(client)) return;
     const modern = this.modernProtocol || this.match.capacity > 2;
     const snapshot = modern
-        ? this.match.roundSnapshot(client.sessionId)
+        ? this.match.competitiveSnapshot(client.sessionId)
         : this.match.snapshot(client.sessionId),
-      duel = this.match.duelFor(client.sessionId),
+      duel = this.match.players.find((p) => p.sessionId === client.sessionId)?.eliminated
+        ? null
+        : this.match.duelFor(client.sessionId),
       combat = duel?.replay;
     if (combat && this.sentCombat.get(client.sessionId) !== snapshot.combatId) {
       client.send('combat_trace', {
@@ -135,12 +148,28 @@ export class MatchRoom extends Room {
       this.sentCombat.set(client.sessionId, snapshot.combatId!);
     }
     client.send('state_snapshot', snapshot);
+    const final = this.match.finalResults;
+    if (modern && final && !this.sentFinal.has(client.sessionId)) {
+      client.send('final_results', final);
+      this.sentFinal.add(client.sessionId);
+    }
+  }
+  private sendSpectator(client: Client) {
+    if (!this.valid(client)) return;
+    const frame = this.match.spectatorFrame(client.sessionId);
+    if (!frame) return;
+    const key = `${frame.combatId}/${frame.selectionSequence}/${frame.sequence}`;
+    if (this.sentSpectate.get(client.sessionId) === key) return;
+    this.sentSpectate.set(client.sessionId, key);
+    client.send('spectate_snapshot', frame);
   }
   private publish() {
     if (this.published === this.match.revision) return;
     this.published = this.match.revision;
     for (const client of this.clients) if (this.ready.has(client.sessionId)) this.sendView(client);
-    if (this.match.clock.snapshot().currentPhase === 'finished')
-      this.clock.setTimeout(() => void this.disconnect(), 60_000);
+    if (this.match.clock.snapshot().currentPhase === 'finished' && !this.finishScheduled) {
+      this.finishScheduled = true;
+      this.clock.setTimeout(() => void this.disconnect(), 300_000);
+    }
   }
 }

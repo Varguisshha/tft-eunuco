@@ -83,3 +83,8 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 AuthoritativeMatch admite capacidad interna 2–4, historial y duelos independientes; MatchRoom publica la traza del receptor. Producción conserva capacidad 2. Los escenarios 3/4 solo están registrados en tests SDK con identidades controladas.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+La autoridad incorpora estado competitivo separado de conexión, liquidación global de eliminaciones, puestos definitivos y espectadores de la propia partida. Selección de supervivientes y retorno de pool ocurren en AuthoritativeMatch; MatchRoom autoriza frames parciales; RemoteCoordinator consume puestos y resultados sin recalcularlos. Véanse [eliminaciones](ELIMINATION_RULES.md), [espectadores](SPECTATOR_MODE.md) y [finalización](MATCH_COMPLETION.md).

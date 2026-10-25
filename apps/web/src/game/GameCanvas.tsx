@@ -56,9 +56,10 @@ export function GameCanvas({
       game.scale.resize(size.width, size.height);
       const reserves = host.current.closest('.battlefield')?.querySelector('.bench-section');
       if (scene.current)
-        scene.current.bottomOverlay = reserves
-          ? Math.max(0, rect.bottom - reserves.getBoundingClientRect().top + 4)
-          : 0;
+        scene.current.bottomOverlay =
+          reserves && reserves.getBoundingClientRect().height > 0
+            ? Math.max(0, rect.bottom - reserves.getBoundingClientRect().top + 4)
+            : 0;
       scene.current?.fitView();
       densityQuery?.removeEventListener('change', resize);
       densityQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);

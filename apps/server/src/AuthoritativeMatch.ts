@@ -1,3 +1,4 @@
+import { eliminationPlaces } from './competition';
 import { randomBytes } from 'node:crypto';
 import { pairRound, deriveSeed, type PairingHistory } from './pairings';
 import { VARGAS_ECONOMY_CONFIG, matchCatalog, combatRulesFor, traitsFor } from '@tft/game-data';
@@ -14,6 +15,12 @@ import {
 } from '@tft/game-core';
 import { refreshShop } from '../../../packages/game-core/src/match/shop';
 import {
+  COMPETITIVE_VERSION,
+  CompetitiveSnapshotSchema,
+  FinalResultsSchema,
+  SpectateRequestSchema,
+  SpectateFrameSchema,
+  type FinalResults,
   PAIRING_VERSION,
   PlayerProfileSchema,
   RoundSnapshotSchema,
@@ -46,7 +53,15 @@ interface Participant {
   name: string;
   connected: boolean;
   avatarId: PlayerIdentity['avatarId'];
-  eliminated: false;
+  eliminated: boolean;
+  eliminatedRound: number | null;
+  finalPosition: number | null;
+  hpBeforeElimination: number | null;
+  eliminationDamage: number | null;
+  poolReleased: boolean;
+  spectating: boolean;
+  spectatingDuelId: string | null;
+  spectateSequence: number;
   opponents: { round: number; opponentId: string; ghost: boolean }[];
   state: MatchState;
   sequence: number;
@@ -72,6 +87,7 @@ export class AuthoritativeMatch {
   readonly settlements = new Map<string, PlayerSettlement>();
   plan: PairingPlan | null = null;
   private pairingSeed: number | null = null;
+  private finalResult: FinalResults | null = null;
   private completedDuels = new Set<string>();
   constructor(
     readonly id: string,
@@ -118,6 +134,14 @@ export class AuthoritativeMatch {
       connected: true,
       avatarId: identity?.avatarId ?? 'jade',
       eliminated: false,
+      eliminatedRound: null,
+      finalPosition: null,
+      hpBeforeElimination: null,
+      eliminationDamage: null,
+      poolReleased: false,
+      spectating: false,
+      spectatingDuelId: null,
+      spectateSequence: -1,
       opponents: [],
       state,
       sequence: 0,
@@ -196,7 +220,8 @@ export class AuthoritativeMatch {
     this.pulse();
     const phase = this.clock.snapshot();
     let result: ActionReceipt;
-    if (
+    if (p.eliminated || this.finalResult) result = receipt(false, 'not-active');
+    else if (
       phase.currentPhase !== 'preparation' ||
       phase.remainingMs <= 0 ||
       before.remainingMs <= 0 ||
@@ -238,7 +263,7 @@ export class AuthoritativeMatch {
     if (phase.currentPhase === 'preparation') this.begin();
     else if (phase.currentPhase === 'combat') this.settle();
     else if (phase.currentPhase === 'resolution') {
-      for (const p of this.players) {
+      for (const p of this.players.filter((p) => !p.eliminated)) {
         const out = applySharedEconomy(
           p.state,
           commandFor(p.state, { type: 'next_round', round: p.state.round }),
@@ -253,18 +278,23 @@ export class AuthoritativeMatch {
       this.duels.length = 0;
       this.plan = null;
       this.completedDuels.clear();
-      this.clock.enter('preparation', this.players[0]!.state.round, PREPARATION_MS);
+      this.clock.enter(
+        'preparation',
+        this.players.find((p) => !p.eliminated)!.state.round,
+        PREPARATION_MS,
+      );
       this.revision++;
       this.assertConservation();
     }
   }
   private begin() {
-    const round = this.players[0]!.state.round;
+    const active = this.players.filter((p) => !p.eliminated);
+    const round = active[0]!.state.round;
     // Legacy two-player seed calls and orientation remain byte-for-byte compatible.
     const roundSeed = this.seed();
     this.pairingSeed ??= roundSeed;
     this.plan = pairRound(
-      this.players.map((p) => p.id),
+      active.map((p) => p.id),
       round,
       this.pairingHistory,
       this.pairingSeed,
@@ -321,7 +351,7 @@ export class AuthoritativeMatch {
     this.simulations += duels.length;
     this.replay = this.capacity === 2 ? duels[0]!.replay : null;
     this.pairingHistory.push(structuredClone({ round, pairings: this.plan.pairings }));
-    for (const p of this.players) {
+    for (const p of active) {
       const duel = this.duelFor(p.sessionId)!;
       const side = duel.pairing.southPlayerId === p.id ? 'south' : 'north';
       p.opponents.push({
@@ -337,6 +367,7 @@ export class AuthoritativeMatch {
         result: null,
       };
     }
+    for (const p of this.players.filter((p) => p.eliminated)) p.spectatingDuelId = null;
     // One shared phase; short duels wait for the longest replay and its visual tail.
     this.clock.enter(
       'combat',
@@ -357,10 +388,11 @@ export class AuthoritativeMatch {
     );
   }
   private settle() {
-    const round = this.players[0]!.state.round,
+    const active = this.players.filter((p) => !p.eliminated);
+    const round = active[0]!.state.round,
       id = `${this.id}/round/${round}/settlement`;
     if (this.settlementId === id) return;
-    const states = this.players.map((p) => {
+    const states = active.map((p) => {
       const duel = this.duelFor(p.sessionId)!;
       const trace =
         duel.pairing.southPlayerId === p.id ? duel.replay : reversePerspective(duel.replay);
@@ -373,7 +405,7 @@ export class AuthoritativeMatch {
       if (!out.ok) throw new Error(out.error);
       return out.state;
     });
-    const settlements = this.players.map((p, i) => {
+    const settlements = active.map((p, i) => {
       const state = states[i]!;
       return PlayerSettlementSchema.parse({
         id: `${id}/${p.id}`,
@@ -387,7 +419,7 @@ export class AuthoritativeMatch {
       });
     });
     // Commit only after every player's economy and settlement has validated.
-    this.players.forEach((p, i) => {
+    active.forEach((p, i) => {
       p.state = states[i]!;
     });
     for (const settlement of settlements) this.settlements.set(settlement.id, settlement);
@@ -395,10 +427,159 @@ export class AuthoritativeMatch {
       d.settlement = 'settled';
     });
     this.settlementId = id;
-    const finished = this.players.some((p) => p.state.health.south === 0);
+    const eliminated = active.filter((p) => p.state.health.south === 0);
+    const survivors = active.filter((p) => p.state.health.south > 0);
+    const places = eliminationPlaces(
+      eliminated.map((p) => ({
+        id: p.id,
+        hpBefore: p.state.healthLedger.at(-1)!.hpBefore,
+        damage: p.state.healthLedger.at(-1)!.applied,
+      })),
+      survivors.length,
+    );
+    for (const p of eliminated) {
+      p.eliminated = true;
+      p.eliminatedRound = round;
+      p.finalPosition = places.get(p.id)!;
+      p.hpBeforeElimination = p.state.healthLedger.at(-1)!.hpBefore;
+      p.eliminationDamage = p.state.healthLedger.at(-1)!.applied;
+      if (!p.poolReleased) {
+        for (const unit of p.state.units)
+          this.pool[unit.definitionId]! += copiesOf(unit, p.state.config);
+        for (const offer of p.state.shop) if (offer) this.pool[offer.definitionId]!++;
+        p.state.units = [];
+        p.state.shop = Array(5).fill(null);
+        p.state.lastUpgrades = [];
+        p.poolReleased = true;
+      }
+    }
+    this.syncPool();
+    const finished = survivors.length <= 1;
+    if (finished && survivors[0]) survivors[0].finalPosition = 1;
     this.clock.enter(finished ? 'finished' : 'resolution', round, finished ? 0 : RESOLUTION_MS);
     this.revision++;
+    if (finished) {
+      const standings = this.competitivePlayers();
+      const winnerIds = standings.filter((p) => p.finalPosition === 1).map((p) => p.id);
+      this.finalResult = FinalResultsSchema.parse({
+        version: COMPETITIVE_VERSION,
+        matchId: this.id,
+        completionId: `${this.id}/finished/${round}`,
+        round,
+        sequence: this.revision,
+        winnerIds,
+        sharedFirst: winnerIds.length > 1,
+        standings,
+      });
+    }
     this.assertConservation();
+  }
+  private competitivePlayers() {
+    const legacy = this.players.map((p) => ({
+      id: p.id,
+      userId: p.id,
+      name: p.name,
+      avatarId: p.avatarId,
+      connected: p.connected,
+      hp: p.state.health.south,
+      level: p.state.level,
+      eliminated: p.eliminated,
+      formation: p.state.units.filter((u) => u.location.kind === 'board'),
+      opponentId: p.opponents.at(-1)?.opponentId ?? null,
+      status:
+        this.clock.snapshot().currentPhase === 'combat' && !p.eliminated
+          ? this.completedDuels.has(this.duelFor(p.sessionId)?.pairing.combatId ?? '')
+            ? ('awaiting_round' as const)
+            : ('fighting' as const)
+          : ('waiting' as const),
+      provisionalPosition: 1,
+      lastOutcome: p.state.lastReward?.outcome ?? null,
+    }));
+    const alive = this.players.filter((p) => !p.eliminated);
+    return legacy
+      .map((view) => {
+        const p = this.players.find((p) => p.id === view.id)!;
+        return {
+          ...view,
+          competitiveState: p.eliminated ? ('eliminated' as const) : ('alive' as const),
+          eliminated: p.eliminated,
+          eliminatedRound: p.eliminatedRound,
+          finalPosition: p.finalPosition,
+          hpBeforeElimination: p.hpBeforeElimination,
+          eliminationDamage: p.eliminationDamage,
+          spectating: p.spectating,
+          opponentId: p.eliminated ? null : view.opponentId,
+          provisionalPosition:
+            p.finalPosition ??
+            1 + alive.filter((a) => a.state.health.south > p.state.health.south).length,
+        };
+      })
+      .sort((a, b) => a.provisionalPosition - b.provisionalPosition);
+  }
+  get finalResults() {
+    return this.finalResult ? structuredClone(this.finalResult) : null;
+  }
+  competitiveSnapshot(sessionId: string) {
+    const p = this.players.find((p) => p.sessionId === sessionId)!;
+    return CompetitiveSnapshotSchema.parse({
+      ...this.roundSnapshot(sessionId),
+      version: COMPETITIVE_VERSION,
+      players: this.competitivePlayers(),
+      combatId: p.eliminated ? null : (this.duelFor(sessionId)?.pairing.combatId ?? null),
+      spectatingDuelId: p.spectatingDuelId,
+      finalResults: this.finalResults,
+    });
+  }
+  spectate(sessionId: string, raw: unknown): boolean {
+    this.pulse();
+    const parsed = SpectateRequestSchema.safeParse(raw);
+    const p = this.players.find((p) => p.sessionId === sessionId && p.connected);
+    if (!parsed.success || !p?.eliminated || this.finalResult) return false;
+    const r = parsed.data;
+    if (
+      r.matchId !== this.id ||
+      r.phaseId !== this.clock.snapshot().phaseId ||
+      r.sequence <= p.spectateSequence
+    )
+      return false;
+    if (r.duelId !== null && !this.duels.some((d) => d.pairing.combatId === r.duelId)) return false;
+    p.spectating = true;
+    p.spectatingDuelId = r.duelId;
+    p.spectateSequence = r.sequence;
+    this.revision++;
+    return true;
+  }
+  spectatorFrame(sessionId: string) {
+    const p = this.players.find((p) => p.sessionId === sessionId && p.connected);
+    const phase = this.clock.snapshot();
+    if (!p?.eliminated || !p.spectating || !p.spectatingDuelId || phase.currentPhase !== 'combat')
+      return null;
+    const duel = this.duels.find((d) => d.pairing.combatId === p.spectatingDuelId);
+    if (!duel) return null;
+    const ms = Math.max(0, this.clock.now() - phase.phaseStart);
+    const tick = Math.min(duel.replay.result.tick, Math.floor(ms / 100));
+    const { rngState: _rng, ...state } = duel.replay.snapshots[tick]!;
+    void _rng;
+    return SpectateFrameSchema.parse({
+      version: COMPETITIVE_VERSION,
+      matchId: this.id,
+      playerId: p.id,
+      combatId: duel.pairing.combatId,
+      round: duel.pairing.round,
+      sequence: tick,
+      selectionSequence: p.spectateSequence,
+      startedAt: phase.phaseStart,
+      observedThroughMs: Math.min(ms, duel.replay.result.tick * 100 + 600),
+      southPlayerId: duel.pairing.southPlayerId,
+      northPlayerId: duel.pairing.northPlayerId,
+      state,
+      events: duel.replay.events.filter(
+        (e) =>
+          e.type !== 'combat_start' &&
+          e.tick <= tick &&
+          (e.tick >= tick - 25 || e.type === 'overtime_start'),
+      ),
+    });
   }
   snapshot(sessionId: string): NetworkSnapshot {
     if (this.capacity !== 2)

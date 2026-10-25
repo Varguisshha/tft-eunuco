@@ -5,9 +5,9 @@ import { ServerError } from '@colyseus/core';
 import {
   LOBBY_VERSION,
   LobbyEventSchema,
-  RoundSnapshotSchema,
+  CompetitiveSnapshotSchema as RoundSnapshotSchema,
   type LobbyEvent,
-  type RoundSnapshot,
+  type CompetitiveSnapshot as RoundSnapshot,
 } from '@tft/shared';
 import { MatchRoom } from './MatchRoom';
 import { createServer } from './server';

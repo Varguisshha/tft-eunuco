@@ -1,5 +1,8 @@
 import { Client, type Room } from '@colyseus/sdk';
 import {
+  COMPETITIVE_VERSION,
+  SpectateFrameSchema,
+  type SpectateFrame,
   ActionReceiptSchema,
   NETWORK_VERSION,
   reverseHex,
@@ -28,6 +31,9 @@ export class RemoteCoordinator implements MatchCoordinator {
   lastRejection: MatchError | null = null;
   notice = 'Conectado al servidor';
   private snapshot!: RemoteSnapshot;
+  private spectator: SpectateFrame | null = null;
+  private spectatorSequence = 0;
+  private selectedSpectatorSequence = -1;
   private pendingTrace: RemoteTrace | null = null;
   private state!: MatchState;
   private replay: CombatReplay | null = null;
@@ -50,6 +56,26 @@ export class RemoteCoordinator implements MatchCoordinator {
         this.state = projectRemote(this.snapshot, this.replay);
         this.emit();
       }
+    });
+    room.onMessage('spectate_snapshot', (raw: unknown) => {
+      const parsed = SpectateFrameSchema.safeParse(raw);
+      if (!parsed.success || !this.snapshot || !this.eliminated) return;
+      const f = parsed.data;
+      if (
+        f.matchId !== room.roomId ||
+        f.playerId !== this.snapshot.playerId ||
+        f.selectionSequence !== this.selectedSpectatorSequence ||
+        !('spectatingDuelId' in this.snapshot) ||
+        f.combatId !== this.snapshot.spectatingDuelId ||
+        !this.snapshot.pairings.some((p) => p.combatId === f.combatId && p.round === f.round) ||
+        (this.spectator?.combatId === f.combatId && f.sequence < this.spectator.sequence)
+      )
+        return;
+      this.spectator = f;
+      this.emit();
+    });
+    room.onMessage('final_results', () => {
+      /* canonical result is also retained in the snapshot */
     });
     room.onMessage('state_snapshot', (raw: unknown) => this.receive(raw));
     room.onMessage('action_receipt', (raw: unknown) => {
@@ -131,6 +157,12 @@ export class RemoteCoordinator implements MatchCoordinator {
       return;
     if (!this.snapshot) this.offset = s.serverTime - performance.now();
     this.snapshot = s;
+    if (
+      !('spectatingDuelId' in s) ||
+      this.spectator?.combatId !== s.spectatingDuelId ||
+      s.clock.currentPhase !== 'combat'
+    )
+      this.spectator = null;
     if (this.traceId !== s.combatId) {
       this.replay = null;
       this.traceId = null;
@@ -155,7 +187,12 @@ export class RemoteCoordinator implements MatchCoordinator {
         own: p.id === s.playerId,
         rival: p.id === opponent(s)?.id,
         avatarId: 'avatarId' in p ? p.avatarId : 'jade',
-        position: 'provisionalPosition' in p ? p.provisionalPosition : 1,
+        position:
+          'finalPosition' in p && p.finalPosition !== null
+            ? p.finalPosition
+            : 'provisionalPosition' in p
+              ? p.provisionalPosition
+              : 1,
       }))
       .sort((a, b) => a.position - b.position);
   }
@@ -180,6 +217,42 @@ export class RemoteCoordinator implements MatchCoordinator {
         : 'Duelo finalizado',
     };
   }
+  get currentRound() {
+    return Number(this.snapshot.clock.roundId.split('/').at(-1));
+  }
+  get player() {
+    return ownPlayer(this.snapshot);
+  }
+  get eliminated() {
+    return 'eliminated' in this.player && this.player.eliminated;
+  }
+  get finalResults() {
+    return 'finalResults' in this.snapshot ? this.snapshot.finalResults : null;
+  }
+  get spectating() {
+    return 'spectating' in this.player && this.player.spectating;
+  }
+  get spectatorDuels() {
+    return 'pairings' in this.snapshot ? this.snapshot.pairings : [];
+  }
+  get selectedDuelId() {
+    return 'spectatingDuelId' in this.snapshot ? this.snapshot.spectatingDuelId : null;
+  }
+  getSpectatorFrame = () => this.spectator;
+  spectate(duelId: string | null) {
+    if (!this.connected || !this.eliminated || this.finalResults) return false;
+    this.spectator = null;
+    this.selectedSpectatorSequence = this.spectatorSequence++;
+    this.room.send('spectate_duel', {
+      version: COMPETITIVE_VERSION,
+      matchId: this.snapshot.matchId,
+      phaseId: this.snapshot.clock.phaseId,
+      sequence: this.selectedSpectatorSequence,
+      duelId,
+    });
+    this.emit();
+    return true;
+  }
   getMatch = () => this.state;
   getClock = () => {
     const c = this.snapshot.clock;
@@ -203,6 +276,15 @@ export class RemoteCoordinator implements MatchCoordinator {
         : this.replay.result.tick * 100 + 600
       : 0;
   get names() {
+    if (this.spectator)
+      return {
+        south:
+          this.snapshot.players.find((p) => p.id === this.spectator?.southPlayerId)?.name ??
+          'Participante',
+        north:
+          this.snapshot.players.find((p) => p.id === this.spectator?.northPlayerId)?.name ??
+          'Participante',
+      };
     return {
       south: ownPlayer(this.snapshot).name,
       north: opponent(this.snapshot)?.name ?? 'Rival por asignar',
@@ -240,7 +322,13 @@ export class RemoteCoordinator implements MatchCoordinator {
     return true;
   }
   submit(intent: TimedCommand) {
-    if (!this.connected || this.pending || this.getClock().currentPhase !== 'preparation')
+    if (
+      !this.connected ||
+      this.eliminated ||
+      this.finalResults ||
+      this.pending ||
+      this.getClock().currentPhase !== 'preparation'
+    )
       return false;
     this.pending = true;
     this.room.send('command', {

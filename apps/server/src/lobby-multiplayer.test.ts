@@ -4,9 +4,9 @@ import { randomUUID } from 'node:crypto';
 import {
   LOBBY_VERSION,
   LobbyEventSchema,
-  RoundSnapshotSchema,
+  CompetitiveSnapshotSchema as RoundSnapshotSchema,
   DuelMessageSchema,
-  type RoundSnapshot,
+  type CompetitiveSnapshot as RoundSnapshot,
 } from '@tft/shared';
 import { MatchRoom } from './MatchRoom';
 import { AuthoritativeMatch } from './AuthoritativeMatch';

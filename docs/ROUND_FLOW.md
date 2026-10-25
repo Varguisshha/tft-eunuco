@@ -47,3 +47,8 @@ Detalles completos: [MATCH_CLOCK_SPEC.md](MATCH_CLOCK_SPEC.md), [AUTOMATIC_ROUND
 Para tres/cuatro: preparación30s → emparejar y simular dos duelos → esperar max(tickFinal)×100ms+600ms → liquidación atómica por humano → resolución5s → siguiente ronda. Duelo corto: awaiting_round sin cobro temprano. El primer cero detiene el diagnóstico, sin clasificación final ni eliminación competitiva.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+Después de resolver todos los duelos: liquidar vivos → agrupar HP cero → asignar puestos → liberar inventarios → continuar con vivos o terminar. 4→3 (fantasma)→2→1 es un flujo soportado. Los eliminados conservan su economía congelada y usan la ronda del reloj global para el HUD. [Detalle](MATCH_COMPLETION.md).

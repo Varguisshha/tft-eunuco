@@ -69,3 +69,8 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 Nuevo protocolo de lectura f0p7c1-1: Pairing/Plan, DuelRecord, PlayerSettlement, RoundSnapshot y DuelMessage. Solo 3/4 diagnósticos usan la lectura nueva; dos conserva f0p7b1-1. Las siete intenciones económicas y el envelope previo no cambian. Sin broadcast de tiendas/trazas ajenas ni semillas maestras.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+Los snapshots de partidas privadas2–4 pasan a `f0p7c3-1` (`CompetitiveSnapshotSchema`). Los cambios conceptuales player_eliminated/player_spectating/standings_updated/match_finished se representan en ese snapshot versionado, no como cuatro eventos redundantes. Se añaden `spectate_duel`, `spectate_snapshot` y `final_results`; esquemas estrictos en packages/shared/src/competition.ts. SpectateRequest lleva partida/fase/secuencia/duelo; SpectateFrame lleva participante, partida, ronda, combate, secuencia de selección y tick, tiempos y estado público sin RNG. FinalResults lleva completionId, ronda, secuencia, winnerIds y standings. Las trazas de jugadores mantienen PAIRING_VERSION y el diagnóstico legacy2 sigue compatible. No se transmiten trazas completas a eliminados. [Privacidad](SPECTATOR_MODE.md).

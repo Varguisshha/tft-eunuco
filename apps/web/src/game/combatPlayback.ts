@@ -48,28 +48,36 @@ export class CombatPlayback {
   }
   frame(): PlaybackFrame {
     const tick = Math.min(this.replay.result.tick, Math.floor(this.elapsed / TICK_MS));
-    return {
-      animationCues: new Map(
-        this.replay.snapshots[tick]!.units.map((u) => [
-          u.id,
-          unitAnimationCue(u, this.elapsed, this.replay.events),
-        ]),
-      ),
-      overtime:
-        tick >= OVERTIME_START_TICK &&
-        this.replay.events.some((e) => e.type === 'overtime_start' && e.tick <= tick),
-      remainingTicks:
-        this.replay.result.tick <= tick ? 0 : Math.max(0, this.replay.input.maxTicks - tick),
-      overtimeIntro: Math.max(0, 1 - (this.elapsed - OVERTIME_START_TICK * TICK_MS) / 600),
-      timeMs: this.elapsed,
-      tick,
-      state: this.replay.snapshots[tick]!,
-      recentEvents: this.replay.events.filter(
-        (e) => e.tick <= tick && e.tick * TICK_MS > this.elapsed - 700,
-      ),
-      feedbackEvents: this.replay.events.filter(
-        (e) => e.tick <= tick && e.tick * TICK_MS > this.elapsed - FEEDBACK_WINDOW_MS,
-      ),
-    };
+    return sampleCombatFrame(
+      this.replay.snapshots[tick]!,
+      this.replay.events,
+      this.elapsed,
+      this.replay.input.maxTicks,
+    );
   }
+}
+
+/** Shared sampling for complete player replays and server-released spectator frames. */
+export function sampleCombatFrame(
+  state: CombatState,
+  events: CombatEventV3[],
+  timeMs: number,
+  maxTicks = 450,
+): PlaybackFrame {
+  const tick = state.tick;
+  return {
+    animationCues: new Map(state.units.map((u) => [u.id, unitAnimationCue(u, timeMs, events)])),
+    overtime:
+      tick >= OVERTIME_START_TICK &&
+      events.some((e) => e.type === 'overtime_start' && e.tick <= tick),
+    remainingTicks: state.result !== null ? 0 : Math.max(0, maxTicks - tick),
+    overtimeIntro: Math.max(0, 1 - (timeMs - OVERTIME_START_TICK * TICK_MS) / 600),
+    timeMs: timeMs,
+    tick,
+    state: state,
+    recentEvents: events.filter((e) => e.tick <= tick && e.tick * TICK_MS > timeMs - 700),
+    feedbackEvents: events.filter(
+      (e) => e.tick <= tick && e.tick * TICK_MS > timeMs - FEEDBACK_WINDOW_MS,
+    ),
+  };
 }

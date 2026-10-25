@@ -1,4 +1,5 @@
 import {
+  CompetitiveSnapshotSchema,
   DuelMessageSchema,
   NetworkCombatSchema,
   NetworkSnapshotSchema,
@@ -8,6 +9,7 @@ import {
   type CombatReplay,
 } from '@tft/shared';
 export type RemoteSnapshot =
+  | ReturnType<typeof CompetitiveSnapshotSchema.parse>
   | ReturnType<typeof RoundSnapshotSchema.parse>
   | ReturnType<typeof NetworkSnapshotSchema.parse>;
 export type RemoteTrace =
@@ -15,6 +17,8 @@ export type RemoteTrace =
   | ReturnType<typeof NetworkCombatSchema.parse>;
 export const RemoteSnapshotSchema = {
   safeParse(raw: unknown) {
+    const competitive = CompetitiveSnapshotSchema.safeParse(raw);
+    if (competitive.success) return competitive;
     const modern = RoundSnapshotSchema.safeParse(raw);
     return modern.success ? modern : NetworkSnapshotSchema.safeParse(raw);
   },

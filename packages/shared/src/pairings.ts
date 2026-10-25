@@ -93,7 +93,7 @@ export const RoundSnapshotSchema = z.strictObject({
       PublicPlayerSchema.omit({ side: true }).extend({
         userId: z.string().uuid(),
         avatarId: AvatarSchema,
-        eliminated: z.literal(false),
+        eliminated: z.boolean(),
         opponentId: id.nullable(),
         status: z.enum(['waiting', 'fighting', 'awaiting_round', 'resolved']),
         provisionalPosition: z.number().int().min(1).max(4),

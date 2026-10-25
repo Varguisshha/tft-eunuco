@@ -15,7 +15,7 @@ export function MultiplayerStandings({ remote }: { remote: RemoteCoordinator }) 
       {remote.standings.map((p) => (
         <article
           key={p.id}
-          className={`multiplayer-player ${p.own ? 'is-own' : ''} ${p.rival ? 'is-rival' : ''}`}
+          className={`multiplayer-player ${p.own ? 'is-own' : ''} ${p.rival ? 'is-rival' : ''} ${'eliminated' in p && p.eliminated ? 'is-eliminated' : ''}`}
         >
           <span className="multiplayer-avatar" aria-hidden="true">
             <Avatar id={p.avatarId} />
@@ -24,6 +24,7 @@ export function MultiplayerStandings({ remote }: { remote: RemoteCoordinator }) 
           <strong aria-label={`${p.hp} vida`}>{p.hp}</strong>
           <span className="multiplayer-player-meta">
             Nv. {p.level} · Puesto {p.position}
+            {'eliminated' in p && p.eliminated ? ' · Fuera' : ''}
           </span>
           <span className={`multiplayer-connection ${p.connected ? '' : 'is-offline'}`}>
             {p.own ? 'Tú · ' : p.rival ? 'Rival · ' : ''}
@@ -39,6 +40,7 @@ export function MultiplayerDuel({ remote }: { remote: RemoteCoordinator }) {
   const d = remote.duel;
   const clock = remote.getClock();
   const ghost = d.pairing?.kind === 'ghost';
+  if (remote.eliminated || remote.finalResults) return null;
   if (clock.currentPhase === 'finished')
     return (
       <div className="multiplayer-wait" role="status">

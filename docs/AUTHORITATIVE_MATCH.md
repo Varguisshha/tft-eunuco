@@ -39,3 +39,8 @@ La autoridad solo acepta las siete intenciones permitidas. No hay rutas para mod
 El pool/externalCopies se extiende a todos los humanos. El motor coordina dos duelos para 3/4, captura fantasmas sin inventario, valida todas las liquidaciones antes de commit y mantiene ledgers por humano. La proyección nueva omite la contraparte health.north histórica: las vidas públicas proceden de los estados propios.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+P7C.3 sustituye el corte provisional al primer HP cero: ahora continúa con los supervivientes hasta quedar uno o ninguno. Eliminación irreversible al cierre global, inventario liberado una vez y final inmutable. No modifica simulación, fórmulas ni balance. [Reglas](ELIMINATION_RULES.md), [puestos](FINAL_STANDINGS.md), [final](MATCH_COMPLETION.md).

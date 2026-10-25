@@ -73,13 +73,14 @@ describe('parallel authoritative rounds', () => {
     };
     expect(run()).toEqual(run());
   });
-  it('stops diagnostics at first zero HP without inventing competitive eliminations', () => {
+  it('finishes after simultaneous elimination and preserves one-time settlement', () => {
     const { match, advance } = multiFixture(3);
     for (let i = 0; i < 100 && match.clock.snapshot().currentPhase !== 'finished'; i++)
       advance(match.clock.snapshot().remainingMs);
     expect(match.clock.snapshot().currentPhase).toBe('finished');
     expect(match.players.some((p) => p.state.health.south === 0)).toBe(true);
-    expect(match.roundSnapshot('socket-0').players.every((p) => p.eliminated === false)).toBe(true);
+    expect(match.roundSnapshot('socket-0').players.every((p) => p.eliminated)).toBe(true);
+    expect(match.finalResults?.sharedFirst).toBe(true);
     const count = match.settlements.size;
     advance(100000);
     expect(match.settlements.size).toBe(count);

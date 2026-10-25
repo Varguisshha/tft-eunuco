@@ -147,3 +147,70 @@ describe('private duel presentation', () => {
     remote.dispose();
   });
 });
+
+describe('eliminated spectator client', () => {
+  it('switches sampled duels without carrying old frames; rejects stale selections and cannot buy', () => {
+    vi.useFakeTimers();
+    const f = multiFixture(4);
+    equip(f.match, [1, 2, 3]);
+    const p = f.match.players[0]!;
+    p.state.config = structuredClone(p.state.config);
+    p.state.config.roundDamage.initialHp = 1;
+    p.state.health = { north: 1, south: 1 };
+    f.advance(30000);
+    f.advance(f.match.clock.snapshot().remainingMs);
+    f.advance(5000);
+    f.advance(30000);
+    const ws = socket(),
+      remote = new RemoteCoordinator(ws.room);
+    ws.send('state_snapshot', f.match.competitiveSnapshot('socket-0'));
+    expect(remote.eliminated).toBe(true);
+    expect(
+      remote.submit({
+        matchId: f.match.id,
+        phaseId: f.match.clock.snapshot().phaseId,
+        expectedRevision: 0,
+        command: { type: 'reroll_shop' },
+      }),
+    ).toBe(false);
+    const choose = (index: number) => {
+      remote.spectate(f.match.duels[index]!.pairing.combatId);
+      const args = ws.sent.mock.calls.at(-1)!;
+      expect(f.match.spectate('socket-0', args[1])).toBe(true);
+      ws.send('state_snapshot', f.match.competitiveSnapshot('socket-0'));
+      const frame = f.match.spectatorFrame('socket-0')!;
+      ws.send('spectate_snapshot', frame);
+      return frame;
+    };
+    const old = choose(0);
+    expect(remote.getSpectatorFrame()?.combatId).toBe(old.combatId);
+    const next = choose(1);
+    ws.send('spectate_snapshot', old);
+    expect(remote.getSpectatorFrame()?.combatId).toBe(next.combatId);
+    ws.send('spectate_snapshot', { ...next, playerId: 'foreign' });
+    expect(remote.getSpectatorFrame()).toEqual(next);
+    f.advance(f.match.clock.snapshot().remainingMs);
+    ws.send('state_snapshot', f.match.competitiveSnapshot('socket-0'));
+    expect(remote.getSpectatorFrame()).toBeNull();
+    remote.dispose();
+  });
+  it('uses final server ties and remains read-only after completion', () => {
+    vi.useFakeTimers();
+    const f = multiFixture(2);
+    for (const p of f.match.players) {
+      p.state.config = structuredClone(p.state.config);
+      p.state.config.roundDamage.initialHp = 1;
+      p.state.health = { north: 1, south: 1 };
+    }
+    f.advance(30000);
+    f.advance(f.match.clock.snapshot().remainingMs);
+    const ws = socket(),
+      remote = new RemoteCoordinator(ws.room);
+    ws.send('state_snapshot', f.match.competitiveSnapshot('socket-0'));
+    expect(remote.finalResults?.sharedFirst).toBe(true);
+    expect(remote.standings.map((p) => p.position)).toEqual([1, 1]);
+    expect(remote.spectate(null)).toBe(false);
+    expect(remote.getClock().clockState).toBe('stopped');
+    remote.dispose();
+  });
+});

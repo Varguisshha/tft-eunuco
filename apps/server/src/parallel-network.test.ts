@@ -4,11 +4,11 @@ import { WebSocketTransport } from '@colyseus/ws-transport';
 import { Client, type Room } from '@colyseus/sdk';
 import { createHash } from 'node:crypto';
 import {
-  RoundSnapshotSchema,
+  CompetitiveSnapshotSchema as RoundSnapshotSchema,
   DuelMessageSchema,
   ActionReceiptSchema,
   NETWORK_VERSION,
-  type RoundSnapshot,
+  type CompetitiveSnapshot as RoundSnapshot,
   type ActionReceipt,
   type MatchCommand,
 } from '@tft/shared';

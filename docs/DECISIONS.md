@@ -244,3 +244,8 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 Se enumeran candidatos de emparejamiento y se minimiza historial/recencia con desempate estable por semilla. Rotación fantasma prioriza receptor y propietario menos utilizados. Se reutiliza economía sin cambiar fórmulas; el acumulador histórico de contraparte no se publica como vida real. Cálculo síncrono de duelos y reproducción simultánea; no se introducen workers ni se abre lobby3/4.
 
 Detalles: [emparejamientos](MATCHMAKING_2_TO_4.md), [fantasmas](GHOST_COMBAT.md), [duelos paralelos](PARALLEL_COMBATS.md).
+
+
+## F0-P7C.3 — ciclo competitivo
+
+Se adopta ranking de competición con puestos compartidos y huecos. HP previo y daño efectivo son los únicos desempates; el daño limitado hace al segundo criterio normalmente redundante. No se introduce azar ni orden de identidad. Se eligen frames públicos por tick para espectadores, evitando entregar la traza determinista futura. El resultado se publica una vez y se retiene en snapshots durante la vida limitada de la sala. [Ejemplos](FINAL_STANDINGS.md).

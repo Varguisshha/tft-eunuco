@@ -1,3 +1,4 @@
+import { CompetitiveHud } from '../network/CompetitiveHud';
 import { GameFrame } from './hud/GameFrame';
 import { GameIconButton } from './hud/GameIconButton';
 import { TraitRail } from './hud/TraitRail';
@@ -32,10 +33,17 @@ export function LocalGame({
   const rule = levelRule(state),
     preparing = session.editable;
   const journal = useRef<HTMLDialogElement>(null);
+  if (session.remote?.finalResults)
+    return (
+      <main className="local-game game-hud multiplayer-game">
+        <CompetitiveHud remote={session.remote} onExit={onNew} />
+      </main>
+    );
   return (
     <main
-      className={`local-game game-hud phase-${phase} ${session.remote ? 'multiplayer-game' : ''}`}
+      className={`local-game game-hud phase-${phase} ${session.remote ? 'multiplayer-game' : ''} ${session.remote?.eliminated ? 'is-eliminated' : ''}`}
     >
+      {session.remote && <CompetitiveHud remote={session.remote} onExit={onNew} />}
       <header className="match-heading">
         <div className="match-logo">
           TFT <b>EUNUCO</b>
@@ -43,7 +51,7 @@ export function LocalGame({
         <div className="phase-plate">
           <div className="round-emblem">
             <span>RONDA</span>
-            <h1>{String(state.round).padStart(2, '0')}</h1>
+            <h1>{String(session.remote?.currentRound ?? state.round).padStart(2, '0')}</h1>
           </div>
           <PhaseClock
             phase={phase}
@@ -81,7 +89,7 @@ export function LocalGame({
           ) : (
             <span className="automatic-label">
               {phase === 'resolution'
-                ? `Siguiente: ronda ${state.round + 1}`
+                ? `Siguiente: ronda ${(session.remote?.currentRound ?? state.round) + 1}`
                 : 'Rondas automáticas'}
             </span>
           )}
