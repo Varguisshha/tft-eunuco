@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
 
 # Actualización F0-P7B.1
@@ -59,3 +61,9 @@ Servidor ligado a 127.0.0.1:2567. Dos navegadores **en este equipo** funcionan; 
 Crear → unir dos → inicio explícito → rondas automáticas → terminado si cualquiera llega a 0 → destrucción. Sin clientes, Colyseus elimina la sala. Espera sin inicio: máximo 5 minutos. Límite de vida de sala: una hora. Finalizada: 60 segundos para revisar resultado. Cerrar una conexión conserva formación/economía y el reloj sigue para el restante. No hay reconexión, reemplazo, persistencia ni recuperación tras reiniciar proceso.
 
 La futura cuenta debe resolver playerId detrás del transporte sin cambiar economía. La futura persistencia guardará estado autoritativo, RNG, reservas, transición y liquidación; jamás importará un snapshot enviado por un navegador. No se implementa F0-P7B/P7D.
+
+## F0-P7B.2 — Salas privadas
+
+La entrada de usuario pasa por sala privada, código y Listo. El gateway usa la identidad Supabase existente; una fábrica interna crea la partida de dos con whitelist. Lobbies de hasta cuatro sin emparejamientos de cuatro. `test_match` se conserva para compatibilidad y tests, fuera del menú nuevo.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

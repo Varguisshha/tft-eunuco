@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 # Actualización F0-P7B.1
 
 Supabase Auth y PostgreSQL incorporan identidad persistente. AccountPortal/AccountService/session.ts separan cuentas de la partida local. MatchRoom valida identidad y AuthoritativeMatch recibe UUID/nombre de perfil. El motor, balance, arena y HUD no cambian.
@@ -177,3 +179,9 @@ Las secciones anteriores relativas a botones manuales o a la segunda simulación
 ## Integración F0-P6B.3
 
 Nuevo contenido `f0p6b3` / `f0p6b3-1` conserva los catálogos y trazas anteriores. VARGAS se expresa en datos; el motor añade recuperación sobre daño a HP, efectos tras daño, modificadores por estrella y condiciones de stacks. La capacidad DEV tiene subpaths propios y borradores validados, sin ampliar el protocolo normal. `GameCanvas` usa identidad de escena preparada al cambiar de sesión. [Personaje](VARGAS_CHARACTER.md), [DEV](DEVELOPER_MODE.md), [validación](F0_P6B3_REPORT.md).
+
+## F0-P7B.2 — Salas privadas
+
+LobbyHub coordina salas en memoria y canales privados `lobby_gateway`; `private_match` reutiliza MatchRoom/AuthoritativeMatch con roster permitido. El frontend conserva RemoteCoordinator y LocalGame. No se modifica core, economía, arena ni DEV.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

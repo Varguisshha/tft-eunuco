@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
 
 # Actualización F0-P7B.1
@@ -220,3 +222,9 @@ Detalles y limitaciones en [ADVANCED_MECHANICS.md](ADVANCED_MECHANICS.md). Se pr
 ## Integración F0-P6B.3
 
 Decisiones B3: coste3 y estadísticas solicitadas; catálogo/reglas nuevos; condiciones previas a ganancia para kills posteriores2/6; cura sobre HP con recuperación tras daños comprometidos; arte oficialmente nativo2★, listas explícitas1/3→2 sin hojas duplicadas; DEV reserva copias reales y guarda marca irreversible en la sesión normal del coordinador, ledger y auditoría separados. Acceso por compilación local, excluido del paquete público. Se conserva refresh del último efecto y potencia B2. No hay multiplayer, cuentas, objetos, aumentos ni fase posterior. [Personaje](VARGAS_CHARACTER.md) y [controlador](DEVELOPER_MODE.md).
+
+## F0-P7B.2 — Salas privadas
+
+Decisión P7B2: gateway privado por cuenta + LobbyHub único en memoria, independiente de economía. Códigos de ocho caracteres criptográficos; una sala por cuenta; gracia30s; caducidad15min; relevo al primero conectado por orden de entrada. Solo capacidad2 inicia, siempre dos listos; capacidad3/4 anuncia P7C. Permiso efímero de creación y whitelist UUID impiden acceso arbitrario al destino. Plazo25s para transición y callbacks ligados al intento. Snapshot completo versionado en vez de deltas parciales.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

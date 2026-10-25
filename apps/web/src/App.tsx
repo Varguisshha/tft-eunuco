@@ -131,9 +131,9 @@ export function App() {
               onClick={() => setScreen('online')}
               aria-current={screen === 'online' ? 'page' : undefined}
             >
-              Multijugador de prueba
+              Salas privadas
             </button>
-            <span>F0–P7B.1</span>
+            <span>F0–P7B.2</span>
           </div>
         </details>
       </nav>

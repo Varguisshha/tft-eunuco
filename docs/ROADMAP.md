@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
 
 # Actualización F0-P7B.1
@@ -123,3 +125,9 @@ Motor genérico de stacks, eliminaciones atribuidas, progreso de sinergias, mejo
 ## Integración F0-P6B.3
 
 Implementada exclusivamente F0-P6B.3: VARGAS, sus habilidades/sinergias, importación nativa2★ y Modo Desarrollador aislado. Los diagnósticos UPM usan miembros ficticios fuera de tienda. No se inicia otra fase. Pendientes artísticos explícitos: apariencias1★/3★ y clips idle/walk/ability/death. Balance provisional; siguiente paso recomendado: revisar partidas de prueba y recibir recursos nativos faltantes antes de cambiar contenido. [Informe](F0_P6B3_REPORT.md).
+
+## F0-P7B.2 — Salas privadas
+
+Implementadas salas privadas, códigos, presencia, anfitrión, Listo e inicio automático de dos cuentas. Lobbies hasta cuatro disponibles; partidas de3/4, matchmaking, persistencia/reconexión y despliegue siguen pendientes. Validación real Vargas–Florin alcanzó ronda8. Punto de parada: **no iniciar F0-P7C**.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

@@ -16,3 +16,4 @@ export * from './network';
 
 export * from './perspective';
 export * from './auth';
+export * from './lobby';

@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
 
 # Cuentas — F0-P7B.1
@@ -31,3 +33,9 @@ La clave pública del proyecto es pública por diseño; la clave service_role so
 - [Colyseus 0.18 room authentication](https://docs.colyseus.io/auth/room): static onAuth, client.auth.token y asociación de identidad.
 
 Las pruebas del proveedor usan dobles controlados. No se ha verificado un proyecto Supabase real, SMTP ni dos cuentas reales.
+
+## F0-P7B.2 — Salas privadas
+
+Las salas reutilizan verifyIdentity, sin nuevo sistema de cuentas. Se prohíbe otro canal activo del mismo UUID; token refrescado debe pertenecer al mismo usuario. Revocación periódica cada5s en lobby y15s en partida. El snapshot excluye correo y credenciales. No se modifican RLS, Auth, SMTP ni las migraciones remotas. Evidencia real y fixtures diferenciadas en LOBBY_SECURITY.md.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

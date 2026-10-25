@@ -68,7 +68,7 @@ La consulta múltiple de preflight por CLI devolvió solo el último resultado; 
 
 ## Correo: documentación comprobada
 
-El [SMTP predeterminado de Supabase](https://supabase.com/docs/guides/auth/auth-smtp) solo permite direcciones del equipo y actualmente limita a2 mensajes/hora; el panel confirma que este proyecto todavía usa ese servicio. Para otras direcciones habrá que configurar SMTP adecuado. No se ha contratado ningún servicio ni realizado ninguna entrega.
+El [SMTP predeterminado de Supabase](https://supabase.com/docs/guides/auth/auth-smtp) solo permite direcciones del equipo y actualmente limita a2 mensajes/hora; esa fue la configuración inicial. Posteriormente el propietario configuró Gmail SMTP de pruebas y se verificaron confirmaciones y recuperación con las dos cuentas autorizadas. No se ha contratado un servicio de pago.
 
 La [referencia CLI](https://supabase.com/docs/reference/cli/supabase-projects-create) y la ayuda de la CLI instalada se consultaron para preparar el acceso. Se crearon la organización y el proyecto indicados, sin activar un plan de pago.
 
@@ -79,3 +79,7 @@ Hay capturas de inicio y perfil autenticados y edición; se conserva Neon Playgr
 ## SQL remoto reproducible
 
 `supabase db query --linked --file supabase/tests/remote-authorization.sql --output json` ejecuta una fixture transaccional sobre el proyecto de desarrollo: no bootstrap, colisiones de IDs detectadas, eliminación limitada a la sesión creada dentro de esa transacción y ROLLBACK final. No usar sobre producción. Comprueba email/invitación ausente/caducada/reutilizada, normalización, auditoría, unicidad con rollback de consumo, grants/RLS y revocación. La ejecución remota terminó correctamente y no dejó cuentas fixture persistentes. No equivale a concurrencia ni a entrega de correo por GoTrue.
+
+## Continuación P7B.2
+
+Revocación durante una conexión activa comprobada contra Supabase real con una nueva sesión de Florin; esa sesión fue cerrada sin revocar la del propietario. Concurrencia de ocho registros y autorización repetidas en PostgreSQL aislado con ambas migraciones. La caducidad de JWT se prueba con verificador controlado y sockets reales, sin afirmar expiración natural remota. Partida real desde el nuevo lobby Vargas–Florin hasta ronda8, con compra, despliegue y Overtime: [informe](F0_P7B2_REPORT.md).

@@ -14,9 +14,9 @@ export class MatchRoom extends Room {
   private credentials = new Map<string, VerifiedIdentity>();
   maxClients = 2;
   maxMessagesPerSecond = 30;
-  private match!: AuthoritativeMatch;
+  protected match!: AuthoritativeMatch;
   private published = -1;
-  private ready = new Set<string>();
+  protected ready = new Set<string>();
   private sentCombat = new Map<string, string>();
   onCreate() {
     this.match = new AuthoritativeMatch(this.roomId);

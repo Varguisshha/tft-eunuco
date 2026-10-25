@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 # Actualización F0-P7B.1
 
 Versión f0p7b1-1. Matchmaking usa client.auth.token; static onAuth devuelve identidad validada mediante Supabase y perfil. authenticate renueva el token del mismo UUID; cambio de usuario/caducidad/revocación cierran socket. snapshots jamás contienen token/email. name pasa de enum Vargas/Florin a texto validado (máximo32). Comandos, economía y reloj mantienen autoridad previa.
@@ -45,3 +47,9 @@ El cliente valida snapshots, versión, trazas y recibos. Una traza exige CombatB
 El tiempo se estima con ping/pong usando el punto medio de la muestra de menor RTT. La UI interpola deadline menos tiempo estimado. Si el cliente se suspende o recibe tarde, busca directamente el tick correspondiente; puede omitir cues antiguos, pero conserva HP/eventos/resultado. No prolonga fases. La precisión de LAN/Internet no está garantizada ni probada en P7A.
 
 Ambos sockets reciben la traza canónica idéntica. Florin rota solo la presentación180° e intercambia etiquetas north/south para mantener su mitad jade abajo. No resimula: IDs, orden, ticks y daño son idénticos. reversePerspective es involutivo y se prueba con trazas reales.
+
+## F0-P7B.2 — Salas privadas
+
+Se añade protocolo de lobby `f0p7b2-1` separado del protocolo de partida `f0p7b1-1`. Canal `lobby_action`: create_lobby(capacity), join_lobby(roomCode), set_capacity(capacity), set_ready(readyState), leave_lobby, close_lobby, start_match, sync. Todos llevan version y requestId UUID; Zod strict rechaza campos extra. `lobby_event` contiene version, requestId nullable, error nullable y lobby nullable. El snapshot revisionado representa altas, bajas, preparación, anfitrión y destino: reemplaza eventos parciales y evita aplicar deltas fuera de orden. El emisor identifica al actor; nunca se acepta userId en acciones.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

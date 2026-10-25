@@ -1,3 +1,5 @@
+> **Estado actual F0-P7B.2 (24/10/2026):** salas privadas implementadas; partidas funcionales de dos. [Informe](F0_P7B2_REPORT.md). Los apartados anteriores de fases se conservan como histórico.
+
 > **F0-P7B.1-R (24/10/2026): flujo principal real verificado.** Supabase Free conectado; dos cuentas confirmadas por correo, perfiles/RLS, recuperación y partida Colyseus hasta ronda 2 comprobados. Quedan escenarios adicionales de borde detallados en [SUPABASE_REAL_VALIDATION.md](SUPABASE_REAL_VALIDATION.md). F0-P7B.2 no iniciada.
 
 # Actualización F0-P7B.1
@@ -507,3 +509,9 @@ El laboratorio técnico conserva su documento desplazable; el criterio de pantal
 ## Integración F0-P6B.3
 
 Auditoría inicial: 531 pruebas correctas, tipos/lint/build; F0-P6B.2 ya preservada en ed09b3b. Se capturaron 14 hashes B2 antes de editar y siguen idénticos. Resultado final: **601 pruebas en 40 archivos**, tipos, lint y builds correctos; exclusión de DEV del bundle público comprobada. La batería B3 cubre personaje/escalados, daño efectivo, Overtime/críticos, UPM2/4/6, kills2/4/6 posteriores, linaje, arte/fallback futuro y DEV/pool/recuperación/idempotencia; también compra/fusión/venta normal. Navegador real: cinco resoluciones, oferta/compra por 3 de oro, colocación, tres estrellas, inspector, sinergias, generación, nivel/oro, recuperación, rondas, diagnósticos de Resaca/UPM/salto y DOLEA. Capturas y medidas en `artifacts/p6b3`. Se reprodujo y corrigió una carrera Phaser en normal→DEV; cuatro recuperaciones y vuelta de Arena sin nuevos errores. Resultados finales, alcance exacto de revisión visual y límites en [informe B3](F0_P6B3_REPORT.md).
+
+## F0-P7B.2 — Salas privadas
+
+Baseline antes de editar: pnpm check con689 pruebas/49 archivos. Se añaden pruebas de modelo y conexiones reales Colyseus, incluyendo carreras, límites, permisos, inicio único, whitelist, revocación y caducidad del token en un canal activo. E2E Supabase real: Vargas en Safari y Florin en navegador integrado, creación/unión por código, Listo, inicio automático, compra/despliegue, combate/Overtime y ronda8; vida coincidente Florin89/Vargas75. Otra sala comprobó capacidad4 bloqueada, relevo de Florin a Vargas, cierre y rechazo del código revocado. Concurrencia de cuatro identidades y aforo se validan con fixtures, no con cuentas reales adicionales. Ver informe F0_P7B2_REPORT.md para resultados finales y límites visuales.
+
+Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Seguridad y evidencias: [LOBBY_SECURITY.md](LOBBY_SECURITY.md). Transición: [LOBBY_TO_MATCH.md](LOBBY_TO_MATCH.md).

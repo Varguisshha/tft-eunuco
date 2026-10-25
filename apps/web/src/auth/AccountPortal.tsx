@@ -164,6 +164,7 @@ export function AccountPortal({ onLocal }: { onLocal: () => void }) {
         key={session.user.id}
         accountSession={session}
         onAccount={() => navigate('home')}
+        onLocal={onLocal}
       />
     );
   return (
@@ -398,12 +399,12 @@ export function AccountPortal({ onLocal }: { onLocal: () => void }) {
                   {current === 'home' ? (
                     <>
                       {action(
-                        'Jugar · multijugador de prueba',
+                        'Jugar · salas privadas',
                         () => navigate('play'),
                         !shown || !session?.user.email_confirmed_at,
                       )}
                       {action('Ver perfil', () => navigate('profile'), !shown)}
-                      <small>Salas privadas: próximamente.</small>
+                      <small>Reúne a tu grupo con un código privado.</small>
                     </>
                   ) : (
                     <>
