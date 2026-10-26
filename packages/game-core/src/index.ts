@@ -19,3 +19,5 @@ export * from './combat/abilities';
 export * from './combat/stats';
 
 export * from './match/progress';
+
+export * from './items/inventory';

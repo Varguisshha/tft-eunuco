@@ -13,6 +13,7 @@ import {
   sameHex,
   scaledProfile,
   scaledOwnedProfile,
+  equippedStatsPreview,
   validateMatchState,
   type MatchError,
   type LocalMatchCoordinator,
@@ -29,6 +30,18 @@ import type { BoardPort } from '../game/boardPort';
 import { CombatPlayback, sampleCombatFrame } from '../game/combatPlayback';
 import { passiveReadout } from '../game/combatFeedback';
 export const MATCH_ERRORS: Record<MatchError, string> = {
+  'items-disabled': 'El sistema de objetos no está disponible en este guardado.',
+  'missing-item': 'El objeto ya no está disponible.',
+  'item-owner': 'El objeto y la unidad deben pertenecerte.',
+  'item-capacity': 'No hay espacio en el inventario.',
+  'item-unavailable': 'Este objeto todavía no está disponible.',
+  'recipe-unavailable': 'Esta receta aún no tiene un objeto disponible.',
+  'invalid-recipe': 'Selecciona dos componentes distintos.',
+  'item-slots-full': 'La unidad ya tiene tres objetos.',
+  'unequip-forbidden': 'Los objetos no se pueden retirar libremente.',
+  'item-restricted': 'La unidad no puede llevar este objeto.',
+  'item-request-conflict': 'La solicitud ya se usó con otro contenido.',
+  'invalid-item-location': 'Elige una posición válida del inventario.',
   'invalid-action': 'Acción inválida.',
   'invalid-state': 'El estado de partida no supera la validación.',
   'stale-action': 'Esta acción ya se procesó o pertenece a un estado anterior.',
@@ -157,7 +170,7 @@ export class LocalSession implements BoardPort {
       live?.profile ??
       formationProfiles(this.match).find((u) => u.id === unit.id)?.profile ??
       (owned
-        ? scaledOwnedProfile(owned, this.match.config)
+        ? scaledOwnedProfile(owned, this.match.config, this.match.items)
         : scaledProfile(unit.definitionId, stars, this.match.config));
     const profile = live
       ? {
@@ -167,7 +180,13 @@ export class LocalSession implements BoardPort {
             ...combatStatsView(live, frame?.tick ?? 0, this.playback?.replay.input.overtime),
           },
         }
-      : { ...baseProfile, stats: baseStatsView(baseProfile) };
+      : {
+          ...baseProfile,
+          stats:
+            owned?.location.kind === 'bench'
+              ? { ...baseProfile.stats, ...equippedStatsPreview(baseProfile) }
+              : baseStatsView(baseProfile),
+        };
     return {
       id: unit.id,
       definitionId: unit.definitionId,

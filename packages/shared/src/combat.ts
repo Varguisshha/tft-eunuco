@@ -1,3 +1,4 @@
+import { ItemBonusSchema } from './items';
 import { z } from 'zod';
 import {
   MECHANICS_RULES,
@@ -103,6 +104,15 @@ export const PassiveSchema = z.strictObject({
 export const CombatProfileSchema = z
   .strictObject({
     stats: CombatStatsSchema,
+    initialItemModifiers: z
+      .array(
+        ItemBonusSchema.extend({
+          id: z.string().min(1).max(100),
+          sourceId: z.string().min(1).max(80),
+        }),
+      )
+      .max(48)
+      .optional(),
     mechanics: ProfileMechanicsSchema.optional(),
     starLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
     ability: AbilitySchema.nullable(),
@@ -177,6 +187,11 @@ export const CombatInputSchema = z
       )
     )
       ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
+    if (
+      input.rulesVersion !== COMPOSITE_RULES &&
+      input.units.some((u) => u.profile.initialItemModifiers)
+    )
+      ctx.addIssue({ code: 'custom', message: 'Item preparation requires P6C combat inputs' });
     const mechanics =
       input.rulesVersion === MECHANICS_RULES ||
       input.rulesVersion === CHARACTER_RULES ||

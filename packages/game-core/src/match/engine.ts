@@ -1,3 +1,12 @@
+import {
+  createItemInventory,
+  localItemOwner,
+  applyItemCommand,
+  mergeEquipment,
+  returnUnitItems,
+  ItemRuleError,
+  type ItemError,
+} from '../items/inventory';
 import { awardRoundProgress, mergeUnitProgress, clearMatchProgress } from './progress';
 import { traitsFor, hasTraits, combatRulesFor } from '@tft/game-data';
 import {
@@ -36,6 +45,7 @@ import { calculateRoundDamage } from './roundDamage';
 import { refreshShop } from './shop';
 import { validateMatchState } from './invariants';
 export type MatchError =
+  | ItemError
   | 'invalid-action'
   | 'invalid-state'
   | 'stale-action'
@@ -82,11 +92,16 @@ function ledger(
   });
   return delta;
 }
-export function createMatch(seed = 42, config: EconomyConfig = ECONOMY_CONFIG): MatchState {
+export function createMatch(
+  seed = 42,
+  config: EconomyConfig = ECONOMY_CONFIG,
+  ownerId = localItemOwner(seed),
+): MatchState {
   seed = CombatSeedSchema.parse(seed);
   config = EconomyConfigSchema.parse(config);
   for (const tier of config.opponents) for (const id of tier.definitions) definition(id);
   const state: MatchState = {
+    ...(config.itemCatalog ? { items: createItemInventory(ownerId) } : {}),
     rulesVersion: MATCH_RULES,
     config,
     seed,
@@ -143,6 +158,7 @@ export function combine(state: MatchState): void {
         const survivor = candidates[0]!;
         const consumed = new Set(candidates.slice(1, 3).map((u) => u.id));
         mergeUnitProgress(survivor, candidates.slice(0, 3), state.config);
+        mergeEquipment(state, survivor, candidates.slice(0, 3));
         survivor.stars = (stars + 1) as 2 | 3;
         state.units = state.units.filter((u) => !consumed.has(u.id));
         state.lastUpgrades.push({ id: survivor.id, stars: survivor.stars });
@@ -197,7 +213,7 @@ function startCombat(state: MatchState, allowEmpty = false): void {
             definitionId: u.definitionId,
             owner: 'south' as const,
             position: u.location.hex,
-            profile: scaledOwnedProfile(u, state.config),
+            profile: scaledOwnedProfile(u, state.config, state.items),
           },
         ]
       : [],
@@ -357,6 +373,13 @@ function applyAction(
       if (state.phase !== 'preparation') reject('wrong-phase');
       state.lastUpgrades = [];
       switch (action.type) {
+        case 'equip_item':
+        case 'unequip_item':
+        case 'combine_components':
+        case 'move_item':
+        case 'inspect_item':
+          applyItemCommand(state, action);
+          break;
         case 'buy_unit': {
           const slot = state.shop.findIndex((o) => o?.id === action.offerId);
           if (slot < 0) reject('missing-offer');
@@ -385,6 +408,7 @@ function applyAction(
         case 'sell_unit': {
           const unit = state.units.find((u) => u.id === action.unitId);
           if (!unit) reject('missing-unit');
+          returnUnitItems(state, unit);
           ledger(state, 'sell', sellValue(unit, state.config), unit.id);
           state.pool[unit.definitionId]! += copiesOf(unit, state.config);
           state.units = state.units.filter((u) => u.id !== unit.id);
@@ -424,7 +448,8 @@ function applyAction(
     state.nextActionSeq++;
     return { ok: true, state: validateMatchState(state, context?.externalCopies) };
   } catch (error) {
-    if (error instanceof RuleError) return { ok: false, state: original, error: error.code };
+    if (error instanceof RuleError || error instanceof ItemRuleError)
+      return { ok: false, state: original, error: error.code };
     throw error;
   }
 }

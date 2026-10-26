@@ -1,3 +1,4 @@
+import { ITEM_CATALOG, DIAGNOSTIC_ITEM_CATALOG } from '@tft/game-data';
 import { combatStatsView } from '../combat/stats';
 import { DEFAULT_OVERTIME } from '@tft/shared';
 import { traitsFor } from '@tft/game-data';
@@ -8,6 +9,7 @@ import type {
   UnitLocation,
   EconomyConfig,
   CombatProfile,
+  PlayerItemState,
 } from '@tft/shared';
 import {
   COMBAT_PROFILES,
@@ -104,7 +106,7 @@ export function formationProfiles(state: MatchState) {
             definitionId: u.definitionId,
             owner: 'south' as const,
             position: u.location.hex,
-            profile: scaledOwnedProfile(u, state.config),
+            profile: scaledOwnedProfile(u, state.config, state.items),
           },
         ]
       : [],
@@ -133,13 +135,7 @@ export function formationProfiles(state: MatchState) {
       stats: {
         ...unit.profile.stats,
         ...combatStatsView({
-          ...unit,
-          hp: unit.profile.stats.maxHp,
-          mana: unit.profile.stats.startingMana,
-          attackCharge: 10000,
-          action: null,
-          targetId: null,
-          deathTick: null,
+          profile: unit.profile,
           statuses: prepared.modifiers.filter((m) => m.unitId === unit.id).map((m) => m.status),
         }),
       },
@@ -148,7 +144,11 @@ export function formationProfiles(state: MatchState) {
 }
 
 /** Permanent unit bonuses are applied once, after general star scaling. */
-export function scaledOwnedProfile(unit: OwnedUnit, config: EconomyConfig): CombatProfile {
+export function scaledOwnedProfile(
+  unit: OwnedUnit,
+  config: EconomyConfig,
+  inventory?: PlayerItemState,
+): CombatProfile {
   const profile = scaledProfile(unit.definitionId, unit.stars, config);
   const definition = profile.championAbility?.passive?.matchProgress;
   if (definition) {
@@ -160,5 +160,29 @@ export function scaledOwnedProfile(unit: OwnedUnit, config: EconomyConfig): Comb
       (profile.stats.attack * (1000 + count * definition.adPercentMilli)) / 1000,
     );
   }
+  if (inventory && unit.equipment?.length) {
+    const catalog =
+      inventory.catalogVersion === ITEM_CATALOG.version ? ITEM_CATALOG : DIAGNOSTIC_ITEM_CATALOG;
+    const modifiers = unit.equipment.flatMap((item) => {
+      if (item.ownerId !== inventory.ownerId) throw Error('Invalid item owner');
+      const d = catalog.definitions.find((d) => d.id === item.definitionId);
+      if (!d) throw Error('Unknown equipped item');
+      return d.bonuses.map((b, index) => ({ ...b, id: `${item.id}:${index}`, sourceId: item.id }));
+    });
+    if (modifiers.length) profile.initialItemModifiers = modifiers;
+  }
   return profile;
+}
+
+/** Effective equipment preview for a benched owned unit, without deployed synergies. */
+export function equippedStatsPreview(profile: CombatProfile) {
+  return combatStatsView({
+    profile,
+    statuses: (profile.initialItemModifiers ?? []).map((m) => ({
+      ...m,
+      kind: 'modifier' as const,
+      origin: 'item' as const,
+      expiresTick: null,
+    })),
+  });
 }

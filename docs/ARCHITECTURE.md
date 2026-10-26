@@ -189,3 +189,8 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 ## F0-P6C · JARAMILLO
 
 F0-P6C amplía datos, contratos compartidos y núcleo con JARAMILLO. La persistencia se incorpora a OwnedUnit dentro de snapshots P7D.2; Phaser consume la traza y un contrato visual compuesto. No se añade simulación de cliente, tabla ni subsistema de persistencia. Véanse los tres documentos de JARAMILLO, animaciones compuestas y acumulaciones persistentes.
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+El catálogo de objetos tiene versión separada `f0p8a-1`, habilitada en nuevas configuraciones mediante `itemCatalog`. Shared define contratos; game-data registra ocho categorías y 36 recetas reservadas; core conserva inventarios y equipa sobre candidatos privados; DurableMatch persiste y confirma. No se reescribe la simulación. Documentación vigente: [ITEM_SYSTEM](ITEM_SYSTEM.md), [ITEM_INVENTORY](ITEM_INVENTORY.md).

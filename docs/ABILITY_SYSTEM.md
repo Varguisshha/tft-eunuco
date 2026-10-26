@@ -105,3 +105,8 @@ Nuevos efectos tipados: ganancia/consumo de stacks, cooldown de regla pasiva, me
 ## F0-P6C · JARAMILLO
 
 Cortina de Humo es mixta: Trotamundos progresa entre rondas y la activa entrega efectos con `delivery: projectile`. `armor_reduction` es reutilizable: igual fuerza refresca; solo prevalece la mayor vigente. La activa no hace crítico; básicos y Overtime conservan sus reglas. Véase JARAMILLO_CHARACTER.md.
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+Los objetos preparan efectos core reservados de escudo, cura, daño y modificadores, con desencadenantes, intervalos y condiciones tipados. No se conectan aún a las señales de combate. Un objeto disponible no puede declarar efectos reservados. Las estadísticas técnicas usan modificadores de origen item y no sustituyen habilidades de personajes. Capacidades y límites: [ITEM_SYSTEM](ITEM_SYSTEM.md).

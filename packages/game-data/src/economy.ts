@@ -80,3 +80,9 @@ export const JARAMILLO_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...VARGAS_ECONOMY_CONFIG,
   catalog: 'f0p6c',
 });
+
+/** Infrastructure opt-in; all economic values and combat content remain P6C. */
+export const ITEMS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...JARAMILLO_ECONOMY_CONFIG,
+  itemCatalog: 'f0p8a-1',
+});

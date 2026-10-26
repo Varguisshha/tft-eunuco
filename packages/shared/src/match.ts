@@ -1,3 +1,4 @@
+import { ItemInstanceSchema, PlayerItemStateSchema, ItemActionSchema } from './items';
 import { z } from 'zod';
 import { CombatSeedSchema, HexCoordSchema } from './board-contracts';
 import { CombatInputSchema, CombatResultSchema } from './combat';
@@ -29,6 +30,7 @@ export const MatchUnitProgressSchema = z
   );
 export const OwnedUnitSchema = z.strictObject({
   progress: MatchUnitProgressSchema.optional(),
+  equipment: z.array(ItemInstanceSchema).max(3).optional(),
   id,
   definitionId: id,
   stars: StarsSchema,
@@ -58,6 +60,7 @@ export type HealthEntry = z.infer<typeof HealthEntrySchema>;
 export const EconomyConfigSchema = z
   .strictObject({
     version: z.literal(MATCH_RULES),
+    itemCatalog: z.literal('f0p8a-1').optional(),
     catalog: z.enum(['f0p4.1', 'f0p6a', 'f0p6b1', 'f0p6b2', 'f0p6b3', 'f0p6c']).optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
@@ -172,6 +175,7 @@ export const MatchActionSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...baseAction, type: z.literal('start_combat_auto') }),
   z.strictObject({ ...baseAction, type: z.literal('resolve_round'), round: nat.positive() }),
   z.strictObject({ ...baseAction, type: z.literal('next_round'), round: nat.positive() }),
+  ...ItemActionSchema.options.map((option) => option.extend(baseAction)),
 ]);
 export type MatchAction = z.infer<typeof MatchActionSchema>;
 export type MatchCommand = MatchAction extends infer A
@@ -180,6 +184,7 @@ export type MatchCommand = MatchAction extends infer A
     : never
   : never;
 export const MatchStateSchema = z.strictObject({
+  items: PlayerItemStateSchema.optional(),
   development: z
     .strictObject({
       tainted: z.literal(true),

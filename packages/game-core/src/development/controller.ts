@@ -1,10 +1,11 @@
+import { returnUnitItems } from '../items/inventory';
 import {
   DevelopmentRequestSchema,
   DevelopmentAuditSchema,
   type DevelopmentAudit,
   type DevelopmentCommand,
 } from '@tft/shared/development';
-import { JARAMILLO_ECONOMY_CONFIG, matchCatalog } from '@tft/game-data';
+import { ITEMS_ECONOMY_CONFIG, matchCatalog } from '@tft/game-data';
 import { type AutomaticSave, type MatchState, type UnitLocation } from '@tft/shared';
 import { createMatch, combine, addXp } from '../match/engine';
 import { validateMatchState } from '../match/invariants';
@@ -39,7 +40,7 @@ export class DevelopmentController {
     id = `dev-${crypto.randomUUID()}`,
   ) {
     if (!id.startsWith('dev-')) throw new Error('DEV identity required');
-    const match = createMatch(seed, JARAMILLO_ECONOMY_CONFIG);
+    const match = createMatch(seed, ITEMS_ECONOMY_CONFIG);
     match.development = { version: 1, tainted: true, healthAdjustments: [] };
     this.current = new LocalMatchCoordinator(match, { matchId: id, time, development: true });
     this.watch();
@@ -308,10 +309,14 @@ export class DevelopmentController {
     else if (command.type === 'remove') {
       const unit = state.units.find((u) => u.id === command.unitId);
       if (!unit) throw new Error('Unidad no encontrada.');
+      returnUnitItems(state, unit);
       state.pool[unit.definitionId]! += copiesOf(unit, state.config);
       state.units = state.units.filter((u) => u.id !== unit.id);
     } else if (command.type === 'formation') {
-      for (const u of state.units) state.pool[u.definitionId]! += copiesOf(u, state.config);
+      for (const u of state.units) {
+        returnUnitItems(state, u);
+        state.pool[u.definitionId]! += copiesOf(u, state.config);
+      }
       state.units = [];
       state.lastUpgrades = [];
       const ids =
@@ -325,3 +330,4 @@ export class DevelopmentController {
     }
   }
 }
+export { applyDevelopmentItems } from './items';

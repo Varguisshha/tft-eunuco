@@ -53,3 +53,15 @@ export const DevelopmentAuditSchema = z.strictObject({
   revision: amount,
 });
 export type DevelopmentAudit = z.infer<typeof DevelopmentAuditSchema>;
+
+/** Local capability for item diagnostics; excluded from the normal network protocol. */
+export const DevelopmentItemCommandSchema = z.discriminatedUnion('type', [
+  z.strictObject({
+    type: z.literal('grant_items'),
+    grantId: z.string().min(1).max(80),
+    definitionIds: z.array(z.string().min(1).max(80)).min(1).max(32),
+  }),
+  z.strictObject({ type: z.literal('clear_items') }),
+  z.strictObject({ type: z.literal('diagnostic_item_catalog') }),
+]);
+export type DevelopmentItemCommand = z.infer<typeof DevelopmentItemCommandSchema>;

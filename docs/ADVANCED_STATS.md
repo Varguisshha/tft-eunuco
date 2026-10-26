@@ -121,3 +121,8 @@ La potencia de un cast mejorado/adicional se aplica después de resolver AD/AP y
 ## Integración F0-P6B.3
 
 B3 usa HP700/1260/2268 y AD70/126/226 de VARGAS, sin multiplicar otra vez los ratios280/420/700 % AD. AS800milli, AP0, crítico200/1500, defensas25, maná0/70. Un daño crítico autorizado afecta la recuperación por HP real; Blackhaus lo desactiva explícitamente. Sus bonos de AS son porcentajes aditivos de base, con importe/duración por estrella. Recuperación porcentual del daño se calcula después de mitigación, escudo y recorte, y recibe Overtime de curación después. Los campos B3 son rechazados bajo reglas anteriores. [Ejemplos y límites](VARGAS_CHARACTER.md).
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+Las estadísticas de equipo se incorporan como `initialItemModifiers` identificados por instancia a la preparación existente. No se cambian mitigación, críticos, bucle ni Overtime. Planos y porcentajes se componen con las fuentes de sinergia según la fórmula existente; Kilómetros sigue preparando el AD base antes de esas fuentes. Un plano de objeto no se escala por estrellas. El inspector de banquillo usa la misma vista efectiva. Las cifras de los componentes definitivos siguen pendientes. Véase [ITEM_SYSTEM](ITEM_SYSTEM.md).

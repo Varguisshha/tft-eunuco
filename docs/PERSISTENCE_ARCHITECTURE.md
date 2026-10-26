@@ -40,3 +40,8 @@ El verificador Supabase sigue autenticando JWT y perfil. Restaurar un lobby no a
 Checkpoints de reloj cada segundo y commits en acciones críticas, fases, conexiones y selección de espectador. Se guarda snapshot completo, incluidas trazas canónicas: sencillo de auditar, pero con amplificación de escritura. La carga inicial recupera todos los registros retenidos; adecuada para desarrollo de un proceso, pendiente paginación/capacidad antes de escala pública. Sin Redis, hosting, servicio de pago ni historial competitivo permanente.
 
 Referencias primarias: [bloqueos PostgreSQL](https://www.postgresql.org/docs/17/explicit-locking.html), [aislamiento transaccional](https://www.postgresql.org/docs/18/transaction-iso.html), [seguridad de funciones Supabase](https://supabase.com/docs/guides/database/functions).
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+P8A incluye inventario, equipo, pendientes y registros en el JSONB existente, sin migración SQL ni almacenamiento paralelo. La huella ITEM_CATALOG_HASH incorpora configuración nueva, catálogo de personajes, componentes/recetas/políticas y diseño de reparto. Las huellas P7D.2 y P6C conservan exactamente sus fórmulas previas. Restaurar el catálogo nuevo exige la versión de objetos y los propietarios correctos; los guardados históricos siguen sin inventario. Prueba específica con PostgreSQL + SIGKILL conserva componente equipado, pendientes y recibo repetido tras autenticarse de nuevo. [ITEM_INVENTORY](ITEM_INVENTORY.md).

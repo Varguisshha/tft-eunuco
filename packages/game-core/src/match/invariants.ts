@@ -1,3 +1,4 @@
+import { validateItemState } from '../items/inventory';
 import { progressDefinition } from './progress';
 import { MatchStateSchema, type MatchState } from '@tft/shared';
 import { matchCatalog } from '@tft/game-data';
@@ -9,6 +10,7 @@ export function validateMatchState(
   externalCopies: Readonly<Record<string, number>> = {},
 ): MatchState {
   const state = MatchStateSchema.parse(value);
+  validateItemState(state);
   const fail = (condition: boolean, message: string) => {
     if (condition) throw new Error(message);
   };

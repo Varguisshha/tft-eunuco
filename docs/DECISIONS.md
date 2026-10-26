@@ -264,3 +264,8 @@ Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MA
 ## F0-P6C · JARAMILLO
 
 P6C: catálogo f0p6c y reglas f0p6c-1 separados de f0p6b3; snapshots históricos conservados. Armadura: máximo vigente, empate refresca. FUMÓN una vez por objetivo global, sin recursión. Evolución gráfica desconocida; tres poses autorizadas más recuperación, sin inventar una cuarta. Limpieza generativa documentada como derivado, no idéntica al original.
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+P8A: ocho categorías sin cifras finales; 36 recetas sin resultados competitivos. Tres ranuras; retirada normal prohibida, diagnóstico permitida. Componentes se autocompletan solo con receta disponible. Orden de fusión existente, equipo del superviviente primero y excedentes a inventario/pendientes. Venta no vende objetos. Journal de concesión/combinación verifica conservación. Ningún reparto efectivo; se reserva 2/3 componentes 50/50 cada tres rondas. [Contratos](ITEM_SYSTEM.md), [reparto futuro](ITEM_DROP_DESIGN.md).

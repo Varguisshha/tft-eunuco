@@ -49,3 +49,8 @@ No se incorpora todavía a VARGAS ni sus sprites, Copita Perhaps, Blackhaus RPP,
 ## Integración F0-P6B.3
 
 VARGAS demuestra la incorporación por datos: coste3, rol assassin, AD/HP escalados una sola vez, mixed, dos membresías y stacks versionados. Su apariencia original es star2; star1/star3 referencian star2 explícitamente. Cada próxima incorporación debe declarar procedencia real, activos faltantes, política de fallback y versión de catálogo, probar pool/fusión/replay y mantener perfiles anteriores. No añadir ramas del motor por nombre. [Contrato aplicado](VARGAS_CHARACTER.md).
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+OwnedUnit admite equipo opcional de hasta tres instancias. El catálogo de objetos es independiente de las estadísticas base, habilidad y sprites del personaje. Diseños futuros deberán declarar restricciones y composición sin cambiar el perfil base permanentemente. Fusiones mantienen la identidad previa y devuelven excedentes; venta devuelve equipo con el precio vigente. Véase [ITEM_INVENTORY](ITEM_INVENTORY.md).

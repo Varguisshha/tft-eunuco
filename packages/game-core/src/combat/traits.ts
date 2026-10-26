@@ -40,7 +40,12 @@ export function analyzeTraits(
 /** Apply to a fresh clone only. Input/base profiles remain untouched across rounds. */
 export function prepareTraitProfiles(input: CombatInput) {
   const units = structuredClone(input.units);
-  const modifiers: { unitId: string; status: CombatStatus }[] = [];
+  const modifiers: { unitId: string; status: CombatStatus }[] = units.flatMap((unit) =>
+    (unit.profile.initialItemModifiers ?? []).map((m) => ({
+      unitId: unit.id,
+      status: { ...m, kind: 'modifier' as const, origin: 'item' as const, expiresTick: null },
+    })),
+  );
   const activations: {
     side: Side;
     traitId: string;

@@ -1,0 +1,38 @@
+# F0-P8A · Fundación del sistema universal de objetos y componentes
+
+26 de octubre de 2026. Base estable `9f23180` (JARAMILLO/P6C), con P7D.2 integrado. No había cambios rastreados ni una fase P7D.3 en curso. Rama de trabajo `codex/f0-p8a-items`; los recursos sueltos y archivos previos del usuario se conservan fuera de la entrega.
+
+1. **Componentes.** Ocho categorías versionadas: AD, velocidad, AP, maná, armadura, RM, vida y crítico. IDs técnicos e iconos sustituibles, disponibilidad, ámbito y bonificaciones. No hay nombres visibles obligatorios ni valores finales de balance; la descripción se genera desde las estadísticas y expresa su estado pendiente cuando no hay cifras.
+2. **Objetos completos.** Contrato con ID, versión, icono, receta, bonos, efectos reservados, restricciones, acumulación y metadatos visuales. Solo dos definiciones técnicas fuera del catálogo competitivo permiten probar estadísticas y restricciones. Ningún objeto definitivo añadido.
+3. **Recetas.** Las 36 parejas no ordenadas con repetición están registradas y validadas. A+B=B+A; A+A requiere dos instancias. Las 36 competitivas tienen resultado pendiente. Una receta incompleta falla sin consumir, reservar IDs ni crear un objeto ficticio. El resultado conserva receta e ingredientes consumidos.
+4. **Inventario.** Por UUID autenticado online, independiente para cada participante. Dos bandejas de 16, pendientes para excedentes, orden estable e identidades por instancia. Journal de concesiones/combinaciones comprueba propiedad, emisión, consumo y ubicación única. Concesiones internas deduplicadas por ID; sin cantidades ni snapshots del navegador como autoridad.
+5. **Equipamiento.** Acciones tipadas de equipar, retirar según política, combinar, mover e inspeccionar. Máximo tres ranuras, también para componentes temporales; autocompletar mantiene la ranura del componente existente aunque estén ocupadas las tres. El servidor comprueba propietario, fase, disponibilidad y restricciones.
+6. **Fusiones.** Mismo superviviente de la lógica existente: desplegadas primero e ID estable. Se conserva su equipo primero; después las copias en orden. Hasta tres compatibles; excesos y conflictos únicos/componentes extra vuelven a bandeja o pendientes. Conserva todos los IDs y propietarios en fusiones 1★→2★, 2★→3★ y cascada de nueve copias.
+7. **Venta.** Devuelve equipo y vende la unidad en una sola acción candidata; precio anterior, sin vender objetos. Inventario lleno deriva a pendientes. Eliminación competitiva y retirada/cambio de formación DEV también devuelven equipo.
+8. **Autoridad.** Usa el protocolo, fase, revisión, secuencia y requestId existentes. Recibo repetido conserva el resultado, incluso tras reconectar; payload distinto con el mismo requestId falla. No hay mensaje ni endpoint público de concesión o de generación DEV. La vista propia contiene el inventario; la pública solo muestra equipo desplegado.
+9. **Persistencia.** Reutiliza JSONB, CAS y DurableMatch P7D.2 sin tabla/migración nueva. Inventario, equipo, pendientes, recetas realizadas y registros viajan juntos. Las 36 definiciones se reconstruyen desde el catálogo versionado fijado por la huella, no se reciben del cliente. Un fallo de almacenamiento no publica el equipo ni confirma éxito. PostgreSQL y SIGKILL recuperan un componente equipado, pendientes y recibo idempotente.
+10. **Reparto futuro.** Configuración desactivada: al terminar rondas 3, 6, 9…; cantidad común para vivos, 2/3 al 50/50; tipos independientes por jugador; semilla y registro deduplicado; entrega directa. No hay sorteo efectivo, consumo nuevo de RNG ni integración en liquidación. Queda pendiente el stream y el registro común de ronda cuando se autorice activarlo.
+11. **Pruebas y resultados.** Véase el bloque de validación final debajo. Se conservan las 831 pruebas de base; los tests nuevos cubren contratos, conservación y corrupción, capacidad, tres ranuras, recetas, restricciones, orden, fusiones, venta, las estadísticas de los tres personajes, rondas sin reparto, privacidad, fallos de almacenamiento y recuperación real.
+12. **Compatibilidad histórica.** `items` y `equipment` opcionales sin defaults en guardados previos. Los catálogos y fingerprints P7D.2/P6C se conservan; nueva huella para `itemCatalog: f0p8a-1`. Se rechazan versiones cruzadas o propietarios corruptos. La ruta legacy test_match conserva P6C; nuevas salas privadas y partidas locales optan a objetos.
+13. **Límites.** HUD sin bandeja ni nuevos botones. Iconos preparados por ID, sin nuevos recursos gráficos. Los componentes aún no tienen balance definitivo. Efectos de objetos por señales/periódicos/auras/condiciones y composición de maná reservados; un objeto disponible no puede prometer efectos especiales reservados. Retirada normal prohibida. Datos de diagnóstico solo en DEV. Permanecen el límite SQL de 16 MiB y las cotas de inventario/journal descritas en ITEM_INVENTORY; no se prueba aquí carga a escala pública.
+14. **Git y ejecución.** Entrega en commit local sobre `codex/f0-p8a-items`, sin remoto nuevo, push ni despliegue. La prueba de reinicio usa exclusivamente procesos de diagnóstico en loopback y la base PostgreSQL desechable `tft_persistence_test` en 55439. No toca Supabase ni reinicia el servidor normal del usuario. Ninguna modificación a sprites, arena, estilos, precios, pool, relojes o emparejamientos.
+15. **Preparación para F0-P8B.** Contratos, registro, acciones, invariantes, entrada de estadísticas, guardado y datos de presentación listos. Para la siguiente fase habrá que autorizar contenido original, asignar balance, implementar cada efecto faltante, versionar y diseñar la presentación/reparto. F0-P8B no se inicia.
+
+## Validación final
+
+- Baseline ejecutado: 831 pruebas existentes, 826 correctas y cinco de PostgreSQL omitidas al no indicar su variable en esa primera ejecución.
+- Resultado final: **873/873 correctas en 72 archivos, ninguna omitida**. Incluye las seis pruebas de PostgreSQL y conserva todos los escenarios anteriores.
+- Comando completo: `PERSISTENCE_TEST_URL=postgresql://127.0.0.1:55439/tft_persistence_test pnpm check`.
+- Typecheck, ESLint, tests completos, build cliente y build servidor: correctos.
+- `pnpm verify:public`: correcto; sin controlador, panel ni comandos DEV en el bundle público.
+- Guardado local real: `encodeSave/decodeSave` conserva equipo creado por receta, bandeja, pendientes y propietario. Los guardados anteriores siguen sin inventario.
+- Permanece el aviso de Vite sobre chunks de más de 500 kB; no es un error de compilación ni se cambia la carga de Phaser en esta fase.
+- Evidencia local: `artifacts/p8a/check.log`, `public.log` y `validation.json` (excluidos de Git por la política existente).
+
+## Recorrido aislado reproducido
+
+`packages/game-core/src/items/inventory.test.ts` contiene un escenario de principio a fin: crear inventario DEV → recibir componentes técnicos → resolver receta → equipar tres ranuras → comprar la tercera copia y fusionar → devolver exceso → vender → serializar/restaurar → verificar conservación de todos los IDs. Otros casos llenan ambas bandejas y conservan el exceso de venta/fusión en pendientes.
+
+`apps/server/src/persistence/crash.test.ts` añade un caso real: conceder 20 componentes internamente en una sala privada aislada → 16 en bandeja y 4 pendientes → equipar mediante mensaje Colyseus → confirmar commit → SIGKILL → arrancar otro proceso → reconectar identidad → verificar equipo/inventario → repetir el requestId sin duplicación. Usa un endpoint explícito dentro del fixture, ausente del servidor normal.
+
+Documentos principales: [ITEM_SYSTEM](ITEM_SYSTEM.md), [ITEM_INVENTORY](ITEM_INVENTORY.md), [ITEM_RECIPES](ITEM_RECIPES.md), [ITEM_DROP_DESIGN](ITEM_DROP_DESIGN.md).

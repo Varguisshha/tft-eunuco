@@ -553,3 +553,8 @@ Validación final P7D.2: `PERSISTENCE_TEST_URL=postgresql://127.0.0.1:55439/tft_
 ## F0-P6C · JARAMILLO
 
 Validación P6C: pruebas lógicas por estrellas, reducción máxima/refresco, Humo sin recursión, cancelación por objetivo muerto, Kilómetros/fusión/exclusiones, restauración compatible y PostgreSQL. Capturas de los estados corporales y VFX en artifacts/p6c; HUD 1440×900, 1920×1080 y 2560×1440 sin scroll del documento. Detalle y resultados finales en F0_P6C_REPORT.md.
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+F0-P8A parte del commit 9f23180 y conserva la suite de 831 pruebas. Se añaden contratos/36 parejas, conservación y corrupción, ranuras/retirada/propiedad, combinación atómica, fusiones y ventas con overflow, estadísticas de los tres personajes, ausencia de repartos en rondas 3/6, privacidad/recibos, fallo de almacenamiento y recuperación PostgreSQL + SIGKILL. Resultados finales, alcance y comandos reproducibles: [F0_P8A_REPORT](F0_P8A_REPORT.md).

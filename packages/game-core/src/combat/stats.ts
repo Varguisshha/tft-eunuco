@@ -54,7 +54,11 @@ export function criticalRoll(unit: CombatUnit, raw: number, rngState: number) {
   };
 }
 /** Shared authority selector for both inspectors. Overtime is the final speed layer. */
-export function combatStatsView(unit: CombatUnit, tick = 0, overtime?: OvertimeConfig) {
+export function combatStatsView(
+  unit: Pick<CombatUnit, 'profile' | 'statuses'>,
+  tick = 0,
+  overtime?: OvertimeConfig,
+) {
   return {
     maxHp: effectiveStat(unit, 'maxHp'),
     attack: effectiveStat(unit, 'attack'),

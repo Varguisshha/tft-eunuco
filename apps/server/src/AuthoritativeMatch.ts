@@ -2,6 +2,7 @@ import {
   AuthoritySnapshotSchema,
   CATALOG,
   COMPOSITE_CATALOG,
+  ITEM_CATALOG_HASH,
   snapshotConfig,
   type AuthoritySnapshot,
 } from './persistence/snapshot';
@@ -18,6 +19,8 @@ import {
   runCombat,
   scaledOwnedProfile,
   clearMatchProgress,
+  returnUnitItems,
+  grantItemInstances,
   validateMatchState,
   type TimeSource,
 } from '@tft/game-core';
@@ -125,7 +128,11 @@ export class AuthoritativeMatch {
     return AuthoritySnapshotSchema.parse({
       schema: 1,
       rules: combatRulesFor(this.config.catalog),
-      catalog: this.config.catalog === 'f0p6c' ? COMPOSITE_CATALOG : CATALOG,
+      catalog: this.config.itemCatalog
+        ? ITEM_CATALOG_HASH
+        : this.config.catalog === 'f0p6c'
+          ? COMPOSITE_CATALOG
+          : CATALOG,
       id: this.id,
       capacity: this.capacity,
       revision: this.revision,
@@ -229,7 +236,7 @@ export class AuthoritativeMatch {
     const index = this.players.length,
       id =
         identity?.userId ?? (index === 0 ? 'vargas' : index === 1 ? 'florin' : `fixture-${index}`);
-    const state = createMatch(this.seed(), this.config);
+    const state = createMatch(this.seed(), this.config, id);
     state.shop = Array(5).fill(null);
     state.shopRng = (state.seed ^ 0x9e3779b9) >>> 0;
     state.pool = { ...this.pool };
@@ -307,7 +314,23 @@ export class AuthoritativeMatch {
     for (const p of this.players) p.state.pool = { ...this.pool };
   }
   assertConservation() {
-    for (const p of this.players) validateMatchState(p.state, this.external(p));
+    for (const p of this.players) {
+      validateMatchState(p.state, this.external(p));
+      if (p.state.items && p.state.items.ownerId !== p.id)
+        throw Error('Item participant owner mismatch');
+    }
+  }
+  grantItems(playerId: string, grantId: string, definitionIds: readonly string[]) {
+    const player = this.players.find((p) => p.id === playerId && !p.eliminated);
+    if (!player || this.finalResult || !player.state.items)
+      throw Error('Invalid item grant recipient');
+    const candidate = structuredClone(player.state);
+    grantItemInstances(candidate, grantId, definitionIds);
+    validateMatchState(candidate, this.external(player));
+    if (JSON.stringify(candidate) === JSON.stringify(player.state)) return;
+    player.state = candidate;
+    this.revision++;
+    this.assertConservation();
   }
   submit(sessionId: string, raw: unknown): ActionReceipt {
     const parsed = NetworkCommandSchema.safeParse(raw);
@@ -447,7 +470,7 @@ export class AuthoritativeMatch {
                     definitionId: u.definitionId,
                     owner: i === 0 ? 'south' : 'north',
                     position: i === 0 ? u.location.hex : reverseHex(u.location.hex),
-                    profile: scaledOwnedProfile(u, p.state.config),
+                    profile: scaledOwnedProfile(u, p.state.config, p.state.items),
                   },
                 ]
               : [],
@@ -570,6 +593,7 @@ export class AuthoritativeMatch {
         for (const unit of p.state.units)
           this.pool[unit.definitionId]! += copiesOf(unit, p.state.config);
         for (const offer of p.state.shop) if (offer) this.pool[offer.definitionId]!++;
+        for (const unit of p.state.units) returnUnitItems(p.state, unit);
         p.state.units = [];
         p.state.shop = Array(5).fill(null);
         p.state.lastUpgrades = [];

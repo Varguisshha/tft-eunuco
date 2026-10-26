@@ -26,4 +26,4 @@ export const PowerScalingSchema = z.strictObject({
 });
 export type PowerScaling = z.infer<typeof PowerScalingSchema>;
 export const ModifierModeSchema = z.enum(['flat', 'percent_milli']);
-export const ModifierOriginSchema = z.enum(['trait', 'active', 'passive']);
+export const ModifierOriginSchema = z.enum(['trait', 'active', 'passive', 'item']);

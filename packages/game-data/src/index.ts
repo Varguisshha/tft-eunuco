@@ -116,3 +116,5 @@ export * from './vargas';
 export * from './vargasScenarios';
 
 export * from './jaramillo';
+export * from './items';
+export { DIAGNOSTIC_ITEM_CATALOG } from './items-diagnostic';

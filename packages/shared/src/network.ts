@@ -1,3 +1,4 @@
+import { ItemActionSchema } from './items';
 import { z } from 'zod';
 import { MatchActionSchema, MatchStateSchema, OwnedUnitSchema } from './match';
 import { CombatBatchSchema } from './combat';
@@ -13,6 +14,7 @@ export const PlayerIntentSchema = z.discriminatedUnion('type', [
   MatchActionSchema.options[4],
   MatchActionSchema.options[5],
   MatchActionSchema.options[6],
+  ...ItemActionSchema.options.map((option) => option.extend({ seq: nat, expectedRevision: nat })),
 ]);
 export const NetworkCommandSchema = z.strictObject({
   version: z.literal(NETWORK_VERSION),
@@ -35,6 +37,7 @@ export const PublicPlayerSchema = z.strictObject({
 });
 /** No RNG, pool, opponent economy, hidden bench, or history on the wire. */
 export const PrivatePlayerSchema = MatchStateSchema.pick({
+  items: true,
   rulesVersion: true,
   config: true,
   revision: true,

@@ -332,3 +332,69 @@ it.skipIf(!url)(
     }
   },
 );
+
+it.skipIf(!url)(
+  'P8A PostgreSQL + SIGKILL restores owner, equipped component, overflow and duplicate receipt',
+  async () => {
+    if (!url!.includes('127.0.0.1:55439/tft_persistence_test')) throw Error('Unsafe test database');
+    const repo = new PostgresTestRepository(url!);
+    try {
+      const { fixtureUsers } = await import('../multi-fixture');
+      const existing = (await repo.load()).find(
+        (s) =>
+          s.authority.players.some((p) => p.id === fixtureUsers[0]) &&
+          s.authority.players[0]!.state.config.itemCatalog,
+      )!;
+      expect(existing).toBeTruthy();
+      await boot();
+      const peer = await join(0, existing.id);
+      const grant = await fetch(`http://127.0.0.1:2583/item-foundation?matchId=${existing.id}`, {
+        method: 'POST',
+      });
+      expect(grant.status).toBe(200);
+      await until(() => peer.view!.own.items!.components.length === 16);
+      const own = peer.view!.own,
+        item = own.items!.components[0]!;
+      expect(own.items!.ownerId).toBe(fixtureUsers[0]);
+      expect(own.items!.pending).toHaveLength(4);
+      const cmd = {
+        version: NETWORK_VERSION,
+        sessionId: peer.r.sessionId,
+        requestId: randomUUID(),
+        sequence: (await repo.load()).find((s) => s.id === existing.id)!.authority.players[0]!
+          .sequence,
+        matchId: existing.id,
+        phaseId: peer.view!.clock.phaseId,
+        action: {
+          type: 'equip_item',
+          seq: own.nextActionSeq,
+          expectedRevision: own.revision,
+          itemId: item.id,
+          unitId: own.units[0]!.id,
+        },
+      };
+      peer.r.send('command', cmd);
+      await until(() => peer.receipts.length === 1);
+      expect(peer.receipts[0]!.accepted).toBe(true);
+      const committed = (await repo.load()).find((s) => s.id === existing.id)!;
+      expect(committed.authority.players[0]!.state.units[0]!.equipment![0]!.id).toBe(item.id);
+      await kill();
+      await boot();
+      const restored = await join(0, existing.id);
+      expect(restored.view!.own.items).toEqual(committed.authority.players[0]!.state.items);
+      expect(restored.view!.own.units).toEqual(committed.authority.players[0]!.state.units);
+      restored.r.send('command', { ...cmd, sessionId: restored.r.sessionId });
+      await until(() => restored.receipts.length === 1);
+      expect(restored.receipts[0]!.accepted).toBe(true);
+      const after = (await repo.load()).find((s) => s.id === existing.id)!;
+      expect(after.authority.players[0]!.state.items).toEqual(
+        committed.authority.players[0]!.state.items,
+      );
+      expect(after.authority.players[0]!.state.units[0]!.equipment).toHaveLength(1);
+    } finally {
+      await kill();
+      await repo.pool.end();
+    }
+  },
+  60000,
+);

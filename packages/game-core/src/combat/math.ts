@@ -40,7 +40,10 @@ export type EffectiveStat =
   | 'magicResist'
   | 'attackSpeedMilli';
 /** Flat and percent sources add independently. Percentages reference the star-scaled base only. */
-export function effectiveStat(unit: CombatUnit, stat: EffectiveStat): number {
+export function effectiveStat(
+  unit: Pick<CombatUnit, 'profile' | 'statuses'>,
+  stat: EffectiveStat,
+): number {
   const base =
     unit.profile.stats[stat] ??
     ADVANCED_STATS_DEFAULTS[stat as keyof typeof ADVANCED_STATS_DEFAULTS];

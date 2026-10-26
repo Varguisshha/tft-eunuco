@@ -24,6 +24,17 @@ async function verify(token: unknown) {
 class Fixture extends MatchRoom {
   static onAuth = verify;
   protected verify = verify;
+  async itemFoundation() {
+    await this.mutate(() => {
+      if (this.match.clock.snapshot().currentPhase === 'resolution') {
+        const c = this.match.clock.snapshot();
+        this.match.clock.restore({ ...c, remainingMs: 0 });
+        this.match.pulse();
+      }
+      const p = this.match.players[0]!;
+      this.match.grantItems(p.id, 'p8a-crash-grant', Array(20).fill('component-ad'));
+    });
+  }
   async fusionShop() {
     await this.mutate(() => {
       const p = this.match.players[0]!;
@@ -85,11 +96,14 @@ const control = http(async (req, res) => {
     const parsed = new URL(req.url!, 'http://localhost');
     if (
       req.method === 'POST' &&
-      ['/overtime', '/finish', '/fusion-shop'].includes(parsed.pathname)
+      ['/overtime', '/finish', '/fusion-shop', '/item-foundation'].includes(parsed.pathname)
     ) {
       for (const r of await matchMaker.query({ name: 'private_match' })) {
         const room = matchMaker.getLocalRoomById(r.roomId) as Fixture;
-        if (parsed.pathname === '/fusion-shop') await room.fusionShop();
+        if (parsed.pathname === '/item-foundation') {
+          if (parsed.searchParams.get('matchId') !== room.roomId) continue;
+          await room.itemFoundation();
+        } else if (parsed.pathname === '/fusion-shop') await room.fusionShop();
         else if (parsed.pathname === '/overtime') await room.overtime();
         else await room.finish();
       }

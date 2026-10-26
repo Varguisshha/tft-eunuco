@@ -444,7 +444,7 @@ export class RemoteCoordinator implements MatchCoordinator {
                   definitionId: u.definitionId,
                   owner: 'north' as const,
                   position: reverseHex(u.location.hex),
-                  profile: scaledOwnedProfile(u, this.state.config),
+                  profile: scaledOwnedProfile(u, this.state.config, this.state.items),
                   stars: u.stars,
                 },
               ]

@@ -102,3 +102,8 @@ Esta sección sustituye las limitaciones históricas de «sin reconexión». Esp
 Las partidas privadas del servidor normal se recuperan desde PostgreSQL antes de abrir el puerto. MatchRepository separa SQL de la autoridad; DurableMatch serializa commits y publica solo estado duradero. Partida local, Arena técnica y DEV mantienen sus rutas anteriores.
 
 Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MATCH_RECOVERY.md) y [operación](PERSISTENCE_OPERATIONS.md). Esta sección sustituye las limitaciones históricas de persistencia anteriores para el servidor normal.
+
+
+## F0-P8A · Componentes y objetos (26/10/2026)
+
+Nuevas salas privadas usan ITEMS_ECONOMY_CONFIG; la ruta legacy test_match conserva P6C. Inventario vinculado al UUID autenticado y filtrado en own; solo equipo desplegado es público. Equipar, retirar según política, combinar, mover e inspeccionar utilizan el mismo sobre de solicitudes y recibos. No existe mensaje de generar objetos ni aceptación de un inventario del cliente. [Autoridad y conservación](ITEM_INVENTORY.md).
