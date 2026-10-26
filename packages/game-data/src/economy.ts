@@ -91,3 +91,8 @@ export const STANDARD_ITEMS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...JARAMILLO_ECONOMY_CONFIG,
   itemCatalog: 'f0p8b-14.1-1',
 });
+
+export const EFFECT_ITEMS_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...JARAMILLO_ECONOMY_CONFIG,
+  itemCatalog: 'f0p8c-1',
+});

@@ -304,7 +304,9 @@ export class CombatRenderer {
       const from = hexToWorld(projectile.from, this.projection);
       const to = positions.get(projectile.targetId) ?? hexToWorld(projectile.to, this.projection);
       const source = state.units.find((u) => u.id === projectile.sourceId);
-      const composite = characterManifest(source?.definitionId ?? '')?.composite;
+      const composite = projectile.itemSource
+        ? undefined
+        : characterManifest(source?.definitionId ?? '')?.composite;
       if (composite) {
         const scale = visuals.get(projectile.sourceId)?.renderScale ?? 1;
         const flight = compositeFlight(
@@ -357,7 +359,9 @@ export class CombatRenderer {
       }
       if (event.type === 'damage' && event.payload.projectileId && age >= 0) {
         const source = state.units.find((u) => u.id === event.payload.sourceId);
-        const c = characterManifest(source?.definitionId ?? '')?.composite;
+        const c = event.payload.itemSource
+          ? undefined
+          : characterManifest(source?.definitionId ?? '')?.composite;
         if (c && age < c.visualTiming.impactMs) {
           const p = hexToWorld(event.payload.impact, this.projection),
             scale = visuals.get(event.payload.sourceId)?.renderScale ?? 1,

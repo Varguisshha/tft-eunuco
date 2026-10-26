@@ -59,3 +59,10 @@ Véanse [inventario](ITEM_INVENTORY.md), [recetas](ITEM_RECIPES.md), [reparto fu
 Maná inicial tiene contrato plano específico; se excluye de `initialItemModifiers`, se suma una vez y se limita al maná máximo. Se actualiza la copia del contrato de activa para conservar sus invariantes. Lanzar sigue consumiendo su coste habitual; no vuelve a entregar el maná inicial.
 
 `standard_item_catalog` solo funciona en DEV local P8B. El catálogo de laboratorio `f0p8b-14.1-lab-1` permite únicamente componentes y el objeto estático de vida. El diagnóstico P8A sigue existiendo para partidas P8A; no se cruza entre familias. La distribución permanece apagada y el HUD no cambia.
+
+
+## Actualización F0-P8C · 26-10-2026
+
+El sistema universal ejecuta los 36 completos en `f0p8c-1`. La formación contiene loadout, ronda y semilla. `ItemEffectExecutor` delega al pipeline del motor; snapshots conservan su estado. Las versiones P8A/P8B anteriores mantienen su significado.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

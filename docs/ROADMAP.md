@@ -177,3 +177,10 @@ F0-P8A prepara los contratos universales de componentes, recetas, inventario y e
 Completado: ocho componentes con cifras, 36 recetas únicas, estadísticas y operaciones de diseño, capacidades, descripciones, accesibilidad e iconKeys, versiones de partida y compatibilidad histórica. Competitivo completo apagado; laboratorio habilita solo vida pura. Reparto continúa apagado.
 
 Siguiente paso exacto: **F0-P8C**, resolver decisiones pendientes y construir/probar ejecución genérica de efectos con fuentes y límites de recursión antes de habilitar objetos íntegros. P8D mantiene el reparto futuro. Esta fase no inicia ninguna de ellas. [Informe](F0_P8B_REPORT.md).
+
+
+## Actualización F0-P8C · 26-10-2026
+
+F0-P8C implementa ejecución real de los 36 objetos, nuevo catálogo para partidas nuevas y persistencia comprimida. F0-P8D NO iniciado: reparto cada tres rondas, cantidad común dos/tres y tipos independientes por jugador siguen pendientes. No hay entrega automática de componentes.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

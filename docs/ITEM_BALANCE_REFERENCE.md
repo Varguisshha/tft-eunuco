@@ -56,3 +56,10 @@ El JSON contiene parámetros históricos sin uso en el texto de la mecánica de 
 9. Los 36 objetos están desactivados en competitivo, incluso el de estadísticas puras. El laboratorio solo habilita ese objeto plenamente compatible. El reparto automático continúa apagado.
 
 La referencia queda congelada. Cualquier ajuste futuro necesita versión, nueva huella, pruebas y documentación; nunca se reinterpretarán silenciosamente instancias persistidas.
+
+
+## Actualización F0-P8C · 26-10-2026
+
+No se cambian parámetros numéricos ni hashes de la fuente congelada 14.1. Pool uniforme sin repetición, 50/50 de Mano, mínimo activo 10, AP al romper escudo, ventana QSS abierta y atribución de takedown son reglas propias EUNUCO. No se declaran como evidencia externa de TFT.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

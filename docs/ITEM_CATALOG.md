@@ -449,3 +449,10 @@ Los valores mostrados son totales del objeto completo: **no se vuelven a sumar s
 - **effect-1**: Inicio de combate: Reduce 10 el maná máximo; mínimo pendiente de especificación. Diseño reservado: no se ejecuta hasta F0-P8C. Objetivo: `self`. Política: `independent`. Capacidad: `needs_specification`.
 - **effect-2**: Participación en eliminación: +8 % de daño. Duración: 8 s. Diseño reservado: no se ejecuta hasta F0-P8C. Objetivo: `self`. Política: `refresh`. Capacidad: `extend_effect`.
 - Campos fuente no interpretados: ninguno. Se conservan para auditoría, sin convertirlos en efectos.
+
+
+## Actualización F0-P8C · 26-10-2026
+
+Los 36 resultados de la tabla histórica pasan a estar disponibles exclusivamente en `EXECUTABLE_ITEM_CATALOG` (`f0p8c-1`), con las mismas recetas y estadísticas. `STANDARD_ITEM_CATALOG` continúa congelado y bloqueado. El manifiesto explícito de validación impide habilitar automáticamente futuros registros.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

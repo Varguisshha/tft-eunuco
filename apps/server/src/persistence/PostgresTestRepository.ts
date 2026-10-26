@@ -1,6 +1,7 @@
 /** Diagnostics only: direct PostgreSQL adapter for the isolated crash suite. */
 import { Pool } from 'pg';
-import { StoredMatchSchema, type StoredMatch } from './snapshot';
+import { type StoredMatch } from './snapshot';
+import { encodeStoredMatch, decodeStoredMatch } from './codec';
 import type { MatchRepository } from './repository';
 export class PostgresTestRepository implements MatchRepository {
   pool: Pool;
@@ -17,11 +18,11 @@ export class PostgresTestRepository implements MatchRepository {
   async commit(expected: number, document: StoredMatch) {
     await this.pool.query('select public.authority_commit($1,$2::jsonb)', [
       expected,
-      JSON.stringify(document),
+      JSON.stringify(encodeStoredMatch(document)),
     ]);
   }
   async load() {
     const r = await this.pool.query('select public.authority_load() as document');
-    return r.rows.map((r) => StoredMatchSchema.parse(r.document));
+    return r.rows.map((r) => decodeStoredMatch(r.document));
   }
 }

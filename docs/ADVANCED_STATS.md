@@ -131,3 +131,10 @@ Las estadísticas de equipo se incorporan como `initialItemModifiers` identifica
 AD +10 % = `percent_milli: 100`; velocidad +10 % usa la misma unidad relativa. Crítico +20 puntos = `flat: 200`, limitado a 1000 sin conversión de exceso. AP +10, armadura/RM +20, vida +150 son planos. Maná +15 es `startingMana`, solo plano: `min(maxMana, startingMana + bonus)` al preparar combate; no modifica máximo, coste ni generación. Los modificadores ordinarios nunca reciben la clave `startingMana`.
 
 Porcentajes se aplican al perfil escalado por estrellas y progreso permanente (Kilómetros), sin escalar otra vez bonificaciones planas ni sumar ingredientes al resultado. El laboratorio de vida aplica base +600 +floor(base×0,08), adaptación explícita al motor actual. Los efectos de crítico de habilidad, robo de vida, quemadura, reducción de maná o resistencias permanecen reservados; no se ha cambiado la fórmula general de daño. [Referencia y diferencias](ITEM_BALANCE_REFERENCE.md).
+
+
+## Actualización F0-P8C · 26-10-2026
+
+Los bonos P8C reutilizan modificadores originales, porcentajes sobre base preparada, caps y mitigación. Armadura y RM aplican el mayor shred de su grupo. Amplificaciones se suman, reducciones de copias multiplican; verdadero evita estos dos últimos factores. Herida reduce heal antes de overtime. Máximo de maná y coste se reducen una vez.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

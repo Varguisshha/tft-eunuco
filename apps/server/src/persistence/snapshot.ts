@@ -4,6 +4,9 @@ import {
   VARGAS_ECONOMY_CONFIG,
   ITEMS_ECONOMY_CONFIG,
   STANDARD_ITEMS_ECONOMY_CONFIG,
+  EFFECT_ITEMS_ECONOMY_CONFIG,
+  EXECUTABLE_ITEM_CATALOG,
+  ITEM_EXECUTION_POLICY,
   STANDARD_ITEM_CATALOG,
   ITEM_CATALOG,
   ITEM_DROP_DESIGN,
@@ -49,6 +52,17 @@ export const STANDARD_ITEM_CATALOG_HASH = createHash('sha256')
     ]),
   )
   .digest('hex');
+export const EFFECT_ITEM_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      EFFECT_ITEMS_ECONOMY_CONFIG,
+      matchCatalog(EFFECT_ITEMS_ECONOMY_CONFIG),
+      EXECUTABLE_ITEM_CATALOG,
+      ITEM_EXECUTION_POLICY,
+      ITEM_DROP_DESIGN,
+    ]),
+  )
+  .digest('hex');
 export function snapshotConfig(rules: string, catalog: string) {
   if (rules === RULESET && catalog === CATALOG) return VARGAS_ECONOMY_CONFIG;
   if (rules === combatRulesFor(JARAMILLO_ECONOMY_CONFIG.catalog) && catalog === COMPOSITE_CATALOG)
@@ -60,6 +74,11 @@ export function snapshotConfig(rules: string, catalog: string) {
     catalog === STANDARD_ITEM_CATALOG_HASH
   )
     return STANDARD_ITEMS_ECONOMY_CONFIG;
+  if (
+    rules === combatRulesFor(EFFECT_ITEMS_ECONOMY_CONFIG.catalog) &&
+    catalog === EFFECT_ITEM_CATALOG_HASH
+  )
+    return EFFECT_ITEMS_ECONOMY_CONFIG;
   throw new Error('Incompatible authority catalog/rules');
 }
 const nat = z.number().int().safe().nonnegative();
@@ -72,6 +91,7 @@ export const AuthoritySnapshotSchema = z.strictObject({
     z.literal(COMPOSITE_CATALOG),
     z.literal(ITEM_CATALOG_HASH),
     z.literal(STANDARD_ITEM_CATALOG_HASH),
+    z.literal(EFFECT_ITEM_CATALOG_HASH),
   ]),
   id,
   capacity: z.union([z.literal(2), z.literal(3), z.literal(4)]),

@@ -44,7 +44,7 @@ export const PlannedItemOperationSchema = z.discriminatedUnion('kind', [
     kind: z.literal('random_items'),
     count: z.literal(2),
     slotCost: z.literal(3),
-    pool: z.literal('requires-specification'),
+    pool: z.enum(['requires-specification', 'available-completed-excluding-random']),
   }),
   z.strictObject({
     kind: z.literal('attack_speed_stacks'),
@@ -99,7 +99,7 @@ export const PlannedItemOperationSchema = z.discriminatedUnion('kind', [
     adMilli: ratio,
     ap: amount,
     omnivampMilli: ratio,
-    weights: z.literal('requires-specification'),
+    weights: z.enum(['requires-specification', 'eunuco-even']),
   }),
   z.strictObject({
     kind: z.literal('untargetable_cleanse'),
@@ -121,7 +121,7 @@ export const PlannedItemOperationSchema = z.discriminatedUnion('kind', [
     adRatioMilli: ratio,
     additionalTargets: z.number().int().min(1).max(8),
     damageType: z.literal('physical'),
-    sourceProcs: z.literal('disabled-pending-validation'),
+    sourceProcs: z.enum(['disabled-pending-validation', 'physical-shred-and-omnivamp']),
   }),
   z.strictObject({ kind: z.literal('ability_power'), amount }),
   z.strictObject({ kind: z.literal('attack_mana'), amount }),
@@ -138,7 +138,7 @@ export const PlannedItemOperationSchema = z.discriminatedUnion('kind', [
   z.strictObject({
     kind: z.literal('max_mana_reduction'),
     amount,
-    minimumMana: z.literal('requires-specification'),
+    minimumMana: z.union([z.literal('requires-specification'), z.number().int().min(1)]),
   }),
   z.strictObject({ kind: z.literal('crowd_control_immunity') }),
   z.strictObject({
@@ -152,7 +152,7 @@ export const PlannedItemOperationSchema = z.discriminatedUnion('kind', [
 export type PlannedItemOperation = z.infer<typeof PlannedItemOperationSchema>;
 export const PlannedItemEffectSchema = z.strictObject({
   id: z.string().min(1).max(80),
-  implementation: z.literal('reserved-design-v2'),
+  implementation: z.enum(['reserved-design-v2', 'executable-v1']),
   trigger: z.enum([
     'combat_start',
     'attack_release',
@@ -205,7 +205,7 @@ export const ItemContentSchema = z.strictObject({
   definition: z.literal('complete'),
   combat: z.enum(['compatible', 'pending']),
   laboratory: z.boolean(),
-  competitive: z.literal(false),
+  competitive: z.boolean(),
   internalName: z.string().min(1).max(80),
   accessibleLabel: z.string().min(1).max(160),
   visibleName: z.null(),

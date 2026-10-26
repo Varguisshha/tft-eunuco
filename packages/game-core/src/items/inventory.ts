@@ -173,7 +173,10 @@ export function validateItemState(state: MatchState) {
     throw Error('Wrong inventory partition');
   for (const unit of state.units) {
     const equipment = unit.equipment ?? [];
-    if (equipment.length > 3 || equipment.filter((i) => i.kind === 'component').length > 1)
+    if (
+      equipmentSlots(state, equipment) > 3 ||
+      equipment.filter((i) => i.kind === 'component').length > 1
+    )
       throw Error('Equipment slots');
     for (const item of equipment)
       if (
@@ -187,6 +190,12 @@ export function validateItemState(state: MatchState) {
         throw Error('Equipment restriction');
   }
 }
+function equipmentSlots(state: MatchState, items: ItemInstance[]) {
+  return items.reduce(
+    (n, i) => n + (itemDefinition(state, i.definitionId).content?.slotCost ?? 1),
+    0,
+  );
+}
 function canEquipDefinition(
   state: MatchState,
   unit: OwnedUnit,
@@ -194,6 +203,7 @@ function canEquipDefinition(
   other: ItemInstance[],
 ) {
   const def = itemDefinition(state, item.definitionId);
+  if (equipmentSlots(state, other) + (def.content?.slotCost ?? 1) > 3) return false;
   return (
     def.kind === 'component' ||
     (unit.stars >= def.restrictions.minimumStars &&
@@ -364,7 +374,8 @@ export function applyItemCommand(state: MatchState, action: ItemCommand) {
     item.kind === 'component' ? equipment.find((i) => i.kind === 'component') : undefined;
   const equipped = component ? craft(state, component, item) : item;
   const remaining = equipment.filter((i) => i !== component);
-  if (remaining.length >= catalog.policy.slots) return fail('item-slots-full');
+  if (equipmentSlots(state, remaining) + equipmentSlots(state, [equipped]) > catalog.policy.slots)
+    return fail('item-slots-full');
   if (!canEquipDefinition(state, unit, equipped, remaining)) return fail('item-restricted');
   const source = bag(inv, item);
   source.splice(

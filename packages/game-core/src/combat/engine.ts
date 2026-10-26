@@ -1,3 +1,5 @@
+import { ItemEffectExecutor } from './item-effects';
+import type { ItemSource } from '@tft/shared';
 import { CombatMechanics, type Emit, type DamageContext, type MechanicSignal } from './mechanics';
 import { advancedRules, effectAmount, criticalRoll } from './stats';
 import { prepareTraitProfiles } from './traits';
@@ -16,6 +18,7 @@ import {
   type CombatInput,
   type CombatState,
   type CombatUnit,
+  type CombatStatus,
   type CombatEventV3,
   type CombatEffect,
   type CombatReplay,
@@ -45,6 +48,7 @@ type EffectTask = {
   attackId?: string | undefined;
   powerMilli?: number | undefined;
   projectileId?: string;
+  itemSource?: ItemSource;
 };
 /** Local mutable implementation with exclusive ownership; public snapshots/events are deep copies. */
 export class CombatEngine {
@@ -53,6 +57,7 @@ export class CombatEngine {
   private events: CombatEventV3[] = [];
   private order = 0;
   private mechanics?: CombatMechanics;
+  private items?: ItemEffectExecutor;
   private triggers: MechanicSignal[] = [];
   private flushPassives(): void {
     while (this.triggers.length) {
@@ -198,6 +203,32 @@ export class CombatEngine {
       });
     if (advancedRules(this.input.rulesVersion))
       for (const u of this.state.units) u.hp = effectiveStat(u, 'maxHp');
+    if (this.input.units.some((u) => u.profile.itemLoadout))
+      this.items = new ItemEffectExecutor({
+        input: this.input,
+        state: () => this.state,
+        emit: this.emit,
+        parentEvent: () => {
+          const e = this.events.at(-1);
+          return e ? { tick: e.tick, order: e.order } : null;
+        },
+        effect: (source, target, effect, itemSource) =>
+          this.resolveEffects([
+            { source, target, effect, cause: 'ability', origin: 'active', itemSource },
+          ]),
+        damage: (source, target, amount, type, itemSource) =>
+          this.damage(source, target, amount, type, 'ability', false, {
+            itemSource,
+            context: {
+              ...this.mechanics!.root(),
+              allowSourceProcs: false,
+              allowKillChain: false,
+              grantMana: false,
+            },
+          }),
+        mana: (u, n) => this.gainMana(u, n),
+        cancel: (u) => this.cancel(u, 'invalid-target'),
+      });
     this.emit('combat_start', {
       rulesVersion: this.input.rulesVersion,
       seed: this.input.seed,
@@ -206,6 +237,7 @@ export class CombatEngine {
       units: this.snapshot().units,
       obstacles: this.input.obstacles,
     });
+    this.items?.start();
     for (const activation of prepared.activations) this.emit('trait_activate', activation);
     const tasks: EffectTask[] = [];
     for (const { unitId, effect } of prepared.effects) {
@@ -239,6 +271,15 @@ export class CombatEngine {
       payload,
     } as CombatEventV3;
     this.events.push(JSON.parse(JSON.stringify(entry)) as CombatEventV3);
+    if (
+      type === 'ability_cast' &&
+      (entry as Extract<CombatEventV3, { type: 'ability_cast' }>).payload.stage === 'start'
+    ) {
+      const p = (entry as Extract<CombatEventV3, { type: 'ability_cast' }>).payload;
+      const u = this.getUnit(p.unitId),
+        t = this.getUnit(p.targetId);
+      if (u && t) this.items?.cast(u, t);
+    }
     return entry;
   };
   private getUnit(id: string): CombatUnit | undefined {
@@ -394,7 +435,15 @@ export class CombatEngine {
         let critical = task.critical;
         if (advancedRules(this.input.rulesVersion)) {
           critical ??= false;
-          if (cause === 'ability' && effect.canCrit === true && target.hp > 0) {
+          if (
+            cause === 'ability' &&
+            !task.itemSource &&
+            (effect.canCrit === true ||
+              (task.origin !== 'passive' &&
+                task.origin !== 'trait' &&
+                this.items?.canCrit(source))) &&
+            target.hp > 0
+          ) {
             const roll = criticalRoll(source, amount, this.state.rngState);
             this.state.rngState = roll.rngState;
             amount = roll.amount;
@@ -406,6 +455,17 @@ export class CombatEngine {
           ...(context ? { context } : {}),
           ...(task.attackId ? { attackId: task.attackId } : {}),
           ...(task.projectileId ? { projectileId: task.projectileId } : {}),
+          ...(task.itemSource
+            ? {
+                itemSource: task.itemSource,
+                context: {
+                  ...this.mechanics!.root(),
+                  allowSourceProcs: false,
+                  allowKillChain: false,
+                  grantMana: false,
+                },
+              }
+            : {}),
         });
         if (effect.healFromDamageMilli !== undefined) {
           const ratio =
@@ -417,7 +477,7 @@ export class CombatEngine {
       } else if (effect.kind === 'heal') {
         const healed = Math.min(
           scaleCombatAmount(
-            amountValue,
+            this.items?.healAmount(target, amountValue) ?? amountValue,
             overtimeModifiers(this.state.tick, this.input.overtime).healMilli,
           ),
           effectiveStat(target, 'maxHp') - target.hp,
@@ -429,6 +489,7 @@ export class CombatEngine {
             targetId: target.id,
             amount: healed,
             hpAfter: target.hp,
+            ...(task.itemSource ? { itemSource: task.itemSource } : {}),
           });
         }
       } else if (effect.kind === 'armor_reduction') {
@@ -458,6 +519,7 @@ export class CombatEngine {
         target.statuses.push(status);
         this.emit('status_apply', { unitId: target.id, status });
       } else {
+        if (effect.kind === 'stun' && this.items?.immune(target)) continue;
         const previousMaxHp = effectiveStat(target, 'maxHp');
         if (effect.stacking === 'refresh' && effect.key) {
           for (const old of target.statuses.filter(
@@ -483,6 +545,7 @@ export class CombatEngine {
         const status = {
           id: `effect-${this.state.effectCounter++}`,
           sourceId: source.id,
+          ...(task.itemSource ? { itemSource: task.itemSource } : {}),
           ...(effect.key ? { key: effect.key } : {}),
           kind: effect.kind,
           stat: effect.kind === 'modifier' ? effect.stat : null,
@@ -529,6 +592,7 @@ export class CombatEngine {
     meta: DamageContext = {},
   ): void {
     if (target.hp <= 0) return;
+    raw = this.items?.damageAmount(source, target, raw, type, cause) ?? raw;
     let remaining = mitigateDamage(
       scaleCombatAmount(raw, overtimeModifiers(this.state.tick, this.input.overtime).damageMilli),
       type,
@@ -536,6 +600,7 @@ export class CombatEngine {
       effectiveStat(target, 'magicResist'),
     );
     let absorbed = 0;
+    const broken: CombatStatus[] = [];
     const shields = target.statuses
       .filter((s) => s.kind === 'shield')
       .sort(
@@ -551,6 +616,7 @@ export class CombatEngine {
       if (shield.amount === 0) {
         target.statuses = target.statuses.filter((s) => s.id !== shield.id);
         this.emit('status_expire', { unitId: target.id, statusId: shield.id, reason: 'consumed' });
+        broken.push(shield);
       }
       if (remaining === 0) break;
     }
@@ -560,6 +626,7 @@ export class CombatEngine {
     const damageEvent = this.emit('damage', {
       sourceId: source.id,
       targetId: target.id,
+      ...(meta.itemSource ? { itemSource: meta.itemSource } : {}),
       amount: damage,
       absorbed,
       hpAfter: target.hp,
@@ -578,6 +645,7 @@ export class CombatEngine {
           }
         : {}),
     });
+    for (const shield of broken) this.items?.expired(target, shield, 'consumed');
     if (this.mechanics) {
       if (cause === 'attack') this.mechanics.confirm(source, target, damageEvent, meta);
       if (damage > 0 && (meta.context?.allowSourceProcs ?? true))
@@ -595,6 +663,15 @@ export class CombatEngine {
           meta,
         );
     }
+    this.items?.afterDamage(
+      source,
+      target,
+      damage,
+      absorbed,
+      type,
+      cause,
+      !!meta.itemSource || meta.origin === 'periodic',
+    );
     if (damage > 0)
       this.triggers.push({
         unit: target,
@@ -630,6 +707,7 @@ export class CombatEngine {
         this.emit('unit_death', { unitId: unit.id, position: unit.position });
       }
     this.mechanics?.settleDeaths(dead);
+    if (dead.length) this.items?.refreshAuras();
   }
   private stabilize(): void {
     if (!this.mechanics) return;
@@ -710,6 +788,7 @@ export class CombatEngine {
         (s) => s.expiresTick !== null && s.expiresTick <= this.state.tick,
       )) {
         this.emit('status_expire', { unitId: unit.id, statusId: status.id, reason: 'duration' });
+        this.items?.expired(unit, status, 'duration');
         this.triggers.push({
           unit,
           trigger: 'effect_expired',
@@ -727,6 +806,7 @@ export class CombatEngine {
             1000,
         );
     }
+    this.items?.tick();
     this.mechanics?.periodics();
     this.flushPassives();
     this.settleDeaths();
@@ -739,6 +819,7 @@ export class CombatEngine {
         unit.action = null;
         this.emit('move_end', { unitId: unit.id, from: action.from, to: action.to });
       }
+    this.items?.refreshAuras();
     // 3. Collect committed impacts/casts/releases from living sources before applying any effect.
     const tasks: EffectTask[] = [];
     for (const projectile of this.state.projectiles.filter(
@@ -764,6 +845,7 @@ export class CombatEngine {
             cause: projectile.cause ?? 'attack',
             ...(this.input.rulesVersion === COMPOSITE_RULES ? { projectileId: projectile.id } : {}),
             ...(projectile.critical !== undefined ? { critical: projectile.critical } : {}),
+            ...(projectile.itemSource ? { itemSource: projectile.itemSource } : {}),
             ...(projectile.context
               ? { context: projectile.context, attackId: projectile.attackId }
               : {}),
@@ -788,6 +870,7 @@ export class CombatEngine {
       if (
         !target ||
         !isAlive(target) ||
+        this.items?.untargetable(target) ||
         hexDistance(unit.position, target.position) >
           (action.kind === 'cast' && activeAbility(unit.profile)?.targeting === 'adjacent_enemies'
             ? 1
@@ -799,6 +882,7 @@ export class CombatEngine {
       unit.action = null;
       if (action.kind === 'attack') {
         this.triggers.push({ unit, trigger: 'attack', target });
+        this.items?.attack(unit, target);
         if (action.ranged) {
           const projectile = {
             id: `projectile-${this.state.effectCounter++}`,
@@ -990,6 +1074,7 @@ export class CombatEngine {
         });
       }
     }
+    this.items?.refreshAuras();
     this.flushPassives();
     this.settleDeaths();
     this.checkEnd();

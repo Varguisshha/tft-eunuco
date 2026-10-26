@@ -35,6 +35,7 @@ export interface MechanicSignal {
   castCounts?: { unit: number; traits: Record<string, number> };
 }
 export interface DamageContext {
+  itemSource?: import('@tft/shared').ItemSource;
   projectileId?: string;
   context?: ChainContext | undefined;
   attackId?: string;
@@ -655,7 +656,12 @@ export class CombatMechanics {
   }
   private enemies(unit: CombatUnit) {
     return this.state.units
-      .filter((u) => isAlive(u) && u.owner !== unit.owner)
+      .filter(
+        (u) =>
+          isAlive(u) &&
+          u.owner !== unit.owner &&
+          !u.statuses.some((s) => s.group === 'item-untargetable'),
+      )
       .sort(
         (a, b) =>
           hexDistance(unit.position, a.position) - hexDistance(unit.position, b.position) ||

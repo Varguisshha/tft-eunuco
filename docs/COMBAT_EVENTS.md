@@ -110,3 +110,10 @@ Se conserva transporte v3 y se negocian reglas `f0p6b2-1`. Nuevos tipos estricto
 ## F0-P6C · JARAMILLO
 
 Las reglas f0p6c-1 añaden entrega activa por projectile_launch (cause/effects opcionales) y vinculan damage mediante projectileId. El humo visual solo aparece con ese daño real. Un proyectil contra un objetivo ya muerto se descarta sin impacto. Protocolo 3 y trazas históricas conservan compatibilidad.
+
+
+## Actualización F0-P8C · 26-10-2026
+
+P8C añade `item_signal` (liberación), `item_effect` y metadata opcional `itemSource` en daño, heal, estados y proyectiles. El origen conserva definición/instancia/operación, tick, clase causal, señal y padre de evento. Las raíces periódicas/geométricas no tienen padre artificial. La reproducción no emite señales lógicas.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

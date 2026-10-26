@@ -1,3 +1,4 @@
+import { ItemLoadoutSchema, ItemCombatRuntimeSchema, ItemSourceSchema } from './item-runtime';
 import { ItemModifierBonusSchema } from './items';
 import { z } from 'zod';
 import {
@@ -104,6 +105,7 @@ export const PassiveSchema = z.strictObject({
 export const CombatProfileSchema = z
   .strictObject({
     stats: CombatStatsSchema,
+    itemLoadout: ItemLoadoutSchema.optional(),
     initialItemModifiers: z
       .array(
         ItemModifierBonusSchema.extend({
@@ -189,7 +191,7 @@ export const CombatInputSchema = z
       ctx.addIssue({ code: 'custom', message: 'Extended effects require f0p6a rules' });
     if (
       input.rulesVersion !== COMPOSITE_RULES &&
-      input.units.some((u) => u.profile.initialItemModifiers)
+      input.units.some((u) => u.profile.initialItemModifiers || u.profile.itemLoadout)
     )
       ctx.addIssue({ code: 'custom', message: 'Item preparation requires P6C combat inputs' });
     const mechanics =
@@ -395,7 +397,21 @@ export const CombatStatusSchema = z.strictObject({
   origin: ModifierOriginSchema.optional(),
   amount: z.number().int().min(-1_000_000).max(1_000_000),
   expiresTick: natural.nullable(),
-  group: z.literal('armor-reduction').optional(),
+  group: z
+    .enum([
+      'armor-reduction',
+      'magic-reduction',
+      'item-amp',
+      'item-reduction',
+      'item-attack-reduction',
+      'item-wound',
+      'item-burn',
+      'item-untargetable',
+      'item-cc',
+    ])
+    .optional(),
+  itemSource: ItemSourceSchema.optional(),
+  nextTick: natural.optional(),
 });
 export type CombatStatus = z.infer<typeof CombatStatusSchema>;
 export const CombatActionSchema = z.discriminatedUnion('kind', [
@@ -469,6 +485,7 @@ export const CombatUnitSchema = CombatantSpecSchema.extend({
 });
 export type CombatUnit = z.infer<typeof CombatUnitSchema>;
 export const ProjectileSchema = z.strictObject({
+  itemSource: ItemSourceSchema.optional(),
   cause: z.literal('ability').optional(),
   effects: z.array(CoreEffectSchema).max(8).optional(),
   id,
@@ -500,6 +517,7 @@ export const CombatResultSchema = z
   );
 export type CombatResult = z.infer<typeof CombatResultSchema>;
 export const CombatStateSchema = z.strictObject({
+  items: ItemCombatRuntimeSchema.optional(),
   protocolVersion: z.literal(COMBAT_PROTOCOL),
   rulesVersion: RulesSchema,
   mechanics: MechanicsStateSchema.optional(),
@@ -547,12 +565,21 @@ export const CombatEventV3Schema = z
     ),
     event('projectile_launch', ProjectileSchema),
     event(
+      'item_signal',
+      z.strictObject({ unitId: id, targetId: id, signal: z.literal('attack_release') }),
+    ),
+    event(
+      'item_effect',
+      z.strictObject({ source: ItemSourceSchema, operation: z.string(), targetId: id }),
+    ),
+    event(
       'damage',
       z.strictObject({
         sourceId: id,
         targetId: id,
         amount,
         projectileId: id.optional(),
+        itemSource: ItemSourceSchema.optional(),
         absorbed: amount,
         hpAfter: amount,
         shieldAfter: amount,
@@ -566,7 +593,16 @@ export const CombatEventV3Schema = z
         impact: HexCoordSchema,
       }),
     ),
-    event('heal', z.strictObject({ sourceId: id, targetId: id, amount, hpAfter: amount })),
+    event(
+      'heal',
+      z.strictObject({
+        sourceId: id,
+        targetId: id,
+        amount,
+        hpAfter: amount,
+        itemSource: ItemSourceSchema.optional(),
+      }),
+    ),
     event(
       'shield_apply',
       z.strictObject({ unitId: id, status: CombatStatusSchema, shieldAfter: amount }),

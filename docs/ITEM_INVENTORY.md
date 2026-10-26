@@ -52,3 +52,10 @@ La versión del inventario se inicializa desde la configuración de la partida. 
 No cambian bandejas, IDs, concesiones, componentes consumidos, fusiones, ventas, pendientes, journal ni recibos. P8B completa `resultId`, pero `availability: planned` impide conceder o combinar los 36 objetos en normal. El intento de completar un componente equipado también se rechaza entero. El único resultado funcional del laboratorio es vida + vida, con trazabilidad y devolución al vender.
 
 Los objetos de tres ranuras permanecen pendientes; `content.slotCost` declara el coste futuro, sin fingir que el contador P8A de instancias ya ejecuta esa mecánica. No existe acceso público para cambiar catálogos o conceder objetos.
+
+
+## Actualización F0-P8C · 26-10-2026
+
+La capacidad usa suma de `slotCost`, no longitud del array: Guantes ocupa tres ranuras, bloquea otras y genera dos hijos solo en el runtime. Fusión devuelve excedentes y venta conserva instancias; los hijos aleatorios nunca entran en el inventario ni se venden.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

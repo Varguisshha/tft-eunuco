@@ -199,3 +199,10 @@ El catálogo de objetos tiene versión separada `f0p8a-1`, habilitada en nuevas 
 `shared/item-design.ts` contiene operaciones declarativas reservadas; `game-data/items-standard.ts` transforma exclusivamente hechos congelados en 44 definiciones. `item-description.ts` deriva texto propio. `item-catalogs.ts` resuelve versiones y familia explícitas. El motor no ejecuta efectos nuevos; solo incorpora maná inicial al preparar una copia del perfil, excluyéndolo de modificadores de combate.
 
 Las nuevas partidas usan `STANDARD_ITEMS_ECONOMY_CONFIG`; se conservan los contratos P8A y los guardados sin inventario. `STANDARD_ITEM_CATALOG_HASH` incluye configuración, personajes, catálogo completo y reparto apagado. Las tres huellas anteriores conservan exactamente sus bytes. P7D.2 guarda el mismo JSONB, sin tablas/migraciones nuevas. La autoridad valida versión, propiedad, recibos y disponibilidad antes de publicar. [Catálogo](ITEM_CATALOG.md), [P8C pendiente](ITEM_EFFECT_COMPATIBILITY.md).
+
+
+## Actualización F0-P8C · 26-10-2026
+
+El ejecutor universal vive en `game-core/combat/item-effects.ts`; la política y catálogo en game-data, contratos en shared. No depende de Phaser. App y salas modernas eligen P8C solo en partidas nuevas. Repositorios comprimen replays persistidos con un codec independiente del cálculo.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

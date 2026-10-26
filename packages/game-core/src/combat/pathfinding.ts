@@ -60,7 +60,12 @@ export function chooseTarget(
   const range = unit.profile.stats.range;
   const blocked = blockedCells(units, obstacles, unit.id);
   const candidates = units
-    .filter((enemy) => isAlive(enemy) && enemy.owner !== unit.owner)
+    .filter(
+      (enemy) =>
+        isAlive(enemy) &&
+        !enemy.statuses.some((s) => s.group === 'item-untargetable') &&
+        enemy.owner !== unit.owner,
+    )
     .sort((a, b) => {
       const da = hexDistance(unit.position, a.position);
       const db = hexDistance(unit.position, b.position);

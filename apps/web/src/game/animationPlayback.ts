@@ -82,6 +82,7 @@ export function unitAnimationCue(
     const released = events.some(
       (e) =>
         e.type === 'projectile_launch' &&
+        !e.payload.itemSource &&
         e.payload.cause === 'ability' &&
         e.payload.sourceId === unit.id &&
         e.tick === last.payload.endTick,
@@ -112,7 +113,9 @@ export function unitAnimationCue(
           ((e.type === 'damage' &&
             e.payload.cause === 'attack' &&
             e.payload.sourceId === unit.id) ||
-            (e.type === 'projectile_launch' && e.payload.sourceId === unit.id)),
+            (e.type === 'projectile_launch' &&
+              !e.payload.itemSource &&
+              e.payload.sourceId === unit.id)),
       );
     if (timeMs < endMs && released)
       return { state: 'attack', timing: { startMs, impactMs, endMs } };

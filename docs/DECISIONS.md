@@ -274,3 +274,10 @@ P8A: ocho categorías sin cifras finales; 36 recetas sin resultados competitivos
 Referencia congelada TFT 14.1 (notas 09/01/2024), seleccionada por conservar el modelo 8/36. Hechos numéricos de extracción de cliente CommunityDragon, sin gráficos o textos oficiales. Versiones nuevas `f0p8b-14.1-1` y laboratorio `f0p8b-14.1-lab-1`; las huellas P8A/P6C/P6B3 no cambian.
 
 Las 36 recetas tienen resultados y efectos declarativos propios; todos siguen desactivados competitivamente. Solo el objeto de vida pura se habilita en laboratorio. Maná inicial se incorpora como bono plano de preparación. Las ambigüedades de selección, aleatoriedad, umbrales y temporización quedan explícitas para P8C, sin aproximaciones silenciosas. No hay reparto, iconos nuevos, cambios de economía, personajes o autenticación. [Informe](F0_P8B_REPORT.md).
+
+
+## Actualización F0-P8C · 26-10-2026
+
+P8C conserva la referencia 14.1 y congela decisiones propias en ITEM_EFFECT_EVENT_ORDER. Guantes usa semilla de partida/instancia/ronda; subtipos secundarios permiten omnivamp/shred/defensas pero bloquean bucles de ataque/quemadura. La compresión de persistencia resuelve crecimiento sin aumentar límites SQL. Nuevas partidas P8C; históricos inmutables.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

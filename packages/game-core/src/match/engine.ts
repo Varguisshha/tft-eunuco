@@ -213,7 +213,7 @@ function startCombat(state: MatchState, allowEmpty = false): void {
             definitionId: u.definitionId,
             owner: 'south' as const,
             position: u.location.hex,
-            profile: scaledOwnedProfile(u, state.config, state.items),
+            profile: scaledOwnedProfile(u, state.config, state.items, state.round, state.seed),
           },
         ]
       : [],

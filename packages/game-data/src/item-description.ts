@@ -90,7 +90,10 @@ export function itemDescription(d: ItemDefinition) {
   const mechanics =
     d.kind === 'completed'
       ? d.effects
-          .filter((e): e is PlannedItemEffect => e.implementation === 'reserved-design-v2')
+          .filter(
+            (e): e is PlannedItemEffect =>
+              e.implementation === 'reserved-design-v2' || e.implementation === 'executable-v1',
+          )
           .map(plannedItemEffectDescription)
           .join(' ')
       : '';

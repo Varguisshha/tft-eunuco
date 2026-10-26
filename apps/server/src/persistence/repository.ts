@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
-import { StoredMatchSchema, type StoredMatch } from './snapshot';
+import { type StoredMatch } from './snapshot';
+import { encodeStoredMatch, decodeStoredMatch } from './codec';
 export interface MatchRepository {
   commit(expected: number, document: StoredMatch): Promise<void>;
   load(): Promise<StoredMatch[]>;
@@ -14,12 +15,16 @@ export class SupabaseMatchRepository implements MatchRepository {
     });
   }
   async commit(expected: number, document: StoredMatch) {
-    const { error } = await this.client.rpc('authority_commit', { expected, document });
+    const { error } = await this.client.rpc('authority_commit', {
+      expected,
+      document: encodeStoredMatch(document),
+    });
     if (error) throw new Error('Persistence commit unavailable');
   }
   async load() {
     const { data, error } = await this.client.rpc('authority_load');
     if (error) throw new Error('Persistence recovery unavailable');
-    return StoredMatchSchema.array().parse(data);
+    if (!Array.isArray(data)) throw Error('Invalid recovery response');
+    return data.map(decodeStoredMatch);
   }
 }

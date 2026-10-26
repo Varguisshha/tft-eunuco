@@ -107,7 +107,7 @@ export function formationProfiles(state: MatchState) {
             definitionId: u.definitionId,
             owner: 'south' as const,
             position: u.location.hex,
-            profile: scaledOwnedProfile(u, state.config, state.items),
+            profile: scaledOwnedProfile(u, state.config, state.items, state.round, state.seed),
           },
         ]
       : [],
@@ -149,6 +149,8 @@ export function scaledOwnedProfile(
   unit: OwnedUnit,
   config: EconomyConfig,
   inventory?: PlayerItemState,
+  round = 1,
+  seed = 0,
 ): CombatProfile {
   const profile = scaledProfile(unit.definitionId, unit.stars, config);
   const definition = profile.championAbility?.passive?.matchProgress;
@@ -163,6 +165,13 @@ export function scaledOwnedProfile(
   }
   if (inventory && unit.equipment?.length) {
     const catalog = resolveItemCatalog(inventory.catalogVersion);
+    if (catalog.version === 'f0p8c-1')
+      profile.itemLoadout = {
+        version: 'f0p8c-1',
+        round,
+        seed,
+        instances: unit.equipment.map((i) => ({ instanceId: i.id, definitionId: i.definitionId })),
+      };
     const modifiers = unit.equipment.flatMap((item) => {
       if (item.ownerId !== inventory.ownerId) throw Error('Invalid item owner');
       const d = catalog.definitions.find((d) => d.id === item.definitionId);

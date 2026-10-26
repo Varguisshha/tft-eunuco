@@ -13,10 +13,10 @@ import { PostgresTestRepository } from './PostgresTestRepository';
 const url = process.env.PERSISTENCE_TEST_URL;
 let child: ChildProcess | undefined;
 const sockets: Room[] = [];
-async function boot() {
+async function boot(effects = false) {
   child = spawn(process.execPath, ['--import', 'tsx', 'src/persistence/crash-fixture.ts'], {
     cwd: process.cwd() + '/apps/server',
-    env: { ...process.env },
+    env: { ...process.env, P8C_DIAGNOSTIC: effects ? '1' : '0' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   await new Promise<void>((resolve, reject) => {
@@ -392,6 +392,74 @@ it.skipIf(!url)(
         committed.authority.players[0]!.state.items,
       );
       expect(after.authority.players[0]!.state.units[0]!.equipment).toHaveLength(1);
+    } finally {
+      await kill();
+      await repo.pool.end();
+    }
+  },
+  60000,
+);
+
+it.skipIf(!url).each([2, 3, 4] as const)(
+  'P8C %i players: live item effects survive authenticated reconnect and SIGKILL without replay or settlement duplication',
+  async (count) => {
+    const repo = new PostgresTestRepository(url!);
+    try {
+      await repo.pool.query('truncate private.authority_members,private.authority_matches');
+      await boot(true);
+      const gates = await Promise.all(Array.from({ length: count }, (_, i) => gate(i)));
+      const created = await action(gates[0]!, 'create_lobby', { capacity: count });
+      for (let i = 1; i < count; i++)
+        await action(gates[i]!, 'join_lobby', { roomCode: created.lobby!.roomCode });
+      for (const g of gates) await action(g, 'set_ready', { readyState: true });
+      const start = await action(gates[0]!, 'start_match');
+      expect(start.error).toBeNull();
+      const id = start.lobby!.matchId!;
+      const peers: Awaited<ReturnType<typeof join>>[] = [];
+      for (let i = 0; i < count; i++) peers.push(await join(i, id));
+      await until(() => peers.every((p) => p.view!.clock.currentPhase === 'preparation'));
+      const prepared = await fetch(`http://127.0.0.1:2583/item-effects?matchId=${id}`, {
+        method: 'POST',
+      });
+      expect(prepared.status, await prepared.text()).toBe(200);
+      const before = (await repo.load())[0]!;
+      expect(
+        before.authority.players.every((p) => p.state.items!.catalogVersion === 'f0p8c-1'),
+      ).toBe(true);
+      const { AuthoritativeMatch } = await import('../AuthoritativeMatch');
+      const baseline = AuthoritativeMatch.restore(before.authority, { now: () => 0 }, false);
+      baseline.clock.restore({ ...baseline.clock.snapshot(), remainingMs: 0 });
+      baseline.pulse();
+      const advanced = await fetch('http://127.0.0.1:2583/advance', { method: 'POST' });
+      expect(advanced.status, await advanced.text()).toBe(200);
+      await until(() => peers[0]!.view!.clock.currentPhase === 'combat');
+      const combat = (await repo.load())[0]!;
+      expect(combat.authority.duels).toEqual(baseline.exportState().duels);
+      expect(
+        combat.authority.duels.every((d) =>
+          d.replay.events.some((e) => e.type === 'damage' && e.payload.itemSource),
+        ),
+      ).toBe(true);
+      await kill();
+      await boot(true);
+      const resumed = await join(0, id);
+      const after = (await repo.load())[0]!;
+      expect(after.authority.duels).toEqual(combat.authority.duels);
+      expect(after.authority.simulations).toBe(combat.authority.simulations);
+      expect(after.authority.players.map((p) => p.state.units)).toEqual(
+        combat.authority.players.map((p) => p.state.units),
+      );
+      await fetch('http://127.0.0.1:2583/advance', { method: 'POST' });
+      await until(() => resumed.view!.clock.currentPhase === 'resolution');
+      const paid = (await repo.load())[0]!;
+      await kill();
+      await boot(true);
+      await join(0, id);
+      const restored = (await repo.load())[0]!;
+      expect(restored.authority.settlements).toEqual(paid.authority.settlements);
+      expect(restored.authority.players.map((p) => p.state.items)).toEqual(
+        paid.authority.players.map((p) => p.state.items),
+      );
     } finally {
       await kill();
       await repo.pool.end();

@@ -5,6 +5,7 @@ import {
   STANDARD_LAB_VERSION,
 } from './item-design';
 import { z } from 'zod';
+import { EXECUTABLE_ITEM_VERSION } from './item-runtime';
 import { ModifiableStatSchema, CoreEffectSchema, AbilityConditionSchema } from './abilities';
 import { ModifierModeSchema } from './advanced-stats';
 const id = z.string().min(1).max(80);
@@ -92,7 +93,9 @@ export const CompleteItemDefinitionSchema = z
     }),
   })
   .refine(
-    (d) => d.availability !== 'available' || d.effects.length === 0,
+    (d) =>
+      d.availability !== 'available' ||
+      d.effects.every((e) => e.implementation === 'executable-v1'),
     'Special item effects are reserved',
   );
 export const ItemDefinitionSchema = z.discriminatedUnion('kind', [
@@ -112,6 +115,7 @@ export const ItemCatalogSchema = z.strictObject({
     'f0p8a-diagnostic-1',
     STANDARD_ITEM_VERSION,
     STANDARD_LAB_VERSION,
+    EXECUTABLE_ITEM_VERSION,
   ]),
   definitions: z.array(ItemDefinitionSchema).max(100),
   recipes: z.array(ItemRecipeSchema).length(36),

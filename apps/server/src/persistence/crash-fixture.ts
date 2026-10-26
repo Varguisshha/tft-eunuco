@@ -1,4 +1,7 @@
 /** Explicit, loopback-only diagnostics process. Never imported by production main. */
+import { STANDARD_ITEMS_ECONOMY_CONFIG, EFFECT_ITEMS_ECONOMY_CONFIG } from '@tft/game-data';
+import { AuthoritativeMatch } from '../AuthoritativeMatch';
+import { act } from '../multi-fixture';
 import { copiesOf } from '@tft/game-core';
 import { createServer as http } from 'node:http';
 import { matchMaker, ServerError } from '@colyseus/core';
@@ -22,6 +25,47 @@ async function verify(token: unknown) {
   };
 }
 class Fixture extends MatchRoom {
+  protected createMatch(capacity: 2 | 3 | 4 = 2) {
+    return new AuthoritativeMatch(
+      this.roomId,
+      undefined,
+      undefined,
+      capacity,
+      process.env.P8C_DIAGNOSTIC === '1'
+        ? EFFECT_ITEMS_ECONOMY_CONFIG
+        : STANDARD_ITEMS_ECONOMY_CONFIG,
+    );
+  }
+  async itemEffects() {
+    await this.mutate(() => {
+      equip(this.match, undefined, ['dolea', 'jaramillo']);
+      for (let i = 0; i < this.match.players.length; i++) {
+        const p = this.match.players[i]!;
+        this.match.grantItems(p.id, 'p8c-effects', [
+          'item-forge-ap--armor',
+          'item-forge-armor--health',
+          'item-forge-attack_speed--magic_resist',
+          'item-forge-attack_speed--critical',
+        ]);
+        for (const [j, item] of [...p.state.items!.completed].entries()) {
+          const receipt = act(this.match, i, {
+            type: 'equip_item',
+            unitId: p.state.units[Math.floor(j / 2)]!.id,
+            itemId: item.id,
+          });
+          if (!receipt.accepted)
+            throw Error(
+              JSON.stringify({
+                reason: receipt.reason,
+                index: i,
+                j,
+                clock: this.match.clock.snapshot(),
+              }),
+            );
+        }
+      }
+    });
+  }
   static onAuth = verify;
   protected verify = verify;
   async itemFoundation() {
@@ -96,11 +140,16 @@ const control = http(async (req, res) => {
     const parsed = new URL(req.url!, 'http://localhost');
     if (
       req.method === 'POST' &&
-      ['/overtime', '/finish', '/fusion-shop', '/item-foundation'].includes(parsed.pathname)
+      ['/overtime', '/finish', '/fusion-shop', '/item-foundation', '/item-effects'].includes(
+        parsed.pathname,
+      )
     ) {
       for (const r of await matchMaker.query({ name: 'private_match' })) {
         const room = matchMaker.getLocalRoomById(r.roomId) as Fixture;
-        if (parsed.pathname === '/item-foundation') {
+        if (parsed.pathname === '/item-effects') {
+          if (parsed.searchParams.get('matchId') !== room.roomId) continue;
+          await room.itemEffects();
+        } else if (parsed.pathname === '/item-foundation') {
           if (parsed.searchParams.get('matchId') !== room.roomId) continue;
           await room.itemFoundation();
         } else if (parsed.pathname === '/fusion-shop') await room.fusionShop();
@@ -115,9 +164,9 @@ const control = http(async (req, res) => {
         );
     }
     res.end('ok');
-  } catch {
+  } catch (error) {
     res.statusCode = 503;
-    res.end('storage unavailable');
+    res.end(error instanceof Error ? error.message : 'storage unavailable');
   }
 }).listen(2583, '127.0.0.1');
 console.log('PERSISTENCE_READY');

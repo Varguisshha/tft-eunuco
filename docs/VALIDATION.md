@@ -569,3 +569,18 @@ F0-P8A parte del commit 9f23180 y conserva la suite de 831 pruebas. Se añaden c
 - Evidencias locales: `artifacts/p8b/check.log`, `public.log`, `baseline.log`, `validation.json` y `catalog.json`, excluidas de Git por la política existente.
 
 Baseline P8A: 867 correctas + 6 omitidas por ausencia inicial de URL PostgreSQL, 873 totales. En la validación final no se omite ninguna. Las tres huellas históricas se verifican contra valores literales y se rechazan cruces entre familias de inventario. No se ejecutan efectos especiales ni reparto; los tests prueban el bloqueo de los 36 resultados y el único objeto de laboratorio. [Informe completo](F0_P8B_REPORT.md).
+
+## Cierre F0-P8C · 26-10-2026
+
+- Baseline sobre `469c4a6`: **1004/1004**, PostgreSQL real incluido.
+- Final: **1180/1180**, 78 archivos, cero omitidos. Se mantienen los 1004 anteriores y se añaden 176.
+- `PERSISTENCE_TEST_URL=postgresql://127.0.0.1:55439/tft_persistence_test P8C_METRICS=1 pnpm check`: typecheck, ESLint, todos los tests y builds cliente/servidor correctos.
+- `pnpm verify:public`: sin controlador, panel, esquema de comandos ni almacenamiento aislado DEV en el bundle público.
+- Nueve pruebas PostgreSQL reales: las seis anteriores y tres nuevas de SIGKILL con efectos para 2/3/4 jugadores. Equipamiento/trazas/liquidaciones iguales; comparación con continuación sin interrupción.
+- 36 definiciones con fabricación, bonos efectivos numéricos, restricciones/duplicación y replay doble; pruebas mecánicas por operación, expiración, 64 secuencias de conservación y fusión con guantes.
+- 7 contra 7, 450 ticks: 20.507 eventos, pico 158/tick, 3.206 activaciones de objetos, 8 proyectiles y 34 estados de aura/reducción simultáneos. Simulación 470 ms en esta máquina.
+- Replay de estrés 63.009.795 bytes, gzip 3.860.647. Snapshot máximo 131.718 bytes. Delta de heap observado 166.926.160 bytes incluye dos simulaciones y serialización; depende del GC.
+- 240 muestras completas de reproducción 1×/2×: p95 9,346 ms, p99 10,498 ms. Otras pruebas comparan 30/60/144 FPS y espectadores. Esto mide muestreo lógico; no sustituye un benchmark GPU universal.
+- Persiste el aviso conocido de tamaño de chunks de Vite; no es error de build. No se alteraron límites SQL, sprites, HUD, economía, matchmaking, cuentas ni datos del servidor normal.
+
+Detalle y límites: [informe](F0_P8C_REPORT.md), [matriz individual](ITEM_EFFECT_TEST_MATRIX.md), [ejecutor](ITEM_EFFECT_EXECUTOR.md).

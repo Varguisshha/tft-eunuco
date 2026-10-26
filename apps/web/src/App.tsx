@@ -2,7 +2,7 @@ import { AccountPortal } from './auth/AccountPortal';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { STANDARD_ITEMS_ECONOMY_CONFIG } from '@tft/game-data';
+import { EFFECT_ITEMS_ECONOMY_CONFIG } from '@tft/game-data';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
 import { AUTOMATIC_SAVE_KEY, decodeSave } from './match/automaticSave';
 import { attachAutomaticHost } from './match/automaticHost';
@@ -66,7 +66,7 @@ export function App() {
       return;
     }
     attach(
-      new LocalMatchCoordinator(createMatch(n, STANDARD_ITEMS_ECONOMY_CONFIG), {
+      new LocalMatchCoordinator(createMatch(n, EFFECT_ITEMS_ECONOMY_CONFIG), {
         matchId: crypto.randomUUID(),
         time,
       }),

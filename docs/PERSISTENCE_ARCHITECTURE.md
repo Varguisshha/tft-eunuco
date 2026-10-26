@@ -45,3 +45,10 @@ Referencias primarias: [bloqueos PostgreSQL](https://www.postgresql.org/docs/17/
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 P8A incluye inventario, equipo, pendientes y registros en el JSONB existente, sin migración SQL ni almacenamiento paralelo. La huella ITEM_CATALOG_HASH incorpora configuración nueva, catálogo de personajes, componentes/recetas/políticas y diseño de reparto. Las huellas P7D.2 y P6C conservan exactamente sus fórmulas previas. Restaurar el catálogo nuevo exige la versión de objetos y los propietarios correctos; los guardados históricos siguen sin inventario. Prueba específica con PostgreSQL + SIGKILL conserva componente equipado, pendientes y recibo repetido tras autenticarse de nuevo. [ITEM_INVENTORY](ITEM_INVENTORY.md).
+
+
+## Actualización F0-P8C · 26-10-2026
+
+Nueva huella P8C incluye política y catálogo, conservando las cuatro anteriores. La ampliación de trazas excedía el límite SQL en 4 jugadores; `codec.ts` comprime duels con gzip, SHA-256 y longitud verificada. Límites: 12 MiB codificados, 128 MiB descomprimidos, SQL sigue en 16 MiB. No hay migración. Restore no recalcula los replays. Pruebas reales SIGKILL 2/3/4 y comparación sin interrupción.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

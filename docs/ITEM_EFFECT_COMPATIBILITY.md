@@ -79,3 +79,9 @@ Todos los objetos admiten sus estadísticas directas; la tabla clasifica el rest
 **JARAMILLO:** Kilómetros se aplica una vez antes del porcentaje de objeto, conservando progresión permanente. FUMÓN, Trotamundos, proyectiles compuestos y reducción de armadura mantienen sus reglas. P8C debe distinguir ataque raíz, proyectil secundario, daño periódico y activación de sinergia.
 
 Las pruebas de esta fase cubren estadísticas y maná de los tres personajes; no pretenden validar efectos especiales aún ausentes.
+
+## Actualización F0-P8C · 26-10-2026
+
+Las operaciones reservadas de P8B tienen ahora implementación `executable-v1`: 26 tipos reutilizables y 36 objetos verificados. Las decisiones pendientes de pool, pesos, mínimo de maná y procs se resuelven solo en la versión nueva. La tabla anterior documenta el cierre P8B, no el estado ejecutable actual.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

@@ -48,7 +48,11 @@ export function effectiveStat(
     unit.profile.stats[stat] ??
     ADVANCED_STATS_DEFAULTS[stat as keyof typeof ADVANCED_STATS_DEFAULTS];
   const modifiers = unit.statuses.filter(
-    (s) => s.kind === 'modifier' && s.stat === stat && s.group !== 'armor-reduction',
+    (s) =>
+      s.kind === 'modifier' &&
+      s.stat === stat &&
+      s.group !== 'armor-reduction' &&
+      s.group !== 'magic-reduction',
   );
   const flat = modifiers
     .filter((s) => s.mode !== 'percent_milli')
@@ -60,9 +64,12 @@ export function effectiveStat(
   const product = BigInt(base) * BigInt(percent);
   const percentValue = Number(product >= 0n ? product / 1000n : (product - 999n) / 1000n);
   let total = base + flat + percentValue;
-  if (stat === 'armor' && total > 0) {
+  if ((stat === 'armor' || stat === 'magicResist') && total > 0) {
     const reduction = unit.statuses.reduce(
-      (max, s) => (s.group === 'armor-reduction' ? Math.max(max, s.amount) : max),
+      (max, s) =>
+        s.group === (stat === 'armor' ? 'armor-reduction' : 'magic-reduction')
+          ? Math.max(max, s.amount)
+          : max,
       0,
     );
     total = Math.floor((total * (1000 - Math.min(1000, reduction))) / 1000);

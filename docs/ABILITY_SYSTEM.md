@@ -110,3 +110,10 @@ Cortina de Humo es mixta: Trotamundos progresa entre rondas y la activa entrega 
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 Los objetos preparan efectos core reservados de escudo, cura, daño y modificadores, con desencadenantes, intervalos y condiciones tipados. No se conectan aún a las señales de combate. Un objeto disponible no puede declarar efectos reservados. Las estadísticas técnicas usan modificadores de origen item y no sustituyen habilidades de personajes. Capacidades y límites: [ITEM_SYSTEM](ITEM_SYSTEM.md).
+
+
+## Actualización F0-P8C · 26-10-2026
+
+El evento lógico de inicio de cast, incluyendo repeticiones, notifica al ejecutor. Los objetos de crítico habilitan daño de activa, no daño derivado de objetos ni pasivas por defecto. La inmunidad rechaza stun; intangibilidad excluye nuevos objetivos y cancela acción, sin inmunidad a impactos comprometidos.
+
+Detalle: [ejecutor](ITEM_EFFECT_EXECUTOR.md), [decisiones](ITEM_EFFECT_EVENT_ORDER.md) y [matriz de pruebas](ITEM_EFFECT_TEST_MATRIX.md).

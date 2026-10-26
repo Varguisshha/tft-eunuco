@@ -4,6 +4,7 @@ import {
   COMPOSITE_CATALOG,
   ITEM_CATALOG_HASH,
   STANDARD_ITEM_CATALOG_HASH,
+  EFFECT_ITEM_CATALOG_HASH,
   snapshotConfig,
   type AuthoritySnapshot,
 } from './persistence/snapshot';
@@ -130,9 +131,11 @@ export class AuthoritativeMatch {
       schema: 1,
       rules: combatRulesFor(this.config.catalog),
       catalog: this.config.itemCatalog
-        ? this.config.itemCatalog === 'f0p8b-14.1-1'
-          ? STANDARD_ITEM_CATALOG_HASH
-          : ITEM_CATALOG_HASH
+        ? this.config.itemCatalog === 'f0p8c-1'
+          ? EFFECT_ITEM_CATALOG_HASH
+          : this.config.itemCatalog === 'f0p8b-14.1-1'
+            ? STANDARD_ITEM_CATALOG_HASH
+            : ITEM_CATALOG_HASH
         : this.config.catalog === 'f0p6c'
           ? COMPOSITE_CATALOG
           : CATALOG,
@@ -473,7 +476,13 @@ export class AuthoritativeMatch {
                     definitionId: u.definitionId,
                     owner: i === 0 ? 'south' : 'north',
                     position: i === 0 ? u.location.hex : reverseHex(u.location.hex),
-                    profile: scaledOwnedProfile(u, p.state.config, p.state.items),
+                    profile: scaledOwnedProfile(
+                      u,
+                      p.state.config,
+                      p.state.items,
+                      p.state.round,
+                      p.state.seed,
+                    ),
                   },
                 ]
               : [],

@@ -60,7 +60,7 @@ export type HealthEntry = z.infer<typeof HealthEntrySchema>;
 export const EconomyConfigSchema = z
   .strictObject({
     version: z.literal(MATCH_RULES),
-    itemCatalog: z.enum(['f0p8a-1', 'f0p8b-14.1-1']).optional(),
+    itemCatalog: z.enum(['f0p8a-1', 'f0p8b-14.1-1', 'f0p8c-1']).optional(),
     catalog: z.enum(['f0p4.1', 'f0p6a', 'f0p6b1', 'f0p6b2', 'f0p6b3', 'f0p6c']).optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
