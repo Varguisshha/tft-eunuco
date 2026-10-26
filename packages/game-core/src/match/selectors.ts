@@ -1,4 +1,5 @@
-import { ITEM_CATALOG, DIAGNOSTIC_ITEM_CATALOG } from '@tft/game-data';
+import { resolveItemCatalog } from '@tft/game-data';
+import type { ItemModifierBonus } from '@tft/shared';
 import { combatStatsView } from '../combat/stats';
 import { DEFAULT_OVERTIME } from '@tft/shared';
 import { traitsFor } from '@tft/game-data';
@@ -161,13 +162,23 @@ export function scaledOwnedProfile(
     );
   }
   if (inventory && unit.equipment?.length) {
-    const catalog =
-      inventory.catalogVersion === ITEM_CATALOG.version ? ITEM_CATALOG : DIAGNOSTIC_ITEM_CATALOG;
+    const catalog = resolveItemCatalog(inventory.catalogVersion);
     const modifiers = unit.equipment.flatMap((item) => {
       if (item.ownerId !== inventory.ownerId) throw Error('Invalid item owner');
       const d = catalog.definitions.find((d) => d.id === item.definitionId);
-      if (!d) throw Error('Unknown equipped item');
-      return d.bonuses.map((b, index) => ({ ...b, id: `${item.id}:${index}`, sourceId: item.id }));
+      if (!d || d.availability !== 'available') throw Error('Unknown or unavailable equipped item');
+      const initialMana = d.bonuses
+        .filter((b) => b.stat === 'startingMana')
+        .reduce((sum, b) => sum + b.amount, 0);
+      profile.stats.startingMana = Math.min(
+        profile.stats.maxMana,
+        profile.stats.startingMana + initialMana,
+      );
+      if (profile.championAbility?.active)
+        profile.championAbility.active.initialMana = profile.stats.startingMana;
+      return d.bonuses
+        .filter((b): b is ItemModifierBonus => b.stat !== 'startingMana')
+        .map((b, index) => ({ ...b, id: `${item.id}:${index}`, sourceId: item.id }));
     });
     if (modifiers.length) profile.initialItemModifiers = modifiers;
   }

@@ -22,3 +22,5 @@ export * from './competition';
 
 export * from './reconnection';
 export * from './items';
+
+export * from './item-design';

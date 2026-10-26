@@ -334,7 +334,7 @@ it.skipIf(!url)(
 );
 
 it.skipIf(!url)(
-  'P8A PostgreSQL + SIGKILL restores owner, equipped component, overflow and duplicate receipt',
+  'P8A inventory guarantees on P8B: PostgreSQL + SIGKILL restores equipment and receipts',
   async () => {
     if (!url!.includes('127.0.0.1:55439/tft_persistence_test')) throw Error('Unsafe test database');
     const repo = new PostgresTestRepository(url!);
@@ -356,6 +356,7 @@ it.skipIf(!url)(
       const own = peer.view!.own,
         item = own.items!.components[0]!;
       expect(own.items!.ownerId).toBe(fixtureUsers[0]);
+      expect(own.items!.catalogVersion).toBe('f0p8b-14.1-1');
       expect(own.items!.pending).toHaveLength(4);
       const cmd = {
         version: NETWORK_VERSION,

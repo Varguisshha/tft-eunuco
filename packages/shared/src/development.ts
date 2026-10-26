@@ -63,5 +63,6 @@ export const DevelopmentItemCommandSchema = z.discriminatedUnion('type', [
   }),
   z.strictObject({ type: z.literal('clear_items') }),
   z.strictObject({ type: z.literal('diagnostic_item_catalog') }),
+  z.strictObject({ type: z.literal('standard_item_catalog') }),
 ]);
 export type DevelopmentItemCommand = z.infer<typeof DevelopmentItemCommandSchema>;

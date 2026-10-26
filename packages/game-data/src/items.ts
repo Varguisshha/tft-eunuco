@@ -44,6 +44,37 @@ export function validateItemCatalog(value: unknown): ItemCatalog {
       !catalog.recipes.some((r) => r.resultId === d.id && r.id === recipeKey(...d.recipe))
     )
       throw Error('Unregistered item recipe');
+  if (catalog.version.startsWith('f0p8b-')) {
+    const completed = catalog.definitions.filter((d) => d.kind === 'completed');
+    if (
+      catalog.definitions.length !== 44 ||
+      completed.length !== 36 ||
+      catalog.recipes.some((r) => !r.resultId) ||
+      new Set(catalog.recipes.map((r) => r.resultId)).size !== 36
+    )
+      throw Error('Complete standard matrix required');
+    for (const d of catalog.definitions) {
+      if (
+        !d.content ||
+        d.content.definition !== 'complete' ||
+        d.content.competitive ||
+        d.content.visibleName !== null
+      )
+        throw Error('Standard item metadata required');
+      if (
+        catalog.version === 'f0p8b-14.1-1' &&
+        d.kind === 'completed' &&
+        d.availability !== 'planned'
+      )
+        throw Error('Competitive completed items disabled until P8C');
+      if (
+        d.kind === 'completed' &&
+        d.availability === 'available' &&
+        (!d.content.laboratory || d.content.combat !== 'compatible' || d.effects.length)
+      )
+        throw Error('Incomplete laboratory item');
+    }
+  }
   return catalog;
 }
 const categories = ItemCategorySchema.options;
@@ -92,6 +123,7 @@ export const ITEM_DROP_DESIGN = ItemDropDesignSchema.parse({
   deduplication: 'match-round-player',
 });
 const statNames: Record<string, string> = {
+  startingMana: 'maná inicial',
   attack: 'AD',
   attackSpeedMilli: 'velocidad de ataque',
   abilityPower: 'AP',

@@ -265,7 +265,12 @@ Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MA
 
 P6C: catálogo f0p6c y reglas f0p6c-1 separados de f0p6b3; snapshots históricos conservados. Armadura: máximo vigente, empate refresca. FUMÓN una vez por objetivo global, sin recursión. Evolución gráfica desconocida; tres poses autorizadas más recuperación, sin inventar una cuarta. Limpieza generativa documentada como derivado, no idéntica al original.
 
-
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 P8A: ocho categorías sin cifras finales; 36 recetas sin resultados competitivos. Tres ranuras; retirada normal prohibida, diagnóstico permitida. Componentes se autocompletan solo con receta disponible. Orden de fusión existente, equipo del superviviente primero y excedentes a inventario/pendientes. Venta no vende objetos. Journal de concesión/combinación verifica conservación. Ningún reparto efectivo; se reserva 2/3 componentes 50/50 cada tres rondas. [Contratos](ITEM_SYSTEM.md), [reparto futuro](ITEM_DROP_DESIGN.md).
+
+## F0-P8B · Referencia y disponibilidad (26/10/2026)
+
+Referencia congelada TFT 14.1 (notas 09/01/2024), seleccionada por conservar el modelo 8/36. Hechos numéricos de extracción de cliente CommunityDragon, sin gráficos o textos oficiales. Versiones nuevas `f0p8b-14.1-1` y laboratorio `f0p8b-14.1-lab-1`; las huellas P8A/P6C/P6B3 no cambian.
+
+Las 36 recetas tienen resultados y efectos declarativos propios; todos siguen desactivados competitivamente. Solo el objeto de vida pura se habilita en laboratorio. Maná inicial se incorpora como bono plano de preparación. Las ambigüedades de selección, aleatoriedad, umbrales y temporización quedan explícitas para P8C, sin aproximaciones silenciosas. No hay reparto, iconos nuevos, cambios de economía, personajes o autenticación. [Informe](F0_P8B_REPORT.md).

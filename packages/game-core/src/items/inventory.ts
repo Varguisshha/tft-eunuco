@@ -1,8 +1,9 @@
 import {
   ITEM_CATALOG,
-  DIAGNOSTIC_ITEM_CATALOG,
+  resolveItemCatalog,
+  itemCatalogFamily,
   recipeKey,
-  itemBonusDescription,
+  itemDescription,
 } from '@tft/game-data';
 import {
   PlayerItemStateSchema,
@@ -38,10 +39,13 @@ function fail(code: ItemError): never {
 export function localItemOwner(seed: number) {
   return `00000000-0000-4000-8000-${seed.toString(16).padStart(12, '0')}`;
 }
-export function createItemInventory(ownerId: string): PlayerItemState {
+export function createItemInventory(
+  ownerId: string,
+  catalogVersion: ItemCatalog['version'] = ITEM_CATALOG.version,
+): PlayerItemState {
   return PlayerItemStateSchema.parse({
     version: 1,
-    catalogVersion: ITEM_CATALOG.version,
+    catalogVersion,
     ownerId,
     nextInstance: 0,
     components: [],
@@ -55,10 +59,12 @@ export function createItemInventory(ownerId: string): PlayerItemState {
 }
 export function itemCatalogFor(state: MatchState): ItemCatalog {
   if (!state.config.itemCatalog || !state.items) return fail('items-disabled');
-  if (state.items.catalogVersion === ITEM_CATALOG.version) return ITEM_CATALOG;
-  if (state.development && state.items.catalogVersion === DIAGNOSTIC_ITEM_CATALOG.version)
-    return DIAGNOSTIC_ITEM_CATALOG;
-  return fail('item-unavailable');
+  if (itemCatalogFamily(state.items.catalogVersion) !== state.config.itemCatalog)
+    return fail('item-unavailable');
+  const catalog = resolveItemCatalog(state.items.catalogVersion);
+  if (catalog.version !== state.config.itemCatalog && !state.development)
+    return fail('item-unavailable');
+  return catalog;
 }
 export function itemDefinition(state: MatchState, id: string) {
   const d = itemCatalogFor(state).definitions.find((d) => d.id === id);
@@ -298,7 +304,7 @@ export function inspectItem(state: MatchState, itemId: string) {
   return ItemPresentationSchema.parse({
     instance: item,
     icon: d.icon,
-    description: itemBonusDescription(d.bonuses),
+    description: itemDescription(d),
     bonuses: d.bonuses,
     recipe,
     location: state.items.pending.some((i) => i.id === itemId)

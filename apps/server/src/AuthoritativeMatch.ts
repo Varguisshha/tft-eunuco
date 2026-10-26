@@ -3,6 +3,7 @@ import {
   CATALOG,
   COMPOSITE_CATALOG,
   ITEM_CATALOG_HASH,
+  STANDARD_ITEM_CATALOG_HASH,
   snapshotConfig,
   type AuthoritySnapshot,
 } from './persistence/snapshot';
@@ -129,7 +130,9 @@ export class AuthoritativeMatch {
       schema: 1,
       rules: combatRulesFor(this.config.catalog),
       catalog: this.config.itemCatalog
-        ? ITEM_CATALOG_HASH
+        ? this.config.itemCatalog === 'f0p8b-14.1-1'
+          ? STANDARD_ITEM_CATALOG_HASH
+          : ITEM_CATALOG_HASH
         : this.config.catalog === 'f0p6c'
           ? COMPOSITE_CATALOG
           : CATALOG,

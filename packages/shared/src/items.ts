@@ -1,3 +1,9 @@
+import {
+  PlannedItemEffectSchema,
+  ItemContentSchema,
+  STANDARD_ITEM_VERSION,
+  STANDARD_LAB_VERSION,
+} from './item-design';
 import { z } from 'zod';
 import { ModifiableStatSchema, CoreEffectSchema, AbilityConditionSchema } from './abilities';
 import { ModifierModeSchema } from './advanced-stats';
@@ -15,14 +21,22 @@ export const ItemCategorySchema = z.enum([
   'critical',
 ]);
 export type ItemCategory = z.infer<typeof ItemCategorySchema>;
-export const ItemBonusSchema = z.strictObject({
+export const ItemModifierBonusSchema = z.strictObject({
   stat: ModifiableStatSchema,
   mode: ModifierModeSchema,
   amount: z.number().int().min(0).max(100000),
 });
+export type ItemModifierBonus = z.infer<typeof ItemModifierBonusSchema>;
+export const ItemBonusSchema = z
+  .strictObject({
+    stat: z.enum([...ModifiableStatSchema.options, 'startingMana']),
+    mode: ModifierModeSchema,
+    amount: z.number().int().min(0).max(100000),
+  })
+  .refine((b) => b.stat !== 'startingMana' || b.mode === 'flat', 'Starting mana must be flat');
 export type ItemBonus = z.infer<typeof ItemBonusSchema>;
 /** Describes reserved mechanics; no special item effects execute in P8A. */
-export const ItemEffectSchema = z
+export const LegacyItemEffectSchema = z
   .strictObject({
     id,
     implementation: z.literal('reserved'),
@@ -46,7 +60,9 @@ export const ItemEffectSchema = z
     (e) => e.trigger !== 'conditional' || !!e.conditions?.length,
     'Conditional predicates required',
   );
+export const ItemEffectSchema = z.union([LegacyItemEffectSchema, PlannedItemEffectSchema]);
 const metadata = {
+  content: ItemContentSchema.optional(),
   id,
   version: z.literal(1),
   icon: id,
@@ -72,7 +88,7 @@ export const CompleteItemDefinitionSchema = z
     stacking: z.enum(['stack', 'unique']),
     visual: z.strictObject({
       tone: z.enum(['neutral', 'jade', 'amber', 'violet']),
-      rarity: z.literal('technical'),
+      rarity: z.enum(['technical', 'standard']),
     }),
   })
   .refine(
@@ -91,7 +107,12 @@ export const ItemRecipeSchema = z.strictObject({
 });
 export type ItemRecipe = z.infer<typeof ItemRecipeSchema>;
 export const ItemCatalogSchema = z.strictObject({
-  version: z.enum([ITEM_CATALOG_VERSION, 'f0p8a-diagnostic-1']),
+  version: z.enum([
+    ITEM_CATALOG_VERSION,
+    'f0p8a-diagnostic-1',
+    STANDARD_ITEM_VERSION,
+    STANDARD_LAB_VERSION,
+  ]),
   definitions: z.array(ItemDefinitionSchema).max(100),
   recipes: z.array(ItemRecipeSchema).length(36),
   policy: z.strictObject({

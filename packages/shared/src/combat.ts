@@ -1,4 +1,4 @@
-import { ItemBonusSchema } from './items';
+import { ItemModifierBonusSchema } from './items';
 import { z } from 'zod';
 import {
   MECHANICS_RULES,
@@ -106,7 +106,7 @@ export const CombatProfileSchema = z
     stats: CombatStatsSchema,
     initialItemModifiers: z
       .array(
-        ItemBonusSchema.extend({
+        ItemModifierBonusSchema.extend({
           id: z.string().min(1).max(100),
           sourceId: z.string().min(1).max(80),
         }),

@@ -101,7 +101,7 @@ export function createMatch(
   config = EconomyConfigSchema.parse(config);
   for (const tier of config.opponents) for (const id of tier.definitions) definition(id);
   const state: MatchState = {
-    ...(config.itemCatalog ? { items: createItemInventory(ownerId) } : {}),
+    ...(config.itemCatalog ? { items: createItemInventory(ownerId, config.itemCatalog) } : {}),
     rulesVersion: MATCH_RULES,
     config,
     seed,

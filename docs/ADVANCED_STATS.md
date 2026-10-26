@@ -122,7 +122,12 @@ La potencia de un cast mejorado/adicional se aplica después de resolver AD/AP y
 
 B3 usa HP700/1260/2268 y AD70/126/226 de VARGAS, sin multiplicar otra vez los ratios280/420/700 % AD. AS800milli, AP0, crítico200/1500, defensas25, maná0/70. Un daño crítico autorizado afecta la recuperación por HP real; Blackhaus lo desactiva explícitamente. Sus bonos de AS son porcentajes aditivos de base, con importe/duración por estrella. Recuperación porcentual del daño se calcula después de mitigación, escudo y recorte, y recibe Overtime de curación después. Los campos B3 son rechazados bajo reglas anteriores. [Ejemplos y límites](VARGAS_CHARACTER.md).
 
-
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 Las estadísticas de equipo se incorporan como `initialItemModifiers` identificados por instancia a la preparación existente. No se cambian mitigación, críticos, bucle ni Overtime. Planos y porcentajes se componen con las fuentes de sinergia según la fórmula existente; Kilómetros sigue preparando el AD base antes de esas fuentes. Un plano de objeto no se escala por estrellas. El inspector de banquillo usa la misma vista efectiva. Las cifras de los componentes definitivos siguen pendientes. Véase [ITEM_SYSTEM](ITEM_SYSTEM.md).
+
+## F0-P8B · Unidades de componentes
+
+AD +10 % = `percent_milli: 100`; velocidad +10 % usa la misma unidad relativa. Crítico +20 puntos = `flat: 200`, limitado a 1000 sin conversión de exceso. AP +10, armadura/RM +20, vida +150 son planos. Maná +15 es `startingMana`, solo plano: `min(maxMana, startingMana + bonus)` al preparar combate; no modifica máximo, coste ni generación. Los modificadores ordinarios nunca reciben la clave `startingMana`.
+
+Porcentajes se aplican al perfil escalado por estrellas y progreso permanente (Kilómetros), sin escalar otra vez bonificaciones planas ni sumar ingredientes al resultado. El laboratorio de vida aplica base +600 +floor(base×0,08), adaptación explícita al motor actual. Los efectos de crítico de habilidad, robo de vida, quemadura, reducción de maná o resistencias permanecen reservados; no se ha cambiado la fórmula general de daño. [Referencia y diferencias](ITEM_BALANCE_REFERENCE.md).

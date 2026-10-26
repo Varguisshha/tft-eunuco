@@ -190,7 +190,12 @@ Contratos, operación y ciclo: [PRIVATE_LOBBIES.md](PRIVATE_LOBBIES.md). Segurid
 
 F0-P6C amplía datos, contratos compartidos y núcleo con JARAMILLO. La persistencia se incorpora a OwnedUnit dentro de snapshots P7D.2; Phaser consume la traza y un contrato visual compuesto. No se añade simulación de cliente, tabla ni subsistema de persistencia. Véanse los tres documentos de JARAMILLO, animaciones compuestas y acumulaciones persistentes.
 
-
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 El catálogo de objetos tiene versión separada `f0p8a-1`, habilitada en nuevas configuraciones mediante `itemCatalog`. Shared define contratos; game-data registra ocho categorías y 36 recetas reservadas; core conserva inventarios y equipa sobre candidatos privados; DurableMatch persiste y confirma. No se reescribe la simulación. Documentación vigente: [ITEM_SYSTEM](ITEM_SYSTEM.md), [ITEM_INVENTORY](ITEM_INVENTORY.md).
+
+## F0-P8B · Catálogo estándar versionado
+
+`shared/item-design.ts` contiene operaciones declarativas reservadas; `game-data/items-standard.ts` transforma exclusivamente hechos congelados en 44 definiciones. `item-description.ts` deriva texto propio. `item-catalogs.ts` resuelve versiones y familia explícitas. El motor no ejecuta efectos nuevos; solo incorpora maná inicial al preparar una copia del perfil, excluyéndolo de modificadores de combate.
+
+Las nuevas partidas usan `STANDARD_ITEMS_ECONOMY_CONFIG`; se conservan los contratos P8A y los guardados sin inventario. `STANDARD_ITEM_CATALOG_HASH` incluye configuración, personajes, catálogo completo y reparto apagado. Las tres huellas anteriores conservan exactamente sus bytes. P7D.2 guarda el mismo JSONB, sin tablas/migraciones nuevas. La autoridad valida versión, propiedad, recibos y disponibilidad antes de publicar. [Catálogo](ITEM_CATALOG.md), [P8C pendiente](ITEM_EFFECT_COMPATIBILITY.md).

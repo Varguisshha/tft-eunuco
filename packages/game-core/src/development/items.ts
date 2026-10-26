@@ -1,5 +1,5 @@
 import { DevelopmentItemCommandSchema } from '@tft/shared/development';
-import { DIAGNOSTIC_ITEM_CATALOG } from '@tft/game-data';
+import { DIAGNOSTIC_ITEM_CATALOG, STANDARD_LAB_ITEM_CATALOG } from '@tft/game-data';
 import type { MatchState } from '@tft/shared';
 import { grantItemInstances, allItemInstances } from '../items/inventory';
 import { validateMatchState } from '../match/invariants';
@@ -11,6 +11,8 @@ export function applyDevelopmentItems(original: MatchState, raw: unknown): Match
     state = structuredClone(original);
   if (command.type === 'diagnostic_item_catalog')
     state.items!.catalogVersion = DIAGNOSTIC_ITEM_CATALOG.version;
+  if (command.type === 'standard_item_catalog')
+    state.items!.catalogVersion = STANDARD_LAB_ITEM_CATALOG.version;
   if (command.type === 'grant_items')
     grantItemInstances(state, command.grantId, command.definitionIds);
   if (command.type === 'clear_items') {

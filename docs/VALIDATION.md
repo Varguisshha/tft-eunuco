@@ -554,7 +554,18 @@ Validación final P7D.2: `PERSISTENCE_TEST_URL=postgresql://127.0.0.1:55439/tft_
 
 Validación P6C: pruebas lógicas por estrellas, reducción máxima/refresco, Humo sin recursión, cancelación por objetivo muerto, Kilómetros/fusión/exclusiones, restauración compatible y PostgreSQL. Capturas de los estados corporales y VFX en artifacts/p6c; HUD 1440×900, 1920×1080 y 2560×1440 sin scroll del documento. Detalle y resultados finales en F0_P6C_REPORT.md.
 
-
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 F0-P8A parte del commit 9f23180 y conserva la suite de 831 pruebas. Se añaden contratos/36 parejas, conservación y corrupción, ranuras/retirada/propiedad, combinación atómica, fusiones y ventas con overflow, estadísticas de los tres personajes, ausencia de repartos en rondas 3/6, privacidad/recibos, fallo de almacenamiento y recuperación PostgreSQL + SIGKILL. Resultados finales, alcance y comandos reproducibles: [F0_P8A_REPORT](F0_P8A_REPORT.md).
+
+## F0-P8B · Catálogo completo (26/10/2026)
+
+- `PERSISTENCE_TEST_URL=postgresql://127.0.0.1:55439/tft_persistence_test pnpm check`: correcto.
+- TypeScript y ESLint: correctos.
+- **1004/1004 pruebas correctas**, 74 archivos, **0 omitidas**, 81,26 s de tests. Incluye seis pruebas PostgreSQL aisladas y recuperación real tras SIGKILL.
+- 131 pruebas nuevas: componentes, recetas, cifras de las 36 operaciones, temporización, disponibilidad, atomicidad, personajes, porcentajes, maná, laboratorio, fuentes y snapshots históricos.
+- Build cliente y servidor: correctos. Aviso no bloqueante de tamaño de chunks documentado.
+- `pnpm verify:public`: correcto; sin controlador, panel, esquema de comandos ni almacenamiento DEV en el bundle público.
+- Evidencias locales: `artifacts/p8b/check.log`, `public.log`, `baseline.log`, `validation.json` y `catalog.json`, excluidas de Git por la política existente.
+
+Baseline P8A: 867 correctas + 6 omitidas por ausencia inicial de URL PostgreSQL, 873 totales. En la validación final no se omite ninguna. Las tres huellas históricas se verifican contra valores literales y se rechazan cruces entre familias de inventario. No se ejecutan efectos especiales ni reparto; los tests prueban el bloqueo de los 36 resultados y el único objeto de laboratorio. [Informe completo](F0_P8B_REPORT.md).

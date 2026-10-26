@@ -1,10 +1,10 @@
-# Recetas de componentes · F0-P8A
+# Recetas de componentes · F0-P8B
 
 Las ocho categorías generan `8 × 9 / 2 = 36` parejas no ordenadas con repetición: 28 distintas y ocho dobles. El catálogo enumera cada pareja una vez, en orden determinista. `recipeKey(A,B)` ordena los IDs y da la misma clave para B,A. A+A requiere dos instancias diferentes del mismo componente.
 
-Cada receta declara ID canónico, dos IDs de componentes y `resultId`. Las 36 recetas competitivas tienen `resultId: null` en esta fase. No se crea un objeto ficticio para completar la matriz.
+Cada receta declara ID canónico, dos IDs de componentes y `resultId`. El catálogo histórico P8A conserva `resultId: null`. El catálogo P8B asigna 36 resultados únicos `item-forge-*`, todos con definición completa y disponibilidad competitiva desactivada. [Matriz y definiciones](ITEM_CATALOG.md).
 
-## Matriz preparada
+## Combinaciones
 
 | Primer componente | Parejas con él y los siguientes                      |
 | ----------------- | ---------------------------------------------------- |
@@ -34,4 +34,8 @@ Separado de `ITEM_CATALOG`, `f0p8a-diagnostic-1` contiene dos objetos técnicos:
 
 Sus cifras verifican la infraestructura, no son balance propuesto ni contenido competitivo. Solo son utilizables con estado DEV explícito y no se pueden conceder por la autoridad normal. Las otras 34 recetas de ese catálogo también permanecen pendientes.
 
-Para F0-P8B: definir contenido original, iconografía y estadísticas, completar cada receta autorizada, conectar únicamente efectos implementados, crear una nueva versión/huella y conservar las reglas históricas. P8A no inicia esa fase.
+## Catálogo estándar P8B
+
+`STANDARD_ITEM_CATALOG` contiene 44 definiciones y 36 recetas sin resultados nulos. `validateItemCatalog` exige la matriz completa y sus metadatos, y rechaza activar cualquier resultado competitivo en esta versión. El esquema impide habilitar efectos reservados también en laboratorio. Solo vida + vida se habilita en `STANDARD_LAB_ITEM_CATALOG`; las otras 35 combinaciones se rechazan sin consumir materiales.
+
+Las 36 parejas se prueban individualmente, además de las 64 búsquedas ordenadas A+B, ocho dobles, concesión de resultados bloqueados y combinación automática sobre unidades. El catálogo P8A y su diagnóstico mantienen su contenido y huellas históricas.

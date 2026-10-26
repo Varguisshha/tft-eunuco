@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import {
   VARGAS_ECONOMY_CONFIG,
   ITEMS_ECONOMY_CONFIG,
+  STANDARD_ITEMS_ECONOMY_CONFIG,
+  STANDARD_ITEM_CATALOG,
   ITEM_CATALOG,
   ITEM_DROP_DESIGN,
   JARAMILLO_ECONOMY_CONFIG,
@@ -37,12 +39,27 @@ export const ITEM_CATALOG_HASH = createHash('sha256')
     ]),
   )
   .digest('hex');
+export const STANDARD_ITEM_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      STANDARD_ITEMS_ECONOMY_CONFIG,
+      matchCatalog(STANDARD_ITEMS_ECONOMY_CONFIG),
+      STANDARD_ITEM_CATALOG,
+      ITEM_DROP_DESIGN,
+    ]),
+  )
+  .digest('hex');
 export function snapshotConfig(rules: string, catalog: string) {
   if (rules === RULESET && catalog === CATALOG) return VARGAS_ECONOMY_CONFIG;
   if (rules === combatRulesFor(JARAMILLO_ECONOMY_CONFIG.catalog) && catalog === COMPOSITE_CATALOG)
     return JARAMILLO_ECONOMY_CONFIG;
   if (rules === combatRulesFor(ITEMS_ECONOMY_CONFIG.catalog) && catalog === ITEM_CATALOG_HASH)
     return ITEMS_ECONOMY_CONFIG;
+  if (
+    rules === combatRulesFor(STANDARD_ITEMS_ECONOMY_CONFIG.catalog) &&
+    catalog === STANDARD_ITEM_CATALOG_HASH
+  )
+    return STANDARD_ITEMS_ECONOMY_CONFIG;
   throw new Error('Incompatible authority catalog/rules');
 }
 const nat = z.number().int().safe().nonnegative();
@@ -54,6 +71,7 @@ export const AuthoritySnapshotSchema = z.strictObject({
     z.literal(CATALOG),
     z.literal(COMPOSITE_CATALOG),
     z.literal(ITEM_CATALOG_HASH),
+    z.literal(STANDARD_ITEM_CATALOG_HASH),
   ]),
   id,
   capacity: z.union([z.literal(2), z.literal(3), z.literal(4)]),

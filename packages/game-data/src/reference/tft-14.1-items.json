@@ -1,0 +1,524 @@
+{
+  "patch": "14.1",
+  "notesPublishedAt": "2024-01-09T19:00:00.000Z",
+  "sourceUrl": "https://raw.communitydragon.org/14.1/cdragon/tft/en_us.json",
+  "notesUrl": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-14-1-notes/",
+  "upstreamSha256": "ae6d4bde7f591194b599caa120ca36ccc592bb5d9942ae703a47bd0cd0f7cb56",
+  "records": [
+    {
+      "recordId": "TFT_Item_BFSword",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "AD": 0.10000000149011612
+      }
+    },
+    {
+      "recordId": "TFT_Item_RecurveBow",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "AS": 10.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_NeedlesslyLargeRod",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "AP": 10.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_TearOfTheGoddess",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "Mana": 15.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_ChainVest",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "Armor": 20.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_NegatronCloak",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "MagicResist": 20.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_GiantsBelt",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "Health": 150.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_SparringGloves",
+      "components": [],
+      "unique": false,
+      "parameters": {
+        "CritChance": 20.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_RabadonsDeathcap",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_NeedlesslyLargeRod"],
+      "unique": false,
+      "parameters": {
+        "AP": 50.0,
+        "BonusDamage": 0.20000000298023224
+      }
+    },
+    {
+      "recordId": "TFT_Item_InfinityEdge",
+      "components": ["TFT_Item_BFSword", "TFT_Item_SparringGloves"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.3499999940395355,
+        "CritChance": 35.0,
+        "CritDamageToGive": 0.10000000149011612
+      }
+    },
+    {
+      "recordId": "TFT_Item_FrozenHeart",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_ChainVest"],
+      "unique": false,
+      "parameters": {
+        "Armor": 20.0,
+        "HealthThreshold": 40.0,
+        "Mana": 30.0,
+        "ShieldDuration": 5.0,
+        "ShieldHealthPercent": 25.0,
+        "Stats": 20.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_Redemption",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_GiantsBelt"],
+      "unique": false,
+      "parameters": {
+        "AoEDamageReduction": 10.0,
+        "HealTickRate": 5.0,
+        "Health": 150.0,
+        "HexRadius": 1.0,
+        "Mana": 15.0,
+        "MaxHeal": 1000.0,
+        "MissingHealthHeal": 15.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_ThiefsGloves",
+      "components": ["TFT_Item_SparringGloves", "TFT_Item_SparringGloves"],
+      "unique": false,
+      "parameters": {
+        "CritChance": 20.0,
+        "Health": 150.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_GuinsoosRageblade",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_NeedlesslyLargeRod"],
+      "unique": false,
+      "parameters": {
+        "AP": 10.0,
+        "AS": 15.0,
+        "AttackSpeedPerStack": 5.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_IonicSpark",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_NegatronCloak"],
+      "unique": false,
+      "parameters": {
+        "AP": 15.0,
+        "Damage": 250.0,
+        "Health": 200.0,
+        "HexRange": 2.0,
+        "MRShred": 30.0,
+        "MagicResist": 25.0,
+        "ManaRatio": 160.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_SteraksGage",
+      "components": ["TFT_Item_BFSword", "TFT_Item_GiantsBelt"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "BonusADToGive": 35.0,
+        "BonusMaxHealthPerc": 20.0,
+        "Health": 200.0,
+        "HealthThreshold": 60.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_DragonsClaw",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_NegatronCloak"],
+      "unique": false,
+      "parameters": {
+        "HealthRegenInterval": 2.0,
+        "ICD": 0.5,
+        "MagicResist": 55.0,
+        "PercentHealthDamage": 5.0,
+        "PercentMaxHP": 0.10000000149011612
+      }
+    },
+    {
+      "recordId": "TFT_Item_PowerGauntlet",
+      "components": ["TFT_Item_GiantsBelt", "TFT_Item_SparringGloves"],
+      "unique": false,
+      "parameters": {
+        "AP": 10.0,
+        "AS": 20.0,
+        "CritChance": 20.0,
+        "DamageAmpPct": 25.0,
+        "Duration": 3.0,
+        "Health": 150.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_GargoyleStoneplate",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_NegatronCloak"],
+      "unique": false,
+      "parameters": {
+        "Armor": 35.0,
+        "ArmorPerEnemy": 10.0,
+        "Health": 100.0,
+        "MRPerEnemy": 10.0,
+        "MagicResist": 35.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_BrambleVest",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_ChainVest"],
+      "unique": false,
+      "parameters": {
+        "1StarAoEDamage": 100.0,
+        "2StarAoEDamage": 100.0,
+        "3StarAoEDamage": 100.0,
+        "Armor": 55.0,
+        "AutoDamageReduction": 0.07999999821186066,
+        "ICD": 2.0,
+        "PercentMaxHP": 0.05000000074505806,
+        "{6688a0d5}": 100.0,
+        "{b5c2a66b}": 100.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_MadredsBloodrazor",
+      "components": ["TFT_Item_BFSword", "TFT_Item_RecurveBow"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.30000001192092896,
+        "AP": 20.0,
+        "AS": 10.0,
+        "HealthThreshold": 1600.0,
+        "LargeBonusPct": 25.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_RedBuff",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_GiantsBelt"],
+      "unique": true,
+      "parameters": {
+        "Armor": 20.0,
+        "BurnDuration": 10.0,
+        "BurnPercent": 1.0,
+        "GrievousWoundsPercent": 33.0,
+        "Health": 250.0,
+        "HexRange": 2.0,
+        "ICD": 2.0,
+        "MonsterCap": 100.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_UnstableConcoction",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_SparringGloves"],
+      "unique": false,
+      "parameters": {
+        "BaseAD": 0.15000000596046448,
+        "BaseHeal": 15.0,
+        "BaseSP": 15.0,
+        "BonusADPercent": 0.15000000596046448,
+        "BonusSP": 15.0,
+        "CritChance": 20.0,
+        "Mana": 15.0,
+        "{a60806db}": 66.66699981689453
+      }
+    },
+    {
+      "recordId": "TFT_Item_GuardianAngel",
+      "components": ["TFT_Item_BFSword", "TFT_Item_ChainVest"],
+      "unique": true,
+      "parameters": {
+        "AD": 0.10000000149011612,
+        "Armor": 20.0,
+        "AttackSpeed": 15.0,
+        "DamageReduction": 100.0,
+        "HealthThreshold": 60.0,
+        "StealthDuration": 1.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_TitansResolve",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_RecurveBow"],
+      "unique": false,
+      "parameters": {
+        "AS": 10.0,
+        "Armor": 20.0,
+        "BonusResistsAtStackCap": 20.0,
+        "StackCap": 25.0,
+        "StackingAD": 0.019999999552965164,
+        "StackingSP": 2.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_RunaansHurricane",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_RecurveBow"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.25,
+        "AS": 10.0,
+        "AdditionalTargets": 1.0,
+        "MagicResist": 20.0,
+        "MultiplierForDamage": 50.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_Bloodthirster",
+      "components": ["TFT_Item_BFSword", "TFT_Item_NegatronCloak"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.20000000298023224,
+        "AP": 15.0,
+        "HealthThreshold": 40.0,
+        "LifeSteal": 20.0,
+        "MagicResist": 20.0,
+        "ShieldDuration": 5.0,
+        "ShieldHealthPercent": 25.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_ArchangelsStaff",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_TearOfTheGoddess"],
+      "unique": false,
+      "parameters": {
+        "AP": 20.0,
+        "APPerInterval": 30.0,
+        "IntervalSeconds": 5.0,
+        "Mana": 15.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_SpearOfShojin",
+      "components": ["TFT_Item_BFSword", "TFT_Item_TearOfTheGoddess"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.20000000298023224,
+        "AP": 20.0,
+        "FlatManaRestore": 5.0,
+        "Mana": 15.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_SpectralGauntlet",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_GiantsBelt"],
+      "unique": false,
+      "parameters": {
+        "ARReductionAmount": 30.0,
+        "BonusResistDuration": 10.0,
+        "BonusResists": 25.0,
+        "Health": 150.0,
+        "HexRange": 2.0,
+        "MagicResist": 20.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_Leviathan",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_GiantsBelt"],
+      "unique": false,
+      "parameters": {
+        "AP": 30.0,
+        "AS": 10.0,
+        "ASDuration": 5.0,
+        "AttackSpeedToGive": 40.0,
+        "Health": 150.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_Morellonomicon",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_GiantsBelt"],
+      "unique": true,
+      "parameters": {
+        "AP": 25.0,
+        "AS": 15.0,
+        "BurnDuration": 10.0,
+        "BurnPercent": 1.0,
+        "GrievousWoundsPercent": 33.0,
+        "Health": 150.0,
+        "MonsterCap": 100.0,
+        "TicksPerSecond": 1.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_RapidFireCannon",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_RecurveBow"],
+      "unique": false,
+      "parameters": {
+        "AS": 40.0,
+        "BonusDamage": 0.05999999865889549,
+        "BurnPercent": 1.0,
+        "Duration": 5.0,
+        "HealingReductionPct": 33.0,
+        "HexRangeIncrease": 1.0,
+        "{9f5117db}": 100.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_Crownguard",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_ChainVest"],
+      "unique": false,
+      "parameters": {
+        "AP": 20.0,
+        "Armor": 20.0,
+        "ChillDuration": 4.0,
+        "Health": 100.0,
+        "HexRange": 2.0,
+        "ShieldBonusAP": 35.0,
+        "ShieldDuration": 8.0,
+        "ShieldSize": 30.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_AdaptiveHelm",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_TearOfTheGoddess"],
+      "unique": false,
+      "parameters": {
+        "AP": 15.0,
+        "BackRowBonusAP": 20.0,
+        "FrontLineManaPerHit": 1.0,
+        "FrontRowBonusResists": 40.0,
+        "MagicResist": 20.0,
+        "Mana": 15.0,
+        "ManaPerTickrate": 10.0,
+        "ManaTickrate": 3.0,
+        "{d357c9f2}": null
+      }
+    },
+    {
+      "recordId": "TFT_Item_BlueBuff",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_TearOfTheGoddess"],
+      "unique": true,
+      "parameters": {
+        "AD": 0.20000000298023224,
+        "AP": 20.0,
+        "DamageAmp": 0.07999999821186066,
+        "Mana": 20.0,
+        "ManaReduction": 10.0,
+        "TakedownTimer": 8.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_LastWhisper",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_SparringGloves"],
+      "unique": true,
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "AS": 25.0,
+        "ArmorBreakDuration": 3.0,
+        "ArmorReductionPercent": 30.0,
+        "CritChance": 20.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_JeweledGauntlet",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_SparringGloves"],
+      "unique": false,
+      "parameters": {
+        "AP": 35.0,
+        "CritChance": 35.0,
+        "CritDamageToGive": 0.10000000149011612
+      }
+    },
+    {
+      "recordId": "TFT_Item_NightHarvester",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_SparringGloves"],
+      "unique": false,
+      "parameters": {
+        "Armor": 20.0,
+        "BaseDamageReduction": 8.0,
+        "CritChance": 20.0,
+        "EmpowerDamageReduction": 15.0,
+        "Health": 250.0,
+        "ThresholdForEmpower": 0.5
+      }
+    },
+    {
+      "recordId": "TFT_Item_Quicksilver",
+      "components": ["TFT_Item_SparringGloves", "TFT_Item_NegatronCloak"],
+      "unique": true,
+      "parameters": {
+        "AS": 30.0,
+        "CritChance": 20.0,
+        "MagicResist": 20.0,
+        "ProcAttackSpeed": 0.03999999910593033,
+        "ProcInterval": 2.0,
+        "SpellShieldDuration": 14.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_Deathblade",
+      "components": ["TFT_Item_BFSword", "TFT_Item_BFSword"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.550000011920929,
+        "BonusDamage": 0.07999999821186066
+      }
+    },
+    {
+      "recordId": "TFT_Item_WarmogsArmor",
+      "components": ["TFT_Item_GiantsBelt", "TFT_Item_GiantsBelt"],
+      "unique": false,
+      "parameters": {
+        "BonusPercentHP": 0.07999999821186066,
+        "Health": 600.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_StatikkShiv",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_TearOfTheGoddess"],
+      "unique": false,
+      "parameters": {
+        "1StarBounces": 4.0,
+        "AP": 15.0,
+        "AS": 20.0,
+        "Damage": 30.0,
+        "MRShred": 30.0,
+        "MRShredDuration": 5.0,
+        "Mana": 15.0,
+        "{12a15e9e}": 4.0,
+        "{15144cec}": 4.0,
+        "{79e2ec7b}": 4.0
+      }
+    },
+    {
+      "recordId": "TFT_Item_HextechGunblade",
+      "components": ["TFT_Item_BFSword", "TFT_Item_NeedlesslyLargeRod"],
+      "unique": false,
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "Omnivamp": 22.0
+      }
+    }
+  ]
+}

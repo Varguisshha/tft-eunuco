@@ -1,4 +1,4 @@
-# Inventario y equipamiento · F0-P8A
+# Inventario y equipamiento · F0-P8B
 
 ## Propiedad e identidad
 
@@ -44,3 +44,11 @@ Vaciar objetos en DEV retira las instancias vivas con IDs registrados en `retire
 `validateItemState` se ejecuta al cargar y antes/después de cada acción. Reconstruye todas las instancias emitidas desde las concesiones y los resultados de recetas; comprueba que cada componente se consume una vez y que toda instancia no consumida ocupa exactamente una ubicación. Detecta duplicados, pérdidas, propietario incorrecto, secuencias corruptas, recetas inventadas y restricciones de ranura.
 
 El inventario, el equipo, los pendientes, los registros y la versión viajan dentro del snapshot JSONB P7D.2 y de los guardados locales. No se añade tabla ni backend paralelo. Un fallo de commit deja sin publicar la mutación y no produce confirmación de éxito. Solo el propietario recibe bandejas y registros; otros jugadores y espectadores ven el equipo de la formación pública, no sus recursos sueltos.
+
+## Versionado P8B
+
+La versión del inventario se inicializa desde la configuración de la partida. Las definiciones `version: 1` se resuelven siempre dentro de ese catálogo, no por ID aislado. Los mismos IDs de componente en P8A y P8B no tienen la misma cifra: no se reinterpretan entre generaciones. Un cruce de familia o catálogo desconocido se rechaza.
+
+No cambian bandejas, IDs, concesiones, componentes consumidos, fusiones, ventas, pendientes, journal ni recibos. P8B completa `resultId`, pero `availability: planned` impide conceder o combinar los 36 objetos en normal. El intento de completar un componente equipado también se rechaza entero. El único resultado funcional del laboratorio es vida + vida, con trazabilidad y devolución al vender.
+
+Los objetos de tres ranuras permanecen pendientes; `content.slotCost` declara el coste futuro, sin fingir que el contador P8A de instancias ya ejecuta esa mecánica. No existe acceso público para cambiar catálogos o conceder objetos.

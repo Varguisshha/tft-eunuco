@@ -168,7 +168,12 @@ Detalle vigente: [arquitectura](PERSISTENCE_ARCHITECTURE.md), [recuperación](MA
 
 F0-P6C incorpora JARAMILLO y los contratos de proyectiles compuestos y Kilómetros persistentes. Quedan como recursos artísticos futuros: confirmación de apariencia nativa, evoluciones 2★/3★ y animación exclusiva Ability. No se inicia otra fase. Evidencias y límites: F0_P6C_REPORT.md.
 
-
 ## F0-P8A · Componentes y objetos (26/10/2026)
 
 F0-P8A prepara los contratos universales de componentes, recetas, inventario y equipo; autoridad, fusión/venta y persistencia incluidos. P8B queda pendiente: contenido original definitivo, valores, efectos ejecutables, reparto y presentación autorizados en una fase posterior. Las recetas competitivas permanecen sin resultado y la entrega automática desactivada. [Informe de fase](F0_P8A_REPORT.md).
+
+## F0-P8B · Catálogo completo (26/10/2026)
+
+Completado: ocho componentes con cifras, 36 recetas únicas, estadísticas y operaciones de diseño, capacidades, descripciones, accesibilidad e iconKeys, versiones de partida y compatibilidad histórica. Competitivo completo apagado; laboratorio habilita solo vida pura. Reparto continúa apagado.
+
+Siguiente paso exacto: **F0-P8C**, resolver decisiones pendientes y construir/probar ejecución genérica de efectos con fuentes y límites de recursión antes de habilitar objetos íntegros. P8D mantiene el reparto futuro. Esta fase no inicia ninguna de ellas. [Informe](F0_P8B_REPORT.md).
