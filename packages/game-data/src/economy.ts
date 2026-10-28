@@ -189,3 +189,10 @@ export const P11K_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...P11H_ECONOMY_CONFIG,
   removerPolicy: { version: 'f0p11k-remover-1', initialQuantity: 1, benchDuringCombat: true },
 });
+
+/** New matches only. Historical P11K configurations and fingerprints remain immutable. */
+export const P12B_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...P11K_ECONOMY_CONFIG,
+  removerPolicy: { version: 'f0p12b-remover-1', initialQuantity: 1, benchDuringCombat: true },
+  pvpPolicy: { version: 'f0p12b-1', ghostDamageMultiplierMilli: 800 },
+});

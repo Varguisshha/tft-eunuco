@@ -173,6 +173,16 @@ export const CombatInputSchema = z
     protocolVersion: z.literal(COMBAT_PROTOCOL),
     rulesVersion: RulesSchema,
     combatId: id.optional(),
+    ghost: z
+      .strictObject({
+        version: z.literal('f0p12b-1'),
+        side: z.enum(['south', 'north']),
+        sourcePlayerId: id,
+        realPlayerId: id,
+        damageMultiplierMilli: z.literal(800),
+        units: z.array(z.strictObject({ unitId: id, sourceUnitId: id })).max(28),
+      })
+      .optional(),
     seed: CombatSeedSchema,
     maxTicks: duration.default(MAX_COMBAT_TICKS),
     overtime: OvertimeConfigSchema.default(DEFAULT_OVERTIME),
@@ -181,6 +191,21 @@ export const CombatInputSchema = z
     obstacles: z.array(HexCoordSchema).max(56).default([]),
   })
   .superRefine((input, ctx) => {
+    if (input.ghost) {
+      const g = input.ghost,
+        units = input.units.filter((u) => u.owner === g.side);
+      if (
+        input.rulesVersion !== 'f0p11h-1' ||
+        g.sourcePlayerId === g.realPlayerId ||
+        units.length !== g.units.length ||
+        new Set(g.units.map((u) => u.unitId)).size !== g.units.length ||
+        new Set(g.units.map((u) => u.sourceUnitId)).size !== g.units.length ||
+        g.units.some((u) => u.unitId === u.sourceUnitId || !units.some((x) => x.id === u.unitId)) ||
+        input.units.some((u) => g.units.some((x) => x.sourceUnitId === u.id))
+      )
+        ctx.addIssue({ code: 'custom', message: 'Invalid P12B ghost provenance' });
+    }
+
     if (
       input.rulesVersion === COMBAT_RULES &&
       (input.traits || input.units.some((u) => u.profile.championAbility || u.profile.traits))

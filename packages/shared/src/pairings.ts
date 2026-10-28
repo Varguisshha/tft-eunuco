@@ -34,15 +34,20 @@ export const PairingPlanSchema = z
   .strictObject({
     version: z.literal(PAIRING_VERSION),
     round,
-    pairings: z.array(PairingSchema).min(1).max(2),
+    pairings: z.array(PairingSchema).min(1).max(4),
     decision: z.strictObject({
-      policy: z.literal('balanced-history-v1'),
+      policy: z.enum(['balanced-history-v1', 'balanced-history-v2']),
       score: z.array(z.number().int().nonnegative()),
       tieBreak: z.number().int().nonnegative(),
     }),
   })
   .superRefine((p, ctx) => {
     const humans = p.pairings.filter((d) => d.kind === 'human').length;
+    if (
+      (p.decision.policy === 'balanced-history-v1' && p.pairings.length > 2) ||
+      p.pairings.filter((d) => d.kind === 'ghost').length > 1
+    )
+      ctx.addIssue({ code: 'custom', message: 'Invalid pairing policy capacity' });
     if ((p.pairings.length === 1 && humans !== 1) || (p.pairings.length === 2 && humans < 1))
       ctx.addIssue({ code: 'custom', message: 'A ghost requires an independent human duel' });
     const assigned = p.pairings.flatMap((d) =>

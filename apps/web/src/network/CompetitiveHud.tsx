@@ -126,7 +126,7 @@ export function CompetitiveHud({
         {remote.spectatorDuels.map((d) => (
           <GameButton
             key={d.combatId}
-            label={`${names(d.southPlayerId)} vs ${names(d.northPlayerId)}${d.kind === 'ghost' ? ' · Fantasma' : ''}`}
+            label={`${names(d.southPlayerId)} vs ${names(d.northPlayerId)}${d.kind === 'ghost' ? ' · Clon' : ''}`}
             icon="play"
             disabled={remote.getClock().currentPhase !== 'combat'}
             active={remote.selectedDuelId === d.combatId}

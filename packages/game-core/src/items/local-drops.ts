@@ -1,6 +1,11 @@
 import { LocalDropJournalSchema, type LocalDropJournal, type MatchState } from '@tft/shared';
 import { deriveDropSeed, planItemDrop } from './drops';
-import { grantItemInstances, localItemOwner, validateItemState } from './inventory';
+import {
+  grantItemInstances,
+  grantRoundRemover,
+  localItemOwner,
+  validateItemState,
+} from './inventory';
 export function createLocalDropJournal(state: MatchState): LocalDropJournal | undefined {
   return ['f0p11g-1', 'f0p11h-1'].includes(state.config.catalog ?? '')
     ? {
@@ -25,7 +30,12 @@ export function settleLocalDrop(
 ): LocalDropJournal {
   if (!['f0p11g-1', 'f0p11h-1'].includes(state.config.catalog ?? '') || !state.items)
     throw Error('Local drop catalog');
-  if (state.round % 3 || state.health.south <= 0 || state.health.north <= 0) return journal;
+  if (
+    state.round % 3 ||
+    state.health.south <= 0 ||
+    (state.health.north <= 0 && state.config.removerPolicy?.version !== 'f0p12b-remover-1')
+  )
+    return journal;
   if (journal.rounds.some((r) => r.round === state.round)) {
     validateLocalDrops(state, journal, matchId);
     return journal;
@@ -35,7 +45,10 @@ export function settleLocalDrop(
   reward.instanceIds = state.items.grants
     .find((g) => g.id === reward.grantId)!
     .instances.map((i) => i.id);
+  const removerIds = grantRoundRemover(state, reward.grantId);
+  if (removerIds) reward.removerIds = removerIds;
   state.items.distributions.push({
+    ...(removerIds ? { removerIds } : {}),
     id: reward.grantId,
     round: state.round,
     quantity: reward.definitionIds.length as 2 | 3,
@@ -71,7 +84,10 @@ export function validateLocalDrops(
         h.side === 'south' &&
         h.round % 3 === 0 &&
         h.hpAfter > 0 &&
-        state.healthLedger.some((n) => n.side === 'north' && n.round === h.round && n.hpAfter > 0),
+        (state.config.removerPolicy?.version === 'f0p12b-remover-1' ||
+          state.healthLedger.some(
+            (n) => n.side === 'north' && n.round === h.round && n.hpAfter > 0,
+          )),
     )
     .map((h) => h.round);
   if (rounds.length !== journal.rounds.length || state.items.distributions.length !== rounds.length)
@@ -82,6 +98,11 @@ export function validateLocalDrops(
       grant = state.items.grants.find((g) => g.id === expected.grantId),
       distribution = state.items.distributions.find((d) => d.id === expected.grantId);
     if (
+      JSON.stringify(record.removerIds) !== JSON.stringify(distribution?.removerIds) ||
+      (state.config.removerPolicy?.version === 'f0p12b-remover-1'
+        ? record.removerIds?.[0] !==
+          `${state.items.ownerId}/remover/round-${expected.grantId.slice(0, 24)}`
+        : record.removerIds !== undefined) ||
       record.round !== round ||
       record.playerId !== expected.playerId ||
       record.grantId !== expected.grantId ||

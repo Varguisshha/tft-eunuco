@@ -1,0 +1,22 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {Client} from '@colyseus/sdk';
+import {RemoteCoordinator} from '../../src/network/RemoteCoordinator';
+import {LocalSession} from '../../src/match/LocalSession';
+import {LocalGame} from '../../src/match/LocalGame';
+import '../../src/styles.css';
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-700.css';
+const gates=[];
+const action=(room,type,extra={})=>new Promise(resolve=>{const requestId=crypto.randomUUID();const off=room.onMessage('lobby_event',e=>{if(e.requestId===requestId){off();resolve(e)}});room.send('lobby_action',{version:'f0p7b2-1',requestId,type,...extra});});
+for(let i=0;i<4;i++){const client=new Client('http://127.0.0.1:2578');client.auth.token=`fixture-${i}`;gates.push(await client.create('lobby_gateway'));gates[i].onMessage('lobby_event',()=>{});}
+const created=await action(gates[0],'create_lobby',{capacity:4});
+for(let i=1;i<4;i++)await action(gates[i],'join_lobby',{roomCode:created.lobby.roomCode});
+for(const g of gates)await action(g,'set_ready',{readyState:true});
+const start=await action(gates[0],'start_match');
+const remotes=[];for(let i=0;i<4;i++)remotes.push(await RemoteCoordinator.connect('join',start.lobby.matchId,`fixture-${i}`));
+const root=createRoot(document.getElementById('root'));
+let chosen=0;
+const render=()=>{const remote=remotes[chosen],session=new LocalSession(remote.getMatch(),undefined,undefined,remote);root.render(<><LocalGame session={session} onNew={()=>{}} onReplace={()=>{}}/><nav aria-label="Laboratorio P12B" style={{position:'fixed',right:12,top:8,zIndex:10000,display:'flex',gap:4,fontSize:10}}><button onClick={()=>control('/setup')}>Preparar ejércitos</button><button onClick={()=>control('/advance')}>Avanzar fase</button><button onClick={()=>control('/eliminate')}>Preparar eliminación</button><button onClick={()=>{chosen=remotes.findIndex(r=>!r.eliminated&&r.duel.pairing?.kind==='ghost');if(chosen<0)chosen=1;render();}}>Ver clon</button><button onClick={()=>{chosen=1;render();}}>Ver Florin</button></nav></>);};
+async function control(path){await fetch('/control'+path,{method:'POST'});}
+render();

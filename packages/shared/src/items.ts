@@ -178,6 +178,7 @@ export const PlayerItemStateSchema = z.strictObject({
         quantity: z.union([z.literal(2), z.literal(3)]),
         seed: nat.max(0xffffffff),
         instanceIds: z.array(id).min(2).max(3),
+        removerIds: z.array(id).length(1).optional(),
       }),
     )
     .max(1000),

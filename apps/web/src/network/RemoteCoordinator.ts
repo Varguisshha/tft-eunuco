@@ -415,6 +415,9 @@ export class RemoteCoordinator implements MatchCoordinator {
         : 'Duelo finalizado',
     };
   }
+  get roundSettlement() {
+    return 'ownSettlement' in this.snapshot ? this.snapshot.ownSettlement : null;
+  }
   get purchaseUpgrades() {
     return this.snapshot.purchaseUpgrades ?? [];
   }

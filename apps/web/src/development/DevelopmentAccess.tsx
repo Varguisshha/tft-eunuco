@@ -5,7 +5,7 @@ import { createP11BReference, createP11CReference } from './p11bReference';
 import { RosterGallery } from './RosterGallery';
 import { createRosterReference } from './rosterReference';
 import { createP11Reference } from './p11Reference';
-import { P11K_ECONOMY_CONFIG } from '@tft/game-data';
+import { P12B_ECONOMY_CONFIG } from '@tft/game-data';
 import {
   createFlorinItemReference,
   createItemHudReference,
@@ -105,7 +105,7 @@ export default function DevelopmentAccess({
           },
           time,
         );
-      } else next = new DevelopmentController(time, seed, undefined, P11K_ECONOMY_CONFIG);
+      } else next = new DevelopmentController(time, seed, undefined, P12B_ECONOMY_CONFIG);
       setController(next);
       setOpened(true);
       setMessage('Prueba aislada lista. El guardado normal se conserva.');

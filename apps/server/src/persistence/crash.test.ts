@@ -17,7 +17,16 @@ let child: ChildProcess | undefined;
 const sockets: Room[] = [];
 let sqlSubmissions = 0;
 async function boot(
-  effects: boolean | 'florin' | 'integrated' | 'roster' | 'pool' | 'p11' | 'p11h' | 'p11k' = false,
+  effects:
+    | boolean
+    | 'florin'
+    | 'integrated'
+    | 'roster'
+    | 'pool'
+    | 'p11'
+    | 'p11h'
+    | 'p11k'
+    | 'p12b' = false,
   drops = false,
   manualSteps = false,
 ) {
@@ -33,6 +42,7 @@ async function boot(
       POOL_DIAGNOSTIC: effects === 'pool' ? '1' : '0',
       P11_DIAGNOSTIC: effects === 'p11' ? '1' : '0',
       P11H_DIAGNOSTIC: effects === 'p11h' ? '1' : '0',
+      P12B_DIAGNOSTIC: effects === 'p12b' ? '1' : '0',
       P11K_DIAGNOSTIC: effects === 'p11k' ? '1' : '0',
       ROSTER_DIAGNOSTIC: effects === 'roster' || effects === 'p11' ? '1' : '0',
       INTEGRATED_DIAGNOSTIC: effects === 'integrated' || effects === 'pool' ? '1' : '0',
@@ -546,23 +556,28 @@ it.skipIf(!url).each([2, 3, 4] as const)(
   60000,
 );
 
-it.skipIf(!url)(
-  'P8D four players round 6: SIGKILL before/after commit, exactly once rewards and fixed-seed baseline',
-  async () => {
+it.skipIf(!url).each([false, true])(
+  'Periodic rewards P12B=%s: SIGKILL before/after commit, exactly once rewards and fixed-seed baseline',
+  async (p12b) => {
     const repo = new PostgresTestRepository(url!);
     try {
       await repo.pool.query('truncate private.authority_members,private.authority_matches');
-      await boot(false, true);
-      const gates = await Promise.all([0, 1, 2, 3].map(gate));
-      const created = await action(gates[0]!, 'create_lobby', { capacity: 4 });
-      for (let i = 1; i < 4; i++)
+      await boot(p12b ? 'p12b' : false, true, p12b);
+      const count = p12b ? 3 : 4;
+      const gates = await Promise.all(Array.from({ length: count }, (_, i) => i).map(gate));
+      const created = await action(gates[0]!, 'create_lobby', { capacity: count });
+      for (let i = 1; i < count; i++)
         await action(gates[i]!, 'join_lobby', { roomCode: created.lobby!.roomCode });
       for (const g of gates) await action(g, 'set_ready', { readyState: true });
       const start = await action(gates[0]!, 'start_match');
       const id = start.lobby!.matchId!;
       const peers: Awaited<ReturnType<typeof join>>[] = [];
-      for (let i = 0; i < 4; i++) peers.push(await join(i, id));
+      for (let i = 0; i < count; i++) peers.push(await join(i, id));
       await until(() => peers.every((p) => p.view!.clock.currentPhase === 'preparation'));
+      if (p12b) {
+        const setup = await fetch('http://127.0.0.1:2583/remover-setup', { method: 'POST' });
+        expect(setup.status, await setup.text()).toBe(200);
+      }
       const initial = (await repo.load())[0]!;
       const { AuthoritativeMatch } = await import('../AuthoritativeMatch');
       const baseline = AuthoritativeMatch.restore(initial.authority, { now: () => 0 }, false);
@@ -598,7 +613,7 @@ it.skipIf(!url)(
       }
       await interrupted;
       expect((await repo.load())[0]!.authority.itemDrops!.rounds).toHaveLength(0);
-      await boot(false, true);
+      await boot(p12b ? 'p12b' : false, true, p12b);
       await join(0, id);
       step();
       await advance(); // confirmed round 3
@@ -606,7 +621,7 @@ it.skipIf(!url)(
       expect(paid.authority.itemDrops).toEqual(baseline.exportState().itemDrops);
       expect(paid.authority.itemDrops!.rounds).toHaveLength(1);
       await kill();
-      await boot(false, true);
+      await boot(p12b ? 'p12b' : false, true, p12b);
       const resumed = await join(0, id);
       expect(resumed.view!.own.items).toEqual({
         ...paid.authority.players[0]!.state.items,
@@ -626,13 +641,26 @@ it.skipIf(!url)(
         baseline.players.map((p) => p.state.items),
       );
       for (const d of round6.authority.itemDrops!.rounds) {
-        expect(d.players).toHaveLength(4);
+        expect(d.players).toHaveLength(count);
         expect(d.players.every((p) => p.instanceIds.length === d.quantity)).toBe(true);
       }
       await kill();
-      await boot(false, true);
+      await boot(p12b ? 'p12b' : false, true, p12b);
       await join(0, id);
       const recovered = (await repo.load())[0]!;
+      if (p12b) {
+        expect(
+          recovered.authority.players.every((p) => p.state.items!.removers!.issued.length === 3),
+        ).toBe(true);
+        expect(
+          recovered.authority.itemDrops!.rounds.every(
+            (r) => r.players.length === 3 && r.players.every((p) => p.removerIds?.length === 1),
+          ),
+        ).toBe(true);
+        const ghost = recovered.authority.duels.find((d) => d.pairing.kind === 'ghost')!;
+        expect(ghost.replay.input.ghost?.damageMultiplierMilli).toBe(800);
+        expect(recovered.authority.duels).toEqual(round6.authority.duels);
+      }
       expect(recovered.authority.itemDrops).toEqual(round6.authority.itemDrops);
       expect(recovered.authority.players.map((p) => p.state.items)).toEqual(
         round6.authority.players.map((p) => p.state.items),

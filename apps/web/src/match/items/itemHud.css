@@ -613,3 +613,13 @@
   object-fit: contain;
   image-rendering: auto;
 }
+
+.item-vertical .p12b-delivery {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  width: min(240px, 45vw);
+  pointer-events: auto;
+  font-size: 12px;
+  line-height: 1.5;
+}

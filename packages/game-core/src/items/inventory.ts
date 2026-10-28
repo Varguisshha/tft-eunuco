@@ -98,6 +98,8 @@ export function validateItemState(state: MatchState) {
       { length: state.config.removerPolicy.initialQuantity },
       (_, i) => `initial-p11k-${i}`,
     );
+    if (state.config.removerPolicy.version === 'f0p12b-remover-1')
+      expected.push(...inv.distributions.map((d) => `round-${d.id.slice(0, 24)}`));
     if (
       (inv.removers?.issued.length ?? 0) !== expected.length ||
       expected.some((id) => !inv.removers?.issued.some((r) => r.grantId === id))
@@ -142,6 +144,17 @@ export function validateItemState(state: MatchState) {
     throw Error('Automatic item drops disabled in historical catalog');
   for (const drop of inv.distributions) {
     const grant = inv.grants.find((g) => g.id === drop.id);
+    const expectedRemover = `${inv.ownerId}/remover/round-${drop.id.slice(0, 24)}`;
+    if (
+      state.config.removerPolicy?.version === 'f0p12b-remover-1'
+        ? drop.removerIds?.length !== 1 ||
+          drop.removerIds[0] !== expectedRemover ||
+          !inv.removers?.issued.some(
+            (r) => r.id === expectedRemover && r.grantId === `round-${drop.id.slice(0, 24)}`,
+          )
+        : drop.removerIds !== undefined
+    )
+      throw Error('Distribution remover lineage');
     if (
       drop.round % 3 ||
       !grant ||
@@ -330,6 +343,13 @@ export function grantConfiguredRemovers(state: MatchState) {
   const policy = state.config.removerPolicy;
   if (!policy || !state.items) return;
   for (let i = 0; i < policy.initialQuantity; i++) issueRemover(state, `initial-p11k-${i}`);
+}
+/** Called only on the reward transaction draft. Does not draw RNG or backfill on load. */
+export function grantRoundRemover(state: MatchState, grantId: string): string[] | undefined {
+  if (state.config.removerPolicy?.version !== 'f0p12b-remover-1') return undefined;
+  if (!state.items) return fail('items-disabled');
+  issueRemover(state, `round-${grantId.slice(0, 24)}`);
+  return [`${state.items.ownerId}/remover/round-${grantId.slice(0, 24)}`];
 }
 function issueRemover(state: MatchState, grantId: string) {
   const journal = (state.items!.removers ??= { issued: [], consumed: [] });

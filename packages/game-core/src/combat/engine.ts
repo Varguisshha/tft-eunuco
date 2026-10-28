@@ -630,6 +630,8 @@ export class CombatEngine {
         source.mechanics?.recovery?.basicDamageTypeOnReturn && !source.mechanics.recovery.away
           ? source.mechanics.recovery.basicDamageTypeOnReturn
           : type;
+    const ghostMilli =
+      this.input.ghost?.side === source.owner ? this.input.ghost.damageMultiplierMilli : 1000;
     const requested = [P11C_RULES, P11H_RULES].includes(
       this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES,
     )
@@ -645,6 +647,9 @@ export class CombatEngine {
       effectiveStat(target, 'armor'),
       effectiveStat(target, 'magicResist'),
     );
+    // One final outgoing multiplier after defenses and before shields/HP. All damage paths
+    // (including item procs, periodic effects and projectile impacts) converge here.
+    if (ghostMilli !== 1000) remaining = Math.floor((remaining * ghostMilli) / 1000);
     const postDefense = remaining;
     let absorbed = 0;
     const broken: CombatStatus[] = [];
@@ -679,9 +684,12 @@ export class CombatEngine {
         ? {
             accounting: {
               version: 1 as const,
-              requested,
-              mitigated: Math.max(0, requested - postDefense),
-              defenseAmplification: Math.max(0, postDefense - requested),
+              requested: Math.floor((requested * ghostMilli) / 1000),
+              mitigated: Math.max(0, Math.floor((requested * ghostMilli) / 1000) - postDefense),
+              defenseAmplification: Math.max(
+                0,
+                postDefense - Math.floor((requested * ghostMilli) / 1000),
+              ),
               overkill: remaining - damage,
             },
           }

@@ -5,6 +5,7 @@ export interface PairingHistory {
 }
 export interface PairingConfig {
   recentWindow: number;
+  version?: 'f0p12b-1';
 }
 export const DEFAULT_PAIRING_CONFIG: PairingConfig = { recentWindow: 6 };
 /** Stable unsigned hash; no wall time, connection order or mutable RNG. */
@@ -24,7 +25,7 @@ export function pairRound(
 ): PairingPlan {
   if (
     ids.length < 2 ||
-    ids.length > 4 ||
+    ids.length > (config.version ? 8 : 4) ||
     new Set(ids).size !== ids.length ||
     ids.some((id) => !id || id.length > 80) ||
     !Number.isSafeInteger(round) ||
@@ -44,7 +45,27 @@ export function pairRound(
   const players = [...ids].sort();
   type Candidate = { human: [string, string][]; ghost: [string, string] | null };
   const candidates: Candidate[] = [];
-  if (players.length === 2) candidates.push({ human: [[players[0]!, players[1]!]], ghost: null });
+  if (config.version) {
+    const matchings = (rest: string[]): [string, string][][] => {
+      if (!rest.length) return [[]];
+      return rest
+        .slice(1)
+        .flatMap((b, i) =>
+          matchings(rest.filter((_, j) => j !== 0 && j !== i + 1)).map((pairs) => [
+            [rest[0]!, b] as [string, string],
+            ...pairs,
+          ]),
+        );
+    };
+    if (players.length % 2) {
+      for (const facing of players) {
+        const rest = players.filter((p) => p !== facing);
+        for (const human of matchings(rest))
+          for (const owner of rest) candidates.push({ human, ghost: [facing, owner] });
+      }
+    } else for (const human of matchings(players)) candidates.push({ human, ghost: null });
+  } else if (players.length === 2)
+    candidates.push({ human: [[players[0]!, players[1]!]], ghost: null });
   else if (players.length === 4) {
     for (const index of [1, 2, 3]) {
       const rest = players.filter((_, i) => i !== 0 && i !== index);
@@ -117,8 +138,8 @@ export function pairRound(
   }));
   if (choice.c.ghost)
     pairings.push({
-      id: `${matchId}/round/${round}/pair/1`,
-      combatId: `${matchId}/round/${round}/combat/1`,
+      id: `${matchId}/round/${round}/pair/${pairings.length}`,
+      combatId: `${matchId}/round/${round}/combat/${pairings.length}`,
       round,
       kind: 'ghost',
       southPlayerId: choice.c.ghost[0],
@@ -130,6 +151,10 @@ export function pairRound(
     version: PAIRING_VERSION,
     round,
     pairings,
-    decision: { policy: 'balanced-history-v1', score: choice.score, tieBreak: choice.tieBreak },
+    decision: {
+      policy: config.version ? 'balanced-history-v2' : 'balanced-history-v1',
+      score: choice.score,
+      tieBreak: choice.tieBreak,
+    },
   });
 }

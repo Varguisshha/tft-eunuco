@@ -274,3 +274,16 @@
     bottom: 1px;
   }
 }
+
+/* P12B uses the incumbent blue frame, never a separate sprite or arena treatment. */
+.is-ghost-duel {
+  border-bottom-color: var(--neon-border-highlight);
+  outline: 1px solid var(--hud-frame, #7193ff);
+  outline-offset: 3px;
+}
+.multiplayer-rival.is-ghost-duel {
+  max-width: min(420px, 46vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

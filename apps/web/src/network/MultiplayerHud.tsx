@@ -48,21 +48,39 @@ export function MultiplayerDuel({ remote }: { remote: RemoteCoordinator }) {
         <span>Resultado provisional · sin clasificación final</span>
       </div>
     );
+  const settlement = remote.roundSettlement;
+  if (clock.currentPhase === 'resolution' && settlement)
+    return (
+      <div className={`multiplayer-wait ${ghost ? 'is-ghost-duel' : ''}`} role="status">
+        <strong>
+          {settlement.outcome === 'win'
+            ? 'Victoria'
+            : settlement.outcome === 'loss'
+              ? 'Derrota'
+              : 'Doble derrota'}{' '}
+          · {ghost ? `Clon de ${d.rival?.name ?? 'Jugador'}` : 'Jugador real'}
+        </strong>
+        <span>
+          Daño recibido: {settlement.damage} · Recompensa: {settlement.gold} oro · {settlement.xp}{' '}
+          XP
+        </span>
+      </div>
+    );
   if (!d.rival || clock.currentPhase !== 'combat') return null;
   if (d.awaiting)
     return (
       <div className="multiplayer-wait" role="status">
         <strong>
           {d.outcome}
-          {ghost ? ' · Equipo fantasma' : ''}
+          {ghost ? ` · Clon de ${d.rival?.name ?? 'Jugador'}` : ''}
         </strong>
         <span>Esperando al resto · la siguiente ronda empieza para todos</span>
       </div>
     );
   return d.intro ? (
-    <div className="multiplayer-duel" role="status">
+    <div className={`multiplayer-duel ${ghost ? 'is-ghost-duel' : ''}`} role="status">
       <span className="duel-caption">
-        Ronda {remote.getMatch().round} · {ghost ? 'Equipo fantasma' : 'Enfrentamiento'}
+        Ronda {remote.getMatch().round} · {ghost ? 'Clon · Daño infligido 80 %' : 'Enfrentamiento'}
       </span>
       <div className="duel-versus">
         <span>
@@ -73,14 +91,17 @@ export function MultiplayerDuel({ remote }: { remote: RemoteCoordinator }) {
         <strong>VS</strong>
         <span>
           <Avatar id={'avatarId' in d.rival ? d.rival.avatarId : 'jade'} />
-          <b>{d.rival.name}</b>
-          <small>{d.rival.hp} vida</small>
+          <b>
+            {ghost ? 'Clon de ' : ''}
+            {d.rival.name}
+          </b>
+          <small>{ghost ? 'Ejército temporal · 80 % daño' : `${d.rival.hp} vida`}</small>
         </span>
       </div>
     </div>
   ) : (
-    <div className="multiplayer-rival">
-      {ghost ? 'Fantasma de ' : 'Rival · '}
+    <div className={`multiplayer-rival ${ghost ? 'is-ghost-duel' : ''}`}>
+      {ghost ? 'VS — Clon de ' : 'Rival · '}
       {d.rival.name}
     </div>
   );

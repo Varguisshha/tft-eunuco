@@ -14,12 +14,13 @@ export function planItemDrop(
   round: number,
   seed: number,
   players: string[],
+  periodicRemovers = false,
 ): DropJournal['rounds'][number] {
   if (
     !Number.isSafeInteger(round) ||
     round <= 0 ||
     round % ITEM_DROP_POLICY.everyRounds ||
-    players.length < 2 ||
+    players.length < (periodicRemovers ? 1 : 2) ||
     players.length > 4 ||
     new Set(players).size !== players.length
   )
@@ -31,25 +32,27 @@ export function planItemDrop(
     id,
     matchId,
     round,
-    version: 'f0p8d-1' as const,
+    version: periodicRemovers ? ('f0p12b-1' as const) : ('f0p8d-1' as const),
     quantity,
     status: 'confirmed' as const,
-    players: [...players].sort().map((playerId) => {
-      const playerSeed = deriveDropSeed(roundSeed, `types/${playerId}`);
-      let state = playerSeed;
-      const definitionIds = Array.from({ length: quantity }, () => {
-        const draw = randomUint32(state);
-        state = draw.state;
-        // Eight divides 2^32 exactly, so no modulo bias.
-        return `component-${ITEM_DROP_POLICY.components[draw.value % 8]}`;
-      });
-      return {
-        playerId,
-        grantId: id,
-        seed: playerSeed,
-        definitionIds,
-        instanceIds: [] as string[],
-      };
-    }),
+    players: [...players]
+      .sort()
+      .map((playerId): DropJournal['rounds'][number]['players'][number] => {
+        const playerSeed = deriveDropSeed(roundSeed, `types/${playerId}`);
+        let state = playerSeed;
+        const definitionIds = Array.from({ length: quantity }, () => {
+          const draw = randomUint32(state);
+          state = draw.state;
+          // Eight divides 2^32 exactly, so no modulo bias.
+          return `component-${ITEM_DROP_POLICY.components[draw.value % 8]}`;
+        });
+        return {
+          playerId,
+          grantId: id,
+          seed: playerSeed,
+          definitionIds,
+          instanceIds: [] as string[],
+        };
+      }),
   };
 }

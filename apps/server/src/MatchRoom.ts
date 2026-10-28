@@ -1,4 +1,4 @@
-import { P11K_ECONOMY_CONFIG, JARAMILLO_ECONOMY_CONFIG } from '@tft/game-data';
+import { P12B_ECONOMY_CONFIG, JARAMILLO_ECONOMY_CONFIG } from '@tft/game-data';
 import type { DurableMatch } from './persistence/DurableMatch';
 import { Room, ServerError, type Client } from '@colyseus/core';
 import {
@@ -90,7 +90,7 @@ export class MatchRoom extends Room {
       undefined,
       undefined,
       capacity,
-      this.modernProtocol ? P11K_ECONOMY_CONFIG : JARAMILLO_ECONOMY_CONFIG,
+      this.modernProtocol ? P12B_ECONOMY_CONFIG : JARAMILLO_ECONOMY_CONFIG,
     );
   }
   onCreate() {

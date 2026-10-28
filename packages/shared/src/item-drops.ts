@@ -8,7 +8,7 @@ export const DropJournalSchema = z.strictObject({
         id,
         matchId: z.string().min(1).max(160),
         round: z.number().int().positive(),
-        version: z.literal('f0p8d-1'),
+        version: z.enum(['f0p8d-1', 'f0p12b-1']),
         quantity: z.union([z.literal(2), z.literal(3)]),
         status: z.literal('confirmed'),
         players: z
@@ -19,9 +19,10 @@ export const DropJournalSchema = z.strictObject({
               seed: z.number().int().min(0).max(0xffffffff),
               definitionIds: z.array(id).min(2).max(3),
               instanceIds: z.array(id).min(2).max(3),
+              removerIds: z.array(id).length(1).optional(),
             }),
           )
-          .min(2)
+          .min(1)
           .max(4),
       }),
     )

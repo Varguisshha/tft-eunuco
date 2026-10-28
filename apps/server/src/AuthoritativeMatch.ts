@@ -14,6 +14,7 @@ import {
   P11G_CATALOG_HASH,
   P11H_CATALOG_HASH,
   P11K_CATALOG_HASH,
+  P12B_CATALOG_HASH,
   ROSTER_CATALOG_HASH,
   COMPOSITE_CATALOG,
   ITEM_CATALOG_HASH,
@@ -38,6 +39,8 @@ import {
   clearMatchProgress,
   returnUnitItems,
   grantItemInstances,
+  grantRoundRemover,
+  withGhostArmy,
   validateMatchState,
   validateItemState,
   type TimeSource,
@@ -150,38 +153,40 @@ export class AuthoritativeMatch {
       schema: 1,
       rules: combatRulesFor(this.config.catalog),
       catalog:
-        this.config.removerPolicy?.version === 'f0p11k-remover-1'
-          ? P11K_CATALOG_HASH
-          : this.config.catalog === 'f0p11h-1'
-            ? P11H_CATALOG_HASH
-            : this.config.catalog === 'f0p11g-1'
-              ? P11G_CATALOG_HASH
-              : this.config.catalog === 'f0p11c-1'
-                ? P11C_CATALOG_HASH
-                : this.config.catalog === 'f0p11b-1'
-                  ? P11B_CATALOG_HASH
-                  : isP11Catalog(this.config.catalog)
-                    ? P11_CATALOG_HASH
-                    : this.config.poolVersion === 'tft-set18-pool-1' &&
-                        this.config.catalog === 'f0p8d-florin-1'
-                      ? TFT_POOL_CATALOG_HASH
-                      : this.config.catalog === 'f0p10a-1'
-                        ? ROSTER_CATALOG_HASH
-                        : this.config.catalog === 'f0p8d-florin-1'
-                          ? INTEGRATED_CATALOG_HASH
-                          : this.config.catalog === 'florin-1'
-                            ? FLORIN_CATALOG_HASH
-                            : this.config.itemCatalog
-                              ? this.config.itemCatalog === 'f0p8d-1'
-                                ? DROP_ITEM_CATALOG_HASH
-                                : this.config.itemCatalog === 'f0p8c-1'
-                                  ? EFFECT_ITEM_CATALOG_HASH
-                                  : this.config.itemCatalog === 'f0p8b-14.1-1'
-                                    ? STANDARD_ITEM_CATALOG_HASH
-                                    : ITEM_CATALOG_HASH
-                              : this.config.catalog === 'f0p6c'
-                                ? COMPOSITE_CATALOG
-                                : CATALOG,
+        this.config.removerPolicy?.version === 'f0p12b-remover-1'
+          ? P12B_CATALOG_HASH
+          : this.config.removerPolicy?.version === 'f0p11k-remover-1'
+            ? P11K_CATALOG_HASH
+            : this.config.catalog === 'f0p11h-1'
+              ? P11H_CATALOG_HASH
+              : this.config.catalog === 'f0p11g-1'
+                ? P11G_CATALOG_HASH
+                : this.config.catalog === 'f0p11c-1'
+                  ? P11C_CATALOG_HASH
+                  : this.config.catalog === 'f0p11b-1'
+                    ? P11B_CATALOG_HASH
+                    : isP11Catalog(this.config.catalog)
+                      ? P11_CATALOG_HASH
+                      : this.config.poolVersion === 'tft-set18-pool-1' &&
+                          this.config.catalog === 'f0p8d-florin-1'
+                        ? TFT_POOL_CATALOG_HASH
+                        : this.config.catalog === 'f0p10a-1'
+                          ? ROSTER_CATALOG_HASH
+                          : this.config.catalog === 'f0p8d-florin-1'
+                            ? INTEGRATED_CATALOG_HASH
+                            : this.config.catalog === 'florin-1'
+                              ? FLORIN_CATALOG_HASH
+                              : this.config.itemCatalog
+                                ? this.config.itemCatalog === 'f0p8d-1'
+                                  ? DROP_ITEM_CATALOG_HASH
+                                  : this.config.itemCatalog === 'f0p8c-1'
+                                    ? EFFECT_ITEM_CATALOG_HASH
+                                    : this.config.itemCatalog === 'f0p8b-14.1-1'
+                                      ? STANDARD_ITEM_CATALOG_HASH
+                                      : ITEM_CATALOG_HASH
+                                : this.config.catalog === 'f0p6c'
+                                  ? COMPOSITE_CATALOG
+                                  : CATALOG,
       id: this.id,
       capacity: this.capacity,
       revision: this.revision,
@@ -233,6 +238,12 @@ export class AuthoritativeMatch {
     m.settlementId = s.settlementId;
     m.simulations = s.simulations;
     m.plan = s.plan;
+    if (
+      s.plan &&
+      s.plan.decision.policy !==
+        (m.config.pvpPolicy ? 'balanced-history-v2' : 'balanced-history-v1')
+    )
+      throw Error('Pairing policy fingerprint mismatch');
     m.pairingSeed = s.pairingSeed;
     m.finalResult = s.finalResult;
     m.completedDuels = new Set(s.completedDuels);
@@ -263,6 +274,41 @@ export class AuthoritativeMatch {
         !m.players.some((p) => p.id === d.pairing.northPlayerId)
       )
         throw new Error('Invalid duel');
+      const ghost = d.replay.input.ghost;
+      if (m.config.pvpPolicy && d.pairing.kind === 'ghost') {
+        if (
+          !ghost ||
+          ghost.side !== 'north' ||
+          ghost.sourcePlayerId !== d.pairing.ghostOwnerId ||
+          ghost.realPlayerId !== d.pairing.ghostFacingId
+        )
+          throw Error('Invalid ghost policy binding');
+        const original = s.duels.find(
+          (x) =>
+            x.pairing.round === d.pairing.round &&
+            x.pairing.kind === 'human' &&
+            [x.pairing.southPlayerId, x.pairing.northPlayerId].includes(ghost.sourcePlayerId),
+        );
+        if (!original) throw Error('Missing ghost source duel');
+        const side = original.pairing.southPlayerId === ghost.sourcePlayerId ? 'south' : 'north';
+        const source = original.replay.input.units.filter((u) => u.owner === side);
+        if (
+          source.length !== ghost.units.length ||
+          ghost.units.some((u) => {
+            const from = source.find((x) => x.id === u.sourceUnitId),
+              clone = d.replay.input.units.find((x) => x.id === u.unitId);
+            return (
+              !from ||
+              !clone ||
+              from.definitionId !== clone.definitionId ||
+              JSON.stringify(clone.position) !==
+                JSON.stringify(side === 'north' ? from.position : reverseHex(from.position)) ||
+              JSON.stringify(from.profile) !== JSON.stringify(clone.profile)
+            );
+          })
+        )
+          throw Error('Ghost army provenance mismatch');
+      } else if (ghost) throw Error('Ghost policy in historical/human duel');
     }
     if (
       s.clock.currentPhase === 'combat' &&
@@ -500,6 +546,7 @@ export class AuthoritativeMatch {
       this.pairingHistory,
       this.pairingSeed,
       this.id,
+      this.config.pvpPolicy ? { recentWindow: 6, version: 'f0p12b-1' } : undefined,
     );
     if (this.capacity === 2) {
       const d = this.plan.pairings[0]!;
@@ -512,7 +559,7 @@ export class AuthoritativeMatch {
       const teams = [pairing.southPlayerId, pairing.northPlayerId].map(
         (id) => this.players.find((p) => p.id === id)!,
       );
-      const input = CombatInputSchema.parse({
+      let input = CombatInputSchema.parse({
         protocolVersion: COMBAT_PROTOCOL,
         rulesVersion: combatRulesFor(this.config.catalog),
         combatId: pairing.combatId,
@@ -542,6 +589,8 @@ export class AuthoritativeMatch {
           ),
         ),
       });
+      if (pairing.kind === 'ghost' && this.config.pvpPolicy)
+        input = withGhostArmy(input, pairing.ghostOwnerId, pairing.ghostFacingId);
       const replay = runCombat(input);
       DuelRecordSchema.parse({
         version: PAIRING_VERSION,
@@ -609,7 +658,7 @@ export class AuthoritativeMatch {
         {
           externalCopies: this.external(p),
           prefix: `${p.id}-`,
-          progressionEligible: duel.pairing.kind === 'human',
+          progressionEligible: duel.pairing.kind === 'human' || !!this.config.pvpPolicy,
           settlementId: `${id}/${p.id}`,
         },
         trace,
@@ -632,7 +681,11 @@ export class AuthoritativeMatch {
     });
     const eligible = active.filter((_, i) => states[i]!.health.south > 0);
     let drop: DropJournal['rounds'][number] | undefined;
-    if (this.itemDrops && round % 3 === 0 && eligible.length > 1) {
+    if (
+      this.itemDrops &&
+      round % 3 === 0 &&
+      eligible.length >= (this.config.removerPolicy?.version === 'f0p12b-remover-1' ? 1 : 2)
+    ) {
       if (this.itemDrops.rounds.some((d) => d.round === round))
         throw Error('Duplicate distribution settlement');
       drop = planItemDrop(
@@ -640,6 +693,7 @@ export class AuthoritativeMatch {
         round,
         this.itemDrops.seed,
         eligible.map((p) => p.id),
+        this.config.removerPolicy?.version === 'f0p12b-remover-1',
       );
       for (const reward of drop.players) {
         const state = states[active.findIndex((p) => p.id === reward.playerId)]!;
@@ -647,7 +701,10 @@ export class AuthoritativeMatch {
         reward.instanceIds = state
           .items!.grants.find((g) => g.id === reward.grantId)!
           .instances.map((i) => i.id);
+        const removerIds = grantRoundRemover(state, reward.grantId);
+        if (removerIds) reward.removerIds = removerIds;
         state.items!.distributions.push({
+          ...(removerIds ? { removerIds } : {}),
           id: reward.grantId,
           round,
           quantity: drop.quantity,
@@ -727,7 +784,9 @@ export class AuthoritativeMatch {
       if (
         rounds.has(record.round) ||
         record.round > Number(this.clock.snapshot().roundId.split('/').at(-1)) ||
-        (this.finalResult && record.round >= this.finalResult.round)
+        (this.finalResult &&
+          (record.round > this.finalResult.round ||
+            (record.round === this.finalResult.round && !this.config.pvpPolicy)))
       )
         throw Error('Invalid distribution round');
       const settledPlayers = this.players.filter(
@@ -743,7 +802,13 @@ export class AuthoritativeMatch {
       const eligible = this.players
         .filter((p) => p.eliminatedRound === null || p.eliminatedRound > record.round)
         .map((p) => p.id);
-      const expected = planItemDrop(this.id, record.round, this.itemDrops.seed, eligible);
+      const expected = planItemDrop(
+        this.id,
+        record.round,
+        this.itemDrops.seed,
+        eligible,
+        this.config.removerPolicy?.version === 'f0p12b-remover-1',
+      );
       expected.players.forEach((reward) => {
         const p = this.players.find((p) => p.id === reward.playerId)!;
         const grant = p.state.items!.grants.find((g) => g.id === reward.grantId);
@@ -754,9 +819,12 @@ export class AuthoritativeMatch {
         )
           throw Error('Invalid distribution grant');
         reward.instanceIds = grant.instances.map((i) => i.id);
+        if (this.config.removerPolicy?.version === 'f0p12b-remover-1')
+          reward.removerIds = [`${p.id}/remover/round-${reward.grantId.slice(0, 24)}`];
         const own = p.state.items!.distributions.find((d) => d.id === reward.grantId);
         if (
           !own ||
+          JSON.stringify(own.removerIds) !== JSON.stringify(reward.removerIds) ||
           own.round !== record.round ||
           own.quantity !== record.quantity ||
           own.seed !== reward.seed ||
@@ -768,7 +836,12 @@ export class AuthoritativeMatch {
         throw Error('Invalid distribution journal');
     }
     for (const [, settlement] of this.settlements) {
-      if (settlement.round % 3 || (this.finalResult && settlement.round >= this.finalResult.round))
+      if (
+        settlement.round % 3 ||
+        (this.finalResult &&
+          settlement.round >= this.finalResult.round &&
+          (!this.config.pvpPolicy || this.players.every((p) => p.state.health.south === 0)))
+      )
         continue;
       if (!rounds.has(settlement.round)) throw Error('Missing settled distribution');
     }

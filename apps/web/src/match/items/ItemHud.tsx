@@ -415,6 +415,38 @@ export function EquipmentSlots({
   );
 }
 
+/** Initial snapshots are acknowledged silently: reconnecting never replays a delivery toast. */
+function RoundDelivery({ session }: { session: LocalSession }) {
+  const inv = session.getMatch().items!;
+  const tracker = useRef(new Set(inv.distributions.map((d) => d.id)));
+  const [delivery, setDelivery] = useState<(typeof inv.distributions)[number] | null>(null);
+  const key = inv.distributions.map((d) => d.id).join('|');
+  useEffect(() => {
+    const fresh = inv.distributions.filter((d) => !tracker.current.has(d.id));
+    for (const d of inv.distributions) tracker.current.add(d.id);
+    if (fresh.length) setDelivery(fresh.at(-1)!);
+  }, [key, inv]);
+  useEffect(() => {
+    if (!delivery) return;
+    const timer = setTimeout(() => setDelivery(null), 8000);
+    return () => clearTimeout(timer);
+  }, [delivery]);
+  if (!delivery) return null;
+  const available =
+    inv.removers?.issued.filter((r) => !inv.removers!.consumed.some((c) => c.id === r.id)).length ??
+    0;
+  return (
+    <aside className="item-delivery p12b-delivery" role="status" aria-label="Recompensa de ronda">
+      <button aria-label="Cerrar recompensa" onClick={() => setDelivery(null)}>
+        ×
+      </button>
+      <strong>Recompensa · Ronda {delivery.round}</strong>
+      <div>{delivery.quantity} componentes recibidos</div>
+      {delivery.removerIds && <div>+1 removedor de objetos · {available} disponibles</div>}
+      {!!inv.pending.length && <small>Hay objetos en Pendientes</small>}
+    </aside>
+  );
+}
 function VerticalItemHud({ session }: { session: LocalSession }) {
   const { c, ui } = useItems(session);
   const scroll = useRef<HTMLDivElement>(null);
@@ -499,6 +531,7 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
     ) : null;
   return (
     <section className="item-vertical" aria-label="Inventario de objetos">
+      <RoundDelivery session={session} />
       <header>
         <strong>Objetos</strong>
         <b>{all.length}</b>
@@ -609,6 +642,8 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
                 {state.config.removerPolicy
                   ? ' En preparación: tablero y banquillo. En combate: solo banquillo; el combate en curso no cambia.'
                   : ' Disponible durante la preparación.'}
+                {state.config.removerPolicy?.version === 'f0p12b-remover-1' &&
+                  ' Recibes uno adicional junto a los componentes cada tres rondas. Se acumulan y no caducan.'}
               </p>
             </>
           }

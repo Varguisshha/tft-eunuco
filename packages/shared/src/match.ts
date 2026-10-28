@@ -88,10 +88,13 @@ export const EconomyConfigSchema = z
       .optional(),
     removerPolicy: z
       .strictObject({
-        version: z.literal('f0p11k-remover-1'),
+        version: z.enum(['f0p11k-remover-1', 'f0p12b-remover-1']),
         initialQuantity: nat.max(32),
         benchDuringCombat: z.literal(true),
       })
+      .optional(),
+    pvpPolicy: z
+      .strictObject({ version: z.literal('f0p12b-1'), ghostDamageMultiplierMilli: z.literal(800) })
       .optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
@@ -141,6 +144,8 @@ export const EconomyConfigSchema = z
       .min(1),
   })
   .superRefine((c, ctx) => {
+    if (c.pvpPolicy && c.removerPolicy?.version !== 'f0p12b-remover-1')
+      ctx.addIssue({ code: 'custom', message: 'PvP policy requires P12B economy' });
     if (c.removerPolicy && (c.catalog !== 'f0p11h-1' || c.itemCatalog !== 'f0p11h-18.5-1'))
       ctx.addIssue({ code: 'custom', message: 'Remover policy requires the P11H item contract' });
     if (
