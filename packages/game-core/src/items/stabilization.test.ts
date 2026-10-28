@@ -9,6 +9,7 @@ import { grantItemInstances } from './inventory';
 import { act, unit } from './fixture.test-support';
 import { runCombat } from '../combat/engine';
 it('P8F integrated 7v7 with four champions, 42 equipped items and Florin recovery remains deterministic', () => {
+  const setupStart = performance.now();
   const units = [];
   for (let i = 0; i < 14; i++) {
     let state = createMatch(80126 + i, INTEGRATED_ECONOMY_CONFIG);
@@ -43,6 +44,7 @@ it('P8F integrated 7v7 with four champions, 42 equipped items and Florin recover
     traits: traitsFor(INTEGRATED_ECONOMY_CONFIG.catalog),
     units,
   });
+  const setupMs = performance.now() - setupStart;
   const start = performance.now();
   const replay = runCombat(input);
   const ms = performance.now() - start;
@@ -52,6 +54,8 @@ it('P8F integrated 7v7 with four champions, 42 equipped items and Florin recover
   const json = JSON.stringify(replay);
   const metrics = {
     ms,
+    setupMs,
+    validationMs: performance.now() - start - ms,
     ticks: replay.result.tick,
     events: replay.events.length,
     bytes: Buffer.byteLength(json),

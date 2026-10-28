@@ -46,7 +46,9 @@ it.each([1, 2] as const)(
 );
 
 it('full equipped arena samples within a frame budget at both speeds without changing authoritative results', () => {
+  const setupStart = performance.now();
   const replay = runCombat(stressBattle());
+  const setupMs = performance.now() - setupStart;
   const timings: number[] = [];
   for (const speed of [1, 2] as const) {
     const playback = new CombatPlayback(replay);
@@ -62,6 +64,7 @@ it('full equipped arena samples within a frame budget at both speeds without cha
   }
   timings.sort((a, b) => a - b);
   const metrics = {
+    setupMs,
     samples: timings.length,
     p95ms: timings[Math.floor(timings.length * 0.95)],
     p99ms: timings[Math.floor(timings.length * 0.99)],

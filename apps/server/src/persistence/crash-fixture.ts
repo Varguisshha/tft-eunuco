@@ -12,6 +12,8 @@ import {
   STANDARD_ITEMS_ECONOMY_CONFIG,
   EFFECT_ITEMS_ECONOMY_CONFIG,
 } from '@tft/game-data';
+import { appendFileSync, mkdirSync } from 'node:fs';
+import type { StoredMatch } from './snapshot';
 import { AuthoritativeMatch } from '../AuthoritativeMatch';
 import { act } from '../multi-fixture';
 import { copiesOf, grantItemInstances, applyItemCommand } from '@tft/game-core';
@@ -24,7 +26,36 @@ import { equip, fixtureUsers } from '../multi-fixture';
 const url = process.env.PERSISTENCE_TEST_URL;
 if (!url || !/^postgres(?:ql)?:\/\/[^/]*127\.0\.0\.1:55439\//.test(url))
   throw new Error('Isolated PostgreSQL required');
-const repo = new PostgresTestRepository(url);
+function trace(stage: string, extra = {}) {
+  if (process.env.P12R2_DIAGNOSTICS !== '1') return;
+  mkdirSync('../../artifacts/p12a-r2', { recursive: true });
+  appendFileSync(
+    '../../artifacts/p12a-r2/fixture-trace.jsonl',
+    JSON.stringify({
+      at: Date.now(),
+      pid: process.pid,
+      stage,
+      cpu: process.cpuUsage(),
+      ...extra,
+    }) + '\n',
+  );
+}
+let preparationDelayMs = 0;
+class ProbedRepository extends PostgresTestRepository {
+  async commit(expected: number, document: StoredMatch) {
+    const delay = preparationDelayMs;
+    preparationDelayMs = 0;
+    if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+    trace('sql-submit', { revision: document.revision });
+    process.send?.({ type: 'fixture-before-commit', revision: document.revision });
+    try {
+      await super.commit(expected, document);
+    } finally {
+      trace('sql-return', { revision: document.revision });
+    }
+  }
+}
+const repo = new ProbedRepository(url);
 async function verify(token: unknown) {
   const i = Number(String(token).replace('fixture-', ''));
   if (!Number.isInteger(i) || !fixtureUsers[i]) throw new ServerError(401, 'Invalid fixture');
@@ -233,6 +264,7 @@ class Fixture extends MatchRoom {
     });
   }
   async advance(ms?: number) {
+    trace('advance-start');
     await this.mutate(() => {
       const c = this.match.clock.snapshot();
       const remaining = ms === undefined ? 0 : Math.max(0, c.remainingMs - ms);
@@ -246,6 +278,9 @@ await server.listen(2582, '127.0.0.1');
 const control = http(async (req, res) => {
   try {
     const parsed = new URL(req.url!, 'http://localhost');
+    if (req.method === 'POST' && parsed.pathname === '/probe-preparation-delay') {
+      preparationDelayMs = 2300;
+    }
     if (
       req.method === 'POST' &&
       [

@@ -1,3 +1,4 @@
+import { appendFileSync, mkdirSync } from 'node:fs';
 import type { PoolClient } from 'pg';
 import { it, expect, afterAll } from 'vitest';
 import { spawn, type ChildProcess } from 'node:child_process';
@@ -14,11 +15,13 @@ import { PostgresTestRepository } from './PostgresTestRepository';
 const url = process.env.PERSISTENCE_TEST_URL;
 let child: ChildProcess | undefined;
 const sockets: Room[] = [];
+let sqlSubmissions = 0;
 async function boot(
   effects: boolean | 'florin' | 'integrated' | 'roster' | 'pool' | 'p11' | 'p11h' | 'p11k' = false,
   drops = false,
   manualSteps = false,
 ) {
+  sqlSubmissions = 0;
   child = spawn(process.execPath, ['--import', 'tsx', 'src/persistence/crash-fixture.ts'], {
     cwd: process.cwd() + '/apps/server',
     env: {
@@ -34,7 +37,16 @@ async function boot(
       ROSTER_DIAGNOSTIC: effects === 'roster' || effects === 'p11' ? '1' : '0',
       INTEGRATED_DIAGNOSTIC: effects === 'integrated' || effects === 'pool' ? '1' : '0',
     },
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+  });
+  child.on('message', (message) => {
+    if (
+      message &&
+      typeof message === 'object' &&
+      'type' in message &&
+      message.type === 'fixture-before-commit'
+    )
+      sqlSubmissions++;
   });
   await new Promise<void>((resolve, reject) => {
     let log = '';
@@ -63,12 +75,34 @@ async function kill() {
     c.kill('SIGKILL');
   });
 }
+/** Observe the actual SQL window, not candidate preparation time. Overall test limits stay unchanged. */
+async function waitForBlockedWriter(lock: PoolClient, previousSubmissions: number) {
+  await until(() => sqlSubmissions > previousSubmissions);
+  let blocked = false;
+  for (let n = 0; n < 100 && !blocked; n++) {
+    await lock.query('select pg_stat_clear_snapshot()');
+    const waiting = await lock.query(
+      "select pid from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'select public.authority_commit%' and pg_backend_pid()=any(pg_blocking_pids(pid))",
+    );
+    blocked = waiting.rows.length > 0;
+    if (!blocked) await new Promise((r) => setTimeout(r, 20));
+  }
+  if (process.env.P12R2_DIAGNOSTICS === '1') {
+    mkdirSync('artifacts/p12a-r2', { recursive: true });
+    appendFileSync(
+      'artifacts/p12a-r2/fixture-trace.jsonl',
+      JSON.stringify({ at: Date.now(), stage: 'probe-end', blocked }) + '\n',
+    );
+  }
+  expect(blocked).toBe(true);
+}
 /** Guarantee the explicit before-commit branch: a disconnected PG client can still commit after lock release. */
 async function killBlockedFixtureWriter(lock: PoolClient) {
   if (!url?.includes('127.0.0.1:55439/tft_persistence_test'))
     throw Error('Disposable persistence database required');
+  await lock.query('select pg_stat_clear_snapshot()');
   const writers = await lock.query(
-    "select pid from pg_stat_activity where datname=current_database() and pid<>pg_backend_pid() and wait_event_type='Lock' and query like 'select public.authority_commit%'",
+    "select pid from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and query like 'select public.authority_commit%' and pg_backend_pid()=any(pg_blocking_pids(pid))",
   );
   const ids = writers.rows.map((r) => Number(r.pid));
   expect(ids.length).toBeGreaterThan(0);
@@ -79,7 +113,7 @@ async function killBlockedFixtureWriter(lock: PoolClient) {
     [ids],
   );
   expect(stopped.rows.every((r) => r.stopped === true)).toBe(true);
-  // pg_stat_activity is cached within the locking transaction; refresh after termination.
+  // Refresh the observation after termination before asserting that no fixture writer remains.
   await lock.query('select pg_stat_clear_snapshot()');
   expect(
     (
@@ -549,17 +583,12 @@ it.skipIf(!url)(
       const lock = await repo.pool.connect();
       await lock.query('BEGIN');
       await lock.query('LOCK TABLE private.authority_matches IN ACCESS EXCLUSIVE MODE');
+      // Deliberately longer than the old pre-SQL polling window: regression for late writers.
+      await fetch('http://127.0.0.1:2583/probe-preparation-delay', { method: 'POST' });
+      const previousSubmissions = sqlSubmissions;
       const interrupted = advance().catch(() => {});
       try {
-        let blocked = false;
-        for (let i = 0; i < 100 && !blocked; i++) {
-          const waiting = await lock.query(
-            "select pid from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and pid <> pg_backend_pid()",
-          );
-          blocked = waiting.rows.length > 0;
-          if (!blocked) await new Promise((r) => setTimeout(r, 20));
-        }
-        expect(blocked).toBe(true);
+        await waitForBlockedWriter(lock, previousSubmissions);
         // No confirmed inventory is published while the transaction is waiting.
         expect(peers.every((p) => p.view!.own.items!.distributions.length === 0)).toBe(true);
         await killBlockedFixtureWriter(lock);
@@ -684,17 +713,12 @@ it.skipIf(!url).each(['integrated', 'roster', 'pool', 'p11'] as const)(
       const lock = await repo.pool.connect();
       await lock.query('BEGIN');
       await lock.query('LOCK TABLE private.authority_matches IN ACCESS EXCLUSIVE MODE');
+      // Deliberately longer than the old pre-SQL polling window: regression for late writers.
+      await fetch('http://127.0.0.1:2583/probe-preparation-delay', { method: 'POST' });
+      const previousSubmissions = sqlSubmissions;
       const interrupted = advance().catch(() => {});
       try {
-        let blocked = false;
-        for (let i = 0; i < 100 && !blocked; i++) {
-          const waiting = await lock.query(
-            "select pid from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and pid <> pg_backend_pid()",
-          );
-          blocked = waiting.rows.length > 0;
-          if (!blocked) await new Promise((r) => setTimeout(r, 20));
-        }
-        expect(blocked).toBe(true);
+        await waitForBlockedWriter(lock, previousSubmissions);
         // No confirmed inventory is published while the transaction is waiting.
         expect(peers.every((p) => p.view!.own.items!.distributions.length === 0)).toBe(true);
         await killBlockedFixtureWriter(lock);
@@ -1140,19 +1164,9 @@ it.skipIf(!url).each(['before', 'after'] as const)(
         await lock.query('BEGIN');
         await lock.query('LOCK TABLE private.authority_matches IN ACCESS EXCLUSIVE MODE');
         try {
+          const previousSubmissions = sqlSubmissions;
           peer.r.send('command', cmd);
-          let blocked = false;
-          for (let n = 0; n < 100 && !blocked; n++) {
-            await lock.query('select pg_stat_clear_snapshot()');
-            blocked =
-              (
-                await lock.query(
-                  "select pid from pg_stat_activity where datname=current_database() and wait_event_type='Lock' and pid<>pg_backend_pid() and query like 'select public.authority_commit%'",
-                )
-              ).rows.length > 0;
-            if (!blocked) await new Promise((r) => setTimeout(r, 20));
-          }
-          expect(blocked).toBe(true);
+          await waitForBlockedWriter(lock, previousSubmissions);
           expect(peer.receipts).toHaveLength(0);
           expect(peer.view!.own.items!.removers!.consumed).toHaveLength(0);
           await killBlockedFixtureWriter(lock);
