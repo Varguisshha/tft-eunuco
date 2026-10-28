@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./development": "./src/development/controller.ts"
   },
   "dependencies": {
-    "@tft/shared": "workspace:*",
-    "@tft/game-data": "workspace:*"
+    "@noble/hashes": "2.0.1",
+    "@tft/game-data": "workspace:*",
+    "@tft/shared": "workspace:*"
   }
 }

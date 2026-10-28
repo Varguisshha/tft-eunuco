@@ -1,0 +1,117 @@
+{
+  "metrics": [
+    {
+      "width": 1440,
+      "height": 900,
+      "scroll": false,
+      "cards": 5,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/dolea.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/vargas.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/jaramillo.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scroll": false,
+      "cards": 5,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/dolea.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/vargas.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/jaramillo.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 2560,
+      "height": 1440,
+      "scroll": false,
+      "cards": 5,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/dolea.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/vargas.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/jaramillo.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "width": 3840,
+      "height": 2160,
+      "scroll": false,
+      "cards": 5,
+      "images": [
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/dolea.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/vargas.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/jaramillo.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:4185/assets/splash/florin.webp",
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

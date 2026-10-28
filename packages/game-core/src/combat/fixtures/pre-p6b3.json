@@ -1,0 +1,72 @@
+[
+  {
+    "name": "stack-cycle",
+    "seed": 42,
+    "hash": "135760bcdedd73534b48a779556d4ac72b3518888fd209a76f593a7a7a6eccca"
+  },
+  {
+    "name": "kill-marks",
+    "seed": 42,
+    "hash": "551ff7a913ea026c0b85145b7072d65b48f94ed57c442b12f438cf98a066d1bf"
+  },
+  {
+    "name": "periodic-credit",
+    "seed": 42,
+    "hash": "c488ae83d437aebcb97c50ec3b10f4ee0ff38f5588f651232e280a17df8664f6"
+  },
+  {
+    "name": "environment-credit",
+    "seed": 42,
+    "hash": "b009daa8e60821ef486127b62ebf2507c2f5fe2db91c546d122cd7f46d527da3"
+  },
+  {
+    "name": "simultaneous-credit",
+    "seed": 42,
+    "hash": "84e523c81089d5f622ebd0e811af3d0a0a03bbff23978d4deb995fb6c85971cc"
+  },
+  {
+    "name": "progress-2",
+    "seed": 42,
+    "hash": "4881ee7822b018727e41cb67b5f130f053c392d1dec9b66aa997b217470a784c"
+  },
+  {
+    "name": "progress-4",
+    "seed": 42,
+    "hash": "06adb3c4dbe06f903c696ac72a397eab4ea81b38b0418bdd2e303b4c21996bab"
+  },
+  {
+    "name": "progress-6",
+    "seed": 42,
+    "hash": "ff9e5d59b06ac75194575a5bd37c1c78e5fd20f13c153f849f12d0c3b9da04b0"
+  },
+  {
+    "name": "progress-team",
+    "seed": 42,
+    "hash": "7b787e98a95b20597ca97fdeac1d103823c787fa6993396b58b7a2bcba66e8b3"
+  },
+  {
+    "name": "free-repeat",
+    "seed": 42,
+    "hash": "f74d78daed8fda8afd6e09c81be5a2e884230542b4ef51f94762b3fab3979219"
+  },
+  {
+    "name": "jump-chain",
+    "seed": 42,
+    "hash": "fb9249b1439d16c121255d6472b1798e1748cbb30c56acfa2d3078bee510d52b"
+  },
+  {
+    "name": "jump-blocked",
+    "seed": 42,
+    "hash": "c0d8c2e8ecebfa9f54c49694a05230d8a89fc36a25234114088c87e69feaf385"
+  },
+  {
+    "name": "jump-cancel",
+    "seed": 42,
+    "hash": "624e461baa48424e6411c18c6640c3b75aa552ce128907c2dfe9bb4c269e8433"
+  },
+  {
+    "name": "dolea-mechanics",
+    "seed": 42,
+    "hash": "eb3c036081fb084f71229878c466b562dac83024b4fe145bf27f595864e8e399"
+  }
+]

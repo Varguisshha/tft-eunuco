@@ -1,0 +1,22 @@
+{
+  "deployment": [
+    {
+      "id": "c6f11898-a0dc-483a-b50f-4c4f8042eb57",
+      "status": "REMOVED"
+    }
+  ],
+  "domains": {
+    "domains": [
+      {
+        "id": "acc09954-c7db-42de-8782-2937e32f570e",
+        "domain": "tft-eunuco-private.up.railway.app",
+        "type": "service",
+        "targetPort": 8080,
+        "syncStatus": "ACTIVE",
+        "createdAt": "2026-10-26T20:44:22.591+00:00",
+        "updatedAt": "2026-10-26T20:44:23.127+00:00"
+      }
+    ]
+  },
+  "remoteMutations": false
+}

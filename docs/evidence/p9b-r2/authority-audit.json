@@ -1,0 +1,10 @@
+[
+  {
+    "migrations": ["202610240001", "202610240002", "202610250001", "202610260001", "202610260002"],
+    "matches": 2,
+    "active_matches": 0,
+    "members": 4,
+    "fence_enabled": true,
+    "lease_released": true
+  }
+]

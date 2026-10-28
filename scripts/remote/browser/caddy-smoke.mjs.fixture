@@ -1,0 +1,12 @@
+import {Client} from '../../apps/server/node_modules/@colyseus/sdk/build/index.mjs';
+import fs from 'node:fs';
+const origin='https://localhost:9443',url='https://localhost:9444';
+const tokens=JSON.parse(fs.readFileSync('apps/web/dist-p9a/tokens.js','utf8').split('=')[1]);
+const rooms=[];
+try {
+ const health=await fetch(url+'/readyz'); if(health.status!==200)throw Error('Not ready');
+ for(let i=0;i<2;i++){const c=new Client(url,{headers:{Origin:origin}});c.auth.token=tokens[i];rooms.push(await c.create('lobby_gateway'));}
+ const denied=await fetch(url+'/matchmake/create/lobby_gateway',{method:'OPTIONS',headers:{Origin:'https://evil.test'}});
+ if(denied.status!==403)throw Error('Origin accepted');
+ fs.writeFileSync('artifacts/p9a/caddy-smoke.json',JSON.stringify({trustedTLS:true,readiness:health.status,authenticatedWssClients:rooms.length,forbiddenOrigin:denied.status}));
+}finally{for(const r of rooms)await r.leave();}

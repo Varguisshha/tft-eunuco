@@ -1,0 +1,1106 @@
+{
+  "version": "tft-18.5-2026-10-27",
+  "patch": "18.5 with 27 October update",
+  "sources": [
+    {
+      "url": "https://raw.communitydragon.org/16.21/cdragon/tft/en_us.json",
+      "sha256": "f7db19a4b20a15093d4cfa4631277385caa80a82185e32c181ba1ea2dcff0477",
+      "authority": "Game client extraction; not official Riot hosted documentation"
+    },
+    {
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.21.1/data/es_ES/tft-item.json",
+      "sha256": "003afdea52a1b57b7abcf63d7270ff9cd894e07780039cc4e5db09131346bb6c",
+      "authority": "Official Riot Data Dragon localized names"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-5/",
+      "authority": "Official Riot patch notes; Hand of Justice omnivamp 12% on 27 October"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-17-1/",
+      "authority": "Official Precision definition"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-sg/news/game-updates/roles-revamped-and-item-changes/",
+      "authority": "Official roles and mana changes"
+    },
+    {
+      "url": "https://raw.communitydragon.org/16.21/game/data/maps/shipping/map22/map22.bin.json",
+      "sha256": "79ddebf0e20604f1e184d019fbef4ac5f4a71199542ca9fd83f7e5c61825d98d",
+      "authority": "Set18 game client records: exact 36 recipes; their effect constants are omitted"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-1/",
+      "authority": "Official standard item delta from the prior version"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-2/",
+      "authority": "Official standard item delta from the prior version"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-3/",
+      "authority": "Official standard item delta from the prior version"
+    },
+    {
+      "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-4/",
+      "authority": "Official standard item delta from the prior version"
+    }
+  ],
+  "records": [
+    {
+      "recordId": "TFT_Item_AdaptiveHelm",
+      "nameEn": "Adaptive Helm",
+      "nameEs": "Yelmo adaptable",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_TearOfTheGoddess"],
+      "parameters": {
+        "BacklineADAP": 10.0,
+        "FrontlineResists": 30.0,
+        "MagicResist": 20.0,
+        "ManaPercIncrease": 0.15000000596046448,
+        "ManaRegen": 3.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "BacklineADAP": 10.0,
+        "FrontlineResists": 30.0,
+        "MagicResist": 20.0,
+        "ManaPercIncrease": 0.15000000596046448,
+        "ManaRegen": 3.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_AdaptiveHelm"
+    },
+    {
+      "recordId": "TFT_Item_ArchangelsStaff",
+      "nameEn": "Archangel's Staff",
+      "nameEs": "Bastón del arcángel",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_TearOfTheGoddess"],
+      "parameters": {
+        "AP": 30.0,
+        "APPerInterval": 20.0,
+        "IntervalSeconds": 5.0,
+        "ManaRegen": 1.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 30.0,
+        "APPerInterval": 20.0,
+        "IntervalSeconds": 5.0,
+        "ManaRegen": 1.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_ArchangelsStaff"
+    },
+    {
+      "recordId": "TFT_Item_BFSword",
+      "nameEn": "B.F. Sword",
+      "nameEs": "Espadón",
+      "components": [],
+      "parameters": {
+        "AD": 0.10000000149011612
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.10000000149011612
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_BFSword"
+    },
+    {
+      "recordId": "TFT_Item_Bloodthirster",
+      "nameEn": "Bloodthirster",
+      "nameEs": "Sanguinaria",
+      "components": ["TFT_Item_BFSword", "TFT_Item_NegatronCloak"],
+      "parameters": {
+        "AD": 0.18,
+        "AP": 18,
+        "HealthThreshold": 50,
+        "LifeSteal": 20.0,
+        "MagicResist": 20.0,
+        "ShieldDuration": 5.0,
+        "ShieldHealthPercent": 30,
+        "StatOmnivamp": 0.20000000298023224
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "HealthThreshold": 40.0,
+        "LifeSteal": 20.0,
+        "MagicResist": 20.0,
+        "ShieldDuration": 5.0,
+        "ShieldHealthPercent": 25.0,
+        "StatOmnivamp": 0.20000000298023224
+      },
+      "officialOverrides": {
+        "HealthThreshold": 50,
+        "AD": 0.18,
+        "AP": 18,
+        "ShieldHealthPercent": 30
+      },
+      "set18RecordId": "DA_Bloodthirster"
+    },
+    {
+      "recordId": "TFT_Item_BlueBuff",
+      "nameEn": "Blue Buff",
+      "nameEs": "Mejora azul",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_TearOfTheGoddess"],
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "ManaRegen": 5.0,
+        "ModifiedADAP": 0.10000000149011612
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "ManaRegen": 5.0,
+        "ModifiedADAP": 0.10000000149011612
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_BlueBuff"
+    },
+    {
+      "recordId": "TFT_Item_BrambleVest",
+      "nameEn": "Bramble Vest",
+      "nameEs": "Chaleco de zarzas",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_ChainVest"],
+      "parameters": {
+        "1StarAoEDamage": 100.0,
+        "2StarAoEDamage": 100.0,
+        "3StarAoEDamage": 100.0,
+        "4StarAoEDamage": 100.0,
+        "Armor": 50.0,
+        "AutoDamageReduction": 0.05000000074505806,
+        "ICD": 2.0,
+        "PercentMaxHP": 0.05999999865889549,
+        "{6688a0d5}": 100.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "1StarAoEDamage": 100.0,
+        "2StarAoEDamage": 100.0,
+        "3StarAoEDamage": 100.0,
+        "4StarAoEDamage": 100.0,
+        "Armor": 50.0,
+        "AutoDamageReduction": 0.05000000074505806,
+        "ICD": 2.0,
+        "PercentMaxHP": 0.05999999865889549,
+        "{6688a0d5}": 100.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_BrambleVest"
+    },
+    {
+      "recordId": "TFT_Item_ChainVest",
+      "nameEn": "Chain Vest",
+      "nameEs": "Chaleco de cadenas",
+      "components": [],
+      "parameters": {
+        "Armor": 20.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "Armor": 20.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_ChainVest"
+    },
+    {
+      "recordId": "TFT_Item_Crownguard",
+      "nameEn": "Crownguard",
+      "nameEs": "Regiaguardia",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_ChainVest"],
+      "parameters": {
+        "AP": 20.0,
+        "Armor": 20.0,
+        "Health": 100.0,
+        "ShieldBonusAP": 20,
+        "ShieldDuration": 8.0,
+        "ShieldSize": 25.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 20.0,
+        "Armor": 20.0,
+        "Health": 100.0,
+        "ShieldBonusAP": 25.0,
+        "ShieldDuration": 8.0,
+        "ShieldSize": 25.0
+      },
+      "officialOverrides": {
+        "ShieldBonusAP": 20
+      },
+      "set18RecordId": "DA_Crownguard"
+    },
+    {
+      "recordId": "TFT_Item_Deathblade",
+      "nameEn": "Deathblade",
+      "nameEs": "Filo mortal",
+      "components": ["TFT_Item_BFSword", "TFT_Item_BFSword"],
+      "parameters": {
+        "AD": 0.550000011920929,
+        "BonusDamage": 0.10000000149011612,
+        "{1543aa48}": 0.10000000149011612
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.550000011920929,
+        "BonusDamage": 0.10000000149011612,
+        "{1543aa48}": 0.10000000149011612
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Deathblade"
+    },
+    {
+      "recordId": "TFT_Item_DragonsClaw",
+      "nameEn": "Dragon's Claw",
+      "nameEs": "Garra de dragón",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_NegatronCloak"],
+      "parameters": {
+        "HealthRegenInterval": 2.0,
+        "ICD": 0.5,
+        "MagicResist": 60.0,
+        "PercentHealthDamage": 2.5,
+        "PercentMaxHP": 0.05999999865889549
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "HealthRegenInterval": 2.0,
+        "ICD": 0.5,
+        "MagicResist": 60.0,
+        "PercentHealthDamage": 2.5,
+        "PercentMaxHP": 0.05999999865889549
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_DragonsClaw"
+    },
+    {
+      "recordId": "TFT_Item_FrozenHeart",
+      "nameEn": "Protector's Vow",
+      "nameEs": "Promesa del protector",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_ChainVest"],
+      "parameters": {
+        "Armor": 25.0,
+        "CombatStartMana": 20.0,
+        "HealthThreshold": 40.0,
+        "MagicResist": 25.0,
+        "ManaRegen": 1.0,
+        "ShieldDuration": 60.0,
+        "ShieldHealthPercent": 20.0,
+        "TriggerMana": 15.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "Armor": 25.0,
+        "CombatStartMana": 20.0,
+        "HealthThreshold": 40.0,
+        "MagicResist": 25.0,
+        "ManaRegen": 1.0,
+        "ShieldDuration": 60.0,
+        "ShieldHealthPercent": 20.0,
+        "TriggerMana": 15.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_ProtectorsVow"
+    },
+    {
+      "recordId": "TFT_Item_GargoyleStoneplate",
+      "nameEn": "Gargoyle Stoneplate",
+      "nameEs": "Protector pétreo de gárgola",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_NegatronCloak"],
+      "parameters": {
+        "Armor": 25.0,
+        "ArmorPerEnemy": 10.0,
+        "Health": 100.0,
+        "MRPerEnemy": 10.0,
+        "MagicResist": 25.0,
+        "SizeIncrease": 0.07500000298023224,
+        "{4dc0582f}": 20.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "Armor": 25.0,
+        "ArmorPerEnemy": 10.0,
+        "Health": 100.0,
+        "MRPerEnemy": 10.0,
+        "MagicResist": 25.0,
+        "SizeIncrease": 0.07500000298023224,
+        "{4dc0582f}": 20.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_GargoyleStoneplate"
+    },
+    {
+      "recordId": "TFT_Item_GiantsBelt",
+      "nameEn": "Giant's Belt",
+      "nameEs": "Cinturón de gigante",
+      "components": [],
+      "parameters": {
+        "Health": 150.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "Health": 150.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_GiantsBelt"
+    },
+    {
+      "recordId": "TFT_Item_GuardianAngel",
+      "nameEn": "Edge of Night",
+      "nameEs": "Filo de la noche",
+      "components": ["TFT_Item_BFSword", "TFT_Item_ChainVest"],
+      "parameters": {
+        "AD": 0.10000000149011612,
+        "AP": 10.0,
+        "AS": 15.0,
+        "Armor": 20.0,
+        "DamageReduction": 100.0,
+        "HealthThreshold": 40,
+        "MissingHealthRestore": 0.15,
+        "StealthDuration": 1.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.10000000149011612,
+        "AP": 10.0,
+        "AS": 15.0,
+        "Armor": 20.0,
+        "DamageReduction": 100.0,
+        "HealthThreshold": 60.0,
+        "MissingHealthRestore": 0.20000000298023224,
+        "StealthDuration": 1.0
+      },
+      "officialOverrides": {
+        "HealthThreshold": 40,
+        "MissingHealthRestore": 0.15
+      },
+      "set18RecordId": "DA_EdgeOfNight"
+    },
+    {
+      "recordId": "TFT_Item_GuinsoosRageblade",
+      "nameEn": "Guinsoo's Rageblade",
+      "nameEs": "Hoja de furia de Guinsoo",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_NeedlesslyLargeRod"],
+      "parameters": {
+        "AP": 10.0,
+        "AS": 10.0,
+        "AttackSpeedPerStack": 7.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 10.0,
+        "AS": 10.0,
+        "AttackSpeedPerStack": 7.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_GuinsoosRageblade"
+    },
+    {
+      "recordId": "TFT_Item_HextechGunblade",
+      "nameEn": "Hextech Gunblade",
+      "nameEs": "Sable-pistola hextech",
+      "components": ["TFT_Item_BFSword", "TFT_Item_NeedlesslyLargeRod"],
+      "parameters": {
+        "AD": 0.20000000298023224,
+        "AP": 20.0,
+        "AllyHealing": 0.20000000298023224,
+        "ManaRegen": 1.0,
+        "Omnivamp": 18.0,
+        "StatOmnivamp": 0.15000000596046448
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.20000000298023224,
+        "AP": 20.0,
+        "AllyHealing": 0.20000000298023224,
+        "ManaRegen": 1.0,
+        "Omnivamp": 18.0,
+        "StatOmnivamp": 0.15000000596046448
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_HextechGunblade"
+    },
+    {
+      "recordId": "TFT_Item_InfinityEdge",
+      "nameEn": "Infinity Edge",
+      "nameEs": "Filo infinito",
+      "components": ["TFT_Item_BFSword", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "AD": 0.3499999940395355,
+        "CritChance": 35.0,
+        "CritDamageToGive": null
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.3499999940395355,
+        "CritChance": 35.0,
+        "CritDamageToGive": null
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_InfinityEdge"
+    },
+    {
+      "recordId": "TFT_Item_IonicSpark",
+      "nameEn": "Ionic Spark",
+      "nameEs": "Chispa iónica",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_NegatronCloak"],
+      "parameters": {
+        "AP": 15.0,
+        "Damage": 250.0,
+        "Health": 250.0,
+        "HexRange": 2.0,
+        "MRShred": 30.0,
+        "MagicResist": 35.0,
+        "ManaRatio": 150.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 15.0,
+        "Damage": 250.0,
+        "Health": 250.0,
+        "HexRange": 2.0,
+        "MRShred": 30.0,
+        "MagicResist": 35.0,
+        "ManaRatio": 150.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_IonicSpark"
+    },
+    {
+      "recordId": "TFT_Item_JeweledGauntlet",
+      "nameEn": "Jeweled Gauntlet",
+      "nameEs": "Guantelete enjoyado",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "AP": 35.0,
+        "CritChance": 35.0,
+        "CritDamageToGive": null
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 35.0,
+        "CritChance": 35.0,
+        "CritDamageToGive": null
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_JeweledGauntlet"
+    },
+    {
+      "recordId": "TFT_Item_LastWhisper",
+      "nameEn": "Last Whisper",
+      "nameEs": "Últimas palabras",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "AS": 20.0,
+        "ArmorBreakDuration": 3.0,
+        "ArmorReductionPercent": 30.0,
+        "CritChance": 20.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.15000000596046448,
+        "AS": 20.0,
+        "ArmorBreakDuration": 3.0,
+        "ArmorReductionPercent": 30.0,
+        "CritChance": 20.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_LastWhisper"
+    },
+    {
+      "recordId": "TFT_Item_Leviathan",
+      "nameEn": "Nashor's Tooth",
+      "nameEs": "Diente de Nashor",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "AP": 15.0,
+        "AS": 10.0,
+        "BaseManaOnHit": 2,
+        "CritChance": 20.0,
+        "Health": 150.0,
+        "ManaOnCrit": 4.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 15.0,
+        "AS": 10.0,
+        "BaseManaOnHit": 2,
+        "CritChance": 20.0,
+        "Health": 150.0,
+        "ManaOnCrit": 4.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_NashorsTooth"
+    },
+    {
+      "recordId": "TFT_Item_MadredsBloodrazor",
+      "nameEn": "Giant Slayer",
+      "nameEs": "Verdugo de gigantes",
+      "components": ["TFT_Item_BFSword", "TFT_Item_RecurveBow"],
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "AS": 15.0,
+        "DamageAmp": 0.15000000596046448,
+        "{1543aa48}": 0.15000000596046448,
+        "{abb9f4ce}": 25.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "AS": 15.0,
+        "DamageAmp": 0.15000000596046448,
+        "{1543aa48}": 0.15000000596046448,
+        "{abb9f4ce}": 25.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_GiantSlayer"
+    },
+    {
+      "recordId": "TFT_Item_Morellonomicon",
+      "nameEn": "Morellonomicon",
+      "nameEs": "Morellonomicón",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "AP": 20.0,
+        "BurnDuration": 10.0,
+        "BurnPercent": 1.0,
+        "GrievousWoundsPercent": 33.0,
+        "Health": 150.0,
+        "ManaRegen": 1.0,
+        "MonsterCap": 100.0,
+        "TicksPerSecond": 1.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 20.0,
+        "BurnDuration": 10.0,
+        "BurnPercent": 1.0,
+        "GrievousWoundsPercent": 33.0,
+        "Health": 150.0,
+        "ManaRegen": 1.0,
+        "MonsterCap": 100.0,
+        "TicksPerSecond": 1.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Morellonomicon"
+    },
+    {
+      "recordId": "TFT_Item_NeedlesslyLargeRod",
+      "nameEn": "Needlessly Large Rod",
+      "nameEs": "Vara innecesariamente grande",
+      "components": [],
+      "parameters": {
+        "AP": 10.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 10.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_NeedlesslyLargeRod"
+    },
+    {
+      "recordId": "TFT_Item_NegatronCloak",
+      "nameEn": "Negatron Cloak",
+      "nameEs": "Capa negatrón",
+      "components": [],
+      "parameters": {
+        "MagicResist": 20.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "MagicResist": 20.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_NegatronCloak"
+    },
+    {
+      "recordId": "TFT_Item_NightHarvester",
+      "nameEn": "Steadfast Heart",
+      "nameEs": "Corazón resuelto",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "Armor": 20.0,
+        "BaseDurability": 0.05000000074505806,
+        "CritChance": 20.0,
+        "EmpoweredDurability": 0.15000000596046448,
+        "Health": 250.0,
+        "ThresholdForEmpower": 0.5
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "Armor": 20.0,
+        "BaseDurability": 0.05000000074505806,
+        "CritChance": 20.0,
+        "EmpoweredDurability": 0.15000000596046448,
+        "Health": 250.0,
+        "ThresholdForEmpower": 0.5
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_SteadfastHeart"
+    },
+    {
+      "recordId": "TFT_Item_PowerGauntlet",
+      "nameEn": "Striker's Flail",
+      "nameEs": "Mangual del guerrero",
+      "components": ["TFT_Item_GiantsBelt", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "AS": 10.0,
+        "BuffDamageAmp": 0.05000000074505806,
+        "CritChance": 20.0,
+        "Duration": 5.0,
+        "Health": 150.0,
+        "MaxStacks": 4.0,
+        "{1543aa48}": 0.10000000149011612
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AS": 10.0,
+        "BuffDamageAmp": 0.05000000074505806,
+        "CritChance": 20.0,
+        "Duration": 5.0,
+        "Health": 150.0,
+        "MaxStacks": 4.0,
+        "{1543aa48}": 0.10000000149011612
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_StrikersFlail"
+    },
+    {
+      "recordId": "TFT_Item_Quicksilver",
+      "nameEn": "Quicksilver",
+      "nameEs": "Fajín de mercurio",
+      "components": ["TFT_Item_SparringGloves", "TFT_Item_NegatronCloak"],
+      "parameters": {
+        "AS": 15.0,
+        "CritChance": 20.0,
+        "MagicResist": 20.0,
+        "ProcAttackSpeed": 0.029999999329447746,
+        "SpellShieldDuration": 18.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AS": 15.0,
+        "CritChance": 20.0,
+        "MagicResist": 20.0,
+        "ProcAttackSpeed": 0.029999999329447746,
+        "SpellShieldDuration": 18.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Quicksilver"
+    },
+    {
+      "recordId": "TFT_Item_RabadonsDeathcap",
+      "nameEn": "Rabadon's Deathcap",
+      "nameEs": "Sombrero mortal de Rabadon",
+      "components": ["TFT_Item_NeedlesslyLargeRod", "TFT_Item_NeedlesslyLargeRod"],
+      "parameters": {
+        "AP": 55.0,
+        "BonusDamage": 0.15000000596046448,
+        "{1543aa48}": 0.15000000596046448
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 55.0,
+        "BonusDamage": 0.15000000596046448,
+        "{1543aa48}": 0.15000000596046448
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_RabadonsDeathcap"
+    },
+    {
+      "recordId": "TFT_Item_RapidFireCannon",
+      "nameEn": "Red Buff",
+      "nameEs": "Mejora roja",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_RecurveBow"],
+      "parameters": {
+        "AS": 45.0,
+        "BonusDamage": 0.05999999865889549,
+        "BurnPercent": 1.0,
+        "Duration": 5.0,
+        "HealingReductionPct": 33.0,
+        "HexRangeIncrease": 1.0,
+        "{1543aa48}": 0.029999999329447746,
+        "{9f5117db}": 100.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AS": 45.0,
+        "BonusDamage": 0.05999999865889549,
+        "BurnPercent": 1.0,
+        "Duration": 5.0,
+        "HealingReductionPct": 33.0,
+        "HexRangeIncrease": 1.0,
+        "{1543aa48}": 0.029999999329447746,
+        "{9f5117db}": 100.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_RedBuff"
+    },
+    {
+      "recordId": "TFT_Item_RecurveBow",
+      "nameEn": "Recurve Bow",
+      "nameEs": "Arco curvo",
+      "components": [],
+      "parameters": {
+        "AS": 10.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AS": 10.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_RecurveBow"
+    },
+    {
+      "recordId": "TFT_Item_RedBuff",
+      "nameEn": "Sunfire Cape",
+      "nameEs": "Capa de fuego solar",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "Armor": 20.0,
+        "BonusPercentHP": 0.07999999821186066,
+        "BurnDuration": 10.0,
+        "BurnPercent": 1.0,
+        "GrievousWoundsPercent": 33.0,
+        "Health": 150.0,
+        "HexRange": 2.0,
+        "ICD": 2.0,
+        "MonsterCap": 100.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "Armor": 20.0,
+        "BonusPercentHP": 0.07999999821186066,
+        "BurnDuration": 10.0,
+        "BurnPercent": 1.0,
+        "GrievousWoundsPercent": 33.0,
+        "Health": 150.0,
+        "HexRange": 2.0,
+        "ICD": 2.0,
+        "MonsterCap": 100.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_SunfireCape"
+    },
+    {
+      "recordId": "TFT_Item_Redemption",
+      "nameEn": "Spirit Visage",
+      "nameEs": "Rostro espiritual",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "HealTickRate": 1.0,
+        "Health": 300.0,
+        "ManaRegen": 2.0,
+        "MaxHeal": 250.0,
+        "MissingHealthHeal": 0.019999999552965164,
+        "{cd951938}": 0.07999999821186066,
+        "VerifiedDurability": 0.1
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "HealTickRate": 1.0,
+        "Health": 300.0,
+        "ManaRegen": 2.0,
+        "MaxHeal": 250.0,
+        "MissingHealthHeal": 0.019999999552965164,
+        "{cd951938}": 0.07999999821186066
+      },
+      "officialOverrides": {
+        "VerifiedDurability": 0.1
+      },
+      "set18RecordId": "DA_SpiritVisage"
+    },
+    {
+      "recordId": "TFT_Item_RunaansHurricane",
+      "nameEn": "Kraken's Fury",
+      "nameEs": "Furia del kraken",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_RecurveBow"],
+      "parameters": {
+        "AD": 0.10000000149011612,
+        "ADOnAttack": 0.03500000014901161,
+        "AS": 10.0,
+        "ASCapstone": 0.15000000596046448,
+        "MagicResist": 20.0,
+        "MaxStacks": 15.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.10000000149011612,
+        "ADOnAttack": 0.03500000014901161,
+        "AS": 10.0,
+        "ASCapstone": 0.15000000596046448,
+        "MagicResist": 20.0,
+        "MaxStacks": 15.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_KrakensFury"
+    },
+    {
+      "recordId": "TFT_Item_SparringGloves",
+      "nameEn": "Sparring Gloves",
+      "nameEs": "Guantes de combate",
+      "components": [],
+      "parameters": {
+        "CritChance": 20.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "CritChance": 20.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_SparringGloves"
+    },
+    {
+      "recordId": "TFT_Item_SpearOfShojin",
+      "nameEn": "Spear of Shojin",
+      "nameEs": "Lanza de Shojin",
+      "components": ["TFT_Item_BFSword", "TFT_Item_TearOfTheGoddess"],
+      "parameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "FlatManaRestore": 5.0,
+        "ManaRegen": 1.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.15000000596046448,
+        "AP": 15.0,
+        "FlatManaRestore": 5.0,
+        "ManaRegen": 1.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_SpearOfShojin"
+    },
+    {
+      "recordId": "TFT_Item_SpectralGauntlet",
+      "nameEn": "Evenshroud",
+      "nameEs": "Mortaja de la quietud",
+      "components": ["TFT_Item_NegatronCloak", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "ARReductionAmount": 30.0,
+        "BonusResistDuration": 15.0,
+        "BonusResists": 15.0,
+        "Health": 250.0,
+        "HexRange": 2.0,
+        "MagicResist": 20.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "ARReductionAmount": 30.0,
+        "BonusResistDuration": 15.0,
+        "BonusResists": 15.0,
+        "Health": 250.0,
+        "HexRange": 2.0,
+        "MagicResist": 20.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Evenshroud"
+    },
+    {
+      "recordId": "TFT_Item_StatikkShiv",
+      "nameEn": "Void Staff",
+      "nameEs": "Bastón del Vacío",
+      "components": ["TFT_Item_RecurveBow", "TFT_Item_TearOfTheGoddess"],
+      "parameters": {
+        "AP": 35.0,
+        "AS": 15.0,
+        "MRShred": 30.0,
+        "MRShredDuration": 5.0,
+        "ManaRegen": 1.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AP": 35.0,
+        "AS": 15.0,
+        "MRShred": 30.0,
+        "MRShredDuration": 5.0,
+        "ManaRegen": 1.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_VoidStaff"
+    },
+    {
+      "recordId": "TFT_Item_SteraksGage",
+      "nameEn": "Sterak's Gage",
+      "nameEs": "Calibrador de Sterak",
+      "components": ["TFT_Item_BFSword", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "AD": 0.44999998807907104,
+        "Health": 300.0,
+        "HealthThreshold": 60.0,
+        "PercentHealthShield": 0.4000000059604645,
+        "ShieldDuration": 4.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD": 0.44999998807907104,
+        "Health": 300.0,
+        "HealthThreshold": 60.0,
+        "PercentHealthShield": 0.4000000059604645,
+        "ShieldDuration": 4.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_SteraksGage"
+    },
+    {
+      "recordId": "TFT_Item_TearOfTheGoddess",
+      "nameEn": "Tear of the Goddess",
+      "nameEs": "Lágrima de la diosa",
+      "components": [],
+      "parameters": {
+        "ManaRegen": 1.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "ManaRegen": 1.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_Component_TearOfTheGoddess"
+    },
+    {
+      "recordId": "TFT_Item_ThiefsGloves",
+      "nameEn": "Thief's Gloves",
+      "nameEs": "Guantes de ladrón",
+      "components": ["TFT_Item_SparringGloves", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "CritChance": 20.0,
+        "Health": 150.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "CritChance": 20.0,
+        "Health": 150.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_ThiefsGloves"
+    },
+    {
+      "recordId": "TFT_Item_TitansResolve",
+      "nameEn": "Titan's Resolve",
+      "nameEs": "Resolución titánica",
+      "components": ["TFT_Item_ChainVest", "TFT_Item_RecurveBow"],
+      "parameters": {
+        "AS": 10.0,
+        "Armor": 20.0,
+        "StackCap": 25.0,
+        "StackedAmp": 0.10000000149011612,
+        "StackingAD": 0.019999999552965164,
+        "StackingSP": 2.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AS": 10.0,
+        "Armor": 20.0,
+        "StackCap": 25.0,
+        "StackedAmp": 0.10000000149011612,
+        "StackingAD": 0.019999999552965164,
+        "StackingSP": 2.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_TitansResolve"
+    },
+    {
+      "recordId": "TFT_Item_UnstableConcoction",
+      "nameEn": "Hand Of Justice",
+      "nameEs": "Mano de la justicia",
+      "components": ["TFT_Item_TearOfTheGoddess", "TFT_Item_SparringGloves"],
+      "parameters": {
+        "AD_NotStatBar": 0.18,
+        "AP_NotStatBar": 18,
+        "CritChance": 20.0,
+        "HealthThreshold": 0.5,
+        "ManaRegen": 1.0,
+        "StatOmnivamp_NotStatBar": 0.12,
+        "{f23e83fc}": 2.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "AD_NotStatBar": 0.15000000596046448,
+        "AP_NotStatBar": 15.0,
+        "CritChance": 20.0,
+        "HealthThreshold": 0.5,
+        "ManaRegen": 1.0,
+        "StatOmnivamp_NotStatBar": 0.11999999731779099,
+        "{f23e83fc}": 2.0
+      },
+      "officialOverrides": {
+        "AD_NotStatBar": 0.18,
+        "AP_NotStatBar": 18,
+        "StatOmnivamp_NotStatBar": 0.12
+      },
+      "set18RecordId": "DA_HandOfJustice"
+    },
+    {
+      "recordId": "TFT_Item_WarmogsArmor",
+      "nameEn": "Warmog's Armor",
+      "nameEs": "Armadura de Warmog",
+      "components": ["TFT_Item_GiantsBelt", "TFT_Item_GiantsBelt"],
+      "parameters": {
+        "BonusPercentHP": 0.18000000715255737,
+        "Health": 500.0
+      },
+      "unique": false,
+      "incompatibleTraits": [],
+      "baselineParameters": {
+        "BonusPercentHP": 0.18000000715255737,
+        "Health": 500.0
+      },
+      "officialOverrides": {},
+      "set18RecordId": "DA_WarmogsArmor"
+    }
+  ],
+  "limitations": [
+    "Legacy Hextech records are a baseline, not the new Unreal Set18 execution. Official deltas are explicit overlays.",
+    "DA Set18 records in the map file contain recipes but omit item effect constants. No claim of full runtime fidelity."
+  ]
+}

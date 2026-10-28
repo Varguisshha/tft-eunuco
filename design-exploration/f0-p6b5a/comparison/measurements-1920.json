@@ -1,0 +1,452 @@
+[
+  {
+    "bench": {
+      "bottom": 800,
+      "height": 104,
+      "left": 354,
+      "right": 1518,
+      "top": 696,
+      "width": 1164,
+      "x": 354,
+      "y": 696
+    },
+    "buttons": [
+      {
+        "scroll": 236,
+        "text": "Iniciar partida",
+        "width": 236
+      },
+      {
+        "scroll": 65,
+        "text": "Ajustes",
+        "width": 65
+      },
+      {
+        "scroll": 208,
+        "text": "Comprar XP4",
+        "width": 208
+      },
+      {
+        "scroll": 225,
+        "text": "Renovar2",
+        "width": 225
+      },
+      {
+        "scroll": 225,
+        "text": "Bloquear",
+        "width": 225
+      }
+    ],
+    "cards": 5,
+    "dock": {
+      "bottom": 1036,
+      "height": 231,
+      "left": 23,
+      "right": 1897,
+      "top": 805,
+      "width": 1874,
+      "x": 23,
+      "y": 805
+    },
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html",
+    "w": 1920
+  },
+  {
+    "bench": {
+      "bottom": 800,
+      "height": 104,
+      "left": 354,
+      "right": 1518,
+      "top": 696,
+      "width": 1164,
+      "x": 354,
+      "y": 696
+    },
+    "buttons": [
+      {
+        "scroll": 236,
+        "text": "Iniciar partida",
+        "width": 236
+      },
+      {
+        "scroll": 65,
+        "text": "Ajustes",
+        "width": 65
+      },
+      {
+        "scroll": 208,
+        "text": "Comprar XP4",
+        "width": 208
+      },
+      {
+        "scroll": 225,
+        "text": "Renovar2",
+        "width": 225
+      },
+      {
+        "scroll": 225,
+        "text": "Bloquear",
+        "width": 225
+      },
+      {
+        "scroll": 306,
+        "text": "Vender3",
+        "width": 306
+      }
+    ],
+    "cards": 5,
+    "dock": {
+      "bottom": 1036,
+      "height": 231,
+      "left": 23,
+      "right": 1897,
+      "top": 805,
+      "width": 1874,
+      "x": 23,
+      "y": 805
+    },
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html?inspector",
+    "w": 1920
+  },
+  {
+    "buttons": [
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      }
+    ],
+    "cards": 5,
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html?detail",
+    "w": 1920
+  },
+  {
+    "bench": {
+      "bottom": 800,
+      "height": 104,
+      "left": 354,
+      "right": 1518,
+      "top": 696,
+      "width": 1164,
+      "x": 354,
+      "y": 696
+    },
+    "buttons": [
+      {
+        "scroll": 236,
+        "text": "Iniciar partida",
+        "width": 236
+      },
+      {
+        "scroll": 65,
+        "text": "Ajustes",
+        "width": 65
+      },
+      {
+        "scroll": 208,
+        "text": "Comprar XP4",
+        "width": 208
+      },
+      {
+        "scroll": 225,
+        "text": "Renovar2",
+        "width": 225
+      },
+      {
+        "scroll": 225,
+        "text": "Bloquear",
+        "width": 225
+      }
+    ],
+    "cards": 5,
+    "dock": {
+      "bottom": 1036,
+      "height": 231,
+      "left": 23,
+      "right": 1897,
+      "top": 805,
+      "width": 1874,
+      "x": 23,
+      "y": 805
+    },
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html",
+    "w": 1920
+  },
+  {
+    "bench": {
+      "bottom": 800,
+      "height": 104,
+      "left": 354,
+      "right": 1518,
+      "top": 696,
+      "width": 1164,
+      "x": 354,
+      "y": 696
+    },
+    "buttons": [
+      {
+        "scroll": 236,
+        "text": "Iniciar partida",
+        "width": 236
+      },
+      {
+        "scroll": 65,
+        "text": "Ajustes",
+        "width": 65
+      },
+      {
+        "scroll": 208,
+        "text": "Comprar XP4",
+        "width": 208
+      },
+      {
+        "scroll": 225,
+        "text": "Renovar2",
+        "width": 225
+      },
+      {
+        "scroll": 225,
+        "text": "Bloquear",
+        "width": 225
+      },
+      {
+        "scroll": 306,
+        "text": "Vender3",
+        "width": 306
+      }
+    ],
+    "cards": 5,
+    "dock": {
+      "bottom": 1036,
+      "height": 231,
+      "left": 23,
+      "right": 1897,
+      "top": 805,
+      "width": 1874,
+      "x": 23,
+      "y": 805
+    },
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html?inspector",
+    "w": 1920
+  },
+  {
+    "buttons": [
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      }
+    ],
+    "cards": 5,
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html?detail",
+    "w": 1920
+  },
+  {
+    "bench": {
+      "bottom": 800,
+      "height": 104,
+      "left": 354,
+      "right": 1518,
+      "top": 696,
+      "width": 1164,
+      "x": 354,
+      "y": 696
+    },
+    "buttons": [
+      {
+        "scroll": 236,
+        "text": "Iniciar partida",
+        "width": 236
+      },
+      {
+        "scroll": 65,
+        "text": "Ajustes",
+        "width": 65
+      },
+      {
+        "scroll": 208,
+        "text": "Comprar XP4",
+        "width": 208
+      },
+      {
+        "scroll": 225,
+        "text": "Renovar2",
+        "width": 225
+      },
+      {
+        "scroll": 225,
+        "text": "Bloquear",
+        "width": 225
+      }
+    ],
+    "cards": 5,
+    "dock": {
+      "bottom": 1036,
+      "height": 231,
+      "left": 23,
+      "right": 1897,
+      "top": 805,
+      "width": 1874,
+      "x": 23,
+      "y": 805
+    },
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-pop/index.html",
+    "w": 1920
+  },
+  {
+    "bench": {
+      "bottom": 800,
+      "height": 104,
+      "left": 354,
+      "right": 1518,
+      "top": 696,
+      "width": 1164,
+      "x": 354,
+      "y": 696
+    },
+    "buttons": [
+      {
+        "scroll": 236,
+        "text": "Iniciar partida",
+        "width": 236
+      },
+      {
+        "scroll": 65,
+        "text": "Ajustes",
+        "width": 65
+      },
+      {
+        "scroll": 208,
+        "text": "Comprar XP4",
+        "width": 208
+      },
+      {
+        "scroll": 225,
+        "text": "Renovar2",
+        "width": 225
+      },
+      {
+        "scroll": 225,
+        "text": "Bloquear",
+        "width": 225
+      },
+      {
+        "scroll": 306,
+        "text": "Vender3",
+        "width": 306
+      }
+    ],
+    "cards": 5,
+    "dock": {
+      "bottom": 1036,
+      "height": 231,
+      "left": 23,
+      "right": 1897,
+      "top": 805,
+      "width": 1874,
+      "x": 23,
+      "y": 805
+    },
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-pop/index.html?inspector",
+    "w": 1920
+  },
+  {
+    "buttons": [
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      },
+      {
+        "scroll": 345,
+        "text": "Renovar2",
+        "width": 345
+      }
+    ],
+    "cards": 5,
+    "documentHeight": 1080,
+    "h": 1080,
+    "missingImages": 0,
+    "url": "http://127.0.0.1:4185/festival-pop/index.html?detail",
+    "w": 1920
+  }
+]

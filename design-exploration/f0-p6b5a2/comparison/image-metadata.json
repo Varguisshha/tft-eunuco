@@ -1,0 +1,128 @@
+[
+  {
+    "slug": "royal-pop",
+    "view": "screen",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "royal-pop",
+    "view": "inspector",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "royal-pop",
+    "view": "components",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "neon-playground",
+    "view": "screen",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "neon-playground",
+    "view": "inspector",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "neon-playground",
+    "view": "components",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "tropical-party",
+    "view": "screen",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "tropical-party",
+    "view": "inspector",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "tropical-party",
+    "view": "components",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "coastal-mint",
+    "view": "screen",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "coastal-mint",
+    "view": "inspector",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "coastal-mint",
+    "view": "components",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "soft-royal",
+    "view": "screen",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "soft-royal",
+    "view": "inspector",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "soft-royal",
+    "view": "components",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "warm-sand",
+    "view": "screen",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "warm-sand",
+    "view": "inspector",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "slug": "warm-sand",
+    "view": "components",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  }
+]

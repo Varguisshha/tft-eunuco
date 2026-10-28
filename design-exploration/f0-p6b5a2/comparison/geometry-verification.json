@@ -1,0 +1,236 @@
+[
+  {
+    "palette": "royal-pop",
+    "view": "screen",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "royal-pop",
+    "view": "inspector",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "royal-pop",
+    "view": "components",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [
+      234,
+      237,
+      240,
+      243,
+      246
+    ],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "neon-playground",
+    "view": "screen",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "neon-playground",
+    "view": "inspector",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "neon-playground",
+    "view": "components",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [
+      234,
+      237,
+      240,
+      243,
+      246
+    ],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "tropical-party",
+    "view": "screen",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "tropical-party",
+    "view": "inspector",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "tropical-party",
+    "view": "components",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [
+      234,
+      237,
+      240,
+      243,
+      246
+    ],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "coastal-mint",
+    "view": "screen",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "coastal-mint",
+    "view": "inspector",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "coastal-mint",
+    "view": "components",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [
+      234,
+      237,
+      240,
+      243,
+      246
+    ],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "soft-royal",
+    "view": "screen",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "soft-royal",
+    "view": "inspector",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "soft-royal",
+    "view": "components",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [
+      234,
+      237,
+      240,
+      243,
+      246
+    ],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "warm-sand",
+    "view": "screen",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "warm-sand",
+    "view": "inspector",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  },
+  {
+    "palette": "warm-sand",
+    "view": "components",
+    "componentGeometryMatchesC": true,
+    "geometryDifferences": [],
+    "hexLabelIntrinsicWidthOnly": [
+      234,
+      237,
+      240,
+      243,
+      246
+    ],
+    "sameContentExceptHexColors": true,
+    "fonts": "loaded",
+    "noMissingAssets": true,
+    "noScroll": true
+  }
+]

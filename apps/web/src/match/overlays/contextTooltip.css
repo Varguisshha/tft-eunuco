@@ -1,0 +1,129 @@
+/* Portal belongs to a viewport overlay layer, outside rail/inspector stacking contexts. */
+.context-tooltip {
+  position: fixed;
+  z-index: 120;
+  box-sizing: border-box;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  color: var(--neon-text-primary);
+  background: var(--neon-tooltip-surface, #1c1f44);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: var(--neon-shadow-panel);
+  font:
+    12px/1.5 'DM Sans',
+    sans-serif;
+  scrollbar-color: var(--neon-border-highlight) var(--neon-surface-overlay);
+  animation: contextual-arrival 100ms ease-out;
+}
+.context-tooltip strong,
+.context-tooltip h3 {
+  color: var(--neon-game-gold);
+}
+.context-tooltip h3 {
+  margin: 0;
+  font:
+    700 18px FestivalPop,
+    sans-serif;
+}
+.context-tooltip p {
+  margin: 10px 0;
+}
+.context-tooltip ul,
+.context-tooltip ol {
+  margin: 10px 0;
+  padding-left: 18px;
+}
+.context-tooltip li + li {
+  margin-top: 7px;
+}
+.context-tooltip .item-state-blocked {
+  display: block;
+  color: var(--neon-game-gold);
+  font-weight: 700;
+}
+.context-tooltip header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.context-tooltip header .content-icon {
+  width: 30px;
+  height: 30px;
+}
+.context-tooltip .item-recipe-formula {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.context-tooltip .item-icon {
+  width: 40px;
+  height: 40px;
+}
+.context-tooltip button {
+  font: inherit;
+  color: var(--neon-text-onAccent);
+  background: var(--neon-accent-primary);
+  border: 1px solid var(--neon-border-highlight);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.context-tooltip button:disabled {
+  color: var(--neon-text-secondary);
+  background: var(--neon-surface-elevated);
+  cursor: default;
+}
+.context-tooltip :focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: 2px;
+}
+@keyframes contextual-arrival {
+  from {
+    opacity: 0.5;
+    translate: 0 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .context-tooltip {
+    animation: none;
+  }
+}
+
+.item-selection-tools {
+  display: grid;
+  gap: 4px;
+  margin-top: 7px;
+}
+.item-selection-tools button {
+  min-height: 28px;
+  font:
+    11px 'DM Sans',
+    sans-serif;
+  background: var(--neon-button-default);
+  color: var(--neon-text-primary);
+  border: 1px solid var(--neon-border-highlight);
+  padding: 4px;
+  cursor: pointer;
+}
+.item-selection-tools button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.context-recipe + .context-recipe {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--neon-border-highlight);
+}
+.context-recipe summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.context-recipe summary .item-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+img.item-icon {
+  object-fit: contain;
+  image-rendering: pixelated;
+}

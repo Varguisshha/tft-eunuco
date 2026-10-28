@@ -1,8 +1,20 @@
-# Contrato inicial de sprites v1
+## F0-P6B.4 — actualización vigente
+
+Tras comparar0/+20/+30/+40 se aplica+40% al arte real de DOLEA/VARGAS en Mar de Cristal, sobre perspectiva existente. Ambos tienen cuerpo normalizado64; no se exige ese factor para futuros manifiestos. Pies, proporción, orientación, profundidad y huella de input original se conservan. Barras y sombras siguen escala; estrellas no añaden crecimiento. Se verifican4v4/8v8, arrastre y salto. Originales y arena sin modificación.
+
+Sistema y criterios completos: [GAME_VISUAL_SYSTEM.md](GAME_VISUAL_SYSTEM.md). Las secciones posteriores se conservan como historial; esta actualización prevalece en presentación.
+
+---
+
+# Contrato universal de personajes v2 — F0-P4.1
+
+El contrato vigente es `CharacterManifestSchema`: tres evoluciones, cinco estados obligatorios y recursos opcionales. [Integración y fallbacks](CHARACTER_INTEGRATION.md), [pipeline y fuentes](SPRITE_PIPELINE.md), [cobertura](ANIMATION_COVERAGE.md). DOLEA ya usa dos hojas reales y muestreo sincronizado al combate. El contrato v1 de abajo se mantiene exclusivamente para compatibilidad de placeholders; sus notas de fases anteriores son históricas.
+
+## Contrato histórico de sprites v1
 
 ## Entrega al desarrollador
 
-Entregar PNG con transparencia, spritesheet de celdas regulares sin padding ni separación, y JSON validable con `SpriteMetadataSchema` de `packages/sprite-contract`. No incrustar suelo, sombras permanentes, barras de vida, UI ni texto en el sprite. Arte y nombres originales, sin recursos de TFT ni personas reales. Mantener en todas las celdas el mismo lienzo, origen y punto de apoyo; incluir aire para efectos y armas sin recortes.
+Entregar PNG con transparencia, spritesheet de celdas regulares sin padding ni separación, y JSON validable con `SpriteMetadataSchema` de `packages/sprite-contract`. No incrustar suelo, sombras permanentes, barras de vida, UI ni texto en el sprite. Arte y nombres originales, sin recursos de TFT. F0-P2 usa solo personajes ficticios; el roster futuro podrá inspirarse en amigos reales, con diseño original. Mantener en todas las celdas el mismo lienzo, origen y punto de apoyo; incluir aire para efectos y armas sin recortes.
 
 El placeholder mide **32 × 40 px**; esta es una medida provisional, no una limitación del formato. Acordar dimensiones definitivas antes de producir todo el roster. Los pixels se escalan con nearest-neighbor. Una sola orientación lateral con espejo es suficiente para este prototipo; si el arte no puede espejarse, `mirrorAllowed:false` y acordar un atlas/contrato direccional posterior. No fingir soporte para ocho direcciones que aún no existe.
 
@@ -50,12 +62,20 @@ Ejemplo ilustrativo de hoja real, **no arte entregado ni animaciones ya implemen
 4. Mantener el puerto `UnitVisual`: `setFootPosition`, `setSelected`, `setFacing`, `play`, `destroy`. No cambiar las reglas de tablero ni guardar sprites en UnitInstance.
 5. Comprobar apoyo, espejo, escalado, orden Y y alineación entre todos los clips. El offset visual es `(origin * frameSize − foot) * scale`; el eje X cambia de signo al reflejar.
 
-El placeholder usa un único frame en los cinco clips y no finge animación. El adaptador con hojas reales está implementado, pero **no validado con arte definitivo**, que está fuera de alcance.
+El placeholder conserva un único frame en los cinco clips. En F0-P2 el renderer añade desplazamiento, balanceo, impulso de ataque, elevación de habilidad y giro/desvanecimiento de muerte. Son animaciones de transformación provisionales, no hojas de arte definitivo. El adaptador con hojas reales está implementado, pero **no validado con arte definitivo**, que está fuera de alcance.
 
 ## Impacto y autoridad
 
-`impactFrame` describe cuándo el arte representa contacto; sirve como referencia de reproducción. No aplica daño, no avanza ticks y no modifica reglas. La reproducción futura deberá alinear los efectos con eventos autoritativos. FPS visual y tick lógico de 100 ms son relojes distintos. No existe aún un reproductor de combate ni callback de impacto que resuelva reglas.
+`impactFrame` describe cuándo el arte representa contacto; sirve como referencia de reproducción. No aplica daño, no avanza ticks y no modifica reglas. La reproducción F0-P2 alinea efectos con eventos y snapshots autoritativos. FPS visual y tick lógico de 100 ms son relojes distintos. CombatPlayback y CombatRenderer muestrean un reloj visual común para los placeholders. Ningún callback de impacto resuelve reglas. Una hoja definitiva con varios frames requerirá adaptar su muestreo al mismo reloj (incluidas pausa y ×2) y validar alineación con releaseTick/impactTick; esa integración artística no se ha probado.
 
 ## Criterios de aceptación del arte
 
-Transparencia limpia, sin suavizado accidental; dimensiones constantes; todos los clips identificados; sin saltos del apoyo; death no se repite; ausencia de material protegido; archivos y metadatos versionados. Guardar fuente editable junto a cada entrega fuera del runtime si el colaborador lo desea. No integrar archivos definitivos en F0-P1.
+Transparencia limpia, sin suavizado accidental; dimensiones constantes; todos los clips identificados; sin saltos del apoyo; death no se repite; ausencia de material protegido; archivos y metadatos versionados. Guardar fuente editable junto a cada entrega fuera del runtime si el colaborador lo desea. No integrar archivos definitivos en F0-P2.
+
+## F0-P3: estrellas y mejora
+
+Se conservan hojas y placeholders P2. Estrellas se dibujan por separado del sprite y la mejora tiene aviso visual temporal desde el resultado de la transacción. No se necesitan sprites específicos por estrella. Este overlay no cuenta copias ni modifica estadísticas; el escalado se realiza al construir el perfil en core.
+
+## F0-P6C · JARAMILLO
+
+JARAMILLO declara apariencia compartida de evolución desconocida; no se etiqueta nativa 1★. Tres poses corporales recibidas, recuperación 08, vuelo 05–06 e impacto 07 se separan. Ability y evoluciones pendientes usan fallback explícito. Véase COMPOSITE_ATTACK_ANIMATIONS.md.

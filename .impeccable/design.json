@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T14:48:46.007336+00:00",
+  "title": "Design System: TFT EUNUCO — Festival Pop C × Neon Playground",
+  "extensions": {
+    "colorMeta": {
+      "surface-primary": {
+        "role": "neutral",
+        "displayName": "surface primary"
+      },
+      "surface-elevated": {
+        "role": "neutral",
+        "displayName": "surface elevated"
+      },
+      "surface-overlay": {
+        "role": "neutral",
+        "displayName": "surface overlay"
+      },
+      "surface-canvas": {
+        "role": "neutral",
+        "displayName": "surface canvas"
+      },
+      "surface-paper": {
+        "role": "neutral",
+        "displayName": "surface paper"
+      },
+      "border-primary": {
+        "role": "primary",
+        "displayName": "border primary"
+      },
+      "border-highlight": {
+        "role": "primary",
+        "displayName": "border highlight"
+      },
+      "border-frame": {
+        "role": "primary",
+        "displayName": "border frame"
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "text primary"
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "text secondary"
+      },
+      "text-onPaper": {
+        "role": "neutral",
+        "displayName": "text onPaper"
+      },
+      "text-onAccent": {
+        "role": "neutral",
+        "displayName": "text onAccent"
+      },
+      "accent-primary": {
+        "role": "primary",
+        "displayName": "accent primary"
+      },
+      "accent-secondary": {
+        "role": "secondary",
+        "displayName": "accent secondary"
+      },
+      "button-default": {
+        "role": "primary",
+        "displayName": "button default"
+      },
+      "button-hover": {
+        "role": "primary",
+        "displayName": "button hover"
+      },
+      "button-pressed": {
+        "role": "primary",
+        "displayName": "button pressed"
+      },
+      "button-active": {
+        "role": "primary",
+        "displayName": "button active"
+      },
+      "button-activeHover": {
+        "role": "primary",
+        "displayName": "button activeHover"
+      },
+      "button-activePressed": {
+        "role": "primary",
+        "displayName": "button activePressed"
+      },
+      "button-disabled": {
+        "role": "primary",
+        "displayName": "button disabled"
+      },
+      "button-disabledText": {
+        "role": "primary",
+        "displayName": "button disabledText"
+      },
+      "button-disabledBorder": {
+        "role": "primary",
+        "displayName": "button disabledBorder"
+      },
+      "card-paper": {
+        "role": "neutral",
+        "displayName": "card paper"
+      },
+      "card-motif": {
+        "role": "neutral",
+        "displayName": "card motif"
+      },
+      "card-motifInk": {
+        "role": "neutral",
+        "displayName": "card motifInk"
+      },
+      "card-footer": {
+        "role": "neutral",
+        "displayName": "card footer"
+      },
+      "card-trait": {
+        "role": "neutral",
+        "displayName": "card trait"
+      },
+      "card-text": {
+        "role": "neutral",
+        "displayName": "card text"
+      },
+      "card-code": {
+        "role": "neutral",
+        "displayName": "card code"
+      },
+      "game-playerLifeFill": {
+        "role": "tertiary",
+        "displayName": "game playerLifeFill"
+      },
+      "game-rivalLifeFill": {
+        "role": "tertiary",
+        "displayName": "game rivalLifeFill"
+      },
+      "game-life": {
+        "role": "tertiary",
+        "displayName": "game life"
+      },
+      "game-enemyLife": {
+        "role": "tertiary",
+        "displayName": "game enemyLife"
+      },
+      "game-mana": {
+        "role": "tertiary",
+        "displayName": "game mana"
+      },
+      "game-shield": {
+        "role": "tertiary",
+        "displayName": "game shield"
+      },
+      "game-gold": {
+        "role": "tertiary",
+        "displayName": "game gold"
+      },
+      "game-cost1": {
+        "role": "tertiary",
+        "displayName": "game cost1"
+      },
+      "game-cost2": {
+        "role": "tertiary",
+        "displayName": "game cost2"
+      },
+      "game-cost3": {
+        "role": "tertiary",
+        "displayName": "game cost3"
+      },
+      "game-danger": {
+        "role": "tertiary",
+        "displayName": "game danger"
+      },
+      "game-damagePhysical": {
+        "role": "tertiary",
+        "displayName": "game damagePhysical"
+      },
+      "game-damageMagic": {
+        "role": "tertiary",
+        "displayName": "game damageMagic"
+      },
+      "game-threshold": {
+        "role": "tertiary",
+        "displayName": "game threshold"
+      },
+      "game-thresholdInk": {
+        "role": "tertiary",
+        "displayName": "game thresholdInk"
+      },
+      "game-track": {
+        "role": "tertiary",
+        "displayName": "game track"
+      },
+      "tooltip-surface": {
+        "role": "neutral",
+        "displayName": "tooltip surface"
+      },
+      "tooltip-text": {
+        "role": "neutral",
+        "displayName": "tooltip text"
+      },
+      "result-surface": {
+        "role": "neutral",
+        "displayName": "result surface"
+      },
+      "result-title": {
+        "role": "neutral",
+        "displayName": "result title"
+      },
+      "counter-surface": {
+        "role": "neutral",
+        "displayName": "counter surface"
+      },
+      "counter-text": {
+        "role": "neutral",
+        "displayName": "counter text"
+      },
+      "material-highlight": {
+        "role": "neutral",
+        "displayName": "material highlight"
+      },
+      "material-shadow": {
+        "role": "neutral",
+        "displayName": "material shadow"
+      },
+      "phase-surface": {
+        "role": "neutral",
+        "displayName": "phase surface"
+      },
+      "phase-text": {
+        "role": "neutral",
+        "displayName": "phase text"
+      },
+      "phase-timer": {
+        "role": "neutral",
+        "displayName": "phase timer"
+      },
+      "emblem-surface": {
+        "role": "neutral",
+        "displayName": "emblem surface"
+      },
+      "emblem-text": {
+        "role": "neutral",
+        "displayName": "emblem text"
+      },
+      "emblem-activeSurface": {
+        "role": "neutral",
+        "displayName": "emblem activeSurface"
+      },
+      "emblem-activeText": {
+        "role": "neutral",
+        "displayName": "emblem activeText"
+      },
+      "state-locked": {
+        "role": "neutral",
+        "displayName": "state locked"
+      },
+      "state-insufficient": {
+        "role": "neutral",
+        "displayName": "state insufficient"
+      },
+      "state-selected": {
+        "role": "neutral",
+        "displayName": "state selected"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "FestivalPop / Bungee local",
+        "purpose": "Jerarquía de juego; alias del archivo aprobado SIL OFL."
+      },
+      "body": {
+        "displayName": "DM Sans",
+        "purpose": "Datos, explicaciones y campos."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel",
+        "value": "0 12px 12px #0f112566",
+        "purpose": "Inspector, tooltip y registro."
+      },
+      {
+        "name": "frame",
+        "value": "0 5px 3px #11132a45",
+        "purpose": "Contornos SVG C."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control",
+        "value": "110ms ease-out",
+        "purpose": "Hover -2px y pressed +3px de controles."
+      },
+      {
+        "name": "receipt",
+        "value": "260ms ease-out",
+        "purpose": "Confirmación tras acción aceptada."
+      },
+      {
+        "name": "inspector-enter",
+        "value": "140ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entrada contextual."
+      },
+      {
+        "name": "inspector-exit",
+        "value": "120ms ease-out",
+        "purpose": "Salida contextual."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "1099px"
+      },
+      {
+        "name": "small",
+        "value": "650px"
+      },
+      {
+        "name": "wide",
+        "value": "2200px"
+      },
+      {
+        "name": "compact-height",
+        "value": "800px"
+      }
+    ],
+    "groundTreatment": "linear-gradient(90deg, #1e193633, transparent 20%, transparent 88%, #1e193622), linear-gradient(0deg, #201a3b 0%, transparent 27%), var(--neon-surface-canvas)",
+    "palettePolicy": "No se sintetizan nuevas rampas: el usuario fija los 64 valores semánticos de Neon y las adiciones implementadas de urgencia/lavado. DESIGN.md conserva los primitivos.",
+    "authority": {
+      "references": [
+        "design-exploration/f0-p6b5a2/neon-playground/screen-1920.png",
+        "design-exploration/f0-p6b5a2/neon-playground/inspector-1920.png",
+        "design-exploration/f0-p6b5a2/neon-playground/components-1920.png",
+        "design-exploration/f0-p6b5a2/neon-playground/tokens.json"
+      ],
+      "implementation": [
+        "apps/web/src/match/hud/neonTokens.css",
+        "apps/web/src/match/hud/neonHud.css"
+      ],
+      "contract": "artifacts/p6b5b/CONTRACT.md",
+      "scope": "Partida local; P6B.4 queda como historia. Cámara, casillas legales y estado autoritativo prevalecen sobre el montaje estático."
+    },
+    "hudLayout": {
+      "policy": "bounded-desktop",
+      "minimumWidth": 1100,
+      "unit": "clamp(0.66px, min(0.0520833333vw, 0.1dvh), 0.82px)",
+      "maximumDockCssPixels": [
+        1536.68,
+        189.42
+      ],
+      "maximumBenchCssPixels": [
+        954.48,
+        85.28
+      ],
+      "inspectorWidthCssPixels": [
+        300,
+        336
+      ],
+      "inspectorMaximumHeightCssPixels": 654,
+      "authority": "User requested compact, consistent HUD for 13-inch laptop and 27-inch monitor; supersedes original percentage scaling. Colors and component geometry unchanged."
+    }
+  },
+  "components": [
+    {
+      "name": "Acción azul",
+      "kind": "button",
+      "refersTo": "game-button-blue",
+      "description": "Control secundario con el marco original C; XP conserva su jerarquía de lectura DM Sans.",
+      "html": "<button class=\"ds-control ds-blue\"><svg class=\"ds-frame\" viewBox=\"0 0 230 70\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-frame-outer\" d=\"M0 27L27 0H195L218 17H230V43L203 70H35L12 53H0Z\"/><path class=\"ds-frame-trim\" d=\"M7 30L30 7H193L215 23H223V40L200 63H37L15 47H7Z\"/><path class=\"ds-frame-inset\" d=\"M14 33L33 14H190L211 30H216V37L197 56H40L19 40H14Z\"/><path class=\"ds-frame-light\" d=\"M33 21H182M21 38V29\"/><path class=\"ds-frame-joints\" d=\"M188 49H202V35M28 21V35H14\"/></svg><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M3 22L16 9L29 22 M3 30L16 17L29 30 M12 3H20\"/></svg><span>Comprar XP</span></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(var(--neon-shadow-frame))}.ds-frame-outer{fill:var(--neon-border-frame)}.ds-frame-trim{fill:var(--ds-trim,var(--neon-border-highlight))}.ds-frame-inset{fill:var(--ds-fill,var(--neon-button-default))}.ds-frame-light{fill:none;stroke:var(--neon-material-highlight);stroke-width:3;opacity:.4}.ds-frame-joints{fill:none;stroke:var(--neon-border-frame);stroke-width:4}.ds-icon{width:27px;height:27px;flex:none}.ds-control{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:7px;width:230px;min-height:44px;height:67px;padding:0 21px;border:0;border-radius:0;background:none;color:var(--neon-text-primary);font:700 17px FestivalPop,sans-serif;transition:transform 110ms ease-out;cursor:pointer}.ds-control>*:not(.ds-frame){position:relative;z-index:1}.ds-control:hover:not(:disabled){--ds-fill:var(--neon-button-hover);transform:translateY(-2px)}.ds-control:active:not(:disabled){--ds-fill:var(--neon-button-pressed);transform:translateY(3px)}.ds-control:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}.ds-control:disabled{--ds-fill:var(--neon-button-disabled);--ds-trim:var(--neon-button-disabledBorder);color:var(--neon-button-disabledText);opacity:1;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-control{transition:none}}.ds-blue{font:700 21px \"DM Sans\",sans-serif}"
+    },
+    {
+      "name": "Acción lima",
+      "kind": "button",
+      "refersTo": "game-button-lime",
+      "description": "Renovar y bloquear usan variantes lima; la aplicación conecta autoridad y recibos.",
+      "html": "<button class=\"ds-control ds-lime\"><svg class=\"ds-frame\" viewBox=\"0 0 230 70\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-frame-outer\" d=\"M0 27L27 0H195L218 17H230V43L203 70H35L12 53H0Z\"/><path class=\"ds-frame-trim\" d=\"M7 30L30 7H193L215 23H223V40L200 63H37L15 47H7Z\"/><path class=\"ds-frame-inset\" d=\"M14 33L33 14H190L211 30H216V37L197 56H40L19 40H14Z\"/><path class=\"ds-frame-light\" d=\"M33 21H182M21 38V29\"/><path class=\"ds-frame-joints\" d=\"M188 49H202V35M28 21V35H14\"/></svg><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M28 16A12 12 0 1 0 24 26 M23 2L30 9L23 16 M30 9H18\"/></svg><span>Renovar</span></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(var(--neon-shadow-frame))}.ds-frame-outer{fill:var(--neon-border-frame)}.ds-frame-trim{fill:var(--ds-trim,var(--neon-border-highlight))}.ds-frame-inset{fill:var(--ds-fill,var(--neon-button-default))}.ds-frame-light{fill:none;stroke:var(--neon-material-highlight);stroke-width:3;opacity:.4}.ds-frame-joints{fill:none;stroke:var(--neon-border-frame);stroke-width:4}.ds-icon{width:27px;height:27px;flex:none}.ds-control{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:7px;width:230px;min-height:44px;height:67px;padding:0 21px;border:0;border-radius:0;background:none;color:var(--neon-text-primary);font:700 17px FestivalPop,sans-serif;transition:transform 110ms ease-out;cursor:pointer}.ds-control>*:not(.ds-frame){position:relative;z-index:1}.ds-control:hover:not(:disabled){--ds-fill:var(--neon-button-hover);transform:translateY(-2px)}.ds-control:active:not(:disabled){--ds-fill:var(--neon-button-pressed);transform:translateY(3px)}.ds-control:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}.ds-control:disabled{--ds-fill:var(--neon-button-disabled);--ds-trim:var(--neon-button-disabledBorder);color:var(--neon-button-disabledText);opacity:1;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-control{transition:none}}.ds-lime{--ds-fill:var(--neon-button-active);color:var(--neon-text-onAccent);height:65px}.ds-lime:hover:not(:disabled){--ds-fill:var(--neon-button-activeHover)}.ds-lime:active:not(:disabled){--ds-fill:var(--neon-button-activePressed)}"
+    },
+    {
+      "name": "Control compacto",
+      "kind": "button",
+      "refersTo": "settings-control",
+      "description": "Geometría 65 × 61 propia de ajustes, con nombre accesible.",
+      "html": "<button class=\"ds-control ds-compact\" aria-label=\"Ajustes de partida\"><svg class=\"ds-frame\" viewBox=\"0 0 65 61\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-frame-outer\" d=\"M0 9L9 0H56L65 9V52L56 61H9L0 52Z\"/><path class=\"ds-frame-trim\" d=\"M4 11L11 4H54L61 11V50L54 57H11L4 50Z\"/><path class=\"ds-frame-inset\" d=\"M8 13L13 8H52L57 13V48L52 53H13L8 48Z\"/><path class=\"ds-frame-light\" d=\"M14 11H49M11 15V43\"/></svg><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M4 28V20H9V28 M14 28V12H19V28 M24 28V4H29V28\"/></svg></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(var(--neon-shadow-frame))}.ds-frame-outer{fill:var(--neon-border-frame)}.ds-frame-trim{fill:var(--ds-trim,var(--neon-border-highlight))}.ds-frame-inset{fill:var(--ds-fill,var(--neon-button-default))}.ds-frame-light{fill:none;stroke:var(--neon-material-highlight);stroke-width:3;opacity:.4}.ds-frame-joints{fill:none;stroke:var(--neon-border-frame);stroke-width:4}.ds-icon{width:27px;height:27px;flex:none}.ds-control{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:7px;width:230px;min-height:44px;height:67px;padding:0 21px;border:0;border-radius:0;background:none;color:var(--neon-text-primary);font:700 17px FestivalPop,sans-serif;transition:transform 110ms ease-out;cursor:pointer}.ds-control>*:not(.ds-frame){position:relative;z-index:1}.ds-control:hover:not(:disabled){--ds-fill:var(--neon-button-hover);transform:translateY(-2px)}.ds-control:active:not(:disabled){--ds-fill:var(--neon-button-pressed);transform:translateY(3px)}.ds-control:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}.ds-control:disabled{--ds-fill:var(--neon-button-disabled);--ds-trim:var(--neon-button-disabledBorder);color:var(--neon-button-disabledText);opacity:1;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-control{transition:none}}.ds-compact{width:65px;height:61px;padding:0}"
+    },
+    {
+      "name": "Rasgo de oferta",
+      "kind": "chip",
+      "refersTo": "trait",
+      "description": "Etiqueta de contenido con el glifo aprobado UPM y respaldo oscuro.",
+      "html": "<span class=\"ds-trait\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M3 12L16 3L29 12Z M6 14V25 M12 14V25 M20 14V25 M26 14V25 M2 29H30\"/></svg><span>UPM</span></span>",
+      "css": ".ds-trait{display:inline-flex;align-items:center;gap:5px;padding:3px 7px 3px 3px;background:var(--neon-card-trait);color:var(--neon-card-text);font:700 13px/1 \"DM Sans\",sans-serif}.ds-trait .ds-icon{width:16px;height:16px;flex:none}"
+    },
+    {
+      "name": "Plaza vacía",
+      "kind": "button",
+      "refersTo": "bench-slot",
+      "description": "Plaza de reserva con plus claro; no altera la geometría jugable.",
+      "html": "<button class=\"ds-bench\" aria-label=\"Plaza vacía 1\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16 5V27 M5 16H27\"/></svg></button>",
+      "css": ".ds-bench{width:124px;height:80px;display:grid;place-items:center;padding:0;background:var(--neon-surface-elevated);color:var(--neon-text-secondary);border:0;border-bottom:4px solid var(--neon-border-primary);border-radius:0;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}.ds-bench .ds-icon{width:24px;height:24px;opacity:.65}.ds-bench:hover,.ds-bench:active{background:var(--neon-button-default);border-bottom-color:var(--neon-state-selected)}.ds-bench:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}"
+    },
+    {
+      "name": "Material de oferta",
+      "kind": "card",
+      "refersTo": "shop-offer",
+      "description": "Extracto del marco, diagonal, medallón y placa inferior; el retrato original se aporta desde el juego.",
+      "html": "<button class=\"ds-offer\" aria-label=\"Vargas, coste 2\"><svg class=\"ds-frame\" viewBox=\"0 0 258 231\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-frame-outer\" d=\"M0 27L27 0H223L246 17H258V204L231 231H35L12 214H0Z\"/><path class=\"ds-frame-trim\" d=\"M7 30L30 7H221L243 23H251V201L228 224H37L15 208H7Z\"/><path class=\"ds-frame-inset\" d=\"M14 33L33 14H218L239 30H244V198L225 217H40L19 201H14Z\"/><path class=\"ds-frame-light\" d=\"M33 21H210M21 38V190\"/><path class=\"ds-frame-joints\" d=\"M216 210H230V196M28 21V35H14\"/></svg><span class=\"ds-motif\"></span><span class=\"ds-medal\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16 28L4 17C-3 7 9 0 16 9C23 0 35 7 28 17Z\"/></svg></span><span class=\"ds-offer-trait\">UPM</span><span class=\"ds-footer\"><strong>VARGAS</strong><b>2</b></span></button>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(var(--neon-shadow-frame))}.ds-frame-outer{fill:var(--neon-border-frame)}.ds-frame-trim{fill:var(--ds-trim,var(--neon-border-highlight))}.ds-frame-inset{fill:var(--ds-fill,var(--neon-button-default))}.ds-frame-light{fill:none;stroke:var(--neon-material-highlight);stroke-width:3;opacity:.4}.ds-frame-joints{fill:none;stroke:var(--neon-border-frame);stroke-width:4}.ds-icon{width:27px;height:27px;flex:none}.ds-control{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:7px;width:230px;min-height:44px;height:67px;padding:0 21px;border:0;border-radius:0;background:none;color:var(--neon-text-primary);font:700 17px FestivalPop,sans-serif;transition:transform 110ms ease-out;cursor:pointer}.ds-control>*:not(.ds-frame){position:relative;z-index:1}.ds-control:hover:not(:disabled){--ds-fill:var(--neon-button-hover);transform:translateY(-2px)}.ds-control:active:not(:disabled){--ds-fill:var(--neon-button-pressed);transform:translateY(3px)}.ds-control:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}.ds-control:disabled{--ds-fill:var(--neon-button-disabled);--ds-trim:var(--neon-button-disabledBorder);color:var(--neon-button-disabledText);opacity:1;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-control{transition:none}}.ds-offer{--ds-fill:var(--neon-card-paper);--ds-trim:var(--neon-game-cost2);position:relative;display:block;width:258px;height:231px;padding:0;border:0;background:none;border-radius:0;color:var(--neon-card-code);transition:transform 120ms ease-out}.ds-motif{position:absolute;left:14px;right:14px;top:14px;height:61.04%;background:linear-gradient(145deg,var(--neon-card-motif) 0 56%,var(--neon-card-paper) 56%);opacity:.85;clip-path:polygon(18px 0,calc(100% - 27px) 0,100% 18px,100% 100%,0 100%,0 18px)}.ds-medal{position:absolute;left:20px;top:23px;width:38px;height:38px;display:grid;place-items:center;background:var(--neon-game-cost2);border:4px solid var(--neon-border-frame);transform:rotate(45deg)}.ds-medal .ds-icon{transform:rotate(-45deg);width:26px;height:26px}.ds-offer-trait{position:absolute;bottom:54px;left:20px;background:var(--neon-card-trait);color:var(--neon-card-text);font:700 13px \"DM Sans\",sans-serif;padding:3px 7px}.ds-footer{position:absolute;left:14px;right:14px;bottom:14px;height:37px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;background:var(--neon-card-footer);color:var(--neon-card-text);clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,12px 100%,0 calc(100% - 10px))}.ds-footer strong{font:700 21px/1 FestivalPop,sans-serif}.ds-footer b{font:700 23px/1 FestivalPop,sans-serif;color:var(--neon-game-gold)}.ds-offer:hover{transform:translateY(-2px)}.ds-offer:hover .ds-footer{background:var(--neon-surface-overlay)}.ds-offer:active{transform:translateY(1px)}.ds-offer:focus-visible{outline:3px solid var(--neon-focus);outline-offset:2px}@media(prefers-reduced-motion:reduce){.ds-offer{transition:none}}"
+    },
+    {
+      "name": "Ficha contextual",
+      "kind": "custom",
+      "refersTo": "inspector",
+      "description": "Extracto de placa y vitals; en juego el contenido completo desplaza dentro del marco y el cierre queda fijo.",
+      "html": "<section class=\"ds-inspector\"><svg class=\"ds-frame\" viewBox=\"0 0 360 654\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-frame-outer\" d=\"M0 27L27 0H325L348 17H360V627L333 654H35L12 637H0Z\"/><path class=\"ds-frame-trim\" d=\"M7 30L30 7H323L345 23H353V624L330 647H37L15 631H7Z\"/><path class=\"ds-frame-inset\" d=\"M14 33L33 14H320L341 30H346V621L327 640H40L19 624H14Z\"/><path class=\"ds-frame-light\" d=\"M33 21H312M21 38V613\"/><path class=\"ds-frame-joints\" d=\"M318 633H332V619M28 21V35H14\"/></svg><button class=\"ds-close\" aria-label=\"Cerrar ficha\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M7 7L25 25 M25 7L7 25\"/></svg></button><div class=\"ds-inspector-content\"><h2>VARGAS</h2><div class=\"ds-values\"><span><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16 28L4 17C-3 7 9 0 16 9C23 0 35 7 28 17Z\"/></svg>100 / 100</span><span><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M16 2L27 18L23 28H9L5 18Z M16 8V21\"/></svg>0 / 55</span></div><meter class=\"ds-life\" min=\"0\" max=\"100\" value=\"100\" aria-label=\"Vida\"></meter><meter class=\"ds-mana\" min=\"0\" max=\"55\" value=\"0\" aria-label=\"Maná\"></meter></div></section>",
+      "css": ".ds-frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:drop-shadow(var(--neon-shadow-frame))}.ds-frame-outer{fill:var(--neon-border-frame)}.ds-frame-trim{fill:var(--ds-trim,var(--neon-border-highlight))}.ds-frame-inset{fill:var(--ds-fill,var(--neon-button-default))}.ds-frame-light{fill:none;stroke:var(--neon-material-highlight);stroke-width:3;opacity:.4}.ds-frame-joints{fill:none;stroke:var(--neon-border-frame);stroke-width:4}.ds-icon{width:27px;height:27px;flex:none}.ds-control{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;gap:7px;width:230px;min-height:44px;height:67px;padding:0 21px;border:0;border-radius:0;background:none;color:var(--neon-text-primary);font:700 17px FestivalPop,sans-serif;transition:transform 110ms ease-out;cursor:pointer}.ds-control>*:not(.ds-frame){position:relative;z-index:1}.ds-control:hover:not(:disabled){--ds-fill:var(--neon-button-hover);transform:translateY(-2px)}.ds-control:active:not(:disabled){--ds-fill:var(--neon-button-pressed);transform:translateY(3px)}.ds-control:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}.ds-control:disabled{--ds-fill:var(--neon-button-disabled);--ds-trim:var(--neon-button-disabledBorder);color:var(--neon-button-disabledText);opacity:1;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-control{transition:none}}.ds-inspector{--ds-fill:var(--neon-surface-primary);--ds-trim:var(--neon-border-primary);position:relative;width:360px;height:654px;color:var(--neon-text-primary);filter:drop-shadow(var(--neon-shadow-panel))}.ds-inspector-content{position:absolute;inset:27px;overflow:auto;font:12px/1.5 \"DM Sans\",sans-serif}.ds-inspector h2{font:700 25px FestivalPop,sans-serif;margin:5px 0 20px}.ds-close{position:absolute;right:27px;top:27px;z-index:3;background:var(--neon-surface-primary);box-shadow:0 0 0 3px var(--neon-surface-primary);color:var(--neon-text-primary);border:0;padding:0;cursor:pointer}.ds-close .ds-icon{width:22px;height:22px}.ds-close:hover{color:var(--neon-accent-primary)}.ds-close:active{transform:translateY(1px)}.ds-close:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}.ds-values{display:flex;justify-content:space-between;margin-bottom:5px}.ds-values span{display:flex;align-items:center;gap:6px}.ds-values .ds-icon{width:27px;height:27px}.ds-values span:first-child .ds-icon{color:var(--neon-game-life)}.ds-values span+span .ds-icon{color:var(--neon-game-mana)}.ds-inspector meter{display:block;appearance:none;width:100%;height:6px;margin:5px 0}.ds-inspector meter::-webkit-meter-bar{background:var(--neon-game-track);border:0}.ds-life::-webkit-meter-optimum-value{background:var(--neon-game-life)}.ds-mana::-webkit-meter-optimum-value{background:var(--neon-game-mana)}"
+    },
+    {
+      "name": "Menú de ajustes",
+      "kind": "nav",
+      "refersTo": "settings-control",
+      "description": "Menú nativo con nombres y foco; conserva enlaces reales en la aplicación.",
+      "html": "<details class=\"ds-menu\"><summary aria-label=\"Ajustes de partida\"><svg class=\"ds-icon\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"bevel\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M4 28V20H9V28 M14 28V12H19V28 M24 28V4H29V28\"/></svg> Ajustes</summary><nav aria-label=\"Pantallas\"><a href=\"#partida\">Partida local</a><a href=\"#arena\">Arena de pruebas</a></nav></details>",
+      "css": ".ds-menu{width:240px;color:var(--neon-text-primary);font:14px \"DM Sans\",sans-serif}.ds-menu summary{cursor:pointer;background:var(--neon-button-default);padding:12px;display:flex;align-items:center;gap:8px}.ds-menu .ds-icon{width:27px;height:27px}.ds-menu nav{display:flex;flex-direction:column;gap:8px;padding:16px;background:var(--neon-surface-overlay);border:2px solid var(--neon-border-primary);box-shadow:var(--neon-shadow-panel)}.ds-menu a{color:var(--neon-text-primary)}.ds-menu summary:hover,.ds-menu summary:active{background:var(--neon-button-hover)}.ds-menu a:hover{color:var(--neon-accent-primary)}.ds-menu a:focus-visible,.ds-menu summary:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}"
+    },
+    {
+      "name": "Selector secundario",
+      "kind": "input",
+      "refersTo": "inspector",
+      "description": "Campo funcional de posición/configuración sobre superficie elevada.",
+      "html": "<label class=\"ds-field\">Posición<select aria-label=\"Posición\"><option>Banquillo</option><option>Tablero</option></select></label>",
+      "css": ".ds-field{display:grid;gap:4px;color:var(--neon-text-primary);font:11px \"DM Sans\",sans-serif}.ds-field select{padding:5px;color:var(--neon-text-primary);background:var(--neon-surface-elevated);border:1px solid var(--neon-border-primary);border-radius:0}.ds-field select:hover{border-color:var(--neon-border-highlight)}.ds-field select:focus-visible{outline:3px solid var(--neon-focus);outline-offset:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Festival Pop C × Neon Playground",
+    "overview": "Partida local es una escena de videojuego PC colorida y táctil: placas vectoriales angulares, marcos azules, letras de bloque y retratos originales rodean la arena continua Mar de Cristal. El azul noche organiza la densidad; lima, magenta y oro tienen cometidos distintos. La dirección aprobada sustituye el HUD de carbón, jade y latón de P6B.4; la recomendación Royal Pop del informe anterior no tiene autoridad.\n\nEl mundo se construye con los SVG originales del prototipo C, Bungee local y DM Sans; los acabados proceden de capas, diagonales, juntas, luces y sombras contenidas. El juego real conserva cámara, hexágonos, animación y estados autoritativos. Arena de pruebas mantiene su propósito y composición independientes.",
+    "keyCharacteristics": [
+      "Arena continua protagonista y contexto superpuesto.",
+      "Marcos azules biselados, diagonales de retrato y medallones de diamante.",
+      "Cinco ofertas con rasgos sobre la placa inferior, nombre a la izquierda y coste a la derecha.",
+      "Lima para acciones; magenta como detalle económico; oro para moneda y estrellas.",
+      "FestivalPop para jerarquía de juego y DM Sans para datos y explicación.",
+      "Progreso, estadísticas y estados procedentes de la autoridad del juego."
+    ],
+    "rules": [
+      {
+        "name": "The Semantic Accent Rule",
+        "body": "Lima indica acción/selección; magenta acentúa la economía; oro indica moneda/estrellas. No intercambiar estas funciones ni extenderlas a todas las superficies.",
+        "section": "colors"
+      },
+      {
+        "name": "The Trait Contrast Rule",
+        "body": "Los rasgos llevan respaldo oscuro y permanecen inmediatamente sobre la placa inferior; el retrato nunca reduce su lectura.",
+        "section": "colors"
+      },
+      {
+        "name": "The Stable Foot Rule",
+        "body": "Los personajes con asset real usan multiplicador visual 1.4 sobre perspectiva; los dos manifiestos actuales normalizan el cuerpo a 64px. Los provisionales no crecen, las estrellas no añaden escala y los límites originales de interacción se conservan mediante `originalHitBounds`. Un nuevo asset exige comprobar su normalización antes de heredar el factor.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do mantener la arena continua y dominante, con el contexto superpuesto.",
+      "Do reutilizar los 64 colores aprobados, los SVG C y la pareja FestivalPop/DM Sans.",
+      "Do conservar originales de DOLEA/VARGAS, pies, perspectiva y límites de interacción.",
+      "Do acompañar color con nombres, cifras y estados reales.",
+      "Do mantener cierre persistente, foco visible, Escape y movimiento reducido.",
+      "Do preservar asociaciones de iconos de contenido y fallback neutral."
+    ],
+    "donts": [
+      "Don't mezclar Royal Pop u otras paletas exploratorias en Neon Playground.",
+      "Don't redimensionar el canvas ni recalibrar cámara o hexágonos para copiar el montaje estático.",
+      "Don't mover rasgos encima del retrato ni separar nombre/coste de la placa inferior.",
+      "Don't copiar personajes/recursos de TFT ni reemplazar originales por arte inventado.",
+      "Don't inventar contadores, progreso o estados para igualar una captura de referencia.",
+      "Don't aplicar crecimiento por estrellas o a sprites provisionales ni añadir audio por defecto."
+    ]
+  }
+}

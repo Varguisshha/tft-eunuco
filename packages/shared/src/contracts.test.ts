@@ -62,7 +62,7 @@ describe('versioned JSON contracts', () => {
     expect(CombatEventSchema.safeParse({ ...event, sequence: -1 }).success).toBe(false);
     expect(CombatEventSchema.safeParse({ ...event, type: 'heal' }).success).toBe(false);
   });
-  it('requires one or two synergies and explicit pending abilities', () => {
+  it('requires distinct affinities without a structural cap and explicit pending abilities', () => {
     const def = {
       id: 'test',
       name: 'Test',
@@ -74,7 +74,13 @@ describe('versioned JSON contracts', () => {
       spriteId: 'test',
     };
     expect(UnitDefinitionSchema.safeParse(def).success).toBe(true);
-    for (const synergies of [[], ['a', 'b', 'c']])
+    expect(
+      UnitDefinitionSchema.parse({
+        ...def,
+        synergies: Array.from({ length: 32 }, (_, i) => `affinity-${i}`),
+      }).synergies,
+    ).toHaveLength(32);
+    for (const synergies of [[], ['a', 'a']])
       expect(UnitDefinitionSchema.safeParse({ ...def, synergies }).success).toBe(false);
   });
 });

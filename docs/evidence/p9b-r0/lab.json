@@ -1,0 +1,20 @@
+{
+  "dynamicPort": 58033,
+  "host": "0.0.0.0",
+  "private": true,
+  "compiledServer": true,
+  "normalClock": true,
+  "negatives": {
+    "overlapNotReady": true,
+    "invalidToken": true,
+    "origin": true,
+    "persistenceReadiness": true
+  },
+  "assets": {
+    "ttfBytes": 118996
+  },
+  "reconnected": true,
+  "activeRecovery": true,
+  "matchCompleted": true,
+  "finalRecoveryDeadlinePreserved": true
+}

@@ -1,0 +1,24 @@
+- link "tft-eunuco-private.up.railway.app":
+    - /url: https://tft-eunuco-private.up.railway.app
+  - paragraph:
+    - paragraph: Port 8080
+  - button "Copy":
+  - button "Edit":
+  - button "Delete":
+  - generic: Domain
+  - textbox "Domain": tfteunuco
+  - paragraph: .up.railway.app
+  - paragraph: Enter the port your app is listening on
+  - generic: Target port
+  - spinbutton "Target port": "8080"
+  - paragraph: Available
+  - button "Cancel":
+    - generic: Cancel
+  - button "Update":
+    - generic: Update
+  - button "Generate Domain":
+    - generic: Generate Domain
+  - button "Custom Domain":
+    - generic: Custom Domain
+  - button "TCP Proxy":
+    - generic: TCP Proxy

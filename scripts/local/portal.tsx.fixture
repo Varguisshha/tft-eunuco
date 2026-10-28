@@ -1,0 +1,39 @@
+import { useState } from 'react';
+import { Multiplayer } from '../network/Multiplayer';
+import './auth.css';
+export function AccountPortal({ onLocal }) {
+  const [session, setSession] = useState(null);
+  const [notice, setNotice] = useState('');
+  async function enter(slot) {
+    try {
+      const response = await fetch('/__local/identity', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slot }),
+      });
+      if (!response.ok) throw Error('No se pudo abrir la identidad de diagnóstico.');
+      setSession(await response.json());
+    } catch (error) {
+      setNotice(error.message);
+    }
+  }
+  if (session)
+    return (
+      <Multiplayer accountSession={session} onAccount={() => setSession(null)} onLocal={onLocal} />
+    );
+  return (
+    <main className="account-portal">
+      <section className="account-panel">
+        <h1>LOCAL · Acceso de diagnóstico</h1>
+        <p>Base local aislada. Estas identidades no son cuentas personales ni envían correos.</p>
+        {['Vargas', 'Florin', 'Nora', 'Alex'].map((name, slot) => (
+          <button key={name} onClick={() => enter(slot)}>
+            {name} · LOCAL
+          </button>
+        ))}
+        <p role="status">{notice}</p>
+        <button onClick={onLocal}>Partida local y herramientas DEV</button>
+      </section>
+    </main>
+  );
+}

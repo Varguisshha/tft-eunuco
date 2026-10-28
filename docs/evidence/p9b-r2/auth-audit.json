@@ -1,0 +1,6 @@
+{
+  "project": "tft-eunuco-dev",
+  "site_url": "https://tft-eunuco-private.up.railway.app/",
+  "uri_allow_list": "http://127.0.0.1:4173/,https://tft-eunuco-private.up.railway.app/",
+  "signup_disabled": false
+}

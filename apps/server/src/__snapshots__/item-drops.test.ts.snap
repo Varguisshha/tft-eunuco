@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`frozen seed 0 and explicit two/three fixtures 1`] = `
+{
+  "quantity": 2,
+  "types": [
+    [
+      "component-armor",
+      "component-ap",
+    ],
+    [
+      "component-critical",
+      "component-attack_speed",
+    ],
+    [
+      "component-critical",
+      "component-ad",
+    ],
+    [
+      "component-mana",
+      "component-health",
+    ],
+  ],
+}
+`;
+
+exports[`frozen seed 1 and explicit two/three fixtures 1`] = `
+{
+  "quantity": 3,
+  "types": [
+    [
+      "component-critical",
+      "component-armor",
+      "component-critical",
+    ],
+    [
+      "component-magic_resist",
+      "component-ap",
+      "component-ap",
+    ],
+    [
+      "component-ad",
+      "component-health",
+      "component-critical",
+    ],
+    [
+      "component-critical",
+      "component-critical",
+      "component-ap",
+    ],
+  ],
+}
+`;
+
+exports[`frozen seed 42 and explicit two/three fixtures 1`] = `
+{
+  "quantity": 3,
+  "types": [
+    [
+      "component-ap",
+      "component-mana",
+      "component-ap",
+    ],
+    [
+      "component-attack_speed",
+      "component-magic_resist",
+      "component-magic_resist",
+    ],
+    [
+      "component-ap",
+      "component-critical",
+      "component-attack_speed",
+    ],
+    [
+      "component-mana",
+      "component-ap",
+      "component-ap",
+    ],
+  ],
+}
+`;
+
+exports[`frozen seed 123 and explicit two/three fixtures 1`] = `
+{
+  "quantity": 2,
+  "types": [
+    [
+      "component-ap",
+      "component-ad",
+    ],
+    [
+      "component-ap",
+      "component-health",
+    ],
+    [
+      "component-magic_resist",
+      "component-attack_speed",
+    ],
+    [
+      "component-health",
+      "component-health",
+    ],
+  ],
+}
+`;

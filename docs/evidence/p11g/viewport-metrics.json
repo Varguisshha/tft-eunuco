@@ -1,0 +1,248 @@
+{
+  "metrics": [
+    {
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1280,
+      "scrollHeight": 720,
+      "cards": 5,
+      "slots": 9,
+      "inventory": {
+        "x": 174.65625,
+        "y": 132,
+        "width": 112,
+        "height": 301,
+        "top": 132,
+        "right": 286.65625,
+        "bottom": 433,
+        "left": 174.65625
+      },
+      "tray": {
+        "x": 252,
+        "y": 442,
+        "width": 776,
+        "height": 88,
+        "top": 442,
+        "right": 1028,
+        "bottom": 530,
+        "left": 252
+      },
+      "sprite": {
+        "x": 260.6640625,
+        "y": 456.6875,
+        "width": 65.328125,
+        "height": 56.65625,
+        "top": 456.6875,
+        "right": 325.9921875,
+        "bottom": 513.34375,
+        "left": 260.6640625
+      },
+      "scrollbar": "none",
+      "upgrade": [
+        "3"
+      ],
+      "nestedButtons": 0
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "scrollHeight": 900,
+      "cards": 5,
+      "slots": 9,
+      "inventory": {
+        "x": 195,
+        "y": 162,
+        "width": 112,
+        "height": 420.75,
+        "top": 162,
+        "right": 307,
+        "bottom": 582.75,
+        "left": 195
+      },
+      "tray": {
+        "x": 283.5,
+        "y": 590.75,
+        "width": 873,
+        "height": 99,
+        "top": 590.75,
+        "right": 1156.5,
+        "bottom": 689.75,
+        "left": 283.5
+      },
+      "sprite": {
+        "x": 293.25,
+        "y": 606.5,
+        "width": 73.5,
+        "height": 63.75,
+        "top": 606.5,
+        "right": 366.75,
+        "bottom": 670.25,
+        "left": 293.25
+      },
+      "scrollbar": "none",
+      "upgrade": [
+        "3"
+      ],
+      "nestedButtons": 0
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "cards": 5,
+      "slots": 9,
+      "inventory": {
+        "x": 212.078125,
+        "y": 194.390625,
+        "width": 112,
+        "height": 542.953125,
+        "top": 194.390625,
+        "right": 324.078125,
+        "bottom": 737.34375,
+        "left": 212.078125
+      },
+      "tray": {
+        "x": 482.765625,
+        "y": 744.515625,
+        "width": 954.46875,
+        "height": 108.234375,
+        "top": 744.515625,
+        "right": 1437.234375,
+        "bottom": 852.75,
+        "left": 482.765625
+      },
+      "sprite": {
+        "x": 493.4296875,
+        "y": 762.03125,
+        "width": 80.359375,
+        "height": 69.6875,
+        "top": 762.03125,
+        "right": 573.7890625,
+        "bottom": 831.71875,
+        "left": 493.4296875
+      },
+      "scrollbar": "none",
+      "upgrade": [
+        "3"
+      ],
+      "nestedButtons": 0
+    },
+    {
+      "width": 2560,
+      "height": 1440,
+      "scrollWidth": 2560,
+      "scrollHeight": 1440,
+      "cards": 5,
+      "slots": 9,
+      "inventory": {
+        "x": 212.078125,
+        "y": 220,
+        "width": 112,
+        "height": 877.34375,
+        "top": 220,
+        "right": 324.078125,
+        "bottom": 1097.34375,
+        "left": 212.078125
+      },
+      "tray": {
+        "x": 802.765625,
+        "y": 1104.515625,
+        "width": 954.46875,
+        "height": 108.234375,
+        "top": 1104.515625,
+        "right": 1757.234375,
+        "bottom": 1212.75,
+        "left": 802.765625
+      },
+      "sprite": {
+        "x": 813.4296875,
+        "y": 1122.03125,
+        "width": 80.359375,
+        "height": 69.6875,
+        "top": 1122.03125,
+        "right": 893.7890625,
+        "bottom": 1191.71875,
+        "left": 813.4296875
+      },
+      "scrollbar": "none",
+      "upgrade": [
+        "3"
+      ],
+      "nestedButtons": 0
+    },
+    {
+      "width": 3840,
+      "height": 2160,
+      "scrollWidth": 3840,
+      "scrollHeight": 2160,
+      "cards": 5,
+      "slots": 9,
+      "inventory": {
+        "x": 212.078125,
+        "y": 220,
+        "width": 112,
+        "height": 1597.34375,
+        "top": 220,
+        "right": 324.078125,
+        "bottom": 1817.34375,
+        "left": 212.078125
+      },
+      "tray": {
+        "x": 1442.765625,
+        "y": 1824.515625,
+        "width": 954.46875,
+        "height": 108.234375,
+        "top": 1824.515625,
+        "right": 2397.234375,
+        "bottom": 1932.75,
+        "left": 1442.765625
+      },
+      "sprite": {
+        "x": 1453.4296875,
+        "y": 1842.03125,
+        "width": 80.359375,
+        "height": 69.6875,
+        "top": 1842.03125,
+        "right": 1533.7890625,
+        "bottom": 1911.71875,
+        "left": 1453.4296875
+      },
+      "scrollbar": "none",
+      "upgrade": [
+        "3"
+      ],
+      "nestedButtons": 0
+    },
+    {
+      "wheel": {
+        "top": 74,
+        "height": 479,
+        "total": 553
+      }
+    },
+    {
+      "keyboardEnd": {
+        "top": 74,
+        "focused": true
+      }
+    },
+    {
+      "round": 3,
+      "objects": "Objetos\n2",
+      "reward": "Victoria · Ronda 3\n+11\nBase\n+4\nInterés\n+5\nRacha\n+1\nVictoria\n+1"
+    },
+    {
+      "round": 6,
+      "objects": "Objetos\n4",
+      "reward": "Victoria · Ronda 6\n+14\nBase\n+5\nInterés\n+5\nRacha\n+3\nVictoria\n+1"
+    },
+    {
+      "round": 9,
+      "objects": "Objetos\n6",
+      "reward": "Derrota · Ronda 9\n+11\nBase\n+5\nInterés\n+5\nRacha\n+1\nVictoria\n+0"
+    }
+  ],
+  "errors": []
+}

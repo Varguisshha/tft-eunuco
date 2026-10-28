@@ -1,0 +1,610 @@
+[
+  {
+    "version": 2,
+    "id": "dolea",
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "dolea:star1:attack",
+          "url": "/sprites/dolea/star1/attack.png",
+          "frameWidth": 128,
+          "frameHeight": 128,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 64, "y": 106 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE.png",
+              "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 2.png",
+              "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 3.png",
+              "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 4.png",
+              "sha256": "7bd786a0894ada0c56327da8f3a28d1eec45a1b7c24d6ec0b96d6e07880cf305"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 5.png",
+              "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 6.png",
+              "sha256": "96614ead8f4898585d02e6435495cb4dd2015f9aded6503eee407b3de795bc49"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 7.png",
+              "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 1 ATAQUE 8.png",
+              "sha256": "3cc06ba0387f0ac67619dfaba74ab902a21e34f3aad09da8e1ba2a329b199c86"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "dolea:star2:attack",
+          "url": "/sprites/dolea/star2/attack.png",
+          "frameWidth": 112,
+          "frameHeight": 128,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 56, "y": 107 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE .png",
+              "sha256": "114a91704b075c823290f28e87c01f661bb3589c951171bfc4ab3366504f7c76"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 2.png",
+              "sha256": "227a4bdfebfb245602fba0742d8fb7181fa91a483ea4f0c361d984e53628264c"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 3.png",
+              "sha256": "87d020b11a4421b2ec608f9852e30b75f07cd488260d8e39c87457c2bace43f4"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 4.png",
+              "sha256": "924f20164eae9960a4dfccf84d3abb5e6b93e15dda627d6ba30c6ac302a48d84"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 5.png",
+              "sha256": "d88cb150427e029691c3b0d5d05dd8618a5dca3cfc03df1892fb92e366463b33"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 6.png",
+              "sha256": "6b369b895fd705aedc009ebe5283b5389b8cd1d661392cce4ffa90341ef07f60"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 7.png",
+              "sha256": "3a4b96832df5dcd68a2378e63ee10204c40729299112bf475bf7c28cd0fda699"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 8.png",
+              "sha256": "c379ef93803d4693c5211178301640dd34ea538bb662f334023316a4849686cb"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    }
+  },
+  {
+    "version": 2,
+    "id": "vargas",
+    "provenance": {
+      "characterId": "vargas",
+      "sourceStarLevel": 2,
+      "nativeAppearance": "star2",
+      "pending": ["idle", "walk", "ability", "death"]
+    },
+    "fallbacks": { "star1": [2], "star2": [], "star3": [2] },
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "vargas:star2:attack",
+          "url": "/sprites/vargas/star2/attack.png",
+          "frameWidth": 144,
+          "frameHeight": 128,
+          "frameCount": 5,
+          "frames": [0, 1, 2, 3, 4],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 111 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 3,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/vargas/star2/attack/frame-1.png",
+              "sha256": "dce4ecd65080deaa309dac3fb5f801b635736571ed10413457eaaa4c9097c24a"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-2.png",
+              "sha256": "21d9832ea7a888e30be1be3364395bd89e2ec2f8e179fed27c7e441c77eae567"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-3.png",
+              "sha256": "5f1a65f893b097da73f3c52b6d4c81c32ba0b1d205b2e1ed68d20a05319e60c7"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-4.png",
+              "sha256": "1b49f552a7b3e33dfaf60597341469ccabaac30db8b680d983fca57183152fa4"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-5.png",
+              "sha256": "6eefb2769842956c8b83545397baf81432c1ad2b1ff9eef00f1094c625aaf73b"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    }
+  },
+  {
+    "version": 2,
+    "id": "jaramillo",
+    "provenance": {
+      "characterId": "jaramillo",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["ability"]
+    },
+    "fallbacks": { "star1": [], "star2": [1], "star3": [1] },
+    "evolutions": {
+      "star1": {
+        "idle": {
+          "textureKey": "jaramillo:shared:idle",
+          "url": "/sprites/jaramillo/shared/idle.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": true,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 116 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_01.png",
+              "sha256": "585bec48bc2ec8637ddb3da0533fbbf8b7eb3078ffcc890c86e1bfd812c1d467"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_02.png",
+              "sha256": "be8d8cd5b3eb42bcb0fb99f11a163dc31bdb3bd136f5abe56fb1e177695c9046"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_03.png",
+              "sha256": "70ee8b7a9d00100506055dca2b80f28ad7d7e4e210105dd1034c8e6346a605a4"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/idle_04.png",
+              "sha256": "dfdd69b42c0f8363456b172b090fff20d7d8e9af3ec4cf4742f9f4f5c10555c8"
+            }
+          ]
+        },
+        "walk": {
+          "textureKey": "jaramillo:shared:walk",
+          "url": "/sprites/jaramillo/shared/walk.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": true,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 116 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_01.png",
+              "sha256": "af6b856c9abb3998de4c6fd76778dd8cdd9af314afa72d5cb44c8148cbd84a5b"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_02.png",
+              "sha256": "7d86b9e4a383df789efafa88d9079e14aee7be1ea075fe91515cb68219f7b752"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_03.png",
+              "sha256": "98b92d4e150bb2d3acb859a4ddf14977a3af09b4f88d35e84e015f4fa612de76"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/walk_04.png",
+              "sha256": "effa217d06499e20dae6f46f48d5c57183cce634b7421d966076bab2fc66947f"
+            }
+          ]
+        },
+        "attack": {
+          "textureKey": "jaramillo:shared:attack",
+          "url": "/sprites/jaramillo/shared/attack.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2],
+          "frameCount": 3,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 120 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 1,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-1.png",
+              "sha256": "646baf263db065f9def4950711a3edef49a81d07b4ac4b8a18818cc009f951f2"
+            },
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-2.png",
+              "sha256": "b5544cda90ee4060dc061c9c517847c7094a3fc41e1b71f48898ece5c03fa4a0"
+            },
+            {
+              "file": "Sprites/jaramillo/prepared-attack/frame-3.png",
+              "sha256": "2e738f8538f01bb3825ad408a51209b187e26a2d40ffa821817f0ddff14cd519"
+            }
+          ]
+        },
+        "ability": null,
+        "death": {
+          "textureKey": "jaramillo:shared:death",
+          "url": "/sprites/jaramillo/shared/death.png",
+          "frameWidth": 160,
+          "frameHeight": 128,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 72, "y": 116 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/jaramillo/original-frames/death_01.png",
+              "sha256": "6e1aac31413e6a87d7ccec471f36bf1ff1a3afd6d47fa6b4c57e2d63c451a4df"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_02.png",
+              "sha256": "016b6e378fcaf7980a865478c6b35575ebad8955c1b411099a5fec9978e10f8a"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_03.png",
+              "sha256": "1ec531ded55b160cd7b89dddd2ae359c82c4b7d2f6dc94826bdaa50fffe6876d"
+            },
+            {
+              "file": "Sprites/jaramillo/original-frames/death_04.png",
+              "sha256": "bbe1d633f86425b40a5e0a14550e6a1476195a009ea346e7ddd2a06255c6c30e"
+            }
+          ]
+        }
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    },
+    "composite": {
+      "version": 1,
+      "bodyAnimation": "attack",
+      "recoveryAnimation": {
+        "textureKey": "jaramillo:shared:recovery",
+        "url": "/sprites/jaramillo/shared/recovery.png",
+        "frameWidth": 160,
+        "frameHeight": 128,
+        "frames": [0],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.6666666666666666,
+        "foot": { "x": 72, "y": 116 },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_08.png",
+            "sha256": "c801379e750ce81067a00eaee5b830b4e001cd0d950e19727c81e197807f7baa"
+          }
+        ]
+      },
+      "projectileAnimation": {
+        "textureKey": "jaramillo:shared:projectile",
+        "url": "/sprites/jaramillo/shared/projectile.png",
+        "frameWidth": 128,
+        "frameHeight": 64,
+        "frames": [0, 1],
+        "frameCount": 2,
+        "fps": 12,
+        "loop": true,
+        "scale": 0.65,
+        "foot": { "x": 116, "y": 48 },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_05.png",
+            "sha256": "a23adc486f02d5941ce74ae257e7d96e2416ab350b2d2a7f48a27582ca8b1b4c"
+          },
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_06.png",
+            "sha256": "c8ab1fbe560c5fd4fabedba3f383d068c56d83b885391003e45515245d754e73"
+          }
+        ]
+      },
+      "impactAnimation": {
+        "textureKey": "jaramillo:shared:impact",
+        "url": "/sprites/jaramillo/shared/impact.png",
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frames": [0],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.65,
+        "foot": { "x": 72, "y": 90 },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_07.png",
+            "sha256": "4476a8b1d6976f97012656e8c0daf34447e5f7a1f060887794dcd0ea9f50c75f"
+          }
+        ]
+      },
+      "releaseMarker": 1,
+      "projectileOrigin": { "x": 20, "y": -43 },
+      "targetAnchor": { "x": 0, "y": -30 },
+      "visualTiming": { "recoveryMs": 160, "releaseMs": 80, "impactMs": 300 },
+      "fallbackPolicy": "body-only"
+    }
+  },
+  {
+    "version": 2,
+    "id": "florin",
+    "provenance": {
+      "characterId": "florin",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["idle", "walk", "ability", "death"]
+    },
+    "fallbackPresentation": {
+      "idle": "first_frame",
+      "walk": "first_frame",
+      "death": "first_frame",
+      "ability": "attack"
+    },
+    "fallbacks": { "star1": [], "star2": [], "star3": [] },
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "florin:star1:attack",
+          "url": "/sprites/florin/star1/attack.png",
+          "frameWidth": 192,
+          "frameHeight": 176,
+          "frameCount": 4,
+          "frames": [0, 1, 2, 3],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 96, "y": 160 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+              "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_2.png",
+              "sha256": "24c8c7aa8f425a3866450e1e491be96e2a32130a8708683c1318377c88500e67"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_3.png",
+              "sha256": "4cf0798c76bde7bc61f152f2ebf40904854f7063a09396a32faae87913a5d866"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+              "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "florin:star2:attack",
+          "url": "/sprites/florin/star2/attack.png",
+          "frameWidth": 192,
+          "frameHeight": 176,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 96, "y": 160 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+              "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_2.png",
+              "sha256": "e88b2bfb0a70af2da280428108c404a59ff04590b8949fa82ed7b4adeb506299"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_3.png",
+              "sha256": "49e3a0565ca3a065d11904d3194f013e497ac2fdd69da390ab1b940b9dae938f"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+              "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_5.png",
+              "sha256": "0995bce5807ed93d072acb15249d1d369afbfe78ec83c122c84df9e50ae9fbaf"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_6.png",
+              "sha256": "b7399837dc4e23b9cef2175dab7db2c19276fcc871a4687000e291e709192b91"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_7.png",
+              "sha256": "acce18f51ff8c025ff3c1debb54eeb35cb2e8a9ba573f7e623ae646a29b71fcb"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+              "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "florin:star3:attack",
+          "url": "/sprites/florin/star3/attack.png",
+          "frameWidth": 192,
+          "frameHeight": 176,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": { "x": 96, "y": 160 },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+              "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_2.png",
+              "sha256": "a12ed58a43c787ee3b13ab000010e7566d9f4d73fcf90d3d637e53180715bc22"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_3.png",
+              "sha256": "5fe26d2cd02af6567cf4d2617454195d7c59f7319f18ee5e23b7351abddf82a1"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_4.png",
+              "sha256": "217c73c7825dbf72577a6f2208a96441db5b3d0ef657e3fd402c7f1d4c36d21a"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_5.png",
+              "sha256": "0dd05b327932a2fbe0fafa8fab72559dc28ed11b9b5f9ab2fb3013e19e841a68"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_6.png",
+              "sha256": "057b57ed1268f0f39a0bb05fb6741e5d4db9774689a79ad0a777566a6a0d30d5"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_7.png",
+              "sha256": "c00d3079898d66932d269b8d91273cd6f4859977b6c4ee5410ace2a65d972b13"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+              "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      }
+    }
+  }
+]

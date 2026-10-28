@@ -1,0 +1,158 @@
+[
+  {
+    "palette": "royal-pop",
+    "view": "screen",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "7b6b1a954ca7080077ad9b6a134c7ef29ecbf7a657cca5c9e478c2fd551c664b",
+    "meanAbsoluteDifference": 0,
+    "maximumChannelDifference": 0
+  },
+  {
+    "palette": "royal-pop",
+    "view": "inspector",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  },
+  {
+    "palette": "neon-playground",
+    "view": "screen",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  },
+  {
+    "palette": "neon-playground",
+    "view": "inspector",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "7b6b1a954ca7080077ad9b6a134c7ef29ecbf7a657cca5c9e478c2fd551c664b",
+    "meanAbsoluteDifference": 0,
+    "maximumChannelDifference": 0
+  },
+  {
+    "palette": "tropical-party",
+    "view": "screen",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  },
+  {
+    "palette": "tropical-party",
+    "view": "inspector",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  },
+  {
+    "palette": "coastal-mint",
+    "view": "screen",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "7b6b1a954ca7080077ad9b6a134c7ef29ecbf7a657cca5c9e478c2fd551c664b",
+    "meanAbsoluteDifference": 0,
+    "maximumChannelDifference": 0
+  },
+  {
+    "palette": "coastal-mint",
+    "view": "inspector",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "7b6b1a954ca7080077ad9b6a134c7ef29ecbf7a657cca5c9e478c2fd551c664b",
+    "meanAbsoluteDifference": 0,
+    "maximumChannelDifference": 0
+  },
+  {
+    "palette": "soft-royal",
+    "view": "screen",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  },
+  {
+    "palette": "soft-royal",
+    "view": "inspector",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "7b6b1a954ca7080077ad9b6a134c7ef29ecbf7a657cca5c9e478c2fd551c664b",
+    "meanAbsoluteDifference": 0,
+    "maximumChannelDifference": 0
+  },
+  {
+    "palette": "warm-sand",
+    "view": "screen",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  },
+  {
+    "palette": "warm-sand",
+    "view": "inspector",
+    "region": {
+      "left": 300,
+      "top": 120,
+      "width": 200,
+      "height": 150
+    },
+    "sha256": "5dbafd019471998aa2db919a1e66fc299a6f516b297b9c7b9a4385a27141ea2a",
+    "meanAbsoluteDifference": 0.08897777777777778,
+    "maximumChannelDifference": 11
+  }
+]

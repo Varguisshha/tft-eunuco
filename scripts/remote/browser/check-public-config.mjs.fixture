@@ -1,0 +1,4 @@
+import {spawnSync} from 'node:child_process';import fs from 'node:fs';
+const cases=[{VITE_APP_ENV:'private'},{VITE_SUPABASE_PUBLISHABLE_KEY:'sb_secret_diagnostic_only'},{VITE_SERVICE_ROLE_KEY:'diagnostic-only'},{VITE_SUPABASE_PUBLISHABLE_KEY:'eyJ.'+Buffer.from(JSON.stringify({role:'service_role'})).toString('base64url')+'.diagnostic'}];
+const results=cases.map((env,i)=>{const r=spawnSync('pnpm',['--filter','@tft/web','exec','vite','build'],{env:{...process.env,...env},encoding:'utf8'});return{case:i+1,rejected:r.status!==0};});
+fs.writeFileSync('artifacts/p9a/public-config-negative.json',JSON.stringify(results,null,2));if(results.some(r=>!r.rejected))process.exitCode=1;console.log(JSON.stringify(results));

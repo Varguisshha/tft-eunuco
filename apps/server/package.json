@@ -1,0 +1,29 @@
+{
+  "name": "@tft/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "build": "esbuild src/main.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/main.js --alias:@tft/game-core=../../packages/game-core/src/index.ts --alias:@tft/game-data=../../packages/game-data/src/index.ts --alias:@tft/shared=../../packages/shared/src/index.ts",
+    "start": "node dist/main.js",
+    "preflight": "tsx src/remote/preflight.ts"
+  },
+  "dependencies": {
+    "@colyseus/core": "0.18.23",
+    "@colyseus/ws-transport": "0.18.4",
+    "@noble/hashes": "2.0.1",
+    "@supabase/supabase-js": "^2.118.0",
+    "@tft/game-core": "workspace:*",
+    "@tft/game-data": "workspace:*",
+    "@tft/shared": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@colyseus/sdk": "0.18.6",
+    "@types/pg": "^8.23.1",
+    "esbuild": "0.28.2",
+    "pg": "^8.23.1",
+    "tsx": "4.23.15"
+  }
+}

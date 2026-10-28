@@ -1,0 +1,54 @@
+[
+  {
+    "id": "dolea",
+    "source": "TFPeru/Dolea/Splash_art_Dolea.png",
+    "sha256": "2ae509d9fb81b40fd1db1abb7db5e4d2953bf333e3032d6a74f2580195dab488",
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "sourceBytes": 2032992,
+    "output": "apps/web/public/assets/splash/dolea.webp",
+    "width": 1280,
+    "height": 640,
+    "bytes": 126074,
+    "mapping": "Original named character folder"
+  },
+  {
+    "id": "vargas",
+    "source": "TFPeru/Vargas/Splash_art_Vargas.png",
+    "sha256": "417f8f55ee2ba1f81b6c331ddf9be4e234bdf4eb28644c000a6403ae657d330b",
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "sourceBytes": 2121004,
+    "output": "apps/web/public/assets/splash/vargas.webp",
+    "width": 1280,
+    "height": 640,
+    "bytes": 151176,
+    "mapping": "Original named character folder"
+  },
+  {
+    "id": "jaramillo",
+    "source": "TFPeru/Erik/Splash_art_Erik.png",
+    "sha256": "d4ea86145821fe4ffe7cf7c347a961118cecd8d5ac5dd8b516fa916feea67e25",
+    "sourceWidth": 1774,
+    "sourceHeight": 887,
+    "sourceBytes": 2364799,
+    "output": "apps/web/public/assets/splash/jaramillo.webp",
+    "width": 1280,
+    "height": 640,
+    "bytes": 165216,
+    "mapping": "Erik → JARAMILLO: explicitly confirmed by the owner in this chat on 2026-10-26."
+  },
+  {
+    "id": "florin",
+    "source": "TFPeru/Florin/Splash_art_Florin.png",
+    "sha256": "895d5dfbcb9d2c665f504c5daedc22ac5f1194568c27ec30eb1ea0f24ffc928c",
+    "sourceWidth": 1672,
+    "sourceHeight": 941,
+    "sourceBytes": 2298386,
+    "output": "apps/web/public/assets/splash/florin.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 212366,
+    "mapping": "Original named character folder"
+  }
+]

@@ -1,0 +1,1119 @@
+{
+  "matchId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270",
+  "revision": 49,
+  "serverTime": 2793.5195409999997,
+  "playerId": "00000000-0000-4000-8000-000000000001",
+  "clock": {
+    "rulesVersion": "f0p5-1",
+    "matchId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270",
+    "roundId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3",
+    "phaseId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/phase/9",
+    "phaseSequence": 9,
+    "transitionId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/transition/9",
+    "currentPhase": "resolution",
+    "phaseStart": 1043.6042099999938,
+    "phaseDeadline": 6043.604209999994,
+    "phaseDuration": 5000,
+    "remainingMs": 3250.6767939999936,
+    "clockState": "running"
+  },
+  "purchaseErrors": [
+    "wrong-phase",
+    "wrong-phase",
+    "wrong-phase",
+    "wrong-phase",
+    "wrong-phase"
+  ],
+  "combatId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/combat/0",
+  "settlementId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/settlement",
+  "version": "f0p7c3-1",
+  "own": {
+    "items": {
+      "version": 1,
+      "catalogVersion": "f0p8d-1",
+      "ownerId": "00000000-0000-4000-8000-000000000001",
+      "nextInstance": 7,
+      "components": [
+        {
+          "id": "00000000-0000-4000-8000-000000000001/item/4",
+          "ownerId": "00000000-0000-4000-8000-000000000001",
+          "definitionId": "component-ap",
+          "definitionVersion": 1,
+          "kind": "component",
+          "origin": {
+            "kind": "grant",
+            "grantId": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649"
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000001/item/5",
+          "ownerId": "00000000-0000-4000-8000-000000000001",
+          "definitionId": "component-armor",
+          "definitionVersion": 1,
+          "kind": "component",
+          "origin": {
+            "kind": "grant",
+            "grantId": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649"
+          }
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000001/item/6",
+          "ownerId": "00000000-0000-4000-8000-000000000001",
+          "definitionId": "component-ap",
+          "definitionVersion": 1,
+          "kind": "component",
+          "origin": {
+            "kind": "grant",
+            "grantId": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649"
+          }
+        }
+      ],
+      "completed": [],
+      "pending": [],
+      "retired": [],
+      "grants": [
+        {
+          "id": "p8c-effects",
+          "fingerprint": "[\"item-forge-ap--armor\",\"item-forge-armor--health\",\"item-forge-attack_speed--magic_resist\",\"item-forge-attack_speed--critical\"]",
+          "instances": [
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/0",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-ap--armor",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/1",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-armor--health",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/2",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-attack_speed--magic_resist",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/3",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-attack_speed--critical",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ]
+        },
+        {
+          "id": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649",
+          "fingerprint": "[\"component-ap\",\"component-armor\",\"component-ap\"]",
+          "instances": [
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/4",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "component-ap",
+              "definitionVersion": 1,
+              "kind": "component",
+              "origin": {
+                "kind": "grant",
+                "grantId": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/5",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "component-armor",
+              "definitionVersion": 1,
+              "kind": "component",
+              "origin": {
+                "kind": "grant",
+                "grantId": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/6",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "component-ap",
+              "definitionVersion": 1,
+              "kind": "component",
+              "origin": {
+                "kind": "grant",
+                "grantId": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649"
+              }
+            }
+          ]
+        }
+      ],
+      "crafts": [],
+      "distributions": [
+        {
+          "id": "85b4ce0f06ba0167cf674616d5069439a1bc2092bced5dd3011f2a9a76bc8649",
+          "round": 3,
+          "quantity": 3,
+          "seed": 0,
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000001/item/4",
+            "00000000-0000-4000-8000-000000000001/item/5",
+            "00000000-0000-4000-8000-000000000001/item/6"
+          ]
+        }
+      ]
+    },
+    "rulesVersion": "f0p3.1-1",
+    "config": {
+      "version": "f0p3.1-1",
+      "itemCatalog": "f0p8d-1",
+      "catalog": "f0p8d-florin-1",
+      "initialGold": 10,
+      "roundDamage": {
+        "initialHp": 100,
+        "roundsPerStage": 3,
+        "baseByStage": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "survivorByStars": [
+          1,
+          2,
+          3
+        ]
+      },
+      "goldCap": 999,
+      "initialLevel": 2,
+      "maxLevel": 7,
+      "benchSize": 9,
+      "shopSize": 5,
+      "rerollCost": 2,
+      "xpCost": 4,
+      "xpPurchase": 4,
+      "passiveXp": 2,
+      "baseIncome": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "victoryGold": 1,
+      "interestDivisor": 10,
+      "interestCap": 5,
+      "streaks": [
+        {
+          "from": 1,
+          "gold": 0
+        },
+        {
+          "from": 2,
+          "gold": 1
+        },
+        {
+          "from": 4,
+          "gold": 2
+        },
+        {
+          "from": 6,
+          "gold": 3
+        }
+      ],
+      "levels": [
+        {
+          "level": 2,
+          "xpToNext": 2,
+          "odds": [
+            80,
+            20,
+            0
+          ]
+        },
+        {
+          "level": 3,
+          "xpToNext": 6,
+          "odds": [
+            60,
+            35,
+            5
+          ]
+        },
+        {
+          "level": 4,
+          "xpToNext": 10,
+          "odds": [
+            40,
+            45,
+            15
+          ]
+        },
+        {
+          "level": 5,
+          "xpToNext": 20,
+          "odds": [
+            25,
+            45,
+            30
+          ]
+        },
+        {
+          "level": 6,
+          "xpToNext": 36,
+          "odds": [
+            15,
+            40,
+            45
+          ]
+        },
+        {
+          "level": 7,
+          "xpToNext": 0,
+          "odds": [
+            10,
+            30,
+            60
+          ]
+        }
+      ],
+      "copiesByCost": [
+        29,
+        22,
+        18
+      ],
+      "starCopies": [
+        1,
+        3,
+        9
+      ],
+      "statScaleMilli": [
+        1000,
+        1800,
+        3240
+      ],
+      "sellCopyMultipliers": [
+        1,
+        3,
+        9
+      ],
+      "opponents": [
+        {
+          "fromRound": 1,
+          "definitions": [
+            "test-v02"
+          ],
+          "stars": 1
+        },
+        {
+          "fromRound": 3,
+          "definitions": [
+            "test-k01",
+            "test-r03"
+          ],
+          "stars": 1
+        },
+        {
+          "fromRound": 5,
+          "definitions": [
+            "test-k01",
+            "test-v02",
+            "test-m04"
+          ],
+          "stars": 1
+        },
+        {
+          "fromRound": 8,
+          "definitions": [
+            "test-k01",
+            "test-v02",
+            "test-r03",
+            "test-m04"
+          ],
+          "stars": 2
+        },
+        {
+          "fromRound": 12,
+          "definitions": [
+            "test-k01",
+            "test-v02",
+            "test-r03",
+            "test-m04",
+            "test-r03"
+          ],
+          "stars": 2
+        }
+      ]
+    },
+    "revision": 11,
+    "nextActionSeq": 11,
+    "phase": "resolution",
+    "round": 3,
+    "gold": 21,
+    "level": 3,
+    "xp": 4,
+    "totalXp": 6,
+    "streak": 0,
+    "units": [
+      {
+        "progress": {
+          "version": 1,
+          "stacks": [
+            {
+              "id": "kilometros",
+              "count": 2,
+              "lastRound": 2
+            }
+          ]
+        },
+        "equipment": [
+          {
+            "id": "00000000-0000-4000-8000-000000000001/item/0",
+            "ownerId": "00000000-0000-4000-8000-000000000001",
+            "definitionId": "item-forge-ap--armor",
+            "definitionVersion": 1,
+            "kind": "completed",
+            "origin": {
+              "kind": "grant",
+              "grantId": "p8c-effects"
+            }
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000001/item/1",
+            "ownerId": "00000000-0000-4000-8000-000000000001",
+            "definitionId": "item-forge-armor--health",
+            "definitionVersion": 1,
+            "kind": "completed",
+            "origin": {
+              "kind": "grant",
+              "grantId": "p8c-effects"
+            }
+          }
+        ],
+        "id": "00000000-0000-4000-8000-000000000001-fixture-0",
+        "definitionId": "jaramillo",
+        "stars": 1,
+        "location": {
+          "kind": "board",
+          "hex": {
+            "q": 0,
+            "r": 4
+          }
+        }
+      },
+      {
+        "equipment": [
+          {
+            "id": "00000000-0000-4000-8000-000000000001/item/2",
+            "ownerId": "00000000-0000-4000-8000-000000000001",
+            "definitionId": "item-forge-attack_speed--magic_resist",
+            "definitionVersion": 1,
+            "kind": "completed",
+            "origin": {
+              "kind": "grant",
+              "grantId": "p8c-effects"
+            }
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000001/item/3",
+            "ownerId": "00000000-0000-4000-8000-000000000001",
+            "definitionId": "item-forge-attack_speed--critical",
+            "definitionVersion": 1,
+            "kind": "completed",
+            "origin": {
+              "kind": "grant",
+              "grantId": "p8c-effects"
+            }
+          }
+        ],
+        "id": "00000000-0000-4000-8000-000000000001-unit-10",
+        "definitionId": "florin",
+        "stars": 1,
+        "location": {
+          "kind": "board",
+          "hex": {
+            "q": 1,
+            "r": 4
+          }
+        }
+      }
+    ],
+    "shop": [
+      {
+        "id": "00000000-0000-4000-8000-000000000001-offer-16",
+        "definitionId": "test-k01"
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000001-offer-17",
+        "definitionId": "test-k01"
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000001-offer-18",
+        "definitionId": "test-k01"
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000001-offer-19",
+        "definitionId": "test-k01"
+      },
+      {
+        "id": "00000000-0000-4000-8000-000000000001-offer-20",
+        "definitionId": "test-v02"
+      }
+    ],
+    "shopLocked": false,
+    "ledger": [
+      {
+        "seq": 0,
+        "round": 1,
+        "reason": "initial",
+        "requested": 10,
+        "delta": 10,
+        "balance": 10,
+        "reference": "initial"
+      },
+      {
+        "seq": 1,
+        "round": 1,
+        "reason": "buy",
+        "requested": -3,
+        "delta": -3,
+        "balance": 7,
+        "reference": "integration-florin-0"
+      },
+      {
+        "seq": 2,
+        "round": 1,
+        "reason": "base",
+        "requested": 2,
+        "delta": 2,
+        "balance": 9,
+        "reference": "round-1"
+      },
+      {
+        "seq": 3,
+        "round": 1,
+        "reason": "interest",
+        "requested": 0,
+        "delta": 0,
+        "balance": 9,
+        "reference": "round-1"
+      },
+      {
+        "seq": 4,
+        "round": 1,
+        "reason": "victory",
+        "requested": 1,
+        "delta": 1,
+        "balance": 10,
+        "reference": "round-1"
+      },
+      {
+        "seq": 5,
+        "round": 1,
+        "reason": "streak",
+        "requested": 0,
+        "delta": 0,
+        "balance": 10,
+        "reference": "round-1"
+      },
+      {
+        "seq": 6,
+        "round": 2,
+        "reason": "base",
+        "requested": 3,
+        "delta": 3,
+        "balance": 13,
+        "reference": "round-2"
+      },
+      {
+        "seq": 7,
+        "round": 2,
+        "reason": "interest",
+        "requested": 1,
+        "delta": 1,
+        "balance": 14,
+        "reference": "round-2"
+      },
+      {
+        "seq": 8,
+        "round": 2,
+        "reason": "victory",
+        "requested": 1,
+        "delta": 1,
+        "balance": 15,
+        "reference": "round-2"
+      },
+      {
+        "seq": 9,
+        "round": 2,
+        "reason": "streak",
+        "requested": 1,
+        "delta": 1,
+        "balance": 16,
+        "reference": "round-2"
+      },
+      {
+        "seq": 10,
+        "round": 3,
+        "reason": "base",
+        "requested": 4,
+        "delta": 4,
+        "balance": 20,
+        "reference": "round-3"
+      },
+      {
+        "seq": 11,
+        "round": 3,
+        "reason": "interest",
+        "requested": 1,
+        "delta": 1,
+        "balance": 21,
+        "reference": "round-3"
+      },
+      {
+        "seq": 12,
+        "round": 3,
+        "reason": "victory",
+        "requested": 0,
+        "delta": 0,
+        "balance": 21,
+        "reference": "round-3"
+      },
+      {
+        "seq": 13,
+        "round": 3,
+        "reason": "streak",
+        "requested": 0,
+        "delta": 0,
+        "balance": 21,
+        "reference": "round-3"
+      }
+    ],
+    "lastReward": {
+      "round": 3,
+      "outcome": "double_loss",
+      "bank": 16,
+      "base": 4,
+      "interest": 1,
+      "victory": 0,
+      "streak": 0,
+      "total": 5,
+      "credited": 5,
+      "overflow": 0,
+      "xp": 2
+    },
+    "lastUpgrades": [],
+    "hp": 98,
+    "healthLedger": [
+      {
+        "round": 1,
+        "side": "south",
+        "outcome": "win",
+        "base": 0,
+        "survivors": 0,
+        "requested": 0,
+        "applied": 0,
+        "hpBefore": 100,
+        "hpAfter": 100
+      },
+      {
+        "round": 2,
+        "side": "south",
+        "outcome": "win",
+        "base": 0,
+        "survivors": 0,
+        "requested": 0,
+        "applied": 0,
+        "hpBefore": 100,
+        "hpAfter": 100
+      },
+      {
+        "round": 3,
+        "side": "south",
+        "outcome": "loss",
+        "base": 2,
+        "survivors": 0,
+        "requested": 2,
+        "applied": 2,
+        "hpBefore": 100,
+        "hpAfter": 98
+      }
+    ]
+  },
+  "players": [
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "name": "Vargas",
+      "connected": true,
+      "hp": 98,
+      "level": 3,
+      "formation": [
+        {
+          "progress": {
+            "version": 1,
+            "stacks": [
+              {
+                "id": "kilometros",
+                "count": 2,
+                "lastRound": 2
+              }
+            ]
+          },
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/0",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-ap--armor",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/1",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-armor--health",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000001-fixture-0",
+          "definitionId": "jaramillo",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 0,
+              "r": 4
+            }
+          }
+        },
+        {
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/2",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-attack_speed--magic_resist",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000001/item/3",
+              "ownerId": "00000000-0000-4000-8000-000000000001",
+              "definitionId": "item-forge-attack_speed--critical",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000001-unit-10",
+          "definitionId": "florin",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 1,
+              "r": 4
+            }
+          }
+        }
+      ],
+      "userId": "00000000-0000-4000-8000-000000000001",
+      "avatarId": "jade",
+      "eliminated": false,
+      "opponentId": "00000000-0000-4000-8000-000000000003",
+      "status": "waiting",
+      "provisionalPosition": 1,
+      "lastOutcome": "double_loss",
+      "competitiveState": "alive",
+      "eliminatedRound": null,
+      "finalPosition": null,
+      "hpBeforeElimination": null,
+      "eliminationDamage": null,
+      "spectating": false
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "name": "Nora",
+      "connected": false,
+      "hp": 98,
+      "level": 3,
+      "formation": [
+        {
+          "progress": {
+            "version": 1,
+            "stacks": [
+              {
+                "id": "kilometros",
+                "count": 2,
+                "lastRound": 2
+              }
+            ]
+          },
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000003/item/0",
+              "ownerId": "00000000-0000-4000-8000-000000000003",
+              "definitionId": "item-forge-ap--armor",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000003/item/1",
+              "ownerId": "00000000-0000-4000-8000-000000000003",
+              "definitionId": "item-forge-armor--health",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000003-fixture-0",
+          "definitionId": "jaramillo",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 0,
+              "r": 4
+            }
+          }
+        },
+        {
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000003/item/2",
+              "ownerId": "00000000-0000-4000-8000-000000000003",
+              "definitionId": "item-forge-attack_speed--magic_resist",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000003/item/3",
+              "ownerId": "00000000-0000-4000-8000-000000000003",
+              "definitionId": "item-forge-attack_speed--critical",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000003-unit-10",
+          "definitionId": "florin",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 1,
+              "r": 4
+            }
+          }
+        }
+      ],
+      "userId": "00000000-0000-4000-8000-000000000003",
+      "avatarId": "jade",
+      "eliminated": false,
+      "opponentId": "00000000-0000-4000-8000-000000000001",
+      "status": "waiting",
+      "provisionalPosition": 1,
+      "lastOutcome": "double_loss",
+      "competitiveState": "alive",
+      "eliminatedRound": null,
+      "finalPosition": null,
+      "hpBeforeElimination": null,
+      "eliminationDamage": null,
+      "spectating": false
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "name": "Alex",
+      "connected": false,
+      "hp": 94,
+      "level": 3,
+      "formation": [
+        {
+          "progress": {
+            "version": 1,
+            "stacks": [
+              {
+                "id": "kilometros",
+                "count": 1,
+                "lastRound": 3
+              }
+            ]
+          },
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004/item/0",
+              "ownerId": "00000000-0000-4000-8000-000000000004",
+              "definitionId": "item-forge-ap--armor",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000004/item/1",
+              "ownerId": "00000000-0000-4000-8000-000000000004",
+              "definitionId": "item-forge-armor--health",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000004-fixture-0",
+          "definitionId": "jaramillo",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 0,
+              "r": 4
+            }
+          }
+        },
+        {
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000004/item/2",
+              "ownerId": "00000000-0000-4000-8000-000000000004",
+              "definitionId": "item-forge-attack_speed--magic_resist",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000004/item/3",
+              "ownerId": "00000000-0000-4000-8000-000000000004",
+              "definitionId": "item-forge-attack_speed--critical",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000004-unit-10",
+          "definitionId": "florin",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 1,
+              "r": 4
+            }
+          }
+        }
+      ],
+      "userId": "00000000-0000-4000-8000-000000000004",
+      "avatarId": "jade",
+      "eliminated": false,
+      "opponentId": "00000000-0000-4000-8000-000000000002",
+      "status": "waiting",
+      "provisionalPosition": 3,
+      "lastOutcome": "win",
+      "competitiveState": "alive",
+      "eliminatedRound": null,
+      "finalPosition": null,
+      "hpBeforeElimination": null,
+      "eliminationDamage": null,
+      "spectating": false
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "name": "Florin",
+      "connected": false,
+      "hp": 91,
+      "level": 3,
+      "formation": [
+        {
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000002/item/0",
+              "ownerId": "00000000-0000-4000-8000-000000000002",
+              "definitionId": "item-forge-ap--armor",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000002/item/1",
+              "ownerId": "00000000-0000-4000-8000-000000000002",
+              "definitionId": "item-forge-armor--health",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000002-fixture-0",
+          "definitionId": "jaramillo",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 0,
+              "r": 4
+            }
+          }
+        },
+        {
+          "equipment": [
+            {
+              "id": "00000000-0000-4000-8000-000000000002/item/2",
+              "ownerId": "00000000-0000-4000-8000-000000000002",
+              "definitionId": "item-forge-attack_speed--magic_resist",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000002/item/3",
+              "ownerId": "00000000-0000-4000-8000-000000000002",
+              "definitionId": "item-forge-attack_speed--critical",
+              "definitionVersion": 1,
+              "kind": "completed",
+              "origin": {
+                "kind": "grant",
+                "grantId": "p8c-effects"
+              }
+            }
+          ],
+          "id": "00000000-0000-4000-8000-000000000002-unit-10",
+          "definitionId": "florin",
+          "stars": 1,
+          "location": {
+            "kind": "board",
+            "hex": {
+              "q": 1,
+              "r": 4
+            }
+          }
+        }
+      ],
+      "userId": "00000000-0000-4000-8000-000000000002",
+      "avatarId": "jade",
+      "eliminated": false,
+      "opponentId": "00000000-0000-4000-8000-000000000004",
+      "status": "waiting",
+      "provisionalPosition": 4,
+      "lastOutcome": "loss",
+      "competitiveState": "alive",
+      "eliminatedRound": null,
+      "finalPosition": null,
+      "hpBeforeElimination": null,
+      "eliminationDamage": null,
+      "spectating": false
+    }
+  ],
+  "pairings": [
+    {
+      "id": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/pair/0",
+      "round": 3,
+      "combatId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/combat/0",
+      "southPlayerId": "00000000-0000-4000-8000-000000000001",
+      "northPlayerId": "00000000-0000-4000-8000-000000000003",
+      "kind": "human",
+      "ghostOwnerId": null,
+      "ghostFacingId": null
+    },
+    {
+      "id": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/pair/1",
+      "round": 3,
+      "combatId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/combat/1",
+      "southPlayerId": "00000000-0000-4000-8000-000000000002",
+      "northPlayerId": "00000000-0000-4000-8000-000000000004",
+      "kind": "human",
+      "ghostOwnerId": null,
+      "ghostFacingId": null
+    }
+  ],
+  "results": [
+    {
+      "combatId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/combat/0",
+      "result": {
+        "outcome": "double_loss",
+        "winner": null,
+        "reason": "elimination",
+        "tick": 335
+      }
+    },
+    {
+      "combatId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/combat/1",
+      "result": {
+        "outcome": "win",
+        "winner": "north",
+        "reason": "elimination",
+        "tick": 232
+      }
+    }
+  ],
+  "ownSettlement": {
+    "id": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/settlement/00000000-0000-4000-8000-000000000001",
+    "playerId": "00000000-0000-4000-8000-000000000001",
+    "round": 3,
+    "combatId": "573a8bc7-9269-4fe3-aa72-9e82d5a95270/round/3/combat/0",
+    "outcome": "double_loss",
+    "damage": 2,
+    "gold": 5,
+    "xp": 2
+  },
+  "spectatingDuelId": null,
+  "finalResults": null
+}

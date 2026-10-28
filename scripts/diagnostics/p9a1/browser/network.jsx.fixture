@@ -1,0 +1,17 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {RemoteCoordinator} from '../../src/network/RemoteCoordinator';
+import {LocalSession} from '../../src/match/LocalSession';
+import {LocalGame} from '../../src/match/LocalGame';
+import '../../src/styles.css';
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-700.css';
+window.remote = await RemoteCoordinator.connect('join', window.DIAGNOSTIC_MATCH_ID, window.DIAGNOSTIC_TOKEN);
+window.remote.enableRecovery(() => window.DIAGNOSTIC_TOKEN);
+window.session = new LocalSession(window.remote.getMatch(), undefined, undefined, window.remote);
+createRoot(document.getElementById('root')).render(<LocalGame session={window.session} onNew={()=>{}} onReplace={()=>{}}/>);
+
+import '@fontsource/space-grotesk/latin-500.css';
+import '@fontsource/space-grotesk/latin-700.css';
+import '@fontsource/dm-sans/latin-500.css';
+import '@fontsource/dm-sans/latin-600.css';

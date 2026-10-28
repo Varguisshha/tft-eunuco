@@ -1,0 +1,37 @@
+[
+  {
+    "asset": "dolea-2.png",
+    "sha256": "813af31c9b4b726e6cbc60ce513f1b3efb95a37ac20e52500c47400fb70717f8",
+    "matchesPriorExploration": true
+  },
+  {
+    "asset": "dolea.png",
+    "sha256": "d02bc1c7121b1bf1ccea81ff99776ec9a3e2c88d47913371ca85b295d4433572",
+    "matchesPriorExploration": true
+  },
+  {
+    "asset": "k01.svg",
+    "sha256": "08011acbeef15bcfb308146d595abb33eccca362d1f697cf07feeeb0749c34ed",
+    "matchesPriorExploration": true
+  },
+  {
+    "asset": "mar-de-cristal.webp",
+    "sha256": "e6522b1b7cfe0bbd42d8a345e8748a1858c08d3032c5178f7a1d17af04746a87",
+    "matchesPriorExploration": true
+  },
+  {
+    "asset": "provenance.json",
+    "sha256": "d9f26cd8c89af07d11dbcf487fe6eeff72c9b20755b716394641208c3d9d37ae",
+    "matchesPriorExploration": true
+  },
+  {
+    "asset": "r03.svg",
+    "sha256": "64cbe63c3999c4c5f36cfec54ca0dc81a665a34c418ca542f928c29d30fe76fc",
+    "matchesPriorExploration": true
+  },
+  {
+    "asset": "vargas.png",
+    "sha256": "78669b3f0f80eacbfe1139d380a2264ebebb0be61d16e77b7765c7a3966a9d30",
+    "matchesPriorExploration": true
+  }
+]

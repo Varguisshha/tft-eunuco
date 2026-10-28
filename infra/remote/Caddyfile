@@ -1,0 +1,32 @@
+{
+	log default {
+		format filter {
+			wrap json
+			fields {
+				request delete
+				resp_headers delete
+			}
+		}
+	}
+}
+
+# Template only. Replace the reserved hostname after explicit deployment approval.
+# Caddy obtains TLS and redirects HTTP automatically for this exact host.
+game.example.invalid {
+	encode zstd gzip
+	header Strict-Transport-Security "max-age=86400"
+	request_body {
+		max_size 8KB
+	}
+	reverse_proxy 127.0.0.1:2567 {
+		header_up Host game.example.invalid
+		header_up X-Forwarded-Proto https
+		header_up X-Forwarded-Host game.example.invalid
+		header_up X-Forwarded-For 127.0.0.1
+		transport http {
+			dial_timeout 5s
+			response_header_timeout 15s
+		}
+	}
+	# No access log: WebSocket query strings can contain auth tokens.
+}

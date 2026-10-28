@@ -1,0 +1,7 @@
+{
+  "readiness": 200,
+  "unauthorizedStop": 403,
+  "foreignOrigin": 403,
+  "foreignIdentity": 401,
+  "localDatabase": "tft_local_f5971192b7b373aa"
+}

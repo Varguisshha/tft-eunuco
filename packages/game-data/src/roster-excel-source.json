@@ -1,0 +1,3851 @@
+{
+  "version": "f0p10a-excel-1",
+  "source": {
+    "originalPath": "/Users/vargas/Downloads/Copia de TFPeru.xlsx",
+    "copyPath": "TFPeru/Copia de TFPeru.xlsx",
+    "sha256": "101728c60d45312cd98776087ba17f3636e798ab2e0265ed0f65b26ece6791eb",
+    "sheets": [
+      {
+        "name": "Hoja1",
+        "rows": 1000,
+        "columns": 35
+      }
+    ]
+  },
+  "characters": [
+    {
+      "id": "dolea",
+      "sourceName": "Dolea",
+      "name": "DOLEA",
+      "headerCell": "B1",
+      "synergies": ["gym", "ruman_trinity", "upm", "hortaleza", "fantasy"]
+    },
+    {
+      "id": "vargas",
+      "sourceName": "Vargas",
+      "name": "VARGAS",
+      "headerCell": "C1",
+      "synergies": ["upm", "pardillo", "fantasy", "pancho", "valo", "el-depredador"]
+    },
+    {
+      "id": "florin",
+      "sourceName": "Florin",
+      "name": "FLORIN",
+      "headerCell": "D1",
+      "synergies": ["gym", "ruman_trinity", "perdidos_por_el_mundo", "mano_de_obra"]
+    },
+    {
+      "id": "jaramillo",
+      "sourceName": "Erik",
+      "name": "JARAMILLO",
+      "headerCell": "E1",
+      "synergies": ["fumon", "upm", "hortaleza", "perdidos_por_el_mundo", "pancho", "valo", "psoe"]
+    },
+    {
+      "id": "cosmin",
+      "sourceName": "Cosmin",
+      "name": "Cosmin",
+      "headerCell": "F1",
+      "synergies": ["fumon", "ruman_trinity", "hortaleza", "fantasy"]
+    },
+    {
+      "id": "agus",
+      "sourceName": "Agus",
+      "name": "Agus",
+      "headerCell": "G1",
+      "synergies": ["fumon", "gym", "upm", "rata", "fantasy", "perdidos_por_el_mundo", "valo"]
+    },
+    {
+      "id": "alfredo-pocho",
+      "sourceName": "Alfredo Pocho",
+      "name": "Alfredo Pocho",
+      "headerCell": "H1",
+      "synergies": ["fumon", "upm", "hortaleza", "rata", "psoe"]
+    },
+    {
+      "id": "peibol",
+      "sourceName": "Peibol",
+      "name": "Peibol",
+      "headerCell": "I1",
+      "synergies": [
+        "gym",
+        "upm",
+        "rata",
+        "fantasy",
+        "perdidos_por_el_mundo",
+        "valo",
+        "lenceria",
+        "jew"
+      ]
+    },
+    {
+      "id": "emanuel",
+      "sourceName": "Emanuel",
+      "name": "Emanuel",
+      "headerCell": "J1",
+      "synergies": ["gym", "hortaleza", "rata", "fantasy", "pancho", "psoe"]
+    },
+    {
+      "id": "pablo",
+      "sourceName": "Pablo",
+      "name": "Pablo",
+      "headerCell": "K1",
+      "synergies": ["fumon", "fantasy", "perdidos_por_el_mundo", "lenceria"]
+    },
+    {
+      "id": "manuel",
+      "sourceName": "Manuel",
+      "name": "Manuel",
+      "headerCell": "L1",
+      "synergies": ["fumon", "hortaleza", "pancho"]
+    },
+    {
+      "id": "henller",
+      "sourceName": "Henller",
+      "name": "Henller",
+      "headerCell": "M1",
+      "synergies": ["hortaleza", "pancho", "valo"]
+    },
+    {
+      "id": "cayetana",
+      "sourceName": "Cayetana",
+      "name": "Cayetana",
+      "headerCell": "N1",
+      "synergies": ["perdidos_por_el_mundo", "valo", "psoe"]
+    },
+    {
+      "id": "alex",
+      "sourceName": "Alex",
+      "name": "Alex",
+      "headerCell": "O1",
+      "synergies": ["fumon", "hortaleza"]
+    },
+    {
+      "id": "alvaro",
+      "sourceName": "Alvaro",
+      "name": "Alvaro",
+      "headerCell": "P1",
+      "synergies": ["hortaleza", "valo"]
+    },
+    {
+      "id": "danigm",
+      "sourceName": "DaniGM",
+      "name": "DaniGM",
+      "headerCell": "Q1",
+      "synergies": ["fumon", "hortaleza", "fantasy", "valo", "psoe", "todo-al-rojo"]
+    },
+    {
+      "id": "titi",
+      "sourceName": "Titi",
+      "name": "Titi",
+      "headerCell": "R1",
+      "synergies": ["fumon", "gym", "hortaleza", "fantasy", "pancho", "valo"]
+    },
+    {
+      "id": "alfredo",
+      "sourceName": "Alfredo",
+      "name": "Alfredo",
+      "headerCell": "S1",
+      "synergies": ["fumon", "hortaleza"]
+    },
+    {
+      "id": "elena",
+      "sourceName": "Elena",
+      "name": "Elena",
+      "headerCell": "T1",
+      "synergies": ["perdidos_por_el_mundo", "pancho", "valo"]
+    },
+    {
+      "id": "jd",
+      "sourceName": "JD",
+      "name": "JD",
+      "headerCell": "U1",
+      "synergies": ["upm", "perdidos_por_el_mundo", "pancho"]
+    },
+    {
+      "id": "isaac",
+      "sourceName": "Isaac",
+      "name": "Isaac",
+      "headerCell": "V1",
+      "synergies": ["gym", "pancho"]
+    },
+    {
+      "id": "carlos-castillo",
+      "sourceName": "Carlos Castillo",
+      "name": "Carlos Castillo",
+      "headerCell": "W1",
+      "synergies": ["upm", "shisheros"]
+    },
+    {
+      "id": "jota",
+      "sourceName": "Jota",
+      "name": "Jota",
+      "headerCell": "X1",
+      "synergies": ["upm", "shisheros"]
+    },
+    {
+      "id": "rachel",
+      "sourceName": "Rachel",
+      "name": "Rachel",
+      "headerCell": "Y1",
+      "synergies": ["upm", "psoe"]
+    },
+    {
+      "id": "edu",
+      "sourceName": "Edu",
+      "name": "Edu",
+      "headerCell": "Z1",
+      "synergies": ["upm", "rata", "perdidos_por_el_mundo", "psoe"]
+    },
+    {
+      "id": "sanchez",
+      "sourceName": "Sanchez",
+      "name": "Sanchez",
+      "headerCell": "AA1",
+      "synergies": ["upm", "pardillo"]
+    },
+    {
+      "id": "focho",
+      "sourceName": "Focho",
+      "name": "Focho",
+      "headerCell": "AB1",
+      "synergies": ["pardillo", "blackhaus", "shisheros"]
+    },
+    {
+      "id": "ruben",
+      "sourceName": "Ruben",
+      "name": "Ruben",
+      "headerCell": "AC1",
+      "synergies": ["fumon", "gym", "upm", "pardillo", "valo", "blackhaus", "shisheros"]
+    },
+    {
+      "id": "puto-alex",
+      "sourceName": "Puto Alex",
+      "name": "Puto Alex",
+      "headerCell": "AD1",
+      "synergies": ["pardillo", "rata", "blackhaus", "shisheros"]
+    },
+    {
+      "id": "jaime",
+      "sourceName": "Jaime",
+      "name": "Jaime",
+      "headerCell": "AE1",
+      "synergies": ["fumon", "gym", "pardillo", "blackhaus", "shisheros"]
+    },
+    {
+      "id": "dani-silvestre",
+      "sourceName": "Dani Silvestre",
+      "name": "Dani Silvestre",
+      "headerCell": "AF1",
+      "synergies": ["fumon", "pardillo", "blackhaus"]
+    },
+    {
+      "id": "miramon",
+      "sourceName": "Miramon",
+      "name": "Miramon",
+      "headerCell": "AG1",
+      "synergies": ["pardillo", "blackhaus", "shisheros"]
+    },
+    {
+      "id": "diego-lopez",
+      "sourceName": "Diego Lopez",
+      "name": "Diego Lopez",
+      "headerCell": "AH1",
+      "synergies": ["pardillo", "blackhaus", "shisheros"]
+    },
+    {
+      "id": "domingo",
+      "sourceName": "Domingo",
+      "name": "Domingo",
+      "headerCell": "AI1",
+      "synergies": ["pardillo", "shisheros"]
+    }
+  ],
+  "collectives": [
+    {
+      "id": "fumon",
+      "name": "Fumón",
+      "cell": "A3",
+      "members": [
+        "jaramillo",
+        "cosmin",
+        "agus",
+        "alfredo-pocho",
+        "pablo",
+        "manuel",
+        "alex",
+        "danigm",
+        "titi",
+        "alfredo",
+        "ruben",
+        "jaime",
+        "dani-silvestre"
+      ]
+    },
+    {
+      "id": "gym",
+      "name": "Gym",
+      "cell": "A4",
+      "members": ["dolea", "florin", "agus", "peibol", "emanuel", "titi", "isaac", "ruben", "jaime"]
+    },
+    {
+      "id": "ruman_trinity",
+      "name": "Ruman Trinity",
+      "cell": "A5",
+      "members": ["dolea", "florin", "cosmin"]
+    },
+    {
+      "id": "upm",
+      "name": "UPM",
+      "cell": "A6",
+      "members": [
+        "dolea",
+        "vargas",
+        "jaramillo",
+        "agus",
+        "alfredo-pocho",
+        "peibol",
+        "jd",
+        "carlos-castillo",
+        "jota",
+        "rachel",
+        "edu",
+        "sanchez",
+        "ruben"
+      ]
+    },
+    {
+      "id": "pardillo",
+      "name": "Pardillo",
+      "cell": "A7",
+      "members": [
+        "vargas",
+        "sanchez",
+        "focho",
+        "ruben",
+        "puto-alex",
+        "jaime",
+        "dani-silvestre",
+        "miramon",
+        "diego-lopez",
+        "domingo"
+      ]
+    },
+    {
+      "id": "hortaleza",
+      "name": "Hortaleza",
+      "cell": "A8",
+      "members": [
+        "dolea",
+        "jaramillo",
+        "cosmin",
+        "alfredo-pocho",
+        "emanuel",
+        "manuel",
+        "henller",
+        "alex",
+        "alvaro",
+        "danigm",
+        "titi",
+        "alfredo"
+      ]
+    },
+    {
+      "id": "rata",
+      "name": "Rata",
+      "cell": "A9",
+      "members": ["agus", "alfredo-pocho", "peibol", "emanuel", "edu", "puto-alex"]
+    },
+    {
+      "id": "fantasy",
+      "name": "Fantasy",
+      "cell": "A10",
+      "members": [
+        "dolea",
+        "vargas",
+        "cosmin",
+        "agus",
+        "peibol",
+        "emanuel",
+        "pablo",
+        "danigm",
+        "titi"
+      ]
+    },
+    {
+      "id": "perdidos_por_el_mundo",
+      "name": "Perdidos por el mundo",
+      "cell": "A11",
+      "members": [
+        "florin",
+        "jaramillo",
+        "agus",
+        "peibol",
+        "pablo",
+        "cayetana",
+        "elena",
+        "jd",
+        "edu"
+      ]
+    },
+    {
+      "id": "pancho",
+      "name": "Pancho",
+      "cell": "A12",
+      "members": [
+        "vargas",
+        "jaramillo",
+        "emanuel",
+        "manuel",
+        "henller",
+        "titi",
+        "elena",
+        "jd",
+        "isaac"
+      ]
+    },
+    {
+      "id": "valo",
+      "name": "Valo",
+      "cell": "A13",
+      "members": [
+        "vargas",
+        "jaramillo",
+        "agus",
+        "peibol",
+        "henller",
+        "cayetana",
+        "alvaro",
+        "danigm",
+        "titi",
+        "elena",
+        "ruben"
+      ]
+    },
+    {
+      "id": "blackhaus",
+      "name": "BlackHaus",
+      "cell": "A14",
+      "members": [
+        "focho",
+        "ruben",
+        "puto-alex",
+        "jaime",
+        "dani-silvestre",
+        "miramon",
+        "diego-lopez"
+      ]
+    },
+    {
+      "id": "shisheros",
+      "name": "Shisheros",
+      "cell": "A15",
+      "members": [
+        "carlos-castillo",
+        "jota",
+        "focho",
+        "ruben",
+        "puto-alex",
+        "jaime",
+        "miramon",
+        "diego-lopez",
+        "domingo"
+      ]
+    },
+    {
+      "id": "mus",
+      "name": "Mus",
+      "cell": "A16",
+      "members": []
+    },
+    {
+      "id": "psoe",
+      "name": "PSOE",
+      "cell": "A17",
+      "members": ["jaramillo", "alfredo-pocho", "emanuel", "cayetana", "danigm", "rachel", "edu"]
+    },
+    {
+      "id": "lenceria",
+      "name": "Lenceria",
+      "cell": "A18",
+      "members": ["peibol", "pablo"]
+    }
+  ],
+  "uniques": [
+    {
+      "id": "jew",
+      "name": "Jew",
+      "sourceName": "Jew",
+      "ownerId": "peibol",
+      "cell": "A27"
+    },
+    {
+      "id": "el-depredador",
+      "name": "El Depredador",
+      "sourceName": "Depredador",
+      "ownerId": "vargas",
+      "cell": "A28"
+    },
+    {
+      "id": "mano_de_obra",
+      "name": "Mano de Obra",
+      "sourceName": "Mano de obra",
+      "ownerId": "florin",
+      "cell": "A29"
+    },
+    {
+      "id": "todo-al-rojo",
+      "name": "Todo al rojo",
+      "sourceName": "Todo al rojo",
+      "ownerId": "danigm",
+      "cell": "A30"
+    }
+  ],
+  "matrix": [
+    {
+      "traitId": "fumon",
+      "cells": [
+        {
+          "cell": "B3",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C3",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D3",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I3",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J3",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M3",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N3",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P3",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T3",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U3",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V3",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W3",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X3",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y3",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z3",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA3",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB3",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD3",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF3",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG3",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH3",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI3",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "gym",
+      "cells": [
+        {
+          "cell": "B4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C4",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E4",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F4",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H4",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K4",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L4",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M4",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N4",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O4",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P4",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q4",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S4",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T4",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U4",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W4",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X4",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y4",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z4",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA4",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB4",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD4",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE4",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF4",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG4",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH4",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI4",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "ruman_trinity",
+      "cells": [
+        {
+          "cell": "B5",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C5",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D5",
+          "raw": "Si",
+          "member": true,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E5",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F5",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G5",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H5",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I5",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J5",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K5",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L5",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M5",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N5",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O5",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P5",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q5",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R5",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S5",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T5",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U5",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V5",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W5",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X5",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y5",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z5",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA5",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB5",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC5",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD5",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE5",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF5",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG5",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH5",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI5",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "upm",
+      "cells": [
+        {
+          "cell": "B6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D6",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F6",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J6",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K6",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L6",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M6",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N6",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O6",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P6",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q6",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R6",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S6",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T6",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V6",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB6",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC6",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD6",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE6",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF6",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG6",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH6",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI6",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "pardillo",
+      "cells": [
+        {
+          "cell": "B7",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D7",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E7",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F7",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G7",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H7",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I7",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J7",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K7",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L7",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M7",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N7",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O7",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P7",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q7",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R7",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S7",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T7",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U7",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V7",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W7",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X7",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y7",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z7",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI7",
+          "raw": "Si",
+          "member": true,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "hortaleza",
+      "cells": [
+        {
+          "cell": "B8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C8",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D8",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G8",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I8",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K8",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N8",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S8",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T8",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U8",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V8",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W8",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X8",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y8",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z8",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA8",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB8",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC8",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD8",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE8",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF8",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG8",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH8",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI8",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "rata",
+      "cells": [
+        {
+          "cell": "B9",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C9",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D9",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E9",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F9",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G9",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H9",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I9",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J9",
+          "raw": "Si",
+          "member": true,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K9",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L9",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M9",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N9",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O9",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P9",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q9",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R9",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S9",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T9",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U9",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V9",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W9",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X9",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y9",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z9",
+          "raw": "Si",
+          "member": true,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA9",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB9",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC9",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD9",
+          "raw": "Si",
+          "member": true,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE9",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF9",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG9",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH9",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI9",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "fantasy",
+      "cells": [
+        {
+          "cell": "B10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D10",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E10",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H10",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L10",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M10",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N10",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O10",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P10",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R10",
+          "raw": "Si",
+          "member": true,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S10",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T10",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U10",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V10",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W10",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X10",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y10",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z10",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA10",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB10",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC10",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD10",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE10",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF10",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG10",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH10",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI10",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "perdidos_por_el_mundo",
+      "cells": [
+        {
+          "cell": "B11",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C11",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F11",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H11",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J11",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L11",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M11",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O11",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P11",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q11",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R11",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S11",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V11",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W11",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X11",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y11",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z11",
+          "raw": "Si",
+          "member": true,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA11",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB11",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC11",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD11",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE11",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF11",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG11",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH11",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI11",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "pancho",
+      "cells": [
+        {
+          "cell": "B12",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D12",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F12",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G12",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H12",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I12",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K12",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N12",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O12",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P12",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q12",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S12",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V12",
+          "raw": "Si",
+          "member": true,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W12",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X12",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y12",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z12",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA12",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB12",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC12",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD12",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE12",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF12",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG12",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH12",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI12",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "valo",
+      "cells": [
+        {
+          "cell": "B13",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D13",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F13",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H13",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J13",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K13",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L13",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O13",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S13",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U13",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V13",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W13",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X13",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y13",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z13",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA13",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB13",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC13",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD13",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE13",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF13",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG13",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH13",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI13",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "blackhaus",
+      "cells": [
+        {
+          "cell": "B14",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C14",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D14",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E14",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F14",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G14",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H14",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I14",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J14",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K14",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L14",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M14",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N14",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O14",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P14",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q14",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R14",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S14",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T14",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U14",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V14",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W14",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X14",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y14",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z14",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA14",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH14",
+          "raw": "Si",
+          "member": true,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI14",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "shisheros",
+      "cells": [
+        {
+          "cell": "B15",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C15",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D15",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E15",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F15",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G15",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H15",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I15",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J15",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K15",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L15",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M15",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N15",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O15",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P15",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q15",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R15",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S15",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T15",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U15",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V15",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y15",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z15",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA15",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF15",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI15",
+          "raw": "Si",
+          "member": true,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "mus",
+      "cells": [
+        {
+          "cell": "B16",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C16",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D16",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E16",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F16",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G16",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H16",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I16",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J16",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K16",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L16",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M16",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N16",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O16",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P16",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q16",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R16",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S16",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T16",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U16",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V16",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W16",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X16",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y16",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z16",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA16",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB16",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC16",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD16",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE16",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF16",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG16",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH16",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI16",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "psoe",
+      "cells": [
+        {
+          "cell": "B17",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C17",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D17",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F17",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G17",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I17",
+          "raw": "No",
+          "member": false,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K17",
+          "raw": "No",
+          "member": false,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L17",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M17",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O17",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P17",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R17",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S17",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T17",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U17",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V17",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W17",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X17",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z17",
+          "raw": "Si",
+          "member": true,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA17",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB17",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC17",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD17",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE17",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF17",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG17",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH17",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI17",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    },
+    {
+      "traitId": "lenceria",
+      "cells": [
+        {
+          "cell": "B18",
+          "raw": "No",
+          "member": false,
+          "characterId": "dolea"
+        },
+        {
+          "cell": "C18",
+          "raw": "No",
+          "member": false,
+          "characterId": "vargas"
+        },
+        {
+          "cell": "D18",
+          "raw": "No",
+          "member": false,
+          "characterId": "florin"
+        },
+        {
+          "cell": "E18",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaramillo"
+        },
+        {
+          "cell": "F18",
+          "raw": "No",
+          "member": false,
+          "characterId": "cosmin"
+        },
+        {
+          "cell": "G18",
+          "raw": "No",
+          "member": false,
+          "characterId": "agus"
+        },
+        {
+          "cell": "H18",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo-pocho"
+        },
+        {
+          "cell": "I18",
+          "raw": "Si",
+          "member": true,
+          "characterId": "peibol"
+        },
+        {
+          "cell": "J18",
+          "raw": "No",
+          "member": false,
+          "characterId": "emanuel"
+        },
+        {
+          "cell": "K18",
+          "raw": "Si",
+          "member": true,
+          "characterId": "pablo"
+        },
+        {
+          "cell": "L18",
+          "raw": "No",
+          "member": false,
+          "characterId": "manuel"
+        },
+        {
+          "cell": "M18",
+          "raw": "No",
+          "member": false,
+          "characterId": "henller"
+        },
+        {
+          "cell": "N18",
+          "raw": "No",
+          "member": false,
+          "characterId": "cayetana"
+        },
+        {
+          "cell": "O18",
+          "raw": "No",
+          "member": false,
+          "characterId": "alex"
+        },
+        {
+          "cell": "P18",
+          "raw": "No",
+          "member": false,
+          "characterId": "alvaro"
+        },
+        {
+          "cell": "Q18",
+          "raw": "No",
+          "member": false,
+          "characterId": "danigm"
+        },
+        {
+          "cell": "R18",
+          "raw": "No",
+          "member": false,
+          "characterId": "titi"
+        },
+        {
+          "cell": "S18",
+          "raw": "No",
+          "member": false,
+          "characterId": "alfredo"
+        },
+        {
+          "cell": "T18",
+          "raw": "No",
+          "member": false,
+          "characterId": "elena"
+        },
+        {
+          "cell": "U18",
+          "raw": "No",
+          "member": false,
+          "characterId": "jd"
+        },
+        {
+          "cell": "V18",
+          "raw": "No",
+          "member": false,
+          "characterId": "isaac"
+        },
+        {
+          "cell": "W18",
+          "raw": "No",
+          "member": false,
+          "characterId": "carlos-castillo"
+        },
+        {
+          "cell": "X18",
+          "raw": "No",
+          "member": false,
+          "characterId": "jota"
+        },
+        {
+          "cell": "Y18",
+          "raw": "No",
+          "member": false,
+          "characterId": "rachel"
+        },
+        {
+          "cell": "Z18",
+          "raw": "No",
+          "member": false,
+          "characterId": "edu"
+        },
+        {
+          "cell": "AA18",
+          "raw": "No",
+          "member": false,
+          "characterId": "sanchez"
+        },
+        {
+          "cell": "AB18",
+          "raw": "No",
+          "member": false,
+          "characterId": "focho"
+        },
+        {
+          "cell": "AC18",
+          "raw": "No",
+          "member": false,
+          "characterId": "ruben"
+        },
+        {
+          "cell": "AD18",
+          "raw": "No",
+          "member": false,
+          "characterId": "puto-alex"
+        },
+        {
+          "cell": "AE18",
+          "raw": "No",
+          "member": false,
+          "characterId": "jaime"
+        },
+        {
+          "cell": "AF18",
+          "raw": "No",
+          "member": false,
+          "characterId": "dani-silvestre"
+        },
+        {
+          "cell": "AG18",
+          "raw": "No",
+          "member": false,
+          "characterId": "miramon"
+        },
+        {
+          "cell": "AH18",
+          "raw": "No",
+          "member": false,
+          "characterId": "diego-lopez"
+        },
+        {
+          "cell": "AI18",
+          "raw": "No",
+          "member": false,
+          "characterId": "domingo"
+        }
+      ]
+    }
+  ],
+  "issues": []
+}

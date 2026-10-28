@@ -1,0 +1,22 @@
+[
+  {
+    "file": "mar-de-cristal.webp",
+    "source": "apps/web/public/assets/arenas/mar-de-cristal.webp",
+    "sourceOriginalUnchanged": true
+  },
+  {
+    "file": "dolea.png",
+    "source": "apps/web/public/sprites/dolea/star1/attack-portrait.png",
+    "sourceOriginalUnchanged": true
+  },
+  {
+    "file": "dolea-2.png",
+    "source": "apps/web/public/sprites/dolea/star2/attack-portrait.png",
+    "sourceOriginalUnchanged": true
+  },
+  {
+    "file": "vargas.png",
+    "source": "apps/web/public/sprites/vargas/star2/attack-portrait.png",
+    "sourceOriginalUnchanged": true
+  }
+]

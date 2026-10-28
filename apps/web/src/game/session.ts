@@ -1,4 +1,6 @@
+import { feedbackMoment } from './combatFeedback';
 import {
+  runCombat,
   moveUnit,
   offsetToAxial,
   placeUnit,
@@ -6,8 +8,40 @@ import {
   sameHex,
   isInBounds,
   type PlacementError,
+  scaledProfile,
 } from '@tft/game-core';
-import { UNIT_DEFINITIONS } from '@tft/game-data';
+import {
+  UNIT_DEFINITIONS,
+  createCombatInput,
+  createAdvancedCombatInput,
+  createCombatScenario,
+  createAbilityScenario,
+  createStatsScenario,
+  createMechanicsScenario,
+  createVargasScenario,
+  createVargasCombatInput,
+  createJaramilloCombatInput,
+  createFlorinCombatInput,
+  FLORIN_ECONOMY_CONFIG,
+  JARAMILLO_ECONOMY_CONFIG,
+  VARGAS_ECONOMY_CONFIG,
+  type VargasScenario,
+  type MechanicsScenario,
+  type StatsScenario,
+  type AbilityScenario,
+  type CombatScenario,
+  COMBAT_PROFILES,
+  ADVANCED_ECONOMY_CONFIG,
+  TRAIT_DEFINITIONS,
+  ECONOMY_CONFIG,
+} from '@tft/game-data';
+import {
+  ADVANCED_COMBAT_RULES,
+  CombatSeedSchema,
+  type CombatInput,
+  type CombatResult,
+} from '@tft/shared';
+import { CombatPlayback } from './combatPlayback';
 import type { BoardState, HexCoord, Side, UnitInstance } from '@tft/shared';
 export const ERROR_MESSAGES: Record<PlacementError, string> = {
   'out-of-bounds': 'Fuera del tablero. Elige una casilla de tu mitad.',
@@ -28,6 +62,13 @@ export interface SessionSnapshot {
   message: string;
   invalid: boolean;
   revision: number;
+  combat: {
+    mode: 'preparation' | 'playing' | 'paused' | 'finished';
+    seed: number;
+    tick: number;
+    speed: 1 | 2;
+    result: CombatResult | null;
+  };
 }
 export function demoBoard(): BoardState {
   return {
@@ -50,9 +91,516 @@ export class BoardSession {
     message: 'Selecciona una unidad y arrástrala a una casilla libre.',
     invalid: false,
     revision: 0,
+    combat: { mode: 'preparation', seed: 42, tick: 0, speed: 1, result: null },
   };
   private listeners = new Set<() => void>();
   private nextId = 1;
+  private playback: CombatPlayback | null = null;
+  private scenarioInput: CombatInput | null = null;
+  private lastInput: CombatInput | null = null;
+  private visualStars = new Map<string, 1 | 2 | 3>();
+  starsFor = (id: string): 1 | 2 | 3 => this.visualStars.get(id) ?? 1;
+  loadCharacterDuel(stars: 1 | 2 | 3, timeout: boolean | 'death' = false): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const board: BoardState = {
+      units: [
+        { id: 'dolea-south', definitionId: 'dolea', owner: 'south', position: offsetToAxial(2, 5) },
+        { id: 'dolea-north', definitionId: 'dolea', owner: 'north', position: offsetToAxial(3, 2) },
+      ],
+    };
+    if (timeout === 'death') {
+      board.units[0]!.position = { q: 0, r: 4 };
+      board.units[1]!.position = { q: 0, r: 3 };
+    }
+    this.scenarioInput = createCombatInput(board, this.snapshot.combat.seed);
+    for (const u of this.scenarioInput.units) {
+      u.profile = scaledProfile('dolea', stars, ECONOMY_CONFIG);
+      if (timeout)
+        u.profile = {
+          ...structuredClone(COMBAT_PROFILES.dolea!),
+          ability: null,
+          passive: null,
+          stats: {
+            ...u.profile.stats,
+            maxHp: timeout === 'death' ? 10 : 100000,
+            attack: timeout === 'death' ? 100 : 1,
+          },
+        };
+      this.visualStars.set(u.id, stars);
+    }
+    this.patch({
+      board,
+      selectedId: 'dolea-south',
+      paletteId: null,
+      invalid: false,
+      message: `DOLEA ${stars}★ · ${timeout === 'death' ? 'muerte técnica' : timeout ? 'límite técnico de 450 ticks' : 'perfiles provisionales escalados'}.`,
+    });
+  }
+  combatFrame = () => this.playback?.frame() ?? null;
+  combatOvertime = () => this.playback?.replay.input.overtime;
+  get editable(): boolean {
+    return this.snapshot.combat.mode === 'preparation';
+  }
+  setSeed(seed: number): void {
+    const parsed = CombatSeedSchema.safeParse(seed);
+    if (!this.editable || !parsed.success) return;
+    this.patch({ combat: { ...this.snapshot.combat, seed: parsed.data } });
+  }
+  loadDuel(): void {
+    this.returnToPreparation();
+    this.scenarioInput = null;
+    this.visualStars.clear();
+    const board = demoBoard();
+    const opponents = board.units.map((u, i) => ({
+      ...u,
+      id: `opponent-${i}`,
+      owner: 'north' as const,
+      position: offsetToAxial(i % 2 === 0 ? 2 : 4, i < 2 ? 2 : 0),
+    }));
+    this.patch({
+      board: { units: [...board.units, ...opponents] },
+      selectedId: 'demo-0',
+      paletteId: null,
+      message: 'Duelo 4 × 4 preparado. Pulsa Iniciar combate.',
+      invalid: false,
+    });
+  }
+  loadScenario(scenario: CombatScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createCombatScenario(scenario, this.snapshot.combat.seed);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: null,
+      paletteId: null,
+      invalid: false,
+      message:
+        'Escenario técnico con perfiles sintéticos: ' +
+        (scenario === 'overtime'
+          ? 'victoria durante overtime.'
+          : scenario === 'timeout'
+            ? 'ambos sobreviven hasta 450.'
+            : 'eliminación simultánea.'),
+    });
+  }
+  loadStatsScenario(scenario: StatsScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createStatsScenario(scenario, this.snapshot.combat.seed);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: scenario === 'dolea-advanced' ? 'diagnostic-dolea' : 'stats-source',
+      paletteId: null,
+      invalid: false,
+      message: `Diagnóstico de estadísticas: ${scenario}. Perfiles ficticios fuera del roster.`,
+    });
+  }
+  loadAbilityScenario(scenario: AbilityScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createAbilityScenario(scenario, this.snapshot.combat.seed);
+    this.visualStars.set(
+      'diagnostic-dolea',
+      scenario === 'ability-3' ? 3 : scenario === 'ability-2' ? 2 : 1,
+    );
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: 'diagnostic-dolea',
+      paletteId: null,
+      invalid: false,
+      message: `Diagnóstico P6A: ${scenario}. Membresías ficticias solo en este escenario.`,
+    });
+  }
+  loadMechanicsScenario(scenario: MechanicsScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createMechanicsScenario(scenario, this.snapshot.combat.seed);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: scenario === 'dolea-mechanics' ? 'diagnostic-dolea' : 'mechanics-source',
+      paletteId: null,
+      invalid: false,
+      message: `Mecánicas de prueba: ${scenario}. Solo diagnóstico.`,
+    });
+  }
+  loadFlorinScenario(stars: 1 | 2 | 3): void {
+    if (!__DEVTOOLS__) return;
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const board: BoardState = {
+      units: [
+        {
+          id: 'florin-demo',
+          definitionId: 'florin',
+          owner: 'south',
+          position: offsetToAxial(3, 4),
+        },
+        { id: 'florin-ally', definitionId: 'dolea', owner: 'south', position: offsetToAxial(1, 5) },
+        {
+          id: 'florin-target',
+          definitionId: 'dolea',
+          owner: 'north',
+          position: offsetToAxial(3, 3),
+        },
+      ],
+    };
+    this.scenarioInput = createFlorinCombatInput(
+      board,
+      this.snapshot.combat.seed,
+      `dev-florin-${stars}`,
+    );
+    const florin = this.scenarioInput.units[0]!;
+    florin.profile = scaledProfile('florin', stars, FLORIN_ECONOMY_CONFIG);
+    this.visualStars.set(florin.id, stars);
+    // Explicit diagnostic adversary: enough HP to see repeated attacks and both exits.
+    const target = this.scenarioInput.units[2]!;
+    target.profile.stats.maxHp = 18000;
+    target.profile.stats.attack = 160 * stars;
+    this.patch({
+      board,
+      selectedId: florin.id,
+      paletteId: null,
+      message: `FLORIN ${stars}★ · ataque original · Maniobras y pasiva reales · rival diagnóstico 18000 HP.`,
+      combat: { ...this.snapshot.combat, mode: 'preparation', result: null },
+    });
+    this.playback = null;
+  }
+  loadFlorinTraitScenario(
+    trait: 'ruman_trinity' | 'perdidos_por_el_mundo',
+    count: 1 | 2 | 3,
+  ): void {
+    if (!__DEVTOOLS__) return;
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const members = ['florin', 'dolea', 'vargas']
+      .slice(0, count)
+      .map((definitionId, i) => ({
+        id: `florin-trait-${i}`,
+        definitionId,
+        owner: 'south' as const,
+        position: offsetToAxial(i + 2, 4),
+      }));
+    const board = {
+      units: [
+        ...members,
+        {
+          id: 'florin-trait-target',
+          definitionId: 'jaramillo',
+          owner: 'north' as const,
+          position: offsetToAxial(3, 3),
+        },
+      ],
+    };
+    this.scenarioInput = createFlorinCombatInput(
+      board,
+      this.snapshot.combat.seed,
+      `dev-florin-traits-${count}`,
+    );
+    for (const unit of this.scenarioInput.units) {
+      unit.profile = structuredClone(unit.profile);
+      if (unit.owner === 'south') unit.profile.traits = [trait];
+      else {
+        unit.profile.stats.maxHp = 18000;
+        unit.profile.stats.attack = 120;
+      }
+    }
+    this.patch({
+      board,
+      selectedId: members[0]!.id,
+      paletteId: null,
+      invalid: false,
+      message: `Fixture ${trait}: ${count} miembros distintos · afinidades de DOLEA/VARGAS solo para diagnóstico, no roster.`,
+    });
+  }
+  loadJaramilloScenario(): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const units: UnitInstance[] = [
+      { id: 'jaramillo-demo', definitionId: 'jaramillo', owner: 'south', position: { q: 0, r: 4 } },
+      {
+        id: 'jaramillo-target',
+        definitionId: 'test-k01',
+        owner: 'north',
+        position: { q: 4, r: 0 },
+      },
+    ];
+    this.scenarioInput = createJaramilloCombatInput(
+      { units },
+      this.snapshot.combat.seed,
+      'jaramillo-demo',
+    );
+    this.scenarioInput.units[1]!.profile = structuredClone(this.scenarioInput.units[1]!.profile);
+    this.scenarioInput.units[1]!.profile.stats.maxHp = 8000;
+    this.patch({
+      board: { units },
+      selectedId: 'jaramillo-demo',
+      paletteId: null,
+      invalid: false,
+      message: 'JARAMILLO · diagnóstico de proyectil compuesto. Sin progreso competitivo.',
+    });
+  }
+  seekTime(timeMs: number): void {
+    if (!this.playback) return;
+    this.playback.setPaused(true);
+    this.playback.seek(timeMs);
+    this.patch({
+      combat: {
+        ...this.snapshot.combat,
+        tick: this.playback.frame().tick,
+        mode: 'paused',
+        result: null,
+      },
+      message: 'Traza pausada. Sin volver a simular.',
+    });
+  }
+  loadVargasScenario(scenario: VargasScenario): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    this.scenarioInput = createVargasScenario(scenario, this.snapshot.combat.seed);
+    for (const unit of this.scenarioInput.units)
+      this.visualStars.set(unit.id, unit.profile.starLevel ?? 1);
+    this.patch({
+      board: {
+        units: this.scenarioInput.units.map(({ id, definitionId, owner, position }) => ({
+          id,
+          definitionId,
+          owner,
+          position,
+        })),
+      },
+      selectedId: scenario.startsWith('upm') ? 'mechanics-source' : 'diagnostic-vargas',
+      paletteId: null,
+      invalid: false,
+      message: `Diagnóstico ${scenario}. Miembros ficticios fuera del catálogo.`,
+    });
+  }
+  /** Visual stress fixture only; uses unchanged roster profiles and combat rules. */
+  loadVisualFormation(count: 4 | 8): void {
+    this.returnToPreparation();
+    this.visualStars.clear();
+    const units: UnitInstance[] = (['south', 'north'] as const).flatMap((owner) =>
+      Array.from({ length: count }, (_, i) => ({
+        id: `visual-${owner}-${i}`,
+        definitionId: ['vargas', 'dolea', 'vargas', 'test-r03'][i % 4]!,
+        owner,
+        position: offsetToAxial(
+          1 + (i % 4),
+          owner === 'south' ? 4 + Math.floor(i / 4) : 3 - Math.floor(i / 4),
+        ),
+      })),
+    );
+    this.scenarioInput = createVargasCombatInput(
+      { units },
+      this.snapshot.combat.seed,
+      `visual-${count}-${this.snapshot.combat.seed}`,
+    );
+    this.patch({
+      board: { units },
+      selectedId: null,
+      paletteId: null,
+      invalid: false,
+      message: `Prueba visual ${count} contra ${count}. Perfiles reales, sin cambios de balance.`,
+    });
+  }
+  traitInput = () => this.playback?.replay.input ?? this.scenarioInput;
+  diagnosticProfile(id: string) {
+    return this.scenarioInput?.units.find((u) => u.id === id)?.profile;
+  }
+  startCombat(repeat = false): void {
+    try {
+      const setup =
+        !repeat && this.scenarioInput?.combatId
+          ? {
+              ...structuredClone(this.scenarioInput),
+              traits: [
+                ...new Map(
+                  [...TRAIT_DEFINITIONS, ...(this.scenarioInput.traits ?? [])].map((t) => [
+                    t.id,
+                    t,
+                  ]),
+                ).values(),
+              ],
+              seed: this.snapshot.combat.seed,
+              units: this.snapshot.board.units.map((u) => ({
+                ...u,
+                profile: structuredClone(
+                  this.scenarioInput!.units.find(
+                    (p) => p.id === u.id && p.definitionId === u.definitionId,
+                  )?.profile ??
+                    scaledProfile(
+                      u.definitionId,
+                      this.starsFor(u.id),
+                      this.scenarioInput!.rulesVersion === 'florin-1'
+                        ? FLORIN_ECONOMY_CONFIG
+                        : this.scenarioInput!.rulesVersion === 'f0p6c-1'
+                          ? JARAMILLO_ECONOMY_CONFIG
+                          : this.scenarioInput!.rulesVersion === 'f0p6b3-1'
+                            ? VARGAS_ECONOMY_CONFIG
+                            : ADVANCED_ECONOMY_CONFIG,
+                    ),
+                ),
+              })),
+            }
+          : repeat && this.lastInput
+            ? this.lastInput
+            : this.snapshot.board.units.some((u) => u.definitionId === 'florin')
+              ? createFlorinCombatInput(
+                  this.snapshot.board,
+                  this.snapshot.combat.seed,
+                  `arena-florin-${this.snapshot.combat.seed}`,
+                )
+              : this.snapshot.board.units.some((u) => u.definitionId === 'jaramillo')
+                ? createJaramilloCombatInput(
+                    this.snapshot.board,
+                    this.snapshot.combat.seed,
+                    `arena-${this.snapshot.combat.seed}`,
+                  )
+                : this.snapshot.board.units.some((u) => u.definitionId === 'vargas')
+                  ? createVargasCombatInput(
+                      this.snapshot.board,
+                      this.snapshot.combat.seed,
+                      `arena-${this.snapshot.combat.seed}`,
+                    )
+                  : (this.scenarioInput?.rulesVersion === ADVANCED_COMBAT_RULES
+                      ? createAdvancedCombatInput
+                      : createCombatInput)(this.snapshot.board, this.snapshot.combat.seed);
+      if (!repeat && this.scenarioInput && !this.scenarioInput.combatId) {
+        setup.rulesVersion = this.scenarioInput.rulesVersion;
+        setup.traits =
+          setup.rulesVersion === ADVANCED_COMBAT_RULES
+            ? [
+                ...new Map(
+                  [...(setup.traits ?? []), ...(this.scenarioInput.traits ?? [])].map((t) => [
+                    t.id,
+                    t,
+                  ]),
+                ).values(),
+              ]
+            : this.scenarioInput.traits;
+        setup.units = setup.units.map((u) => ({
+          ...u,
+          profile:
+            this.scenarioInput!.units.find(
+              (p) => p.id === u.id && p.definitionId === u.definitionId,
+            )?.profile ?? u.profile,
+        }));
+      }
+      const replay = runCombat(setup);
+      this.lastInput = replay.input;
+      this.playback = new CombatPlayback(replay);
+      this.playback.setSpeed(this.snapshot.combat.speed);
+      this.patch({
+        paletteId: null,
+        hover: null,
+        combat: {
+          ...this.snapshot.combat,
+          seed: setup.seed,
+          mode: 'playing',
+          tick: 0,
+          result: null,
+        },
+        message: 'Combate en curso. La formación queda protegida hasta volver a preparación.',
+        invalid: false,
+      });
+    } catch (cause) {
+      this.patch({
+        invalid: true,
+        message: cause instanceof Error ? cause.message : 'No se pudo iniciar el combate.',
+      });
+    }
+  }
+  pauseCombat(): void {
+    const mode = this.snapshot.combat.mode;
+    if (mode !== 'playing' && mode !== 'paused') return;
+    const paused = mode === 'playing';
+    this.playback?.setPaused(paused);
+    this.patch({
+      combat: { ...this.snapshot.combat, mode: paused ? 'paused' : 'playing' },
+      message: paused ? 'Reproducción pausada.' : 'Reproducción reanudada.',
+    });
+  }
+  seekFeedback(moment: import('./combatFeedback').FeedbackMoment): void {
+    if (!this.playback || !this.snapshot.selectedId) return;
+    const tick = feedbackMoment(this.playback.replay.events, this.snapshot.selectedId, moment);
+    if (tick === null) {
+      this.patch({ message: 'Ese evento no existe para la unidad seleccionada en esta traza.' });
+      return;
+    }
+    this.playback.seek(tick * 100);
+    this.playback.setPaused(true);
+    this.patch({
+      combat: { ...this.snapshot.combat, tick, mode: 'paused', result: null },
+      message: `Traza pausada en tick ${tick}. Sin volver a simular.`,
+    });
+  }
+  stepCombat(): void {
+    if (this.snapshot.combat.mode !== 'paused' || !this.playback) return;
+    this.playback.setPaused(false);
+    this.patch({ combat: { ...this.snapshot.combat, mode: 'playing' } });
+    this.advanceCombat(100 / this.snapshot.combat.speed);
+    this.playback.setPaused(true);
+    if (!this.playback.finished)
+      this.patch({ combat: { ...this.snapshot.combat, mode: 'paused' } });
+  }
+  setCombatSpeed(speed: 1 | 2): void {
+    this.playback?.setSpeed(speed);
+    this.patch({ combat: { ...this.snapshot.combat, speed } });
+  }
+  advanceCombat(deltaMs: number): void {
+    if (!this.playback || this.snapshot.combat.mode !== 'playing') return;
+    this.playback.advance(deltaMs);
+    const frame = this.playback.frame();
+    if (this.playback.finished) {
+      const result = this.playback.replay.result;
+      this.patch({
+        combat: { ...this.snapshot.combat, tick: frame.tick, mode: 'finished', result },
+        message:
+          result.winner === 'south'
+            ? 'Victoria jade · Derrota ámbar.'
+            : result.winner === 'north'
+              ? 'Victoria ámbar · Derrota jade.'
+              : `Doble derrota · ${result.reason === 'timeout' ? 'límite de 450 ticks' : 'sin supervivientes'}.`,
+      });
+    } else if (frame.tick !== this.snapshot.combat.tick)
+      this.patch({ combat: { ...this.snapshot.combat, tick: frame.tick } });
+  }
+  returnToPreparation(): void {
+    this.playback = null;
+    this.patch({
+      combat: { ...this.snapshot.combat, mode: 'preparation', tick: 0, result: null },
+      message: 'Formación inicial recuperada. Puedes volver a editarla.',
+      invalid: false,
+    });
+  }
   getSnapshot = (): SessionSnapshot => this.snapshot;
   subscribe = (listener: () => void): (() => void) => {
     this.listeners.add(listener);
@@ -78,11 +626,12 @@ export class BoardSession {
       selectedId: null,
       paletteId: null,
       cursor: offsetToAxial(0, side === 'south' ? 4 : 0),
-      message: side === 'south' ? 'Editando la formación jade.' : 'Editando la formación ámbar.',
+      message: `${this.editable ? 'Editando' : 'Inspeccionando'} la formación ${side === 'south' ? 'jade' : 'ámbar'}.`,
       invalid: false,
     });
   }
   choose(definitionId: string): void {
+    if (!this.editable) return;
     this.patch({
       paletteId: definitionId,
       selectedId: null,
@@ -91,13 +640,17 @@ export class BoardSession {
     });
   }
   select(unitId: string): void {
-    const unit = this.snapshot.board.units.find((u) => u.id === unitId);
+    const unit = (this.combatFrame()?.state.units ?? this.snapshot.board.units).find(
+      (u) => u.id === unitId,
+    );
     if (unit)
       this.patch({
         selectedId: unitId,
         paletteId: null,
         cursor: unit.position,
-        message: 'Arrastra la unidad o elige una casilla libre para moverla.',
+        message: this.editable
+          ? 'Arrastra la unidad o elige una casilla libre para moverla.'
+          : 'Inspeccionando la unidad durante el combate.',
         invalid: false,
       });
   }
@@ -110,8 +663,12 @@ export class BoardSession {
     });
   }
   reset(): void {
+    this.visualStars.clear();
+    this.scenarioInput = null;
+    this.playback = null;
     this.patch({
       board: demoBoard(),
+      combat: { ...this.snapshot.combat, mode: 'preparation', tick: 0, result: null },
       side: 'south',
       selectedId: 'demo-0',
       paletteId: null,
@@ -122,6 +679,7 @@ export class BoardSession {
     });
   }
   move(unitId: string, hex: HexCoord): boolean {
+    if (!this.editable) return false;
     const result = moveUnit(this.snapshot.board, unitId, hex, this.snapshot.side);
     if (!result.ok) {
       this.patch({ message: ERROR_MESSAGES[result.reason], invalid: true });
@@ -138,6 +696,7 @@ export class BoardSession {
     return true;
   }
   activate(hex: HexCoord): void {
+    if (!this.editable) return;
     const { board, side, paletteId, selectedId } = this.snapshot;
     if (paletteId) {
       const unit: UnitInstance = {

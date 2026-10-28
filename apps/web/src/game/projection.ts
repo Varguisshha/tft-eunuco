@@ -1,3 +1,4 @@
+import { transform, type Matrix3 } from '../arenas/geometry';
 import { axialToCartesian, cartesianToAxial, BOARD_HEXES, type Point } from '@tft/game-core';
 import type { HexCoord } from '@tft/shared';
 export const WORLD = { width: 1000, height: 650 } as const;
@@ -5,17 +6,21 @@ const ANGLE = Math.PI / 6;
 const C = Math.cos(ANGLE);
 const S = Math.sin(ANGLE);
 export interface Projection {
+  matrix?: Matrix3;
+  inverseMatrix?: Matrix3;
   radius: number;
   squash: number;
   origin: Point;
 }
 export function projectPoint(point: Point, projection: Projection): Point {
+  if (projection.matrix) return transform(point, projection.matrix);
   return {
     x: projection.origin.x + projection.radius * (point.x * C - point.y * S),
     y: projection.origin.y + projection.radius * projection.squash * (point.x * S + point.y * C),
   };
 }
 export function unprojectPoint(point: Point, projection: Projection): Point {
+  if (projection.inverseMatrix) return transform(point, projection.inverseMatrix);
   const x = (point.x - projection.origin.x) / projection.radius;
   const y = (point.y - projection.origin.y) / (projection.radius * projection.squash);
   return { x: x * C + y * S, y: -x * S + y * C };
@@ -36,8 +41,8 @@ export function hexCorners(hex: HexCoord, projection: Projection, inset = 1): Po
     );
   });
 }
-export function createProjection(): Projection {
-  const base = { radius: 45, squash: 0.64, origin: { x: 0, y: 0 } };
+export function createProjection(squash = 0.64): Projection {
+  const base = { radius: 45, squash, origin: { x: 0, y: 0 } };
   const points = BOARD_HEXES.flatMap((h) => hexCorners(h, base));
   const minX = Math.min(...points.map((p) => p.x));
   const maxX = Math.max(...points.map((p) => p.x));

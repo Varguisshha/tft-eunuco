@@ -1,0 +1,14 @@
+F0-P9A.1 — local validation, 2026-10-26
+Base c878fcf59e387e97003dd078a347884e15776780
+Node 26.9.0, macOS arm64, Apple M5 / 24 GiB
+Baseline pnpm check: 1337 passed / 91 files / 0 skipped / 291.75 s tests
+Final pnpm check: 1342 passed / 92 files / 0 skipped / 272.58 s tests
+PostgreSQL isolated + HTTPS/WSS local enabled
+TypeScript PASS; ESLint PASS; client build PASS; server build PASS
+verify:public PASS; git diff --check PASS
+Original 1337 tests preserved; 5 added; no timeout or limit relaxation
+Normal four-player campaign: 921109 ms, 235 commands, reconnect, overtime, four final standings
+Consecutive same-process campaigns: 5 x 2 participants, 3 x 4 participants; all released naturally
+Compiled client: four final standings, new authenticated connection, same result, zero JavaScript errors
+Build warning retained: existing chunks over 500 kB (limit unchanged)
+No Supabase real, push, remote deployment or normal service restart

@@ -1,0 +1,207 @@
+.game-hud .affinity-band {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 28%;
+  height: 26px;
+  display: flex;
+  gap: 4px;
+  z-index: 7;
+  align-items: center;
+}
+.affinity-icon,
+.affinity-overflow {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  display: grid;
+  place-items: center;
+  padding: 3px;
+  border: 1px solid var(--neon-border-highlight);
+  background: var(--neon-surface-overlay);
+  color: var(--neon-text-primary);
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow: var(--neon-shadow-frame);
+}
+.affinity-icon .content-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+.affinity-icon.is-unique {
+  color: var(--neon-game-gold);
+  border-color: var(--neon-game-gold);
+  background: var(--neon-surface-canvas);
+  transform: rotate(-4deg);
+}
+.affinity-icon:focus-visible,
+.affinity-overflow:focus-visible {
+  outline: 3px solid var(--neon-focus);
+  outline-offset: 2px;
+}
+.affinity-overflow {
+  font:
+    700 11px/1 'DM Sans',
+    sans-serif;
+  padding: 0;
+}
+.affinity-hint,
+.affinity-popup {
+  position: fixed;
+  z-index: 500;
+  background: var(--neon-surface-primary);
+  color: var(--neon-text-primary);
+  border: 2px solid var(--neon-border-highlight);
+  box-shadow: var(--neon-shadow-panel);
+  border-radius: 0;
+  padding: 12px;
+  width: 304px;
+  font:
+    13px/1.4 'DM Sans',
+    sans-serif;
+  text-align: left;
+}
+.affinity-hint {
+  pointer-events: none;
+}
+.affinity-hint strong,
+.affinity-hint span,
+.affinity-popup small {
+  display: block;
+}
+.affinity-hint span,
+.affinity-popup small {
+  font-size: 11px;
+  color: var(--neon-text-secondary);
+}
+.affinity-hint p {
+  margin: 5px 0 0;
+}
+.affinity-popup {
+  max-height: 55vh;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.affinity-popup-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.affinity-close {
+  color: var(--neon-text-primary);
+  background: var(--neon-button-default);
+  border: 1px solid var(--neon-border-highlight);
+  border-radius: 0;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.game-hud .offer-purchase {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: transparent;
+  cursor: pointer;
+}
+.game-hud .offer-purchase:disabled {
+  cursor: default;
+}
+.game-hud .multi-affinity-card:focus-within {
+  filter: drop-shadow(0 0 4px var(--neon-accent-secondary));
+}
+.game-hud .multi-affinity-card[data-state='unaffordable'] .offer-art,
+.game-hud .multi-affinity-card[data-state='closed'] .offer-art {
+  filter: saturate(0.55);
+}
+.game-hud .multi-affinity-card .offer-footer {
+  pointer-events: none;
+}
+.affinity-details {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+.affinity-details details {
+  background: var(--neon-surface-primary);
+  border: 1px solid var(--neon-border-primary);
+  border-radius: 0;
+  padding: 7px;
+  color: var(--neon-text-primary);
+}
+.affinity-details details[data-kind='unique'] {
+  border-color: var(--neon-game-gold);
+}
+.affinity-details summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+.affinity-details summary:before {
+  content: '▸';
+  color: var(--neon-border-highlight);
+}
+.affinity-details details[open] summary:before {
+  content: '▾';
+}
+.affinity-details summary .content-icon {
+  width: 23px;
+  height: 23px;
+}
+.affinity-details small {
+  display: block;
+  font-size: 11px;
+  color: var(--neon-text-secondary);
+}
+.affinity-details p,
+.affinity-details li {
+  font-size: 12px;
+  line-height: 1.45;
+}
+.affinity-details ul {
+  padding-left: 18px;
+}
+
+.provisional-character {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 6px;
+  background: var(--neon-surface-overlay);
+  color: var(--neon-text-primary);
+  font:
+    700 10px/1.4 'DM Sans',
+    sans-serif;
+  z-index: 2;
+}
+.provisional-readout {
+  margin: 8px 0;
+  padding: 8px;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-overlay);
+  font-size: 12px;
+}
+
+.affinity-icon:hover,
+.affinity-overflow:hover,
+.affinity-close:hover {
+  background: var(--neon-button-hover);
+}
+.affinity-icon:active,
+.affinity-overflow:active,
+.affinity-close:active {
+  background: var(--neon-button-pressed);
+}
+.affinity-details summary:focus-visible,
+.affinity-close:focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: 2px;
+}
+.affinity-popup,
+.affinity-details {
+  scrollbar-color: var(--neon-border-highlight) var(--neon-surface-overlay);
+}

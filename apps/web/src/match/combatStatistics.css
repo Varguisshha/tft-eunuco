@@ -1,0 +1,203 @@
+.combat-statistics {
+  position: fixed;
+  z-index: 24;
+  right: calc(30 * var(--u));
+  top: calc(235 * var(--u));
+  width: clamp(130px, 150 * var(--u), 176px);
+}
+.game-hud .combat-statistics > .game-button {
+  min-height: 40px;
+  padding: 0 12px;
+  gap: 6px;
+  width: 100%;
+  height: 40px;
+}
+.combat-statistics-panel {
+  position: fixed;
+  right: calc(30 * var(--u));
+  top: calc(305 * var(--u));
+  bottom: calc(var(--dock-height, 190px) + var(--bench-height, 86px) + 26 * var(--u));
+  width: clamp(270px, 330 * var(--u), 360px);
+  display: flex;
+  max-height: 520px;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--neon-surface-primary);
+  border: 3px solid var(--neon-border-primary);
+  color: var(--neon-text-primary);
+  filter: drop-shadow(var(--neon-shadow-frame));
+  overflow: hidden;
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
+}
+.combat-statistics-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--neon-border-primary);
+  padding-bottom: 10px;
+}
+.combat-statistics-panel header div {
+  display: grid;
+  gap: 4px;
+}
+.combat-statistics-panel header strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+.combat-statistics-panel header span {
+  font-size: 12px;
+  color: var(--neon-text-secondary);
+}
+.combat-statistics-panel header button {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--neon-border-highlight);
+  cursor: pointer;
+}
+.combat-statistics-panel header button:hover {
+  background: var(--neon-button-hover);
+}
+.combat-statistics-panel header .game-icon {
+  width: 20px;
+  height: 20px;
+}
+.combat-statistics-panel label {
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  padding-top: 10px;
+}
+.combat-statistics-panel select {
+  width: 100%;
+  padding: 8px;
+  background: var(--neon-surface-elevated);
+  color: var(--neon-text-primary);
+  border: 1px solid var(--neon-border-highlight);
+  font: inherit;
+  font-size: 14px;
+}
+.combat-statistics-help {
+  font-size: 12px;
+  line-height: 1.4;
+  min-height: 34px;
+  margin: 10px 0;
+  color: var(--neon-text-secondary);
+}
+.combat-statistics-panel ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  min-height: 0;
+  flex: 1;
+}
+.combat-statistics-panel li {
+  padding: 8px 1px;
+  border-top: 1px solid var(--neon-surface-elevated);
+}
+.combat-statistics-panel li > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+}
+.combat-statistics-panel li small {
+  font-size: 11px;
+  color: var(--neon-text-secondary);
+}
+.combat-statistics-panel li span small {
+  color: var(--neon-game-gold);
+}
+.combat-statistics-track {
+  height: 5px;
+  margin: 6px 0 2px;
+  background: var(--neon-surface-canvas);
+}
+.combat-statistics-track i {
+  display: block;
+  height: 100%;
+  background: var(--neon-game-cost2);
+}
+.side-north .combat-statistics-track i {
+  background: var(--neon-game-enemyLife);
+}
+.combat-statistics-panel footer {
+  padding-top: 10px;
+  font-size: 11px;
+  color: var(--neon-text-secondary);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .combat-statistics-track i {
+    transition: transform 100ms linear;
+  }
+}
+
+.combat-statistics-panel li small .game-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+}
+.combat-statistics-panel b {
+  font-variant-numeric: tabular-nums;
+}
+
+.combat-statistics[hidden] {
+  display: none;
+}
+.combat-statistics-track i {
+  width: 100%;
+  transform-origin: left;
+}
+@media (max-height: 800px) {
+  .combat-statistics {
+    top: calc(205 * var(--u));
+  }
+  .combat-statistics-panel {
+    top: calc(280 * var(--u));
+    padding: 10px 12px;
+  }
+  .combat-statistics-panel header {
+    padding-bottom: 6px;
+  }
+  .combat-statistics-panel header strong {
+    font-size: 18px;
+  }
+  .combat-statistics-panel label {
+    padding-top: 6px;
+  }
+  .combat-statistics-panel select {
+    padding: 6px;
+  }
+  .combat-statistics-help {
+    font-size: 11px;
+    line-height: 1.3;
+    min-height: 0;
+    margin: 6px 0;
+  }
+  .combat-statistics-panel li {
+    padding: 6px 1px;
+  }
+  .combat-statistics-panel footer {
+    padding-top: 6px;
+  }
+}
+
+.combat-statistics > .game-button > .game-icon {
+  width: 20px;
+  height: 20px;
+}
+.combat-statistics .game-button-label {
+  font-size: 14px;
+}

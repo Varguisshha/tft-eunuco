@@ -1,0 +1,116 @@
+{
+  "version": "tft-18.5-shop-2026-10-27",
+  "source": "https://raw.communitydragon.org/16.21/game/data/maps/shipping/map22/map22.bin.json",
+  "sha256": "79ddebf0e20604f1e184d019fbef4ac5f4a71199542ca9fd83f7e5c61825d98d",
+  "setPath": "Maps/Shipping/Map22/Sets/TFTSet18",
+  "reference": "{1ee21754}",
+  "field": "mDropRatesByLevel/{bcf1e6a6}",
+  "officialReferences": [
+    "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-16-1/",
+    "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-17-1/",
+    "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-5/"
+  ],
+  "note": "Numeric Riot client data extracted via CommunityDragon; level 8/9 changes confirmed by 16.1 and level 7 by 17.1. 18.5 makes no shop-odds change. Level 11 source row excluded. Game level cap remains 7.",
+  "levels": [
+    {
+      "level": 1,
+      "odds": [
+        100,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 2,
+      "odds": [
+        100,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 3,
+      "odds": [
+        75,
+        25,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 4,
+      "odds": [
+        55,
+        30,
+        15,
+        0,
+        0
+      ]
+    },
+    {
+      "level": 5,
+      "odds": [
+        45,
+        33,
+        20,
+        2,
+        0
+      ]
+    },
+    {
+      "level": 6,
+      "odds": [
+        30,
+        40,
+        25,
+        5,
+        0
+      ]
+    },
+    {
+      "level": 7,
+      "odds": [
+        19,
+        30,
+        40,
+        10,
+        1
+      ]
+    },
+    {
+      "level": 8,
+      "odds": [
+        15,
+        20,
+        32,
+        30,
+        3
+      ]
+    },
+    {
+      "level": 9,
+      "odds": [
+        10,
+        17,
+        25,
+        33,
+        15
+      ]
+    },
+    {
+      "level": 10,
+      "odds": [
+        5,
+        10,
+        20,
+        40,
+        25
+      ]
+    }
+  ]
+}

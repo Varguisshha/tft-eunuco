@@ -1,0 +1,8 @@
+{
+  "scope": "Authority tables, rows, RPC definitions and migration inventory; not full Auth/Storage backup",
+  "restoredMatches": 2,
+  "restoredMembers": 4,
+  "pendingMigrationsRehearsed": 2,
+  "snapshotsUnchanged": true,
+  "remoteMutations": false
+}

@@ -1,0 +1,288 @@
+{
+  "recordedAt": "2026-10-26T20:53:40.151708+00:00",
+  "stableCommit": "9450d26c6ebb37efb115a3c4b8c6934bc5e74740",
+  "catalog": "f0p8d-florin-1",
+  "supabase": {
+    "project": "tft-eunuco-dev",
+    "ref": "qiombjvkaolllnjqzspz",
+    "region": "eu-west-1",
+    "beforeMigrations": [
+      "202610240001",
+      "202610240002",
+      "202610250001"
+    ],
+    "afterMigrations": [
+      "202610240001",
+      "202610240002",
+      "202610250001",
+      "202610260001",
+      "202610260002"
+    ],
+    "backupSha256": "2a3e4b08b8a3b85a173a605e733bd067951a042aa8aad12ef9dc0dd348e9a37e",
+    "backupRestoredLocally": true,
+    "preflightActiveWriters": 0,
+    "snapshotsUnchangedAfterMigration": true,
+    "membersUnchangedAfterMigration": true,
+    "permissions": [
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_commit",
+        "schema": "private",
+        "service": false
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_cleanup",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_commit",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_fenced_commit",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_health",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_lease_acquire",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_lease_health",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_lease_release",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_lease_renew",
+        "schema": "public",
+        "service": true
+      },
+      {
+        "anon": false,
+        "authenticated": false,
+        "name": "authority_load",
+        "schema": "public",
+        "service": true
+      }
+    ],
+    "authorityLive": {
+      "active": true,
+      "enabled": true,
+      "health": true,
+      "lease_health": true,
+      "lease_seconds_remaining": 58.887776,
+      "recoverable_matches": 0
+    },
+    "authorityStopped": {
+      "active": false,
+      "enabled": true,
+      "has_owner": false,
+      "matches": 2,
+      "members": 4
+    }
+  },
+  "railway": {
+    "projectId": "80f46bb2-efc2-449d-adfe-1c387acb7a96",
+    "environmentId": "8e819935-1601-4579-abb5-293d8beecef8",
+    "serviceId": "fafc4774-f71a-4726-ae2a-48fec33d7e2d",
+    "deploymentId": "c6f11898-a0dc-483a-b50f-4c4f8042eb57",
+    "url": "https://tft-eunuco-private.up.railway.app",
+    "region": "ams",
+    "replicas": 1,
+    "memoryBytes": 2147483648,
+    "vCPU": 2,
+    "metrics": {
+      "cpu": {
+        "average": 0.0010344739837398374,
+        "current": 0.004899666666666667,
+        "limit": 2.0,
+        "max": 0.016804700000000002,
+        "unit": "vCPU",
+        "utilization_pct": 0.2
+      },
+      "deployments": [
+        {
+          "created_at": "2026-10-26T20:46:22.404+00:00",
+          "id": "c6f11898-a0dc-483a-b50f-4c4f8042eb57",
+          "status": "SUCCESS"
+        }
+      ],
+      "disk": {
+        "average_mb": 0.0,
+        "current_mb": 0.0,
+        "max_mb": 0.0
+      },
+      "environment": "private",
+      "http": {
+        "2xx": 14,
+        "3xx": 0,
+        "4xx": 5,
+        "5xx": 0,
+        "error_rate": 0.0,
+        "p50_ms": 8,
+        "p90_ms": 35,
+        "p95_ms": 35,
+        "p99_ms": 35,
+        "total": 19
+      },
+      "memory": {
+        "average_mb": 11.809830162731707,
+        "current_mb": 51.669630976,
+        "limit_mb": 2199.023255552,
+        "max_mb": 74.989961216,
+        "utilization_pct": 2.3
+      },
+      "public_network_traffic": {
+        "egress": {
+          "average_mb": 0.07543338458536585,
+          "current_mb": 0.013945856,
+          "max_mb": 3.013689344
+        },
+        "ingress": {
+          "average_mb": 0.0055655648780487815,
+          "current_mb": 0.02538496,
+          "max_mb": 0.088148992
+        }
+      },
+      "service": "tft-eunuco",
+      "window": {
+        "since": "2026-10-26T20:31:57.141397+00:00",
+        "until": "2026-10-26T20:52:00.000216+00:00"
+      }
+    },
+    "usage": {
+      "billingPeriod": {
+        "end": "2026-10-27T14:34:35+00:00",
+        "start": "2026-09-27T14:34:35+00:00"
+      },
+      "currentUsageDollars": 0.0002093780312962963,
+      "period": "current",
+      "project": {
+        "deletedAt": null,
+        "id": "80f46bb2-efc2-449d-adfe-1c387acb7a96",
+        "name": "TFT EUNUCO"
+      },
+      "services": [
+        {
+          "backupDollars": -0.0,
+          "cpuDollars": 9.81792438271605e-06,
+          "egressDollars": 0.00015101410000000002,
+          "id": "fafc4774-f71a-4726-ae2a-48fec33d7e2d",
+          "memoryDollars": 4.854600691358024e-05,
+          "name": "tft-eunuco",
+          "totalDollars": 0.0002093780312962963,
+          "volumeDollars": -0.0
+        }
+      ],
+      "workspace": {
+        "id": "152d181e-ab62-49e5-98ad-0aeba3a8acb5",
+        "name": "varguisshha's Projects"
+      }
+    },
+    "finalDeploymentStatus": "REMOVED",
+    "stoppedReadinessStatus": 404,
+    "finalObservedUsage": {
+      "billingPeriod": {
+        "end": "2026-10-27T14:34:35+00:00",
+        "start": "2026-09-27T14:34:35+00:00"
+      },
+      "currentUsageDollars": 0.0002093780312962963,
+      "period": "current",
+      "project": {
+        "deletedAt": null,
+        "id": "80f46bb2-efc2-449d-adfe-1c387acb7a96",
+        "name": "TFT EUNUCO"
+      },
+      "services": [
+        {
+          "backupDollars": -0.0,
+          "cpuDollars": 9.81792438271605e-06,
+          "egressDollars": 0.00015101410000000002,
+          "id": "fafc4774-f71a-4726-ae2a-48fec33d7e2d",
+          "memoryDollars": 4.854600691358024e-05,
+          "name": "tft-eunuco",
+          "totalDollars": 0.0002093780312962963,
+          "volumeDollars": -0.0
+        }
+      ],
+      "workspace": {
+        "id": "152d181e-ab62-49e5-98ad-0aeba3a8acb5",
+        "name": "varguisshha's Projects"
+      }
+    }
+  },
+  "liveValidation": {
+    "at": "2026-10-26T20:49:56.165Z",
+    "http": [
+      {
+        "path": "/readyz",
+        "status": 200
+      },
+      {
+        "path": "/healthz",
+        "status": 200
+      },
+      {
+        "path": "/",
+        "status": 200
+      },
+      {
+        "path": "/.env",
+        "status": 404
+      },
+      {
+        "path": "/artifacts",
+        "status": 404
+      },
+      {
+        "path": "/readyz",
+        "status": 403
+      }
+    ],
+    "websocket": [
+      {
+        "origin": "https://tft-eunuco-private.up.railway.app",
+        "upgraded": true,
+        "closeCode": 4002
+      },
+      {
+        "origin": "https://evil.example",
+        "status": 401
+      }
+    ]
+  },
+  "authChanges": false,
+  "humanMultiplayerTested": false,
+  "p10aTouched": false,
+  "stopVerifiedAt": "2026-10-26T20:55:30.692419+00:00"
+}

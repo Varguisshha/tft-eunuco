@@ -1,0 +1,99 @@
+.character-specialization {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 6px;
+  color: var(--neon-text-primary, #f4f3ff);
+  font:
+    600 11px/1.4 'DM Sans',
+    sans-serif;
+  cursor: help;
+}
+.character-specialization > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.character-specialization svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+.character-specialization .specialization-role {
+  color: var(--neon-border-highlight, #8ea7f9);
+}
+.character-specialization .specialization-damage {
+  color: var(--neon-game-gold, #f6c454);
+}
+.character-specialization[data-specialization='pending'] > span {
+  color: var(--neon-text-secondary, #d4d4e5);
+}
+.character-specialization:focus-visible {
+  outline: 2px solid var(--neon-focus, #c7ef60);
+  outline-offset: 3px;
+}
+.character-specialization.is-compact {
+  margin: 0;
+  flex-wrap: nowrap;
+  gap: 8px;
+  font-size: 9px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.character-specialization.is-compact > span {
+  gap: 3px;
+  white-space: nowrap;
+}
+.character-specialization.is-compact svg {
+  width: 13px;
+  height: 13px;
+}
+/* A reserved header row, outside portrait, affinities, name and price. */
+.game-hud .shop-offer.multi-affinity-card > .offer-role {
+  visibility: visible;
+  left: calc(14 * var(--u));
+  right: calc(14 * var(--u));
+  top: calc(12 * var(--u));
+  height: calc(24 * var(--u));
+  z-index: 8;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 4px;
+  background: var(--neon-surface-overlay);
+  color: var(--neon-text-primary);
+}
+.game-hud .shop-offer.multi-affinity-card .offer-art {
+  top: calc(40 * var(--u));
+  height: calc(77.92% - 24 * var(--u));
+}
+.game-hud .shop-offer.multi-affinity-card.has-splash .offer-art {
+  top: calc(40 * var(--u));
+  height: auto;
+}
+.game-hud .multi-affinity-card > .offer-medallion,
+.game-hud .multi-affinity-card > .offer-pips {
+  display: none;
+}
+
+.local-unit-title .character-specialization span {
+  font: inherit;
+}
+
+.local-inspector .inspector-affinities {
+  margin: 8px 0 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--neon-border-primary);
+}
+.local-inspector .inspector-affinities > summary {
+  color: var(--neon-text-secondary);
+  font:
+    600 11px/1.5 'DM Sans',
+    sans-serif;
+  cursor: pointer;
+}
+.local-inspector .inspector-affinities > summary:focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: 3px;
+}

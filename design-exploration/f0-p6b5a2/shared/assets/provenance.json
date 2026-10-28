@@ -1,0 +1,66 @@
+[
+  {
+    "file": "mar-de-cristal.webp",
+    "source": "apps/web/public/assets/arenas/mar-de-cristal.webp",
+    "sha256": "e6522b1b7cfe0bbd42d8a345e8748a1858c08d3032c5178f7a1d17af04746a87",
+    "operation": "byte-for-byte copy"
+  },
+  {
+    "file": "dolea.png",
+    "source": "apps/web/public/sprites/dolea/star1/attack-portrait.png",
+    "sha256": "d02bc1c7121b1bf1ccea81ff99776ec9a3e2c88d47913371ca85b295d4433572",
+    "operation": "byte-for-byte copy"
+  },
+  {
+    "file": "dolea-2.png",
+    "source": "apps/web/public/sprites/dolea/star2/attack-portrait.png",
+    "sha256": "813af31c9b4b726e6cbc60ce513f1b3efb95a37ac20e52500c47400fb70717f8",
+    "operation": "byte-for-byte copy"
+  },
+  {
+    "file": "vargas.png",
+    "source": "apps/web/public/sprites/vargas/star2/attack-portrait.png",
+    "sha256": "78669b3f0f80eacbfe1139d380a2264ebebb0be61d16e77b7765c7a3966a9d30",
+    "operation": "byte-for-byte copy"
+  },
+  {
+    "file": "../fonts/barlow.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-Bold.ttf",
+    "license": "SIL Open Font License 1.1"
+  },
+  {
+    "file": "../fonts/barlow-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/OFL.txt",
+    "license": "SIL Open Font License 1.1"
+  },
+  {
+    "file": "../fonts/pixel.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/silkscreen/Silkscreen-Regular.ttf",
+    "license": "SIL Open Font License 1.1"
+  },
+  {
+    "file": "../fonts/pixel-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/silkscreen/OFL.txt",
+    "license": "SIL Open Font License 1.1"
+  },
+  {
+    "file": "../fonts/bungee.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bungee/Bungee-Regular.ttf",
+    "license": "SIL Open Font License 1.1"
+  },
+  {
+    "file": "../fonts/bungee-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/bungee/OFL.txt",
+    "license": "SIL Open Font License 1.1"
+  },
+  {
+    "file": "k01.svg",
+    "source": "apps/web/src/game/pixelArt.ts: pixelRects (vanguard/ranger)",
+    "operation": "Exact existing rectangle list exported as SVG; no new character"
+  },
+  {
+    "file": "r03.svg",
+    "source": "apps/web/src/game/pixelArt.ts: pixelRects (vanguard/ranger)",
+    "operation": "Exact existing rectangle list exported as SVG; no new character"
+  }
+]

@@ -7,8 +7,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "sprites:import": "node scripts/sprites/import.mjs",
     "dev": "pnpm --filter @tft/web dev",
-    "build": "pnpm --filter @tft/web build",
+    "build": "pnpm --filter @tft/web build && pnpm --filter @tft/server build",
     "preview": "pnpm --filter @tft/web preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
@@ -16,13 +17,27 @@
     "test:watch": "vitest",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "build:local": "pnpm --filter @tft/web exec vite build --mode local-test --outDir dist-dev",
+    "preview:local": "pnpm --filter @tft/web exec vite preview --outDir dist-dev --host 127.0.0.1 --port 4173",
+    "verify:public": "node scripts/build/verify-public.mjs",
+    "diagnostics:multiplayer": "vitest run apps/server/src/pairings.test.ts apps/server/src/parallel-combats.test.ts apps/server/src/parallel-network.test.ts",
+    "dev:server": "pnpm --filter @tft/server dev",
+    "start": "node apps/server/dist/main.js",
+    "verify:railway": "node scripts/railway/verify-config.mjs",
+    "dev:local": "node scripts/local/run.mjs start",
+    "stop:local": "node scripts/local/run.mjs stop",
+    "status:local": "node scripts/local/run.mjs status",
+    "verify:release": "node scripts/release/verify-public-safe.mjs",
+    "release:push": "node scripts/release/push-public-safe.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.18.0",
     "eslint": "^10.13.0",
     "prettier": "3.6.2",
+    "railway": "3.16.0",
+    "sharp": "0.34.5",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.72.0",
     "vitest": "5.0.5"

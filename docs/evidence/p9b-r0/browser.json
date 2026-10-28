@@ -1,0 +1,28 @@
+{
+  "realProductionClient": true,
+  "authenticatedFixtureSession": true,
+  "restoredFourPlayerFinal": true,
+  "reloadRecovered": true,
+  "fonts": [
+    {
+      "status": 200,
+      "mime": "font/ttf"
+    },
+    {
+      "status": 200,
+      "mime": "font/ttf"
+    }
+  ],
+  "loaded": [
+    {
+      "family": "FestivalPop",
+      "status": "loaded"
+    }
+  ],
+  "errors": [],
+  "failed": [],
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  }
+}

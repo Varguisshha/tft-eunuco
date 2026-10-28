@@ -1,0 +1,29 @@
+import {chromium} from '/Users/vargas/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import fs from 'node:fs';
+const out='/Users/vargas/.codex/worktrees/p8f-stabilization/TFT EUNUCO/artifacts/p8f';fs.mkdirSync(out,{recursive:true});
+const b=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+const p=await b.newPage({viewport:{width:1920,height:1080}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://127.0.0.1:4188');await p.getByText('Modo DEV',{exact:true}).click();await p.getByRole('button',{name:'Crear prueba DEV',exact:true}).click();
+const load=async mode=>{if(await p.getByRole('button',{name:'DEV · Abrir herramientas',exact:true}).isVisible())await p.getByRole('button',{name:'DEV · Abrir herramientas',exact:true}).click();await p.getByLabel('Diagnóstico de objetos',{exact:true}).selectOption(mode);await p.getByRole('button',{name:'DEV · Plegar herramientas',exact:true}).click();await p.waitForTimeout(350);};
+await load('empty');await p.screenshot({path:out+'/empty.png'});
+await load('components');await p.getByRole('button',{name:/^Objetos \d/}).click();
+await p.getByRole('button',{name:'Componente · Potencia, ranura 1',exact:true}).click();
+console.log('AFTER CLICK',await p.locator('.item-dock').innerText(),errors);await p.screenshot({path:out+'/debug.png'});
+await p.getByLabel('Personaje para equipar').selectOption({label:'FLORIN 1★ · banquillo'});
+await p.getByRole('button',{name:'Equipar',exact:true}).click();
+if (!(await p.locator('.item-status').innerText()).includes('Confirmado')) throw Error('Equip not confirmed');
+await p.screenshot({path:out+'/equipped-component.png'});
+await p.locator('.item-slot').filter({has:p.locator('svg')}).first().click();
+await p.getByRole('button',{name:'Equipar',exact:true}).click();
+await p.screenshot({path:out+'/auto-combined.png'});
+// Native HTML drag on a component pair.
+const slots=p.locator('.item-slot[draggable=true]');await slots.nth(0).dragTo(slots.nth(1));
+await p.getByRole('tab',{name:/^Objetos /}).click();await p.screenshot({path:out+'/crafted.png'});
+await load('full');
+if(!(await p.getByRole('tab',{name:/^Pendientes /}).isVisible()))await p.getByRole('button',{name:/^Objetos \d/}).click();
+await p.getByRole('tab',{name:/^Pendientes /}).click();await p.locator('.item-slot').first().click();await p.getByRole('button',{name:'Recuperar al inventario'}).click();await p.screenshot({path:out+'/full-pending.png'});
+await load('two');await p.screenshot({path:out+'/round3.png'});await load('three');await p.screenshot({path:out+'/round6.png'});
+await load('components');if(!(await p.getByRole('tab',{name:/^Componentes /}).isVisible()))await p.getByRole('button',{name:/^Objetos \d/}).click();await p.getByRole('tab',{name:/^Componentes /}).click();await p.locator('.item-slot').first().click();
+await p.getByRole('button',{name:'Ver ocho combinaciones'}).click();
+const metrics=[];for(const [width,height] of [[1440,900],[1920,1080],[2560,1440],[3840,2160],[1280,720]]){await p.setViewportSize({width,height});await p.waitForTimeout(250);await p.screenshot({path:`${out}/inventory-${width}.png`});metrics.push(await p.evaluate(()=>({width:innerWidth,height:innerHeight,scroll:document.documentElement.scrollHeight>innerHeight,cards:document.querySelectorAll('.shop-offer').length,tray:document.querySelector('.item-tray').getBoundingClientRect().toJSON()})));}
+fs.writeFileSync(out+'/browser.json',JSON.stringify({errors,metrics},null,2));await b.close();

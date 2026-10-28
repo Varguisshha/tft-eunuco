@@ -1,12 +1,20 @@
 # Diseño de juego v0.1
 
+## Vigente F0-P6A
+
+DOLEA incorpora **Volumen Sucio**, una sola habilidad mixta: Volumen eterno otorga escudo12 % de su vida máxima efectiva en el primer cruce bajo50 %; Press de banca consume70maná, inflige100/180/324daño físico adyacente y concede20armadura4s, renovable sin acumular. Solo vivo, una pasiva por combate, Overtime y estrellas respetados.
+
+Sus sinergias reales son **Hortaleza** (2:+100vida;3:+220vida/+15armadura) y **Llama de Pádel** (2:+12 %AS;3:+25 %AS). Cuentan personajes distintos desplegados, no copias, estrellas o banquillo; se aplica el mayor umbral. Los valores son provisionales. DOLEA es el único miembro permanente; activaciones2/3 se prueban con membresías sintéticas fuera del catálogo.
+
+Sinergias en columna izquierda con iconos originales y tooltip accesible; tienda conserva composición P5.3; inspector cerrado por defecto con habilidad principal única y valores efectivos. Habilidades puramente pasivas no presentan barra de maná. No se modifican economía, pool, fusionado, reloj, arena ni sprites. Véanse ABILITY_SYSTEM, TRAIT_SYSTEM y CHARACTER_DESIGN_CONTRACT.
+
 ## Confirmado por el encargo
 
 - Autobattler web original, desktop-first, pixel-art retro moderno.
 - Tablero hexagonal isométrico, 7 × 4 por jugador y 7 × 8 en el duelo combinado.
 - Futuras partidas inicialmente de 4 jugadores.
 - Costes de unidad 1, 2 y 3; una sinergia habitual y segunda opcional.
-- Habilidad activa y pasiva por personaje.
+- Una habilidad principal por personaje: activa, pasiva o mixta (decisión vigente F0-P6A).
 - Combate automático animado en directo: reposo, desplazamiento, ataque, habilidad y muerte.
 - Servidor autoritativo futuro; simulación determinista y tick de 100 ms.
 - Arte definitivo a cargo de otro colaborador; esta fase solo usa placeholders originales generados por código.
@@ -15,7 +23,7 @@
 
 Preparación local, colocación y selección; movimiento con ratón o teclado; dos mitades; validación de límites, ocupación y propiedad. Panel de identificación y rol, zoom visual, restauración de ejemplo y controles de columna/fila.
 
-## Reglas provisionales del laboratorio
+## Preparación de la Arena: reglas del laboratorio
 
 No confundir estas decisiones con reglas finales de partida:
 
@@ -36,10 +44,34 @@ No confundir estas decisiones con reglas finales de partida:
 | test-k01 | K-01   | Vanguardia | 1     | test-alloy             |
 | test-v02 | V-02   | Duelista   | 2     | test-pulse             |
 | test-r03 | R-03   | Tirador    | 2     | test-alloy, test-pulse |
-| test-m04 | M-04   | Apoyo      | 3     | test-pulse             |
+| test-m04 | M-04   | Mago       | 3     | test-pulse             |
 
-Los IDs de sinergia son etiquetas sin efectos. Activa y pasiva son `null` de forma explícita: pendientes de diseño. No hay vida, daño, alcance, velocidad o balance inventados. Los nombres no representan personas reales.
+Los IDs de sinergia siguen siendo etiquetas sin efectos. M-04 conserva el identificador de rol interno `support` y el sprite de P1, con etiqueta visible Mago. Los cuatro perfiles son ficticios.
 
-## Sin decidir
+## Implementado en F0-P2
 
-Roster final, habilidades, pasivas, sinergias y umbrales; desempates; selección de objetivos; PRNG; estadísticas; balance; economía; emparejamientos de cuatro jugadores; duración de rondas; identidad y persistencia. Ninguno queda aprobado por este prototipo.
+Combate local automático animado; A\*, reservas y búsqueda de enemigos; ataques cuerpo a cuerpo y proyectiles; vida, maná, físico/mágico/verdadero; habilidades con daño de área, curación, escudo, modificadores y stun; una pasiva inicial. Reglas provisionales y valores exactos en [COMBAT_SPEC](COMBAT_SPEC.md). Reproducción con pausa/reanudar, ×1/×2, semilla y tick, repetición y vuelta a la formación previa. Sin economía ni bonus de sinergias.
+
+El duelo de ejemplo coloca los cuatro perfiles en cada equipo. Se puede editar manualmente la formación antes de comenzar. La semilla controla solo la variación del daño básico; el resultado depende también de posiciones, IDs y perfiles. No se pretende simetría perfecta ni balance competitivo con estos datos.
+
+## Decisión de producto: dos pantallas con propósitos diferentes
+
+La Arena de pruebas es una herramienta interna permanente. Conserva información técnica, paneles, coordenadas y controles. Su estética jade/ámbar es provisional y no define la dirección artística final.
+
+La futura pantalla de partida destacará el tablero con más superficie útil, profundidad de terreno, sombras, volumen e iluminación. Tendrá interfaz de videojuego contextual y compacta: tienda de cinco, banquillo de nueve, oro e intereses, nivel y XP, etapa y temporizador, clasificación de jugadores, sinergias activas e inspector de personaje.
+
+Arte futuro pixel-art retro moderno original; personajes inspirados en amigos reales, animaciones consistentes y efectos modernos integrados. Referencias generales de autobattlers tácticos/RPG clásicos, sin recursos ni identidad gráfica protegida de TFT. Estos elementos se registran como dirección futura: no se han implementado ni creado assets definitivos en P2.
+
+## Sin decidir para el producto final
+
+Roster, nombres, habilidades/pasivas definitivas, balance, sinergias/umbrales, economía, emparejamientos de cuatro jugadores, rondas, identidad/persistencia y dirección de producción del arte. Las reglas f0p2-1 permiten probar combate y no aprueban su balance como definitivo.
+
+## Implementado en F0-P3: partida local
+
+Pantalla independiente de Arena con oro, tienda5, banquillo9, XP/niveles2–7, estrellas1–3, venta, rival determinista y varias rondas. Inicio10oro, base2/3/4/5, interés de1 por10 hasta5, victoria1 y rachas configurables. El jugador elige cuándo combatir. Ninguna economía afecta al laboratorio Arena.
+
+Las tablas exactas y adaptaciones respecto a referencias históricas están en ECONOMY_SPEC, SHOP_POOL_SPEC y PROGRESSION_SPEC. Las fases y el guardado están en ROUND_FLOW. La partida sigue abierta tras derrota/empate: no se ha añadido salud global, PvE o condición final. Sin sinergias activas ni personajes reales. Se conserva la dirección artística provisional, con aviso de mejora y estrellas sobre sprites existentes.
+
+## Prototipo jugable F0-P4.1
+
+DOLEA se suma a las cuatro unidades ficticias como tanque cuerpo a cuerpo de coste2, alcance1, etiqueta neutral sin sinergia activa. Vida600/ataque40/armadura45/RM35 y habilidades técnicas heredadas de K-01 son datos provisionales. Una estrella usa chándal claro; dos, camiseta de tirantes; tres conserva temporalmente ese segundo aspecto con sus estadísticas y tres estrellas. Attack es el único clip real por evolución; Idle/Walk/Ability/Death tienen fallback visual sin daño adicional. Vargas y Florin son los nombres visibles de los dos participantes locales. No se definen características personales ni ficha definitiva.

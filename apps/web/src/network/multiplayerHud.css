@@ -1,0 +1,276 @@
+/* Scoped additions inherit the approved Neon palette and bounded HUD scale. */
+.game-hud .multiplayer-standings {
+  flex: none;
+}
+.multiplayer-standings .rail-heading h2 small {
+  display: block;
+  margin-top: 3px;
+  color: var(--neon-text-secondary);
+  font:
+    500 11px 'DM Sans',
+    sans-serif;
+}
+.multiplayer-player {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 3px 6px;
+  padding: 9px 10px 12px;
+  margin-bottom: 6px;
+  color: var(--neon-text-onPaper);
+  background: var(--neon-surface-paper);
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+  border-bottom: 3px solid var(--neon-border-primary);
+}
+.multiplayer-player.is-own {
+  border-bottom-color: var(--neon-game-life);
+}
+.multiplayer-player.is-rival {
+  border-bottom-color: var(--neon-game-gold);
+}
+.multiplayer-avatar {
+  grid-row: 1/3;
+  color: var(--neon-phase-timer);
+}
+.multiplayer-avatar svg {
+  width: 24px;
+  height: 24px;
+}
+.multiplayer-player h3 {
+  margin: 0;
+  font:
+    700 13px 'DM Sans',
+    sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.multiplayer-player > strong {
+  font:
+    16px FestivalPop,
+    sans-serif;
+  text-align: right;
+}
+.multiplayer-player-meta,
+.multiplayer-connection {
+  font:
+    500 10px 'DM Sans',
+    sans-serif;
+  white-space: nowrap;
+}
+.multiplayer-player-meta {
+  grid-column: 2/4;
+}
+.multiplayer-connection {
+  grid-column: 2/4;
+  opacity: 0.85;
+}
+.multiplayer-connection.is-offline {
+  font-weight: 700;
+}
+.multiplayer-player meter {
+  position: absolute;
+  bottom: 4px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: 3px;
+}
+.multiplayer-duel,
+.multiplayer-wait,
+.multiplayer-rival {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(115 * var(--u));
+  pointer-events: none;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-primary);
+  border-bottom: 3px solid var(--neon-game-gold);
+  padding: 10px 20px;
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+}
+.multiplayer-duel {
+  width: min(410px, 45vw);
+  animation: duel-arrive 180ms ease-out both;
+}
+.duel-caption {
+  display: block;
+  text-align: center;
+  font: 500 11px 'DM Sans';
+  color: var(--neon-text-secondary);
+}
+.duel-versus {
+  display: grid;
+  grid-template-columns: 1fr 34px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  text-align: center;
+}
+.duel-versus > span {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.duel-versus svg {
+  width: 24px;
+  height: 24px;
+  color: var(--neon-game-life);
+}
+.duel-versus > span:last-child svg,
+.duel-versus > strong {
+  color: var(--neon-game-gold);
+}
+.duel-versus b {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font:
+    16px FestivalPop,
+    sans-serif;
+}
+.duel-versus small {
+  font: 12px 'DM Sans';
+}
+.multiplayer-wait {
+  max-width: 400px;
+  text-align: center;
+}
+.multiplayer-wait strong,
+.multiplayer-wait span {
+  display: block;
+}
+.multiplayer-wait strong {
+  font:
+    15px FestivalPop,
+    sans-serif;
+}
+.multiplayer-wait span {
+  margin-top: 4px;
+  font: 12px 'DM Sans';
+}
+.multiplayer-rival {
+  font: 12px 'DM Sans';
+  padding: 6px 14px;
+}
+@keyframes duel-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .multiplayer-duel {
+    animation: none;
+  }
+}
+/* Compact roster leaves the incumbent trait list usable at 720p. */
+.game-hud .multiplayer-player {
+  grid-template-rows: 18px 12px 12px;
+  gap: 1px 5px;
+  padding: 5px 8px 8px;
+  margin-bottom: 4px;
+}
+.multiplayer-player h3,
+.multiplayer-player > strong,
+.multiplayer-player-meta,
+.multiplayer-connection {
+  line-height: 1.15;
+}
+.multiplayer-game .trait-rail {
+  margin-top: 10px;
+}
+.multiplayer-game .player-rail {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.multiplayer-game .round-reward {
+  flex: none;
+  padding: 8px;
+}
+.multiplayer-game .round-reward > strong {
+  font-size: 12px;
+}
+.multiplayer-game .round-reward > p {
+  margin: 4px 0;
+  font-size: 11px;
+}
+@media (max-height: 800px) {
+  .multiplayer-game .player-rail > .game-button {
+    min-height: 28px;
+    height: 28px;
+  }
+  .multiplayer-game .trait-rail {
+    margin-top: 5px;
+    flex: none;
+    overflow: visible;
+  }
+  .multiplayer-game .trait-row {
+    margin: 4px 0;
+  }
+  .multiplayer-game .trait-trigger {
+    min-height: 36px;
+    padding: 3px;
+  }
+}
+/* Four participants and four reference traits remain visible at laptop heights. */
+@media (min-width: 1024px) and (max-height: 800px) {
+  .game-hud.multiplayer-game .player-rail {
+    top: 60px;
+    width: 180px;
+  }
+  .game-hud.multiplayer-game .multiplayer-player {
+    grid-template-rows: 16px 11px 11px;
+    padding: 2px 6px 6px;
+    margin-bottom: 2px;
+  }
+  .multiplayer-game .multiplayer-standings .rail-heading h2 {
+    margin-bottom: 5px;
+  }
+  .multiplayer-game .multiplayer-standings .rail-heading h2 small {
+    display: inline;
+    margin-left: 4px;
+    font-size: 10px;
+  }
+  .game-hud.multiplayer-game .trait-rail h2 {
+    margin-bottom: 4px;
+  }
+  .game-hud.multiplayer-game .trait-trigger {
+    min-height: 36px;
+    gap: 4px;
+    padding: 3px;
+  }
+  .game-hud.multiplayer-game .trait-trigger > .content-icon {
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+  }
+  .game-hud.multiplayer-game .trait-title small {
+    margin-top: 2px;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 800px) {
+  .multiplayer-game .multiplayer-player meter {
+    bottom: 1px;
+  }
+}

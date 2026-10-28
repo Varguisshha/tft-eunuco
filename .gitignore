@@ -8,3 +8,16 @@ coverage/
 !.env.example
 .impeccable/
 artifacts/
+dist-dev/
+
+# Supabase local link/cache metadata
+supabase/.temp/
+
+dist-p9a/
+
+# Never publish LOCAL-only third-party reference artwork.
+/apps/web/public/assets/items/tft-reference/
+
+# Untracked original source packs are test fixtures, never release payloads.
+/TFPeru/
+/Sprites/

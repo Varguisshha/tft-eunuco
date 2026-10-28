@@ -1,5 +1,9 @@
-# Servidor reservado
+# Servidor local F0-P7A
 
-F0-P1 no implementa ni instala un servidor de juego. Esta carpeta reserva el límite futuro para Node.js + Colyseus. No contiene un package.json vacío ni dependencias ficticias.
+`pnpm dev:server` desde la raíz inicia Node/Colyseus en127.0.0.1:2567.
 
-Cuando se autorice su fase: validar comandos con `@tft/shared`, consumir reglas puras de `@tft/game-core`, resolver identidad/jugador/mitad en el servidor, ejecutar ticks de 100 ms y emitir snapshots/eventos. Supabase quedará detrás de un adaptador de persistencia, nunca importado por game-core. No hay puertos, credenciales ni servicios configurados aquí.
+`pnpm build` compila cliente y servidor; `pnpm --filter @tft/server start` ejecuta el bundle compilado. No ejecutar dev y start a la vez en el mismo puerto.
+
+En la web, Multijugador de prueba permite crear una sesión y unirse desde otra ventana mediante su ID técnico. No es un sistema final de invitaciones. Primer jugador Vargas; segundo Florin. Ambos deben conectarse antes de Iniciar partida.
+
+Estado exclusivamente en memoria. Reiniciar pierde las sesiones. Sin cuentas, base de datos, reconexión ni despliegue. Solo loopback. Documentación: [arquitectura](../../docs/MULTIPLAYER_ARCHITECTURE.md), [protocolo](../../docs/SERVER_PROTOCOL.md), [autoridad](../../docs/AUTHORITATIVE_MATCH.md).

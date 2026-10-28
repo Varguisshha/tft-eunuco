@@ -1,0 +1,59 @@
+[
+  {
+    "bench": {
+      "bottom": 536,
+      "height": 72,
+      "left": 236,
+      "right": 1012,
+      "top": 464,
+      "width": 776,
+      "x": 236,
+      "y": 464
+    },
+    "cards": 5,
+    "h": 720,
+    "scale": "scale(0.666667)",
+    "scroll": 720,
+    "traitText": "18px",
+    "url": "http://127.0.0.1:4185/festival-tactico/index.html",
+    "w": 1280
+  },
+  {
+    "bench": {
+      "bottom": 536,
+      "height": 72,
+      "left": 236,
+      "right": 1012,
+      "top": 464,
+      "width": 776,
+      "x": 236,
+      "y": 464
+    },
+    "cards": 5,
+    "h": 720,
+    "scale": "scale(0.666667)",
+    "scroll": 720,
+    "traitText": "18px",
+    "url": "http://127.0.0.1:4185/pixel-pop-arena/index.html",
+    "w": 1280
+  },
+  {
+    "bench": {
+      "bottom": 536,
+      "height": 72,
+      "left": 236,
+      "right": 1012,
+      "top": 464,
+      "width": 776,
+      "x": 236,
+      "y": 464
+    },
+    "cards": 5,
+    "h": 720,
+    "scale": "scale(0.666667)",
+    "scroll": 720,
+    "traitText": "18px",
+    "url": "http://127.0.0.1:4185/festival-pop/index.html",
+    "w": 1280
+  }
+]

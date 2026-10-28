@@ -1,0 +1,57 @@
+{
+  "domain": {
+    "domains": [
+      {
+        "id": "acc09954-c7db-42de-8782-2937e32f570e",
+        "domain": "tfteunuco.up.railway.app",
+        "type": "service",
+        "targetPort": 8080,
+        "syncStatus": "ACTIVE",
+        "createdAt": "2026-10-26T20:44:22.591+00:00",
+        "updatedAt": "2026-10-26T22:13:15.878+00:00"
+      }
+    ]
+  },
+  "auth": {
+    "project": "tft-eunuco-dev",
+    "ref": "qiombjvkaolllnjqzspz",
+    "before": {
+      "site_url": "https://tft-eunuco-private.up.railway.app/",
+      "uri_allow_list": "http://127.0.0.1:4173/,https://tft-eunuco-private.up.railway.app/"
+    },
+    "after": {
+      "site_url": "https://tfteunuco.up.railway.app/",
+      "uri_allow_list": "http://127.0.0.1:4173/,https://tfteunuco.up.railway.app/"
+    },
+    "changedFields": [
+      "site_url",
+      "uri_allow_list"
+    ],
+    "otherFieldsUnchanged": true,
+    "comparedFields": 243
+  },
+  "changedVariableNames": [
+    "TFT_ALLOWED_ORIGINS",
+    "TFT_PUBLIC_URL"
+  ],
+  "canonicalVariables": {
+    "TFT_PUBLIC_URL": "https://tfteunuco.up.railway.app",
+    "TFT_ALLOWED_ORIGINS": "https://tfteunuco.up.railway.app"
+  },
+  "deployments": [
+    {
+      "id": "c6f11898-a0dc-483a-b50f-4c4f8042eb57",
+      "status": "REMOVED"
+    }
+  ],
+  "usersUnchanged": true,
+  "matchesUnchanged": true,
+  "pendingAuthOperations": 0,
+  "activeMatches": 0,
+  "leaseReleased": true,
+  "environmentConfigDifferences": [
+    "TFT_PUBLIC_URL",
+    "TFT_ALLOWED_ORIGINS"
+  ],
+  "note": "Environment export retains historical networking label; live domain API confirms same domain ID renamed. No deployment created."
+}

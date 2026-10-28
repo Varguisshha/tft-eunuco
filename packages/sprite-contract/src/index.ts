@@ -87,3 +87,5 @@ export function originOffset(
     y: (meta.origin.y * meta.frameHeight - meta.foot.y) * scale,
   };
 }
+
+export * from './character';

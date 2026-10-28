@@ -1,0 +1,615 @@
+/* Compact extension of Festival Pop: blue frames, lime actions, existing arena untouched. */
+.game-hud .item-dock {
+  position: absolute;
+  z-index: 9;
+  left: calc(50% - min(477px, 32vw));
+  bottom: calc(
+    var(--dock-bottom, 20px) + var(--dock-height, 190px) + var(--bench-height, 86px) + 20px
+  );
+  pointer-events: auto;
+  color: var(--neon-text-primary);
+  font:
+    12px/1.4 'DM Sans',
+    sans-serif;
+}
+.item-dock button,
+.equipment-slots button {
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--neon-border-highlight);
+  border-radius: 0;
+  background: var(--neon-surface-primary);
+}
+.item-dock button:focus-visible,
+.equipment-slots button:focus-visible {
+  outline: 3px solid var(--neon-accent-primary);
+  outline-offset: 3px;
+}
+.item-dock button:hover:not(:disabled) {
+  background: var(--neon-button-hover);
+}
+.item-dock button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.item-dock button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.item-dock .item-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 14px;
+  border: 2px solid var(--neon-border-primary);
+  font-weight: 700;
+  box-shadow: 0 3px 8px #0f112580;
+}
+.item-toggle b {
+  color: var(--neon-accent-primary);
+  font-variant-numeric: tabular-nums;
+}
+.item-tray {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  padding: 12px;
+  background: var(--neon-surface-overlay);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: 0 8px 24px #0f112580;
+}
+.item-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.item-tabs button {
+  flex: 1;
+  padding: 6px 4px;
+}
+.item-tabs button[aria-selected='true'] {
+  background: var(--neon-surface-paper);
+  color: var(--neon-text-onPaper);
+  border-bottom: 3px solid var(--neon-accent-primary);
+}
+.item-slots {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 4px;
+  max-height: 150px;
+  overflow: auto;
+}
+.item-slot {
+  position: relative;
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 2px;
+  transition: transform 110ms ease-out;
+}
+.item-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 48px;
+  max-height: 48px;
+}
+.item-slot.empty {
+  display: grid;
+  place-items: center;
+  background: var(--neon-surface-primary);
+  color: var(--neon-text-secondary);
+  font-size: 10px;
+}
+.item-slot.selected {
+  outline: 2px solid var(--neon-accent-primary);
+  outline-offset: -2px;
+}
+.item-slot[data-drop='valid'] {
+  outline: 3px solid var(--neon-accent-primary);
+}
+.item-slot-mark {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 8px;
+  background: var(--neon-surface-canvas);
+}
+.item-actions {
+  display: flex;
+  align-items: end;
+  gap: 6px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.item-actions label {
+  flex: 1;
+  min-width: 145px;
+}
+.item-actions select {
+  width: 100%;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-primary);
+  padding: 5px;
+  border: 1px solid var(--neon-border-highlight);
+}
+.item-actions button {
+  padding: 6px 8px;
+}
+.item-actions button:first-of-type {
+  background: var(--neon-accent-primary);
+  color: var(--neon-text-onAccent);
+  font-weight: 700;
+}
+.item-status {
+  margin: 10px 0 0;
+  min-height: 18px;
+}
+.item-status.error {
+  color: var(--neon-game-danger);
+}
+.item-status.success {
+  color: var(--neon-accent-primary);
+  animation: item-confirm 220ms ease-out;
+}
+.item-details {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--neon-border-primary);
+  max-height: 180px;
+  overflow: auto;
+}
+.item-details p,
+.item-recipes p {
+  margin: 5px 0 8px;
+}
+.item-details small {
+  color: var(--neon-text-secondary);
+}
+.item-details button {
+  margin-top: 8px;
+  padding: 5px 8px;
+}
+.item-recipes {
+  position: absolute;
+  left: calc(100% + 8px);
+  bottom: 0;
+  width: 340px;
+  max-height: min(520px, 55vh);
+  overflow: auto;
+  background: var(--neon-surface-overlay);
+  border: 2px solid var(--neon-border-primary);
+  padding: 12px;
+}
+.item-recipes header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.item-recipes header button {
+  width: 28px;
+  height: 28px;
+}
+.item-recipe {
+  padding: 9px 0;
+  border-top: 1px solid var(--neon-border-primary);
+}
+.recipe-symbols {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.recipe-symbols .item-icon {
+  width: 30px;
+  height: 30px;
+}
+.item-recipe button {
+  padding: 5px 8px;
+  margin-top: 6px;
+}
+.item-recipe summary {
+  cursor: pointer;
+}
+.item-delivery {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 300px;
+  padding: 12px;
+  background: var(--neon-surface-primary);
+  border: 2px solid var(--neon-accent-primary);
+  animation: item-appear 180ms ease-out;
+}
+.is-open .item-delivery {
+  left: calc(100% + 8px);
+  bottom: 0;
+}
+.item-delivery button {
+  float: right;
+}
+.item-delivery div div {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+.item-delivery .item-icon {
+  width: 40px;
+  height: 40px;
+}
+.equipment-slots > div {
+  display: flex;
+  gap: 8px;
+}
+.equipment-slots button {
+  width: 54px;
+  height: 54px;
+  padding: 3px;
+  position: relative;
+}
+.equipment-slots button span {
+  position: absolute;
+  bottom: 0;
+  right: 2px;
+  background: var(--neon-surface-canvas);
+  font-size: 10px;
+}
+.game-hud .canvas-shell[data-item-target='valid'],
+.bench-slot[data-item-target='valid'] {
+  outline: 2px solid var(--neon-accent-primary);
+  outline-offset: -2px;
+}
+.game-hud .canvas-shell[data-item-target='invalid'],
+.bench-slot[data-item-target='invalid'] {
+  outline: 2px dashed var(--neon-game-danger);
+  outline-offset: -2px;
+}
+@keyframes item-appear {
+  from {
+    opacity: 0.6;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes item-confirm {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (max-width: 1450px) {
+  .game-hud .item-dock {
+    left: calc(50% - 32vw);
+  }
+  .item-tray {
+    width: 350px;
+  }
+  .item-recipes {
+    width: 300px;
+  }
+}
+@media (max-height: 800px) {
+  .item-tray {
+    max-height: 46vh;
+    overflow: visible;
+  }
+  .item-details {
+    max-height: 100px;
+  }
+  .item-recipes {
+    max-height: 46vh;
+  }
+}
+@media (max-width: 1100px) {
+  .game-hud .item-dock {
+    left: 12px;
+    bottom: 260px;
+  }
+  .item-recipes {
+    max-height: 46vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .item-dock * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* Keep the hit targets stationary when focus reveals details. */
+.item-tray {
+  height: 390px;
+  display: flex;
+  flex-direction: column;
+}
+.item-slots {
+  flex-shrink: 0;
+}
+.item-details {
+  flex: 1;
+  min-height: 0;
+}
+.item-tray,
+.item-recipes {
+  border: 0;
+  outline: 2px solid var(--neon-border-primary);
+  box-shadow:
+    inset 0 4px var(--neon-border-highlight),
+    0 8px 24px #0f112580;
+}
+.item-toggle,
+.item-actions button,
+.item-recipe button,
+.item-tabs button {
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+.item-tray {
+  height: 360px;
+}
+.item-tabs button {
+  font-weight: 700;
+}
+.item-recipe button:not(:disabled) {
+  background: var(--neon-accent-primary);
+  color: var(--neon-text-onAccent);
+  font-weight: 700;
+}
+
+.item-slot[data-drop='invalid'],
+.equipment-slots button[data-drop='invalid'] {
+  outline: 2px dashed var(--neon-game-danger);
+  outline-offset: -2px;
+}
+.equipment-slots button[data-drop='valid'] {
+  outline: 2px solid var(--neon-accent-primary);
+}
+
+/* Inset focus remains visible within the angular silhouettes. */
+.item-dock button:focus-visible,
+.equipment-slots button:focus-visible {
+  outline: 2px solid var(--neon-accent-primary);
+  outline-offset: -4px;
+  box-shadow: inset 0 0 0 4px var(--neon-surface-canvas);
+}
+.item-tabs button[aria-selected='true']:hover:not(:disabled) {
+  background: var(--neon-surface-paper);
+  color: var(--neon-text-onPaper);
+}
+.item-slots > p {
+  grid-column: 1 / -1;
+  margin: 12px 0;
+}
+
+/* P11B: one permanent vertical bag; every mutation remains authoritative. */
+.game-hud .item-vertical {
+  position: absolute;
+  z-index: 12;
+  left: calc(244 * var(--u) + 12px);
+  top: clamp(132px, 18vh, 220px);
+  bottom: calc(var(--dock-height, 190px) + var(--bench-height, 86px) + 45px);
+  width: 58px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-overlay);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: var(--neon-shadow-panel);
+  pointer-events: auto;
+  font:
+    11px/1.4 'DM Sans',
+    sans-serif;
+}
+.item-vertical header {
+  display: grid;
+  text-align: center;
+  gap: 2px;
+  padding: 3px 0 6px;
+}
+.item-vertical header b {
+  color: var(--neon-game-gold);
+  font-size: 14px;
+}
+.item-vertical-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  scrollbar-color: var(--neon-border-highlight) var(--neon-surface-overlay);
+}
+.item-vertical .item-slot {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--neon-border-highlight);
+  background: var(--neon-surface-primary);
+  color: var(--neon-text-primary);
+  border-radius: 0;
+  padding: 2px;
+  cursor: pointer;
+}
+.item-vertical .item-slot:hover:not(:disabled) {
+  background: var(--neon-button-hover);
+}
+.item-vertical .item-slot:active:not(:disabled) {
+  background: var(--neon-button-pressed);
+}
+.item-vertical .item-slot.selected {
+  border-color: var(--neon-state-selected);
+  background: var(--neon-button-default);
+}
+.item-vertical .item-slot:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.item-vertical button:focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: -3px;
+}
+.item-vertical .item-slot[data-drop='valid'] {
+  border-color: var(--neon-state-selected);
+}
+.item-vertical .item-slot[data-drop='invalid'] {
+  border-color: var(--neon-state-insufficient);
+}
+.item-quantity {
+  position: absolute;
+  right: 1px;
+  bottom: 0;
+  min-width: 14px;
+  background: var(--neon-surface-canvas);
+  color: var(--neon-game-gold);
+  font-size: 11px;
+  line-height: 14px;
+}
+.item-pending-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  color: var(--neon-text-onAccent);
+  background: var(--neon-game-gold);
+}
+.item-vertical-empty {
+  text-align: center;
+  padding: 8px 0;
+  color: var(--neon-text-secondary);
+}
+.item-vertical .remover-slot {
+  margin-top: 8px;
+  color: var(--neon-accent-primary);
+}
+.remover-slot svg {
+  width: 100%;
+  height: 100%;
+}
+.item-vertical-detail {
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 0;
+  width: 310px;
+  max-height: min(58vh, 600px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  background: var(--neon-tooltip-surface);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: var(--neon-shadow-panel);
+}
+.item-vertical-detail > strong {
+  display: block;
+  padding-right: 20px;
+  color: var(--neon-game-gold);
+  font:
+    700 17px FestivalPop,
+    sans-serif;
+}
+.item-vertical-detail p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.item-detail-close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 26px;
+  height: 26px;
+  color: var(--neon-text-primary);
+  background: var(--neon-button-default);
+  border: 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+.item-vertical-detail .game-button {
+  width: 100%;
+  height: 42px;
+  min-height: 42px;
+}
+.item-vertical-detail .game-button-label {
+  font:
+    700 12px 'DM Sans',
+    sans-serif;
+}
+.item-recipes-toggle,
+.item-vertical-recipes button {
+  padding: 7px;
+  border: 1px solid var(--neon-border-highlight);
+  color: var(--neon-text-primary);
+  background: var(--neon-button-default);
+  cursor: pointer;
+}
+.item-vertical-recipes > div {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 6px;
+  padding: 8px 0;
+  border-top: 1px solid var(--neon-border-primary);
+}
+.item-vertical-recipes svg {
+  width: 32px;
+  height: 32px;
+}
+.item-vertical-recipes small {
+  display: block;
+  color: var(--neon-game-gold);
+}
+.item-vertical-recipes button {
+  grid-column: 2;
+}
+.item-vertical-recipes button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.item-vertical .item-detail-tools {
+  position: sticky;
+  top: -16px;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  text-align: left;
+  gap: 12px;
+  padding: 10px;
+  margin: -16px -16px 10px;
+  background: var(--neon-surface-overlay);
+}
+.item-detail-tools strong {
+  color: var(--neon-game-gold);
+  font:
+    700 17px/1.3 FestivalPop,
+    sans-serif;
+}
+.item-detail-tools .item-detail-close {
+  position: static;
+  flex: 0 0 26px;
+}
+.item-vertical-recipes .item-recipe-formula {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--neon-text-secondary);
+}
+.item-recipe-formula > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.item-recipe-formula svg {
+  width: 18px;
+  height: 18px;
+}
+
+.item-icon[data-icon-art='tft-official'] {
+  object-fit: contain;
+  image-rendering: auto;
+}

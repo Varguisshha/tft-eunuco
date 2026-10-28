@@ -1,0 +1,78 @@
+.inspector-abilities .ability-values {
+  color: var(--neon-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.ability-values .ability-prose {
+  margin: 6px 0 10px;
+  line-height: 1.65;
+}
+.ability-inline-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  white-space: nowrap;
+  color: var(--neon-game-gold);
+  font-weight: 700;
+}
+.ability-inline-value[data-kind='magic'] {
+  color: var(--neon-game-cyan, #72dfea);
+}
+.ability-inline-value[data-kind='heal'],
+.ability-inline-value[data-kind='shield'] {
+  color: var(--neon-game-mint, #82dfbd);
+}
+.ability-inline-value[data-kind='true'] {
+  color: var(--neon-text-primary);
+}
+.ability-scaling-icon {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  vertical-align: -2px;
+  align-self: center;
+}
+.ability-breakdown {
+  padding-top: 7px;
+  margin-top: 8px;
+  border-top: 1px solid var(--neon-border-primary);
+}
+.inspector-abilities .ability-breakdown-heading {
+  margin: 0 0 4px;
+  font-size: 10px;
+  color: var(--neon-text-secondary);
+}
+.ability-breakdown dl {
+  margin: 0;
+}
+.ability-breakdown-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 8px;
+  padding: 3px 0;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.ability-breakdown-row dt {
+  font-weight: 600;
+}
+.ability-breakdown-row dd {
+  margin: 0 0 0 auto;
+  text-align: right;
+  color: var(--neon-border-highlight);
+}
+.ability-breakdown-row .is-current-star {
+  color: var(--neon-game-gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 700;
+}
+.ability-breakdown-row svg {
+  margin-left: 4px;
+}
+.ability-amount-note {
+  display: block;
+  margin-top: 7px;
+  color: var(--neon-text-secondary);
+  line-height: 1.5;
+}

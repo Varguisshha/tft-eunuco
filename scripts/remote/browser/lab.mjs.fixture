@@ -1,0 +1,7 @@
+import {spawn} from 'node:child_process';import fs from 'node:fs';import crypto from 'node:crypto';
+const secret=crypto.randomBytes(32).toString('hex');fs.writeFileSync('artifacts/p9a/control.key',secret,{mode:0o600});
+const tokens=Array.from({length:4},(_,i)=>{const a=Buffer.from(JSON.stringify({alg:'HS256'})).toString('base64url'),b=Buffer.from(JSON.stringify({sub:`00000000-0000-4000-8000-00000000000${i+1}`,aud:'p9a-local-only',exp:Math.floor(Date.now()/1000)+3600})).toString('base64url');return a+'.'+b+'.'+crypto.createHmac('sha256',secret).update(a+'.'+b).digest('base64url');});
+fs.writeFileSync('apps/web/dist-p9a/tokens.js','window.DIAGNOSTIC_TOKENS='+JSON.stringify(tokens));
+const env={...process.env,P9A_BROWSER_SEED:'1',P9A_SIGNING_KEY:secret,P9A_STATIC_DIR:'apps/web/dist-p9a',P9A_TEST_DATABASE_URL:'postgresql://127.0.0.1:55439/tft_remote_test'};
+const children=[spawn(process.execPath,['--import','./apps/server/node_modules/tsx/dist/loader.mjs','apps/server/src/diagnostics/p9a.ts'],{env,stdio:'inherit'}),spawn(process.execPath,['scripts/remote/local-proxy.mjs'],{stdio:'inherit'})];
+process.on('SIGTERM',()=>{for(const c of children)c.kill('SIGTERM');});

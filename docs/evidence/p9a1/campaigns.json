@@ -1,0 +1,235 @@
+{
+  "campaigns": [
+    {
+      "count": 4,
+      "index": 0,
+      "normal": false,
+      "durationMs": 27978,
+      "actions": 242,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "baseline",
+      "standings": 4
+    },
+    {
+      "count": 4,
+      "index": 0,
+      "normal": false,
+      "durationMs": 27592,
+      "actions": 240,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "after",
+      "standings": 4
+    },
+    {
+      "count": 4,
+      "index": 0,
+      "normal": true,
+      "durationMs": 921109,
+      "actions": 235,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "normal",
+      "standings": 4
+    },
+    {
+      "count": 2,
+      "index": 0,
+      "normal": false,
+      "durationMs": 14494,
+      "actions": 114,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 2
+    },
+    {
+      "count": 2,
+      "index": 1,
+      "normal": false,
+      "durationMs": 14289,
+      "actions": 111,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 2
+    },
+    {
+      "count": 2,
+      "index": 2,
+      "normal": false,
+      "durationMs": 14197,
+      "actions": 111,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 2
+    },
+    {
+      "count": 2,
+      "index": 3,
+      "normal": false,
+      "durationMs": 14247,
+      "actions": 113,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 2
+    },
+    {
+      "count": 2,
+      "index": 4,
+      "normal": false,
+      "durationMs": 13774,
+      "actions": 112,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 2
+    },
+    {
+      "count": 4,
+      "index": 5,
+      "normal": false,
+      "durationMs": 27635,
+      "actions": 240,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 4
+    },
+    {
+      "count": 4,
+      "index": 6,
+      "normal": false,
+      "durationMs": 27045,
+      "actions": 238,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 4
+    },
+    {
+      "count": 4,
+      "index": 7,
+      "normal": false,
+      "durationMs": 27932,
+      "actions": 233,
+      "reconnected": true,
+      "overtime": true,
+      "mode": "consecutive",
+      "standings": 4
+    }
+  ],
+  "normalAudit": {
+    "status": "finished",
+    "participants": 4,
+    "rounds": 14,
+    "commands": {
+      "buy_unit": {
+        "accepted": 94,
+        "rejected": 71
+      },
+      "move_unit": {
+        "accepted": 21,
+        "rejected": 0
+      },
+      "combine_components": {
+        "accepted": 8,
+        "rejected": 0
+      },
+      "equip_item": {
+        "accepted": 6,
+        "rejected": 5
+      },
+      "sell_unit": {
+        "accepted": 30,
+        "rejected": 0
+      }
+    },
+    "players": [
+      {
+        "crafts": 1,
+        "distributions": [
+          {
+            "round": 3
+          },
+          {
+            "round": 6
+          },
+          {
+            "round": 9
+          },
+          {
+            "round": 12
+          }
+        ],
+        "equipped": 0,
+        "eliminated": true,
+        "position": 3
+      },
+      {
+        "crafts": 1,
+        "distributions": [
+          {
+            "round": 3
+          },
+          {
+            "round": 6
+          },
+          {
+            "round": 9
+          },
+          {
+            "round": 12
+          }
+        ],
+        "equipped": 0,
+        "eliminated": true,
+        "position": 2
+      },
+      {
+        "crafts": 1,
+        "distributions": [
+          {
+            "round": 3
+          },
+          {
+            "round": 6
+          },
+          {
+            "round": 9
+          },
+          {
+            "round": 12
+          }
+        ],
+        "equipped": 0,
+        "eliminated": true,
+        "position": 4
+      },
+      {
+        "crafts": 5,
+        "distributions": [
+          {
+            "round": 3
+          },
+          {
+            "round": 6
+          },
+          {
+            "round": 9
+          },
+          {
+            "round": 12
+          }
+        ],
+        "equipped": 3,
+        "eliminated": false,
+        "position": 1
+      }
+    ],
+    "journalEntries": 4
+  }
+}

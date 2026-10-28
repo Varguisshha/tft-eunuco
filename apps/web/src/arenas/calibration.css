@@ -1,0 +1,106 @@
+.game-hud .arena-calibration {
+  position: absolute;
+  z-index: 12;
+  left: 8px;
+  bottom: 34px;
+  max-width: calc(100% - 16px);
+  font-size: 12px;
+}
+.game-hud .arena-calibration > button {
+  background: #14251fee;
+  box-shadow: 0 2px 12px #0008;
+}
+.game-hud .arena-calibration section {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 310px;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100dvh - 290px);
+  overflow: auto;
+  padding: 14px;
+  background: #12211af5;
+  border: 1px solid #779d85;
+  box-shadow: 0 8px 24px #0008;
+  color: #eff4e6;
+}
+.game-hud .arena-calibration h3 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+.game-hud .arena-calibration p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+.game-hud .calibration-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.game-hud .calibration-points fieldset {
+  min-width: 0;
+  border: 1px solid #425b4b;
+  padding: 6px;
+  display: flex;
+  gap: 8px;
+}
+.game-hud .calibration-points label {
+  width: 50%;
+}
+.game-hud .calibration-points input {
+  width: 100%;
+  min-width: 0;
+  color: #eef4de;
+  background: #0c1811;
+  border: 1px solid #56735f;
+  padding: 5px;
+}
+.game-hud .calibration-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 8px 0;
+}
+.game-hud .calibration-actions button {
+  padding: 6px 8px;
+  background: #263e30;
+  color: #eff3df;
+  border: 1px solid #56735f;
+  font-size: 12px;
+}
+.game-hud .arena-calibration output {
+  display: block;
+  min-height: 32px;
+  color: #d2e5b4;
+  font-variant-numeric: tabular-nums;
+}
+.game-hud .arena-calibration textarea {
+  width: 100%;
+  height: 120px;
+  resize: vertical;
+  background: #0c1811;
+  color: #e3efcf;
+}
+/* Keep existing HUD dimensions; legibility over detailed arena art. */
+.game-hud .local-board-title > span,
+.game-hud .local-board-footer > span,
+.game-hud .match-feedback {
+  text-shadow:
+    0 1px 3px #000,
+    0 0 8px #000;
+  background: #102018bf;
+  padding: 3px 6px;
+}
+.game-hud .player-banner,
+.game-hud .journal-button {
+  backdrop-filter: blur(4px);
+}
+.game-hud .player-banner.south {
+  background: #213c2eed;
+}
+.game-hud .player-banner.north {
+  background: #3c3323ed;
+}
+.game-hud .rail-heading {
+  text-shadow: 0 1px 3px #000;
+}

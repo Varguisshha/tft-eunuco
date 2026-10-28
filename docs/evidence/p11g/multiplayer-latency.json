@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "outboundLatencyMs": 250,
+      "players": 2,
+      "privateLobby": true,
+      "placements": [
+        true,
+        true
+      ],
+      "reconnectedWithoutReload": false,
+      "metrics": []
+    },
+    {
+      "outboundLatencyMs": 250,
+      "players": 3,
+      "privateLobby": true,
+      "placements": [
+        true,
+        true,
+        true
+      ],
+      "reconnectedWithoutReload": false,
+      "metrics": []
+    },
+    {
+      "outboundLatencyMs": 250,
+      "players": 4,
+      "privateLobby": true,
+      "placements": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "reconnectedWithoutReload": true,
+      "metrics": []
+    }
+  ],
+  "errors": []
+}

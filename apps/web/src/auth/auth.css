@@ -1,0 +1,256 @@
+.account-screen {
+  min-height: 100dvh;
+  padding: clamp(28px, 5vw, 90px);
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(360px, 520px);
+  justify-content: center;
+  align-items: center;
+  gap: clamp(32px, 7vw, 120px);
+  background: var(--neon-surface-canvas);
+  color: var(--neon-text-primary);
+  overflow: auto;
+  height: 100dvh;
+  font:
+    16px/1.5 'DM Sans',
+    sans-serif;
+}
+.account-intro {
+  max-width: 540px;
+}
+.account-brand {
+  font:
+    24px/1.15 FestivalPop,
+    sans-serif;
+  margin-bottom: 36px;
+}
+.account-brand strong {
+  color: var(--neon-game-gold);
+  font-size: 36px;
+}
+.account-intro h1 {
+  font:
+    clamp(32px, 3.8vw, 58px) / 1.12 FestivalPop,
+    sans-serif;
+  text-wrap: balance;
+  margin: 0 0 24px;
+}
+.account-intro p {
+  color: var(--neon-text-secondary);
+  font-size: 20px;
+}
+.account-emblem {
+  color: var(--neon-accent-primary);
+  margin: 32px 0;
+}
+.account-emblem svg {
+  width: 80px;
+  height: 80px;
+}
+.account-panel {
+  position: relative;
+  padding: 28px 34px;
+  min-height: 420px;
+}
+.account-panel > .game-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  --frame-fill: var(--neon-surface-primary);
+  pointer-events: none;
+}
+.account-content {
+  position: relative;
+}
+.account-content h2 {
+  font:
+    24px/1.25 FestivalPop,
+    sans-serif;
+  margin: 10px 0 24px;
+}
+.account-screen label {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0;
+  font-weight: 600;
+}
+.account-screen input:not([type='radio']) {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--neon-border-highlight);
+  border-radius: 0;
+  padding: 10px 12px;
+  background: var(--neon-surface-canvas);
+  color: var(--neon-text-primary);
+  font: inherit;
+  caret-color: var(--neon-accent-primary);
+}
+.account-screen input:focus-visible,
+.account-screen button:focus-visible {
+  outline: 3px solid var(--neon-accent-primary);
+  outline-offset: 3px;
+}
+.account-screen small {
+  display: block;
+  color: var(--neon-text-secondary);
+  font-size: 13px;
+  font-weight: 400;
+}
+.account-action {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 24px;
+  margin: 12px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--neon-text-primary);
+  cursor: pointer;
+  transition: transform 110ms ease-out;
+  font:
+    15px/1.2 FestivalPop,
+    sans-serif;
+}
+.account-action .game-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.account-action span {
+  position: relative;
+}
+.account-action:hover:enabled {
+  transform: translateY(-2px);
+  color: var(--neon-accent-primary);
+}
+.account-action:active:enabled {
+  transform: translateY(2px);
+}
+.account-action:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.account-status,
+.account-notice {
+  color: var(--neon-game-gold);
+  font-size: 14px;
+}
+.account-status:empty {
+  margin: 0;
+}
+.account-screen fieldset {
+  border: 0;
+  padding: 0;
+  margin: 20px 0;
+}
+.account-avatars {
+  display: flex;
+  gap: 24px;
+}
+.account-avatars label {
+  cursor: pointer;
+  justify-items: center;
+}
+.avatar {
+  display: inline-flex;
+  padding: 12px;
+  color: var(--neon-accent-primary);
+  background: var(--neon-surface-overlay);
+  clip-path: polygon(18% 0, 82% 0, 100% 18%, 100% 82%, 82% 100%, 18% 100%, 0 82%, 0 18%);
+}
+.avatar svg {
+  width: 40px;
+  height: 40px;
+}
+.avatar-pulse {
+  color: var(--neon-game-mana);
+}
+.avatar-spark {
+  color: var(--neon-game-gold);
+}
+.account-screen ::selection {
+  background: var(--neon-accent-primary);
+  color: var(--neon-surface-canvas);
+}
+@media (max-width: 760px) {
+  .account-screen {
+    grid-template-columns: minmax(0, 520px);
+    padding: 76px 20px 30px;
+    gap: 26px;
+    align-items: start;
+  }
+  .account-emblem {
+    display: none;
+  }
+  .account-brand {
+    margin-bottom: 20px;
+  }
+  .account-panel {
+    padding: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .account-action {
+    transition: none;
+  }
+}
+.account-content form > .account-action {
+  --frame-fill: var(--neon-accent-primary);
+  color: var(--neon-text-onAccent);
+}
+.account-content form > .account-action:hover:enabled {
+  color: var(--neon-text-onAccent);
+  --frame-fill: var(--neon-button-activeHover);
+}
+.account-panel {
+  --frame-trim: var(--neon-border-primary);
+}
+.account-content > h2 {
+  text-wrap: balance;
+}
+/* Long forms start at the top on short windows; no inaccessible negative overflow. */
+.account-screen {
+  align-items: safe center;
+}
+@media (max-width: 760px) {
+  .account-screen {
+    align-items: start;
+  }
+}
+.account-action:disabled {
+  opacity: 1;
+  --frame-fill: var(--neon-button-disabled);
+  --frame-trim: var(--neon-button-disabledBorder);
+  color: var(--neon-button-disabledText);
+}
+.account-content form > .account-action:disabled {
+  --frame-fill: var(--neon-button-disabled);
+  color: var(--neon-button-disabledText);
+}
+.account-content h2:focus-visible {
+  outline: 2px solid var(--neon-accent-primary);
+  outline-offset: 6px;
+}
+
+.registration-honeypot {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(100%);
+  pointer-events: none;
+}
+.registration-challenge {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 65px;
+}
+.registration-challenge p {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--neon-text-secondary);
+}

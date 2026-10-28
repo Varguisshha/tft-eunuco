@@ -1,0 +1,137 @@
+{
+  "seed": 1366167364,
+  "rounds": [
+    {
+      "id": "612a6310c9caa191f99f565d3f24be42414a99ff7cd47021e36598bffa5dadb9",
+      "matchId": "5c67dfb3-7dba-44ca-a652-f3d9899b0203",
+      "round": 3,
+      "version": "f0p8d-1",
+      "quantity": 2,
+      "status": "confirmed",
+      "players": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000001",
+          "grantId": "612a6310c9caa191f99f565d3f24be42414a99ff7cd47021e36598bffa5dadb9",
+          "seed": 2287629189,
+          "definitionIds": [
+            "component-magic_resist",
+            "component-armor"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000001/item/0",
+            "00000000-0000-4000-8000-000000000001/item/1"
+          ]
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000002",
+          "grantId": "612a6310c9caa191f99f565d3f24be42414a99ff7cd47021e36598bffa5dadb9",
+          "seed": 2237296332,
+          "definitionIds": [
+            "component-health",
+            "component-armor"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000002/item/0",
+            "00000000-0000-4000-8000-000000000002/item/1"
+          ]
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "grantId": "612a6310c9caa191f99f565d3f24be42414a99ff7cd47021e36598bffa5dadb9",
+          "seed": 2254073951,
+          "definitionIds": [
+            "component-ad",
+            "component-armor"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000003/item/0",
+            "00000000-0000-4000-8000-000000000003/item/1"
+          ]
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "grantId": "612a6310c9caa191f99f565d3f24be42414a99ff7cd47021e36598bffa5dadb9",
+          "seed": 2203741094,
+          "definitionIds": [
+            "component-ap",
+            "component-critical"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000004/item/0",
+            "00000000-0000-4000-8000-000000000004/item/1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cbd1432dd1b492d81fdfc0718022ee37e6e63fed92b059af5f2ccea9017408ea",
+      "matchId": "5c67dfb3-7dba-44ca-a652-f3d9899b0203",
+      "round": 6,
+      "version": "f0p8d-1",
+      "quantity": 3,
+      "status": "confirmed",
+      "players": [
+        {
+          "playerId": "00000000-0000-4000-8000-000000000001",
+          "grantId": "cbd1432dd1b492d81fdfc0718022ee37e6e63fed92b059af5f2ccea9017408ea",
+          "seed": 1373999920,
+          "definitionIds": [
+            "component-mana",
+            "component-armor",
+            "component-ap"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000001/item/2",
+            "00000000-0000-4000-8000-000000000001/item/3",
+            "00000000-0000-4000-8000-000000000001/item/4"
+          ]
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000002",
+          "grantId": "cbd1432dd1b492d81fdfc0718022ee37e6e63fed92b059af5f2ccea9017408ea",
+          "seed": 1424332777,
+          "definitionIds": [
+            "component-magic_resist",
+            "component-armor",
+            "component-armor"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000002/item/2",
+            "00000000-0000-4000-8000-000000000002/item/3",
+            "00000000-0000-4000-8000-000000000002/item/4"
+          ]
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000003",
+          "grantId": "cbd1432dd1b492d81fdfc0718022ee37e6e63fed92b059af5f2ccea9017408ea",
+          "seed": 1407555158,
+          "definitionIds": [
+            "component-mana",
+            "component-attack_speed",
+            "component-mana"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000003/item/2",
+            "00000000-0000-4000-8000-000000000003/item/3",
+            "00000000-0000-4000-8000-000000000003/item/4"
+          ]
+        },
+        {
+          "playerId": "00000000-0000-4000-8000-000000000004",
+          "grantId": "cbd1432dd1b492d81fdfc0718022ee37e6e63fed92b059af5f2ccea9017408ea",
+          "seed": 1457888015,
+          "definitionIds": [
+            "component-magic_resist",
+            "component-mana",
+            "component-armor"
+          ],
+          "instanceIds": [
+            "00000000-0000-4000-8000-000000000004/item/2",
+            "00000000-0000-4000-8000-000000000004/item/3",
+            "00000000-0000-4000-8000-000000000004/item/4"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -18,5 +18,11 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["apps/**/*.ts", "apps/**/*.tsx", "packages/**/*.ts", "vitest.config.ts"]
+  "include": [
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "packages/**/*.ts",
+    "vitest.config.ts",
+    ".railway/**/*.ts"
+  ]
 }

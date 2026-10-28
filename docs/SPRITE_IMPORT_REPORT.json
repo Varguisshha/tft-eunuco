@@ -1,0 +1,563 @@
+[
+  {
+    "character": "dolea",
+    "star": 1,
+    "state": "attack",
+    "output": "sprites/dolea/star1/attack.png",
+    "frameWidth": 128,
+    "frameHeight": 128,
+    "scale": 0.08997188378631678,
+    "frames": [
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE.png",
+        "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 280, "top": 111, "width": 687, "height": 1080 },
+        "solid": { "left": 280, "top": 112, "width": 687, "height": 1079 },
+        "foot": { "x": 623, "y": 1191 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 2.png",
+        "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 276, "top": 139, "width": 724, "height": 1049 },
+        "solid": { "left": 279, "top": 140, "width": 721, "height": 1047 },
+        "foot": { "x": 639, "y": 1187 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 3.png",
+        "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 242, "top": 160, "width": 912, "height": 1030 },
+        "solid": { "left": 244, "top": 161, "width": 907, "height": 1029 },
+        "foot": { "x": 605.5, "y": 1190 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 4.png",
+        "sha256": "7bd786a0894ada0c56327da8f3a28d1eec45a1b7c24d6ec0b96d6e07880cf305",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 282, "top": 113, "width": 686, "height": 1079 },
+        "solid": { "left": 283, "top": 114, "width": 685, "height": 1077 },
+        "foot": { "x": 625, "y": 1191 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 5.png",
+        "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 276, "top": 124, "width": 713, "height": 1059 },
+        "solid": { "left": 278, "top": 125, "width": 708, "height": 1057 },
+        "foot": { "x": 631.5, "y": 1182 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 6.png",
+        "sha256": "96614ead8f4898585d02e6435495cb4dd2015f9aded6503eee407b3de795bc49",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 258, "top": 118, "width": 914, "height": 1070 },
+        "solid": { "left": 260, "top": 119, "width": 911, "height": 1067 },
+        "foot": { "x": 621.5, "y": 1186 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 7.png",
+        "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 276, "top": 140, "width": 873, "height": 1048 },
+        "solid": { "left": 277, "top": 141, "width": 871, "height": 1044 },
+        "foot": { "x": 622.5, "y": 1185 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 1 ATAQUE 8.png",
+        "sha256": "3cc06ba0387f0ac67619dfaba74ab902a21e34f3aad09da8e1ba2a329b199c86",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 286, "top": 112, "width": 681, "height": 1079 },
+        "solid": { "left": 287, "top": 113, "width": 679, "height": 1077 },
+        "foot": { "x": 626, "y": 1190 }
+      }
+    ],
+    "anomalies": [
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 2 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 3 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 4 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 5 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 6 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 7 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE 8 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 1 ATAQUE copia.png",
+      "Sprites/DOLEA NIVEL 1 ATAQUE.png: 18093 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE.png: 322372 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 2.png: 20200 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 2.png: 303900 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 3.png: 24075 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 3.png: 340358 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 4.png: 17329 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 4.png: 316009 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 5.png: 23357 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 5.png: 354608 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 6.png: 19715 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 6.png: 358073 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 7.png: 30900 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 7.png: 326674 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 8.png: 20997 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 1 ATAQUE 8.png: 328248 partial-alpha pixels preserved; nearest-neighbor only"
+    ]
+  },
+  {
+    "character": "dolea",
+    "star": 2,
+    "state": "attack",
+    "output": "sprites/dolea/star2/attack.png",
+    "frameWidth": 112,
+    "frameHeight": 128,
+    "scale": 0.08156329651656755,
+    "frames": [
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE .png",
+        "sha256": "114a91704b075c823290f28e87c01f661bb3589c951171bfc4ab3366504f7c76",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 158, "top": 158, "width": 808, "height": 1207 },
+        "solid": { "left": 159, "top": 159, "width": 806, "height": 1204 },
+        "foot": { "x": 561.5, "y": 1363 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 2.png",
+        "sha256": "227a4bdfebfb245602fba0742d8fb7181fa91a483ea4f0c361d984e53628264c",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 160, "top": 226, "width": 825, "height": 1119 },
+        "solid": { "left": 160, "top": 226, "width": 825, "height": 1118 },
+        "foot": { "x": 557.5, "y": 1344 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 3.png",
+        "sha256": "87d020b11a4421b2ec608f9852e30b75f07cd488260d8e39c87457c2bace43f4",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 156, "top": 172, "width": 805, "height": 1197 },
+        "solid": { "left": 158, "top": 172, "width": 802, "height": 1197 },
+        "foot": { "x": 558.5, "y": 1369 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 4.png",
+        "sha256": "924f20164eae9960a4dfccf84d3abb5e6b93e15dda627d6ba30c6ac302a48d84",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 156, "top": 180, "width": 808, "height": 1190 },
+        "solid": { "left": 157, "top": 181, "width": 806, "height": 1188 },
+        "foot": { "x": 559.5, "y": 1369 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 5.png",
+        "sha256": "d88cb150427e029691c3b0d5d05dd8618a5dca3cfc03df1892fb92e366463b33",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 160, "top": 187, "width": 836, "height": 1159 },
+        "solid": { "left": 161, "top": 188, "width": 834, "height": 1157 },
+        "foot": { "x": 563, "y": 1345 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 6.png",
+        "sha256": "6b369b895fd705aedc009ebe5283b5389b8cd1d661392cce4ffa90341ef07f60",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 159, "top": 188, "width": 902, "height": 1179 },
+        "solid": { "left": 159, "top": 189, "width": 901, "height": 1177 },
+        "foot": { "x": 563.5, "y": 1366 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 7.png",
+        "sha256": "3a4b96832df5dcd68a2378e63ee10204c40729299112bf475bf7c28cd0fda699",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 160, "top": 189, "width": 897, "height": 1178 },
+        "solid": { "left": 161, "top": 190, "width": 895, "height": 1176 },
+        "foot": { "x": 562.5, "y": 1366 }
+      },
+      {
+        "file": "Sprites/DOLEA NIVEL 2 ATAQUE 8.png",
+        "sha256": "c379ef93803d4693c5211178301640dd34ea538bb662f334023316a4849686cb",
+        "width": 1086,
+        "height": 1448,
+        "bounds": { "left": 145, "top": 197, "width": 890, "height": 1157 },
+        "solid": { "left": 146, "top": 198, "width": 888, "height": 1155 },
+        "foot": { "x": 543, "y": 1353 }
+      }
+    ],
+    "anomalies": [
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE  copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 2 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 3 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 4 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 5 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 6 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 7 copia.png",
+      "Exact duplicate ignored: Sprites/DOLEA NIVEL 2 ATAQUE 8 copia.png",
+      "Sprites/DOLEA NIVEL 2 ATAQUE .png: 26300 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE .png: 411346 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 2.png: 25093 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 2.png: 370313 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 3.png: 28402 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 3.png: 401505 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 4.png: 26461 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 4.png: 405770 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 5.png: 31685 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 5.png: 396448 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 6.png: 25906 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 6.png: 408269 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 7.png: 23714 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 7.png: 412449 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 8.png: 26604 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/DOLEA NIVEL 2 ATAQUE 8.png: 388524 partial-alpha pixels preserved; nearest-neighbor only"
+    ]
+  },
+  {
+    "character": "vargas",
+    "star": 2,
+    "state": "attack",
+    "output": "sprites/vargas/star2/attack.png",
+    "frameWidth": 144,
+    "frameHeight": 128,
+    "scale": 0.08847926267281106,
+    "frames": [
+      {
+        "file": "Sprites/vargas/star2/attack/frame-1.png",
+        "sha256": "dce4ecd65080deaa309dac3fb5f801b635736571ed10413457eaaa4c9097c24a",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 210, "top": 123, "width": 868, "height": 1042 },
+        "solid": { "left": 211, "top": 124, "width": 866, "height": 1040 },
+        "foot": { "x": 590.5, "y": 1164 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-2.png",
+        "sha256": "21d9832ea7a888e30be1be3364395bd89e2ec2f8e179fed27c7e441c77eae567",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 295, "top": 104, "width": 845, "height": 1086 },
+        "solid": { "left": 296, "top": 105, "width": 843, "height": 1085 },
+        "foot": { "x": 717, "y": 1190 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-3.png",
+        "sha256": "5f1a65f893b097da73f3c52b6d4c81c32ba0b1d205b2e1ed68d20a05319e60c7",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 191, "top": 53, "width": 1028, "height": 1159 },
+        "solid": { "left": 192, "top": 54, "width": 1027, "height": 1155 },
+        "foot": { "x": 650.5, "y": 1209 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-4.png",
+        "sha256": "1b49f552a7b3e33dfaf60597341469ccabaac30db8b680d983fca57183152fa4",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 185, "top": 89, "width": 1053, "height": 1088 },
+        "solid": { "left": 186, "top": 91, "width": 1051, "height": 1085 },
+        "foot": { "x": 679, "y": 1176 }
+      },
+      {
+        "file": "Sprites/vargas/star2/attack/frame-5.png",
+        "sha256": "6eefb2769842956c8b83545397baf81432c1ad2b1ff9eef00f1094c625aaf73b",
+        "width": 1254,
+        "height": 1254,
+        "bounds": { "left": 145, "top": 116, "width": 1058, "height": 1080 },
+        "solid": { "left": 146, "top": 118, "width": 1055, "height": 1078 },
+        "foot": { "x": 786.5, "y": 1196 }
+      }
+    ],
+    "anomalies": [
+      "Sprites/vargas/star2/attack/frame-1.png: 20261 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-1.png: 345221 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-2.png: 34400 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-2.png: 379697 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-3.png: 23463 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-3.png: 458036 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-4.png: 31088 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-4.png: 387965 partial-alpha pixels preserved; nearest-neighbor only",
+      "Sprites/vargas/star2/attack/frame-5.png: 34218 near-transparent pixels removed in derived assets (alpha <= 8)",
+      "Sprites/vargas/star2/attack/frame-5.png: 396475 partial-alpha pixels preserved; nearest-neighbor only"
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "idle",
+    "output": "sprites/jaramillo/shared/idle.png",
+    "appearance": "pending",
+    "frameWidth": 160,
+    "frameHeight": 128,
+    "anchor": { "x": 72, "y": 116 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/original-frames/idle_01.png",
+        "sha256": "585bec48bc2ec8637ddb3da0533fbbf8b7eb3078ffcc890c86e1bfd812c1d467"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/idle_02.png",
+        "sha256": "be8d8cd5b3eb42bcb0fb99f11a163dc31bdb3bd136f5abe56fb1e177695c9046"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/idle_03.png",
+        "sha256": "70ee8b7a9d00100506055dca2b80f28ad7d7e4e210105dd1034c8e6346a605a4"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/idle_04.png",
+        "sha256": "dfdd69b42c0f8363456b172b090fff20d7d8e9af3ec4cf4742f9f4f5c10555c8"
+      }
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "walk",
+    "output": "sprites/jaramillo/shared/walk.png",
+    "appearance": "pending",
+    "frameWidth": 160,
+    "frameHeight": 128,
+    "anchor": { "x": 72, "y": 116 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/original-frames/walk_01.png",
+        "sha256": "af6b856c9abb3998de4c6fd76778dd8cdd9af314afa72d5cb44c8148cbd84a5b"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/walk_02.png",
+        "sha256": "7d86b9e4a383df789efafa88d9079e14aee7be1ea075fe91515cb68219f7b752"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/walk_03.png",
+        "sha256": "98b92d4e150bb2d3acb859a4ddf14977a3af09b4f88d35e84e015f4fa612de76"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/walk_04.png",
+        "sha256": "effa217d06499e20dae6f46f48d5c57183cce634b7421d966076bab2fc66947f"
+      }
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "attack",
+    "output": "sprites/jaramillo/shared/attack.png",
+    "appearance": "pending",
+    "frameWidth": 160,
+    "frameHeight": 128,
+    "anchor": { "x": 72, "y": 120 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/prepared-attack/frame-1.png",
+        "sha256": "646baf263db065f9def4950711a3edef49a81d07b4ac4b8a18818cc009f951f2"
+      },
+      {
+        "file": "Sprites/jaramillo/prepared-attack/frame-2.png",
+        "sha256": "b5544cda90ee4060dc061c9c517847c7094a3fc41e1b71f48898ece5c03fa4a0"
+      },
+      {
+        "file": "Sprites/jaramillo/prepared-attack/frame-3.png",
+        "sha256": "2e738f8538f01bb3825ad408a51209b187e26a2d40ffa821817f0ddff14cd519"
+      }
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "death",
+    "output": "sprites/jaramillo/shared/death.png",
+    "appearance": "pending",
+    "frameWidth": 160,
+    "frameHeight": 128,
+    "anchor": { "x": 72, "y": 116 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/original-frames/death_01.png",
+        "sha256": "6e1aac31413e6a87d7ccec471f36bf1ff1a3afd6d47fa6b4c57e2d63c451a4df"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/death_02.png",
+        "sha256": "016b6e378fcaf7980a865478c6b35575ebad8955c1b411099a5fec9978e10f8a"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/death_03.png",
+        "sha256": "1ec531ded55b160cd7b89dddd2ae359c82c4b7d2f6dc94826bdaa50fffe6876d"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/death_04.png",
+        "sha256": "bbe1d633f86425b40a5e0a14550e6a1476195a009ea346e7ddd2a06255c6c30e"
+      }
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "recovery",
+    "output": "sprites/jaramillo/shared/recovery.png",
+    "appearance": "pending",
+    "frameWidth": 160,
+    "frameHeight": 128,
+    "anchor": { "x": 72, "y": 116 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/original-frames/ataque_08.png",
+        "sha256": "c801379e750ce81067a00eaee5b830b4e001cd0d950e19727c81e197807f7baa"
+      }
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "projectile",
+    "output": "sprites/jaramillo/shared/projectile.png",
+    "appearance": "pending",
+    "frameWidth": 128,
+    "frameHeight": 64,
+    "anchor": { "x": 116, "y": 48 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/original-frames/ataque_05.png",
+        "sha256": "a23adc486f02d5941ce74ae257e7d96e2416ab350b2d2a7f48a27582ca8b1b4c"
+      },
+      {
+        "file": "Sprites/jaramillo/original-frames/ataque_06.png",
+        "sha256": "c8ab1fbe560c5fd4fabedba3f383d068c56d83b885391003e45515245d754e73"
+      }
+    ]
+  },
+  {
+    "character": "jaramillo",
+    "state": "impact",
+    "output": "sprites/jaramillo/shared/impact.png",
+    "appearance": "pending",
+    "frameWidth": 128,
+    "frameHeight": 128,
+    "anchor": { "x": 72, "y": 90 },
+    "frames": [
+      {
+        "file": "Sprites/jaramillo/original-frames/ataque_07.png",
+        "sha256": "4476a8b1d6976f97012656e8c0daf34447e5f7a1f060887794dcd0ea9f50c75f"
+      }
+    ]
+  },
+  {
+    "character": "florin",
+    "star": 1,
+    "state": "attack",
+    "output": "sprites/florin/star1/attack.png",
+    "frameWidth": 192,
+    "frameHeight": 176,
+    "scale": 0.09177820267686425,
+    "frames": [
+      {
+        "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+        "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_2.png",
+        "sha256": "24c8c7aa8f425a3866450e1e491be96e2a32130a8708683c1318377c88500e67"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_3.png",
+        "sha256": "4cf0798c76bde7bc61f152f2ebf40904854f7063a09396a32faae87913a5d866"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+        "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7"
+      }
+    ],
+    "anomalies": [
+      "Idle, Walk, Ability and Death absent; same-evolution attack fallback only. No separate projectile or impact exists."
+    ]
+  },
+  {
+    "character": "florin",
+    "star": 2,
+    "state": "attack",
+    "output": "sprites/florin/star2/attack.png",
+    "frameWidth": 192,
+    "frameHeight": 176,
+    "scale": 0.0831889081455806,
+    "frames": [
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+        "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_2.png",
+        "sha256": "e88b2bfb0a70af2da280428108c404a59ff04590b8949fa82ed7b4adeb506299"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_3.png",
+        "sha256": "49e3a0565ca3a065d11904d3194f013e497ac2fdd69da390ab1b940b9dae938f"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+        "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_5.png",
+        "sha256": "0995bce5807ed93d072acb15249d1d369afbfe78ec83c122c84df9e50ae9fbaf"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_6.png",
+        "sha256": "b7399837dc4e23b9cef2175dab7db2c19276fcc871a4687000e291e709192b91"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_7.png",
+        "sha256": "acce18f51ff8c025ff3c1debb54eeb35cb2e8a9ba573f7e623ae646a29b71fcb"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+        "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+      }
+    ],
+    "anomalies": [
+      "Idle, Walk, Ability and Death absent; same-evolution attack fallback only. No separate projectile or impact exists."
+    ]
+  },
+  {
+    "character": "florin",
+    "star": 3,
+    "state": "attack",
+    "output": "sprites/florin/star3/attack.png",
+    "frameWidth": 192,
+    "frameHeight": 176,
+    "scale": 0.0823327615780446,
+    "frames": [
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+        "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_2.png",
+        "sha256": "a12ed58a43c787ee3b13ab000010e7566d9f4d73fcf90d3d637e53180715bc22"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_3.png",
+        "sha256": "5fe26d2cd02af6567cf4d2617454195d7c59f7319f18ee5e23b7351abddf82a1"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_4.png",
+        "sha256": "217c73c7825dbf72577a6f2208a96441db5b3d0ef657e3fd402c7f1d4c36d21a"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_5.png",
+        "sha256": "0dd05b327932a2fbe0fafa8fab72559dc28ed11b9b5f9ab2fb3013e19e841a68"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_6.png",
+        "sha256": "057b57ed1268f0f39a0bb05fb6741e5d4db9774689a79ad0a777566a6a0d30d5"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_7.png",
+        "sha256": "c00d3079898d66932d269b8d91273cd6f4859977b6c4ee5410ace2a65d972b13"
+      },
+      {
+        "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+        "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813"
+      }
+    ],
+    "anomalies": [
+      "Idle, Walk, Ability and Death absent; same-evolution attack fallback only. No separate projectile or impact exists."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "source": "Plaza urbana isométrica junto al metro.png",
+  "width": 1672,
+  "height": 941,
+  "sourceBytes": 3597375,
+  "sha256": "710815591780ff893603bca90f7bbf544d233585ba373ddb357a19097511761a",
+  "output": "apps/web/public/assets/arenas/mar-de-cristal.webp",
+  "outputBytes": 2672720,
+  "processing": "Lossless WebP; same dimensions, pixels, composition and colors. Original untouched."
+}

@@ -1,0 +1,3 @@
+import {defineConfig} from 'vite';
+import react from '@vitejs/plugin-react';
+export default defineConfig({root:'artifacts/p9a1',publicDir:'../../public',plugins:[react()],define:{__DEVTOOLS__:'false'},build:{outDir:'../../../../artifacts/p9a1/browser-dist',emptyOutDir:true}});

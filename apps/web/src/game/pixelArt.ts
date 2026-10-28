@@ -4,17 +4,35 @@ export const ROLE_LABELS: Record<UnitDefinition['role'], string> = {
   vanguard: 'Vanguardia',
   striker: 'Duelista',
   ranger: 'Tirador',
-  support: 'Apoyo',
+  support: 'Mago',
+  assassin: 'Asesino',
 };
 export const ROLE_COLORS: Record<UnitDefinition['role'], string> = {
   vanguard: '#88bca5',
   striker: '#dfae72',
   ranger: '#a6afcf',
   support: '#c0bb85',
+  assassin: '#d3a16d',
 };
 /** Original 32 × 40 sprites, authored as integer rectangles; no external artwork. */
-export function pixelRects(role: UnitDefinition['role']): PixelRect[] {
-  const color = ROLE_COLORS[role];
+export function provisionalInitials(spriteId: string) {
+  return spriteId
+    .replace(/^provisional-/, '')
+    .split('-')
+    .map((s) => s[0] ?? '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
+export function provisionalColor(spriteId: string) {
+  let hash = 0;
+  for (const c of spriteId) hash = (Math.imul(hash, 31) + c.charCodeAt(0)) >>> 0;
+  return `hsl(${hash % 360} 58% 64%)`;
+}
+export function pixelRects(role: UnitDefinition['role'], spriteId = ''): PixelRect[] {
+  const color = spriteId.startsWith('provisional-')
+    ? provisionalColor(spriteId)
+    : ROLE_COLORS[role];
   const dark = '#263d36';
   const light = '#e2e8cf';
   const body: PixelRect[] = [

@@ -1,0 +1,28 @@
+{
+  "baseline": {
+    "tests": 1342,
+    "files": 92,
+    "seconds": 287.51
+  },
+  "final": {
+    "tests": 1374,
+    "files": 98,
+    "seconds": 337.05,
+    "checkExitCode": 0
+  },
+  "postgresEnabled": true,
+  "localTrustedTlsEnabled": true,
+  "typecheck": true,
+  "eslint": true,
+  "clientBuild": true,
+  "serverBuild": true,
+  "publicBundleScan": true,
+  "railwaySdkLocalEvaluation": true,
+  "cleanIndexBuildWithPublicAuth": true,
+  "assetAudit": true,
+  "diffCheck": true,
+  "unchangedHistoricalTests": true,
+  "remoteDeployment": false,
+  "remoteSupabaseChanges": false,
+  "intermediateFailure": "Early final-expiry timer caused an extra onLeave write; deadline recheck added and complete suite rerun successfully."
+}

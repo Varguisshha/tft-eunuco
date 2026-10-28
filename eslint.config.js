@@ -1,7 +1,19 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 export default tseslint.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', 'artifacts/**', '.impeccable/**'] },
+  {
+    ignores: [
+      '**/dist/**',
+      '**/dist-dev/**',
+      '**/dist-p9a/**',
+      'apps/web/artifacts/p9a/**',
+      '**/node_modules/**',
+      'artifacts/**',
+      // Historical standalone prototypes are not application source.
+      'design-exploration/**',
+      '.impeccable/**',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

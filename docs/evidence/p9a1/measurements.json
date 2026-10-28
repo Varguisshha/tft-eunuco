@@ -1,0 +1,5616 @@
+{
+  "baseline-main": {
+    "durationMs": 29091.158208,
+    "cpuMs": 21255.793,
+    "cpuOneCorePercent": 73.06616274272197,
+    "rssMax": 730202112,
+    "heapMax": 334031496,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 223.926208,
+        "memory": {
+          "rss": 135888896,
+          "heapTotal": 68042752,
+          "heapUsed": 44852064,
+          "external": 10014540,
+          "arrayBuffers": 5586643
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 232.88875,
+        "memory": {
+          "rss": 137576448,
+          "heapTotal": 68829184,
+          "heapUsed": 45754872,
+          "external": 10034056,
+          "arrayBuffers": 5652746
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.976583999999974,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-empty",
+        "atMs": 281.615833,
+        "memory": {
+          "rss": 138706944,
+          "heapTotal": 68517888,
+          "heapUsed": 33420000,
+          "external": 8853745,
+          "arrayBuffers": 4472435
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.976583999999974,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 11.042815,
+          "p95": 12.156927,
+          "p99": 12.156927,
+          "max": 12.156927
+        }
+      },
+      {
+        "label": "C-0-waiting",
+        "atMs": 421.06325,
+        "memory": {
+          "rss": 139149312,
+          "heapTotal": 68780032,
+          "heapUsed": 34052688,
+          "external": 8930071,
+          "arrayBuffers": 4546713
+        },
+        "rooms": 4,
+        "registeredRooms": 4,
+        "sockets": 4,
+        "timers": 4,
+        "eventListeners": 32,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.976583999999974,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.305535,
+          "p95": 11.034623,
+          "p99": 13.901823,
+          "max": 13.901823
+        }
+      },
+      {
+        "label": "D-0-preparation",
+        "atMs": 708.752208,
+        "memory": {
+          "rss": 141869056,
+          "heapTotal": 71401472,
+          "heapUsed": 36589112,
+          "external": 8930091,
+          "arrayBuffers": 4546733
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 7,
+          "commitMs": 11.69712400000003,
+          "queryMs": 15.30900099999971,
+          "encodedBytes": 55925,
+          "exports": 15,
+          "exportMs": 6.535415999999714,
+          "restores": 8,
+          "restoreMs": 2.2547110000001567,
+          "sends": 22,
+          "sendMs": 1.2102490000003172
+        },
+        "loop": {
+          "p50": 10.199039,
+          "p95": 11.362303,
+          "p99": 12.017663,
+          "max": 12.017663
+        }
+      },
+      {
+        "label": "E-0-combat",
+        "atMs": 2121.616333,
+        "memory": {
+          "rss": 317702144,
+          "heapTotal": 190005248,
+          "heapUsed": 143502520,
+          "external": 27217809,
+          "arrayBuffers": 22834451
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 37,
+          "commitMs": 131.85849800000028,
+          "queryMs": 68.70545900000067,
+          "encodedBytes": 1268083,
+          "exports": 76,
+          "exportMs": 213.1563729999997,
+          "restores": 38,
+          "restoreMs": 73.34971200000007,
+          "sends": 170,
+          "sendMs": 69.22274900000275
+        },
+        "loop": {
+          "p50": 10.264575,
+          "p95": 11.444223,
+          "p99": 270.794751,
+          "max": 337.117183
+        }
+      },
+      {
+        "label": "F-0-overtime",
+        "atMs": 2479.94625,
+        "memory": {
+          "rss": 390905856,
+          "heapTotal": 261586944,
+          "heapUsed": 185586856,
+          "external": 27283418,
+          "arrayBuffers": 22900060
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 38,
+          "commitMs": 166.1409570000003,
+          "queryMs": 73.45254200000042,
+          "encodedBytes": 1523133,
+          "exports": 79,
+          "exportMs": 390.2187909999992,
+          "restores": 39,
+          "restoreMs": 133.27037899999993,
+          "sends": 170,
+          "sendMs": 69.22274900000275
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "reconnect-0",
+        "atMs": 9002.0365,
+        "memory": {
+          "rss": 554057728,
+          "heapTotal": 199852032,
+          "heapUsed": 53578704,
+          "external": 21087559,
+          "arrayBuffers": 16413328
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 128,
+          "commitMs": 826.5589990000014,
+          "queryMs": 339.9435379999959,
+          "encodedBytes": 11111033,
+          "exports": 260,
+          "exportMs": 1994.979130000011,
+          "restores": 129,
+          "restoreMs": 978.3102140000018,
+          "sends": 473,
+          "sendMs": 291.713319999998
+        },
+        "loop": {
+          "p50": 10.764287,
+          "p95": 11.862015,
+          "p99": 12.738559,
+          "max": 12.738559
+        }
+      },
+      {
+        "label": "H-0-final-connected",
+        "atMs": 25230.205875,
+        "memory": {
+          "rss": 471040000,
+          "heapTotal": 118063104,
+          "heapUsed": 42801792,
+          "external": 13170318,
+          "arrayBuffers": 8798983
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 10,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 320,
+          "commitMs": 2935.273998000005,
+          "queryMs": 1236.7664519999726,
+          "encodedBytes": 59021787,
+          "exports": 644,
+          "exportMs": 5713.404348000022,
+          "restores": 321,
+          "restoreMs": 3027.1281250000093,
+          "sends": 1174,
+          "sendMs": 873.9070680000395
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 20.463615,
+          "p99": 23.904255,
+          "max": 25.296895
+        }
+      },
+      {
+        "label": "G-0-final-settled",
+        "atMs": 28259.480125,
+        "memory": {
+          "rss": 471040000,
+          "heapTotal": 117538816,
+          "heapUsed": 41728296,
+          "external": 13104718,
+          "arrayBuffers": 8733383
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 323,
+          "commitMs": 2978.5642879999987,
+          "queryMs": 1271.854035999977,
+          "encodedBytes": 60197061,
+          "exports": 651,
+          "exportMs": 5754.089848000025,
+          "restores": 324,
+          "restoreMs": 3055.680918000008,
+          "sends": 1174,
+          "sendMs": 873.9070680000395
+        },
+        "loop": {
+          "p50": 10.289151,
+          "p95": 26.738687,
+          "p99": 32.325631,
+          "max": 32.325631
+        }
+      },
+      {
+        "label": "I-0-final-disconnected",
+        "atMs": 29315.084416,
+        "memory": {
+          "rss": 469499904,
+          "heapTotal": 116490240,
+          "heapUsed": 41824360,
+          "external": 13104050,
+          "arrayBuffers": 8732715
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 328,
+          "commitMs": 3026.0204129999956,
+          "queryMs": 1310.486035999982,
+          "encodedBytes": 62155865,
+          "exports": 661,
+          "exportMs": 5788.162931000024,
+          "restores": 329,
+          "restoreMs": 3085.41308500001,
+          "sends": 1174,
+          "sendMs": 873.9070680000395
+        },
+        "loop": {
+          "p50": 10.895359,
+          "p95": 11.345919,
+          "p99": 25.853951,
+          "max": 39.321599
+        }
+      }
+    ],
+    "phases": {
+      "combat": {
+        "samples": 4,
+        "rssMax": 717537280,
+        "heapMax": 334031496,
+        "windowP50MaxMs": 264.372223,
+        "windowP95MaxMs": 731.381759,
+        "windowP99MaxMs": 731.381759,
+        "delayMaxMs": 888.668159,
+        "gcCount": 473,
+        "gcMs": 342.37876492738724
+      },
+      "preparation": {
+        "samples": 5,
+        "rssMax": 730202112,
+        "heapMax": 302907640,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 708.837375,
+        "windowP99MaxMs": 743.440383,
+        "delayMaxMs": 743.440383,
+        "gcCount": 637,
+        "gcMs": 472.46666437387466
+      },
+      "resolution": {
+        "samples": 2,
+        "rssMax": 679542784,
+        "heapMax": 273699080,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 910.163967,
+        "windowP99MaxMs": 910.163967,
+        "delayMaxMs": 910.163967,
+        "gcCount": 263,
+        "gcMs": 193.54521131515503
+      },
+      "finished": {
+        "samples": 2,
+        "rssMax": 471891968,
+        "heapMax": 69623584,
+        "windowP50MaxMs": 10.649599,
+        "windowP95MaxMs": 11.321343,
+        "windowP99MaxMs": 11.517951,
+        "delayMaxMs": 36.863999,
+        "gcCount": 2,
+        "gcMs": 7.09170800447464
+      }
+    },
+    "traffic": {
+      "service_status": {
+        "messages": 5,
+        "bytes": 335,
+        "max": 67
+      },
+      "resume_accepted": {
+        "messages": 5,
+        "bytes": 1641,
+        "max": 329
+      },
+      "state_snapshot": {
+        "messages": 857,
+        "bytes": 10737038,
+        "max": 31084
+      },
+      "action_receipt": {
+        "messages": 242,
+        "bytes": 28021,
+        "max": 123
+      },
+      "combat_trace": {
+        "messages": 61,
+        "bytes": 124867475,
+        "max": 8336843
+      },
+      "final_results": {
+        "messages": 4,
+        "bytes": 12600,
+        "max": 3150
+      }
+    },
+    "participants": {
+      "0": {
+        "messages": 283,
+        "bytes": 35773660,
+        "max": 8336843
+      },
+      "1": {
+        "messages": 279,
+        "bytes": 33811782,
+        "max": 7222147
+      },
+      "2": {
+        "messages": 278,
+        "bytes": 34471429,
+        "max": 8336843
+      },
+      "3": {
+        "messages": 334,
+        "bytes": 31590239,
+        "max": 7139016
+      }
+    },
+    "trafficPhases": {
+      "not_started": {
+        "messages": 18,
+        "bytes": 35710,
+        "max": 3740
+      },
+      "preparation": {
+        "messages": 963,
+        "bytes": 8585081,
+        "max": 27275
+      },
+      "combat": {
+        "messages": 125,
+        "bytes": 125899141,
+        "max": 8336843
+      },
+      "resolution": {
+        "messages": 60,
+        "bytes": 1008353,
+        "max": 28081
+      },
+      "finished": {
+        "messages": 8,
+        "bytes": 118825,
+        "max": 31084
+      }
+    },
+    "operations": {
+      "commits": 328,
+      "commitMs": 3026.0204129999956,
+      "queryMs": 1310.486035999982,
+      "encodedBytes": 62155865,
+      "exports": 661,
+      "exportMs": 5788.162931000024,
+      "restores": 329,
+      "restoreMs": 3085.41308500001,
+      "sends": 1174,
+      "sendMs": 873.9070680000395
+    }
+  },
+  "baseline-restored": {
+    "durationMs": 11843.871375,
+    "cpuMs": 936.646,
+    "cpuOneCorePercent": 7.90827568405605,
+    "rssMax": 186335232,
+    "heapMax": 69450504,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 299.2495,
+        "memory": {
+          "rss": 137052160,
+          "heapTotal": 67584000,
+          "heapUsed": 44835888,
+          "external": 10014540,
+          "arrayBuffers": 5586643
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 363.552084,
+        "memory": {
+          "rss": 175980544,
+          "heapTotal": 104775680,
+          "heapUsed": 39312032,
+          "external": 9313626,
+          "arrayBuffers": 4930268
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1,
+          "commitMs": 11.226707999999974,
+          "queryMs": 16.102749999999958,
+          "encodedBytes": 391762,
+          "exports": 2,
+          "exportMs": 4.916541999999993,
+          "restores": 3,
+          "restoreMs": 16.70966599999997,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 50.233343,
+          "p95": 50.233343,
+          "p99": 50.233343,
+          "max": 50.233343
+        }
+      },
+      {
+        "label": "J-restored-final",
+        "atMs": 461.667917,
+        "memory": {
+          "rss": 176652288,
+          "heapTotal": 104169472,
+          "heapUsed": 38168272,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 2,
+          "commitMs": 18.863873999999953,
+          "queryMs": 22.302916999999923,
+          "encodedBytes": 783524,
+          "exports": 4,
+          "exportMs": 10.146584000000018,
+          "restores": 4,
+          "restoreMs": 20.90849899999995,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.510335,
+          "p95": 14.893055,
+          "p99": 14.893055,
+          "max": 14.893055
+        }
+      },
+      {
+        "label": "J-restored-after-10s",
+        "atMs": 10490.066834,
+        "memory": {
+          "rss": 185581568,
+          "heapTotal": 45973504,
+          "heapUsed": 39360184,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 11,
+          "commitMs": 143.66704200000032,
+          "queryMs": 122.85404199999942,
+          "encodedBytes": 4309382,
+          "exports": 23,
+          "exportMs": 148.07816699999717,
+          "restores": 13,
+          "restoreMs": 133.23200099999923,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.346495,
+          "p95": 23.183359,
+          "p99": 23.183359,
+          "max": 23.183359
+        }
+      },
+      {
+        "label": "L-0-released",
+        "atMs": 12039.091417,
+        "memory": {
+          "rss": 120832000,
+          "heapTotal": 43876352,
+          "heapUsed": 37977736,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 12,
+          "commitMs": 155.7962500000006,
+          "queryMs": 132.55095899999873,
+          "encodedBytes": 4701142,
+          "exports": 24,
+          "exportMs": 153.6390419999982,
+          "restores": 13,
+          "restoreMs": 133.23200099999923,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.698751,
+          "p95": 11.067391,
+          "p99": 11.321343,
+          "max": 20.742143
+        }
+      },
+      {
+        "label": "L-stop",
+        "atMs": 12143.120875,
+        "memory": {
+          "rss": 120832000,
+          "heapTotal": 43876352,
+          "heapUsed": 38062600,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 12,
+          "commitMs": 155.7962500000006,
+          "queryMs": 132.55095899999873,
+          "encodedBytes": 4701142,
+          "exports": 24,
+          "exportMs": 153.6390419999982,
+          "restores": 13,
+          "restoreMs": 133.23200099999923,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.338303,
+          "p95": 11.091967,
+          "p99": 11.091967,
+          "max": 11.091967
+        }
+      }
+    ],
+    "phases": {
+      "finished": {
+        "samples": 5,
+        "rssMax": 186335232,
+        "heapMax": 69450504,
+        "windowP50MaxMs": 10.698751,
+        "windowP95MaxMs": 11.329535,
+        "windowP99MaxMs": 14.237695,
+        "delayMaxMs": 47.775743,
+        "gcCount": 13,
+        "gcMs": 22.444415152072906
+      }
+    },
+    "traffic": {},
+    "participants": {},
+    "trafficPhases": {},
+    "operations": {
+      "commits": 12,
+      "commitMs": 155.7962500000006,
+      "queryMs": 132.55095899999873,
+      "encodedBytes": 4701142,
+      "exports": 24,
+      "exportMs": 153.6390419999982,
+      "restores": 13,
+      "restoreMs": 133.23200099999923,
+      "sends": 0,
+      "sendMs": 0
+    }
+  },
+  "large-before-main": {
+    "durationMs": 13591.196334,
+    "cpuMs": 8760.581,
+    "cpuOneCorePercent": 64.45776210357849,
+    "rssMax": 773734400,
+    "heapMax": 533457672,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 218.285666,
+        "memory": {
+          "rss": 136331264,
+          "heapTotal": 68108288,
+          "heapUsed": 45874776,
+          "external": 9987111,
+          "arrayBuffers": 5559214
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 1553.282875,
+        "memory": {
+          "rss": 462962688,
+          "heapTotal": 276185088,
+          "heapUsed": 212640736,
+          "external": 23634948,
+          "arrayBuffers": 19251590
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1,
+          "commitMs": 73.35887500000013,
+          "queryMs": 27.138626000000045,
+          "encodedBytes": 1627496,
+          "exports": 4,
+          "exportMs": 394.3241680000001,
+          "restores": 4,
+          "restoreMs": 421.6052089999999,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 9.830399,
+          "p95": 874.512383,
+          "p99": 874.512383,
+          "max": 874.512383
+        }
+      },
+      {
+        "label": "B-empty",
+        "atMs": 1615.239916,
+        "memory": {
+          "rss": 461537280,
+          "heapTotal": 150044672,
+          "heapUsed": 71354944,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 2,
+          "commitMs": 136.0674590000001,
+          "queryMs": 40.45625100000018,
+          "encodedBytes": 1627496,
+          "exports": 4,
+          "exportMs": 394.3241680000001,
+          "restores": 4,
+          "restoreMs": 421.6052089999999,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.526719,
+          "p95": 19.759103,
+          "p99": 19.759103,
+          "max": 19.759103
+        }
+      },
+      {
+        "label": "J-restored-final",
+        "atMs": 1833.659333,
+        "memory": {
+          "rss": 461537280,
+          "heapTotal": 150044672,
+          "heapUsed": 70905936,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 2,
+          "commitMs": 136.0674590000001,
+          "queryMs": 40.45625100000018,
+          "encodedBytes": 1627496,
+          "exports": 4,
+          "exportMs": 394.3241680000001,
+          "restores": 4,
+          "restoreMs": 421.6052089999999,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.272767,
+          "p95": 11.362303,
+          "p99": 19.415039,
+          "max": 19.415039
+        }
+      },
+      {
+        "label": "J-restored-after-10s",
+        "atMs": 12020.5325,
+        "memory": {
+          "rss": 769327104,
+          "heapTotal": 151355392,
+          "heapUsed": 69756368,
+          "external": 8910746,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 12,
+          "commitMs": 741.8187950000013,
+          "queryMs": 162.64454399999988,
+          "encodedBytes": 9764980,
+          "exports": 25,
+          "exportMs": 2731.5192490000018,
+          "restores": 14,
+          "restoreMs": 1394.813083999999,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.215423,
+          "p95": 11.051007,
+          "p99": 38.502399,
+          "max": 38.502399
+        }
+      },
+      {
+        "label": "L-released",
+        "atMs": 13807.391458,
+        "memory": {
+          "rss": 391086080,
+          "heapTotal": 110985216,
+          "heapUsed": 37461792,
+          "external": 8910746,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 13,
+          "commitMs": 801.8115870000022,
+          "queryMs": 174.31087700000091,
+          "encodedBytes": 10578727,
+          "exports": 26,
+          "exportMs": 2839.0427070000014,
+          "restores": 14,
+          "restoreMs": 1394.813083999999,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "L-stop",
+        "atMs": 13809.482,
+        "memory": {
+          "rss": 391086080,
+          "heapTotal": 110985216,
+          "heapUsed": 37543128,
+          "external": 8910746,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 13,
+          "commitMs": 801.8115870000022,
+          "queryMs": 174.31087700000091,
+          "encodedBytes": 10578727,
+          "exports": 26,
+          "exportMs": 2839.0427070000014,
+          "restores": 14,
+          "restoreMs": 1394.813083999999,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      }
+    ],
+    "phases": {
+      "finished": {
+        "samples": 5,
+        "rssMax": 773734400,
+        "heapMax": 533457672,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 11.370495,
+        "windowP99MaxMs": 475.267071,
+        "delayMaxMs": 478.412799,
+        "gcCount": 459,
+        "gcMs": 361.25312423706055
+      },
+      "empty": {
+        "samples": 1,
+        "rssMax": 393035776,
+        "heapMax": 82964640,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 11.321343,
+        "windowP99MaxMs": 11.345919,
+        "delayMaxMs": 11.870207,
+        "gcCount": 24,
+        "gcMs": 31.56170690059662
+      }
+    },
+    "traffic": {},
+    "participants": {},
+    "trafficPhases": {},
+    "operations": {
+      "commits": 13,
+      "commitMs": 801.8115870000022,
+      "queryMs": 174.31087700000091,
+      "encodedBytes": 10578727,
+      "exports": 26,
+      "exportMs": 2839.0427070000014,
+      "restores": 14,
+      "restoreMs": 1394.813083999999,
+      "sends": 0,
+      "sendMs": 0
+    }
+  },
+  "large-after-main": {
+    "durationMs": 12453.75175,
+    "cpuMs": 1426.576,
+    "cpuOneCorePercent": 11.454989858778902,
+    "rssMax": 370999296,
+    "heapMax": 136635800,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 268.651333,
+        "memory": {
+          "rss": 146817024,
+          "heapTotal": 68091904,
+          "heapUsed": 46922232,
+          "external": 10315111,
+          "arrayBuffers": 5887230
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 696.1495,
+        "memory": {
+          "rss": 332709888,
+          "heapTotal": 194478080,
+          "heapUsed": 136635800,
+          "external": 34112916,
+          "arrayBuffers": 17150100
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 7,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 9.545500999999945,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 2,
+          "restoreMs": 224.50437399999993,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 9.355263,
+          "p95": 9.355263,
+          "p99": 9.355263,
+          "max": 9.355263
+        }
+      },
+      {
+        "label": "B-empty",
+        "atMs": 799.389,
+        "memory": {
+          "rss": 333217792,
+          "heapTotal": 150044672,
+          "heapUsed": 70833128,
+          "external": 8921393,
+          "arrayBuffers": 4538051
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 6,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 9.545500999999945,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 2,
+          "restoreMs": 224.50437399999993,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.428415,
+          "p95": 18.202623,
+          "p99": 18.202623,
+          "max": 18.202623
+        }
+      },
+      {
+        "label": "J-restored-final",
+        "atMs": 1014.784583,
+        "memory": {
+          "rss": 333217792,
+          "heapTotal": 150044672,
+          "heapUsed": 70443608,
+          "external": 8921393,
+          "arrayBuffers": 4538051
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 6,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 9.545500999999945,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 2,
+          "restoreMs": 224.50437399999993,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.682367,
+          "p95": 11.042815,
+          "p99": 16.424959,
+          "max": 16.424959
+        }
+      },
+      {
+        "label": "J-restored-after-10s",
+        "atMs": 11192.621792,
+        "memory": {
+          "rss": 370720768,
+          "heapTotal": 83460096,
+          "heapUsed": 70707480,
+          "external": 8921393,
+          "arrayBuffers": 4538051
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 6,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 9.545500999999945,
+          "encodedBytes": 0,
+          "exports": 1,
+          "exportMs": 117.72299999999996,
+          "restores": 2,
+          "restoreMs": 224.50437399999993,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.485759,
+          "p95": 11.321343,
+          "p99": 32.407551,
+          "max": 32.407551
+        }
+      },
+      {
+        "label": "L-released",
+        "atMs": 12719.756042,
+        "memory": {
+          "rss": 233242624,
+          "heapTotal": 43614208,
+          "heapUsed": 38226288,
+          "external": 8921393,
+          "arrayBuffers": 4538051
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 9.545500999999945,
+          "encodedBytes": 0,
+          "exports": 1,
+          "exportMs": 117.72299999999996,
+          "restores": 2,
+          "restoreMs": 224.50437399999993,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "L-stop",
+        "atMs": 12722.403083,
+        "memory": {
+          "rss": 233242624,
+          "heapTotal": 43614208,
+          "heapUsed": 38297064,
+          "external": 8921393,
+          "arrayBuffers": 4538051
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 9.545500999999945,
+          "encodedBytes": 0,
+          "exports": 1,
+          "exportMs": 117.72299999999996,
+          "restores": 2,
+          "restoreMs": 224.50437399999993,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      }
+    ],
+    "phases": {
+      "finished": {
+        "samples": 5,
+        "rssMax": 370999296,
+        "heapMax": 72646064,
+        "windowP50MaxMs": 10.715135,
+        "windowP95MaxMs": 11.321343,
+        "windowP99MaxMs": 11.550719,
+        "delayMaxMs": 11.550719,
+        "gcCount": 15,
+        "gcMs": 17.99041599035263
+      },
+      "empty": {
+        "samples": 1,
+        "rssMax": 233242624,
+        "heapMax": 38203960,
+        "windowP50MaxMs": 10.952703,
+        "windowP95MaxMs": 11.206655,
+        "windowP99MaxMs": 11.337727,
+        "delayMaxMs": 11.337727,
+        "gcCount": 2,
+        "gcMs": 24.080416977405548
+      }
+    },
+    "traffic": {},
+    "participants": {},
+    "trafficPhases": {},
+    "operations": {
+      "commits": 0,
+      "commitMs": 0,
+      "queryMs": 9.545500999999945,
+      "encodedBytes": 0,
+      "exports": 1,
+      "exportMs": 117.72299999999996,
+      "restores": 2,
+      "restoreMs": 224.50437399999993,
+      "sends": 0,
+      "sendMs": 0
+    }
+  },
+  "after-main": {
+    "durationMs": 28754.657708,
+    "cpuMs": 20874.604,
+    "cpuOneCorePercent": 72.59555725538111,
+    "rssMax": 794722304,
+    "heapMax": 334467488,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 272.469458,
+        "memory": {
+          "rss": 145424384,
+          "heapTotal": 67829760,
+          "heapUsed": 44122312,
+          "external": 10096524,
+          "arrayBuffers": 5652251
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 281.682291,
+        "memory": {
+          "rss": 146931712,
+          "heapTotal": 67829760,
+          "heapUsed": 45913168,
+          "external": 10099656,
+          "arrayBuffers": 5718354
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.94495900000004,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-empty",
+        "atMs": 386.223,
+        "memory": {
+          "rss": 148488192,
+          "heapTotal": 67207168,
+          "heapUsed": 33651256,
+          "external": 8853745,
+          "arrayBuffers": 4472443
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.94495900000004,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.633215,
+          "p95": 17.891327,
+          "p99": 17.891327,
+          "max": 17.891327
+        }
+      },
+      {
+        "label": "C-0-waiting",
+        "atMs": 529.166958,
+        "memory": {
+          "rss": 148766720,
+          "heapTotal": 67731456,
+          "heapUsed": 34240512,
+          "external": 8864471,
+          "arrayBuffers": 4481121
+        },
+        "rooms": 4,
+        "registeredRooms": 4,
+        "sockets": 4,
+        "timers": 4,
+        "eventListeners": 32,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.94495900000004,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.387455,
+          "p95": 11.042815,
+          "p99": 18.038783,
+          "max": 18.038783
+        }
+      },
+      {
+        "label": "D-0-preparation",
+        "atMs": 815.8295,
+        "memory": {
+          "rss": 165265408,
+          "heapTotal": 85032960,
+          "heapUsed": 36780824,
+          "external": 8930091,
+          "arrayBuffers": 4546741
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 7,
+          "commitMs": 15.487833999999907,
+          "queryMs": 19.138333999999986,
+          "encodedBytes": 55925,
+          "exports": 15,
+          "exportMs": 5.9643749999999045,
+          "restores": 8,
+          "restoreMs": 2.5504159999998137,
+          "sends": 22,
+          "sendMs": 1.1427490000000944
+        },
+        "loop": {
+          "p50": 10.190847,
+          "p95": 12.451839,
+          "p99": 16.220159,
+          "max": 16.220159
+        }
+      },
+      {
+        "label": "E-0-combat",
+        "atMs": 2215.193708,
+        "memory": {
+          "rss": 326500352,
+          "heapTotal": 189661184,
+          "heapUsed": 143373208,
+          "external": 27217811,
+          "arrayBuffers": 22834461
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 37,
+          "commitMs": 131.99195699999973,
+          "queryMs": 69.46724800000027,
+          "encodedBytes": 1268073,
+          "exports": 76,
+          "exportMs": 212.1817900000002,
+          "restores": 38,
+          "restoreMs": 72.61857999999961,
+          "sends": 170,
+          "sendMs": 66.35770100000047
+        },
+        "loop": {
+          "p50": 10.362879,
+          "p95": 12.124159,
+          "p99": 268.959743,
+          "max": 334.233599
+        }
+      },
+      {
+        "label": "F-0-overtime",
+        "atMs": 2574.854291,
+        "memory": {
+          "rss": 387399680,
+          "heapTotal": 178012160,
+          "heapUsed": 61656416,
+          "external": 11368642,
+          "arrayBuffers": 6985292
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 38,
+          "commitMs": 168.7644150000001,
+          "queryMs": 76.11091400000021,
+          "encodedBytes": 1523123,
+          "exports": 79,
+          "exportMs": 388.5277900000002,
+          "restores": 39,
+          "restoreMs": 133.12557999999967,
+          "sends": 170,
+          "sendMs": 66.35770100000047
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "reconnect-0",
+        "atMs": 9004.309541,
+        "memory": {
+          "rss": 653606912,
+          "heapTotal": 305496064,
+          "heapUsed": 257697768,
+          "external": 21089167,
+          "arrayBuffers": 16716464
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 128,
+          "commitMs": 811.9460399999957,
+          "queryMs": 329.71183300000337,
+          "encodedBytes": 11115242,
+          "exports": 260,
+          "exportMs": 1954.655663999999,
+          "restores": 129,
+          "restoreMs": 933.4462009999986,
+          "sends": 473,
+          "sendMs": 282.83844299999976
+        },
+        "loop": {
+          "p50": 10.674175,
+          "p95": 11.378687,
+          "p99": 12.296191,
+          "max": 12.296191
+        }
+      },
+      {
+        "label": "H-0-final-connected",
+        "atMs": 24950.749291,
+        "memory": {
+          "rss": 461881344,
+          "heapTotal": 117800960,
+          "heapUsed": 43069072,
+          "external": 13170005,
+          "arrayBuffers": 8798678
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 318,
+          "commitMs": 2826.527993999995,
+          "queryMs": 1213.5446250000136,
+          "encodedBytes": 58319252,
+          "exports": 640,
+          "exportMs": 5625.107252000006,
+          "restores": 319,
+          "restoreMs": 2905.104450000006,
+          "sends": 1172,
+          "sendMs": 853.5606629999739
+        },
+        "loop": {
+          "p50": 10.739711,
+          "p95": 19.333119,
+          "p99": 24.100863,
+          "max": 25.100287
+        }
+      },
+      {
+        "label": "G-0-final-settled",
+        "atMs": 27978.646,
+        "memory": {
+          "rss": 462766080,
+          "heapTotal": 117800960,
+          "heapUsed": 42063424,
+          "external": 13170005,
+          "arrayBuffers": 8798678
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 318,
+          "commitMs": 2826.527993999995,
+          "queryMs": 1213.5446250000136,
+          "encodedBytes": 58319252,
+          "exports": 641,
+          "exportMs": 5627.679210000003,
+          "restores": 319,
+          "restoreMs": 2905.104450000006,
+          "sends": 1172,
+          "sendMs": 853.5606629999739
+        },
+        "loop": {
+          "p50": 10.567679,
+          "p95": 11.051007,
+          "p99": 19.038207,
+          "max": 19.038207
+        }
+      },
+      {
+        "label": "I-0-final-disconnected",
+        "atMs": 29027.127166,
+        "memory": {
+          "rss": 462258176,
+          "heapTotal": 116752384,
+          "heapUsed": 42125816,
+          "external": 13104050,
+          "arrayBuffers": 8732723
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 4,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 322,
+          "commitMs": 2858.712242999993,
+          "queryMs": 1239.6558750000154,
+          "encodedBytes": 59875658,
+          "exports": 649,
+          "exportMs": 5650.297502999999,
+          "restores": 323,
+          "restoreMs": 2923.588910000006,
+          "sends": 1172,
+          "sendMs": 853.5606629999739
+        },
+        "loop": {
+          "p50": 10.518527,
+          "p95": 11.329535,
+          "p99": 17.825791,
+          "max": 20.086783
+        }
+      }
+    ],
+    "phases": {
+      "combat": {
+        "samples": 3,
+        "rssMax": 787398656,
+        "heapMax": 334467488,
+        "windowP50MaxMs": 11.018239,
+        "windowP95MaxMs": 761.266175,
+        "windowP99MaxMs": 761.266175,
+        "delayMaxMs": 894.435327,
+        "gcCount": 331,
+        "gcMs": 241.11320424079895
+      },
+      "preparation": {
+        "samples": 6,
+        "rssMax": 794722304,
+        "heapMax": 284253912,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 695.205887,
+        "windowP99MaxMs": 742.916095,
+        "delayMaxMs": 742.916095,
+        "gcCount": 771,
+        "gcMs": 520.4268484115601
+      },
+      "resolution": {
+        "samples": 2,
+        "rssMax": 790413312,
+        "heapMax": 138395424,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 696.778751,
+        "windowP99MaxMs": 839.385087,
+        "delayMaxMs": 839.385087,
+        "gcCount": 254,
+        "gcMs": 174.97229385375977
+      },
+      "finished": {
+        "samples": 2,
+        "rssMax": 462749696,
+        "heapMax": 49799616,
+        "windowP50MaxMs": 11.026431,
+        "windowP95MaxMs": 11.321343,
+        "windowP99MaxMs": 11.395071,
+        "delayMaxMs": 11.485183,
+        "gcCount": 1,
+        "gcMs": 5.78554093837738
+      }
+    },
+    "traffic": {
+      "service_status": {
+        "messages": 5,
+        "bytes": 335,
+        "max": 67
+      },
+      "resume_accepted": {
+        "messages": 5,
+        "bytes": 1641,
+        "max": 329
+      },
+      "state_snapshot": {
+        "messages": 857,
+        "bytes": 10590521,
+        "max": 30517
+      },
+      "action_receipt": {
+        "messages": 240,
+        "bytes": 27779,
+        "max": 123
+      },
+      "combat_trace": {
+        "messages": 61,
+        "bytes": 126123759,
+        "max": 8752819
+      },
+      "final_results": {
+        "messages": 4,
+        "bytes": 12568,
+        "max": 3142
+      }
+    },
+    "participants": {
+      "0": {
+        "messages": 283,
+        "bytes": 35461435,
+        "max": 8752819
+      },
+      "1": {
+        "messages": 279,
+        "bytes": 34148531,
+        "max": 7724596
+      },
+      "2": {
+        "messages": 278,
+        "bytes": 36011184,
+        "max": 8752819
+      },
+      "3": {
+        "messages": 332,
+        "bytes": 31135453,
+        "max": 6317627
+      }
+    },
+    "trafficPhases": {
+      "not_started": {
+        "messages": 18,
+        "bytes": 35710,
+        "max": 3740
+      },
+      "preparation": {
+        "messages": 961,
+        "bytes": 8464770,
+        "max": 26716
+      },
+      "combat": {
+        "messages": 125,
+        "bytes": 127142717,
+        "max": 8752819
+      },
+      "resolution": {
+        "messages": 60,
+        "bytes": 995606,
+        "max": 27540
+      },
+      "finished": {
+        "messages": 8,
+        "bytes": 117800,
+        "max": 30517
+      }
+    },
+    "operations": {
+      "commits": 322,
+      "commitMs": 2858.712242999993,
+      "queryMs": 1239.6558750000154,
+      "encodedBytes": 59875658,
+      "exports": 649,
+      "exportMs": 5650.297502999999,
+      "restores": 323,
+      "restoreMs": 2923.588910000006,
+      "sends": 1172,
+      "sendMs": 853.5606629999739
+    }
+  },
+  "after-restored": {
+    "durationMs": 11718.238500000001,
+    "cpuMs": 379.914,
+    "cpuOneCorePercent": 3.242074310059485,
+    "rssMax": 158760960,
+    "heapMax": 46362168,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 298.807667,
+        "memory": {
+          "rss": 134332416,
+          "heapTotal": 67321856,
+          "heapUsed": 45195240,
+          "external": 10014540,
+          "arrayBuffers": 5586643
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 340.101917,
+        "memory": {
+          "rss": 157827072,
+          "heapTotal": 87474176,
+          "heapUsed": 41019584,
+          "external": 10847011,
+          "arrayBuffers": 4599747
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 6,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 7.046291999999994,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 2,
+          "restoreMs": 12.527291999999989,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "J-restored-final",
+        "atMs": 361.378583,
+        "memory": {
+          "rss": 158597120,
+          "heapTotal": 88440832,
+          "heapUsed": 37478576,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 6,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 7.046291999999994,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 2,
+          "restoreMs": 12.527291999999989,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.706943,
+          "p95": 10.706943,
+          "p99": 10.706943,
+          "max": 10.706943
+        }
+      },
+      {
+        "label": "J-restored-after-10s",
+        "atMs": 10389.139667,
+        "memory": {
+          "rss": 158760960,
+          "heapTotal": 42041344,
+          "heapUsed": 37554744,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 7.046291999999994,
+          "encodedBytes": 0,
+          "exports": 1,
+          "exportMs": 3.3311669999999935,
+          "restores": 2,
+          "restoreMs": 12.527291999999989,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.477567,
+          "p95": 26.132479,
+          "p99": 26.132479,
+          "max": 26.132479
+        }
+      },
+      {
+        "label": "L-0-released",
+        "atMs": 11910.957667,
+        "memory": {
+          "rss": 139198464,
+          "heapTotal": 40468480,
+          "heapUsed": 36573680,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 7.046291999999994,
+          "encodedBytes": 0,
+          "exports": 1,
+          "exportMs": 3.3311669999999935,
+          "restores": 2,
+          "restoreMs": 12.527291999999989,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.739711,
+          "p95": 11.051007,
+          "p99": 11.354111,
+          "max": 25.821183
+        }
+      },
+      {
+        "label": "L-stop",
+        "atMs": 12017.046167,
+        "memory": {
+          "rss": 139198464,
+          "heapTotal": 40468480,
+          "heapUsed": 36661264,
+          "external": 8921393,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 7.046291999999994,
+          "encodedBytes": 0,
+          "exports": 1,
+          "exportMs": 3.3311669999999935,
+          "restores": 2,
+          "restoreMs": 12.527291999999989,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.043391,
+          "p95": 11.042815,
+          "p99": 11.042815,
+          "max": 11.042815
+        }
+      }
+    ],
+    "phases": {
+      "finished": {
+        "samples": 5,
+        "rssMax": 158695424,
+        "heapMax": 46362168,
+        "windowP50MaxMs": 10.764287,
+        "windowP95MaxMs": 11.329535,
+        "windowP99MaxMs": 11.747327,
+        "delayMaxMs": 13.328383,
+        "gcCount": 1,
+        "gcMs": 3.870542049407959
+      }
+    },
+    "traffic": {},
+    "participants": {},
+    "trafficPhases": {},
+    "operations": {
+      "commits": 0,
+      "commitMs": 0,
+      "queryMs": 7.046291999999994,
+      "encodedBytes": 0,
+      "exports": 1,
+      "exportMs": 3.3311669999999935,
+      "restores": 2,
+      "restoreMs": 12.527291999999989,
+      "sends": 0,
+      "sendMs": 0
+    }
+  },
+  "normal-main": {
+    "durationMs": 923903.652166,
+    "cpuMs": 302909.291,
+    "cpuOneCorePercent": 32.785809460744034,
+    "rssMax": 907853824,
+    "heapMax": 488791096,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 268.00475,
+        "memory": {
+          "rss": 144441344,
+          "heapTotal": 68845568,
+          "heapUsed": 44800112,
+          "external": 10145740,
+          "arrayBuffers": 5717851
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 277.195666,
+        "memory": {
+          "rss": 146227200,
+          "heapTotal": 69369856,
+          "heapUsed": 46885360,
+          "external": 10165256,
+          "arrayBuffers": 5783954
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.996374000000003,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-empty",
+        "atMs": 382.115083,
+        "memory": {
+          "rss": 147750912,
+          "heapTotal": 68780032,
+          "heapUsed": 33650584,
+          "external": 8853745,
+          "arrayBuffers": 4472443
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.996374000000003,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 15.376383,
+          "p99": 15.376383,
+          "max": 15.376383
+        }
+      },
+      {
+        "label": "C-0-waiting",
+        "atMs": 509.450583,
+        "memory": {
+          "rss": 147914752,
+          "heapTotal": 69304320,
+          "heapUsed": 35480160,
+          "external": 8876135,
+          "arrayBuffers": 4492785
+        },
+        "rooms": 4,
+        "registeredRooms": 4,
+        "sockets": 4,
+        "timers": 4,
+        "eventListeners": 32,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.996374000000003,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.272767,
+          "p95": 10.412031,
+          "p99": 11.034623,
+          "max": 11.034623
+        }
+      },
+      {
+        "label": "D-0-preparation",
+        "atMs": 792.24,
+        "memory": {
+          "rss": 151519232,
+          "heapTotal": 72974336,
+          "heapUsed": 54297512,
+          "external": 9046093,
+          "arrayBuffers": 4662743
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 7,
+          "commitMs": 14.930210000000102,
+          "queryMs": 18.613580999999897,
+          "encodedBytes": 55931,
+          "exports": 15,
+          "exportMs": 6.37845799999991,
+          "restores": 8,
+          "restoreMs": 2.586251000000061,
+          "sends": 22,
+          "sendMs": 1.2732940000001918
+        },
+        "loop": {
+          "p50": 10.256383,
+          "p95": 11.894783,
+          "p99": 15.433727,
+          "max": 15.433727
+        }
+      },
+      {
+        "label": "E-0-combat",
+        "atMs": 31392.371583,
+        "memory": {
+          "rss": 294256640,
+          "heapTotal": 158810112,
+          "heapUsed": 83033096,
+          "external": 35285326,
+          "arrayBuffers": 30901968
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 7,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 65,
+          "commitMs": 213.28954300001328,
+          "queryMs": 177.68012100000766,
+          "encodedBytes": 2055741,
+          "exports": 131,
+          "exportMs": 156.38691399998413,
+          "restores": 66,
+          "restoreMs": 68.19679300000371,
+          "sends": 170,
+          "sendMs": 66.51450399999283
+        },
+        "loop": {
+          "p50": 10.510335,
+          "p95": 11.403263,
+          "p99": 65.765375,
+          "max": 291.241983
+        }
+      },
+      {
+        "label": "F-0-overtime",
+        "atMs": 272561.805833,
+        "memory": {
+          "rss": 457572352,
+          "heapTotal": 197591040,
+          "heapUsed": 76791608,
+          "external": 32290996,
+          "arrayBuffers": 16081107
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 7,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 350,
+          "commitMs": 9939.242882000093,
+          "queryMs": 1891.4022119998835,
+          "encodedBytes": 72085618,
+          "exports": 701,
+          "exportMs": 35285.59223700016,
+          "restores": 351,
+          "restoreMs": 14745.020545999738,
+          "sends": 372,
+          "sendMs": 264.9660920000182
+        },
+        "loop": {
+          "p50": 10.633215,
+          "p95": 11.034623,
+          "p99": 11.034623,
+          "max": 11.034623
+        }
+      },
+      {
+        "label": "reconnect-0",
+        "atMs": 281614.196083,
+        "memory": {
+          "rss": 459325440,
+          "heapTotal": 203128832,
+          "heapUsed": 139589080,
+          "external": 20717728,
+          "arrayBuffers": 16346393
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 7,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 390,
+          "commitMs": 10572.56279500031,
+          "queryMs": 2052.5272099998683,
+          "encodedBytes": 79155343,
+          "exports": 781,
+          "exportMs": 37332.49278200014,
+          "restores": 391,
+          "restoreMs": 15692.429131999714,
+          "sends": 477,
+          "sendMs": 273.9816379999987
+        },
+        "loop": {
+          "p50": 10.665983,
+          "p95": 11.640831,
+          "p99": 13.017087,
+          "max": 13.148159
+        }
+      },
+      {
+        "label": "H-0-final-connected",
+        "atMs": 911474.007166,
+        "memory": {
+          "rss": 235683840,
+          "heapTotal": 124108800,
+          "heapUsed": 77003728,
+          "external": 27351063,
+          "arrayBuffers": 22979728
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 7,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1151,
+          "commitMs": 37133.38212100124,
+          "queryMs": 8557.054000002347,
+          "encodedBytes": 338712404,
+          "exports": 2303,
+          "exportMs": 107773.35323500246,
+          "restores": 1152,
+          "restoreMs": 48505.21229800004,
+          "sends": 1148,
+          "sendMs": 844.640840998852
+        },
+        "loop": {
+          "p50": 10.780671,
+          "p95": 11.272191,
+          "p99": 11.313151,
+          "max": 11.313151
+        }
+      },
+      {
+        "label": "G-0-final-settled",
+        "atMs": 921490.937541,
+        "memory": {
+          "rss": 227672064,
+          "heapTotal": 124108800,
+          "heapUsed": 54613344,
+          "external": 26867346,
+          "arrayBuffers": 22496011
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 7,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1151,
+          "commitMs": 37133.38212100124,
+          "queryMs": 8557.054000002347,
+          "encodedBytes": 338712404,
+          "exports": 2304,
+          "exportMs": 107781.27890200246,
+          "restores": 1152,
+          "restoreMs": 48505.21229800004,
+          "sends": 1148,
+          "sendMs": 844.640840998852
+        },
+        "loop": {
+          "p50": 10.371071,
+          "p95": 11.042815,
+          "p99": 11.051007,
+          "max": 11.051007
+        }
+      },
+      {
+        "label": "I-0-final-disconnected",
+        "atMs": 922526.935791,
+        "memory": {
+          "rss": 225837056,
+          "heapTotal": 122978304,
+          "heapUsed": 62105568,
+          "external": 27154278,
+          "arrayBuffers": 22782943
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 3,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1155,
+          "commitMs": 37176.548871001214,
+          "queryMs": 8593.307917002487,
+          "encodedBytes": 340221050,
+          "exports": 2312,
+          "exportMs": 107800.76532000254,
+          "restores": 1156,
+          "restoreMs": 48522.09438099996,
+          "sends": 1148,
+          "sendMs": 844.640840998852
+        },
+        "loop": {
+          "p50": 10.477567,
+          "p95": 11.345919,
+          "p99": 16.269311,
+          "max": 16.564223
+        }
+      },
+      {
+        "label": "L-0-released",
+        "atMs": 924066.024125,
+        "memory": {
+          "rss": 225247232,
+          "heapTotal": 52772864,
+          "heapUsed": 43418896,
+          "external": 26670002,
+          "arrayBuffers": 22298667
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1155,
+          "commitMs": 37176.548871001214,
+          "queryMs": 8593.307917002487,
+          "encodedBytes": 340221050,
+          "exports": 2313,
+          "exportMs": 107807.73644500246,
+          "restores": 1156,
+          "restoreMs": 48522.09438099996,
+          "sends": 1148,
+          "sendMs": 844.640840998852
+        },
+        "loop": {
+          "p50": 10.723327,
+          "p95": 11.313151,
+          "p99": 11.321343,
+          "max": 26.705919
+        }
+      },
+      {
+        "label": "L-stop",
+        "atMs": 924171.656916,
+        "memory": {
+          "rss": 225247232,
+          "heapTotal": 52772864,
+          "heapUsed": 43507664,
+          "external": 26670002,
+          "arrayBuffers": 22298667
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1155,
+          "commitMs": 37176.548871001214,
+          "queryMs": 8593.307917002487,
+          "encodedBytes": 340221050,
+          "exports": 2313,
+          "exportMs": 107807.73644500246,
+          "restores": 1156,
+          "restoreMs": 48522.09438099996,
+          "sends": 1148,
+          "sendMs": 844.640840998852
+        },
+        "loop": {
+          "p50": 10.207231,
+          "p95": 11.051007,
+          "p99": 11.051007,
+          "max": 11.051007
+        }
+      }
+    ],
+    "phases": {
+      "preparation": {
+        "samples": 229,
+        "rssMax": 880508928,
+        "heapMax": 368276960,
+        "windowP50MaxMs": 11.542527,
+        "windowP95MaxMs": 15.638527,
+        "windowP99MaxMs": 417.071103,
+        "delayMaxMs": 742.391807,
+        "gcCount": 878,
+        "gcMs": 779.1675341129303
+      },
+      "combat": {
+        "samples": 182,
+        "rssMax": 907853824,
+        "heapMax": 488791096,
+        "windowP50MaxMs": 11.337727,
+        "windowP95MaxMs": 12.328959,
+        "windowP99MaxMs": 752.353279,
+        "delayMaxMs": 772.800511,
+        "gcCount": 19090,
+        "gcMs": 14171.771242260933
+      },
+      "resolution": {
+        "samples": 40,
+        "rssMax": 880017408,
+        "heapMax": 292659792,
+        "windowP50MaxMs": 11.337727,
+        "windowP95MaxMs": 13.615103,
+        "windowP99MaxMs": 781.189119,
+        "delayMaxMs": 781.189119,
+        "gcCount": 2380,
+        "gcMs": 1763.5124681591988
+      },
+      "finished": {
+        "samples": 6,
+        "rssMax": 235667456,
+        "heapMax": 76887640,
+        "windowP50MaxMs": 10.870783,
+        "windowP95MaxMs": 11.427839,
+        "windowP99MaxMs": 23.592959,
+        "delayMaxMs": 46.596095,
+        "gcCount": 3,
+        "gcMs": 4.624876022338867
+      },
+      "empty": {
+        "samples": 1,
+        "rssMax": 226672640,
+        "heapMax": 68110568,
+        "windowP50MaxMs": 10.977279,
+        "windowP95MaxMs": 11.214847,
+        "windowP99MaxMs": 11.329535,
+        "delayMaxMs": 11.427839,
+        "gcCount": 0,
+        "gcMs": 0
+      }
+    },
+    "traffic": {
+      "service_status": {
+        "messages": 5,
+        "bytes": 335,
+        "max": 67
+      },
+      "resume_accepted": {
+        "messages": 5,
+        "bytes": 1641,
+        "max": 329
+      },
+      "state_snapshot": {
+        "messages": 841,
+        "bytes": 10272917,
+        "max": 28429
+      },
+      "action_receipt": {
+        "messages": 235,
+        "bytes": 27224,
+        "max": 123
+      },
+      "combat_trace": {
+        "messages": 58,
+        "bytes": 126361982,
+        "max": 7913387
+      },
+      "final_results": {
+        "messages": 4,
+        "bytes": 12684,
+        "max": 3171
+      }
+    },
+    "participants": {
+      "0": {
+        "messages": 277,
+        "bytes": 35464349,
+        "max": 7913387
+      },
+      "1": {
+        "messages": 275,
+        "bytes": 33776816,
+        "max": 7351476
+      },
+      "2": {
+        "messages": 274,
+        "bytes": 34431701,
+        "max": 7806453
+      },
+      "3": {
+        "messages": 322,
+        "bytes": 33003917,
+        "max": 7913387
+      }
+    },
+    "trafficPhases": {
+      "not_started": {
+        "messages": 18,
+        "bytes": 35710,
+        "max": 3740
+      },
+      "preparation": {
+        "messages": 940,
+        "bytes": 8224673,
+        "max": 24601
+      },
+      "combat": {
+        "messages": 126,
+        "bytes": 127391565,
+        "max": 7913387
+      },
+      "resolution": {
+        "messages": 56,
+        "bytes": 911175,
+        "max": 25462
+      },
+      "finished": {
+        "messages": 8,
+        "bytes": 113660,
+        "max": 28429
+      }
+    },
+    "operations": {
+      "commits": 1155,
+      "commitMs": 37176.548871001214,
+      "queryMs": 8593.307917002487,
+      "encodedBytes": 340221050,
+      "exports": 2313,
+      "exportMs": 107807.73644500246,
+      "restores": 1156,
+      "restoreMs": 48522.09438099996,
+      "sends": 1148,
+      "sendMs": 844.640840998852
+    }
+  },
+  "consecutive-main": {
+    "durationMs": 238546.861042,
+    "cpuMs": 104052.839,
+    "cpuOneCorePercent": 43.619454284783,
+    "rssMax": 900349952,
+    "heapMax": 430521800,
+    "states": [
+      {
+        "label": "A-start",
+        "atMs": 260.623833,
+        "memory": {
+          "rss": 137478144,
+          "heapTotal": 69320704,
+          "heapUsed": 45172656,
+          "external": 10014540,
+          "arrayBuffers": 5586643
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 0,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-ready",
+        "atMs": 269.305458,
+        "memory": {
+          "rss": 139182080,
+          "heapTotal": 69582848,
+          "heapUsed": 46079712,
+          "external": 10099656,
+          "arrayBuffers": 5718346
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.7170419999999353,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "B-empty",
+        "atMs": 281.709583,
+        "memory": {
+          "rss": 141099008,
+          "heapTotal": 68517888,
+          "heapUsed": 33455808,
+          "external": 8919345,
+          "arrayBuffers": 4538035
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.7170419999999353,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      },
+      {
+        "label": "C-0-waiting",
+        "atMs": 359.47125,
+        "memory": {
+          "rss": 141344768,
+          "heapTotal": 68780032,
+          "heapUsed": 33773224,
+          "external": 8929825,
+          "arrayBuffers": 4546467
+        },
+        "rooms": 2,
+        "registeredRooms": 2,
+        "sockets": 2,
+        "timers": 2,
+        "eventListeners": 16,
+        "socketListeners": 10,
+        "operations": {
+          "commits": 0,
+          "commitMs": 0,
+          "queryMs": 3.7170419999999353,
+          "encodedBytes": 0,
+          "exports": 0,
+          "exportMs": 0,
+          "restores": 0,
+          "restoreMs": 0,
+          "sends": 0,
+          "sendMs": 0
+        },
+        "loop": {
+          "p50": 10.313727,
+          "p95": 14.295039,
+          "p99": 14.295039,
+          "max": 14.295039
+        }
+      },
+      {
+        "label": "D-0-preparation",
+        "atMs": 544.997958,
+        "memory": {
+          "rss": 142704640,
+          "heapTotal": 70352896,
+          "heapUsed": 35874640,
+          "external": 8929833,
+          "arrayBuffers": 4546475
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 5,
+          "commitMs": 9.762167999999974,
+          "queryMs": 13.324793000000057,
+          "encodedBytes": 25256,
+          "exports": 11,
+          "exportMs": 3.8008759999999597,
+          "restores": 6,
+          "restoreMs": 1.2372499999999604,
+          "sends": 9,
+          "sendMs": 0.5958749999998645
+        },
+        "loop": {
+          "p50": 10.436607,
+          "p95": 11.829247,
+          "p99": 14.950399,
+          "max": 14.950399
+        }
+      },
+      {
+        "label": "E-0-combat",
+        "atMs": 1154.34575,
+        "memory": {
+          "rss": 237436928,
+          "heapTotal": 125927424,
+          "heapUsed": 47732368,
+          "external": 24942260,
+          "arrayBuffers": 20558902
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 20,
+          "commitMs": 46.339959999999905,
+          "queryMs": 32.82279499999987,
+          "encodedBytes": 342133,
+          "exports": 42,
+          "exportMs": 50.95696099999992,
+          "restores": 21,
+          "restoreMs": 5.99170899999973,
+          "sends": 55,
+          "sendMs": 32.47741699999892
+        },
+        "loop": {
+          "p50": 10.698751,
+          "p95": 11.354111,
+          "p99": 139.722751,
+          "max": 139.722751
+        }
+      },
+      {
+        "label": "F-0-overtime",
+        "atMs": 1364.24725,
+        "memory": {
+          "rss": 259489792,
+          "heapTotal": 136937472,
+          "heapUsed": 50194568,
+          "external": 17442142,
+          "arrayBuffers": 13058784
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 21,
+          "commitMs": 67.69487699999979,
+          "queryMs": 38.297710999999765,
+          "encodedBytes": 470807,
+          "exports": 45,
+          "exportMs": 157.50796100000008,
+          "restores": 22,
+          "restoreMs": 41.540417999999875,
+          "sends": 55,
+          "sendMs": 32.47741699999892
+        },
+        "loop": {
+          "p50": 147.324927,
+          "p95": 147.324927,
+          "p99": 147.324927,
+          "max": 147.324927
+        }
+      },
+      {
+        "label": "reconnect-0",
+        "atMs": 4736.747875,
+        "memory": {
+          "rss": 338984960,
+          "heapTotal": 149258240,
+          "heapUsed": 61280480,
+          "external": 17820723,
+          "arrayBuffers": 13449388
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 72,
+          "commitMs": 348.55933600000014,
+          "queryMs": 155.66408700000108,
+          "encodedBytes": 3653270,
+          "exports": 148,
+          "exportMs": 866.4979619999995,
+          "restores": 73,
+          "restoreMs": 391.5389590000014,
+          "sends": 180,
+          "sendMs": 119.15854699999659
+        },
+        "loop": {
+          "p50": 10.731519,
+          "p95": 11.468799,
+          "p99": 12.435455,
+          "max": 12.435455
+        }
+      },
+      {
+        "label": "H-0-final-connected",
+        "atMs": 11747.8685,
+        "memory": {
+          "rss": 568541184,
+          "heapTotal": 115179520,
+          "heapUsed": 41460200,
+          "external": 25199684,
+          "arrayBuffers": 20828349
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 164,
+          "commitMs": 1064.767710000001,
+          "queryMs": 445.2857540000078,
+          "encodedBytes": 15580966,
+          "exports": 332,
+          "exportMs": 2216.471301999987,
+          "restores": 165,
+          "restoreMs": 1091.3836209999963,
+          "sends": 388,
+          "sendMs": 385.03154299998664
+        },
+        "loop": {
+          "p50": 10.551295,
+          "p95": 14.991359,
+          "p99": 20.054015,
+          "max": 20.987903
+        }
+      },
+      {
+        "label": "G-0-final-settled",
+        "atMs": 14776.266875,
+        "memory": {
+          "rss": 435322880,
+          "heapTotal": 114655232,
+          "heapUsed": 40556048,
+          "external": 25199684,
+          "arrayBuffers": 20828349
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 164,
+          "commitMs": 1064.767710000001,
+          "queryMs": 445.2857540000078,
+          "encodedBytes": 15580966,
+          "exports": 333,
+          "exportMs": 2218.383926999988,
+          "restores": 165,
+          "restoreMs": 1091.3836209999963,
+          "sends": 388,
+          "sendMs": 385.03154299998664
+        },
+        "loop": {
+          "p50": 10.412031,
+          "p95": 25.706495,
+          "p99": 25.706495,
+          "max": 25.706495
+        }
+      },
+      {
+        "label": "I-0-final-disconnected",
+        "atMs": 15822.172375,
+        "memory": {
+          "rss": 337100800,
+          "heapTotal": 114393088,
+          "heapUsed": 40585552,
+          "external": 25134066,
+          "arrayBuffers": 20762731
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 166,
+          "commitMs": 1076.2402089999987,
+          "queryMs": 454.2845030000081,
+          "encodedBytes": 15954051,
+          "exports": 337,
+          "exportMs": 2231.6905529999894,
+          "restores": 167,
+          "restoreMs": 1099.278911999997,
+          "sends": 388,
+          "sendMs": 385.03154299998664
+        },
+        "loop": {
+          "p50": 10.510335,
+          "p95": 11.321343,
+          "p99": 15.630335,
+          "max": 27.082751
+        }
+      },
+      {
+        "label": "L-0-released",
+        "atMs": 21157.937958,
+        "memory": {
+          "rss": 337543168,
+          "heapTotal": 48594944,
+          "heapUsed": 39685496,
+          "external": 25134066,
+          "arrayBuffers": 20762731
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 166,
+          "commitMs": 1076.2402089999987,
+          "queryMs": 454.2845030000081,
+          "encodedBytes": 15954051,
+          "exports": 338,
+          "exportMs": 2235.62101099999,
+          "restores": 167,
+          "restoreMs": 1099.278911999997,
+          "sends": 388,
+          "sendMs": 385.03154299998664
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 11.321343,
+          "p99": 22.036479,
+          "max": 22.036479
+        }
+      },
+      {
+        "label": "C-1-waiting",
+        "atMs": 21356.054541,
+        "memory": {
+          "rss": 337559552,
+          "heapTotal": 48857088,
+          "heapUsed": 39786672,
+          "external": 25133930,
+          "arrayBuffers": 20762595
+        },
+        "rooms": 2,
+        "registeredRooms": 2,
+        "sockets": 2,
+        "timers": 2,
+        "eventListeners": 16,
+        "socketListeners": 10,
+        "operations": {
+          "commits": 166,
+          "commitMs": 1076.2402089999987,
+          "queryMs": 454.2845030000081,
+          "encodedBytes": 15954051,
+          "exports": 338,
+          "exportMs": 2235.62101099999,
+          "restores": 167,
+          "restoreMs": 1099.278911999997,
+          "sends": 388,
+          "sendMs": 385.03154299998664
+        },
+        "loop": {
+          "p50": 10.239999,
+          "p95": 11.051007,
+          "p99": 21.626879,
+          "max": 21.626879
+        }
+      },
+      {
+        "label": "D-1-preparation",
+        "atMs": 21555.325791,
+        "memory": {
+          "rss": 337559552,
+          "heapTotal": 50429952,
+          "heapUsed": 40011224,
+          "external": 25133938,
+          "arrayBuffers": 20762603
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 171,
+          "commitMs": 1086.8123749999968,
+          "queryMs": 464.6483360000148,
+          "encodedBytes": 15979313,
+          "exports": 349,
+          "exportMs": 2238.233926999992,
+          "restores": 173,
+          "restoreMs": 1100.730495999992,
+          "sends": 397,
+          "sendMs": 385.67250199998693
+        },
+        "loop": {
+          "p50": 10.272767,
+          "p95": 12.812287,
+          "p99": 17.825791,
+          "max": 17.825791
+        }
+      },
+      {
+        "label": "E-1-combat",
+        "atMs": 22194.137125,
+        "memory": {
+          "rss": 358432768,
+          "heapTotal": 127500288,
+          "heapUsed": 47571912,
+          "external": 33040547,
+          "arrayBuffers": 25441334
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 186,
+          "commitMs": 1126.623625000003,
+          "queryMs": 487.94375100000804,
+          "encodedBytes": 16296210,
+          "exports": 380,
+          "exportMs": 2295.111511999983,
+          "restores": 188,
+          "restoreMs": 1108.7548719999932,
+          "sends": 443,
+          "sendMs": 418.15045999999006
+        },
+        "loop": {
+          "p50": 10.780671,
+          "p95": 11.886591,
+          "p99": 173.670399,
+          "max": 173.670399
+        }
+      },
+      {
+        "label": "F-1-overtime",
+        "atMs": 22395.109541,
+        "memory": {
+          "rss": 382910464,
+          "heapTotal": 155779072,
+          "heapUsed": 93166760,
+          "external": 32975036,
+          "arrayBuffers": 28603701
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 187,
+          "commitMs": 1144.5276660000009,
+          "queryMs": 490.73504300000974,
+          "encodedBytes": 16424884,
+          "exports": 383,
+          "exportMs": 2399.0145119999816,
+          "restores": 189,
+          "restoreMs": 1142.1088299999928,
+          "sends": 443,
+          "sendMs": 418.15045999999006
+        },
+        "loop": {
+          "p50": 144.179199,
+          "p95": 144.179199,
+          "p99": 144.179199,
+          "max": 144.179199
+        }
+      },
+      {
+        "label": "reconnect-1",
+        "atMs": 25753.146083,
+        "memory": {
+          "rss": 473219072,
+          "heapTotal": 173801472,
+          "heapUsed": 100349304,
+          "external": 25516530,
+          "arrayBuffers": 21145195
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 238,
+          "commitMs": 1426.918458999985,
+          "queryMs": 611.3431280000204,
+          "encodedBytes": 19578180,
+          "exports": 486,
+          "exportMs": 3108.4375049999853,
+          "restores": 240,
+          "restoreMs": 1495.040329999988,
+          "sends": 568,
+          "sendMs": 505.87924799998314
+        },
+        "loop": {
+          "p50": 10.534911,
+          "p95": 11.321343,
+          "p99": 12.279807,
+          "max": 107.806719
+        }
+      },
+      {
+        "label": "H-1-final-connected",
+        "atMs": 32521.839833,
+        "memory": {
+          "rss": 579944448,
+          "heapTotal": 115441664,
+          "heapUsed": 41538024,
+          "external": 15926600,
+          "arrayBuffers": 11555265
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 327,
+          "commitMs": 2102.515370999986,
+          "queryMs": 896.1341670000238,
+          "encodedBytes": 30845004,
+          "exports": 664,
+          "exportMs": 4407.188927999976,
+          "restores": 329,
+          "restoreMs": 2174.900117999997,
+          "sends": 769,
+          "sendMs": 758.1187129999564
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 16.334847,
+          "p99": 19.349503,
+          "max": 21.069823
+        }
+      },
+      {
+        "label": "G-1-final-settled",
+        "atMs": 35547.896291,
+        "memory": {
+          "rss": 580386816,
+          "heapTotal": 114917376,
+          "heapUsed": 40934600,
+          "external": 15926600,
+          "arrayBuffers": 11555265
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 327,
+          "commitMs": 2102.515370999986,
+          "queryMs": 896.1341670000238,
+          "encodedBytes": 30845004,
+          "exports": 665,
+          "exportMs": 4409.329677999975,
+          "restores": 329,
+          "restoreMs": 2174.900117999997,
+          "sends": 769,
+          "sendMs": 758.1187129999564
+        },
+        "loop": {
+          "p50": 10.461183,
+          "p95": 11.190271,
+          "p99": 11.501567,
+          "max": 26.836991
+        }
+      },
+      {
+        "label": "I-1-final-disconnected",
+        "atMs": 36591.149916,
+        "memory": {
+          "rss": 580026368,
+          "heapTotal": 114917376,
+          "heapUsed": 41018064,
+          "external": 15860669,
+          "arrayBuffers": 11489334
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 329,
+          "commitMs": 2113.8445789999814,
+          "queryMs": 904.8408750000217,
+          "encodedBytes": 31211379,
+          "exports": 669,
+          "exportMs": 4422.028345999979,
+          "restores": 331,
+          "restoreMs": 2182.601658999999,
+          "sends": 769,
+          "sendMs": 758.1187129999564
+        },
+        "loop": {
+          "p50": 11.026431,
+          "p95": 11.329535,
+          "p99": 15.073279,
+          "max": 27.312127
+        }
+      },
+      {
+        "label": "L-1-released",
+        "atMs": 42174.765083,
+        "memory": {
+          "rss": 465207296,
+          "heapTotal": 49119232,
+          "heapUsed": 40238920,
+          "external": 15860669,
+          "arrayBuffers": 11489334
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 329,
+          "commitMs": 2113.8445789999814,
+          "queryMs": 904.8408750000217,
+          "encodedBytes": 31211379,
+          "exports": 670,
+          "exportMs": 4425.993011999986,
+          "restores": 331,
+          "restoreMs": 2182.601658999999,
+          "sends": 769,
+          "sendMs": 758.1187129999564
+        },
+        "loop": {
+          "p50": 10.805247,
+          "p95": 11.051007,
+          "p99": 11.321343,
+          "max": 24.264703
+        }
+      },
+      {
+        "label": "C-2-waiting",
+        "atMs": 42374.397708,
+        "memory": {
+          "rss": 465207296,
+          "heapTotal": 49119232,
+          "heapUsed": 40346208,
+          "external": 15860586,
+          "arrayBuffers": 11489251
+        },
+        "rooms": 2,
+        "registeredRooms": 2,
+        "sockets": 2,
+        "timers": 2,
+        "eventListeners": 16,
+        "socketListeners": 10,
+        "operations": {
+          "commits": 329,
+          "commitMs": 2113.8445789999814,
+          "queryMs": 904.8408750000217,
+          "encodedBytes": 31211379,
+          "exports": 670,
+          "exportMs": 4425.993011999986,
+          "restores": 331,
+          "restoreMs": 2182.601658999999,
+          "sends": 769,
+          "sendMs": 758.1187129999564
+        },
+        "loop": {
+          "p50": 10.280959,
+          "p95": 11.059199,
+          "p99": 23.625727,
+          "max": 23.625727
+        }
+      },
+      {
+        "label": "D-2-preparation",
+        "atMs": 42552.716666,
+        "memory": {
+          "rss": 465207296,
+          "heapTotal": 50692096,
+          "heapUsed": 40689032,
+          "external": 15860594,
+          "arrayBuffers": 11489259
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 334,
+          "commitMs": 2121.0563289999836,
+          "queryMs": 911.825250000029,
+          "encodedBytes": 31236641,
+          "exports": 681,
+          "exportMs": 4429.284553999971,
+          "restores": 337,
+          "restoreMs": 2184.389283999996,
+          "sends": 778,
+          "sendMs": 758.7276299999542
+        },
+        "loop": {
+          "p50": 10.256383,
+          "p95": 13.287423,
+          "p99": 18.972671,
+          "max": 18.972671
+        }
+      },
+      {
+        "label": "E-2-combat",
+        "atMs": 43196.427833,
+        "memory": {
+          "rss": 470843392,
+          "heapTotal": 128286720,
+          "heapUsed": 48435944,
+          "external": 23767211,
+          "arrayBuffers": 16167990
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 349,
+          "commitMs": 2161.239202999982,
+          "queryMs": 935.5159560000302,
+          "encodedBytes": 31553544,
+          "exports": 712,
+          "exportMs": 4487.348507999954,
+          "restores": 352,
+          "restoreMs": 2192.1002839999846,
+          "sends": 824,
+          "sendMs": 791.3647969999695
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 176.553983,
+          "p99": 176.553983,
+          "max": 176.553983
+        }
+      },
+      {
+        "label": "F-2-overtime",
+        "atMs": 43396.997416,
+        "memory": {
+          "rss": 476790784,
+          "heapTotal": 161234944,
+          "heapUsed": 94684008,
+          "external": 23701693,
+          "arrayBuffers": 19330358
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 350,
+          "commitMs": 2179.5044109999862,
+          "queryMs": 938.4142900000352,
+          "encodedBytes": 31682217,
+          "exports": 715,
+          "exportMs": 4589.93242499995,
+          "restores": 353,
+          "restoreMs": 2225.6627429999853,
+          "sends": 824,
+          "sendMs": 791.3647969999695
+        },
+        "loop": {
+          "p50": 143.785983,
+          "p95": 143.785983,
+          "p99": 143.785983,
+          "max": 143.785983
+        }
+      },
+      {
+        "label": "reconnect-2",
+        "atMs": 46778.507625,
+        "memory": {
+          "rss": 571883520,
+          "heapTotal": 188645376,
+          "heapUsed": 143738648,
+          "external": 21919807,
+          "arrayBuffers": 17548472
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 401,
+          "commitMs": 2459.419320999935,
+          "queryMs": 1057.0262080000448,
+          "encodedBytes": 34836073,
+          "exports": 818,
+          "exportMs": 5314.806676000009,
+          "restores": 404,
+          "restoreMs": 2585.1988209999827,
+          "sends": 949,
+          "sendMs": 882.2253769999918
+        },
+        "loop": {
+          "p50": 10.436607,
+          "p95": 12.451839,
+          "p99": 215.482367,
+          "max": 239.337471
+        }
+      },
+      {
+        "label": "H-2-final-connected",
+        "atMs": 53446.484,
+        "memory": {
+          "rss": 674496512,
+          "heapTotal": 116490240,
+          "heapUsed": 42219544,
+          "external": 19780936,
+          "arrayBuffers": 15409601
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 490,
+          "commitMs": 3115.704278999997,
+          "queryMs": 1342.0591660000628,
+          "encodedBytes": 45959787,
+          "exports": 996,
+          "exportMs": 6589.847050000013,
+          "restores": 493,
+          "restoreMs": 3239.214689999956,
+          "sends": 1150,
+          "sendMs": 1126.564373000005
+        },
+        "loop": {
+          "p50": 10.641407,
+          "p95": 16.121855,
+          "p99": 20.578303,
+          "max": 20.578303
+        }
+      },
+      {
+        "label": "G-2-final-settled",
+        "atMs": 56472.93175,
+        "memory": {
+          "rss": 674938880,
+          "heapTotal": 50167808,
+          "heapUsed": 41483560,
+          "external": 19780936,
+          "arrayBuffers": 15409601
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 490,
+          "commitMs": 3115.704278999997,
+          "queryMs": 1342.0591660000628,
+          "encodedBytes": 45959787,
+          "exports": 997,
+          "exportMs": 6591.641258000012,
+          "restores": 493,
+          "restoreMs": 3239.214689999956,
+          "sends": 1150,
+          "sendMs": 1126.564373000005
+        },
+        "loop": {
+          "p50": 10.403839,
+          "p95": 11.329535,
+          "p99": 11.468799,
+          "max": 21.643263
+        }
+      },
+      {
+        "label": "I-2-final-disconnected",
+        "atMs": 57521.031208,
+        "memory": {
+          "rss": 674562048,
+          "heapTotal": 56983552,
+          "heapUsed": 41475024,
+          "external": 19715005,
+          "arrayBuffers": 15343670
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 492,
+          "commitMs": 3126.333654000001,
+          "queryMs": 1350.4707070000568,
+          "encodedBytes": 46322814,
+          "exports": 1001,
+          "exportMs": 6605.825424000004,
+          "restores": 495,
+          "restoreMs": 3247.3934399999553,
+          "sends": 1150,
+          "sendMs": 1126.564373000005
+        },
+        "loop": {
+          "p50": 10.371071,
+          "p95": 11.051007,
+          "p99": 30.834687,
+          "max": 30.834687
+        }
+      },
+      {
+        "label": "L-2-released",
+        "atMs": 63098.9065,
+        "memory": {
+          "rss": 306020352,
+          "heapTotal": 48857088,
+          "heapUsed": 40844384,
+          "external": 19715005,
+          "arrayBuffers": 15343670
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 492,
+          "commitMs": 3126.333654000001,
+          "queryMs": 1352.6296650000568,
+          "encodedBytes": 46322814,
+          "exports": 1002,
+          "exportMs": 6609.2525900000055,
+          "restores": 495,
+          "restoreMs": 3247.3934399999553,
+          "sends": 1150,
+          "sendMs": 1126.564373000005
+        },
+        "loop": {
+          "p50": 10.248191,
+          "p95": 11.042815,
+          "p99": 11.067391,
+          "max": 21.954559
+        }
+      },
+      {
+        "label": "C-3-waiting",
+        "atMs": 63295.811666,
+        "memory": {
+          "rss": 306020352,
+          "heapTotal": 49119232,
+          "heapUsed": 40919888,
+          "external": 19714922,
+          "arrayBuffers": 15343587
+        },
+        "rooms": 2,
+        "registeredRooms": 2,
+        "sockets": 2,
+        "timers": 2,
+        "eventListeners": 16,
+        "socketListeners": 10,
+        "operations": {
+          "commits": 492,
+          "commitMs": 3126.333654000001,
+          "queryMs": 1352.6296650000568,
+          "encodedBytes": 46322814,
+          "exports": 1002,
+          "exportMs": 6609.2525900000055,
+          "restores": 495,
+          "restoreMs": 3247.3934399999553,
+          "sends": 1150,
+          "sendMs": 1126.564373000005
+        },
+        "loop": {
+          "p50": 10.526719,
+          "p95": 11.329535,
+          "p99": 27.377663,
+          "max": 27.377663
+        }
+      },
+      {
+        "label": "D-3-preparation",
+        "atMs": 63473.824333,
+        "memory": {
+          "rss": 306020352,
+          "heapTotal": 50692096,
+          "heapUsed": 41062264,
+          "external": 19714930,
+          "arrayBuffers": 15343595
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 497,
+          "commitMs": 3136.564403999996,
+          "queryMs": 1362.6467480000556,
+          "encodedBytes": 46348076,
+          "exports": 1013,
+          "exportMs": 6612.161715999997,
+          "restores": 501,
+          "restoreMs": 3249.0584809999555,
+          "sends": 1159,
+          "sendMs": 1127.1179130000057
+        },
+        "loop": {
+          "p50": 10.379263,
+          "p95": 11.345919,
+          "p99": 20.299775,
+          "max": 20.299775
+        }
+      },
+      {
+        "label": "E-3-combat",
+        "atMs": 64110.4095,
+        "memory": {
+          "rss": 326549504,
+          "heapTotal": 128024576,
+          "heapUsed": 48782016,
+          "external": 38361258,
+          "arrayBuffers": 30762038
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 512,
+          "commitMs": 3175.872613999999,
+          "queryMs": 1385.8028290000639,
+          "encodedBytes": 46664972,
+          "exports": 1044,
+          "exportMs": 6670.8502999999855,
+          "restores": 516,
+          "restoreMs": 3257.615229999951,
+          "sends": 1205,
+          "sendMs": 1158.995788999997
+        },
+        "loop": {
+          "p50": 10.903551,
+          "p95": 12.255231,
+          "p99": 167.772159,
+          "max": 167.772159
+        }
+      },
+      {
+        "label": "F-3-overtime",
+        "atMs": 64307.58975,
+        "memory": {
+          "rss": 351010816,
+          "heapTotal": 161759232,
+          "heapUsed": 95051504,
+          "external": 38295742,
+          "arrayBuffers": 33924407
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 513,
+          "commitMs": 3193.6995310000048,
+          "queryMs": 1388.493621000065,
+          "encodedBytes": 46793646,
+          "exports": 1047,
+          "exportMs": 6772.168591999989,
+          "restores": 517,
+          "restoreMs": 3290.6679389999545,
+          "sends": 1205,
+          "sendMs": 1158.995788999997
+        },
+        "loop": {
+          "p50": 141.819903,
+          "p95": 141.819903,
+          "p99": 141.819903,
+          "max": 141.819903
+        }
+      },
+      {
+        "label": "reconnect-3",
+        "atMs": 67687.424,
+        "memory": {
+          "rss": 570753024,
+          "heapTotal": 196509696,
+          "heapUsed": 135872088,
+          "external": 20284882,
+          "arrayBuffers": 15913547
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 564,
+          "commitMs": 3458.70323800003,
+          "queryMs": 1492.485410000043,
+          "encodedBytes": 49946832,
+          "exports": 1150,
+          "exportMs": 7504.103176999999,
+          "restores": 568,
+          "restoreMs": 3646.2188969999906,
+          "sends": 1330,
+          "sendMs": 1245.9663759999787
+        },
+        "loop": {
+          "p50": 10.395647,
+          "p95": 11.313151,
+          "p99": 13.246463,
+          "max": 13.246463
+        }
+      },
+      {
+        "label": "H-3-final-connected",
+        "atMs": 74414.52,
+        "memory": {
+          "rss": 579747840,
+          "heapTotal": 117014528,
+          "heapUsed": 42493520,
+          "external": 13169981,
+          "arrayBuffers": 8798646
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 655,
+          "commitMs": 4121.440479999975,
+          "queryMs": 1778.5231960000147,
+          "encodedBytes": 61540663,
+          "exports": 1332,
+          "exportMs": 8770.029971000144,
+          "restores": 659,
+          "restoreMs": 4306.914190000104,
+          "sends": 1535,
+          "sendMs": 1493.5149169999315
+        },
+        "loop": {
+          "p50": 10.715135,
+          "p95": 13.852671,
+          "p99": 17.154047,
+          "max": 19.234815
+        }
+      },
+      {
+        "label": "G-3-final-settled",
+        "atMs": 77446.072708,
+        "memory": {
+          "rss": 580059136,
+          "heapTotal": 116228096,
+          "heapUsed": 41757696,
+          "external": 13169981,
+          "arrayBuffers": 8798646
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 655,
+          "commitMs": 4121.440479999975,
+          "queryMs": 1778.5231960000147,
+          "encodedBytes": 61540663,
+          "exports": 1333,
+          "exportMs": 8771.959263000144,
+          "restores": 659,
+          "restoreMs": 4306.914190000104,
+          "sends": 1535,
+          "sendMs": 1493.5149169999315
+        },
+        "loop": {
+          "p50": 10.444799,
+          "p95": 11.059199,
+          "p99": 11.329535,
+          "max": 26.214399
+        }
+      },
+      {
+        "label": "I-3-final-disconnected",
+        "atMs": 78489.489833,
+        "memory": {
+          "rss": 579993600,
+          "heapTotal": 115703808,
+          "heapUsed": 41746584,
+          "external": 13169650,
+          "arrayBuffers": 8798315
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 657,
+          "commitMs": 4132.3702309999635,
+          "queryMs": 1786.9442800000015,
+          "encodedBytes": 61909894,
+          "exports": 1337,
+          "exportMs": 8784.130139000134,
+          "restores": 661,
+          "restoreMs": 4314.315482000114,
+          "sends": 1535,
+          "sendMs": 1493.5149169999315
+        },
+        "loop": {
+          "p50": 10.543103,
+          "p95": 11.304959,
+          "p99": 11.583487,
+          "max": 21.954559
+        }
+      },
+      {
+        "label": "L-3-released",
+        "atMs": 83819.899458,
+        "memory": {
+          "rss": 537968640,
+          "heapTotal": 49381376,
+          "heapUsed": 41090144,
+          "external": 13169650,
+          "arrayBuffers": 8798315
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 657,
+          "commitMs": 4132.3702309999635,
+          "queryMs": 1786.9442800000015,
+          "encodedBytes": 61909894,
+          "exports": 1338,
+          "exportMs": 8788.033056000133,
+          "restores": 661,
+          "restoreMs": 4314.315482000114,
+          "sends": 1535,
+          "sendMs": 1493.5149169999315
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 11.296767,
+          "p99": 25.231359,
+          "max": 25.231359
+        }
+      },
+      {
+        "label": "C-4-waiting",
+        "atMs": 84021.398125,
+        "memory": {
+          "rss": 537968640,
+          "heapTotal": 49643520,
+          "heapUsed": 41165064,
+          "external": 13169514,
+          "arrayBuffers": 8798179
+        },
+        "rooms": 2,
+        "registeredRooms": 2,
+        "sockets": 2,
+        "timers": 2,
+        "eventListeners": 16,
+        "socketListeners": 10,
+        "operations": {
+          "commits": 657,
+          "commitMs": 4132.3702309999635,
+          "queryMs": 1786.9442800000015,
+          "encodedBytes": 61909894,
+          "exports": 1338,
+          "exportMs": 8788.033056000133,
+          "restores": 661,
+          "restoreMs": 4314.315482000114,
+          "sends": 1535,
+          "sendMs": 1493.5149169999315
+        },
+        "loop": {
+          "p50": 10.272767,
+          "p95": 11.059199,
+          "p99": 24.575999,
+          "max": 24.575999
+        }
+      },
+      {
+        "label": "D-4-preparation",
+        "atMs": 84218.404041,
+        "memory": {
+          "rss": 537985024,
+          "heapTotal": 51216384,
+          "heapUsed": 41286000,
+          "external": 13169522,
+          "arrayBuffers": 8798187
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 662,
+          "commitMs": 4140.7390639999785,
+          "queryMs": 1795.114529999997,
+          "encodedBytes": 61935156,
+          "exports": 1349,
+          "exportMs": 8790.643599000165,
+          "restores": 667,
+          "restoreMs": 4315.7066480001295,
+          "sends": 1544,
+          "sendMs": 1494.0839979999548
+        },
+        "loop": {
+          "p50": 10.739711,
+          "p95": 11.812863,
+          "p99": 18.137087,
+          "max": 18.137087
+        }
+      },
+      {
+        "label": "E-4-combat",
+        "atMs": 84857.93025,
+        "memory": {
+          "rss": 543834112,
+          "heapTotal": 128811008,
+          "heapUsed": 49494088,
+          "external": 22652861,
+          "arrayBuffers": 18281526
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 677,
+          "commitMs": 4181.726850999969,
+          "queryMs": 1819.671194999979,
+          "encodedBytes": 62252053,
+          "exports": 1380,
+          "exportMs": 8848.60039200017,
+          "restores": 682,
+          "restoreMs": 4322.614315000136,
+          "sends": 1590,
+          "sendMs": 1525.3705829999492
+        },
+        "loop": {
+          "p50": 10.608639,
+          "p95": 13.811711,
+          "p99": 168.820735,
+          "max": 168.820735
+        }
+      },
+      {
+        "label": "F-4-overtime",
+        "atMs": 85058.642458,
+        "memory": {
+          "rss": 549765120,
+          "heapTotal": 156565504,
+          "heapUsed": 95064944,
+          "external": 21137173,
+          "arrayBuffers": 16765838
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 678,
+          "commitMs": 4202.019725999969,
+          "queryMs": 1824.713694999975,
+          "encodedBytes": 62380727,
+          "exports": 1383,
+          "exportMs": 8949.948725000157,
+          "restores": 683,
+          "restoreMs": 4356.13864800013,
+          "sends": 1590,
+          "sendMs": 1525.3705829999492
+        },
+        "loop": {
+          "p50": 142.344191,
+          "p95": 142.344191,
+          "p99": 142.344191,
+          "max": 142.344191
+        }
+      },
+      {
+        "label": "reconnect-4",
+        "atMs": 88435.2665,
+        "memory": {
+          "rss": 460521472,
+          "heapTotal": 169345024,
+          "heapUsed": 104622112,
+          "external": 24289876,
+          "arrayBuffers": 19918541
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 6,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 729,
+          "commitMs": 4469.268140999905,
+          "queryMs": 1930.0819019999963,
+          "encodedBytes": 65560573,
+          "exports": 1486,
+          "exportMs": 9670.504269000028,
+          "restores": 734,
+          "restoreMs": 4714.18619000013,
+          "sends": 1715,
+          "sendMs": 1611.7252029998892
+        },
+        "loop": {
+          "p50": 10.764287,
+          "p95": 11.714559,
+          "p99": 11.853823,
+          "max": 112.459775
+        }
+      },
+      {
+        "label": "H-4-final-connected",
+        "atMs": 94667.773916,
+        "memory": {
+          "rss": 548306944,
+          "heapTotal": 116752384,
+          "heapUsed": 42706744,
+          "external": 23840008,
+          "arrayBuffers": 19468673
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 818,
+          "commitMs": 5068.188518999871,
+          "queryMs": 2210.9739880000034,
+          "encodedBytes": 76654871,
+          "exports": 1664,
+          "exportMs": 10750.259227999997,
+          "restores": 823,
+          "restoreMs": 5280.9264800001465,
+          "sends": 1933,
+          "sendMs": 1843.9904499999068
+        },
+        "loop": {
+          "p50": 10.805247,
+          "p95": 13.410303,
+          "p99": 18.808831,
+          "max": 19.267583
+        }
+      },
+      {
+        "label": "G-4-final-settled",
+        "atMs": 97695.163083,
+        "memory": {
+          "rss": 548749312,
+          "heapTotal": 50954240,
+          "heapUsed": 41902104,
+          "external": 23840008,
+          "arrayBuffers": 19468673
+        },
+        "rooms": 3,
+        "registeredRooms": 3,
+        "sockets": 4,
+        "timers": 7,
+        "eventListeners": 24,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 818,
+          "commitMs": 5068.188518999871,
+          "queryMs": 2210.9739880000034,
+          "encodedBytes": 76654871,
+          "exports": 1665,
+          "exportMs": 10752.410353000001,
+          "restores": 823,
+          "restoreMs": 5280.9264800001465,
+          "sends": 1933,
+          "sendMs": 1843.9904499999068
+        },
+        "loop": {
+          "p50": 10.813439,
+          "p95": 11.321343,
+          "p99": 11.550719,
+          "max": 25.542655
+        }
+      },
+      {
+        "label": "I-4-final-disconnected",
+        "atMs": 98744.004916,
+        "memory": {
+          "rss": 548372480,
+          "heapTotal": 56721408,
+          "heapUsed": 41901840,
+          "external": 23839677,
+          "arrayBuffers": 19468342
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 5,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 820,
+          "commitMs": 5079.1758529998615,
+          "queryMs": 2219.572071000008,
+          "encodedBytes": 77024090,
+          "exports": 1669,
+          "exportMs": 10767.031936999994,
+          "restores": 825,
+          "restoreMs": 5289.441230000149,
+          "sends": 1933,
+          "sendMs": 1843.9904499999068
+        },
+        "loop": {
+          "p50": 10.436607,
+          "p95": 11.321343,
+          "p99": 11.501567,
+          "max": 30.867455
+        }
+      },
+      {
+        "label": "L-4-released",
+        "atMs": 104073.630166,
+        "memory": {
+          "rss": 340934656,
+          "heapTotal": 49643520,
+          "heapUsed": 41206976,
+          "external": 23839677,
+          "arrayBuffers": 19468342
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 820,
+          "commitMs": 5079.1758529998615,
+          "queryMs": 2219.572071000008,
+          "encodedBytes": 77024090,
+          "exports": 1670,
+          "exportMs": 10771.417686999996,
+          "restores": 825,
+          "restoreMs": 5289.441230000149,
+          "sends": 1933,
+          "sendMs": 1843.9904499999068
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 11.321343,
+          "p99": 26.853375,
+          "max": 26.853375
+        }
+      },
+      {
+        "label": "C-5-waiting",
+        "atMs": 104333.7365,
+        "memory": {
+          "rss": 340934656,
+          "heapTotal": 50167808,
+          "heapUsed": 41316584,
+          "external": 23839840,
+          "arrayBuffers": 19468505
+        },
+        "rooms": 4,
+        "registeredRooms": 4,
+        "sockets": 4,
+        "timers": 4,
+        "eventListeners": 32,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 820,
+          "commitMs": 5079.1758529998615,
+          "queryMs": 2219.572071000008,
+          "encodedBytes": 77024090,
+          "exports": 1670,
+          "exportMs": 10771.417686999996,
+          "restores": 825,
+          "restoreMs": 5289.441230000149,
+          "sends": 1933,
+          "sendMs": 1843.9904499999068
+        },
+        "loop": {
+          "p50": 10.215423,
+          "p95": 11.190271,
+          "p99": 19.890175,
+          "max": 19.890175
+        }
+      },
+      {
+        "label": "D-5-preparation",
+        "atMs": 104627.09225,
+        "memory": {
+          "rss": 340934656,
+          "heapTotal": 52789248,
+          "heapUsed": 41462704,
+          "external": 23839860,
+          "arrayBuffers": 19468525
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 827,
+          "commitMs": 5088.345019999847,
+          "queryMs": 2228.450071000034,
+          "encodedBytes": 77080020,
+          "exports": 1685,
+          "exportMs": 10774.52377000003,
+          "restores": 833,
+          "restoreMs": 5291.681896000176,
+          "sends": 1955,
+          "sendMs": 1845.1624949998625
+        },
+        "loop": {
+          "p50": 10.280959,
+          "p95": 11.124735,
+          "p99": 14.655487,
+          "max": 14.655487
+        }
+      },
+      {
+        "label": "E-5-combat",
+        "atMs": 106025.411125,
+        "memory": {
+          "rss": 424574976,
+          "heapTotal": 200769536,
+          "heapUsed": 133025816,
+          "external": 54530281,
+          "arrayBuffers": 50158946
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 857,
+          "commitMs": 5204.287562999873,
+          "queryMs": 2282.8072400000437,
+          "encodedBytes": 78292218,
+          "exports": 1746,
+          "exportMs": 10990.60531300014,
+          "restores": 863,
+          "restoreMs": 5368.658564000149,
+          "sends": 2103,
+          "sendMs": 1913.6544589998632
+        },
+        "loop": {
+          "p50": 10.297343,
+          "p95": 11.034623,
+          "p99": 11.034623,
+          "max": 11.034623
+        }
+      },
+      {
+        "label": "F-5-overtime",
+        "atMs": 106389.220333,
+        "memory": {
+          "rss": 497434624,
+          "heapTotal": 273661952,
+          "heapUsed": 210269056,
+          "external": 54595890,
+          "arrayBuffers": 50224555
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 858,
+          "commitMs": 5239.245312999875,
+          "queryMs": 2287.2723240000396,
+          "encodedBytes": 78547276,
+          "exports": 1749,
+          "exportMs": 11173.496397000143,
+          "restores": 864,
+          "restoreMs": 5428.7993560001405,
+          "sends": 2103,
+          "sendMs": 1913.6544589998632
+        },
+        "loop": {
+          "p50": 270.794751,
+          "p95": 270.794751,
+          "p99": 270.794751,
+          "max": 270.794751
+        }
+      },
+      {
+        "label": "reconnect-5",
+        "atMs": 112828.833125,
+        "memory": {
+          "rss": 663207936,
+          "heapTotal": 290324480,
+          "heapUsed": 241788216,
+          "external": 24544811,
+          "arrayBuffers": 20173476
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 948,
+          "commitMs": 5881.508108999856,
+          "queryMs": 2541.112319999962,
+          "encodedBytes": 88230278,
+          "exports": 1930,
+          "exportMs": 12774.969178000103,
+          "restores": 954,
+          "restoreMs": 6240.042020000087,
+          "sends": 2406,
+          "sendMs": 2127.3791269998583
+        },
+        "loop": {
+          "p50": 10.821631,
+          "p95": 13.115391,
+          "p99": 13.885439,
+          "max": 13.885439
+        }
+      },
+      {
+        "label": "H-5-final-connected",
+        "atMs": 128790.415416,
+        "memory": {
+          "rss": 811515904,
+          "heapTotal": 119111680,
+          "heapUsed": 43883128,
+          "external": 33671175,
+          "arrayBuffers": 29299840
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1138,
+          "commitMs": 7922.601942999855,
+          "queryMs": 3416.49785899987,
+          "encodedBytes": 135602597,
+          "exports": 2310,
+          "exportMs": 16396.579002000173,
+          "restores": 1144,
+          "restoreMs": 8215.318106000159,
+          "sends": 3105,
+          "sendMs": 2710.4871889998285
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 19.316735,
+          "p99": 24.166399,
+          "max": 24.690687
+        }
+      },
+      {
+        "label": "G-5-final-settled",
+        "atMs": 131810.502125,
+        "memory": {
+          "rss": 812171264,
+          "heapTotal": 117538816,
+          "heapUsed": 42810360,
+          "external": 33670242,
+          "arrayBuffers": 29298907
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1138,
+          "commitMs": 7922.601942999855,
+          "queryMs": 3416.49785899987,
+          "encodedBytes": 135602597,
+          "exports": 2311,
+          "exportMs": 16398.47196000017,
+          "restores": 1144,
+          "restoreMs": 8215.318106000159,
+          "sends": 3105,
+          "sendMs": 2710.4871889998285
+        },
+        "loop": {
+          "p50": 10.248191,
+          "p95": 11.493375,
+          "p99": 21.872639,
+          "max": 21.872639
+        }
+      },
+      {
+        "label": "I-5-final-disconnected",
+        "atMs": 132853.582,
+        "memory": {
+          "rss": 811319296,
+          "heapTotal": 117014528,
+          "heapUsed": 42845392,
+          "external": 33604594,
+          "arrayBuffers": 29233259
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 4,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1142,
+          "commitMs": 7950.8071099998915,
+          "queryMs": 3439.251691999865,
+          "encodedBytes": 137141963,
+          "exports": 2319,
+          "exportMs": 16416.182626000198,
+          "restores": 1148,
+          "restoreMs": 8229.170232000171,
+          "sends": 3105,
+          "sendMs": 2710.4871889998285
+        },
+        "loop": {
+          "p50": 10.862591,
+          "p95": 11.452415,
+          "p99": 16.687103,
+          "max": 24.100863
+        }
+      },
+      {
+        "label": "L-5-released",
+        "atMs": 138446.351041,
+        "memory": {
+          "rss": 657244160,
+          "heapTotal": 51216384,
+          "heapUsed": 41629928,
+          "external": 33604594,
+          "arrayBuffers": 29233259
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1142,
+          "commitMs": 7950.8071099998915,
+          "queryMs": 3439.251691999865,
+          "encodedBytes": 137141963,
+          "exports": 2320,
+          "exportMs": 16419.92983500019,
+          "restores": 1148,
+          "restoreMs": 8229.170232000171,
+          "sends": 3105,
+          "sendMs": 2710.4871889998285
+        },
+        "loop": {
+          "p50": 10.305535,
+          "p95": 11.042815,
+          "p99": 11.386879,
+          "max": 20.348927
+        }
+      },
+      {
+        "label": "C-6-waiting",
+        "atMs": 138710.862,
+        "memory": {
+          "rss": 656326656,
+          "heapTotal": 50954240,
+          "heapUsed": 41737312,
+          "external": 33604704,
+          "arrayBuffers": 29233369
+        },
+        "rooms": 4,
+        "registeredRooms": 4,
+        "sockets": 4,
+        "timers": 4,
+        "eventListeners": 32,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 1142,
+          "commitMs": 7950.8071099998915,
+          "queryMs": 3439.251691999865,
+          "encodedBytes": 137141963,
+          "exports": 2320,
+          "exportMs": 16419.92983500019,
+          "restores": 1148,
+          "restoreMs": 8229.170232000171,
+          "sends": 3105,
+          "sendMs": 2710.4871889998285
+        },
+        "loop": {
+          "p50": 10.272767,
+          "p95": 11.378687,
+          "p99": 23.494655,
+          "max": 23.494655
+        }
+      },
+      {
+        "label": "D-6-preparation",
+        "atMs": 139041.3375,
+        "memory": {
+          "rss": 656326656,
+          "heapTotal": 53313536,
+          "heapUsed": 41852464,
+          "external": 33670324,
+          "arrayBuffers": 29298989
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1149,
+          "commitMs": 7961.058568999883,
+          "queryMs": 3449.1814419999046,
+          "encodedBytes": 137197894,
+          "exports": 2335,
+          "exportMs": 16423.633711000206,
+          "restores": 1156,
+          "restoreMs": 8231.826941000174,
+          "sends": 3127,
+          "sendMs": 2711.8799809998854
+        },
+        "loop": {
+          "p50": 10.231807,
+          "p95": 11.051007,
+          "p99": 11.608063,
+          "max": 11.608063
+        }
+      },
+      {
+        "label": "E-6-combat",
+        "atMs": 140445.959416,
+        "memory": {
+          "rss": 668729344,
+          "heapTotal": 187858944,
+          "heapUsed": 116280336,
+          "external": 47364314,
+          "arrayBuffers": 42992979
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1179,
+          "commitMs": 8081.686941999956,
+          "queryMs": 3507.207485999932,
+          "encodedBytes": 138410084,
+          "exports": 2396,
+          "exportMs": 16644.58208200021,
+          "restores": 1186,
+          "restoreMs": 8312.664648000173,
+          "sends": 3275,
+          "sendMs": 2779.6970519997085
+        },
+        "loop": {
+          "p50": 10.772479,
+          "p95": 255.066111,
+          "p99": 348.127231,
+          "max": 348.127231
+        }
+      },
+      {
+        "label": "F-6-overtime",
+        "atMs": 140820.627833,
+        "memory": {
+          "rss": 680574976,
+          "heapTotal": 267911168,
+          "heapUsed": 200304984,
+          "external": 53690713,
+          "arrayBuffers": 49319378
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1180,
+          "commitMs": 8116.332608999931,
+          "queryMs": 3511.7469859999164,
+          "encodedBytes": 138665138,
+          "exports": 2399,
+          "exportMs": 16833.832374000223,
+          "restores": 1187,
+          "restoreMs": 8374.905773000173,
+          "sends": 3275,
+          "sendMs": 2779.6970519997085
+        },
+        "loop": {
+          "p50": 278.396927,
+          "p95": 278.396927,
+          "p99": 278.396927,
+          "max": 278.396927
+        }
+      },
+      {
+        "label": "reconnect-6",
+        "atMs": 147251.936041,
+        "memory": {
+          "rss": 785072128,
+          "heapTotal": 326991872,
+          "heapUsed": 268300248,
+          "external": 26215979,
+          "arrayBuffers": 21844644
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1270,
+          "commitMs": 8752.255650000108,
+          "queryMs": 3761.7303209999427,
+          "encodedBytes": 148252784,
+          "exports": 2580,
+          "exportMs": 18432.367286000488,
+          "restores": 1277,
+          "restoreMs": 9185.18552000005,
+          "sends": 3578,
+          "sendMs": 2988.5423459997946
+        },
+        "loop": {
+          "p50": 10.584063,
+          "p95": 12.771327,
+          "p99": 13.656063,
+          "max": 221.249535
+        }
+      },
+      {
+        "label": "H-6-final-connected",
+        "atMs": 162562.271625,
+        "memory": {
+          "rss": 747945984,
+          "heapTotal": 118325248,
+          "heapUsed": 43741512,
+          "external": 25818204,
+          "arrayBuffers": 21446869
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1458,
+          "commitMs": 10628.798476000127,
+          "queryMs": 4612.161697999885,
+          "encodedBytes": 194430996,
+          "exports": 2956,
+          "exportMs": 21884.835031000723,
+          "restores": 1465,
+          "restoreMs": 11023.07840000002,
+          "sends": 4272,
+          "sendMs": 3526.148627999526
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 19.955711,
+          "p99": 24.231935,
+          "max": 25.018367
+        }
+      },
+      {
+        "label": "G-6-final-settled",
+        "atMs": 165590.886375,
+        "memory": {
+          "rss": 748879872,
+          "heapTotal": 118325248,
+          "heapUsed": 42831248,
+          "external": 25818204,
+          "arrayBuffers": 21446869
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1458,
+          "commitMs": 10628.798476000127,
+          "queryMs": 4612.161697999885,
+          "encodedBytes": 194430996,
+          "exports": 2957,
+          "exportMs": 21887.62823900071,
+          "restores": 1465,
+          "restoreMs": 11023.07840000002,
+          "sends": 4272,
+          "sendMs": 3526.148627999526
+        },
+        "loop": {
+          "p50": 10.452991,
+          "p95": 11.354111,
+          "p99": 11.534335,
+          "max": 25.739263
+        }
+      },
+      {
+        "label": "I-6-final-disconnected",
+        "atMs": 166646.511166,
+        "memory": {
+          "rss": 746225664,
+          "heapTotal": 117538816,
+          "heapUsed": 42847112,
+          "external": 25752562,
+          "arrayBuffers": 21381227
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 4,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1462,
+          "commitMs": 10662.043060000098,
+          "queryMs": 4638.314531999864,
+          "encodedBytes": 196010954,
+          "exports": 2965,
+          "exportMs": 21913.188114000688,
+          "restores": 1469,
+          "restoreMs": 11040.585567000024,
+          "sends": 4272,
+          "sendMs": 3526.148627999526
+        },
+        "loop": {
+          "p50": 11.001855,
+          "p95": 11.362303,
+          "p99": 21.184511,
+          "max": 27.721727
+        }
+      },
+      {
+        "label": "L-6-released",
+        "atMs": 172237.678916,
+        "memory": {
+          "rss": 331038720,
+          "heapTotal": 50692096,
+          "heapUsed": 41648744,
+          "external": 25752562,
+          "arrayBuffers": 21381227
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1462,
+          "commitMs": 10662.043060000098,
+          "queryMs": 4638.314531999864,
+          "encodedBytes": 196010954,
+          "exports": 2966,
+          "exportMs": 21918.567155000695,
+          "restores": 1469,
+          "restoreMs": 11040.585567000024,
+          "sends": 4272,
+          "sendMs": 3526.148627999526
+        },
+        "loop": {
+          "p50": 11.034623,
+          "p95": 11.190271,
+          "p99": 11.329535,
+          "max": 23.527423
+        }
+      },
+      {
+        "label": "C-7-waiting",
+        "atMs": 172499.85075,
+        "memory": {
+          "rss": 330907648,
+          "heapTotal": 51216384,
+          "heapUsed": 41745168,
+          "external": 25752672,
+          "arrayBuffers": 21381337
+        },
+        "rooms": 4,
+        "registeredRooms": 4,
+        "sockets": 4,
+        "timers": 4,
+        "eventListeners": 32,
+        "socketListeners": 20,
+        "operations": {
+          "commits": 1462,
+          "commitMs": 10662.043060000098,
+          "queryMs": 4638.314531999864,
+          "encodedBytes": 196010954,
+          "exports": 2966,
+          "exportMs": 21918.567155000695,
+          "restores": 1469,
+          "restoreMs": 11040.585567000024,
+          "sends": 4272,
+          "sendMs": 3526.148627999526
+        },
+        "loop": {
+          "p50": 10.444799,
+          "p95": 11.362303,
+          "p99": 21.479423,
+          "max": 21.479423
+        }
+      },
+      {
+        "label": "D-7-preparation",
+        "atMs": 172832.039041,
+        "memory": {
+          "rss": 330973184,
+          "heapTotal": 53313536,
+          "heapUsed": 41859896,
+          "external": 25818292,
+          "arrayBuffers": 21446957
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1469,
+          "commitMs": 10672.746851000134,
+          "queryMs": 4648.7020319998755,
+          "encodedBytes": 196066884,
+          "exports": 2981,
+          "exportMs": 21922.399320000666,
+          "restores": 1477,
+          "restoreMs": 11043.294650000047,
+          "sends": 4294,
+          "sendMs": 3527.5898369995957
+        },
+        "loop": {
+          "p50": 10.330111,
+          "p95": 12.025855,
+          "p99": 16.187391,
+          "max": 16.187391
+        }
+      },
+      {
+        "label": "E-7-combat",
+        "atMs": 174248.115083,
+        "memory": {
+          "rss": 382451712,
+          "heapTotal": 201064448,
+          "heapUsed": 139660056,
+          "external": 49143945,
+          "arrayBuffers": 44772610
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1499,
+          "commitMs": 10789.532226000287,
+          "queryMs": 4701.123948999875,
+          "encodedBytes": 197278974,
+          "exports": 3042,
+          "exportMs": 22142.835148000624,
+          "restores": 1507,
+          "restoreMs": 11124.32798200001,
+          "sends": 4442,
+          "sendMs": 3595.4692099996864
+        },
+        "loop": {
+          "p50": 10.641407,
+          "p95": 12.763135,
+          "p99": 273.940479,
+          "max": 345.243647
+        }
+      },
+      {
+        "label": "F-7-overtime",
+        "atMs": 174626.108833,
+        "memory": {
+          "rss": 437403648,
+          "heapTotal": 278413312,
+          "heapUsed": 198904816,
+          "external": 49209559,
+          "arrayBuffers": 44838224
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1500,
+          "commitMs": 10824.9767260003,
+          "queryMs": 4705.772573999877,
+          "encodedBytes": 197533980,
+          "exports": 3045,
+          "exportMs": 22331.588773000607,
+          "restores": 1508,
+          "restoreMs": 11187.712065000022,
+          "sends": 4442,
+          "sendMs": 3595.4692099996864
+        },
+        "loop": {
+          "p50": 281.804799,
+          "p95": 281.804799,
+          "p99": 281.804799,
+          "max": 281.804799
+        }
+      },
+      {
+        "label": "reconnect-7",
+        "atMs": 181092.437833,
+        "memory": {
+          "rss": 705085440,
+          "heapTotal": 290586624,
+          "heapUsed": 242049720,
+          "external": 20716634,
+          "arrayBuffers": 16345299
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1590,
+          "commitMs": 11461.588518000164,
+          "queryMs": 4956.57970799985,
+          "encodedBytes": 207218389,
+          "exports": 3226,
+          "exportMs": 23943.377280000655,
+          "restores": 1598,
+          "restoreMs": 12010.879730999957,
+          "sends": 4745,
+          "sendMs": 3806.4572449995285
+        },
+        "loop": {
+          "p50": 10.960895,
+          "p95": 13.697023,
+          "p99": 223.084543,
+          "max": 476.315647
+        }
+      },
+      {
+        "label": "H-7-final-connected",
+        "atMs": 197240.939125,
+        "memory": {
+          "rss": 749699072,
+          "heapTotal": 118849536,
+          "heapUsed": 43800320,
+          "external": 22988807,
+          "arrayBuffers": 18617472
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 9,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1769,
+          "commitMs": 13467.988599000164,
+          "queryMs": 5749.0409610000115,
+          "encodedBytes": 250992726,
+          "exports": 3584,
+          "exportMs": 27873.477991000895,
+          "restores": 1777,
+          "restoreMs": 14088.448148999938,
+          "sends": 5411,
+          "sendMs": 4383.318350999118
+        },
+        "loop": {
+          "p50": 11.026431,
+          "p95": 19.267583,
+          "p99": 23.674879,
+          "max": 24.379391
+        }
+      },
+      {
+        "label": "G-7-final-settled",
+        "atMs": 200270.350083,
+        "memory": {
+          "rss": 750534656,
+          "heapTotal": 118849536,
+          "heapUsed": 42907424,
+          "external": 22988807,
+          "arrayBuffers": 18617472
+        },
+        "rooms": 5,
+        "registeredRooms": 5,
+        "sockets": 8,
+        "timers": 8,
+        "eventListeners": 40,
+        "socketListeners": 40,
+        "operations": {
+          "commits": 1769,
+          "commitMs": 13467.988599000164,
+          "queryMs": 5749.0409610000115,
+          "encodedBytes": 250992726,
+          "exports": 3585,
+          "exportMs": 27876.443616000906,
+          "restores": 1777,
+          "restoreMs": 14088.448148999938,
+          "sends": 5411,
+          "sendMs": 4383.318350999118
+        },
+        "loop": {
+          "p50": 10.575871,
+          "p95": 11.313151,
+          "p99": 11.362303,
+          "max": 25.772031
+        }
+      },
+      {
+        "label": "I-7-final-disconnected",
+        "atMs": 201323.862708,
+        "memory": {
+          "rss": 748830720,
+          "heapTotal": 117276672,
+          "heapUsed": 42917816,
+          "external": 22922226,
+          "arrayBuffers": 18550891
+        },
+        "rooms": 1,
+        "registeredRooms": 1,
+        "sockets": 0,
+        "timers": 4,
+        "eventListeners": 8,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1773,
+          "commitMs": 13499.346015000177,
+          "queryMs": 5773.699836000034,
+          "encodedBytes": 252490388,
+          "exports": 3593,
+          "exportMs": 27899.509783000918,
+          "restores": 1781,
+          "restoreMs": 14104.847773999958,
+          "sends": 5411,
+          "sendMs": 4383.318350999118
+        },
+        "loop": {
+          "p50": 10.805247,
+          "p95": 11.321343,
+          "p99": 11.599871,
+          "max": 28.278783
+        }
+      },
+      {
+        "label": "L-7-released",
+        "atMs": 206674.604416,
+        "memory": {
+          "rss": 749600768,
+          "heapTotal": 50429952,
+          "heapUsed": 41663784,
+          "external": 22922226,
+          "arrayBuffers": 18550891
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1773,
+          "commitMs": 13499.346015000177,
+          "queryMs": 5773.699836000034,
+          "encodedBytes": 252490388,
+          "exports": 3594,
+          "exportMs": 27903.83286700092,
+          "restores": 1781,
+          "restoreMs": 14104.847773999958,
+          "sends": 5411,
+          "sendMs": 4383.318350999118
+        },
+        "loop": {
+          "p50": 11.001855,
+          "p95": 11.051007,
+          "p99": 29.523967,
+          "max": 29.523967
+        }
+      },
+      {
+        "label": "L-all-sweeps-released",
+        "atMs": 238804.10525,
+        "memory": {
+          "rss": 227540992,
+          "heapTotal": 49381376,
+          "heapUsed": 41601800,
+          "external": 22922226,
+          "arrayBuffers": 18550891
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1773,
+          "commitMs": 13499.346015000177,
+          "queryMs": 5787.191877000054,
+          "encodedBytes": 252490388,
+          "exports": 3594,
+          "exportMs": 27903.83286700092,
+          "restores": 1781,
+          "restoreMs": 14104.847773999958,
+          "sends": 5411,
+          "sendMs": 4383.318350999118
+        },
+        "loop": {
+          "p50": 10.838015,
+          "p95": 11.329535,
+          "p99": 25.640959,
+          "max": 25.640959
+        }
+      },
+      {
+        "label": "L-stop",
+        "atMs": 238807.484875,
+        "memory": {
+          "rss": 227737600,
+          "heapTotal": 49643520,
+          "heapUsed": 41910552,
+          "external": 22922226,
+          "arrayBuffers": 18550891
+        },
+        "rooms": 0,
+        "registeredRooms": 0,
+        "sockets": 0,
+        "timers": 0,
+        "eventListeners": 0,
+        "socketListeners": 0,
+        "operations": {
+          "commits": 1773,
+          "commitMs": 13499.346015000177,
+          "queryMs": 5787.191877000054,
+          "encodedBytes": 252490388,
+          "exports": 3594,
+          "exportMs": 27903.83286700092,
+          "restores": 1781,
+          "restoreMs": 14104.847773999958,
+          "sends": 5411,
+          "sendMs": 4383.318350999118
+        },
+        "loop": {
+          "p50": 0.000511,
+          "p95": 0.000511,
+          "p99": 0.000511,
+          "max": 0
+        }
+      }
+    ],
+    "phases": {
+      "preparation": {
+        "samples": 26,
+        "rssMax": 842956800,
+        "heapMax": 357261192,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 757.071871,
+        "windowP99MaxMs": 781.713407,
+        "delayMaxMs": 781.713407,
+        "gcCount": 2225,
+        "gcMs": 1459.5682528018951
+      },
+      "combat": {
+        "samples": 18,
+        "rssMax": 812122112,
+        "heapMax": 386011168,
+        "windowP50MaxMs": 436.731903,
+        "windowP95MaxMs": 716.177407,
+        "windowP99MaxMs": 799.014911,
+        "delayMaxMs": 940.572671,
+        "gcCount": 2171,
+        "gcMs": 1492.8321652412415
+      },
+      "finished": {
+        "samples": 32,
+        "rssMax": 812367872,
+        "heapMax": 62181304,
+        "windowP50MaxMs": 15.736831,
+        "windowP95MaxMs": 19.824639,
+        "windowP99MaxMs": 19.824639,
+        "delayMaxMs": 19.824639,
+        "gcCount": 58,
+        "gcMs": 103.2872908115387
+      },
+      "empty": {
+        "samples": 24,
+        "rssMax": 749666304,
+        "heapMax": 53338456,
+        "windowP50MaxMs": 11.034623,
+        "windowP95MaxMs": 11.321343,
+        "windowP99MaxMs": 11.329535,
+        "delayMaxMs": 11.681791,
+        "gcCount": 3,
+        "gcMs": 17.238749027252197
+      },
+      "resolution": {
+        "samples": 16,
+        "rssMax": 900349952,
+        "heapMax": 430521800,
+        "windowP50MaxMs": 140.115967,
+        "windowP95MaxMs": 866.123775,
+        "windowP99MaxMs": 877.133823,
+        "delayMaxMs": 877.133823,
+        "gcCount": 1884,
+        "gcMs": 1343.4266248941422
+      }
+    },
+    "traffic": {
+      "service_status": {
+        "messages": 30,
+        "bytes": 2010,
+        "max": 67
+      },
+      "resume_accepted": {
+        "messages": 30,
+        "bytes": 9848,
+        "max": 329
+      },
+      "state_snapshot": {
+        "messages": 3765,
+        "bytes": 44452360,
+        "max": 31301
+      },
+      "action_receipt": {
+        "messages": 1272,
+        "bytes": 146678,
+        "max": 123
+      },
+      "combat_trace": {
+        "messages": 292,
+        "bytes": 658683338,
+        "max": 8713293
+      },
+      "final_results": {
+        "messages": 22,
+        "bytes": 63022,
+        "max": 3196
+      }
+    },
+    "participants": {
+      "0": {
+        "messages": 1751,
+        "bytes": 253946929,
+        "max": 8713293
+      },
+      "1": {
+        "messages": 1853,
+        "bytes": 248940523,
+        "max": 7749179
+      },
+      "2": {
+        "messages": 827,
+        "bytes": 103532557,
+        "max": 8713293
+      },
+      "3": {
+        "messages": 980,
+        "bytes": 96937247,
+        "max": 8221532
+      }
+    },
+    "trafficPhases": {
+      "not_started": {
+        "messages": 89,
+        "bytes": 155745,
+        "max": 3740
+      },
+      "preparation": {
+        "messages": 4412,
+        "bytes": 35445136,
+        "max": 27447
+      },
+      "combat": {
+        "messages": 590,
+        "bytes": 663000841,
+        "max": 8713293
+      },
+      "resolution": {
+        "messages": 276,
+        "bytes": 4160340,
+        "max": 28258
+      },
+      "finished": {
+        "messages": 44,
+        "bytes": 595194,
+        "max": 31301
+      }
+    },
+    "operations": {
+      "commits": 1773,
+      "commitMs": 13499.346015000177,
+      "queryMs": 5787.191877000054,
+      "encodedBytes": 252490388,
+      "exports": 3594,
+      "exportMs": 27903.83286700092,
+      "restores": 1781,
+      "restoreMs": 14104.847773999958,
+      "sends": 5411,
+      "sendMs": 4383.318350999118
+    }
+  }
+}

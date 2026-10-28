@@ -1,0 +1,85 @@
+import {chromium} from '/Users/vargas/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import fs from 'node:fs';
+const out=decodeURIComponent(new URL('../',import.meta.url).pathname);
+const b=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+const p=await b.newPage({viewport:{width:1920,height:1080}});const errors=[],actions=[],metrics=[];p.on('pageerror',e=>errors.push(e.message));
+async function settled(){await p.waitForFunction(()=>!window.remote.requestPending);await p.waitForTimeout(100);}
+async function click(locator,label){await locator.click();await settled();actions.push(label);}
+try{
+await p.goto('http://127.0.0.1:4188/artifacts/p8f/index.html');await p.waitForFunction(()=>window.botSessions?.length===3&&window.session?.editable);await p.waitForTimeout(500);
+const id=await p.evaluate(()=>window.matchId);
+async function advance(ms){const res=await fetch(`http://127.0.0.1:2593/advance?match=${id}${ms===undefined?'':'&ms='+ms}`,{method:'POST'});if(!res.ok)throw Error(await res.text());await p.waitForTimeout(200);await p.evaluate(()=>window.refresh());await p.waitForTimeout(250);}
+for(let n=0;n<5;n++)await click(p.locator('.shop-offer:not(:disabled)').first(),'purchase');
+await click(p.locator('.bench-slot[draggable=true]').first(),'inspect');
+if(!await p.locator('.placement-details').getAttribute('open').then(v=>v!==null))await p.getByText('Colocar sin arrastrar',{exact:true}).click();await p.getByLabel('Columna de destino').selectOption('2');await p.getByLabel('Fila de destino').selectOption('4');await click(p.getByRole('button',{name:'Colocar selección',exact:true}),'deploy-click');
+await p.keyboard.press('Escape');
+// Native bench drag: search playable centre, then validate the authoritative location.
+const bench=p.locator('.bench-slot[draggable=true]').first();
+const canvas=p.locator('canvas').first();
+const point=await p.evaluate(()=>window.hexPixel({q:1,r:4}));const rect=await canvas.boundingBox();await bench.dragTo(canvas,{targetPosition:{x:point.x-rect.x,y:point.y-rect.y}});await settled();if(await p.evaluate(()=>window.session.getMatch().units.filter(u=>u.location.kind==='board').length)!==2)throw Error('Drag did not deploy');actions.push('bench-drag');
+const from=await p.evaluate(()=>window.hexPixel({q:-1,r:4})),to=await p.evaluate(()=>window.hexPixel({q:0,r:5}));await p.mouse.move(from.x,from.y);await p.mouse.down();await p.waitForTimeout(100);await p.mouse.move(to.x,to.y,{steps:12});await p.waitForTimeout(150);await p.mouse.up();await settled();if(!await p.evaluate(()=>window.session.getMatch().units.some(u=>u.location.kind==='board'&&u.location.hex.q===0&&u.location.hex.r===5)))throw Error('Reposition failed');actions.push('reposition-drag');
+await click(p.getByRole('button',{name:/Comprar .*XP/}),'xp');
+// Other authenticated clients use the same public command path, without granting resources.
+async function bots(){await p.evaluate(async()=>{const wait=async(s)=>{while(s.remote.requestPending)await new Promise(r=>setTimeout(r,20));};for(const s of window.botSessions){if(!s.editable)continue;for(const o of [...s.getMatch().shop]){if(!o)continue;s.dispatch({type:'buy_unit',offerId:o.id});await wait(s);}for(const u of [...s.getMatch().units]){if(u.location.kind!=='bench')continue;const used=s.getMatch().units.filter(x=>x.location.kind==='board').length;if(used>=s.getMatch().level)break;s.dispatch({type:'move_unit',unitId:u.id,to:{kind:'board',hex:{q:used-2,r:4}}});await wait(s);}}});}
+for(let round=1;round<=7;round++){
+ console.log('ROUND',round);
+ await bots();
+ if(round>1){
+  const xp=p.getByRole('button',{name:/Comprar .*XP/});if(await xp.isEnabled())await click(xp,'xp');
+  for(let k=0;k<5;k++){const card=p.locator('.shop-offer[data-state=available]').first();if(!await card.count())break;await click(card,'purchase');}
+ }
+ await advance();await p.screenshot({path:out+`combat-${round}.png`});
+ await advance();await p.screenshot({path:out+`resolution-${round}.png`});
+ await advance();
+}
+for(const [width,height]of[[1280,720],[1440,900],[1920,1080],[2560,1440],[3840,2160]]){await p.setViewportSize({width,height});await p.waitForTimeout(200);await p.screenshot({path:out+`hud-${width}.png`});metrics.push(await p.evaluate(()=>({width:innerWidth,height:innerHeight,scroll:document.documentElement.scrollHeight>innerHeight,cards:document.querySelectorAll('.shop-offer').length})));}
+await p.setViewportSize({width:1920,height:1080});
+await click(p.getByRole('button',{name:/^Objetos \d/}),'inventory');
+await click(p.locator('.item-slot[draggable=true]').first(),'item-select');
+await p.getByRole('button',{name:'Ver ocho combinaciones'}).click();await p.screenshot({path:out+'recipes.png'});
+console.log('ITEMS',await p.locator('.item-dock').innerText());
+await p.locator('.item-slot[draggable=true]').nth(0).dragTo(p.locator('.item-slot[draggable=true]').nth(1));await settled();actions.push('combine-drag');
+await p.getByRole('tab',{name:/^Objetos /}).click();await click(p.locator('.item-slot[draggable=true]').first(),'completed-select');
+await p.getByLabel('Personaje para equipar').selectOption({index:1});await click(p.getByRole('button',{name:'Equipar',exact:true}),'equip');await p.screenshot({path:out+'equipped.png'});
+
+// Close panels and deploy real champions bought through the normal shop.
+await p.keyboard.press('Escape');
+for(const [name,column] of [['DOLEA','3'],['JARAMILLO','4']]){
+ const slot=p.getByRole('button',{name:new RegExp('^Banquillo .*'+name)});
+ if(await slot.count()){
+  await click(slot.first(),'inspect-'+name);
+  if(!await p.locator('.placement-details').getAttribute('open').then(v=>v!==null))await p.getByText('Colocar sin arrastrar',{exact:true}).click();
+  await p.getByLabel('Columna de destino').selectOption(column);
+  await click(p.getByRole('button',{name:'Colocar selección',exact:true}),'deploy-'+name);
+  await p.keyboard.press('Escape');
+ }
+}
+await click(p.getByRole('button',{name:/Renovar/}),'refresh-shop');
+await advance();
+const projectile=await p.evaluate(()=>{const r=window.remote.getReplay();return r?.snapshots.find(s=>s.projectiles.some(x=>s.units.find(u=>u.id===x.sourceId)?.definitionId==='jaramillo'));});
+if(projectile){
+ await advance(projectile.tick*100);
+ await p.evaluate(t=>{window.remote.getPlaybackMs=()=>t;},projectile.tick*100+10);
+ await p.waitForTimeout(100);
+ await p.screenshot({path:out+'jaramillo-flight.png'});
+ const sprites=await p.evaluate(()=>({tick:window.session.combatFrame()?.state.tick,sprites:[...window.scene.visuals].map(([id,v])=>({id,visible:v.sprite.visible,alpha:v.sprite.alpha,texture:v.sprite.texture.key})),effects:[...window.scene.combatRenderer.effects].map(([id,v])=>({id,visible:v.visible,texture:v.texture.key}))}));
+ if(!sprites.effects.some(e=>e.visible&&e.texture.includes('projectile')) || !sprites.sprites.some(v=>v.visible&&v.alpha===1&&v.texture.startsWith('jaramillo:')))throw Error('Body/projectile not simultaneously visible');
+ fs.writeFileSync(out+'jaramillo-visual.json',JSON.stringify(sprites,null,2));
+ actions.push('jaramillo-flight-inspected');
+}
+await advance();await advance();
+await p.screenshot({path:out+'round9.png'});
+// Real socket loss and automatic authenticated recovery, no local replacement state.
+const before=await p.evaluate(()=>({gold:window.session.getMatch().gold,units:window.session.getMatch().units,items:window.session.getMatch().items}));
+await p.evaluate(()=>window.remote.room.connection.close());
+await p.waitForTimeout(100);await p.screenshot({path:out+'disconnected.png'});
+await p.waitForFunction(()=>window.remote.connected&&window.session.editable,{},{timeout:30000});
+const after=await p.evaluate(()=>({gold:window.session.getMatch().gold,units:window.session.getMatch().units,items:window.session.getMatch().items}));
+if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Recovery mismatch');actions.push('authenticated-recovery');
+await p.screenshot({path:out+'recovered.png'});
+// Finish through normal server phase transitions and inspect retained classification.
+for(let n=0;n<90;n++){if(await p.evaluate(()=>window.remote.getClock().currentPhase==='finished'))break;await advance();}
+await p.screenshot({path:out+'final.png'});await p.evaluate(()=>window.renderWinner());await p.waitForTimeout(500);await p.screenshot({path:out+'victory.png'});
+fs.writeFileSync(out+'final-snapshot.json',await (await fetch(`http://127.0.0.1:2593/snapshot?match=${id}`)).text());
+fs.writeFileSync(out+'browser-actions.json',JSON.stringify({errors,actions,metrics,state:await p.evaluate(()=>window.session.getMatch())},null,2));
+}catch(e){await p.screenshot({path:out+'failure.png'});fs.writeFileSync(out+'browser-error.json',JSON.stringify({error:e.stack,errors,actions,metrics},null,2));throw e;}finally{await b.close();}

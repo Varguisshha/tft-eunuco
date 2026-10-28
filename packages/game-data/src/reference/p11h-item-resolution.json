@@ -1,0 +1,29 @@
+{
+  "version": "f0p11h-18.5-1",
+  "checkedAt": "2026-10-27",
+  "baseline": "tft-18.5-2026-10-27",
+  "resolved": {
+    "TFT_Item_MadredsBloodrazor": {
+      "baseAmpMilli": 150,
+      "tankAmpMilli": 150,
+      "sources": [
+        "https://teamfighttactics.leagueoflegends.com/en-gb/news/game-updates/teamfight-tactics-patch-15-4-notes/",
+        "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/roles-revamped-and-item-changes/",
+        "https://teamfighttactics.leagueoflegends.com/en-gb/news/game-updates/teamfight-tactics-patch-16-1/"
+      ]
+    },
+    "TFT_Item_RapidFireCannon": {
+      "baseAmpMilli": 30,
+      "sources": [
+        "https://teamfighttactics.leagueoflegends.com/en-au/news/game-updates/teamfight-tactics-patch-14-20-notes/"
+      ]
+    }
+  },
+  "method": "Official standard-item deltas override contradictory opaque legacy client constants. Frozen 18.5 recipes/statistics/burn parameters remain unchanged; no later standard-item override appears in the checked 18.x notes. This is documented reconstruction, not access to Riot server code.",
+  "blocked": {
+    "TFT_Item_SteraksGage": "Four-second decay is published; mathematical decay curve and absorbed-shield update policy are not. No invented linear decay.",
+    "TFT_Item_ThiefsGloves": "No complete verified 18.5 pool, exclusions, weights, level/star distribution or assignment table. No approximate temporary equipment is generated.",
+    "TFT_Item_PowerGauntlet": "Official final 14.5 release publishes 10% base, 5% per critical for 5 s, cap4; independent expiration/refresh-at-cap policy is not sufficiently specified for 18.5.",
+    "TFT_Item_HextechGunblade": "Official14.23 publishes15% omnivamp, but frozen/public18.5 constants conflict15/18; new-engine export does not close the conflict or all healing/shield-proc semantics. No double healing guessed."
+  }
+}

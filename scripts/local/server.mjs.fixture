@@ -1,0 +1,120 @@
+import process from 'node:process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawn, execFileSync } from 'node:child_process';
+import { once } from 'node:events';
+import { setTimeout as wait } from 'node:timers/promises';
+import pg from 'pg';
+import { PostgresTestRepository } from '__TARGET__/apps/server/src/persistence/PostgresTestRepository.ts';
+import { startRuntime } from '__TARGET__/apps/server/src/remote/runtime.ts';
+import { readConfig } from '__TARGET__/apps/server/src/remote/config.ts';
+import { assertLocalDatabase, verifyIdentity } from '__TOOLS__/safety.mjs';
+const { directory, database, identity, key } = JSON.parse(process.env.TFT_LOCAL_BOOT);
+assertLocalDatabase(database, identity);
+const data = path.join(directory, 'postgres');
+let postgres, repo, runtime, stopped, lock;
+async function stop(code = 0) {
+  if (stopped) return stopped;
+  stopped = (async () => {
+    try {
+      await runtime?.stop();
+    } catch {
+      code = 1;
+    }
+    lock?.release();
+    lock = undefined;
+    await repo?.pool.end().catch(() => {});
+    if (postgres && postgres.exitCode === null && postgres.signalCode === null) {
+      const exited = once(postgres, 'exit');
+      postgres.kill('SIGINT');
+      await exited;
+    }
+    process.exit(code);
+  })();
+  return stopped;
+}
+for (const signal of ['SIGINT', 'SIGTERM', 'disconnect']) process.on(signal, () => void stop());
+process.on('message', (m) => {
+  if (m.stop) void stop();
+});
+process.on('uncaughtException', () => void stop(1));
+process.on('unhandledRejection', () => void stop(1));
+try {
+  if (!fs.existsSync(path.join(data, 'PG_VERSION')))
+    execFileSync('initdb', ['-D', data, '--auth=trust', '--no-locale', '--encoding=UTF8'], {
+      stdio: 'ignore',
+    });
+  postgres = spawn('postgres', ['-D', data, '-p', '55440', '-h', '127.0.0.1', '-k', ''], {
+    stdio: ['ignore', 'inherit', 'inherit'],
+  });
+  postgres.on('exit', () => {
+    if (!stopped) void stop(1);
+  });
+  const adminUrl = 'postgresql://127.0.0.1:55440/postgres';
+  let ready = false;
+  for (let i = 0; i < 50; i++) {
+    const client = new pg.Client({ connectionString: adminUrl, connectionTimeoutMillis: 500 });
+    try {
+      await client.connect();
+      const actual = (await client.query('show data_directory')).rows[0].data_directory;
+      if (fs.realpathSync(actual) !== fs.realpathSync(data))
+        throw Error('Foreign PostgreSQL owns the port');
+      ready = true;
+    } catch {
+      /* bounded startup */
+    } finally {
+      await client.end();
+    }
+    if (ready) break;
+    await wait(100);
+  }
+  if (!ready) throw Error('Local PostgreSQL unavailable');
+  const admin = new pg.Client({ connectionString: adminUrl });
+  await admin.connect();
+  const dbName = 'tft_local_' + identity;
+  if (!(await admin.query('select 1 from pg_database where datname=$1', [dbName])).rowCount)
+    await admin.query('create database ' + dbName);
+  await admin.end();
+  repo = new PostgresTestRepository(database);
+  lock = await repo.pool.connect();
+  if (!(await lock.query('select pg_try_advisory_lock(90120902) as acquired')).rows[0].acquired)
+    throw Error('Another local authority exists');
+  const schema = await lock.query("select to_regclass('private.authority_matches') as table_name");
+  if (!schema.rows[0].table_name) {
+    await lock.query('begin');
+    for (const role of ['anon', 'authenticated', 'service_role'])
+      if (!(await lock.query('select 1 from pg_roles where rolname=$1', [role])).rowCount)
+        await lock.query('create role ' + role);
+    await lock.query('create schema private');
+    await lock.query(
+      fs.readFileSync(
+        '__TOOLS__/../../supabase/migrations/202610250001_authority_persistence.sql',
+        'utf8',
+      ),
+    );
+    await lock.query('commit');
+  }
+  const config = readConfig({
+    TFT_ENV: 'diagnostic',
+    PORT: '2567',
+    TFT_PUBLIC_URL: 'http://127.0.0.1:2567',
+    TFT_ALLOWED_ORIGINS: 'http://127.0.0.1:4173',
+    SUPABASE_URL: 'http://127.0.0.1:1',
+    SUPABASE_PUBLISHABLE_KEY: 'local-unused',
+    SUPABASE_SERVICE_ROLE_KEY: 'local-unused',
+  });
+  runtime = await startRuntime(
+    config,
+    repo,
+    async (token) => verifyIdentity(token, key),
+    async () => {
+      await repo.pool.query('select 1');
+    },
+  );
+  // Release the connection only on controlled shutdown; advisory lock fences other local starts.
+
+  process.send?.({ ready: true });
+} catch {
+  process.send?.({ error: 'LOCAL failed closed; inspect local logs, no remote storage used.' });
+  await stop(1);
+}

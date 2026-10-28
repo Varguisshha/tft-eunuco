@@ -1,0 +1,24 @@
+{
+  "count": 4,
+  "normal": true,
+  "durationMs": 938844,
+  "actions": 236,
+  "acceptedActions": {
+    "buy_unit": 99,
+    "move_unit": 19,
+    "combine_components": 9,
+    "equip_item": 6,
+    "sell_unit": 30
+  },
+  "reconnected": true,
+  "overtime": false,
+  "rounds": 16,
+  "placements": 4,
+  "automaticDistributionsByPlayer": [
+    5,
+    4,
+    5,
+    5
+  ],
+  "durableAfterExpiry": true
+}

@@ -1,0 +1,42 @@
+.recovery-notice {
+  position: fixed;
+  z-index: 100;
+  top: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(440px, calc(100vw - 32px));
+  padding: 12px 18px;
+  background: var(--neon-surface-primary);
+  color: var(--neon-text-primary);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: 0 6px 18px #10112566;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.recovery-notice p {
+  margin: 0;
+}
+.recovery-notice div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+.recovery-notice button {
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 6px 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  font: inherit;
+}
+.recovery-notice button:hover {
+  color: var(--neon-accent-primary);
+}
+.recovery-notice button:focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: 3px;
+}

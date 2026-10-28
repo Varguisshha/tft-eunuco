@@ -1,0 +1,262 @@
+/* P11G preserves the Festival Pop frame vocabulary and bounded desktop scale. */
+.game-hud .item-vertical {
+  width: 112px;
+  padding: 7px;
+}
+.game-hud .item-vertical-scroll {
+  display: grid;
+  grid-template-columns: repeat(2, 44px);
+  gap: 6px;
+  align-content: start;
+  scrollbar-width: none;
+}
+.game-hud .item-vertical-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.game-hud .item-vertical .item-slot {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+.game-hud .item-vertical-empty,
+.game-hud .remover-slot {
+  grid-column: 1 / -1;
+}
+.game-hud .item-vertical .remover-slot {
+  justify-self: center;
+}
+.game-hud .item-vertical-scroll:focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: -2px;
+}
+@media (min-width: 1100px) {
+  .game-hud {
+    --bench-height: calc(132 * var(--u));
+  }
+  .game-hud .bench-slot .pixel-unit {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(22 * var(--u));
+    height: calc(85 * var(--u));
+    width: calc(98 * var(--u));
+    object-position: center bottom;
+  }
+  .game-hud .bench-slot .stars {
+    right: calc(6 * var(--u));
+    bottom: calc(4 * var(--u));
+  }
+  .game-hud .bench-slot .stars .game-icon {
+    width: max(10px, calc(14 * var(--u)));
+    height: max(10px, calc(14 * var(--u)));
+  }
+}
+.bench-equipment {
+  position: absolute;
+  left: 5px;
+  bottom: 3px;
+  display: flex;
+  gap: 1px;
+}
+.bench-equipment .item-icon {
+  width: max(10px, calc(13 * var(--u)));
+  height: max(10px, calc(13 * var(--u)));
+}
+.game-hud .shop-offer > .fusion-cue {
+  position: absolute;
+  z-index: 6;
+  right: 9px;
+  top: 13px;
+  display: flex;
+  color: var(--neon-game-gold);
+  animation: fusion-ready 1.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.fusion-cue .game-icon {
+  width: max(13px, calc(20 * var(--u)));
+  height: max(13px, calc(20 * var(--u)));
+  fill: currentColor;
+  stroke: var(--neon-surface-canvas);
+  stroke-width: 1.5;
+}
+.fusion-cue.stars-3 {
+  color: var(--neon-accent-primary);
+}
+.game-hud .shop-offer[data-upgrade] .offer-pips {
+  display: none;
+}
+.game-hud .shop-offer[data-upgrade] .offer-footer {
+  box-shadow: inset 0 2px var(--neon-game-gold);
+}
+@keyframes fusion-ready {
+  50% {
+    filter: brightness(1.22);
+    transform: scale(1.07);
+  }
+}
+.round-gold-notice {
+  position: absolute;
+  z-index: 24;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(470px, 60vw);
+  padding: 26px 34px;
+  text-align: center;
+  pointer-events: none;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-overlay);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: var(--neon-shadow-panel);
+  animation: reward-arrival 240ms ease-out;
+}
+.round-gold-notice h2 {
+  margin: 0 0 8px;
+  font:
+    700 22px FestivalPop,
+    sans-serif;
+}
+.round-gold-total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  color: var(--neon-game-gold);
+  font:
+    700 54px FestivalPop,
+    sans-serif;
+}
+.round-gold-total .game-icon {
+  width: 40px;
+  height: 40px;
+}
+.round-gold-notice dl {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 16px 0 0;
+}
+.round-gold-notice dl div {
+  display: grid;
+  gap: 4px;
+}
+.round-gold-notice dt {
+  font-size: 12px;
+  color: var(--neon-text-secondary);
+}
+.round-gold-notice dd {
+  margin: 0;
+  font-weight: 700;
+}
+.round-gold-notice p {
+  margin: 12px 0 0;
+  font-size: 12px;
+}
+.fusion-confirmation {
+  position: absolute;
+  z-index: 25;
+  left: 50%;
+  bottom: calc(var(--dock-bottom) + var(--dock-height) + var(--bench-height) + 22px);
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: var(--neon-surface-overlay);
+  color: var(--neon-game-gold);
+  border: 2px solid var(--neon-game-gold);
+  pointer-events: none;
+  font:
+    700 18px FestivalPop,
+    sans-serif;
+}
+@keyframes reward-arrival {
+  from {
+    opacity: 0.4;
+    translate: 0 -8px;
+  }
+}
+.odds-trigger {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+.odds-trigger:focus-visible {
+  outline: 2px solid var(--neon-focus);
+  outline-offset: 3px;
+}
+.odds-trigger > span {
+  display: block;
+}
+.odds-popover {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  bottom: calc(100% + 12px);
+  width: min(400px, 70vw);
+  max-height: 60vh;
+  overflow: auto;
+  padding: 18px;
+  background: var(--neon-surface-overlay);
+  color: var(--neon-text-primary);
+  border: 2px solid var(--neon-border-primary);
+  box-shadow: var(--neon-shadow-panel);
+  font:
+    12px/1.4 'DM Sans',
+    sans-serif;
+}
+.odds-popover h2 {
+  margin: 0 0 12px;
+  font:
+    700 18px FestivalPop,
+    sans-serif;
+}
+.odds-popover table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.odds-popover td,
+.odds-popover th {
+  padding: 4px 6px;
+  text-align: right;
+}
+.odds-popover tr[aria-current='true'] {
+  background: var(--neon-button-default);
+  color: var(--neon-game-gold);
+}
+.odds-popover p {
+  margin: 12px 0 0;
+}
+.odds-popover .odds-close {
+  float: right;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--neon-border-highlight);
+  padding: 3px 6px;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fusion-cue,
+  .round-gold-notice {
+    animation: none;
+  }
+}
+
+.game-hud .modern-level > small {
+  position: static;
+  display: block;
+  font-size: 10px;
+  margin-top: 2px;
+}
+.game-hud .modern-level .odds-trigger small {
+  font:
+    10px 'DM Sans',
+    sans-serif;
+  margin-left: 8px;
+  color: var(--neon-text-secondary);
+}

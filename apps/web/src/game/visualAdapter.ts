@@ -1,15 +1,23 @@
+import { compositeBody } from './compositeVisuals';
+import { characterVisualScale, originalHitBounds } from './visualScale';
 import Phaser from 'phaser';
 import {
-  ANIMATION_NAMES,
   originOffset,
   placeholderMetadata,
   SpriteMetadataSchema,
   type AnimationName,
   type SpriteMetadata,
   type UnitVisual,
+  resolveAnimation,
+  sampleAnimationFrame,
+  type AnimationTiming,
+  type AnimationAsset,
+  type VisualStars,
 } from '@tft/sprite-contract';
 import type { UnitDefinition } from '@tft/shared';
-import { pixelRects } from './pixelArt';
+import { characterManifest } from './characterAssets';
+import { pixelRects, provisionalInitials } from './pixelArt';
+import { characterDepth, characterScale, type ArenaDefinition } from '../arenas/arena';
 
 export function registerPlaceholder(
   scene: Phaser.Scene,
@@ -22,9 +30,15 @@ export function registerPlaceholder(
     canvas.height = meta.frameHeight;
     const context = canvas.getContext('2d');
     if (!context) throw new Error('No se pudo crear el sprite provisional.');
-    for (const [x, y, w, h, color] of pixelRects(definition.role)) {
+    for (const [x, y, w, h, color] of pixelRects(definition.role, definition.spriteId)) {
       context.fillStyle = color;
       context.fillRect(x, y, w, h);
+    }
+    if (definition.spriteId.startsWith('provisional-')) {
+      context.fillStyle = '#0f1125';
+      context.font = 'bold 8px sans-serif';
+      context.textAlign = 'center';
+      context.fillText(provisionalInitials(definition.spriteId), 17, 27);
     }
     scene.textures.addCanvas(meta.textureKey, canvas);
   }
@@ -34,16 +48,31 @@ export function registerPlaceholder(
 export class PhaserUnitVisual implements UnitVisual {
   readonly sprite: Phaser.GameObjects.Sprite;
   private marker: Phaser.GameObjects.Ellipse;
+  private stars: Phaser.GameObjects.Text;
+  private equipment: Phaser.GameObjects.Graphics;
   private foot = { x: 0, y: 0 };
   private flipped = false;
   private readonly meta: SpriteMetadata;
-  private readonly scale = 1.65;
+  private scale = 1.65;
+  private count: VisualStars = 1;
+  private asset: AnimationAsset | null = null;
+  private animation: AnimationName = 'idle';
+  private timeMs = 0;
+  private timing: AnimationTiming | undefined;
+  private manifest;
+  private reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   constructor(
     private scene: Phaser.Scene,
-    metadata: SpriteMetadata,
+    definition: UnitDefinition,
     side: 'north' | 'south',
+    private arena?: ArenaDefinition,
   ) {
-    this.meta = SpriteMetadataSchema.parse(metadata);
+    this.equipment = scene.add.graphics();
+    this.meta = SpriteMetadataSchema.parse(registerPlaceholder(scene, definition));
+    this.manifest = characterManifest(definition.spriteId);
+    this.stars = scene.add
+      .text(0, 0, '', { fontSize: '16px', color: '#e7cb85', stroke: '#101916', strokeThickness: 3 })
+      .setOrigin(0.5);
     this.marker = scene.add
       .ellipse(0, 0, 42, 14, 0x080e0b, 0.55)
       .setStrokeStyle(1, side === 'south' ? 0x8bc4a2 : 0xdfb579, 0.65);
@@ -51,26 +80,54 @@ export class PhaserUnitVisual implements UnitVisual {
       .sprite(0, 0, this.meta.textureKey)
       .setOrigin(this.meta.origin.x, this.meta.origin.y)
       .setScale(this.scale);
-    if (this.meta.frameCount > 1)
-      for (const name of ANIMATION_NAMES) {
-        const key = `${this.meta.id}:${name}`;
-        const clip = this.meta.animations[name];
-        if (!scene.anims.exists(key))
-          scene.anims.create({
-            key,
-            frames: clip.frames.map((frame) => ({ key: this.meta.textureKey, frame })),
-            frameRate: clip.fps,
-            repeat: clip.loop ? -1 : 0,
-          });
-      }
     this.setFacing(side === 'south' ? 'right' : 'left');
     this.play('idle');
   }
+  private visualMultiplier = 1;
+  setVisualMultiplier(value: number): void {
+    this.visualMultiplier = value;
+    this.setFootPosition(this.foot.x, this.foot.y);
+  }
+  containsPoint(x: number, y: number): boolean {
+    const b = this.hitBounds;
+    return x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height;
+  }
+  get hitBounds() {
+    const bounds = this.sprite.getBounds();
+    return originalHitBounds(
+      bounds,
+      this.foot,
+      this.asset && this.arena ? this.visualMultiplier : 1,
+    );
+  }
+  get renderScale(): number {
+    return characterVisualScale(
+      this.arena ? characterScale(this.arena, this.foot.y) : 1,
+      !!this.asset && !!this.arena,
+      this.visualMultiplier,
+    );
+  }
   setFootPosition(x: number, y: number): void {
     this.foot = { x, y };
-    const offset = originOffset(this.meta, this.scale, this.flipped);
-    this.marker.setPosition(x, y).setDepth(y + 9);
-    this.sprite.setPosition(x + offset.x, y + offset.y).setDepth(y + 10);
+    const factor = this.renderScale;
+    const depth = this.arena ? characterDepth(y) : y + 10;
+    this.sprite.setScale(this.scale * factor);
+    this.stars
+      .setPosition(x, y + 14 * factor)
+      .setScale(factor)
+      .setDepth(this.arena ? 4200 : y + 12);
+    this.equipment
+      .setPosition(x, y + 24 * factor)
+      .setScale(factor)
+      .setDepth(this.arena ? 4200 : y + 12);
+    const offset = this.asset
+      ? { x: 0, y: 0 }
+      : originOffset(this.meta, this.scale * factor, this.flipped);
+    this.marker
+      .setPosition(x, y)
+      .setScale(factor)
+      .setDepth(this.arena ? 100 : y + 9);
+    this.sprite.setPosition(x + offset.x, y + offset.y).setDepth(depth);
   }
   setSelected(selected: boolean): void {
     this.marker.setStrokeStyle(
@@ -80,16 +137,102 @@ export class PhaserUnitVisual implements UnitVisual {
     );
   }
   setFacing(facing: 'left' | 'right'): void {
-    this.flipped = this.meta.mirrorAllowed && facing !== this.meta.facing;
+    this.flipped =
+      (this.asset?.mirrorAllowed ?? this.meta.mirrorAllowed) &&
+      facing !== (this.asset?.facing ?? this.meta.facing);
     this.sprite.setFlipX(this.flipped);
+    if (this.asset)
+      this.sprite.setOrigin(
+        this.flipped
+          ? 1 - this.asset.foot.x / this.asset.frameWidth
+          : this.asset.foot.x / this.asset.frameWidth,
+        this.asset.foot.y / this.asset.frameHeight,
+      );
     this.setFootPosition(this.foot.x, this.foot.y);
   }
-  play(animation: AnimationName): void {
-    if (this.meta.frameCount > 1 && this.scene.anims.exists(`${this.meta.id}:${animation}`))
-      this.sprite.play(`${this.meta.id}:${animation}`, true);
+  play(animation: AnimationName, timeMs = this.timeMs, timing?: AnimationTiming): void {
+    this.animation = animation;
+    this.timeMs = timeMs;
+    this.timing = timing;
+    const resolved = resolveAnimation(this.manifest, this.count, animation);
+    const compound =
+      this.manifest?.composite && timing && (animation === 'attack' || animation === 'ability')
+        ? compositeBody(
+            this.manifest,
+            animation,
+            timeMs,
+            timing.startMs,
+            timing.impactMs ?? timing.endMs,
+          )
+        : null;
+    const chosen = compound?.asset ?? resolved.asset;
+    const asset = chosen && this.scene.textures.exists(chosen.textureKey) ? chosen : null;
+    this.asset = asset;
+    if (asset) {
+      this.scale = asset.scale;
+      this.sprite
+        .setTexture(
+          asset.textureKey,
+          compound?.frame ??
+            sampleAnimationFrame(
+              asset,
+              animation,
+              this.reducedMotion.matches && (animation === 'idle' || animation === 'walk')
+                ? 0
+                : timeMs,
+              timing,
+            ),
+        )
+        .setOrigin(
+          this.flipped ? 1 - asset.foot.x / asset.frameWidth : asset.foot.x / asset.frameWidth,
+          asset.foot.y / asset.frameHeight,
+        )
+        .setScale(this.scale);
+    } else {
+      this.scale = 1.65;
+      this.sprite
+        .setTexture(this.meta.textureKey)
+        .setOrigin(this.meta.origin.x, this.meta.origin.y)
+        .setScale(this.scale);
+    }
+    this.setFootPosition(this.foot.x, this.foot.y);
+  }
+  get hasRealAsset(): boolean {
+    return this.asset !== null;
+  }
+  setEquipment(kinds: ('component' | 'completed')[]): void {
+    this.equipment.clear();
+    kinds.slice(0, 3).forEach((kind, i) => {
+      const x = (i - (kinds.length - 1) / 2) * 9;
+      this.equipment.lineStyle(1, kind === 'component' ? 0x8ea7f9 : 0xf6c454, 1);
+      if (kind === 'completed') this.equipment.fillStyle(0xf6c454, 1).fillRect(x - 2, -2, 4, 4);
+      this.equipment.strokeRect(x - 3, -3, 6, 6);
+    });
+  }
+  setStars(count: number): void {
+    const stars = Math.max(1, Math.min(3, count)) as VisualStars;
+    if (this.count !== stars) {
+      this.count = stars;
+      this.play(this.animation, this.timeMs, this.timing);
+    }
+    this.stars.setText(count > 1 ? '★'.repeat(count) : '');
+  }
+  setVisible(visible: boolean): void {
+    this.sprite.setVisible(visible);
+    this.marker.setVisible(visible);
+    this.stars.setVisible(visible);
+    this.equipment.setVisible(visible);
+  }
+  setOpacity(alpha: number): void {
+    this.stars.setAlpha(alpha);
+    this.equipment.setAlpha(alpha);
+    this.sprite.setAlpha(alpha);
+    this.marker.setAlpha(alpha);
   }
   destroy(): void {
     this.marker.destroy();
+    this.stars.destroy();
+    this.equipment.destroy();
     this.sprite.destroy();
   }
 }

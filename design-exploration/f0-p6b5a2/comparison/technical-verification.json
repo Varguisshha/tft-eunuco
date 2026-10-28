@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-24",
+  "compositions": 18,
+  "all1920PNG": true,
+  "geometryPass": true,
+  "originalBaseCSSUnchanged": true,
+  "allOriginalAssetBytes": true,
+  "arenaRegionIdentical": false,
+  "contrasts": [
+    {
+      "palette": "royal-pop",
+      "passing": 36,
+      "failures": [],
+      "exempt": 1
+    },
+    {
+      "palette": "neon-playground",
+      "passing": 36,
+      "failures": [],
+      "exempt": 1
+    },
+    {
+      "palette": "tropical-party",
+      "passing": 36,
+      "failures": [],
+      "exempt": 1
+    },
+    {
+      "palette": "coastal-mint",
+      "passing": 36,
+      "failures": [],
+      "exempt": 1
+    },
+    {
+      "palette": "soft-royal",
+      "passing": 36,
+      "failures": [],
+      "exempt": 1
+    },
+    {
+      "palette": "warm-sand",
+      "passing": 36,
+      "failures": [],
+      "exempt": 1
+    }
+  ],
+  "galleryInteractions": {
+    "select": true,
+    "pair": true,
+    "sharedViews": true,
+    "zoom100": {
+      "width": 1920,
+      "height": 1080
+    },
+    "fit": true,
+    "return": true,
+    "responsiveWidths": [
+      1920,
+      1280,
+      390
+    ],
+    "horizontalOverflow": false,
+    "inspectorOpenClose": true,
+    "disabledControlRejectsAction": true,
+    "reportLink": true
+  },
+  "consoleErrors": [],
+  "limitations": [
+    "Five proportional hexadecimal labels naturally change intrinsic glyph widths. All component/container positions and typography remain identical.",
+    "Static prototype economics do not execute operations.",
+    "No WCAG-wide or long-session comfort claim.",
+    "Browser captures were JPEG bytes converted losslessly to PNG. Cropped arena pixels are not bit-identical between captures; original asset bytes and all arena layout/filters remain unchanged."
+  ],
+  "scope": {
+    "priorExplorationTrackedDiff": "none vs 8d4fcd3",
+    "productionTrackedDiff": "none vs 8d4fcd3",
+    "push": false
+  },
+  "sourceChecks": {
+    "javascriptSyntax": "passed",
+    "stagedDiffWhitespace": "passed excluding byte-preserved upstream font license files",
+    "fontLicenseOriginalWhitespace": "preserved"
+  },
+  "review": "ship \u2014 full visual exploration review"
+}

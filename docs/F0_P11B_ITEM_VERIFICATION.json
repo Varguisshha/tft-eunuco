@@ -1,0 +1,434 @@
+[
+  {
+    "source": "TFT_Item_AdaptiveHelm",
+    "set18Source": "DA_AdaptiveHelm",
+    "name": "Yelmo adaptable",
+    "recipe": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_TearOfTheGoddess"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_ArchangelsStaff",
+    "set18Source": "DA_ArchangelsStaff",
+    "name": "Bastón del arcángel",
+    "recipe": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_TearOfTheGoddess"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Bloodthirster",
+    "set18Source": "DA_Bloodthirster",
+    "name": "Sanguinaria",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_NegatronCloak"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_BlueBuff",
+    "set18Source": "DA_BlueBuff",
+    "name": "Mejora azul",
+    "recipe": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_TearOfTheGoddess"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_BrambleVest",
+    "set18Source": "DA_BrambleVest",
+    "name": "Chaleco de zarzas",
+    "recipe": [
+      "TFT_Item_ChainVest",
+      "TFT_Item_ChainVest"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Crownguard",
+    "set18Source": "DA_Crownguard",
+    "name": "Regiaguardia",
+    "recipe": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_ChainVest"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Deathblade",
+    "set18Source": "DA_Deathblade",
+    "name": "Filo mortal",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_BFSword"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_DragonsClaw",
+    "set18Source": "DA_DragonsClaw",
+    "name": "Garra de dragón",
+    "recipe": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_NegatronCloak"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_FrozenHeart",
+    "set18Source": "DA_ProtectorsVow",
+    "name": "Promesa del protector",
+    "recipe": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_ChainVest"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_GargoyleStoneplate",
+    "set18Source": "DA_GargoyleStoneplate",
+    "name": "Protector pétreo de gárgola",
+    "recipe": [
+      "TFT_Item_ChainVest",
+      "TFT_Item_NegatronCloak"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_GuardianAngel",
+    "set18Source": "DA_EdgeOfNight",
+    "name": "Filo de la noche",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_ChainVest"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_GuinsoosRageblade",
+    "set18Source": "DA_GuinsoosRageblade",
+    "name": "Hoja de furia de Guinsoo",
+    "recipe": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_NeedlesslyLargeRod"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_HextechGunblade",
+    "set18Source": "DA_HextechGunblade",
+    "name": "Sable-pistola hextech",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_NeedlesslyLargeRod"
+    ],
+    "status": "pending",
+    "pending": "Omnivampirismo contradictorio (15/18)",
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_InfinityEdge",
+    "set18Source": "DA_InfinityEdge",
+    "name": "Filo infinito",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_IonicSpark",
+    "set18Source": "DA_IonicSpark",
+    "name": "Chispa iónica",
+    "recipe": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_NegatronCloak"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_JeweledGauntlet",
+    "set18Source": "DA_JeweledGauntlet",
+    "name": "Guantelete enjoyado",
+    "recipe": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_LastWhisper",
+    "set18Source": "DA_LastWhisper",
+    "name": "Últimas palabras",
+    "recipe": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Leviathan",
+    "set18Source": "DA_NashorsTooth",
+    "name": "Diente de Nashor",
+    "recipe": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_MadredsBloodrazor",
+    "set18Source": "DA_GiantSlayer",
+    "name": "Verdugo de gigantes",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_RecurveBow"
+    ],
+    "status": "pending",
+    "pending": "Amplificación base y parámetros opacos heredados",
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Morellonomicon",
+    "set18Source": "DA_Morellonomicon",
+    "name": "Morellonomicón",
+    "recipe": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_NightHarvester",
+    "set18Source": "DA_SteadfastHeart",
+    "name": "Corazón resuelto",
+    "recipe": [
+      "TFT_Item_ChainVest",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_PowerGauntlet",
+    "set18Source": "DA_StrikersFlail",
+    "name": "Mangual del guerrero",
+    "recipe": [
+      "TFT_Item_GiantsBelt",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "pending",
+    "pending": "Amplificación base y renovación exacta de acumulaciones",
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Quicksilver",
+    "set18Source": "DA_Quicksilver",
+    "name": "Fajín de mercurio",
+    "recipe": [
+      "TFT_Item_SparringGloves",
+      "TFT_Item_NegatronCloak"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_RabadonsDeathcap",
+    "set18Source": "DA_RabadonsDeathcap",
+    "name": "Sombrero mortal de Rabadon",
+    "recipe": [
+      "TFT_Item_NeedlesslyLargeRod",
+      "TFT_Item_NeedlesslyLargeRod"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_RapidFireCannon",
+    "set18Source": "DA_RedBuff",
+    "name": "Mejora roja",
+    "recipe": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_RecurveBow"
+    ],
+    "status": "pending",
+    "pending": "Amplificación contradictoria (3/6)",
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_RedBuff",
+    "set18Source": "DA_SunfireCape",
+    "name": "Capa de fuego solar",
+    "recipe": [
+      "TFT_Item_ChainVest",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_Redemption",
+    "set18Source": "DA_SpiritVisage",
+    "name": "Rostro espiritual",
+    "recipe": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_RunaansHurricane",
+    "set18Source": "DA_KrakensFury",
+    "name": "Furia del kraken",
+    "recipe": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_RecurveBow"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_SpearOfShojin",
+    "set18Source": "DA_SpearOfShojin",
+    "name": "Lanza de Shojin",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_TearOfTheGoddess"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_SpectralGauntlet",
+    "set18Source": "DA_Evenshroud",
+    "name": "Mortaja de la quietud",
+    "recipe": [
+      "TFT_Item_NegatronCloak",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_StatikkShiv",
+    "set18Source": "DA_VoidStaff",
+    "name": "Bastón del Vacío",
+    "recipe": [
+      "TFT_Item_RecurveBow",
+      "TFT_Item_TearOfTheGoddess"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_SteraksGage",
+    "set18Source": "DA_SteraksGage",
+    "name": "Calibrador de Sterak",
+    "recipe": [
+      "TFT_Item_BFSword",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "pending",
+    "pending": "Curva exacta de desaparición del escudo",
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_ThiefsGloves",
+    "set18Source": "DA_ThiefsGloves",
+    "name": "Guantes de ladrón",
+    "recipe": [
+      "TFT_Item_SparringGloves",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "pending",
+    "pending": "Distribución y exclusiones del sorteo oficial",
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_TitansResolve",
+    "set18Source": "DA_TitansResolve",
+    "name": "Resolución titánica",
+    "recipe": [
+      "TFT_Item_ChainVest",
+      "TFT_Item_RecurveBow"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_UnstableConcoction",
+    "set18Source": "DA_HandOfJustice",
+    "name": "Mano de la justicia",
+    "recipe": [
+      "TFT_Item_TearOfTheGoddess",
+      "TFT_Item_SparringGloves"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  },
+  {
+    "source": "TFT_Item_WarmogsArmor",
+    "set18Source": "DA_WarmogsArmor",
+    "name": "Armadura de Warmog",
+    "recipe": [
+      "TFT_Item_GiantsBelt",
+      "TFT_Item_GiantsBelt"
+    ],
+    "status": "executable_specification",
+    "pending": null,
+    "test": "packages/game-core/src/items/tft185.test.ts"
+  }
+]

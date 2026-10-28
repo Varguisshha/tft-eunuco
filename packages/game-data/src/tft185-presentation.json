@@ -1,0 +1,178 @@
+{
+  "TFT_Item_AdaptiveHelm": {
+    "name": "Yelmo adaptable",
+    "description": null
+  },
+  "TFT_Item_ArchangelsStaff": {
+    "name": "Bastón del arcángel",
+    "description": null
+  },
+  "TFT_Item_BFSword": {
+    "name": "Espadón",
+    "description": null
+  },
+  "TFT_Item_Bloodthirster": {
+    "name": "Sanguinaria",
+    "description": null
+  },
+  "TFT_Item_BlueBuff": {
+    "name": "Mejora azul",
+    "description": null
+  },
+  "TFT_Item_BrambleVest": {
+    "name": "Chaleco de zarzas",
+    "description": null
+  },
+  "TFT_Item_ChainVest": {
+    "name": "Chaleco de cadenas",
+    "description": null
+  },
+  "TFT_Item_Crownguard": {
+    "name": "Regiaguardia",
+    "description": null
+  },
+  "TFT_Item_Deathblade": {
+    "name": "Filo mortal",
+    "description": null
+  },
+  "TFT_Item_DragonsClaw": {
+    "name": "Garra de dragón",
+    "description": null
+  },
+  "TFT_Item_FrozenHeart": {
+    "name": "Promesa del protector",
+    "description": null
+  },
+  "TFT_Item_GargoyleStoneplate": {
+    "name": "Protector pétreo de gárgola",
+    "description": null
+  },
+  "TFT_Item_GiantsBelt": {
+    "name": "Cinturón de gigante",
+    "description": null
+  },
+  "TFT_Item_GuardianAngel": {
+    "name": "Filo de la noche",
+    "description": null
+  },
+  "TFT_Item_GuinsoosRageblade": {
+    "name": "Hoja de furia de Guinsoo",
+    "description": null
+  },
+  "TFT_Item_HextechGunblade": {
+    "name": "Sable-pistola hextech",
+    "description": null
+  },
+  "TFT_Item_InfinityEdge": {
+    "name": "Filo infinito",
+    "description": null
+  },
+  "TFT_Item_IonicSpark": {
+    "name": "Chispa iónica",
+    "description": null
+  },
+  "TFT_Item_JeweledGauntlet": {
+    "name": "Guantelete enjoyado",
+    "description": null
+  },
+  "TFT_Item_LastWhisper": {
+    "name": "Últimas palabras",
+    "description": null
+  },
+  "TFT_Item_Leviathan": {
+    "name": "Diente de Nashor",
+    "description": null
+  },
+  "TFT_Item_MadredsBloodrazor": {
+    "name": "Verdugo de gigantes",
+    "description": null
+  },
+  "TFT_Item_Morellonomicon": {
+    "name": "Morellonomicón",
+    "description": null
+  },
+  "TFT_Item_NeedlesslyLargeRod": {
+    "name": "Vara innecesariamente grande",
+    "description": null
+  },
+  "TFT_Item_NegatronCloak": {
+    "name": "Capa negatrón",
+    "description": null
+  },
+  "TFT_Item_NightHarvester": {
+    "name": "Corazón resuelto",
+    "description": null
+  },
+  "TFT_Item_PowerGauntlet": {
+    "name": "Mangual del guerrero",
+    "description": null
+  },
+  "TFT_Item_Quicksilver": {
+    "name": "Fajín de mercurio",
+    "description": null
+  },
+  "TFT_Item_RabadonsDeathcap": {
+    "name": "Sombrero mortal de Rabadon",
+    "description": null
+  },
+  "TFT_Item_RapidFireCannon": {
+    "name": "Mejora roja",
+    "description": null
+  },
+  "TFT_Item_RecurveBow": {
+    "name": "Arco curvo",
+    "description": null
+  },
+  "TFT_Item_RedBuff": {
+    "name": "Capa de fuego solar",
+    "description": null
+  },
+  "TFT_Item_Redemption": {
+    "name": "Rostro espiritual",
+    "description": null
+  },
+  "TFT_Item_RunaansHurricane": {
+    "name": "Furia del kraken",
+    "description": null
+  },
+  "TFT_Item_SparringGloves": {
+    "name": "Guantes de combate",
+    "description": null
+  },
+  "TFT_Item_SpearOfShojin": {
+    "name": "Lanza de Shojin",
+    "description": null
+  },
+  "TFT_Item_SpectralGauntlet": {
+    "name": "Mortaja de la quietud",
+    "description": null
+  },
+  "TFT_Item_StatikkShiv": {
+    "name": "Bastón del Vacío",
+    "description": null
+  },
+  "TFT_Item_SteraksGage": {
+    "name": "Calibrador de Sterak",
+    "description": null
+  },
+  "TFT_Item_TearOfTheGoddess": {
+    "name": "Lágrima de la diosa",
+    "description": null
+  },
+  "TFT_Item_ThiefsGloves": {
+    "name": "Guantes de ladrón",
+    "description": null
+  },
+  "TFT_Item_TitansResolve": {
+    "name": "Resolución titánica",
+    "description": null
+  },
+  "TFT_Item_UnstableConcoction": {
+    "name": "Mano de la justicia",
+    "description": null
+  },
+  "TFT_Item_WarmogsArmor": {
+    "name": "Armadura de Warmog",
+    "description": null
+  }
+}

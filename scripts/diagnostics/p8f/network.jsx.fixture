@@ -1,0 +1,27 @@
+import {BoardScene} from '../../src/game/BoardScene';
+import {hexToWorld} from '../../src/game/projection';
+const originalCreate=BoardScene.prototype.create;BoardScene.prototype.create=function(){originalCreate.call(this);window.scene=this;};
+window.hexPixel=hex=>{const s=window.scene,w=hexToWorld(hex,s.projection),c=s.cameras.main,r=s.game.canvas.getBoundingClientRect();return {x:r.x+(w.x-c.worldView.x)*c.zoom*r.width/s.scale.width,y:r.y+(w.y-c.worldView.y)*c.zoom*r.height/s.scale.height};};
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {Client} from '@colyseus/sdk';
+import {LOBBY_VERSION} from '@tft/shared';
+import {RemoteCoordinator} from '../../src/network/RemoteCoordinator';
+import {LocalSession} from '../../src/match/LocalSession';
+import {LocalGame} from '../../src/match/LocalGame';
+import '../../src/styles.css';
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-700.css';
+const gates=[];
+function action(r,type,extra={}){return new Promise(resolve=>{const requestId=crypto.randomUUID();const off=r.onMessage('lobby_event',e=>{if(e.requestId===requestId){off();resolve(e)}});r.send('lobby_action',{version:LOBBY_VERSION,requestId,type,...extra})})}
+for(let i=0;i<4;i++){const c=new Client('http://127.0.0.1:2592');c.auth.token=`fixture-${i}`;gates.push(await c.create('lobby_gateway'));gates[i].onMessage('lobby_event',()=>{});}
+const created=await action(gates[0],'create_lobby',{capacity:4});for(let i=1;i<4;i++)await action(gates[i],'join_lobby',{roomCode:created.lobby.roomCode});for(const g of gates)await action(g,'set_ready',{readyState:true});const start=await action(gates[0],'start_match');
+window.matchId=start.lobby.matchId;
+const root=createRoot(document.getElementById('root'));
+window.refresh=async()=>{window.remote?.dispose();const remote=await RemoteCoordinator.connect('join',window.matchId,'fixture-0');remote.enableRecovery(()=> 'fixture-0');window.remote=remote;const session=new LocalSession(remote.getMatch(),undefined,undefined,remote);window.session=session;root.render(<LocalGame session={session} onNew={()=>{}} onReplace={()=>{}}/>);};
+await window.refresh();
+window.others=[];for(let i=1;i<4;i++) window.others.push(await RemoteCoordinator.connect('join',window.matchId,`fixture-${i}`));
+
+window.botSessions=window.others.map(r=>new LocalSession(r.getMatch(),undefined,undefined,r));
+
+window.renderWinner=async()=>{const index=window.remote.finalResults.winnerIds[0].slice(-1)-1;window.remote.dispose();window.remote=await RemoteCoordinator.connect('join',window.matchId,`fixture-${index}`);window.session=new LocalSession(window.remote.getMatch(),undefined,undefined,window.remote);root.render(<LocalGame session={window.session} onNew={()=>{}} onReplace={()=>{}}/>);};

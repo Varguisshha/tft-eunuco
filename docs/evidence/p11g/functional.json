@@ -1,0 +1,15 @@
+{
+  "benchEquipment": 2,
+  "gold": "Victoria · Ronda 3\n+11\nBase\n+4\nInterés\n+5\nRacha\n+1\nVictoria\n+1",
+  "clickThrough": {
+    "pointerEvents": "none",
+    "receivesPoint": false
+  },
+  "pending": 3,
+  "autoDismiss": true,
+  "restoreNoticeCount": 0,
+  "restoredObjects": "Objetos\n31\n3 pendientes",
+  "keyboardOddsClosed": true,
+  "reducedMotion": "none",
+  "errors": []
+}

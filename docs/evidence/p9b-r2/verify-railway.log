@@ -1,0 +1,2 @@
+$ node scripts/railway/verify-config.mjs
+Railway intent checked locally: one service, no provisioning or network calls.

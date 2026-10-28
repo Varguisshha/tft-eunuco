@@ -1,0 +1,8 @@
+2026-10-26
+pnpm check + PERSISTENCE_TEST_URL: PASS
+85 test files, 1286 tests passed; 0 skipped; 0 failed.
+14 PostgreSQL tests included.
+pnpm verify:public: PASS
+git diff --check: PASS
+Historical suite paths missing: 0
+Only existing Vite chunk-size advisory.

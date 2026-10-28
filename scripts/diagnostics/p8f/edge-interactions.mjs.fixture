@@ -1,0 +1,17 @@
+import {chromium} from '/Users/vargas/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import fs from 'node:fs';
+const out='/Users/vargas/.codex/worktrees/p8f-stabilization/TFT EUNUCO/artifacts/p8f';fs.mkdirSync(out,{recursive:true});
+const b=await chromium.launch({headless:true,executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+const p=await b.newPage({viewport:{width:1920,height:1080}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://127.0.0.1:4188');await p.getByText('Modo DEV',{exact:true}).click();await p.getByRole('button',{name:'Crear prueba DEV',exact:true}).click();
+const load=async mode=>{if(await p.getByRole('button',{name:'DEV · Abrir herramientas',exact:true}).isVisible())await p.getByRole('button',{name:'DEV · Abrir herramientas',exact:true}).click();await p.getByLabel('Diagnóstico de objetos',{exact:true}).selectOption(mode);await p.getByRole('button',{name:'DEV · Plegar herramientas',exact:true}).click();await p.waitForTimeout(350);};
+
+await load('all');await p.getByRole('button',{name:/^Objetos \d/}).click();await p.getByRole('tab',{name:/^Objetos /}).click();
+for(let i=0;i<3;i++){await p.locator('.item-slot[draggable=true]').first().click();await p.getByLabel('Personaje para equipar').selectOption({label:'FLORIN 1★ · banquillo'});await p.getByRole('button',{name:'Equipar',exact:true}).click();if(!(await p.locator('.item-status').innerText()).includes('Confirmado'))throw Error('Equip failed');}
+await p.waitForTimeout(400);await p.screenshot({path:out+'/three-equipped.png'});
+await p.locator('.item-slot[draggable=true]').first().click();await p.getByRole('button',{name:'Equipar',exact:true}).click();if(!await p.locator('.item-status.error').count())throw Error('Fourth should reject');await p.waitForTimeout(400);await p.screenshot({path:out+'/fourth-rejected.png'});
+await p.getByRole('button',{name:/Vender FLORIN/i}).click();await p.waitForTimeout(400);await p.screenshot({path:out+'/sold-returned.png'});
+await load('components');await p.getByRole('tab',{name:/^Componentes /}).click();await p.locator('.item-slot[draggable=true]').first().dragTo(p.locator('[data-bench-slot="5"]'));if(!(await p.locator('.item-status').innerText()).includes('Confirmado'))throw Error('Bench DnD failed');await p.waitForTimeout(400);await p.screenshot({path:out+'/drag-to-jaramillo.png'});
+await p.keyboard.press('Escape');if(await p.locator('.item-tray').count())throw Error('Escape failed');
+await load('fusion');await p.locator('.shop-offer').filter({hasText:'VARGAS'}).click();await p.waitForTimeout(400);await p.screenshot({path:out+'/fusion-returned.png'});
+fs.writeFileSync(out+'/interactions.json',JSON.stringify({errors,threeSlots:true,fourthRejected:true,sale:true,benchDrag:true,escape:true,fusion:true},null,2));await b.close();

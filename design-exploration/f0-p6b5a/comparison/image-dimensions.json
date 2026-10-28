@@ -1,0 +1,110 @@
+[
+  {
+    "path": "comparison/baseline-p6b4-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "comparison/current-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "comparison/overview.png",
+    "width": 1905,
+    "height": 1128,
+    "format": "png"
+  },
+  {
+    "path": "festival-pop/components-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "festival-pop/inspector-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "festival-pop/screen-1280.png",
+    "width": 1280,
+    "height": 720,
+    "format": "png"
+  },
+  {
+    "path": "festival-pop/screen-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "festival-tactico/components-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "festival-tactico/inspector-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "festival-tactico/screen-1280.png",
+    "width": 1280,
+    "height": 720,
+    "format": "png"
+  },
+  {
+    "path": "festival-tactico/screen-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "pixel-pop-arena/components-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "pixel-pop-arena/inspector-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "pixel-pop-arena/screen-1280.png",
+    "width": 1280,
+    "height": 720,
+    "format": "png"
+  },
+  {
+    "path": "pixel-pop-arena/screen-1920.png",
+    "width": 1920,
+    "height": 1080,
+    "format": "png"
+  },
+  {
+    "path": "shared/assets/dolea-2.png",
+    "width": 64,
+    "height": 96,
+    "format": "png"
+  },
+  {
+    "path": "shared/assets/dolea.png",
+    "width": 61,
+    "height": 96,
+    "format": "png"
+  },
+  {
+    "path": "shared/assets/vargas.png",
+    "width": 80,
+    "height": 96,
+    "format": "png"
+  }
+]

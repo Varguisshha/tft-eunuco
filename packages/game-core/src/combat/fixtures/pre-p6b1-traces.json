@@ -1,0 +1,141 @@
+{
+  "cases": [
+    {
+      "scenario": "ability-1",
+      "seed": 0,
+      "hash": "d2626a0b1fddf1b71ab68394d47c838ac6ef216eb4cfd7ae4d97b679de973e6e"
+    },
+    {
+      "scenario": "ability-1",
+      "seed": 42,
+      "hash": "5b7458070670528e53c78ea2fc7f671b6f68eb5c244a8655bad6d55639649d71"
+    },
+    {
+      "scenario": "ability-1",
+      "seed": 4294967295,
+      "hash": "9b77a48f2611326ff0b9d1550c76b53eb49a040e342099767a1377ff10eab3ed"
+    },
+    {
+      "scenario": "ability-2",
+      "seed": 0,
+      "hash": "ba84804bdad4579c294d8e72ed58a3eb319f26cc692b147ff191018ccb9aa0c2"
+    },
+    {
+      "scenario": "ability-2",
+      "seed": 42,
+      "hash": "0ca6651693acb76141ff2e281656802f311a01ca6c5d5ab4f1bb53ec806ba64b"
+    },
+    {
+      "scenario": "ability-2",
+      "seed": 4294967295,
+      "hash": "bd560325ff916372d97d0e9127940e4bf69e6d746e0bb299f951938cccddd7d9"
+    },
+    {
+      "scenario": "ability-3",
+      "seed": 0,
+      "hash": "f6ec49e1086de246cad4b00d49e2642564115e4ad8b9705dcb5fd59b736d7653"
+    },
+    {
+      "scenario": "ability-3",
+      "seed": 42,
+      "hash": "e35b479ad50dae3933fe03a98528c56b281419d59d8c1bb42e603fa4f7750df6"
+    },
+    {
+      "scenario": "ability-3",
+      "seed": 4294967295,
+      "hash": "1f3ddb9b4a0089f5b472f0ca4c35b47475822ac476e9a66503af86ecba88dac8"
+    },
+    {
+      "scenario": "traits-2",
+      "seed": 0,
+      "hash": "67a5f10ee90ae0822e4e12e5213b436d38ee3cc8bc2249ee6f0edf7f2c905d45"
+    },
+    {
+      "scenario": "traits-2",
+      "seed": 42,
+      "hash": "8c93004e52a7d1780207ed5f1139033651d3c4532c832524c31d49050152a7ef"
+    },
+    {
+      "scenario": "traits-2",
+      "seed": 4294967295,
+      "hash": "63deebd796e25dfbe6bdd565dc79687f9d4593582d9538d4ad17bfb96ec05dec"
+    },
+    {
+      "scenario": "traits-3",
+      "seed": 0,
+      "hash": "3c165fcae6a820e94ec6f29af12ba4a568798221fe6b17e763c05ac68fcc2d6f"
+    },
+    {
+      "scenario": "traits-3",
+      "seed": 42,
+      "hash": "1eb2b9f00972c44d442e4bd37d5542857998c2b634b576349df3bca55b78059b"
+    },
+    {
+      "scenario": "traits-3",
+      "seed": 4294967295,
+      "hash": "1e730d0b739047e6347c6ec3b0f9109b4ed0a86b8f1e8e46d1da2346a9082b18"
+    },
+    {
+      "scenario": "passive-overtime",
+      "seed": 0,
+      "hash": "fc5a22d11e1bf6baca9d27344a740dba36b9bd637369012c1744b6e3c10eb3ac"
+    },
+    {
+      "scenario": "passive-overtime",
+      "seed": 42,
+      "hash": "f16f1634d0f82677ae1df86d0b76e6830b74efffd652ff77fb14a56663c0a8ca"
+    },
+    {
+      "scenario": "passive-overtime",
+      "seed": 4294967295,
+      "hash": "909a35abefd68f40e7a33a97a71f49e5158a9778f5c2d38f5210a67f00895df4"
+    },
+    {
+      "scenario": "padel-2",
+      "seed": 0,
+      "hash": "6ff4b12adebb25979a98f168b33915bebe61b83dc49692ec5b23b0988d2d6e22"
+    },
+    {
+      "scenario": "padel-2",
+      "seed": 42,
+      "hash": "32d0a1cdda73858f908eeca8d361fd58a354c7be6eae44bc986f42ffa3769ff4"
+    },
+    {
+      "scenario": "padel-2",
+      "seed": 4294967295,
+      "hash": "0bac07be1b88ebc40446a3d810c31f30b560e1e4edc92ea2ec5c59cba194f8f4"
+    },
+    {
+      "scenario": "padel-3",
+      "seed": 0,
+      "hash": "470058e506b4e67b56745a5d77fc7417bc580ca9982d50c492c20633523bb67b"
+    },
+    {
+      "scenario": "padel-3",
+      "seed": 42,
+      "hash": "b3b666339ab17bffdb995f8889650c8873f5e1f13d173a93e76303ff2e72438a"
+    },
+    {
+      "scenario": "padel-3",
+      "seed": 4294967295,
+      "hash": "9b6284b022acc102b64ea17aebcc3090a0e76562a35a39db299da477c4c868b7"
+    }
+  ],
+  "legacy": [
+    {
+      "scenario": "overtime",
+      "seed": 42,
+      "hash": "8bbbad6feeafac1719c238b632001f9e91568d12ecda693b5b3f5dee050fe307"
+    },
+    {
+      "scenario": "timeout",
+      "seed": 42,
+      "hash": "b2a97859209c160a20a68da877daf112dd36622bac243cd54122d2bad9ffad43"
+    },
+    {
+      "scenario": "mutual",
+      "seed": 42,
+      "hash": "06e9cb2efcab5bd2f0b7fab450a838ea946171c0dd07b38be9245f7062cd7c4e"
+    }
+  ]
+}

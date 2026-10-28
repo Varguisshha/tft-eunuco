@@ -1,0 +1,606 @@
+{
+  "version": "f0p11a-provisional-1",
+  "note": "Explicit temporary parameters per identity, not a personal ability design. Costs 1\u20133 preserve existing shop odds.",
+  "characters": [
+    {
+      "id": "cosmin",
+      "cost": 1,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 520,
+        "attack": 35,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "agus",
+      "cost": 2,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 660,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "alfredo-pocho",
+      "cost": 3,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 800,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "peibol",
+      "cost": 1,
+      "role": "striker",
+      "stats": {
+        "maxHp": 420,
+        "attack": 40,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "emanuel",
+      "cost": 2,
+      "role": "striker",
+      "stats": {
+        "maxHp": 560,
+        "attack": 50,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "pablo",
+      "cost": 3,
+      "role": "striker",
+      "stats": {
+        "maxHp": 700,
+        "attack": 60,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "manuel",
+      "cost": 1,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 340,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "henller",
+      "cost": 2,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 480,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "cayetana",
+      "cost": 3,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 620,
+        "attack": 65,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "alex",
+      "cost": 1,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 520,
+        "attack": 35,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "alvaro",
+      "cost": 2,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 660,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "danigm",
+      "cost": 3,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 800,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "titi",
+      "cost": 1,
+      "role": "striker",
+      "stats": {
+        "maxHp": 420,
+        "attack": 40,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "alfredo",
+      "cost": 2,
+      "role": "striker",
+      "stats": {
+        "maxHp": 560,
+        "attack": 50,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "elena",
+      "cost": 3,
+      "role": "striker",
+      "stats": {
+        "maxHp": 700,
+        "attack": 60,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "jd",
+      "cost": 1,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 340,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "isaac",
+      "cost": 2,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 480,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "carlos-castillo",
+      "cost": 3,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 620,
+        "attack": 65,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "jota",
+      "cost": 1,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 520,
+        "attack": 35,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "rachel",
+      "cost": 2,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 660,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "edu",
+      "cost": 3,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 800,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "sanchez",
+      "cost": 1,
+      "role": "striker",
+      "stats": {
+        "maxHp": 420,
+        "attack": 40,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "focho",
+      "cost": 2,
+      "role": "striker",
+      "stats": {
+        "maxHp": 560,
+        "attack": 50,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "ruben",
+      "cost": 3,
+      "role": "striker",
+      "stats": {
+        "maxHp": 700,
+        "attack": 60,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 25,
+        "magicResist": 25,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "puto-alex",
+      "cost": 1,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 340,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "jaime",
+      "cost": 2,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 480,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "dani-silvestre",
+      "cost": 3,
+      "role": "ranger",
+      "stats": {
+        "maxHp": 620,
+        "attack": 65,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 15,
+        "magicResist": 15,
+        "attackSpeedMilli": 1000,
+        "range": 3,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "miramon",
+      "cost": 1,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 520,
+        "attack": 35,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "diego-lopez",
+      "cost": 2,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 660,
+        "attack": 45,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    },
+    {
+      "id": "domingo",
+      "cost": 3,
+      "role": "vanguard",
+      "stats": {
+        "maxHp": 800,
+        "attack": 55,
+        "abilityPower": 0,
+        "critChanceMilli": 200,
+        "critMultiplierMilli": 1500,
+        "armor": 35,
+        "magicResist": 35,
+        "attackSpeedMilli": 800,
+        "range": 1,
+        "maxMana": 0,
+        "startingMana": 0,
+        "moveTicks": 5,
+        "attackWindupTicks": 2
+      }
+    }
+  ]
+}
