@@ -21,3 +21,6 @@ dist-p9a/
 # Untracked original source packs are test fixtures, never release payloads.
 /TFPeru/
 /Sprites/
+
+# Reviewed production packs are staged privately, never committed as source.
+.approved-item-icons/

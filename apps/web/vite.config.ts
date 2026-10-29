@@ -1,7 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { localItemArtBoundary } from './build/localItemArt';
-export default defineConfig(({ command, mode }) => {
+import { itemIconResourcePlugin } from './build/localItemArt';
+import { createIconResourcePlan } from '../../scripts/assets/item-icon-pack.mjs';
+export default defineConfig(async ({ command, mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), 'VITE_'), ...process.env };
   if (
     env.VITE_ACCOUNT_REGISTRATION_MODE === 'open-local' &&
@@ -33,9 +34,27 @@ export default defineConfig(({ command, mode }) => {
         }
       }
     }
+  const localMode = command === 'serve' || mode === 'local-test';
+  const assetEnvironment = env.TFT_ITEM_ICON_ENV ?? (localMode ? 'local' : 'public');
+  if (
+    !['local', 'public'].includes(assetEnvironment) ||
+    (assetEnvironment === 'local' && (!localMode || remote))
+  )
+    throw Error('LOCAL icon resources cannot be enabled in a public build');
+  const localAssets = assetEnvironment === 'local';
+  const resourcePlan = await createIconResourcePlan({
+    local: localAssets,
+    ...(env.TFT_ITEM_ICON_THEME ? { theme: env.TFT_ITEM_ICON_THEME } : {}),
+    ...(env.TFT_ITEM_ICON_PACK_ID ? { packId: env.TFT_ITEM_ICON_PACK_ID } : {}),
+    ...(env.TFT_ITEM_ICON_PACK_ROOT ? { packRoot: env.TFT_ITEM_ICON_PACK_ROOT } : {}),
+    ...(env.TFT_REFERENCE_ART_ROOT ? { referenceRoot: env.TFT_REFERENCE_ART_ROOT } : {}),
+  });
   return {
-    define: { __DEVTOOLS__: JSON.stringify(command === 'serve' || mode === 'local-test') },
-    plugins: [react(), localItemArtBoundary(mode === 'local-test')],
+    define: {
+      __DEVTOOLS__: JSON.stringify(localMode),
+      __ITEM_ICON_RESOURCES__: JSON.stringify(resourcePlan.policy),
+    },
+    plugins: [react(), itemIconResourcePlugin(resourcePlan, localAssets)],
     build: {
       rolldownOptions: {
         output: { codeSplitting: { groups: [{ name: 'phaser', test: /node_modules\/.*phaser/ }] } },

@@ -1,3 +1,4 @@
+import { verifyIconBuildOutput } from '../assets/item-icon-pack.mjs';
 import console from 'node:console';
 import { assertPublicCredentials } from './public-security.mjs';
 import fs from 'node:fs/promises';
@@ -43,4 +44,5 @@ try {
 } catch (error) {
   if (error.code !== 'ENOENT') throw error;
 }
+console.log(JSON.stringify(await verifyIconBuildOutput('apps/web/dist')));
 console.log('Public bundle: no DEV controller, panel, command schema or isolated storage code.');

@@ -7,7 +7,11 @@ it('rejects official paths, sensitive files and generated contexts in any histor
   );
   for (const p of ['.env', 'nested/.env.local', 'tls/client.pem'])
     expect(auditBlob(p, Buffer.from('value'))).toContain('sensitive-file');
-  for (const p of ['artifacts/private.json', 'apps/web/dist/index.html'])
+  for (const p of [
+    'artifacts/private.json',
+    'apps/web/dist/index.html',
+    '.approved-item-icons/asset.webp',
+  ])
     expect(auditBlob(p, Buffer.from('value'))).toContain('private-or-generated-tree');
   expect(auditBlob('infra/.env.example', Buffer.from('SUPABASE_SERVICE_ROLE_KEY='))).toEqual([]);
 });

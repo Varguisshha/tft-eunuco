@@ -175,6 +175,17 @@ if (command === 'stop' || command === 'status') {
     const requireWeb = createRequire(path.join(target, 'apps/web/package.json'));
     const { createServer: createVite } = await import(requireWeb.resolve('vite'));
     const react = (await import(requireWeb.resolve('@vitejs/plugin-react'))).default;
+    const { createIconResourcePlan, iconResourceMiddleware } = await import(
+      '../assets/item-icon-pack.mjs'
+    );
+    // Asset-only configuration: never read online worktree env files or grant production packs here.
+    const iconPlan = await createIconResourcePlan({
+      root: target,
+      local: true,
+      ...(process.env.TFT_REFERENCE_ART_ROOT
+        ? { referenceRoot: process.env.TFT_REFERENCE_ART_ROOT }
+        : {}),
+    });
     vite = await createVite({
       configFile: false,
       envDir: false,
@@ -182,6 +193,7 @@ if (command === 'stop' || command === 'status') {
       cacheDir: path.join(directory, 'vite-cache'),
       define: {
         __DEVTOOLS__: 'true',
+        __ITEM_ICON_RESOURCES__: JSON.stringify(iconPlan.policy),
         'import.meta.env.VITE_APP_ENV': '"local-isolated"',
         'import.meta.env.VITE_ACCOUNT_REGISTRATION_MODE': '"open-local"',
         'import.meta.env.VITE_TURNSTILE_SITE_KEY': '""',
@@ -190,6 +202,12 @@ if (command === 'stop' || command === 'status') {
         'import.meta.env.VITE_GAME_SERVER_URL': '"http://127.0.0.1:4173/__game"',
       },
       plugins: [
+        {
+          name: 'tft-local-icon-resources',
+          configureServer(server) {
+            server.middlewares.use(iconResourceMiddleware(iconPlan));
+          },
+        },
         {
           name: 'tft-local-isolation',
           enforce: 'pre',

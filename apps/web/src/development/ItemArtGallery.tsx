@@ -1,3 +1,4 @@
+import { getIconResourcePolicy, themeAllowed } from '../match/items/iconResourcePolicy';
 import { useState, type CSSProperties } from 'react';
 import { useItemIconSettings, setItemIconTheme } from '../match/items/itemIconTheme';
 import { P11H_ITEM_CATALOG } from '@tft/game-data';
@@ -17,6 +18,7 @@ export function ItemArtGallery() {
           <input
             type="radio"
             name="item-art-theme"
+            disabled={!themeAllowed(getIconResourcePolicy(), 'tft-reference')}
             checked={settings.theme === 'tft-reference'}
             onChange={() => setItemIconTheme('tft-reference')}
           />
@@ -31,6 +33,17 @@ export function ItemArtGallery() {
           />
           EUNUCO · originales
         </label>
+        {themeAllowed(getIconResourcePolicy(), 'authorized') && (
+          <label>
+            <input
+              type="radio"
+              name="item-art-theme"
+              checked={settings.theme === 'authorized'}
+              onChange={() => setItemIconTheme('authorized')}
+            />
+            Paquete autorizado
+          </label>
+        )}
         <label>
           Tamaño de iconos
           <select

@@ -1,8 +1,10 @@
 import assets from './itemIconAssets.json';
-import referenceAssets from './tftOfficialItemIcons.json';
 import { useItemIconSettings, type ItemIconTheme } from './itemIconTheme';
-const officialAssets: Partial<typeof referenceAssets> =
-  typeof __DEVTOOLS__ !== 'undefined' && __DEVTOOLS__ ? referenceAssets : {};
+import {
+  getIconResourcePolicy,
+  matchesIconIdentity,
+  type IconResourcePolicy,
+} from './iconResourcePolicy';
 import { useState } from 'react';
 import type { ItemDefinition } from '@tft/shared';
 /** Original EUNUCO glyphs remain the final fallback; iconKey overrides never alter game rules. */
@@ -41,34 +43,47 @@ export function itemIconCandidates(
   simulateMissingOfficial = false,
 ) {
   if (!d) return [];
+  return resolveItemIconCandidates(d, theme, getIconResourcePolicy(), simulateMissingOfficial);
+}
+/** Shared LOCAL/public resolution; only the build-verified policy supplies optional packages. */
+export function resolveItemIconCandidates(
+  d: ItemDefinition | undefined,
+  theme: ItemIconTheme,
+  policy: IconResourcePolicy,
+  simulateMissingOfficial = false,
+) {
+  if (!d) return [];
   const record = d.content?.sourceRecordId;
   const own = record && assets[record as keyof typeof assets]?.src;
-  const official = officialAssets[d.icon as keyof typeof referenceAssets];
-  // Exact tuple guards repurposed historical IDs and recipes; never select artwork by name alone.
-  const matches =
-    official &&
-    official.internalId === d.id &&
-    official.tftId === record &&
-    official.visibleName === d.content?.visibleName &&
-    JSON.stringify([...official.recipe].sort()) ===
-      JSON.stringify(d.kind === 'completed' ? [...d.recipe].sort() : []);
+  const pack = theme === 'eunuco' ? undefined : policy.packages[theme];
+  const artwork = pack?.assets[d.icon];
+  const matches = artwork && matchesIconIdentity(d, artwork);
+  const override = ITEM_ICON_OVERRIDES[d.icon];
+  const allowedOverride =
+    override &&
+    (policy.allowLocalOverrides ||
+      override === own ||
+      Object.values(policy.packages).some(
+        (p) => p.assets[d.icon]?.src === override && matchesIconIdentity(d, p.assets[d.icon]!),
+      ));
   return [
-    ...(ITEM_ICON_OVERRIDES[d.icon]
-      ? [{ src: ITEM_ICON_OVERRIDES[d.icon]!, kind: 'override' }]
-      : []),
-    ...(typeof __DEVTOOLS__ !== 'undefined' && __DEVTOOLS__ && theme === 'tft-reference' && matches
+    ...(allowedOverride ? [{ src: override, kind: 'override' }] : []),
+    ...(matches
       ? [
           {
-            src: simulateMissingOfficial
-              ? `/assets/items/tft-reference/__missing__/${official.tftId}.webp`
-              : official.src,
-            kind: 'tft-official',
+            src:
+              simulateMissingOfficial && policy.allowSimulation
+                ? artwork.src.replace(/[^/]+$/, '__missing__/' + artwork.sha256 + '.webp')
+                : artwork.src,
+            kind: theme === 'tft-reference' ? 'tft-official' : 'authorized',
           },
         ]
       : []),
+    // Historical definitions retain their existing source-record fallback.
     ...(own ? [{ src: own, kind: 'original' }] : []),
   ];
 }
+
 export function ItemIcon({ definition: d }: { definition: ItemDefinition | undefined }) {
   const settings = useItemIconSettings();
   const [failed, setFailed] = useState<string[]>([]);

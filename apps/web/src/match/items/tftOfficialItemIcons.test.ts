@@ -10,8 +10,15 @@ import { LocalSession } from '../LocalSession';
 import manifest from './tftOfficialItemIcons.json';
 import originals from './itemIconAssets.json';
 import frozen from '../../../../../packages/game-data/src/reference/tft-18.5-items.json';
-// Only this isolated test module opts into LOCAL artwork; public builds remain compile-time guarded.
-vi.stubGlobal('__DEVTOOLS__', true);
+// This isolated test explicitly grants LOCAL resources independently of DEV tooling.
+vi.stubGlobal('__DEVTOOLS__', false);
+vi.stubGlobal('__ITEM_ICON_RESOURCES__', {
+  version: 1,
+  defaultTheme: 'tft-reference',
+  allowSimulation: true,
+  allowLocalOverrides: true,
+  packages: { 'tft-reference': { id: 'tft-reference-local', assets: manifest } },
+});
 const { ItemIcon, itemIconCandidates, ITEM_ICON_OVERRIDES } = await import('./ItemIcon');
 const { setItemIconTheme } = await import('./itemIconTheme');
 const { ItemHud, ItemDetails } = await import('./ItemHud');

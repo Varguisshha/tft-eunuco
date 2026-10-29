@@ -15,6 +15,8 @@ assert.equal(service.deploy.startCommand, 'node apps/server/dist/main.js');
 assert.equal(service.deploy.sleepApplication, false);
 assert.equal(service.deploy.limitOverride.containers.memoryBytes, 2 ** 31);
 assert.equal(service.build.builder, 'RAILPACK');
+assert.equal(service.variables.TFT_ITEM_ICON_ENV.value, 'public');
+assert.equal(service.variables.TFT_ITEM_ICON_THEME.value, 'eunuco');
 assert.equal(service.source.rootDirectory, '/');
 assert.equal(service.variables.SUPABASE_SERVICE_ROLE_KEY.type, 'preserve');
 console.log('Railway intent checked locally: one service, no provisioning or network calls.');

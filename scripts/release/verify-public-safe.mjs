@@ -23,7 +23,7 @@ export function auditBlob(name, bytes) {
     !name.endsWith('.example')
   )
     failures.push('sensitive-file');
-  if (/(^|\/)(?:artifacts|node_modules|dist|dist-dev)\//.test(name))
+  if (/(^|\/)(?:artifacts|node_modules|dist|dist-dev|\.approved-item-icons)\//.test(name))
     failures.push('private-or-generated-tree');
   const text = bytes.toString('utf8');
   // The only matching static secret literal is a deliberately invalid rejection-test vector.

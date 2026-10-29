@@ -36,6 +36,8 @@ export default defineRailway(() =>
           RAILPACK_NO_SPA: '1',
           NODE_OPTIONS: '--max-old-space-size=1280',
           VITE_APP_ENV: 'private',
+          TFT_ITEM_ICON_ENV: 'public',
+          TFT_ITEM_ICON_THEME: 'eunuco',
           TFT_PUBLIC_URL: preserve(),
           TFT_ALLOWED_ORIGINS: preserve(),
           SUPABASE_URL: preserve(),

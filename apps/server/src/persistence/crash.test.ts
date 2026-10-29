@@ -1162,6 +1162,8 @@ it.skipIf(!url).each(['before', 'after'] as const)(
       const id = start.lobby!.matchId!;
       const peer = await join(0, id);
       await join(1, id);
+      // Wait for the authenticated start gate's committed snapshot before setup.
+      await until(() => peer.view!.clock.currentPhase === 'preparation');
       const setup = await fetch('http://127.0.0.1:2583/remover-setup', { method: 'POST' });
       expect(setup.status, await setup.text()).toBe(200);
       const advance = await fetch('http://127.0.0.1:2583/advance', { method: 'POST' });
