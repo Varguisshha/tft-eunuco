@@ -1,3 +1,4 @@
+import './shopOdds.css';
 import { isP11Catalog } from '@tft/shared';
 import { AffinityBand } from './AffinityBand';
 import { ContentIcon } from './hud/ContentIcon';
@@ -28,6 +29,7 @@ export function Shop({ session }: { session: LocalSession }) {
         : [],
     [state, session],
   );
+  const costs = new Set<number>(matchCatalog(state.config).map((d) => d.cost));
   const [purchases, setPurchases] = useState<Record<number, string>>({});
   return (
     <section
@@ -39,8 +41,18 @@ export function Shop({ session }: { session: LocalSession }) {
           <h2>Tienda</h2>
           <span className="shop-odds" aria-label="Probabilidades por coste">
             {rule.odds.map((odds, i) => (
-              <span key={i} className={`odds-cost-${i + 1}`}>
-                <b>C{i + 1}</b> {odds}%
+              <span
+                key={i}
+                className={`odds-cost-${i + 1} ${costs.has(i + 1) ? '' : 'is-unreleased'}`}
+                title={
+                  costs.has(i + 1)
+                    ? `Coste ${i + 1}: ${odds}%`
+                    : `Coste ${i + 1}: ${odds}% teórico. Sin personajes disponibles en este catálogo.`
+                }
+                aria-label={`Coste ${i + 1}: ${odds}%${costs.has(i + 1) ? '' : ' teórico, sin personajes en el catálogo'}`}
+              >
+                <b>{i + 1}</b>
+                <strong>{odds}%</strong>
               </span>
             ))}
           </span>
@@ -68,6 +80,9 @@ export function Shop({ session }: { session: LocalSession }) {
             onAction={() => session.dispatch({ type: 'lock_shop', locked: !state.shopLocked })}
           />
         </div>
+        {rule.odds.some((_, i) => !costs.has(i + 1)) && (
+          <span className="shop-odds-note">4–5: sin personajes disponibles</span>
+        )}
         <span className="shop-lock-note">
           {state.shopLocked ? 'Ofertas reservadas' : 'Cambian en la próxima ronda'}
         </span>
@@ -81,7 +96,10 @@ export function Shop({ session }: { session: LocalSession }) {
           const purchasedName = wasPurchased ? purchases[i] : undefined;
           const buying =
             !!offer && session.canEconomicAction({ type: 'buy_unit', offerId: offer.id });
-          const error = !buying ? 'Compra no disponible' : purchaseErrors[i];
+          const error =
+            !buying && offer
+              ? session.economicBlockReason({ type: 'buy_unit', offerId: offer.id })
+              : purchaseErrors[i];
           const status = !d
             ? 'empty'
             : !buying

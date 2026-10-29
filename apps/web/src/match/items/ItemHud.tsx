@@ -466,14 +466,6 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
     catalog = resolveItemCatalog(inv.catalogVersion);
   const available = [...inv.components, ...inv.completed],
     all = [...available, ...inv.pending];
-  const groups = Array.from(
-    new Set(all.map((i) => `${inv.pending.includes(i) ? 'pending' : 'bag'}:${i.definitionId}`)),
-  ).map((key) => ({
-    key,
-    items: all.filter(
-      (i) => `${inv.pending.includes(i) ? 'pending' : 'bag'}:${i.definitionId}` === key,
-    ),
-  }));
   const selected = all.find((i) => i.id === ui.selected),
     pending = selected && inv.pending.includes(selected);
   const remover =
@@ -565,14 +557,13 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
         }}
       >
         {!all.length && <span className="item-vertical-empty">Sin objetos</span>}
-        {groups.map(({ key, items }) => {
-          const item = items.find((i) => i.id !== ui.selected) ?? items[0]!,
-            d = catalog.definitions.find((d) => d.id === item.definitionId)!,
-            held = items.some((i) => i.id === ui.selected),
+        {all.map((item, index) => {
+          const d = catalog.definitions.find((d) => d.id === item.definitionId)!,
+            held = item.id === ui.selected,
             waiting = inv.pending.includes(item);
           return (
             <ContextTooltip
-              key={key}
+              key={item.id}
               label={itemLabel(d)}
               disabled={ui.dragging}
               content={<ItemDetails definition={d} />}
@@ -580,7 +571,8 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
               <button
                 type="button"
                 className={`item-slot ${held ? 'selected' : ''}`}
-                aria-label={`${itemLabel(d)}, cantidad ${items.length}${waiting ? ', pendiente de recuperar' : ''}`}
+                data-item-instance={item.id}
+                aria-label={`${itemLabel(d)}, ranura ${index + 1}${waiting ? ', pendiente de recuperar' : ''}`}
                 aria-pressed={held}
                 disabled={ui.pending}
                 draggable={session.editable && !ui.pending && !waiting}
@@ -621,7 +613,6 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
                 }}
               >
                 <ItemIcon definition={d} />
-                <b className="item-quantity">{items.length}</b>
                 {waiting && (
                   <span className="item-pending-mark" aria-hidden="true">
                     !

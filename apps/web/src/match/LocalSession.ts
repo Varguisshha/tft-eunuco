@@ -122,19 +122,25 @@ export class LocalSession implements BoardPort {
           this.authority.getClock().remainingMs > 0
       : this.match.phase === 'preparation';
   }
-  canEconomicAction(command: EconomyIntent): boolean {
-    if (
-      this.remote &&
-      (!this.remote.connected ||
-        this.remote.requestPending ||
-        !this.remote.serviceReady ||
-        this.remote.eliminated ||
-        this.remote.finalResults)
-    )
-      return false;
+  economicBlockReason(command: EconomyIntent): string | null {
+    if (this.remote) {
+      if (this.remote.finalResults || this.remote.eliminated)
+        return 'Tu participación ha terminado.';
+      if (!this.remote.connected) return 'Sin conexión. Recuperando la partida…';
+      if (!this.remote.serviceReady)
+        return 'Persistencia no disponible. Esperando recuperación del servidor.';
+      if (this.remote.requestPending) return 'Esperando confirmación del servidor.';
+    }
     const clock = this.authority?.getClock();
-    if (clock && (clock.clockState !== 'running' || clock.remainingMs <= 0)) return false;
-    return this.editable || canUseCombatEconomy(this.match, command);
+    if (clock && (clock.clockState !== 'running' || clock.remainingMs <= 0))
+      return 'Esperando la transición de ronda.';
+    if (this.editable || canUseCombatEconomy(this.match, command)) return null;
+    return command.type === 'sell_unit' && this.match.phase === 'combat'
+      ? 'En combate solo puedes vender unidades propias del banquillo.'
+      : 'Esta acción espera a la preparación.';
+  }
+  canEconomicAction(command: EconomyIntent): boolean {
+    return this.economicBlockReason(command) === null;
   }
   canSellUnit(id: string): boolean {
     return this.canEconomicAction({ type: 'sell_unit', unitId: id });

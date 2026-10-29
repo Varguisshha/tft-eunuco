@@ -15,7 +15,7 @@ const lease =
         while (true) {
           try {
             return await repository.acquireAuthority(() => {
-              log('fatal');
+              log('fatal', { leaseLost: true });
               process.exit(1);
             });
           } catch {
@@ -64,6 +64,9 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const)
   });
 for (const event of ['uncaughtException', 'unhandledRejection'] as const)
   process.on(event, () => {
-    log('fatal');
+    log('fatal', {
+      uncaughtException: event === 'uncaughtException',
+      unhandledRejection: event === 'unhandledRejection',
+    });
     process.exit(1);
   });

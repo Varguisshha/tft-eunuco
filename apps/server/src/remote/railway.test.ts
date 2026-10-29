@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { IncomingMessage } from 'node:http';
 import { readConfig } from './config';
 import { requestAllowed } from './http';
@@ -158,4 +158,82 @@ it('late renewal cannot revive a released authority', async () => {
   await pending;
   expect(losses).toBe(0);
   expect(() => l.assert()).toThrow();
+});
+it('transient renewal transport failure retains only the unextended valid fence; subsequent renewal recovers', async () => {
+  let now = 0,
+    losses = 0,
+    failing = true;
+  const l = new AuthorityLease(
+    async (op) => {
+      if (op === 'renew' && failing) throw Error('Network down');
+      return true;
+    },
+    () => losses++,
+    () => now,
+  );
+  await l.acquire();
+  now = 10000;
+  await l.renew();
+  expect(losses).toBe(0);
+  l.assert();
+  failing = false;
+  now = 20000;
+  await l.renew();
+  now = 45000;
+  l.assert();
+  now = 60000;
+  expect(() => l.assert()).toThrow();
+  expect(losses).toBe(1);
+  await l.release();
+});
+it('transport failure never extends the deadline or revives an expired authority', async () => {
+  let now = 0,
+    losses = 0;
+  const l = new AuthorityLease(
+    async (op) => {
+      if (op === 'renew') throw Error('Timeout');
+      return true;
+    },
+    () => losses++,
+    () => now,
+  );
+  await l.acquire();
+  for (now = 10000; now < 40000; now += 10000) await l.renew();
+  await l.renew();
+  expect(losses).toBe(1);
+  expect(() => l.assert()).toThrow();
+  await l.release();
+});
+
+it('watchdog fences a hung renewal before DB expiry and ignores its late success', async () => {
+  vi.useFakeTimers();
+  let now = 0,
+    losses = 0,
+    finish: ((value: boolean) => void) | undefined;
+  const l = new AuthorityLease(
+    async (op) =>
+      op === 'renew'
+        ? new Promise<boolean>((resolve) => {
+            finish = resolve;
+          })
+        : true,
+    () => losses++,
+    () => now,
+  );
+  try {
+    await l.acquire();
+    now = 10000;
+    const pending = l.renew();
+    now = 40000;
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(losses).toBe(1);
+    expect(() => l.assert()).toThrow();
+    finish!(true);
+    await pending;
+    expect(() => l.assert()).toThrow();
+    expect(losses).toBe(1);
+  } finally {
+    await l.release();
+    vi.useRealTimers();
+  }
 });

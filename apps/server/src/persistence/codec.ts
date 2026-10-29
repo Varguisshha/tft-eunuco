@@ -14,6 +14,7 @@ import {
   P11H_CATALOG_HASH,
   P11K_CATALOG_HASH,
   P12B_CATALOG_HASH,
+  P12D_CATALOG_HASH,
   ROSTER_CATALOG_HASH,
   FLORIN_CATALOG_HASH,
   type StoredMatch,
@@ -45,6 +46,7 @@ export function encodeStoredMatch(document: StoredMatch) {
       P11H_CATALOG_HASH,
       P11K_CATALOG_HASH,
       P12B_CATALOG_HASH,
+      P12D_CATALOG_HASH,
       ROSTER_CATALOG_HASH,
       FLORIN_CATALOG_HASH,
     ].includes(document.authority.catalog) ||
@@ -81,6 +83,7 @@ export function decodeStoredMatch(raw: unknown): StoredMatch {
       P11H_CATALOG_HASH,
       P11K_CATALOG_HASH,
       P12B_CATALOG_HASH,
+      P12D_CATALOG_HASH,
       ROSTER_CATALOG_HASH,
       FLORIN_CATALOG_HASH,
     ].includes(String(authority.catalog)) ||

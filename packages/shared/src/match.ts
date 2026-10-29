@@ -93,6 +93,7 @@ export const EconomyConfigSchema = z
         benchDuringCombat: z.literal(true),
       })
       .optional(),
+    shopLockPolicy: z.literal('consume-on-auto-refresh-1').optional(),
     pvpPolicy: z
       .strictObject({ version: z.literal('f0p12b-1'), ghostDamageMultiplierMilli: z.literal(800) })
       .optional(),
@@ -144,6 +145,8 @@ export const EconomyConfigSchema = z
       .min(1),
   })
   .superRefine((c, ctx) => {
+    if (c.shopLockPolicy && !c.pvpPolicy)
+      ctx.addIssue({ code: 'custom', message: 'Shop lock policy requires P12B economy' });
     if (c.pvpPolicy && c.removerPolicy?.version !== 'f0p12b-remover-1')
       ctx.addIssue({ code: 'custom', message: 'PvP policy requires P12B economy' });
     if (c.removerPolicy && (c.catalog !== 'f0p11h-1' || c.itemCatalog !== 'f0p11h-18.5-1'))

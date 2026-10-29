@@ -4,6 +4,7 @@ import {
   P11H_ECONOMY_CONFIG,
   P11K_ECONOMY_CONFIG,
   P12B_ECONOMY_CONFIG,
+  P12D_ECONOMY_CONFIG,
   P11H_ITEM_CATALOG,
   TFT_POOL_ECONOMY_CONFIG,
   INTEGRATED_ECONOMY_CONFIG,
@@ -83,27 +84,29 @@ class Fixture extends MatchRoom {
       undefined,
       undefined,
       capacity,
-      process.env.P12B_DIAGNOSTIC === '1'
-        ? P12B_ECONOMY_CONFIG
-        : process.env.P11K_DIAGNOSTIC === '1'
-          ? P11K_ECONOMY_CONFIG
-          : process.env.P11H_DIAGNOSTIC === '1'
-            ? P11H_ECONOMY_CONFIG
-            : process.env.P11_DIAGNOSTIC === '1'
-              ? P11_ECONOMY_CONFIG
-              : process.env.POOL_DIAGNOSTIC === '1'
-                ? TFT_POOL_ECONOMY_CONFIG
-                : process.env.ROSTER_DIAGNOSTIC === '1'
-                  ? ROSTER_ECONOMY_CONFIG
-                  : process.env.INTEGRATED_DIAGNOSTIC === '1'
-                    ? INTEGRATED_ECONOMY_CONFIG
-                    : process.env.P8D_DIAGNOSTIC === '1'
-                      ? DROP_ITEMS_ECONOMY_CONFIG
-                      : process.env.FLORIN_DIAGNOSTIC === '1'
-                        ? FLORIN_ECONOMY_CONFIG
-                        : process.env.P8C_DIAGNOSTIC === '1'
-                          ? EFFECT_ITEMS_ECONOMY_CONFIG
-                          : STANDARD_ITEMS_ECONOMY_CONFIG,
+      process.env.P12D_DIAGNOSTIC === '1'
+        ? P12D_ECONOMY_CONFIG
+        : process.env.P12B_DIAGNOSTIC === '1'
+          ? P12B_ECONOMY_CONFIG
+          : process.env.P11K_DIAGNOSTIC === '1'
+            ? P11K_ECONOMY_CONFIG
+            : process.env.P11H_DIAGNOSTIC === '1'
+              ? P11H_ECONOMY_CONFIG
+              : process.env.P11_DIAGNOSTIC === '1'
+                ? P11_ECONOMY_CONFIG
+                : process.env.POOL_DIAGNOSTIC === '1'
+                  ? TFT_POOL_ECONOMY_CONFIG
+                  : process.env.ROSTER_DIAGNOSTIC === '1'
+                    ? ROSTER_ECONOMY_CONFIG
+                    : process.env.INTEGRATED_DIAGNOSTIC === '1'
+                      ? INTEGRATED_ECONOMY_CONFIG
+                      : process.env.P8D_DIAGNOSTIC === '1'
+                        ? DROP_ITEMS_ECONOMY_CONFIG
+                        : process.env.FLORIN_DIAGNOSTIC === '1'
+                          ? FLORIN_ECONOMY_CONFIG
+                          : process.env.P8C_DIAGNOSTIC === '1'
+                            ? EFFECT_ITEMS_ECONOMY_CONFIG
+                            : STANDARD_ITEMS_ECONOMY_CONFIG,
     );
   }
   async removerSetup() {

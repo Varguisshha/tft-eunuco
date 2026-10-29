@@ -412,6 +412,7 @@ function applyAction(
         combine(state);
       }
       if (!state.shopLocked) refreshShop(state, context?.prefix);
+      else if (state.config.shopLockPolicy) state.shopLocked = false;
     } else {
       if (state.phase !== 'preparation' && !canUseCombatEconomy(state, action))
         reject('wrong-phase');

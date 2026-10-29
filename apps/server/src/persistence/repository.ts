@@ -6,6 +6,17 @@ export interface MatchRepository {
   commit(expected: number, document: StoredMatch): Promise<void>;
   load(): Promise<StoredMatch[]>;
 }
+/** Fixed codes only: never propagate service responses or credentials into logs. */
+export class StorageFailure extends Error {
+  constructor(readonly kind: number) {
+    super('Persistence unavailable');
+  }
+}
+export function storageFailureKind(error: unknown): number {
+  if (error instanceof StorageFailure) return error.kind;
+  if (error instanceof Error && ['TimeoutError', 'AbortError'].includes(error.name)) return 1;
+  return 0;
+}
 /** Only the backend receives the privileged key; RPCs are server-role-only. */
 export class SupabaseMatchRepository implements MatchRepository {
   private client;
@@ -46,7 +57,8 @@ export class SupabaseMatchRepository implements MatchRepository {
         document: encodeStoredMatch(document),
       },
     );
-    if (error) throw new Error('Persistence commit unavailable');
+    if (error)
+      throw new StorageFailure(error.code === '57014' ? 2 : error.code === '40001' ? 3 : 4);
   }
   async load() {
     const { data, error } = await this.client.rpc('authority_load');

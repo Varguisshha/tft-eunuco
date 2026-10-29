@@ -203,6 +203,13 @@ export class RemoteCoordinator implements MatchCoordinator {
       this.resynchronizing = false;
       this.confirmationRevision = 0;
       clearTimeout(this.commandTimer);
+      if (this.finalResults) {
+        this.terminal = true;
+        this.recoveryStatus = 'Partida finalizada. Resultado conservado.';
+        this.notice = this.recoveryStatus;
+        this.emit();
+        return;
+      }
       const reason = recoveryError({ code });
       this.terminal = !!reason;
       this.recoveryStatus = reason ?? 'Conexión perdida. Intentando recuperar tu partida…';

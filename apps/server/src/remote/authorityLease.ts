@@ -10,6 +10,7 @@ export class AuthorityLease {
   private closing = false;
   private timer: ReturnType<typeof setInterval> | undefined;
   private renewing = false;
+  private watchdog: ReturnType<typeof setInterval> | undefined;
   constructor(
     private rpc: LeaseRpc,
     private onLost: () => void,
@@ -25,6 +26,10 @@ export class AuthorityLease {
       void this.renew();
     }, 10_000);
     this.timer.unref();
+    this.watchdog = setInterval(() => {
+      if (this.live && this.now() >= this.deadline) this.fail();
+    }, 1000);
+    this.watchdog.unref();
   }
   assert() {
     if (!this.live || this.now() >= this.deadline) {
@@ -35,6 +40,7 @@ export class AuthorityLease {
   private fail() {
     this.live = false;
     clearInterval(this.timer);
+    clearInterval(this.watchdog);
     if (!this.lost && !this.closing) {
       this.lost = true;
       this.onLost();
@@ -46,13 +52,20 @@ export class AuthorityLease {
     try {
       this.assert();
       const began = this.now();
-      if (!(await this.rpc('renew', this.owner))) throw Error('Authority unavailable');
+      if (!(await this.rpc('renew', this.owner))) {
+        // An explicit denial is different from an unavailable transport. Never reacquire here.
+        this.fail();
+        return;
+      }
       // A late response must never revive a locally expired or released authority.
       if (this.closing) return;
       this.assert();
       this.deadline = began + 40_000;
     } catch {
-      this.fail();
+      // A transient transport error does not revoke the still-valid DB fence. Keep the
+      // original monotonic deadline; the watchdog stops authority before its 60 s DB TTL.
+      // Fenced commits still verify ownership at the database on every write.
+      if (this.now() >= this.deadline) this.fail();
     } finally {
       this.renewing = false;
     }
@@ -61,6 +74,7 @@ export class AuthorityLease {
     this.closing = true;
     this.live = false;
     clearInterval(this.timer);
+    clearInterval(this.watchdog);
     await this.rpc('release', this.owner);
   }
 }

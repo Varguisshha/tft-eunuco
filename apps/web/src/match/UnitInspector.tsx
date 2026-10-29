@@ -263,6 +263,10 @@ export function UnitInspector({
               icon="gold"
               cost={sellValue(selected.owned, session.getMatch().config)}
               tone="gold"
+              title={
+                session.economicBlockReason({ type: 'sell_unit', unitId: selected.id }) ??
+                'Vende esta unidad y devuelve sus copias al pool.'
+              }
               disabled={!session.canSellUnit(selected.id)}
               onAction={() => session.dispatch({ type: 'sell_unit', unitId: selected.id })}
             />

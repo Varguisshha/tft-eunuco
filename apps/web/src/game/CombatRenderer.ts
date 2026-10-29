@@ -1,3 +1,4 @@
+import { recoveryVisual } from './recoveryVisual';
 import { characterManifest } from './characterAssets';
 import { compositeFlight } from './compositeVisuals';
 import { sampleAnimationFrame, type AnimationAsset } from '@tft/sprite-contract';
@@ -143,8 +144,40 @@ export class CombatRenderer {
       const visual = visuals.get(unit.id),
         p = positions.get(unit.id);
       if (!visual || !p) continue;
-      if (unit.mechanics?.recovery?.away) {
-        visual.setOpacity(0);
+      const recovery = recoveryVisual(
+        unit,
+        frame.feedbackEvents ?? frame.recentEvents,
+        timeMs,
+        p,
+        {
+          x: unit.owner === 'south' ? 115 : WORLD.width - 115,
+          y:
+            175 +
+            state.units
+              .filter((u) => u.owner === unit.owner && u.definitionId === unit.definitionId)
+              .findIndex((u) => u.id === unit.id) *
+              38,
+        },
+        !!this.reducedMotion?.matches,
+      );
+      if (recovery?.active) {
+        visual.sprite.setAngle(0).clearTint();
+        visual.play('walk', timeMs);
+        visual.setFootPosition(recovery.position.x, recovery.position.y);
+        visual.setOpacity(recovery.opacity);
+        if (recovery.away) {
+          const key = `recovering:${unit.id}`;
+          activeLabels.add(key);
+          this.label(
+            key,
+            `FLORIN · ${recovery.label}`,
+            '#c3cefc',
+            recovery.marker.x,
+            recovery.marker.y,
+            1,
+            11,
+          );
+        }
         continue;
       }
       const cue = frame.animationCues.get(unit.id);

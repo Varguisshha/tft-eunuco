@@ -196,3 +196,9 @@ export const P12B_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   removerPolicy: { version: 'f0p12b-remover-1', initialQuantity: 1, benchDuringCombat: true },
   pvpPolicy: { version: 'f0p12b-1', ghostDamageMultiplierMilli: 800 },
 });
+
+/** P12D consumes a reservation once; historical P12B keeps its original policy. */
+export const P12D_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...P12B_ECONOMY_CONFIG,
+  shopLockPolicy: 'consume-on-auto-refresh-1',
+});

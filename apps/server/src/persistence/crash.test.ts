@@ -26,7 +26,8 @@ async function boot(
     | 'p11'
     | 'p11h'
     | 'p11k'
-    | 'p12b' = false,
+    | 'p12b'
+    | 'p12d' = false,
   drops = false,
   manualSteps = false,
 ) {
@@ -43,6 +44,7 @@ async function boot(
       P11_DIAGNOSTIC: effects === 'p11' ? '1' : '0',
       P11H_DIAGNOSTIC: effects === 'p11h' ? '1' : '0',
       P12B_DIAGNOSTIC: effects === 'p12b' ? '1' : '0',
+      P12D_DIAGNOSTIC: effects === 'p12d' ? '1' : '0',
       P11K_DIAGNOSTIC: effects === 'p11k' ? '1' : '0',
       ROSTER_DIAGNOSTIC: effects === 'roster' || effects === 'p11' ? '1' : '0',
       INTEGRATED_DIAGNOSTIC: effects === 'integrated' || effects === 'pool' ? '1' : '0',
@@ -556,13 +558,13 @@ it.skipIf(!url).each([2, 3, 4] as const)(
   60000,
 );
 
-it.skipIf(!url).each([false, true])(
-  'Periodic rewards P12B=%s: SIGKILL before/after commit, exactly once rewards and fixed-seed baseline',
+it.skipIf(!url).each([false, true, 'p12d'] as const)(
+  'Periodic rewards P12B/P12D=%s: SIGKILL before/after commit, exactly once rewards and fixed-seed baseline',
   async (p12b) => {
     const repo = new PostgresTestRepository(url!);
     try {
       await repo.pool.query('truncate private.authority_members,private.authority_matches');
-      await boot(p12b ? 'p12b' : false, true, p12b);
+      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
       const count = p12b ? 3 : 4;
       const gates = await Promise.all(Array.from({ length: count }, (_, i) => i).map(gate));
       const created = await action(gates[0]!, 'create_lobby', { capacity: count });
@@ -613,7 +615,7 @@ it.skipIf(!url).each([false, true])(
       }
       await interrupted;
       expect((await repo.load())[0]!.authority.itemDrops!.rounds).toHaveLength(0);
-      await boot(p12b ? 'p12b' : false, true, p12b);
+      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
       await join(0, id);
       step();
       await advance(); // confirmed round 3
@@ -621,7 +623,7 @@ it.skipIf(!url).each([false, true])(
       expect(paid.authority.itemDrops).toEqual(baseline.exportState().itemDrops);
       expect(paid.authority.itemDrops!.rounds).toHaveLength(1);
       await kill();
-      await boot(p12b ? 'p12b' : false, true, p12b);
+      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
       const resumed = await join(0, id);
       expect(resumed.view!.own.items).toEqual({
         ...paid.authority.players[0]!.state.items,
@@ -645,7 +647,7 @@ it.skipIf(!url).each([false, true])(
         expect(d.players.every((p) => p.instanceIds.length === d.quantity)).toBe(true);
       }
       await kill();
-      await boot(p12b ? 'p12b' : false, true, p12b);
+      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
       await join(0, id);
       const recovered = (await repo.load())[0]!;
       if (p12b) {

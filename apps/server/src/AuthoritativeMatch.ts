@@ -15,6 +15,7 @@ import {
   P11H_CATALOG_HASH,
   P11K_CATALOG_HASH,
   P12B_CATALOG_HASH,
+  P12D_CATALOG_HASH,
   ROSTER_CATALOG_HASH,
   COMPOSITE_CATALOG,
   ITEM_CATALOG_HASH,
@@ -152,8 +153,9 @@ export class AuthoritativeMatch {
     return AuthoritySnapshotSchema.parse({
       schema: 1,
       rules: combatRulesFor(this.config.catalog),
-      catalog:
-        this.config.removerPolicy?.version === 'f0p12b-remover-1'
+      catalog: this.config.shopLockPolicy
+        ? P12D_CATALOG_HASH
+        : this.config.removerPolicy?.version === 'f0p12b-remover-1'
           ? P12B_CATALOG_HASH
           : this.config.removerPolicy?.version === 'f0p11k-remover-1'
             ? P11K_CATALOG_HASH

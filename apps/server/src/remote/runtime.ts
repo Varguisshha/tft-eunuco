@@ -1,7 +1,7 @@
 import { matchMaker } from '@colyseus/core';
 import { createServer } from '../server';
 import { MatchRoom } from '../MatchRoom';
-import type { MatchRepository } from '../persistence/repository';
+import { storageFailureKind, type MatchRepository } from '../persistence/repository';
 import type { VerifyIdentity } from '../auth';
 import type { RuntimeConfig } from './config';
 import { protectHttp } from './http';
@@ -28,10 +28,13 @@ export async function startRuntime(
       try {
         await repository.commit(revision, snapshot);
         log('checkpoint', { ms: performance.now() - start });
-      } catch {
+      } catch (error) {
         availability.ready = false;
-        log('storage_failed');
-        throw Error('Persistence unavailable');
+        log('storage_failed', {
+          storageKind: storageFailureKind(error),
+          ms: performance.now() - start,
+        });
+        throw Error('Persistence unavailable', { cause: error });
       }
     },
   };

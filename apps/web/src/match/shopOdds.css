@@ -1,0 +1,85 @@
+/* P12D: fixed readable data, independent from the arena scale. */
+.game-hud .shop-odds {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 3px;
+  margin-top: 6px;
+  font: 12px/1.25 var(--font-body, 'DM Sans', sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+.game-hud .shop-odds > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 1px;
+  background: var(--neon-surface-primary, #222653);
+  color: var(--neon-text-primary, #f4f3ff);
+  border-bottom: 2px solid var(--odds-color);
+}
+.game-hud .shop-odds b {
+  color: var(--odds-color);
+  font-size: 12px;
+}
+.game-hud .shop-odds strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+.game-hud .shop-odds .odds-cost-1 {
+  --odds-color: #d4d4e5;
+}
+.game-hud .shop-odds .odds-cost-2 {
+  --odds-color: #74e2c9;
+}
+.game-hud .shop-odds .odds-cost-3 {
+  --odds-color: #8ea7f9;
+}
+.game-hud .shop-odds .odds-cost-4 {
+  --odds-color: #f56dc3;
+}
+.game-hud .shop-odds .odds-cost-5 {
+  --odds-color: #ffd05e;
+}
+.game-hud .shop-odds .is-unreleased {
+  border-bottom-style: dashed;
+}
+.game-hud .shop-odds-note {
+  display: block;
+  font-size: 11px;
+  line-height: 1.3;
+  margin-top: 4px;
+  color: #d4d4e5;
+}
+/* Keep a taller odds readout from expanding the shared card row beyond the dock. */
+.game-hud .shop-section {
+  grid-template-rows: minmax(0, 1fr);
+}
+.game-hud .shop-section > .section-line {
+  min-height: 0;
+  padding: 0;
+}
+.game-hud .shop-control-heading {
+  margin: 0 0 4px;
+}
+.game-hud .shop-control-heading h2 {
+  font-size: 15px;
+}
+.game-hud .shop-odds {
+  margin-top: 3px;
+}
+.game-hud .shop-odds > span {
+  padding: 2px 1px;
+  gap: 1px;
+}
+.game-hud .shop-actions .game-button {
+  height: calc(58 * var(--u));
+  min-height: 40px;
+}
+.game-hud .shop-odds-note {
+  margin-top: 3px;
+}
+@media (max-height: 800px) {
+  .game-hud .shop-lock-note {
+    display: none;
+  }
+}
