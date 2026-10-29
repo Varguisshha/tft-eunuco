@@ -4,14 +4,15 @@ import console from 'node:console';
 import { verifyHistory } from './verify-public-safe.mjs';
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const branch = git('branch', '--show-current');
-const allowedBranches = new Set(['release/p11k-public-safe', 'release/p12b-public-safe']);
+const allowedBranches = new Set([
+  'release/p11k-public-safe',
+  'release/p12b-public-safe',
+  'release/p12d-public-safe',
+]);
 const expected = process.argv[2];
 if (!/^[a-f0-9]{40}$/.test(expected ?? '') || git('rev-parse', 'HEAD') !== expected)
   throw Error('Exact reviewed commit required');
-if (
-  !allowedBranches.has(branch) ||
-  git('status', '--porcelain', '--untracked-files=no')
-)
+if (!allowedBranches.has(branch) || git('status', '--porcelain', '--untracked-files=no'))
   throw Error('Clean public-safe release branch required');
 if (
   git('remote', 'get-url', '--push', 'origin') !== 'https://github.com/Varguisshha/tft-eunuco.git'
