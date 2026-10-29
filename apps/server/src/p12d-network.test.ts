@@ -87,6 +87,16 @@ class Fixture extends MatchRoom {
       p.state.health.south = 1;
     });
   }
+  async finish() {
+    // Durable restores use the persisted RNG, not the constructor's seed callback.
+    // The previous round's loser can win next time. Bound the laboratory to two
+    // further rounds, lowering the current loser's health only at resolution.
+    for (let i = 0; i < 6 && !this.match.finalResults; i++) {
+      await this.advance();
+      if (this.match.clock.snapshot().currentPhase === 'resolution') await this.nearFinal();
+    }
+    expect(this.match.finalResults).not.toBeNull();
+  }
   async advance() {
     await this.mutate(() => {
       this.match.clock.restore({ ...this.match.clock.snapshot(), remainingMs: 0 });
@@ -164,9 +174,7 @@ it('real durable room + two SDK clients + UI permissions buy/sell during combat 
   await b.room.leave();
   const reconnected = await connect(1, a.room.roomId);
   expect(reconnected.getClock().currentPhase).toBe('resolution');
-  await f.advance();
-  await f.advance();
-  await f.advance();
+  await f.finish();
   await until(() => !!a.finalResults && !!reconnected.finalResults);
   expect(a.finalResults!.standings).toHaveLength(2);
   const final = structuredClone(a.finalResults);
