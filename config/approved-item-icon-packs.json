@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "eunuco-neon-rpg-p12g",
+    "scope": "public-production",
+    "manifestPath": "art/p12g/pack.json",
+    "manifestSha256": "2c414573f83fe7daed5c9deadca1274398daed61a531b04ce581c1c0ca9940db",
+    "evidencePath": "art/p12g/PROVENANCE.md",
+    "evidenceSha256": "898e4828119bfcd296839c0f72342864346b9ca9fccd19e378c45e70968a81bd"
+  }
+]

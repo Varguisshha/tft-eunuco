@@ -16,7 +16,7 @@ export type BoardPort = Pick<
 > & {
   dropOutside?: ((unitId: string, clientX: number, clientY: number) => boolean) | undefined;
   pointerActivate?: (hex: import('@tft/shared').HexCoord) => void;
-  equipmentFor?: (unitId: string) => ('component' | 'completed')[];
+  equipmentFor?: (unitId: string) => import('@tft/shared').ItemDefinition[];
   reportInteraction?: (message: string) => void;
   starsFor?: (unitId: string) => number;
 };

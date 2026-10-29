@@ -87,7 +87,12 @@ it('preserves override priority, then exact official identity, own artwork, and 
   const d = P11H_ITEM_CATALOG.definitions[0]!;
   ITEM_ICON_OVERRIDES[d.icon] = '/missing-override.webp';
   const candidates = itemIconCandidates(d, 'tft-reference');
-  expect(candidates.map((c) => c.kind)).toEqual(['override', 'tft-official', 'original']);
+  expect(candidates.map((c) => c.kind)).toEqual([
+    'override',
+    'tft-official',
+    'original',
+    'legacy-original',
+  ]);
   expect(candidates[2]!.src).toBe(
     originals[d.content!.sourceRecordId as keyof typeof originals].src,
   );

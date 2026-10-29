@@ -14,7 +14,8 @@ import {
   type AnimationAsset,
   type VisualStars,
 } from '@tft/sprite-contract';
-import type { UnitDefinition } from '@tft/shared';
+import type { ItemDefinition, UnitDefinition } from '@tft/shared';
+import { equipmentArtwork, loadEquipmentImage } from './equipmentArtwork';
 import { characterManifest } from './characterAssets';
 import { pixelRects, provisionalInitials } from './pixelArt';
 import { characterDepth, characterScale, type ArenaDefinition } from '../arenas/arena';
@@ -49,7 +50,9 @@ export class PhaserUnitVisual implements UnitVisual {
   readonly sprite: Phaser.GameObjects.Sprite;
   private marker: Phaser.GameObjects.Ellipse;
   private stars: Phaser.GameObjects.Text;
-  private equipment: Phaser.GameObjects.Graphics;
+  private equipment: Phaser.GameObjects.Container;
+  private equipmentSignature = '';
+  private equipmentRevision = 0;
   private foot = { x: 0, y: 0 };
   private flipped = false;
   private readonly meta: SpriteMetadata;
@@ -67,7 +70,7 @@ export class PhaserUnitVisual implements UnitVisual {
     side: 'north' | 'south',
     private arena?: ArenaDefinition,
   ) {
-    this.equipment = scene.add.graphics();
+    this.equipment = scene.add.container();
     this.meta = SpriteMetadataSchema.parse(registerPlaceholder(scene, definition));
     this.manifest = characterManifest(definition.spriteId);
     this.stars = scene.add
@@ -117,7 +120,7 @@ export class PhaserUnitVisual implements UnitVisual {
       .setScale(factor)
       .setDepth(this.arena ? 4200 : y + 12);
     this.equipment
-      .setPosition(x, y + 24 * factor)
+      .setPosition(x, y + 32 * factor)
       .setScale(factor)
       .setDepth(this.arena ? 4200 : y + 12);
     const offset = this.asset
@@ -200,13 +203,38 @@ export class PhaserUnitVisual implements UnitVisual {
   get hasRealAsset(): boolean {
     return this.asset !== null;
   }
-  setEquipment(kinds: ('component' | 'completed')[]): void {
-    this.equipment.clear();
-    kinds.slice(0, 3).forEach((kind, i) => {
-      const x = (i - (kinds.length - 1) / 2) * 9;
-      this.equipment.lineStyle(1, kind === 'component' ? 0x8ea7f9 : 0xf6c454, 1);
-      if (kind === 'completed') this.equipment.fillStyle(0xf6c454, 1).fillRect(x - 2, -2, 4, 4);
-      this.equipment.strokeRect(x - 3, -3, 6, 6);
+  setEquipment(definitions: ItemDefinition[]): void {
+    const artwork = equipmentArtwork(definitions);
+    const signature = JSON.stringify(artwork);
+    if (signature === this.equipmentSignature) return;
+    this.equipmentSignature = signature;
+    const revision = ++this.equipmentRevision;
+    this.equipment.removeAll(true);
+    artwork.forEach((item, i) => {
+      const x = (i - (artwork.length - 1) / 2) * 24;
+      const backing = this.scene.add.rectangle(x, 0, 23, 23, 0x141322).setStrokeStyle(1, 0xb9b3db);
+      const fallback = this.scene.add
+        .text(x, 0, item.label.slice(0, 2).toUpperCase(), {
+          fontSize: '9px',
+          color: '#ffffff',
+        })
+        .setOrigin(0.5);
+      this.equipment.add([backing, fallback]);
+      void (async () => {
+        for (const src of item.sources) {
+          const image = await loadEquipmentImage(src);
+          // A removed item, a theme change or scene shutdown invalidates late image responses.
+          if (revision !== this.equipmentRevision || !this.equipment.scene) return;
+          if (!image) continue;
+          const key = `equipped-item:${src}`;
+          if (!this.scene.textures.exists(key)) this.scene.textures.addImage(key, image);
+          this.scene.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
+          const icon = this.scene.add.image(x, 0, key).setDisplaySize(21, 21);
+          this.equipment.add(icon);
+          fallback.destroy();
+          return;
+        }
+      })();
     });
   }
   setStars(count: number): void {
@@ -230,6 +258,7 @@ export class PhaserUnitVisual implements UnitVisual {
     this.marker.setAlpha(alpha);
   }
   destroy(): void {
+    ++this.equipmentRevision;
     this.marker.destroy();
     this.stars.destroy();
     this.equipment.destroy();

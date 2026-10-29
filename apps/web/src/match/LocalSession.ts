@@ -178,7 +178,7 @@ export class LocalSession implements BoardPort {
     if (this.remote) this.message = this.remote.status;
     this.publish();
   }
-  equipmentFor = (id: string): ('component' | 'completed')[] => {
+  equipmentFor = (id: string) => {
     const owned = this.match.units.find((u) => u.id === id);
     const items =
       owned?.equipment ??
@@ -187,7 +187,8 @@ export class LocalSession implements BoardPort {
     const catalog = resolveItemCatalog(this.match.items?.catalogVersion ?? 'f0p8c-1');
     return items.flatMap((item) => {
       const d = catalog.definitions.find((d) => d.id === item.definitionId);
-      return Array.from({ length: d?.content?.slotCost ?? 1 }, () => d?.kind ?? 'completed');
+      // One image per actual instance, including items that consume several slots.
+      return d ? [d] : [];
     });
   };
   getMatch = () => this.match;

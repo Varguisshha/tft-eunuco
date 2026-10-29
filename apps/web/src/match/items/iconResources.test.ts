@@ -41,7 +41,7 @@ it('resolves all 44 approved associations in a public environment without DEV to
   const before = structuredClone(P11H_ITEM_CATALOG);
   for (const d of P11H_ITEM_CATALOG.definitions) {
     const chain = resolveItemIconCandidates(d, 'authorized', authorized);
-    expect(chain.map((c) => c.kind)).toEqual(['authorized', 'original']);
+    expect(chain.map((c) => c.kind)).toEqual(['authorized', 'original', 'legacy-original']);
     expect(renderToStaticMarkup(createElement(ItemIcon, { definition: d }))).toContain(
       'data-icon-art="authorized"',
     );
@@ -57,7 +57,7 @@ it('fails closed to original art without a resource configuration, even with DEV
     resolveItemIconCandidates(P11H_ITEM_CATALOG.definitions[0], 'tft-reference', policy).map(
       (c) => c.kind,
     ),
-  ).toEqual(['original']);
+  ).toEqual(['original', 'legacy-original']);
 });
 it('guards historical IDs, iconKey, recipe, name and kind; unknown definitions keep the SVG fallback', () => {
   const d = P11H_ITEM_CATALOG.definitions.find((d) => d.kind === 'completed')!;
@@ -88,6 +88,7 @@ it('ignores unlisted public overrides and disallows production failure simulatio
   expect(resolveItemIconCandidates(d, 'authorized', authorized, true).map((c) => c.kind)).toEqual([
     'authorized',
     'original',
+    'legacy-original',
   ]);
   expect(resolveItemIconCandidates(d, 'authorized', authorized, true)[0]!.src).not.toContain(
     '__missing__',

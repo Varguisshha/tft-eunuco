@@ -1,266 +1,266 @@
 {
-  "TFT_Item_AdaptiveHelm": {
-    "src": "/items/p11h/adaptivehelm.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "fe473a7349c3eecdd401eede09ca2e4c7cf72d6b51b3ec6cab43f8414a25022a"
-  },
-  "TFT_Item_ArchangelsStaff": {
-    "src": "/items/p11h/archangelsstaff.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "6039c30d0716c7ad3cfcd93baeecc78f3d327aefd66c897ddb7750203c47832d"
-  },
   "TFT_Item_BFSword": {
-    "src": "/items/p11h/bfsword.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "f5bb2aff27f1eabf45752f7cdd09f4e2e86f569fe4cfc735d243d5f3f2655020"
-  },
-  "TFT_Item_Bloodthirster": {
-    "src": "/items/p11h/bloodthirster.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "d733522b94222c3b28628ece5d1edbdaa3aabd748cbfe2b41b72e143fa7c1da0"
-  },
-  "TFT_Item_BlueBuff": {
-    "src": "/items/p11h/bluebuff.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "049d90539f45a4a0812280354f5c4e065c34c90d28536c10e5fbd983cf811c70"
-  },
-  "TFT_Item_BrambleVest": {
-    "src": "/items/p11h/bramblevest.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "52657109c1d0a453ea7fec80ea1f586e4fc5ec781a5539161bd78b13c2029d7b"
+    "src": "/items/p12g/bfsword.webp",
+    "sha256": "53ad79eeb049003347c959baec6027a81bb3f772f95aaddef9aa07238b5d4a2c",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_ChainVest": {
-    "src": "/items/p11h/chainvest.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "73ea2171febf063f0101cb83b435dea57cb74675efaa3d58018fc966f3c1c7ea"
-  },
-  "TFT_Item_Crownguard": {
-    "src": "/items/p11h/crownguard.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "fca006f475a5b182f77fa8728f45d62b3ca230fcd5e83c612bc4c903d570f3c2"
-  },
-  "TFT_Item_Deathblade": {
-    "src": "/items/p11h/deathblade.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "cd1eeb620074771fc08441d0312e2c896ba791e8f391e36e1c92404880182d31"
-  },
-  "TFT_Item_DragonsClaw": {
-    "src": "/items/p11h/dragonsclaw.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "d2303d121f2dfdd4032acc276da1dea4a397eca37bbcea1a7db77d829832177d"
-  },
-  "TFT_Item_FrozenHeart": {
-    "src": "/items/p11h/frozenheart.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "876cf93133fba93b2d5c4fb20739762c30d4af3dec2d153592ef66fa06e134a8"
-  },
-  "TFT_Item_GargoyleStoneplate": {
-    "src": "/items/p11h/gargoylestoneplate.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "d5a6f4867bd15bfba60cf303798caf4d6dcbd35de5c3d90576ab7f38ababf36e"
+    "src": "/items/p12g/chainvest.webp",
+    "sha256": "9cc1ea4612be05fbea88082c09c64bd0ba7eeec98ac4388e439a35839a4d1ade",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_GiantsBelt": {
-    "src": "/items/p11h/giantsbelt.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "2033fbc8b1f30947e0addba4411244c9519c5e86d3e83b6433f0b05f36efea62"
-  },
-  "TFT_Item_GuardianAngel": {
-    "src": "/items/p11h/guardianangel.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "fd8b273031c35f3aafd961a2d0067262773e4b083cd017f188a9136b806d06d1"
-  },
-  "TFT_Item_GuinsoosRageblade": {
-    "src": "/items/p11h/guinsoosrageblade.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "a4f1e44f6ed8483f63adf305d103101723f1ecc6c8a64625028df502621870a1"
-  },
-  "TFT_Item_HextechGunblade": {
-    "src": "/items/p11h/hextechgunblade.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "638f215368121f0bc603ef531f0a021ca4c3468df42fecd5acfe667e2b05af4b"
-  },
-  "TFT_Item_InfinityEdge": {
-    "src": "/items/p11h/infinityedge.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "7eec05d363e3adf4a3ef03df10ca56517b1e83b2b8362dbaa5da0560d243a2b9"
-  },
-  "TFT_Item_IonicSpark": {
-    "src": "/items/p11h/ionicspark.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "ac883305c702aa19dda8bb23b6b5eaf5013a6d6cb772f59e3d3a6f97326f47dc"
-  },
-  "TFT_Item_JeweledGauntlet": {
-    "src": "/items/p11h/jeweledgauntlet.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "f6c054adaf1750d4d4d755e50d4e55f924e4fa9e970b3908bc701ac2e64ac103"
-  },
-  "TFT_Item_LastWhisper": {
-    "src": "/items/p11h/lastwhisper.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "ace0b86b3bc13ca448dc6e57b6e5137819f66665ee7d402d7717bba03121a287"
-  },
-  "TFT_Item_Leviathan": {
-    "src": "/items/p11h/leviathan.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "cf7ac6fe6065ff10b0bfc9fd8c8e618e767ba5873a01d504d4517fec9ebbc5b6"
-  },
-  "TFT_Item_MadredsBloodrazor": {
-    "src": "/items/p11h/madredsbloodrazor.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "e10681113c50f07fb99fe7a7d94387a1d3ccd7ded6d5f7ca7b236947b94ab725"
-  },
-  "TFT_Item_Morellonomicon": {
-    "src": "/items/p11h/morellonomicon.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "20ea5f92b113338d0b38b98df9f0ac0db52d586a94419e21d8024204e60c9d41"
+    "src": "/items/p12g/giantsbelt.webp",
+    "sha256": "d2267cc9b6d4b1b0586c123dc778656521d28fb6e51e74aec5631577878014a9",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_NeedlesslyLargeRod": {
-    "src": "/items/p11h/needlesslylargerod.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "a164290b32fad59a9522a1fac511205f068f4c6744e47d47eb532ae5635e1bc6"
+    "src": "/items/p12g/needlesslylargerod.webp",
+    "sha256": "8ab00dc2e4dc38da9c8656cd0578a1c3e852b015554c952f3c5a0c83eaff98cf",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_NegatronCloak": {
-    "src": "/items/p11h/negatroncloak.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "df76f566d18eb18fa564c08c5f97c43fd54aacaf55e3efb3c09c15b28824112b"
-  },
-  "TFT_Item_NightHarvester": {
-    "src": "/items/p11h/nightharvester.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "a7923447eba20c689353252c43c4485c019b6074d8bc72098ffe2855a865e244"
-  },
-  "TFT_Item_PowerGauntlet": {
-    "src": "/items/p11h/powergauntlet.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "570f5b64bd89ae2a190d94f9e160ab3d7a3f8f685387274ae8f7b0046f644bb8"
-  },
-  "TFT_Item_Quicksilver": {
-    "src": "/items/p11h/quicksilver.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "e77851b8baa5f9828f40d62a0ffd81b5c298598521c659928759fb8f86b14208"
-  },
-  "TFT_Item_RabadonsDeathcap": {
-    "src": "/items/p11h/rabadonsdeathcap.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "6ad7f788c2abbdd8e01aaf2e0fe7a1427ab00faac5548478c37c83797fc484e9"
-  },
-  "TFT_Item_RapidFireCannon": {
-    "src": "/items/p11h/rapidfirecannon.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "f36a06791dc1767a9749f5375695c50fd5d009b21a179dfef791d4bd4a0413f3"
+    "src": "/items/p12g/negatroncloak.webp",
+    "sha256": "918dbea6bb7ee7649f3de005da3b2ec5dd76fd446e852a2c1334fe9425e1dfdc",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_RecurveBow": {
-    "src": "/items/p11h/recurvebow.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "815196942ccb82c10c6d0e90ea4c363c425458910829a08f80cf5ef2a5985a5f"
-  },
-  "TFT_Item_RedBuff": {
-    "src": "/items/p11h/redbuff.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "75fdc4481d6cdc40900724782cabcf9804e23f3801785ff372aa03b38f1d5069"
-  },
-  "TFT_Item_Redemption": {
-    "src": "/items/p11h/redemption.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "278c2e3a0b1f91b3c1e8b1eee0df4471b97453e8fe951afc1ac1cb3850c3b15f"
-  },
-  "TFT_Item_RunaansHurricane": {
-    "src": "/items/p11h/runaanshurricane.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "f68c7f97b8862e7e48a4c3f03f50fb137c4293ffc8bbb17905138bbfe29f4ee4"
+    "src": "/items/p12g/recurvebow.webp",
+    "sha256": "9f6f0a9e2de6b3622ccc14f2c06679b68705c776520c9d5cb1192cc5119c270d",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_SparringGloves": {
-    "src": "/items/p11h/sparringgloves.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "88d7b7c06c51c4ba8bb3e914ce363339902acb1187c93462ee1aa375739e730d"
-  },
-  "TFT_Item_SpearOfShojin": {
-    "src": "/items/p11h/spearofshojin.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "34485f89fc5bcc3cbe51e3001b77505c75fd35a6639fe553504d23ea138b4f8b"
-  },
-  "TFT_Item_SpectralGauntlet": {
-    "src": "/items/p11h/spectralgauntlet.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "793840d01d67989cc87900a290307fe15633937317ff85d5bfde2609918aa657"
-  },
-  "TFT_Item_StatikkShiv": {
-    "src": "/items/p11h/statikkshiv.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "a7ed64e28d1e447f78fd989436c3d19c881d09461be7d88f32d72fca2be4099c"
-  },
-  "TFT_Item_SteraksGage": {
-    "src": "/items/p11h/steraksgage.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "c93c343a90f5d9e5d2fd6de2ae492f1afb9582719eaeabdb14c8cbb76a7895f2"
+    "src": "/items/p12g/sparringgloves.webp",
+    "sha256": "86a623338c244f9202b1e59c19c5170a95e57bc1e2ed5398793842db024f0716",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_TearOfTheGoddess": {
-    "src": "/items/p11h/tearofthegoddess.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "ecf4c8d88ca6a756c74733b75195a9df6cdedd912a6a48631c3af29985161bf3"
+    "src": "/items/p12g/tearofthegoddess.webp",
+    "sha256": "b05b31c35c28226d55fa59d9caac7115a277b7b756a763e3cd94cb143a2bd317",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_AdaptiveHelm": {
+    "src": "/items/p12g/adaptivehelm.webp",
+    "sha256": "9f2f5554a3b351c037aaab1166c58b39320c41840bbb6d14789df5357100b1e9",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_ArchangelsStaff": {
+    "src": "/items/p12g/archangelsstaff.webp",
+    "sha256": "c69b727a4803b2fe517fd71d794994df064797c605eca190043f5696b3d87327",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Bloodthirster": {
+    "src": "/items/p12g/bloodthirster.webp",
+    "sha256": "e5303aa4927558aa588800761be1df935503b58ca378cf60dccfe70b9d74e163",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_BlueBuff": {
+    "src": "/items/p12g/bluebuff.webp",
+    "sha256": "9201d0eadde9435f92f5993d0debeb876636ae8a3c4b7aa389b9876156369f4f",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_BrambleVest": {
+    "src": "/items/p12g/bramblevest.webp",
+    "sha256": "2f1b7d330a889ef78aea8937b1f30ad9d30d075ac78483b3a228ef4af3046371",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Crownguard": {
+    "src": "/items/p12g/crownguard.webp",
+    "sha256": "e24db05d4b5391baa2dc84ecf40eb7fff2a6997a67e6cf571a318d2555e9e81d",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Deathblade": {
+    "src": "/items/p12g/deathblade.webp",
+    "sha256": "80d0a11fae11bc5b963751256573a0ce20a45d5a46ef46f3273ec2b2a3742e27",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_DragonsClaw": {
+    "src": "/items/p12g/dragonsclaw.webp",
+    "sha256": "60185d155dd7c64011ca3b4be8a04bc422574d48b09983644cdc341daf0e86ad",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_FrozenHeart": {
+    "src": "/items/p12g/frozenheart.webp",
+    "sha256": "d191af194c2519647c8e0900603a005e94f9ea11a53b405f120e07307ea92495",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_GargoyleStoneplate": {
+    "src": "/items/p12g/gargoylestoneplate.webp",
+    "sha256": "773615e328c19fcbe5e543adce31e8d1bd6e76b0b9059af0b1b54132fd3123b8",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_GuardianAngel": {
+    "src": "/items/p12g/guardianangel.webp",
+    "sha256": "8ab1fca0b3f707a8174381d7d1c0ed0c9a25598b603efb89dd701962f696c117",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_GuinsoosRageblade": {
+    "src": "/items/p12g/guinsoosrageblade.webp",
+    "sha256": "095fa26c35a82bd04296f892db03ace4c53c04f3c8e8c2db615b08fabe66816e",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_HextechGunblade": {
+    "src": "/items/p12g/hextechgunblade.webp",
+    "sha256": "4a9d1dcf03ff9b98bf1c94e3ac1db1a1b52c211db79bc3ef3ff567507513f3ff",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_InfinityEdge": {
+    "src": "/items/p12g/infinityedge.webp",
+    "sha256": "481591f77f485c5138333f507154ee0ec3431415f7d50255662b9d34ade3ede7",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_IonicSpark": {
+    "src": "/items/p12g/ionicspark.webp",
+    "sha256": "aa9e971e1da959ce3bf5a12811b296d8cb07014c65a3c0877554cebd5534312c",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_JeweledGauntlet": {
+    "src": "/items/p12g/jeweledgauntlet.webp",
+    "sha256": "90a87d9c2713d298a0110268c09736bf61282125f8d9299e269ca9a6a2795a6e",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_LastWhisper": {
+    "src": "/items/p12g/lastwhisper.webp",
+    "sha256": "237b0886d70672576d82c5964b96c6d09cb23bf7020ada00f0802035e9f62783",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Leviathan": {
+    "src": "/items/p12g/leviathan.webp",
+    "sha256": "ccab8023e1d0b331621395a4a44957b6dff200f7c88ba865976e26e0ac180e3f",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_MadredsBloodrazor": {
+    "src": "/items/p12g/madredsbloodrazor.webp",
+    "sha256": "2e41076048864a053357c8ed9fa575ae96970346de64a5b645e8cc6034a79a85",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Morellonomicon": {
+    "src": "/items/p12g/morellonomicon.webp",
+    "sha256": "263e7687bbebb9b4249a9dc68b2429bf24b2c73e84e451adcb7c134325739ccc",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_NightHarvester": {
+    "src": "/items/p12g/nightharvester.webp",
+    "sha256": "3a680d668a0e58e8e1c1e6a9eeb253913ecbaf7541ab09770c3d8daf991f10e8",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_PowerGauntlet": {
+    "src": "/items/p12g/powergauntlet.webp",
+    "sha256": "59eb72cc5ae734b35dc87f3f6a23a62f91f6ba2d151da1461b275cc52e1a20e0",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Quicksilver": {
+    "src": "/items/p12g/quicksilver.webp",
+    "sha256": "671c9d54f207ccc3929d2036eadf9429fd232d31035c76bd17452ceabe6478e3",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_RabadonsDeathcap": {
+    "src": "/items/p12g/rabadonsdeathcap.webp",
+    "sha256": "03dab7ef4412c3080fe0b0d1ed46f80f3c604c240d40211b437356ba041af56f",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_RapidFireCannon": {
+    "src": "/items/p12g/rapidfirecannon.webp",
+    "sha256": "8e57fc7623c93d67aad9e7e375585527cecbff1b33d8ce2e72b735cecb1d9eda",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_RedBuff": {
+    "src": "/items/p12g/redbuff.webp",
+    "sha256": "2b1ee7a966654732e90e43f0936336915d1aad42fa42e1cc17bf519bced6cb72",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_Redemption": {
+    "src": "/items/p12g/redemption.webp",
+    "sha256": "d76d88484e2320ca3138f38f30ba17035362505f98cac6026dc583fef2a6f23e",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_RunaansHurricane": {
+    "src": "/items/p12g/runaanshurricane.webp",
+    "sha256": "8e1f8a17470f3a00a7776f7ebaff8a00f4c4a3e7f03821943eeb13e9065dabbe",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_SpearOfShojin": {
+    "src": "/items/p12g/spearofshojin.webp",
+    "sha256": "9ade69383a84647c1a767912e285a51c7b607c5067ac75e07d50cee7b193892f",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_SpectralGauntlet": {
+    "src": "/items/p12g/spectralgauntlet.webp",
+    "sha256": "33aff403a4eb42b234700cb47fddd48a536ad3d80c3d39b0179f3ec7e948ab8e",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_StatikkShiv": {
+    "src": "/items/p12g/statikkshiv.webp",
+    "sha256": "ad085c3b0a0d3495487ae65c354e2109cdd430648536b1930a9de4e4a54c2c37",
+    "width": 128,
+    "height": 128
+  },
+  "TFT_Item_SteraksGage": {
+    "src": "/items/p12g/steraksgage.webp",
+    "sha256": "152184f53c779b70e2994c0fdee036e8eb1cc580ba8d2fb13641e0452a152c18",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_ThiefsGloves": {
-    "src": "/items/p11h/thiefsgloves.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "f51a5eb38087a85901a96c3b9957b6ce0e69a7ea1acc85a20ebd991029f0af1d"
+    "src": "/items/p12g/thiefsgloves.webp",
+    "sha256": "da0b4e5c44c6e4003008916530f134f80bcac35c19d0e675fc4ac5bfe9fbe803",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_TitansResolve": {
-    "src": "/items/p11h/titansresolve.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "01f12bd148910b69825e45133bb53ae826d0f8b6f69e8c39bf2d3b822017e0f3"
+    "src": "/items/p12g/titansresolve.webp",
+    "sha256": "e1d8046b1d12ee00472f6b48582761c500d7dafc9a4c9fe87dcfc89edd5c5a33",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_UnstableConcoction": {
-    "src": "/items/p11h/unstableconcoction.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "11a917d096fff8c0de574bdd6c662bc2185c48f7ae4e83f34a74ccb5c6fbead1"
+    "src": "/items/p12g/unstableconcoction.webp",
+    "sha256": "8a4b557e3f21a6a6d68316c43cbf04f0189dedb730cda023d70f3e8fdbca8d5f",
+    "width": 128,
+    "height": 128
   },
   "TFT_Item_WarmogsArmor": {
-    "src": "/items/p11h/warmogsarmor.webp",
-    "width": 64,
-    "height": 64,
-    "sha256": "4c4b96ecf0928fe64f8efed4d8d18dda48416bc60017e49cf6f1ab692f0d4b44"
+    "src": "/items/p12g/warmogsarmor.webp",
+    "sha256": "d776346fd921f8517f69f1c04a2eed6032b28cbd0ef3f10cd76569335e74c8b2",
+    "width": 128,
+    "height": 128
   }
 }

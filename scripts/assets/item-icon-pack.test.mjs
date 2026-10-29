@@ -23,7 +23,11 @@ async function fixture() {
   await fs.mkdir(path.join(root, base), { recursive: true });
   await fs.mkdir(path.join(root, 'config'), { recursive: true });
   await fs.mkdir(source);
-  for (const file of ['tftOfficialItemIcons.json', 'itemIconAssets.json'])
+  for (const file of [
+    'tftOfficialItemIcons.json',
+    'itemIconAssets.json',
+    'legacyItemIconAssets.json',
+  ])
     await fs.copyFile(path.join(repo, base, file), path.join(root, base, file));
   const reference = JSON.parse(
     await fs.readFile(path.join(root, base, 'tftOfficialItemIcons.json'), 'utf8'),
@@ -32,6 +36,14 @@ async function fixture() {
     await fs.readFile(path.join(root, base, 'itemIconAssets.json'), 'utf8'),
   );
   const assets = [];
+  const legacy = JSON.parse(
+    await fs.readFile(path.join(repo, base, 'legacyItemIconAssets.json'), 'utf8'),
+  );
+  for (const a of Object.values(legacy)) {
+    const dest = path.join(root, 'apps/web/public', a.src);
+    await fs.mkdir(path.dirname(dest), { recursive: true });
+    await fs.copyFile(path.join(repo, 'apps/web/public', a.src), dest);
+  }
   for (const a of Object.values(reference)) {
     const own = originals[a.tftId],
       file = a.tftId + '.webp';
@@ -48,8 +60,8 @@ async function fixture() {
       recipe: a.recipe,
       file,
       sha256: own.sha256,
-      width: 64,
-      height: 64,
+      width: own.width,
+      height: own.height,
       format: 'webp',
     });
   }
@@ -169,7 +181,7 @@ it.each([
     await fs.symlink(path.join(f.root, 'outside.webp'), path.join(f.source, a.file));
   }
   if (kind === 'hash') await fs.writeFile(path.join(f.source, a.file), 'altered');
-  if (kind === 'dimensions') a.width = 128;
+  if (kind === 'dimensions') a.width += 1;
   await f.approve(kind === 'scope' ? 'local-only' : 'public-production');
   if (kind === 'evidence') await fs.appendFile(path.join(f.root, 'config/evidence.md'), 'altered');
   if (kind === 'manifest') await fs.appendFile(path.join(f.root, 'config/pack.json'), ' ');

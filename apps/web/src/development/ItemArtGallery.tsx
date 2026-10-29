@@ -11,7 +11,7 @@ export function ItemArtGallery() {
   const [size, setSize] = useState(48);
   return (
     <details className="item-art-gallery">
-      <summary>Catálogo P11J · 44 iconos de objetos</summary>
+      <summary>Catálogo P12G · 44 iconos de objetos</summary>
       <fieldset className="item-art-controls">
         <legend>Arte de objetos · solo LOCAL</legend>
         <label>
@@ -51,7 +51,7 @@ export function ItemArtGallery() {
             value={size}
             onChange={(e) => setSize(Number(e.target.value))}
           >
-            {[32, 40, 48, 64].map((n) => (
+            {[32, 40, 48, 64, 128].map((n) => (
               <option key={n} value={n}>
                 {n} × {n}
               </option>

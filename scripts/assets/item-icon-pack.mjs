@@ -36,6 +36,7 @@ async function catalogs(root) {
   return {
     reference: await readJson(path.join(base, 'tftOfficialItemIcons.json')),
     originals: await readJson(path.join(base, 'itemIconAssets.json')),
+    legacy: await readJson(path.join(base, 'legacyItemIconAssets.json')),
   };
 }
 function identity(a) {
@@ -140,12 +141,12 @@ export async function createIconResourcePlan({
   packRoot,
   referenceRoot,
 } = {}) {
-  const { reference, originals } = await catalogs(root),
+  const { reference, originals, legacy } = await catalogs(root),
     files = [],
     missing = [];
   const policy = {
     version: 1,
-    defaultTheme: theme ?? (packId ? 'authorized' : local ? 'tft-reference' : 'eunuco'),
+    defaultTheme: theme ?? (packId ? 'authorized' : 'eunuco'),
     allowSimulation: local,
     allowLocalOverrides: local,
     packages: {},
@@ -186,12 +187,24 @@ export async function createIconResourcePlan({
       artwork(a, originals[a.tftId].src, originals[a.tftId].sha256),
     ]),
   );
+  const legacyAssets = Object.fromEntries(
+    Object.entries(reference).map(([key, a]) => [
+      key,
+      artwork(a, legacy[a.tftId].src, legacy[a.tftId].sha256),
+    ]),
+  );
   return {
     verificationRoot: root,
     policy,
     files,
     missing,
-    manifest: { version: 1, policy, originals: originalAssets, ...(approval ? { approval } : {}) },
+    manifest: {
+      version: 1,
+      policy,
+      originals: originalAssets,
+      legacyOriginals: legacyAssets,
+      ...(approval ? { approval } : {}),
+    },
   };
 }
 /** Independent public-output audit; a renamed official binary is still rejected. */
@@ -199,7 +212,9 @@ export async function verifyIconBuildOutput(output, { root = projectRoot } = {})
   const manifest = await readJson(path.join(output, 'item-icon-resources.json'));
   const expected = await createIconResourcePlan({ root });
   assert(
-    manifest.version === 1 && same(manifest.originals, expected.manifest.originals),
+    manifest.version === 1 &&
+      same(manifest.originals, expected.manifest.originals) &&
+      same(manifest.legacyOriginals, expected.manifest.legacyOriginals),
     'Public original icon mappings changed',
   );
   assert(
@@ -229,7 +244,10 @@ export async function verifyIconBuildOutput(output, { root = projectRoot } = {})
       (manifest.policy.defaultTheme === 'authorized' && keys.includes('authorized')),
     'Unpermitted public default theme',
   );
-  for (const a of Object.values(manifest.originals)) {
+  for (const a of [
+    ...Object.values(manifest.originals),
+    ...Object.values(manifest.legacyOriginals),
+  ]) {
     const file = await inside(output, a.src.slice(1));
     assert(sha256(await fs.readFile(file)) === a.sha256, 'Public original icon file mismatch');
   }

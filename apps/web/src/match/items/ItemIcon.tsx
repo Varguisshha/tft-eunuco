@@ -1,4 +1,5 @@
 import assets from './itemIconAssets.json';
+import legacyAssets from './legacyItemIconAssets.json';
 import { useItemIconSettings, type ItemIconTheme } from './itemIconTheme';
 import {
   getIconResourcePolicy,
@@ -55,6 +56,7 @@ export function resolveItemIconCandidates(
   if (!d) return [];
   const record = d.content?.sourceRecordId;
   const own = record && assets[record as keyof typeof assets]?.src;
+  const legacy = record && legacyAssets[record as keyof typeof legacyAssets]?.src;
   const pack = theme === 'eunuco' ? undefined : policy.packages[theme];
   const artwork = pack?.assets[d.icon];
   const matches = artwork && matchesIconIdentity(d, artwork);
@@ -81,6 +83,7 @@ export function resolveItemIconCandidates(
       : []),
     // Historical definitions retain their existing source-record fallback.
     ...(own ? [{ src: own, kind: 'original' }] : []),
+    ...(legacy ? [{ src: legacy, kind: 'legacy-original' }] : []),
   ];
 }
 

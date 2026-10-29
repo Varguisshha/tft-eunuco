@@ -92,7 +92,13 @@ function scene() {
     objects,
     value: {
       textures: { exists: () => true },
-      add: { sprite: make, ellipse: make, text: make, graphics: () => new DisplayObject() },
+      add: {
+        sprite: make,
+        ellipse: make,
+        text: make,
+        graphics: () => new DisplayObject(),
+        container: () => new DisplayObject(),
+      },
     } as unknown as Phaser.Scene,
   };
 }

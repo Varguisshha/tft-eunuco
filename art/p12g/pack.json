@@ -1,0 +1,686 @@
+{
+  "version": 1,
+  "id": "eunuco-neon-rpg-p12g",
+  "assets": [
+    {
+      "iconKey": "forge-component-ad",
+      "internalId": "component-ad",
+      "tftId": "TFT_Item_BFSword",
+      "visibleName": "Espad\u00f3n",
+      "kind": "component",
+      "recipe": [],
+      "file": "bfsword.webp",
+      "sha256": "53ad79eeb049003347c959baec6027a81bb3f772f95aaddef9aa07238b5d4a2c",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-armor",
+      "internalId": "component-armor",
+      "tftId": "TFT_Item_ChainVest",
+      "visibleName": "Chaleco de cadenas",
+      "kind": "component",
+      "recipe": [],
+      "file": "chainvest.webp",
+      "sha256": "9cc1ea4612be05fbea88082c09c64bd0ba7eeec98ac4388e439a35839a4d1ade",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-health",
+      "internalId": "component-health",
+      "tftId": "TFT_Item_GiantsBelt",
+      "visibleName": "Cintur\u00f3n de gigante",
+      "kind": "component",
+      "recipe": [],
+      "file": "giantsbelt.webp",
+      "sha256": "d2267cc9b6d4b1b0586c123dc778656521d28fb6e51e74aec5631577878014a9",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-ap",
+      "internalId": "component-ap",
+      "tftId": "TFT_Item_NeedlesslyLargeRod",
+      "visibleName": "Vara innecesariamente grande",
+      "kind": "component",
+      "recipe": [],
+      "file": "needlesslylargerod.webp",
+      "sha256": "8ab00dc2e4dc38da9c8656cd0578a1c3e852b015554c952f3c5a0c83eaff98cf",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-magic_resist",
+      "internalId": "component-magic_resist",
+      "tftId": "TFT_Item_NegatronCloak",
+      "visibleName": "Capa negatr\u00f3n",
+      "kind": "component",
+      "recipe": [],
+      "file": "negatroncloak.webp",
+      "sha256": "918dbea6bb7ee7649f3de005da3b2ec5dd76fd446e852a2c1334fe9425e1dfdc",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-attack_speed",
+      "internalId": "component-attack_speed",
+      "tftId": "TFT_Item_RecurveBow",
+      "visibleName": "Arco curvo",
+      "kind": "component",
+      "recipe": [],
+      "file": "recurvebow.webp",
+      "sha256": "9f6f0a9e2de6b3622ccc14f2c06679b68705c776520c9d5cb1192cc5119c270d",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-critical",
+      "internalId": "component-critical",
+      "tftId": "TFT_Item_SparringGloves",
+      "visibleName": "Guantes de combate",
+      "kind": "component",
+      "recipe": [],
+      "file": "sparringgloves.webp",
+      "sha256": "86a623338c244f9202b1e59c19c5170a95e57bc1e2ed5398793842db024f0716",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-component-mana",
+      "internalId": "component-mana",
+      "tftId": "TFT_Item_TearOfTheGoddess",
+      "visibleName": "L\u00e1grima de la diosa",
+      "kind": "component",
+      "recipe": [],
+      "file": "tearofthegoddess.webp",
+      "sha256": "b05b31c35c28226d55fa59d9caac7115a277b7b756a763e3cd94cb143a2bd317",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-magic_resist-mana",
+      "internalId": "item-forge-magic_resist--mana",
+      "tftId": "TFT_Item_AdaptiveHelm",
+      "visibleName": "Yelmo adaptable",
+      "kind": "completed",
+      "recipe": [
+        "component-magic_resist",
+        "component-mana"
+      ],
+      "file": "adaptivehelm.webp",
+      "sha256": "9f2f5554a3b351c037aaab1166c58b39320c41840bbb6d14789df5357100b1e9",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-mana",
+      "internalId": "item-forge-ap--mana",
+      "tftId": "TFT_Item_ArchangelsStaff",
+      "visibleName": "Bast\u00f3n del arc\u00e1ngel",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-mana"
+      ],
+      "file": "archangelsstaff.webp",
+      "sha256": "c69b727a4803b2fe517fd71d794994df064797c605eca190043f5696b3d87327",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-magic_resist",
+      "internalId": "item-forge-ad--magic_resist",
+      "tftId": "TFT_Item_Bloodthirster",
+      "visibleName": "Sanguinaria",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-magic_resist"
+      ],
+      "file": "bloodthirster.webp",
+      "sha256": "e5303aa4927558aa588800761be1df935503b58ca378cf60dccfe70b9d74e163",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-mana-mana",
+      "internalId": "item-forge-mana--mana",
+      "tftId": "TFT_Item_BlueBuff",
+      "visibleName": "Mejora azul",
+      "kind": "completed",
+      "recipe": [
+        "component-mana",
+        "component-mana"
+      ],
+      "file": "bluebuff.webp",
+      "sha256": "9201d0eadde9435f92f5993d0debeb876636ae8a3c4b7aa389b9876156369f4f",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-armor-armor",
+      "internalId": "item-forge-armor--armor",
+      "tftId": "TFT_Item_BrambleVest",
+      "visibleName": "Chaleco de zarzas",
+      "kind": "completed",
+      "recipe": [
+        "component-armor",
+        "component-armor"
+      ],
+      "file": "bramblevest.webp",
+      "sha256": "2f1b7d330a889ef78aea8937b1f30ad9d30d075ac78483b3a228ef4af3046371",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-armor",
+      "internalId": "item-forge-ap--armor",
+      "tftId": "TFT_Item_Crownguard",
+      "visibleName": "Regiaguardia",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-armor"
+      ],
+      "file": "crownguard.webp",
+      "sha256": "e24db05d4b5391baa2dc84ecf40eb7fff2a6997a67e6cf571a318d2555e9e81d",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-ad",
+      "internalId": "item-forge-ad--ad",
+      "tftId": "TFT_Item_Deathblade",
+      "visibleName": "Filo mortal",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-ad"
+      ],
+      "file": "deathblade.webp",
+      "sha256": "80d0a11fae11bc5b963751256573a0ce20a45d5a46ef46f3273ec2b2a3742e27",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-magic_resist-magic_resist",
+      "internalId": "item-forge-magic_resist--magic_resist",
+      "tftId": "TFT_Item_DragonsClaw",
+      "visibleName": "Garra de drag\u00f3n",
+      "kind": "completed",
+      "recipe": [
+        "component-magic_resist",
+        "component-magic_resist"
+      ],
+      "file": "dragonsclaw.webp",
+      "sha256": "60185d155dd7c64011ca3b4be8a04bc422574d48b09983644cdc341daf0e86ad",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-armor-mana",
+      "internalId": "item-forge-armor--mana",
+      "tftId": "TFT_Item_FrozenHeart",
+      "visibleName": "Promesa del protector",
+      "kind": "completed",
+      "recipe": [
+        "component-armor",
+        "component-mana"
+      ],
+      "file": "frozenheart.webp",
+      "sha256": "d191af194c2519647c8e0900603a005e94f9ea11a53b405f120e07307ea92495",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-armor-magic_resist",
+      "internalId": "item-forge-armor--magic_resist",
+      "tftId": "TFT_Item_GargoyleStoneplate",
+      "visibleName": "Protector p\u00e9treo de g\u00e1rgola",
+      "kind": "completed",
+      "recipe": [
+        "component-armor",
+        "component-magic_resist"
+      ],
+      "file": "gargoylestoneplate.webp",
+      "sha256": "773615e328c19fcbe5e543adce31e8d1bd6e76b0b9059af0b1b54132fd3123b8",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-armor",
+      "internalId": "item-forge-ad--armor",
+      "tftId": "TFT_Item_GuardianAngel",
+      "visibleName": "Filo de la noche",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-armor"
+      ],
+      "file": "guardianangel.webp",
+      "sha256": "8ab1fca0b3f707a8174381d7d1c0ed0c9a25598b603efb89dd701962f696c117",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-attack_speed",
+      "internalId": "item-forge-ap--attack_speed",
+      "tftId": "TFT_Item_GuinsoosRageblade",
+      "visibleName": "Hoja de furia de Guinsoo",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-attack_speed"
+      ],
+      "file": "guinsoosrageblade.webp",
+      "sha256": "095fa26c35a82bd04296f892db03ace4c53c04f3c8e8c2db615b08fabe66816e",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-ap",
+      "internalId": "item-forge-ad--ap",
+      "tftId": "TFT_Item_HextechGunblade",
+      "visibleName": "Sable-pistola hextech",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-ap"
+      ],
+      "file": "hextechgunblade.webp",
+      "sha256": "4a9d1dcf03ff9b98bf1c94e3ac1db1a1b52c211db79bc3ef3ff567507513f3ff",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-critical",
+      "internalId": "item-forge-ad--critical",
+      "tftId": "TFT_Item_InfinityEdge",
+      "visibleName": "Filo infinito",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-critical"
+      ],
+      "file": "infinityedge.webp",
+      "sha256": "481591f77f485c5138333f507154ee0ec3431415f7d50255662b9d34ade3ede7",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-magic_resist",
+      "internalId": "item-forge-ap--magic_resist",
+      "tftId": "TFT_Item_IonicSpark",
+      "visibleName": "Chispa i\u00f3nica",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-magic_resist"
+      ],
+      "file": "ionicspark.webp",
+      "sha256": "aa9e971e1da959ce3bf5a12811b296d8cb07014c65a3c0877554cebd5534312c",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-critical",
+      "internalId": "item-forge-ap--critical",
+      "tftId": "TFT_Item_JeweledGauntlet",
+      "visibleName": "Guantelete enjoyado",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-critical"
+      ],
+      "file": "jeweledgauntlet.webp",
+      "sha256": "90a87d9c2713d298a0110268c09736bf61282125f8d9299e269ca9a6a2795a6e",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-attack_speed-critical",
+      "internalId": "item-forge-attack_speed--critical",
+      "tftId": "TFT_Item_LastWhisper",
+      "visibleName": "\u00daltimas palabras",
+      "kind": "completed",
+      "recipe": [
+        "component-attack_speed",
+        "component-critical"
+      ],
+      "file": "lastwhisper.webp",
+      "sha256": "237b0886d70672576d82c5964b96c6d09cb23bf7020ada00f0802035e9f62783",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-attack_speed-health",
+      "internalId": "item-forge-attack_speed--health",
+      "tftId": "TFT_Item_Leviathan",
+      "visibleName": "Diente de Nashor",
+      "kind": "completed",
+      "recipe": [
+        "component-attack_speed",
+        "component-health"
+      ],
+      "file": "leviathan.webp",
+      "sha256": "ccab8023e1d0b331621395a4a44957b6dff200f7c88ba865976e26e0ac180e3f",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-attack_speed",
+      "internalId": "item-forge-ad--attack_speed",
+      "tftId": "TFT_Item_MadredsBloodrazor",
+      "visibleName": "Verdugo de gigantes",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-attack_speed"
+      ],
+      "file": "madredsbloodrazor.webp",
+      "sha256": "2e41076048864a053357c8ed9fa575ae96970346de64a5b645e8cc6034a79a85",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-health",
+      "internalId": "item-forge-ap--health",
+      "tftId": "TFT_Item_Morellonomicon",
+      "visibleName": "Morellonomic\u00f3n",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-health"
+      ],
+      "file": "morellonomicon.webp",
+      "sha256": "263e7687bbebb9b4249a9dc68b2429bf24b2c73e84e451adcb7c134325739ccc",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-armor-critical",
+      "internalId": "item-forge-armor--critical",
+      "tftId": "TFT_Item_NightHarvester",
+      "visibleName": "Coraz\u00f3n resuelto",
+      "kind": "completed",
+      "recipe": [
+        "component-armor",
+        "component-critical"
+      ],
+      "file": "nightharvester.webp",
+      "sha256": "3a680d668a0e58e8e1c1e6a9eeb253913ecbaf7541ab09770c3d8daf991f10e8",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-critical-health",
+      "internalId": "item-forge-critical--health",
+      "tftId": "TFT_Item_PowerGauntlet",
+      "visibleName": "Mangual del guerrero",
+      "kind": "completed",
+      "recipe": [
+        "component-critical",
+        "component-health"
+      ],
+      "file": "powergauntlet.webp",
+      "sha256": "59eb72cc5ae734b35dc87f3f6a23a62f91f6ba2d151da1461b275cc52e1a20e0",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-critical-magic_resist",
+      "internalId": "item-forge-critical--magic_resist",
+      "tftId": "TFT_Item_Quicksilver",
+      "visibleName": "Faj\u00edn de mercurio",
+      "kind": "completed",
+      "recipe": [
+        "component-critical",
+        "component-magic_resist"
+      ],
+      "file": "quicksilver.webp",
+      "sha256": "671c9d54f207ccc3929d2036eadf9429fd232d31035c76bd17452ceabe6478e3",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ap-ap",
+      "internalId": "item-forge-ap--ap",
+      "tftId": "TFT_Item_RabadonsDeathcap",
+      "visibleName": "Sombrero mortal de Rabadon",
+      "kind": "completed",
+      "recipe": [
+        "component-ap",
+        "component-ap"
+      ],
+      "file": "rabadonsdeathcap.webp",
+      "sha256": "03dab7ef4412c3080fe0b0d1ed46f80f3c604c240d40211b437356ba041af56f",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-attack_speed-attack_speed",
+      "internalId": "item-forge-attack_speed--attack_speed",
+      "tftId": "TFT_Item_RapidFireCannon",
+      "visibleName": "Mejora roja",
+      "kind": "completed",
+      "recipe": [
+        "component-attack_speed",
+        "component-attack_speed"
+      ],
+      "file": "rapidfirecannon.webp",
+      "sha256": "8e57fc7623c93d67aad9e7e375585527cecbff1b33d8ce2e72b735cecb1d9eda",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-armor-health",
+      "internalId": "item-forge-armor--health",
+      "tftId": "TFT_Item_RedBuff",
+      "visibleName": "Capa de fuego solar",
+      "kind": "completed",
+      "recipe": [
+        "component-armor",
+        "component-health"
+      ],
+      "file": "redbuff.webp",
+      "sha256": "2b1ee7a966654732e90e43f0936336915d1aad42fa42e1cc17bf519bced6cb72",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-health-mana",
+      "internalId": "item-forge-health--mana",
+      "tftId": "TFT_Item_Redemption",
+      "visibleName": "Rostro espiritual",
+      "kind": "completed",
+      "recipe": [
+        "component-health",
+        "component-mana"
+      ],
+      "file": "redemption.webp",
+      "sha256": "d76d88484e2320ca3138f38f30ba17035362505f98cac6026dc583fef2a6f23e",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-attack_speed-magic_resist",
+      "internalId": "item-forge-attack_speed--magic_resist",
+      "tftId": "TFT_Item_RunaansHurricane",
+      "visibleName": "Furia del kraken",
+      "kind": "completed",
+      "recipe": [
+        "component-attack_speed",
+        "component-magic_resist"
+      ],
+      "file": "runaanshurricane.webp",
+      "sha256": "8e1f8a17470f3a00a7776f7ebaff8a00f4c4a3e7f03821943eeb13e9065dabbe",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-mana",
+      "internalId": "item-forge-ad--mana",
+      "tftId": "TFT_Item_SpearOfShojin",
+      "visibleName": "Lanza de Shojin",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-mana"
+      ],
+      "file": "spearofshojin.webp",
+      "sha256": "9ade69383a84647c1a767912e285a51c7b607c5067ac75e07d50cee7b193892f",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-health-magic_resist",
+      "internalId": "item-forge-health--magic_resist",
+      "tftId": "TFT_Item_SpectralGauntlet",
+      "visibleName": "Mortaja de la quietud",
+      "kind": "completed",
+      "recipe": [
+        "component-health",
+        "component-magic_resist"
+      ],
+      "file": "spectralgauntlet.webp",
+      "sha256": "33aff403a4eb42b234700cb47fddd48a536ad3d80c3d39b0179f3ec7e948ab8e",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-attack_speed-mana",
+      "internalId": "item-forge-attack_speed--mana",
+      "tftId": "TFT_Item_StatikkShiv",
+      "visibleName": "Bast\u00f3n del Vac\u00edo",
+      "kind": "completed",
+      "recipe": [
+        "component-attack_speed",
+        "component-mana"
+      ],
+      "file": "statikkshiv.webp",
+      "sha256": "ad085c3b0a0d3495487ae65c354e2109cdd430648536b1930a9de4e4a54c2c37",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-ad-health",
+      "internalId": "item-forge-ad--health",
+      "tftId": "TFT_Item_SteraksGage",
+      "visibleName": "Calibrador de Sterak",
+      "kind": "completed",
+      "recipe": [
+        "component-ad",
+        "component-health"
+      ],
+      "file": "steraksgage.webp",
+      "sha256": "152184f53c779b70e2994c0fdee036e8eb1cc580ba8d2fb13641e0452a152c18",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-critical-critical",
+      "internalId": "item-forge-critical--critical",
+      "tftId": "TFT_Item_ThiefsGloves",
+      "visibleName": "Guantes de ladr\u00f3n",
+      "kind": "completed",
+      "recipe": [
+        "component-critical",
+        "component-critical"
+      ],
+      "file": "thiefsgloves.webp",
+      "sha256": "da0b4e5c44c6e4003008916530f134f80bcac35c19d0e675fc4ac5bfe9fbe803",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-armor-attack_speed",
+      "internalId": "item-forge-armor--attack_speed",
+      "tftId": "TFT_Item_TitansResolve",
+      "visibleName": "Resoluci\u00f3n tit\u00e1nica",
+      "kind": "completed",
+      "recipe": [
+        "component-armor",
+        "component-attack_speed"
+      ],
+      "file": "titansresolve.webp",
+      "sha256": "e1d8046b1d12ee00472f6b48582761c500d7dafc9a4c9fe87dcfc89edd5c5a33",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-critical-mana",
+      "internalId": "item-forge-critical--mana",
+      "tftId": "TFT_Item_UnstableConcoction",
+      "visibleName": "Mano de la justicia",
+      "kind": "completed",
+      "recipe": [
+        "component-critical",
+        "component-mana"
+      ],
+      "file": "unstableconcoction.webp",
+      "sha256": "8a4b557e3f21a6a6d68316c43cbf04f0189dedb730cda023d70f3e8fdbca8d5f",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    },
+    {
+      "iconKey": "forge-health-health",
+      "internalId": "item-forge-health--health",
+      "tftId": "TFT_Item_WarmogsArmor",
+      "visibleName": "Armadura de Warmog",
+      "kind": "completed",
+      "recipe": [
+        "component-health",
+        "component-health"
+      ],
+      "file": "warmogsarmor.webp",
+      "sha256": "d776346fd921f8517f69f1c04a2eed6032b28cbd0ef3f10cd76569335e74c8b2",
+      "width": 128,
+      "height": 128,
+      "format": "webp"
+    }
+  ]
+}
