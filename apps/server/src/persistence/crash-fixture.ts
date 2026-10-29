@@ -152,11 +152,17 @@ class Fixture extends MatchRoom {
           (id) => P11H_ITEM_CATALOG.definitions.find((d) => d.content?.sourceRecordId === id)!.id,
         );
         this.match.grantItems(p.id, 'remover-items', definitions);
-        for (const item of [...p.state.items!.completed])
-          if (
-            !act(this.match, i, { type: 'equip_item', unitId: unit.id, itemId: item.id }).accepted
-          )
-            throw Error('Remover setup equipment');
+        for (const item of [...p.state.items!.completed]) {
+          const receipt = act(this.match, i, {
+            type: 'equip_item',
+            unitId: unit.id,
+            itemId: item.id,
+          });
+          if (!receipt.accepted)
+            throw Error(
+              `Remover setup equipment: ${receipt.reason}; ${this.match.clock.snapshot().currentPhase}`,
+            );
+        }
         this.match.grantItems(p.id, 'remover-full-bag', Array(16).fill(definitions[0]!));
       }
       this.match.assertConservation();

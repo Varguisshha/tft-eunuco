@@ -1180,6 +1180,8 @@ it.skipIf(!url).each(['before', 'after'] as const)(
       const id = start.lobby!.matchId!;
       const peer = await join(0, id);
       await join(1, id);
+      // A first snapshot may precede the authenticated start gate's durable commit.
+      await until(() => peer.view!.clock.currentPhase === 'preparation');
       const setup = await fetch('http://127.0.0.1:2583/remover-setup', { method: 'POST' });
       expect(setup.status, await setup.text()).toBe(200);
       const advance = await fetch('http://127.0.0.1:2583/advance', { method: 'POST' });
@@ -1276,6 +1278,7 @@ it.skipIf(!url)(
         id = start.lobby!.matchId!;
       let peer = await join(0, id);
       await join(1, id);
+      await until(() => peer.view!.clock.currentPhase === 'preparation');
       const setup = await fetch('http://127.0.0.1:2583/p12f-setup', { method: 'POST' });
       expect(setup.status, await setup.text()).toBe(200);
       expect((await fetch('http://127.0.0.1:2583/advance', { method: 'POST' })).status).toBe(200);
