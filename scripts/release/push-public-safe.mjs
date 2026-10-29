@@ -9,6 +9,7 @@ const allowedBranches = new Set([
   'release/p12b-public-safe',
   'release/p12d-public-safe',
   'release/p12fg-public-safe',
+  'release/p12j-public-safe',
 ]);
 const expected = process.argv[2];
 if (!/^[a-f0-9]{40}$/.test(expected ?? '') || git('rev-parse', 'HEAD') !== expected)
