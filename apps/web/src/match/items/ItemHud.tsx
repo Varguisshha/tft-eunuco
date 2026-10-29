@@ -13,8 +13,11 @@ import {
   DeliveryTracker,
   previewItemCommand,
   equipmentCommand,
+  combinationPreview,
 } from './itemInteraction';
 import './itemHud.css';
+import '../interactions.css';
+import { resolveElementDrop } from '../../game/dropGeometry';
 export function useItems(session: LocalSession) {
   const c = itemInteraction(session);
   return { c, ui: useSyncExternalStore(c.subscribe, c.getSnapshot, c.getSnapshot) };
@@ -182,7 +185,22 @@ function LegacyItemHud({ session }: { session: LocalSession }) {
                     e.preventDefault();
                     delete e.currentTarget.dataset.drop;
                     const id = e.dataTransfer.getData(ITEM_MIME);
-                    if (id) c.combine(id, item.id);
+                    const hit = resolveElementDrop(
+                      e.clientX,
+                      e.clientY,
+                      [
+                        ...e.currentTarget
+                          .closest('.item-vertical-scroll')!
+                          .querySelectorAll<HTMLElement>('[data-component-instance]'),
+                      ],
+                      'data-component-instance',
+                    );
+                    c.previewCombination(null);
+                    if (id && hit.id) c.combine(id, hit.id);
+                    else
+                      c.error(
+                        'Destino ambiguo. Apunta al centro del componente y vuelve a soltar.',
+                      );
                   }}
                 >
                   <ItemIcon definition={d} />
@@ -397,7 +415,10 @@ export function EquipmentSlots({
                       : 'valid';
                   }
                 }}
-                onDragLeave={(e) => delete e.currentTarget.dataset.drop}
+                onDragLeave={(e) => {
+                  delete e.currentTarget.dataset.drop;
+                  c.previewCombination(null);
+                }}
                 onDrop={(e) => {
                   delete e.currentTarget.dataset.drop;
                   e.preventDefault();
@@ -507,7 +528,11 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
                 !first ||
                 !second ||
                 ui.pending ||
-                !session.editable ||
+                !session.canEconomicAction({
+                  type: 'combine_components',
+                  firstId: first?.id ?? '',
+                  secondId: second?.id ?? '',
+                }) ||
                 result?.availability !== 'available'
               }
               onClick={() => first && second && c.combine(first.id, second.id)}
@@ -524,6 +549,7 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
   return (
     <section className="item-vertical" aria-label="Inventario de objetos">
       <RoundDelivery session={session} />
+      <RecipeBar session={session} />
       <header>
         <strong>Objetos</strong>
         <b>{all.length}</b>
@@ -532,6 +558,40 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
       <div
         ref={scroll}
         className="item-vertical-scroll"
+        onDragOver={(e) => {
+          if (
+            (e.target as Element).closest('[data-item-instance], [data-remover-instance]') ||
+            !e.dataTransfer.types.includes(ITEM_MIME)
+          )
+            return;
+          e.preventDefault();
+          const hit = resolveElementDrop(
+            e.clientX,
+            e.clientY,
+            [...e.currentTarget.querySelectorAll<HTMLElement>('[data-component-instance]')],
+            'data-component-instance',
+          );
+          c.previewCombination(hit.id);
+          c.hint(
+            hit.id === null
+              ? 'Destino ambiguo. Apunta al centro de un componente.'
+              : 'Suelta para combinar estos componentes.',
+          );
+        }}
+        onDrop={(e) => {
+          if ((e.target as Element).closest('[data-item-instance], [data-remover-instance]'))
+            return;
+          e.preventDefault();
+          const id = e.dataTransfer.getData(ITEM_MIME);
+          const hit = resolveElementDrop(
+            e.clientX,
+            e.clientY,
+            [...e.currentTarget.querySelectorAll<HTMLElement>('[data-component-instance]')],
+            'data-component-instance',
+          );
+          if (id && hit.id) c.combine(id, hit.id);
+          else c.error('Destino ambiguo. Conservas el objeto; apunta al centro de un componente.');
+        }}
         aria-label="Bandeja vertical de objetos"
         role="group"
         tabIndex={0}
@@ -571,11 +631,46 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
               <button
                 type="button"
                 className={`item-slot ${held ? 'selected' : ''}`}
+                onFocus={() => {
+                  if (
+                    selected?.kind === 'component' &&
+                    item.kind === 'component' &&
+                    selected.id !== item.id &&
+                    !waiting
+                  )
+                    c.previewCombination(item.id);
+                }}
+                onBlur={() => {
+                  if (!ui.dragging) c.previewCombination(null);
+                }}
+                onMouseEnter={() => {
+                  if (
+                    selected?.kind === 'component' &&
+                    item.kind === 'component' &&
+                    selected.id !== item.id &&
+                    !waiting
+                  )
+                    c.previewCombination(item.id);
+                }}
+                onMouseLeave={() => {
+                  if (!ui.dragging) c.previewCombination(null);
+                }}
                 data-item-instance={item.id}
+                data-component-instance={
+                  item.kind === 'component' && !waiting ? item.id : undefined
+                }
                 aria-label={`${itemLabel(d)}, ranura ${index + 1}${waiting ? ', pendiente de recuperar' : ''}`}
                 aria-pressed={held}
                 disabled={ui.pending}
-                draggable={session.editable && !ui.pending && !waiting}
+                draggable={
+                  !ui.pending &&
+                  !waiting &&
+                  session.canEconomicAction({
+                    type: 'combine_components',
+                    firstId: item.id,
+                    secondId: item.id,
+                  })
+                }
                 onClick={() => {
                   if (
                     selected?.kind === 'component' &&
@@ -596,20 +691,46 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
                 onDragOver={(e) => {
                   if (item.kind === 'component' && !waiting) {
                     e.preventDefault();
-                    e.currentTarget.dataset.drop = previewItemCommand(
-                      state,
-                      c.combinationCommand(ui.selected ?? '', item.id),
-                    )
-                      ? 'invalid'
-                      : 'valid';
+                    const hit = resolveElementDrop(
+                      e.clientX,
+                      e.clientY,
+                      [
+                        ...e.currentTarget
+                          .closest('.item-vertical-scroll')!
+                          .querySelectorAll<HTMLElement>('[data-component-instance]'),
+                      ],
+                      'data-component-instance',
+                    );
+                    c.previewCombination(hit.id);
+                    e.currentTarget.dataset.drop =
+                      !hit.id ||
+                      previewItemCommand(state, c.combinationCommand(ui.selected ?? '', hit.id))
+                        ? 'invalid'
+                        : 'valid';
                   }
                 }}
-                onDragLeave={(e) => delete e.currentTarget.dataset.drop}
+                onDragLeave={(e) => {
+                  delete e.currentTarget.dataset.drop;
+                  c.previewCombination(null);
+                }}
                 onDrop={(e) => {
                   e.preventDefault();
                   delete e.currentTarget.dataset.drop;
                   const id = e.dataTransfer.getData(ITEM_MIME);
-                  if (id) c.combine(id, item.id);
+                  const hit = resolveElementDrop(
+                    e.clientX,
+                    e.clientY,
+                    [
+                      ...e.currentTarget
+                        .closest('.item-vertical-scroll')!
+                        .querySelectorAll<HTMLElement>('[data-component-instance]'),
+                    ],
+                    'data-component-instance',
+                  );
+                  c.previewCombination(null);
+                  if (id && hit.id) c.combine(id, hit.id);
+                  else
+                    c.error('Destino ambiguo. Apunta al centro del componente y vuelve a soltar.');
                 }}
               >
                 <ItemIcon definition={d} />
@@ -622,13 +743,14 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
             </ContextTooltip>
           );
         })}
-        {(remover.length ? remover : [null]).map((tool, index) => (
+        {[remover.find((r) => r.id === ui.selected) ?? remover[0] ?? null].map((tool) => (
           <ContextTooltip
             key={tool?.id ?? 'empty-remover'}
             label="Removedor de objetos"
             content={
               <>
                 <h3>Removedor de objetos</h3>
+                <p>{remover.length} disponibles · cada uso consume una instancia.</p>
                 <p>
                   Devuelve todo el equipo de una unidad propia al inventario. Conserva los objetos
                   completos. Se consume solo tras confirmación.
@@ -643,10 +765,10 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
           >
             <button
               type="button"
-              className={`item-slot remover-slot ${tool?.id === ui.selected ? 'selected' : ''}`}
+              className={`item-slot remover-slot ${isRemover ? 'selected' : ''}`}
               data-remover-instance={tool?.id}
-              aria-label={`Removedor de objetos, cantidad ${tool ? 1 : 0}, ranura ${index + 1}`}
-              aria-pressed={!!tool && tool.id === ui.selected}
+              aria-label={`Removedor de objetos, cantidad ${remover.length}`}
+              aria-pressed={isRemover}
               disabled={!tool || ui.pending}
               draggable={!!tool && !ui.pending}
               onDragStart={(e) => {
@@ -659,6 +781,7 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
               onDragEnd={() => c.endDrag()}
               onClick={() => tool && c.select(tool.id)}
             >
+              <span className="remover-quantity">×{remover.length}</span>
               <svg viewBox="0 0 40 40" aria-hidden="true">
                 <path
                   d="M7 7h10M7 7v10m0-10 10 10M33 7H23m10 0v10m0-10L23 17M7 33h10M7 33V23m0 10 10-10m16 10H23m10 0V23m0 10L23 23"
@@ -716,11 +839,51 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
           )}
         </div>
       )}
-      {ui.outcome !== 'idle' && (
+      {(ui.outcome !== 'idle' || ui.dragging) && (
         <p className={`item-status ${ui.outcome}`} role="status">
           {ui.status}
         </p>
       )}
     </section>
+  );
+}
+
+export function RecipeBar({ session }: { session: LocalSession }) {
+  const { ui } = useItems(session);
+  const state = session.getMatch();
+  const preview =
+    ui.selected && ui.recipeTarget ? combinationPreview(state, ui.selected, ui.recipeTarget) : null;
+  if (!preview) return null;
+  const owner = state.units.find((u) => u.equipment?.some((i) => i.id === ui.recipeTarget));
+  const command = owner
+    ? equipmentCommand(state, owner.id, ui.selected!)
+    : itemInteraction(session).combinationCommand(ui.selected!, ui.recipeTarget!);
+  const reason = session.economicBlockReason(command) ?? previewItemCommand(state, command);
+  const blocked = preview.result.availability !== 'available';
+  return (
+    <aside
+      className={`recipe-bar ${blocked || reason ? 'is-blocked' : ''}`}
+      role="status"
+      aria-label="Vista previa de receta"
+    >
+      <div className="recipe-formula">
+        <ItemIcon definition={preview.first} />
+        <span>+</span>
+        <ItemIcon definition={preview.second} />
+        <span>=</span>
+        <ItemIcon definition={preview.result} />
+      </div>
+      <div>
+        <strong>{itemLabel(preview.result)}</strong>
+        <small>
+          {blocked
+            ? 'Bloqueado · no se consumen componentes'
+            : (reason ??
+              (ui.dragging
+                ? 'Suelta para fabricar · confirmación del servidor'
+                : 'Pulsa para fabricar · confirmación del servidor'))}
+        </small>
+      </div>
+    </aside>
   );
 }

@@ -11,7 +11,9 @@ export function equipmentCommand(state: MatchState, unitId: string, itemId: stri
 }
 export function previewItemCommand(state: MatchState, command: ItemCommand): string | null {
   if (state.phase !== 'preparation' && !canUseCombatEconomy(state, command))
-    return 'Durante combate, el removedor solo admite unidades propias del banquillo ajenas al combate activo.';
+    return state.phase === 'combat'
+      ? 'En combate solo puedes equipar o retirar objetos de unidades propias del banquillo ajenas al combate activo; este guardado debe admitir la operación.'
+      : 'Espera a la preparación para realizar esta operación.';
   try {
     applyItemCommand(structuredClone(state), command);
     return null;
@@ -38,6 +40,7 @@ export type ItemUIState = {
   status: string;
   pending: boolean;
   outcome: 'idle' | 'pending' | 'success' | 'error';
+  recipeTarget: string | null;
 };
 export class ItemInteraction {
   private state: ItemUIState = {
@@ -46,6 +49,7 @@ export class ItemInteraction {
     status: 'Pasa el cursor para consultar; selecciona para equipar.',
     pending: false,
     outcome: 'idle',
+    recipeTarget: null,
   };
   private listeners = new Set<() => void>();
   private command: ItemCommand | null = null;
@@ -72,6 +76,7 @@ export class ItemInteraction {
     if (!this.state.pending)
       this.update({
         selected: id,
+        recipeTarget: null,
         dragging,
         outcome: 'idle',
         status: dragging
@@ -83,6 +88,7 @@ export class ItemInteraction {
     this.update({
       selected: null,
       dragging: false,
+      recipeTarget: null,
       ...(!this.state.pending
         ? {
             outcome: 'idle' as const,
@@ -91,8 +97,14 @@ export class ItemInteraction {
         : {}),
     });
   }
+  previewCombination(target: string | null) {
+    if (target !== this.state.recipeTarget) this.update({ recipeTarget: target });
+  }
   endDrag() {
-    this.update({ dragging: false });
+    this.update({ dragging: false, recipeTarget: null });
+  }
+  hint(message: string) {
+    if (!this.state.pending && this.state.status !== message) this.update({ status: message });
   }
   error(message: string) {
     this.update({ outcome: 'error', status: message, dragging: false });
@@ -137,6 +149,7 @@ export class ItemInteraction {
     this.update({
       pending: false,
       dragging: false,
+      recipeTarget: null,
       selected: done ? null : this.state.selected,
       outcome: done ? 'success' : 'error',
       status: done
@@ -147,7 +160,7 @@ export class ItemInteraction {
   submit(command: ItemCommand) {
     if (this.state.pending) return false;
     if (!this.session.canEconomicAction(command)) {
-      this.error('Espera a la preparación o a recuperar la conexión.');
+      this.error(this.session.economicBlockReason(command) ?? 'Espera a recuperar la conexión.');
       return false;
     }
     const error = previewItemCommand(this.session.getMatch(), command);
@@ -208,4 +221,24 @@ export class DeliveryTracker {
     ids.forEach((id) => this.seen.add(id));
     return fresh;
   }
+}
+
+export function combinationPreview(state: MatchState, firstId: string, secondId: string) {
+  if (!state.items || firstId === secondId) return null;
+  const all = [...state.items.components, ...state.units.flatMap((u) => u.equipment ?? [])];
+  const first = all.find((i) => i.id === firstId && i.kind === 'component');
+  const second = all.find((i) => i.id === secondId && i.kind === 'component');
+  if (!first || !second) return null;
+  const catalog = resolveItemCatalog(state.items.catalogVersion);
+  const recipe = catalog.recipes.find(
+    (r) =>
+      [...r.components].sort().join('|') ===
+      [first.definitionId, second.definitionId].sort().join('|'),
+  );
+  if (!recipe) return null;
+  return {
+    first: catalog.definitions.find((d) => d.id === first.definitionId)!,
+    second: catalog.definitions.find((d) => d.id === second.definitionId)!,
+    result: catalog.definitions.find((d) => d.id === recipe.resultId)!,
+  };
 }

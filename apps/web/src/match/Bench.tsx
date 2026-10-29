@@ -1,3 +1,4 @@
+import { resolveElementDrop } from '../game/dropGeometry';
 import {
   equipmentCommand,
   itemInteraction,
@@ -23,9 +24,15 @@ export function Bench({
     preparing = session.editable;
   useEffect(() => {
     session.dropOutside = (id, x, y) => {
-      const target = document.elementFromPoint(x, y)?.closest<HTMLElement>('[data-bench-slot]');
-      if (!target) return false;
-      session.bench(Number(target.dataset.benchSlot), id);
+      const slots = [...document.querySelectorAll<HTMLElement>('[data-bench-slot]')];
+      const hit = resolveElementDrop(x, y, slots, 'data-bench-slot');
+      const tray = slots[0]?.closest('.bench-section')?.getBoundingClientRect();
+      if (!tray || x < tray.left || x > tray.right || y < tray.top || y > tray.bottom) return false;
+      if (hit.id !== null) session.bench(Number(hit.id), id);
+      else
+        session.reportInteraction(
+          'Destino ambiguo. Conservas la unidad; apunta al centro de una plaza.',
+        );
       // A rejected bench drop must not fall through to the ground behind the tray.
       return true;
     };
@@ -42,6 +49,18 @@ export function Bench({
     event.preventDefault();
     delete event.currentTarget.dataset.itemTarget;
     setDropSlot(null);
+    itemInteraction(session).previewCombination(null);
+    const hit = resolveElementDrop(
+      event.clientX,
+      event.clientY,
+      [...document.querySelectorAll<HTMLElement>('[data-bench-slot]')],
+      'data-bench-slot',
+    );
+    if (hit.id === null) {
+      itemInteraction(session).error('Destino ambiguo. Apunta al centro de una plaza.');
+      return;
+    }
+    slot = Number(hit.id);
     const item = event.dataTransfer.getData(ITEM_MIME);
     if (item) {
       const unit = state.units.find((u) => u.location.kind === 'bench' && u.location.slot === slot);
@@ -52,7 +71,33 @@ export function Bench({
     if (id && preparing) session.bench(slot, id);
   };
   return (
-    <section className="bench-section" aria-label="Banquillo">
+    <section
+      className="bench-section"
+      aria-label="Banquillo"
+      onDragOver={(e) => {
+        if ((e.target as Element).closest('[data-bench-slot]')) return;
+        if (
+          e.dataTransfer.types.includes(ITEM_MIME) ||
+          (preparing && e.dataTransfer.types.includes('application/x-tft-unit'))
+        ) {
+          e.preventDefault();
+          const hit = resolveElementDrop(
+            e.clientX,
+            e.clientY,
+            [...document.querySelectorAll<HTMLElement>('[data-bench-slot]')],
+            'data-bench-slot',
+          );
+          itemInteraction(session).hint(
+            hit.id === null
+              ? 'Destino ambiguo. Apunta al centro de una plaza.'
+              : 'Suelta sobre el centro de una unidad propia.',
+          );
+        }
+      }}
+      onDrop={(e) => {
+        if (!(e.target as Element).closest('[data-bench-slot]')) drop(e, 0);
+      }}
+    >
       <div className="section-line">
         <h2>Banquillo</h2>
         <span>
@@ -70,6 +115,8 @@ export function Bench({
             <button
               key={slot}
               data-bench-slot={slot}
+              data-bench-unit={u?.id}
+              data-equipment-unit={u?.id}
               className={`bench-slot ${u?.id === view.selectedId ? 'selected' : ''} ${dropSlot === slot ? 'drop-target' : ''}`}
               disabled={!preparing && !u}
               aria-label={`Banquillo ${slot + 1}${d && u ? `: ${d.name}, ${u.stars} estrellas` : ': vacío'}`}
@@ -79,12 +126,32 @@ export function Bench({
               onDragLeave={(e) => {
                 delete e.currentTarget.dataset.itemTarget;
                 setDropSlot(null);
+                itemInteraction(session).previewCombination(null);
               }}
               onDragOver={(e) => {
                 if (e.dataTransfer.types.includes(ITEM_MIME)) {
                   e.preventDefault();
                   const id = itemInteraction(session).getSnapshot().selected;
+                  const controller = itemInteraction(session);
+                  controller.previewCombination(
+                    u?.equipment?.find((i) => i.kind === 'component')?.id ?? null,
+                  );
+                  if (u && id) {
+                    const command = equipmentCommand(state, u.id, id);
+                    controller.hint(
+                      session.economicBlockReason(command) ??
+                        previewItemCommand(state, command) ??
+                        `Suelta para equipar a ${d?.name ?? u.definitionId}.`,
+                    );
+                  }
+                  const hit = resolveElementDrop(
+                    e.clientX,
+                    e.clientY,
+                    [...document.querySelectorAll<HTMLElement>('[data-bench-slot]')],
+                    'data-bench-slot',
+                  );
                   e.currentTarget.dataset.itemTarget =
+                    hit.id === String(slot) &&
                     u &&
                     id &&
                     session.canEconomicAction(equipmentCommand(state, u.id, id)) &&

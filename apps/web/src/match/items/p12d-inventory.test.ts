@@ -36,7 +36,7 @@ it('renders each real identical component/completed/pending instance exactly onc
   expect(session.getMatch().items).toEqual(s.items);
 });
 
-it('consumables also render one real identity per slot rather than one stock counter', () => {
+it('groups only consumables visually while retaining a real selected consumption identity', () => {
   const s = createMatch(42, {
     ...P12D_ECONOMY_CONFIG,
     removerPolicy: { ...P12D_ECONOMY_CONFIG.removerPolicy!, initialQuantity: 2 },
@@ -44,10 +44,13 @@ it('consumables also render one real identity per slot rather than one stock cou
   const session = new LocalSession(s),
     tools = s.items!.removers!.issued;
   const html = renderToStaticMarkup(createElement(ItemHud, { session }));
-  expect(html.match(/data-remover-instance=/g)).toHaveLength(2);
-  for (const tool of tools) expect(html).toContain(`data-remover-instance="${tool.id}"`);
+  expect(html.match(/data-remover-instance=/g)).toHaveLength(1);
+  expect(html).toContain(`data-remover-instance="${tools[0]!.id}"`);
+  expect(html).toContain('cantidad 2');
   itemInteraction(session).select(tools[1]!.id);
   const selected = renderToStaticMarkup(createElement(ItemHud, { session }));
   expect(selected.match(/aria-pressed="true"/g)).toHaveLength(1);
-  expect(selected).not.toContain('cantidad 2');
+  expect(selected).toContain('cantidad 2');
+  expect(selected).toContain(`data-remover-instance="${tools[1]!.id}"`);
+  expect(session.getMatch().items!.removers!.issued).toHaveLength(2);
 });

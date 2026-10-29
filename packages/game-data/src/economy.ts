@@ -202,3 +202,9 @@ export const P12D_ECONOMY_CONFIG = EconomyConfigSchema.parse({
   ...P12B_ECONOMY_CONFIG,
   shopLockPolicy: 'consume-on-auto-refresh-1',
 });
+
+/** P12F authorizes inventory crafting and bench equipment without changing a frozen combat. */
+export const P12F_ECONOMY_CONFIG = EconomyConfigSchema.parse({
+  ...P12D_ECONOMY_CONFIG,
+  combatItemPolicy: 'bench-crafting-1',
+});

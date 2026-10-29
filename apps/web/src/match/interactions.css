@@ -1,0 +1,224 @@
+/* Festival Pop interaction feedback; authority owns every resulting change. */
+.game-hud .remover-slot {
+  position: relative;
+}
+.remover-quantity {
+  position: absolute;
+  inset: auto 2px 1px auto;
+  color: var(--neon-text-primary, #f4f3ff);
+  background: var(--neon-surface-overlay, #1c1f44);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 1px 3px;
+  z-index: 1;
+  font-variant-numeric: tabular-nums;
+}
+.recipe-bar {
+  position: fixed;
+  z-index: 850;
+  left: 50%;
+  bottom: calc(
+    var(--dock-bottom, 28px) + var(--dock-height, 170px) + var(--bench-height, 80px) + 22px
+  );
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(460px, 56vw);
+  padding: 10px 14px;
+  border: 2px solid var(--neon-state-selected, #c7ef60);
+  background: var(--neon-surface-overlay, #1c1f44);
+  color: var(--neon-text-primary, #f4f3ff);
+  box-shadow: 0 8px 24px #0f112580;
+  pointer-events: none;
+}
+.recipe-bar.is-blocked {
+  border-color: var(--neon-game-danger, #ff817a);
+}
+.recipe-formula {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.recipe-formula .item-icon {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+}
+.recipe-bar strong,
+.recipe-bar small {
+  display: block;
+}
+.recipe-bar strong {
+  font-size: 14px;
+}
+.recipe-bar small {
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 4px;
+}
+.trait-members-section {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--neon-border-primary, #5078f5);
+}
+.trait-members-section h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+.trait-members {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 30px);
+  gap: 5px;
+  max-width: 100%;
+}
+.trait-member-readout {
+  min-height: 58px;
+  padding-top: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.trait-member-readout strong,
+.trait-member-readout span {
+  display: block;
+}
+.trait-member {
+  position: relative;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 30px;
+  padding: 0;
+  overflow: hidden;
+  background: var(--neon-surface-overlay, #1c1f44);
+  border: 1px solid var(--neon-border-primary, #5078f5);
+  color: var(--neon-text-primary, #f4f3ff);
+}
+.trait-member[data-presence='missing'] {
+  filter: grayscale(1);
+  opacity: 0.65;
+  border-style: dashed;
+}
+.trait-member[data-presence='deployed'] {
+  border-color: var(--neon-game-life, #70e0a3);
+}
+.trait-member[data-presence='bench'] {
+  border-color: var(--neon-game-gold, #f6c454);
+}
+.trait-presence-mark {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 6px;
+  height: 6px;
+  background: var(--neon-game-gold, #f6c454);
+}
+.trait-member:focus-visible {
+  outline: 2px solid var(--neon-state-selected, #c7ef60);
+  outline-offset: -2px;
+}
+.game-hud .local-zoom {
+  opacity: 1;
+}
+.zoom-hint {
+  font-size: 11px;
+  align-self: center;
+  color: var(--neon-text-secondary, #d4d4e5);
+}
+.canvas-item-feedback {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 330px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--neon-game-danger, #ff817a);
+  background: var(--neon-surface-overlay, #1c1f44);
+  pointer-events: none;
+  z-index: 5;
+}
+@media (max-width: 1400px) {
+  .zoom-hint {
+    display: none;
+  }
+  .trait-member {
+    flex-basis: 24px;
+    width: 24px;
+    height: 26px;
+  }
+}
+[data-item-instance],
+[data-remover-instance],
+[data-bench-unit] {
+  touch-action: none;
+}
+[data-pointer-target][data-item-target='valid'] {
+  outline: 2px solid var(--neon-state-selected, #c7ef60);
+  outline-offset: -2px;
+}
+[data-pointer-target][data-item-target='invalid'] {
+  outline: 2px solid var(--neon-game-danger, #ff817a);
+  outline-offset: -2px;
+}
+
+.trait-member[data-presence='deployed'] .trait-presence-mark {
+  background: var(--neon-game-life, #70e0a3);
+}
+.trait-member[data-presence='missing'] .trait-presence-mark {
+  display: none;
+}
+
+/* Portraits stay in the synergy description portal. No provisional robot/icon substitute. */
+.trait-members-section .trait-members {
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 6px;
+}
+.trait-members-section .trait-member {
+  width: 100%;
+  min-width: 0;
+  height: 76px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.trait-portrait {
+  position: relative;
+  display: block;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  background: var(--neon-surface-canvas, #0f1125);
+}
+.trait-portrait img {
+  position: absolute;
+  max-width: none;
+  object-fit: fill;
+}
+.trait-portrait-missing {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 2px;
+  color: var(--neon-text-secondary, #d4d4e5);
+  font-size: 11px;
+  line-height: 1.1;
+}
+.trait-member-name {
+  width: 100%;
+  font-size: 11px;
+  line-height: 12px;
+  padding-top: 2px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  color: var(--neon-text-primary, #f4f3ff);
+}
+.trait-members-section .trait-member[data-presence='missing'] {
+  filter: none;
+  opacity: 0.75;
+}
+.trait-members-section .trait-member[data-presence='missing'] .trait-portrait {
+  filter: grayscale(1);
+}

@@ -1,16 +1,25 @@
 import { expect, it } from 'vitest';
 import { randomUUID } from 'node:crypto';
-import { P12D_ECONOMY_CONFIG } from '@tft/game-data';
+import { P12D_ECONOMY_CONFIG, P12F_ECONOMY_CONFIG } from '@tft/game-data';
 import { LOBBY_VERSION, type LobbySnapshot } from '@tft/shared';
 import { AuthoritativeMatch } from '../AuthoritativeMatch';
 import { fixtureUsers } from '../multi-fixture';
 import { DurableMatch } from './DurableMatch';
 import { encodeStoredMatch, decodeStoredMatch } from './codec';
-import { P12B_CATALOG_HASH, P12D_CATALOG_HASH, type StoredMatch } from './snapshot';
-it.each([2, 3, 4] as const)(
-  '%i players: durable overtime/double-elimination final, disconnect/resume and codec survive each committed transition',
-  async (n) => {
-    const m = new AuthoritativeMatch(randomUUID(), undefined, () => 360, n, P12D_ECONOMY_CONFIG);
+import {
+  P12B_CATALOG_HASH,
+  P12D_CATALOG_HASH,
+  P12F_CATALOG_HASH,
+  type StoredMatch,
+} from './snapshot';
+it.each(
+  ([P12D_ECONOMY_CONFIG, P12F_ECONOMY_CONFIG] as const).flatMap((config) =>
+    ([2, 3, 4] as const).map((n) => ({ n, config })),
+  ),
+)(
+  '$n players ($config.combatItemPolicy): durable overtime/double-elimination final, disconnect/resume and codec survive each committed transition',
+  async ({ n, config }) => {
+    const m = new AuthoritativeMatch(randomUUID(), undefined, () => 360, n, config);
     for (let i = 0; i < n; i++)
       m.join(`socket-${i}`, { userId: fixtureUsers[i]!, name: `Lab ${i}` });
     m.start('socket-0');
@@ -68,7 +77,9 @@ it.each([2, 3, 4] as const)(
     expect(P12B_CATALOG_HASH).toBe(
       '0948310d6132a43cf03607ab356c12120357473863ff75c87cdde6fe7b45e72f',
     );
-    expect(saved!.authority.catalog).toBe(P12D_CATALOG_HASH);
+    expect(saved!.authority.catalog).toBe(
+      config.combatItemPolicy ? P12F_CATALOG_HASH : P12D_CATALOG_HASH,
+    );
   },
   30000,
 );
