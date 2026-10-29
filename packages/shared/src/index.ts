@@ -31,3 +31,5 @@ export * from './roster';
 
 export * from './combat-statistics';
 export * from './item-drops';
+
+export * from './arenas';

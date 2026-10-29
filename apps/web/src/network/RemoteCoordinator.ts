@@ -30,6 +30,9 @@ import {
   type RemoteTrace,
 } from './remoteView';
 export class RemoteCoordinator implements MatchCoordinator {
+  get arenaId() {
+    return this.snapshot?.arenaId ?? 'mar-de-cristal';
+  }
   readonly development = false;
   readonly recoveredFromSave = false;
   readonly remote = true;

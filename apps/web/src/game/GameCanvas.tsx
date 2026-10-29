@@ -52,10 +52,12 @@ export function GameCanvas({
   const ready = readyScene !== null;
   const [itemFeedback, setItemFeedback] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [assetWarning, setAssetWarning] = useState(false);
   useEffect(() => {
     if (!host.current) return;
     setReadyScene(null);
     setError(null);
+    setAssetWarning(false);
     let live = true;
     let game: Phaser.Game | undefined;
     let observer: ResizeObserver | undefined;
@@ -90,8 +92,7 @@ export function GameCanvas({
         arena,
       );
       board.onCalibrationHover = (hex, point) => setCalibrationHover({ hex, point });
-      board.onAssetError = () =>
-        setError('No se pudo cargar la imagen de la arena. Recarga para volver a intentarlo');
+      board.onAssetError = () => setAssetWarning(true);
       scene.current = board;
       game = new Phaser.Game({
         type: Phaser.WEBGL,
@@ -326,6 +327,11 @@ export function GameCanvas({
         >
           <strong>{frame.overtime ? 'OVERTIME' : 'COMBATE'}</strong>
           <span>{(frame.remainingTicks / 10).toFixed(1)} s restantes</span>
+        </div>
+      )}
+      {assetWarning && (
+        <div className="canvas-notice" role="status">
+          Fondo no disponible. Tablero provisional activo. Recarga para reintentar.
         </div>
       )}
       {!ready && !error && <div className="canvas-notice">Preparando la arena…</div>}

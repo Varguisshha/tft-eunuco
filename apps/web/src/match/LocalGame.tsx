@@ -23,15 +23,18 @@ import { LocalSession } from './LocalSession';
 import { UnitInspector } from './UnitInspector';
 import { Bench } from './Bench';
 import { Shop } from './Shop';
-import { MAR_DE_CRISTAL } from '../arenas/marDeCristal';
+import { resolveArena } from '../arenas/registry';
 export function LocalGame({
   session,
   onNew,
+  arenaId,
 }: {
+  arenaId?: import('@tft/shared').ArenaId;
   session: LocalSession;
   onNew: () => void;
   onReplace: (c: LocalMatchCoordinator) => void;
 }) {
+  const arena = resolveArena(session.remote?.arenaId ?? arenaId);
   const view = useSyncExternalStore(session.subscribe, session.getSnapshot, session.getSnapshot);
   const state = session.getMatch();
   const coordinator = session.authority;
@@ -274,7 +277,8 @@ export function LocalGame({
             }
             fitted
             hideTimer
-            arena={MAR_DE_CRISTAL}
+            key={arena.id}
+            arena={arena}
             development={coordinator?.development ?? false}
           />
           <div className="formation-readout">

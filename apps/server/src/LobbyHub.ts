@@ -1,6 +1,7 @@
 import { randomInt, randomUUID } from 'node:crypto';
 import {
   LOBBY_VERSION,
+  ArenaIdSchema,
   LobbyActionSchema,
   lobbyStartReason,
   type LobbyEvent,
@@ -114,6 +115,15 @@ export class LobbyHub {
     try {
       this.limited('all:' + id, 90);
       const parsed = LobbyActionSchema.safeParse(raw);
+      if (
+        !parsed.success &&
+        raw &&
+        typeof raw === 'object' &&
+        'type' in raw &&
+        raw.type === 'set_arena' &&
+        (!('arenaId' in raw) || !ArenaIdSchema.safeParse(raw.arenaId).success)
+      )
+        throw new Error('Arena desconocida. Selecciona una pista disponible.');
       if (!parsed.success)
         throw new Error('Solicitud no válida. Revisa el código de ocho caracteres.');
       const action = parsed.data;
@@ -153,6 +163,7 @@ export class LobbyHub {
             roomCode: code,
             hostUserId: id,
             capacity: action.capacity,
+            arenaId: 'mar-de-cristal',
             participants: [],
             status: 'waiting',
             createdAt: this.now(),
@@ -195,7 +206,14 @@ export class LobbyHub {
             this.emit(id, requestId);
             return;
           }
-          if (action.type === 'set_capacity') {
+          if (action.type === 'set_arena') {
+            if (lobby.arenaId !== action.arenaId) {
+              lobby.arenaId = action.arenaId;
+              lobby.participants.forEach((p) => {
+                p.readyState = false;
+              });
+            }
+          } else if (action.type === 'set_capacity') {
             if (action.capacity < lobby.participants.length)
               throw new Error('No puedes reducir las plazas por debajo de los participantes.');
             if (lobby.capacity !== action.capacity) {

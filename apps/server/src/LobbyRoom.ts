@@ -46,6 +46,7 @@ export function lobbyRooms(
       if (!permit) throw new ServerError(403, 'La partida debe iniciarse desde una sala privada.');
       permits.delete(options.ticket!);
       this.permit = permit;
+      this.arenaId = permit.lobby?.arenaId ?? 'mar-de-cristal';
       if (repository) this.roomId = permit.saved?.id ?? randomUUID();
       super.onCreate();
       if (repository && permit.lobby) {

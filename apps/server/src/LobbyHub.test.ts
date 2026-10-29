@@ -354,3 +354,29 @@ describe('expanded capacity transition guards', () => {
     },
   );
 });
+
+it('P12I: host authority, ready invalidation, invalid IDs, reconnect and historical defaults', async () => {
+  const f = fixture();
+  await f.pair();
+  expect(f.lobby().arenaId).toBe('mar-de-cristal');
+  await f.ready();
+  await f.act(1, 'set_arena', { arenaId: 'cafeteria-upm-etsisi' });
+  expect(f.event(1).error).toMatch(/anfitrión/);
+  expect(f.lobby().arenaId).toBe('mar-de-cristal');
+  await f.act(0, 'set_arena', { arenaId: 'unknown' });
+  expect(f.event().error).toBeTruthy();
+  await f.act(0, 'set_arena', { arenaId: 'cafeteria-upm-etsisi' });
+  expect(f.lobby(1).arenaId).toBe('cafeteria-upm-etsisi');
+  expect(f.lobby().participants.every((p) => !p.readyState)).toBe(true);
+  f.hub.disconnect(ids[1]!);
+  f.connect(1);
+  expect(f.lobby(1).arenaId).toBe('cafeteria-upm-etsisi');
+  await f.ready();
+  await f.act(0, 'start_match');
+  await f.act(0, 'set_arena', { arenaId: 'mar-de-cristal' });
+  expect(f.event().error).toBeTruthy();
+  expect(f.lobby().arenaId).toBe('cafeteria-upm-etsisi');
+  const legacy = { ...f.lobby(), version: 'f0p7b2-1' };
+  delete legacy.arenaId;
+  expect(LobbySnapshotSchema.parse(legacy).arenaId).toBeUndefined();
+});

@@ -88,7 +88,11 @@ export class BoardScene extends Phaser.Scene {
   create(): void {
     if (this.arena && this.textures.exists(this.arena.image.key)) {
       this.add.image(0, 0, this.arena.image.key).setOrigin(0).setDepth(-100);
-    } else if (!this.arena) this.drawTechnicalGround();
+    } else {
+      this.drawTechnicalGround();
+      // A decoded image can fail without a transport error (e.g. an HTML 200 response).
+      if (this.arena) this.onAssetError?.();
+    }
     this.overlay = this.add.graphics().setDepth(2);
     this.itemHalo = this.add.graphics().setDepth(10000);
     this.combatRenderer = new CombatRenderer(this, this.projection, !this.fitted);

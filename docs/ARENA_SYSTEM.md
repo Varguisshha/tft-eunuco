@@ -1,11 +1,12 @@
 # Sistema de arenas — contrato visual v1
 
-F0-P5.2, 23 de octubre de 2026. La Partida local utiliza `mar-de-cristal`. La Arena técnica mantiene su escenario original. No hay selector público, tienda de arenas ni cambios en reglas.
+F0-P12I, 29 de octubre de 2026. La Partida local utiliza `mar-de-cristal`. El anfitrión de una sala privada puede elegir Mar de Cristal o Cafetería UPM — ETSISI antes del inicio. La Arena técnica mantiene su escenario original. No hay tienda de arenas ni cambios en reglas.
 
 ## Responsabilidades
 
 - `apps/web/src/arenas/arena.ts`: contrato `ArenaDefinition`, validación, proyección, escala y política de cuadrícula.
-- `marDeCristal.ts`: única configuración aceptada para esta ilustración: recurso, dimensiones, perímetro, controles, cámara, cuadrícula y escala de personajes.
+- `marDeCristal.ts` / `cafeteriaUpm.ts`: configuración propia de cada ilustración: recurso, dimensiones, perímetro, controles, cámara, cuadrícula y escala de personajes.
+- `registry.ts`: `ArenaRegistry`, registro exhaustivo por `ArenaId`, descripción, miniatura, aspect ratio, versión de configuración y precarga de la imagen seleccionada.
 - `geometry.ts`: homografía de cuatro correspondencias, inversa, transformación de puntos y comprobación de polígonos convexos. La matriz se calcula al iniciar o cambiar calibración, nunca por fotograma.
 - `camera.ts`: encuadre uniforme del fondo y del mundo proyectado, límites de seguridad del tablero y puntos de interés opcionales (`camera.landmarks`), cuya visibilidad tiene prioridad sobre cover. El modo opcional `camera.framing: contain` conserva la imagen entera al zoom por defecto. El rectángulo del banquillo flotante determina un margen inferior protegido para las casillas.
 - `ArenaCalibration.tsx`: herramientas exclusivas de partidas de desarrollo. Persistencia separada y exportación JSON.
@@ -13,7 +14,23 @@ F0-P5.2, 23 de octubre de 2026. La Partida local utiliza `mar-de-cristal`. La Ar
 - `BoardScene`: carga imagen, pinta overlays temporales y traduce clics y drops. `GameCanvas` conserva ResizeObserver, densidad limitada a 2 y el puente React/Phaser.
 - `PhaserUnitVisual`: escala uniforme por profundidad, origen de pies del manifiesto y sombras. `CombatRenderer` proyecta la interpolación del movimiento lógico y los eventos existentes.
 
-No se modifican `packages/game-core`, `packages/shared`, `packages/game-data`, el contrato de sprites ni el reloj. La calibración no se serializa dentro de los guardados de partida.
+No se modifican `packages/game-core`, `packages/game-data`, el contrato de sprites ni el reloj de producción. `packages/shared` incorpora el ID visual y el contrato del selector. La calibración no se serializa dentro de los guardados de partida.
+
+## Autoridad, persistencia y compatibilidad P12I
+
+`packages/shared/src/arenas.ts` limita los IDs a `mar-de-cristal` y `cafeteria-upm-etsisi`. `LobbyHub` crea salas con Mar, acepta `set_arena` solo del anfitrión mientras están en espera y anula todos los estados Listo cuando cambia la selección. Repetir la misma selección no los anula. Invitados y cambios posteriores al inicio se rechazan en el servidor; no basta con deshabilitar el control en React.
+
+`LobbySnapshot.arenaId` es metadata autoritativa de presentación. Se guarda con el lobby de `StoredMatch` al iniciar la partida y se restaura mediante el permiso de `LobbyRoom`. `MatchRoom` transmite la arena en cada snapshot de Cafetería; los snapshots de Mar conservan la forma histórica sin ese campo. `RemoteCoordinator` resuelve su ausencia como Mar. Los espectadores reciben la misma identidad visual a través del snapshot principal.
+
+Las partidas guardadas sin `arenaId` y con contrato de lobby `f0p7b2-1` siguen siendo válidas y no se reescriben. Las acciones/eventos nuevos usan `f0p12i-1`: cliente y servidor deben actualizarse juntos. Un cliente antiguo no debe interpretar una partida de Cafetería como Mar. Los fingerprints de catálogos, objetos y snapshots del motor permanecen intactos: el ID no entra en la simulación ni en su semilla.
+
+Las salas **previas al inicio** siguen siendo efímeras, como antes de P12I. Un reinicio elimina esas salas y su selección; la garantía PostgreSQL/reinicio/SIGKILL se aplica a partidas ya creadas. No se añade una tabla ni una migración para persistir salas en espera.
+
+## Recursos y errores
+
+El PNG suministrado se conserva byte por byte en `art/arenas/`. El navegador utiliza una conversión WebP lossless con igualdad de píxeles decodificados comprobada. `art/arenas/manifest.json` registra hashes, dimensiones y derivados. Las miniaturas son recursos locales independientes; al seleccionar solo se precarga y decodifica el fondo elegido. El catálogo registra URLs, no descarga ambos fondos completos al importar JavaScript.
+
+Si falta una miniatura se conserva el nombre y la selección. Si falla el fondo, `BoardScene` dibuja el suelo provisional sobre la misma proyección y `GameCanvas` informa cómo reintentar. El fallo visual no modifica celdas ni comandos. No se usan CDNs externos.
 
 ## Contrato
 
@@ -60,6 +77,8 @@ Guardar usa `tft-arena-calibration-v1:<id>`. Recuperar comprueba versión, arena
 3. Marcar un perímetro de suelo libre de obstáculos y cuatro controles en orden fondo/derecha/frente/izquierda.
 4. Ajustar cámara y escala con las herramientas de desarrollo; exportar y revisar los datos.
 5. Validar manifiesto, esquinas, bordes, inversa, zoom, cinco tamaños, DOLEA y guardados.
-6. Pasar la configuración a `GameCanvas`. La Arena técnica continúa sin esta opción.
+6. Añadir el ID al enum compartido y la definición/miniatura al registro tipado; incrementar la versión del contrato de selección si exige incompatibilidad. El selector enumera el registro y `LocalGame` pasa la arena autoritativa a `GameCanvas`, sin un motor nuevo. La Arena técnica continúa sin esta opción.
+
+Para una tercera arena, las tareas principales son su definición/calibración, los dos assets de navegador y su entrada en el manifiesto. Ejecutar las pruebas parametrizadas de `arena.test.ts`, `visualIntegration.test.ts` y `registry.test.ts`, además de selección/persistencia y revisión visual. No editar combate, daño, targeting, inventario ni economía.
 
 El contrato actual implementa una superficie plana proyectiva. Escenarios con desniveles, máscaras de oclusión de edificios o múltiples planos requerirán una extensión explícita; no deben simularse alterando coordenadas del combate.

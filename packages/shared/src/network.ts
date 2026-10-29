@@ -1,5 +1,6 @@
 import { ItemActionSchema } from './items';
 import { z } from 'zod';
+import { ArenaIdSchema } from './arenas';
 import { MatchActionSchema, MatchStateSchema, OwnedUnitSchema } from './match';
 import { CombatBatchSchema } from './combat';
 import { PhaseSnapshotSchema, ReplaySchema } from './match-clock';
@@ -65,6 +66,7 @@ export const PurchaseUpgradeSchema = z.strictObject({
   stars: z.union([z.literal(2), z.literal(3)]),
 });
 export const NetworkSnapshotSchema = z.strictObject({
+  arenaId: ArenaIdSchema.optional(),
   version: z.literal(NETWORK_VERSION),
   matchId: id,
   revision: nat,

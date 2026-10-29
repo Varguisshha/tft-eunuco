@@ -5,6 +5,7 @@ import { resolveAnimation } from '@tft/sprite-contract';
 import { PhaserUnitVisual } from '../game/visualAdapter';
 import { characterManifest } from '../game/characterAssets';
 import { MAR_DE_CRISTAL as arena } from './marDeCristal';
+import { ArenaRegistry } from './registry';
 import { characterScale } from './arena';
 vi.mock('phaser', () => ({ default: {} }));
 // Observable rendering boundary; actual adapter, manifests and animation sampler remain real.
@@ -104,9 +105,13 @@ function scene() {
 }
 beforeEach(() => vi.stubGlobal('window', { matchMedia: () => ({ matches: false }) }));
 afterEach(() => vi.unstubAllGlobals());
-it.each([1, 2, 3] as const)(
-  'DOLEA %s★ keeps feet, uniform scale and depth for all attack frames and fallbacks',
-  (stars) => {
+it.each(
+  Object.values(ArenaRegistry).flatMap((arena) =>
+    ([1, 2, 3] as const).map((stars) => ({ arena, stars })),
+  ),
+)(
+  '$arena.id: DOLEA $stars★ keeps feet, uniform scale and depth for all attack frames and fallbacks',
+  ({ arena, stars }) => {
     const fake = scene();
     const visual = new PhaserUnitVisual(fake.value, getUnitDefinition('dolea')!, 'south', arena);
     visual.setStars(stars);

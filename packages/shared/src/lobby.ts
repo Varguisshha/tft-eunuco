@@ -1,5 +1,6 @@
 import { z } from 'zod';
-export const LOBBY_VERSION = 'f0p7b2-1' as const;
+import { ArenaIdSchema } from './arenas';
+export const LOBBY_VERSION = 'f0p12i-1' as const;
 export const LobbyCapacitySchema = z.union([z.literal(2), z.literal(3), z.literal(4)]);
 export const normalizeRoomCode = (code: string) => code.trim().toUpperCase().replace(/[\s-]/g, '');
 export const RoomCodeSchema = z
@@ -12,6 +13,7 @@ export const LobbyActionSchema = z.discriminatedUnion('type', [
   z.object({ ...base, type: z.literal('create_lobby'), capacity: LobbyCapacitySchema }).strict(),
   z.object({ ...base, type: z.literal('join_lobby'), roomCode: RoomCodeSchema }).strict(),
   z.object({ ...base, type: z.literal('set_capacity'), capacity: LobbyCapacitySchema }).strict(),
+  z.object({ ...base, type: z.literal('set_arena'), arenaId: ArenaIdSchema }).strict(),
   z.object({ ...base, type: z.literal('set_ready'), readyState: z.boolean() }).strict(),
   ...(['leave_lobby', 'close_lobby', 'start_match', 'sync'] as const).map((type) =>
     z.object({ ...base, type: z.literal(type) }).strict(),
@@ -19,10 +21,11 @@ export const LobbyActionSchema = z.discriminatedUnion('type', [
 ]);
 export const LobbySnapshotSchema = z
   .object({
-    version: z.literal(LOBBY_VERSION),
+    version: z.enum(['f0p7b2-1', LOBBY_VERSION]),
     roomId: z.string().uuid(),
     roomCode: RoomCodeSchema,
     hostUserId: z.string().uuid(),
+    arenaId: ArenaIdSchema.optional(),
     capacity: LobbyCapacitySchema,
     participants: z
       .array(

@@ -300,6 +300,7 @@ export class MatchRoom extends Room {
     }
     return true;
   }
+  protected arenaId: import('@tft/shared').ArenaId = 'mar-de-cristal';
   private sendView(client: Client) {
     if (!this.valid(client)) return;
     const modern = this.modernProtocol || this.match.capacity > 2;
@@ -326,7 +327,10 @@ export class MatchRoom extends Room {
       });
       this.sentCombat.set(client.sessionId, snapshot.combatId!);
     }
-    client.send('state_snapshot', snapshot);
+    client.send(
+      'state_snapshot',
+      this.arenaId === 'mar-de-cristal' ? snapshot : { ...snapshot, arenaId: this.arenaId },
+    );
     const final = this.match.finalResults;
     if (modern && final && !this.sentFinal.has(client.sessionId)) {
       client.send('final_results', final);

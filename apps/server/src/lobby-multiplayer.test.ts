@@ -83,6 +83,7 @@ it.each([2, 3, 4] as const)(
       gateways.push(r);
     }
     const created = await action(gateways[0]!, 'create_lobby', { capacity: count });
+    await action(gateways[0]!, 'set_arena', { arenaId: 'cafeteria-upm-etsisi' });
     for (let i = 1; i < count; i++)
       await action(gateways[i]!, 'join_lobby', { roomCode: created.lobby!.roomCode });
     expect((await action(gateways[0]!, 'start_match')).error).toMatch(/listos/);
@@ -96,6 +97,9 @@ it.each([2, 3, 4] as const)(
     if (count < 4) await expect(client(3).joinById(id)).rejects.toThrow();
     const match = authorities.get(id)!;
     expect(match.capacity).toBe(count);
+    expect(
+      (await action(gateways[0]!, 'set_arena', { arenaId: 'mar-de-cristal' })).error,
+    ).toBeTruthy();
     const sockets: Room[] = [];
     const views: Array<RoundSnapshot | undefined> = [];
     const traces: Array<Array<ReturnType<typeof DuelMessageSchema.parse>>> = [];
@@ -127,6 +131,7 @@ it.each([2, 3, 4] as const)(
       Array(count).fill(['Vargas', 'Florin', 'Nora', 'Alex'].slice(0, count)),
     );
     // Unequal formations produce an early completed duel while another is still playing.
+    expect(views.every((v) => v?.arenaId === 'cafeteria-upm-etsisi')).toBe(true);
     equip(match, [0], ['dolea'], 2);
     equip(
       match,

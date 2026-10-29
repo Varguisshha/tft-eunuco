@@ -1,3 +1,4 @@
+import { ArenaSelector } from '../arenas/ArenaSelector';
 import { gameEndpoint } from './endpoint';
 import { useEffect, useRef, useState } from 'react';
 import { Client, type Room } from '@colyseus/sdk';
@@ -287,6 +288,11 @@ export function Multiplayer({
             </p>
             {lobby ? (
               <>
+                <ArenaSelector
+                  value={lobby.arenaId ?? 'mar-de-cristal'}
+                  disabled={blocked || !waiting || !host}
+                  onChange={(arenaId) => send('set_arena', { arenaId })}
+                />
                 <div className="lobby-code">
                   <span>Código de sala</span>
                   <strong>

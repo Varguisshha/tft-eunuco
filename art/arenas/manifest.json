@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "phase": "F0-P12I",
+  "source": "User-supplied final image; no regeneration or reinterpretation",
+  "originalFileName": "Plaza soleada de la cafetería UPM.png",
+  "originalDimensions": {
+    "width": 1672,
+    "height": 941
+  },
+  "exports": [
+    {
+      "path": "art/arenas/cafeteria-upm-etsisi.png",
+      "bytes": 3645009,
+      "sha256": "5b484c800b04fc69c33d6d1e7fcb8b3858c1c682a0da0b14a650b922927598ba",
+      "purpose": "lossless-master"
+    },
+    {
+      "path": "apps/web/public/assets/arenas/cafeteria-upm-etsisi.webp",
+      "bytes": 2816008,
+      "sha256": "30a63b9af50d5032468050ff2294295a0e193bcd080af18f3073392694ced967",
+      "purpose": "lossless-browser-background"
+    },
+    {
+      "path": "apps/web/public/assets/arenas/cafeteria-upm-etsisi-thumb.webp",
+      "bytes": 54144,
+      "sha256": "1306e95bfae3ac83eca23c633fe7a8c022fbeefa446853e1ccbf048f40507863",
+      "purpose": "lobby-thumbnail"
+    },
+    {
+      "path": "apps/web/public/assets/arenas/mar-de-cristal-thumb.webp",
+      "bytes": 50398,
+      "sha256": "5594d873f879f21377c4deb69964e9b46afd048e0f2d25be608e31661546bad3",
+      "purpose": "lobby-thumbnail"
+    }
+  ],
+  "arenas": [
+    {
+      "arenaId": "mar-de-cristal",
+      "definition": "apps/web/src/arenas/marDeCristal.ts",
+      "configVersion": 1,
+      "background": "/assets/arenas/mar-de-cristal.webp",
+      "thumbnail": "/assets/arenas/mar-de-cristal-thumb.webp",
+      "dimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "backgroundSha256": "e6522b1b7cfe0bbd42d8a345e8748a1858c08d3032c5178f7a1d17af04746a87",
+      "sourceSha256": "710815591780ff893603bca90f7bbf544d233585ba373ddb357a19097511761a"
+    },
+    {
+      "arenaId": "cafeteria-upm-etsisi",
+      "definition": "apps/web/src/arenas/cafeteriaUpm.ts",
+      "configVersion": 1,
+      "background": "/assets/arenas/cafeteria-upm-etsisi.webp",
+      "thumbnail": "/assets/arenas/cafeteria-upm-etsisi-thumb.webp",
+      "dimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "backgroundSha256": "30a63b9af50d5032468050ff2294295a0e193bcd080af18f3073392694ced967",
+      "sourceSha256": "5b484c800b04fc69c33d6d1e7fcb8b3858c1c682a0da0b14a650b922927598ba"
+    }
+  ]
+}

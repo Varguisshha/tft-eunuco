@@ -210,6 +210,7 @@ it.skipIf(!url).each([2, 3, 4] as const)(
       await boot();
       const gates = await Promise.all(Array.from({ length: count }, (_, i) => gate(i)));
       const created = await action(gates[0]!, 'create_lobby', { capacity: count });
+      await action(gates[0]!, 'set_arena', { arenaId: 'cafeteria-upm-etsisi' });
       for (let i = 1; i < count; i++)
         await action(gates[i]!, 'join_lobby', { roomCode: created.lobby!.roomCode });
       for (const g of gates) await action(g, 'set_ready', { readyState: true });
@@ -264,6 +265,7 @@ it.skipIf(!url).each([2, 3, 4] as const)(
         expect((await repo.load())[0]!.authority.players[0]!.state.units[0]!.stars).toBe(2);
       }
       const before = (await repo.load())[0]!;
+      expect(before.lobby.arenaId).toBe('cafeteria-upm-etsisi');
       expect(before.authority.players[0]!.state.units).toHaveLength(1);
       await kill();
       await new Promise((r) => setTimeout(r, 1200));
@@ -271,6 +273,8 @@ it.skipIf(!url).each([2, 3, 4] as const)(
       const g = await gate(0);
       expect((await action(g, 'sync')).lobby!.matchId).toBe(id);
       const restored = await join(0, id);
+      expect(restored.view!.arenaId).toBe('cafeteria-upm-etsisi');
+      expect((await action(g, 'sync')).lobby!.arenaId).toBe('cafeteria-upm-etsisi');
       expect(restored.view!.own.gold).toBe(before.authority.players[0]!.state.gold);
       expect(restored.view!.own.units).toEqual(before.authority.players[0]!.state.units);
       expect(restored.view!.clock.remainingMs).toBeGreaterThan(
