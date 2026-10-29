@@ -3,12 +3,13 @@ import process from 'node:process';
 import console from 'node:console';
 import { verifyHistory } from './verify-public-safe.mjs';
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
-const branch = 'release/p11k-public-safe';
+const branch = git('branch', '--show-current');
+const allowedBranches = new Set(['release/p11k-public-safe', 'release/p12b-public-safe']);
 const expected = process.argv[2];
 if (!/^[a-f0-9]{40}$/.test(expected ?? '') || git('rev-parse', 'HEAD') !== expected)
   throw Error('Exact reviewed commit required');
 if (
-  git('branch', '--show-current') !== branch ||
+  !allowedBranches.has(branch) ||
   git('status', '--porcelain', '--untracked-files=no')
 )
   throw Error('Clean public-safe release branch required');
