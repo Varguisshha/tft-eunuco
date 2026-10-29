@@ -622,51 +622,54 @@ function VerticalItemHud({ session }: { session: LocalSession }) {
             </ContextTooltip>
           );
         })}
-        <ContextTooltip
-          label="Removedor de objetos"
-          content={
-            <>
-              <h3>Removedor de objetos</h3>
-              <p>
-                Devuelve todo el equipo de una unidad propia al inventario. Conserva los objetos
-                completos. Se consume solo tras confirmación.
-                {state.config.removerPolicy
-                  ? ' En preparación: tablero y banquillo. En combate: solo banquillo; el combate en curso no cambia.'
-                  : ' Disponible durante la preparación.'}
-                {state.config.removerPolicy?.version === 'f0p12b-remover-1' &&
-                  ' Recibes uno adicional junto a los componentes cada tres rondas. Se acumulan y no caducan.'}
-              </p>
-            </>
-          }
-        >
-          <button
-            type="button"
-            className={`item-slot remover-slot ${isRemover ? 'selected' : ''}`}
-            aria-label={`Removedor de objetos, cantidad ${remover.length}`}
-            aria-pressed={isRemover}
-            disabled={!remover.length || ui.pending}
-            draggable={!!remover.length && !ui.pending}
-            onDragStart={(e) => {
-              const id = remover[0]?.id;
-              if (!id) return;
-              c.select(id, true);
-              e.dataTransfer.setData(ITEM_MIME, id);
-              e.dataTransfer.effectAllowed = 'move';
-            }}
-            onDragEnd={() => c.endDrag()}
-            onClick={() => c.select(remover[0]!.id)}
+        {(remover.length ? remover : [null]).map((tool, index) => (
+          <ContextTooltip
+            key={tool?.id ?? 'empty-remover'}
+            label="Removedor de objetos"
+            content={
+              <>
+                <h3>Removedor de objetos</h3>
+                <p>
+                  Devuelve todo el equipo de una unidad propia al inventario. Conserva los objetos
+                  completos. Se consume solo tras confirmación.
+                  {state.config.removerPolicy
+                    ? ' En preparación: tablero y banquillo. En combate: solo banquillo; el combate en curso no cambia.'
+                    : ' Disponible durante la preparación.'}
+                  {state.config.removerPolicy?.version === 'f0p12b-remover-1' &&
+                    ' Recibes uno adicional junto a los componentes cada tres rondas. Se acumulan y no caducan.'}
+                </p>
+              </>
+            }
           >
-            <svg viewBox="0 0 40 40" aria-hidden="true">
-              <path
-                d="M7 7h10M7 7v10m0-10 10 10M33 7H23m10 0v10m0-10L23 17M7 33h10M7 33V23m0 10 10-10m16 10H23m10 0V23m0 10L23 23"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-              />
-            </svg>
-            <b className="item-quantity">{remover.length}</b>
-          </button>
-        </ContextTooltip>
+            <button
+              type="button"
+              className={`item-slot remover-slot ${tool?.id === ui.selected ? 'selected' : ''}`}
+              data-remover-instance={tool?.id}
+              aria-label={`Removedor de objetos, cantidad ${tool ? 1 : 0}, ranura ${index + 1}`}
+              aria-pressed={!!tool && tool.id === ui.selected}
+              disabled={!tool || ui.pending}
+              draggable={!!tool && !ui.pending}
+              onDragStart={(e) => {
+                const id = tool?.id;
+                if (!id) return;
+                c.select(id, true);
+                e.dataTransfer.setData(ITEM_MIME, id);
+                e.dataTransfer.effectAllowed = 'move';
+              }}
+              onDragEnd={() => c.endDrag()}
+              onClick={() => tool && c.select(tool.id)}
+            >
+              <svg viewBox="0 0 40 40" aria-hidden="true">
+                <path
+                  d="M7 7h10M7 7v10m0-10 10 10M33 7H23m10 0v10m0-10L23 17M7 33h10M7 33V23m0 10 10-10m16 10H23m10 0V23m0 10L23 23"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                />
+              </svg>
+            </button>
+          </ContextTooltip>
+        ))}
       </div>
       {(selected || isRemover) && (
         <div className="item-selection-tools">

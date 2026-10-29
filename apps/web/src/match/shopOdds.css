@@ -83,3 +83,9 @@
     display: none;
   }
 }
+
+/* Consumables also retain individual drag identities in the same two-column rail. */
+.game-hud .item-vertical .remover-slot {
+  grid-column: auto;
+  justify-self: start;
+}
