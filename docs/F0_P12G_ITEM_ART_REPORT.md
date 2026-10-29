@@ -90,6 +90,14 @@ Capturas locales en `artifacts/p12g`: galería a 32, 40, 48, 64 y 128 px; arena 
 - Manifiesto aprobado original comprobado contra los bytes: 44 asociaciones y 44 archivos válidos. Auditoría previa al commit de los 113 archivos preparados: cero detecciones de secretos o recursos oficiales.
 - Los avisos no bloqueantes de Vite sobre chunks grandes y futura carga nativa de configuración permanecen; no se han ocultado.
 
+## Commit y auditoría final
+
+Implementación: `894199bf2d15d52db3bb7a890dcf79a34da4df0f`. Validación completa local aprobada con el código de esta implementación; después solo se corrigió la ruta predeterminada del exportador de borradores y se completó documentación. ESLint se repitió tras esa corrección.
+
+`verify:release` sobre el commit de implementación: cero detecciones de secretos y cero iconos oficiales en el historial. `git diff --check` correcto. Las referencias privadas, archivos de prueba enlazados, capturas y diagnósticos permanecen fuera de Git. Los enlaces de fixtures de esta ejecución se conservaron bajo `artifacts/p12g/fixture-links`; para repetir las pruebas de fuentes, enlazar ese directorio como `TFPeru` y configurar la raíz privada de referencias.
+
+Candidata local: `release/p12g-public-safe`, preparada sin push. El commit de cierre documental no cambia el código validado. No hay cambios en `packages/game-core`, `packages/game-data`, `packages/shared`, servidor ni IaC.
+
 ## Publicación
 
 No se ha hecho push, despliegue, encendido de Railway ni cambios en Supabase. Los binarios oficiales privados no se incluyen en la entrega. La procedencia documenta el uso del generador; no concede una licencia sobre imágenes de Riot ni garantiza derechos de terceros.
