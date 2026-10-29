@@ -203,7 +203,7 @@ export class RemoteCoordinator implements MatchCoordinator {
       this.resynchronizing = false;
       this.confirmationRevision = 0;
       clearTimeout(this.commandTimer);
-      if (this.finalResults) {
+      if (this.snapshot && this.finalResults) {
         this.terminal = true;
         this.recoveryStatus = 'Partida finalizada. Resultado conservado.';
         this.notice = this.recoveryStatus;

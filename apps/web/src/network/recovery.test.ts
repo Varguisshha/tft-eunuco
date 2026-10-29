@@ -137,3 +137,22 @@ it('survives a missing room while the server restores it after a minute, then ad
   expect(old.room.send.mock.calls.some((c) => c[0] === 'command')).toBe(false);
   old.remote.dispose();
 });
+
+it('a socket lost before its first snapshot remains recoverable without throwing', () => {
+  let close: (code: number) => void = () => {};
+  const room = {
+    roomId: 'starting',
+    sessionId: 'initial',
+    reconnection: { enabled: false },
+    onMessage: () => {},
+    onLeave: (cb: typeof close) => {
+      close = cb;
+    },
+    send: vi.fn(),
+    leave: vi.fn(),
+  };
+  const remote = new RemoteCoordinator(room as unknown as Room);
+  expect(() => close(1006)).not.toThrow();
+  expect(remote.connected).toBe(false);
+  remote.dispose();
+});
