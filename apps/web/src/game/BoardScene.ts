@@ -1,3 +1,5 @@
+import { resolveDropArea } from './dropGeometry';
+import { clampCameraZoom } from './cameraZoom';
 import { DEFAULT_CHARACTER_SCALE } from './visualScale';
 import Phaser from 'phaser';
 import {
@@ -35,6 +37,7 @@ export class BoardScene extends Phaser.Scene {
   private externalDrag = false;
   onAssetError: (() => void) | undefined;
   onCalibrationHover: ((hex: HexCoord | null, point: Point) => void) | undefined;
+  private itemHalo!: Phaser.GameObjects.Graphics;
   private overlay!: Phaser.GameObjects.Graphics;
   private visuals = new Map<string, PhaserUnitVisual>();
   private unsubscribe: (() => void) | undefined;
@@ -87,6 +90,7 @@ export class BoardScene extends Phaser.Scene {
       this.add.image(0, 0, this.arena.image.key).setOrigin(0).setDepth(-100);
     } else if (!this.arena) this.drawTechnicalGround();
     this.overlay = this.add.graphics().setDepth(2);
+    this.itemHalo = this.add.graphics().setDepth(10000);
     this.combatRenderer = new CombatRenderer(this, this.projection, !this.fitted);
     this.cameras.main
       .setBackgroundColor(this.arena ? '#0F1125' : '#111e18')
@@ -163,7 +167,7 @@ export class BoardScene extends Phaser.Scene {
     for (const visual of this.visuals.values()) visual.setVisualMultiplier(value);
   }
   setViewZoom(zoom: number): void {
-    this.zoomLevel = zoom;
+    this.zoomLevel = clampCameraZoom(zoom);
     this.fitView();
   }
   fitView(): void {
@@ -181,13 +185,13 @@ export class BoardScene extends Phaser.Scene {
               density,
               this.arena,
               this.projection,
-              this.zoomLevel,
+              1,
               this.bottomOverlay * density,
             )
         : fitLocalBoardView(width, height, this.projection, density);
       camera
         .setSize(width, height)
-        .setZoom(fit.zoom * (this.arena ? 1 : this.zoomLevel))
+        .setZoom(fit.zoom * (this.calibrationActive ? 1 : this.zoomLevel))
         .centerOn(fit.x, fit.y);
     } else camera.setZoom(this.zoomLevel).centerOn(WORLD.width / 2, WORLD.height / 2);
   }
@@ -215,14 +219,12 @@ export class BoardScene extends Phaser.Scene {
     const hex = worldToHex(this.pointerWorld(pointer), this.projection);
     const state = this.session.getSnapshot();
     const point = this.pointerWorld(pointer);
-    const hitId = [...this.visuals]
-      .filter(
-        ([, visual]) =>
-          visual.sprite.visible &&
-          visual.sprite.alpha > 0.05 &&
-          visual.containsPoint(point.x, point.y),
-      )
-      .sort((a, b) => b[1].sprite.depth - a[1].sprite.depth)[0]?.[0];
+    const target = this.visualTarget(point);
+    if (target.ambiguous) {
+      this.session.reportInteraction?.('Selección ambigua. Apunta al centro de una unidad.');
+      return;
+    }
+    const hitId = target.id;
     const currentUnits = this.session.combatFrame()?.state.units ?? state.board.units;
     const unit = currentUnits.find((u) => u.id === hitId) ?? unitAt({ units: currentUnits }, hex);
     if (!this.session.editable) {
@@ -252,7 +254,10 @@ export class BoardScene extends Phaser.Scene {
     }
     const hex = worldToHex(this.pointerWorld(pointer), this.projection);
     if (press.dragging && press.unitId) {
-      if (this.session.move(press.unitId, hex) && this.arena) this.session.cancel();
+      const destination = this.dropHex(this.pointerWorld(pointer));
+      if (!destination)
+        this.session.reportInteraction?.('Destino ambiguo. Apunta al centro de una casilla.');
+      else if (this.session.move(press.unitId, destination) && this.arena) this.session.cancel();
     } else if (press.unitId) this.session.select(press.unitId);
     else if (this.session.pointerActivate) this.session.pointerActivate(hex);
     else this.session.activate(hex);
@@ -272,13 +277,47 @@ export class BoardScene extends Phaser.Scene {
       ((clientX - rect.left) * this.scale.width) / rect.width,
       ((clientY - rect.top) * this.scale.height) / rect.height,
     );
-    const hit = [...this.visuals]
-      .filter(
-        ([, v]) => v.sprite.visible && v.sprite.alpha > 0.05 && v.containsPoint(point.x, point.y),
-      )
-      .sort((a, b) => b[1].sprite.depth - a[1].sprite.depth)[0]?.[0];
-    return hit ?? unitAt(this.session.getSnapshot().board, worldToHex(point, this.projection))?.id;
+    return this.visualTarget(point).id ?? undefined;
   }
+  private visualTarget(point: Point) {
+    const areas = [...this.visuals]
+      .filter(([, v]) => v.sprite.visible && v.sprite.alpha > 0.05)
+      .map(([id, v]) => {
+        const b = v.sprite.getBounds();
+        return { id, left: b.x, top: b.y, width: b.width, height: b.height };
+      });
+    return resolveDropArea(point, areas, 12);
+  }
+  highlightItemAt(clientX: number, clientY: number, valid: boolean): void {
+    this.itemHalo?.clear();
+    const id = this.unitAtClient(clientX, clientY),
+      visual = id && this.visuals.get(id);
+    if (!visual) return;
+    const b = visual.sprite.getBounds();
+    this.itemHalo
+      .lineStyle(3 / this.cameras.main.zoom, valid ? 0xc7ef60 : 0xff817a, 1)
+      .strokeRoundedRect(b.x - 10, b.y - 10, b.width + 20, b.height + 20, 8);
+  }
+  clearItemHighlight(): void {
+    this.itemHalo?.clear();
+  }
+  private dropHex(point: Point): HexCoord | null {
+    const areas = BOARD_HEXES.map((h) => {
+      const p = hexCorners(h, this.projection),
+        xs = p.map((v) => v.x),
+        ys = p.map((v) => v.y);
+      return {
+        id: `${h.q},${h.r}`,
+        left: Math.min(...xs),
+        top: Math.min(...ys),
+        width: Math.max(...xs) - Math.min(...xs),
+        height: Math.max(...ys) - Math.min(...ys),
+      };
+    });
+    const hit = resolveDropArea(point, areas, 4, 0.1);
+    return BOARD_HEXES.find((h) => `${h.q},${h.r}` === hit.id) ?? null;
+  }
+
   dropFromBench(unitId: string, clientX: number, clientY: number): void {
     const rect = this.game.canvas.getBoundingClientRect();
     const point = this.cameras.main.getWorldPoint(
@@ -286,8 +325,12 @@ export class BoardScene extends Phaser.Scene {
       ((clientY - rect.top) * this.scale.height) / rect.height,
     );
     this.externalDrag = false;
-    if (this.session.move(unitId, worldToHex(point, this.projection)) && this.arena)
-      this.session.cancel();
+    const hex = this.dropHex(point);
+    if (!hex)
+      this.session.reportInteraction?.(
+        'Destino ambiguo. Conservas la unidad; apunta al centro de una casilla.',
+      );
+    else if (this.session.move(unitId, hex) && this.arena) this.session.cancel();
     this.sync();
   }
   private pointerOut(): void {
@@ -397,8 +440,8 @@ export class BoardScene extends Phaser.Scene {
       ((clientX - rect.left) * this.scale.width) / rect.width,
       ((clientY - rect.top) * this.scale.height) / rect.height,
     );
-    const hex = worldToHex(p, this.projection);
-    this.session.hover(isInBounds(hex) ? hex : null);
+    const hex = this.dropHex(p);
+    this.session.hover(hex);
     this.sync();
   }
   endExternalDrag(): void {

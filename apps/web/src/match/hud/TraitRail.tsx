@@ -1,9 +1,23 @@
+import { useState } from 'react';
 import { sortTraitRows, traitState, traitStatus } from './traitOrder';
 import { synergyLabel } from '../uiLabels';
 import { ContextTooltip } from '../overlays/ContextTooltip';
 import { analyzeTraits, matchTraits } from '@tft/game-core';
-import { getUnitDefinition } from '@tft/game-data';
-import type { MatchState, CombatInput, CombatState, TraitProgress } from '@tft/shared';
+import {
+  getUnitDefinition,
+  matchCatalog,
+  P12F_ECONOMY_CONFIG,
+  characterPresentation,
+} from '@tft/game-data';
+import { SynergyPortrait } from './SynergyPortrait';
+import type {
+  MatchState,
+  CombatInput,
+  CombatState,
+  TraitProgress,
+  UnitDefinition,
+  OwnedUnit,
+} from '@tft/shared';
 import { ContentIcon } from './ContentIcon';
 export function TraitRail({
   state,
@@ -12,7 +26,14 @@ export function TraitRail({
   state: MatchState;
   combatState?: CombatState | undefined;
 }) {
-  return <TraitRows rows={matchTraits(state)} progress={combatState?.mechanics?.traits ?? []} />;
+  return (
+    <TraitRows
+      rows={matchTraits(state)}
+      progress={combatState?.mechanics?.traits ?? []}
+      roster={matchCatalog(state.config)}
+      owned={state.units}
+    />
+  );
 }
 export function CombatTraitRail({
   input,
@@ -31,14 +52,32 @@ export function CombatTraitRail({
       })),
     input.traits ?? [],
   );
-  return <TraitRows rows={rows} progress={state?.mechanics?.traits ?? []} />;
+  return (
+    <TraitRows
+      rows={rows}
+      progress={state?.mechanics?.traits ?? []}
+      roster={matchCatalog(P12F_ECONOMY_CONFIG)}
+      owned={input.units
+        .filter((u) => u.owner === 'south')
+        .map((u) => ({
+          id: u.id,
+          definitionId: u.definitionId,
+          stars: 1,
+          location: { kind: 'board', hex: u.position },
+        }))}
+    />
+  );
 }
 function TraitRows({
   rows: all,
   progress,
+  roster,
+  owned,
 }: {
   rows: ReturnType<typeof analyzeTraits>;
   progress: TraitProgress[];
+  roster: readonly UnitDefinition[];
+  owned: readonly OwnedUnit[];
 }) {
   const rows = sortTraitRows(all.filter((t) => t.count > 0));
   if (!rows.length)
@@ -70,6 +109,8 @@ function TraitRows({
           >
             <ContextTooltip
               label={row.trait.name}
+              interactive
+              hoverOpen
               content={
                 <>
                   {' '}
@@ -122,6 +163,12 @@ function TraitRows({
                   <small>
                     Valores de balance provisionales. Solo cuentan personajes distintos desplegados.
                   </small>
+                  <TraitMembers
+                    traitId={row.trait.id}
+                    name={row.trait.name}
+                    roster={roster}
+                    owned={owned}
+                  />
                 </>
               }
             >
@@ -157,6 +204,76 @@ function TraitRows({
           </div>
         );
       })}
+    </section>
+  );
+}
+
+/** Lives inside the synergy portal, after the description; never expands the rail. */
+export function TraitMembers({
+  traitId,
+  name,
+  roster,
+  owned,
+}: {
+  traitId: string;
+  name: string;
+  roster: readonly UnitDefinition[];
+  owned: readonly OwnedUnit[];
+}) {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const members = roster.filter((d) => d.synergies.includes(traitId));
+  const presence = (id: string) =>
+    owned.some((u) => u.definitionId === id && u.location.kind === 'board')
+      ? 'deployed'
+      : owned.some((u) => u.definitionId === id)
+        ? 'bench'
+        : 'missing';
+  const labels = { deployed: 'Desplegado', bench: 'En banquillo', missing: 'Sin poseer' };
+  const selected = members.find((d) => d.id === hovered),
+    info = selected && characterPresentation(selected.id);
+  return (
+    <section className="trait-members-section" aria-label={`Personajes de ${name}`}>
+      <h4>Personajes</h4>
+      <div className="trait-members">
+        {members.map((d) => {
+          const state = presence(d.id),
+            p = characterPresentation(d.id);
+          return (
+            <button
+              key={d.id}
+              className="trait-member"
+              data-presence={state}
+              aria-label={`${d.name}, coste ${d.cost}, ${p.roleLabel}, ${labels[state]}`}
+              onMouseEnter={() => setHovered(d.id)}
+              onMouseLeave={(e) => {
+                if (document.activeElement !== e.currentTarget) setHovered(null);
+              }}
+              onFocus={() => setHovered(d.id)}
+              onBlur={() => setHovered(null)}
+              onClick={() => setHovered(d.id)}
+            >
+              <SynergyPortrait id={d.id} name={d.name} />
+              <span className="trait-member-name">{d.name}</span>
+              <span className="trait-presence-mark" aria-hidden="true" />
+            </button>
+          );
+        })}
+      </div>
+      <div className="trait-member-readout" aria-live="polite">
+        {selected && info ? (
+          <>
+            <strong>{selected.name}</strong>
+            <span>
+              Coste {selected.cost} · {info.roleLabel}
+            </span>
+            <span>
+              {info.damageLabel} · {labels[presence(selected.id)]}
+            </span>
+          </>
+        ) : (
+          <small>Verde: desplegado · Oro: banquillo · Atenuado: sin poseer</small>
+        )}
+      </div>
     </section>
   );
 }

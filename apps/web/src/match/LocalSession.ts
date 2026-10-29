@@ -135,10 +135,20 @@ export class LocalSession implements BoardPort {
     if (clock && (clock.clockState !== 'running' || clock.remainingMs <= 0))
       return 'Esperando la transición de ronda.';
     if (this.editable || canUseCombatEconomy(this.match, command)) return null;
+    if (
+      this.match.phase === 'combat' &&
+      (command.type === 'equip_item' || command.type === 'remove_unit_items')
+    )
+      return 'En combate solo puedes equipar o retirar objetos de unidades propias del banquillo que no participan en el combate.';
     return command.type === 'sell_unit' && this.match.phase === 'combat'
       ? 'En combate solo puedes vender unidades propias del banquillo.'
       : 'Esta acción espera a la preparación.';
   }
+  reportInteraction = (message: string) => {
+    this.message = message;
+    this.invalid = true;
+    this.publish();
+  };
   canEconomicAction(command: EconomyIntent): boolean {
     return this.economicBlockReason(command) === null;
   }

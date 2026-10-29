@@ -5,6 +5,7 @@ import {
   P11K_ECONOMY_CONFIG,
   P12B_ECONOMY_CONFIG,
   P12D_ECONOMY_CONFIG,
+  P12F_ECONOMY_CONFIG,
   P11H_ITEM_CATALOG,
   TFT_POOL_ECONOMY_CONFIG,
   INTEGRATED_ECONOMY_CONFIG,
@@ -84,30 +85,55 @@ class Fixture extends MatchRoom {
       undefined,
       undefined,
       capacity,
-      process.env.P12D_DIAGNOSTIC === '1'
-        ? P12D_ECONOMY_CONFIG
-        : process.env.P12B_DIAGNOSTIC === '1'
-          ? P12B_ECONOMY_CONFIG
-          : process.env.P11K_DIAGNOSTIC === '1'
-            ? P11K_ECONOMY_CONFIG
-            : process.env.P11H_DIAGNOSTIC === '1'
-              ? P11H_ECONOMY_CONFIG
-              : process.env.P11_DIAGNOSTIC === '1'
-                ? P11_ECONOMY_CONFIG
-                : process.env.POOL_DIAGNOSTIC === '1'
-                  ? TFT_POOL_ECONOMY_CONFIG
-                  : process.env.ROSTER_DIAGNOSTIC === '1'
-                    ? ROSTER_ECONOMY_CONFIG
-                    : process.env.INTEGRATED_DIAGNOSTIC === '1'
-                      ? INTEGRATED_ECONOMY_CONFIG
-                      : process.env.P8D_DIAGNOSTIC === '1'
-                        ? DROP_ITEMS_ECONOMY_CONFIG
-                        : process.env.FLORIN_DIAGNOSTIC === '1'
-                          ? FLORIN_ECONOMY_CONFIG
-                          : process.env.P8C_DIAGNOSTIC === '1'
-                            ? EFFECT_ITEMS_ECONOMY_CONFIG
-                            : STANDARD_ITEMS_ECONOMY_CONFIG,
+      process.env.P12F_DIAGNOSTIC === '1'
+        ? P12F_ECONOMY_CONFIG
+        : process.env.P12D_DIAGNOSTIC === '1'
+          ? P12D_ECONOMY_CONFIG
+          : process.env.P12B_DIAGNOSTIC === '1'
+            ? P12B_ECONOMY_CONFIG
+            : process.env.P11K_DIAGNOSTIC === '1'
+              ? P11K_ECONOMY_CONFIG
+              : process.env.P11H_DIAGNOSTIC === '1'
+                ? P11H_ECONOMY_CONFIG
+                : process.env.P11_DIAGNOSTIC === '1'
+                  ? P11_ECONOMY_CONFIG
+                  : process.env.POOL_DIAGNOSTIC === '1'
+                    ? TFT_POOL_ECONOMY_CONFIG
+                    : process.env.ROSTER_DIAGNOSTIC === '1'
+                      ? ROSTER_ECONOMY_CONFIG
+                      : process.env.INTEGRATED_DIAGNOSTIC === '1'
+                        ? INTEGRATED_ECONOMY_CONFIG
+                        : process.env.P8D_DIAGNOSTIC === '1'
+                          ? DROP_ITEMS_ECONOMY_CONFIG
+                          : process.env.FLORIN_DIAGNOSTIC === '1'
+                            ? FLORIN_ECONOMY_CONFIG
+                            : process.env.P8C_DIAGNOSTIC === '1'
+                              ? EFFECT_ITEMS_ECONOMY_CONFIG
+                              : STANDARD_ITEMS_ECONOMY_CONFIG,
     );
+  }
+  async p12fSetup() {
+    if (process.env.P12F_DIAGNOSTIC !== '1') throw Error('P12F loopback fixture only');
+    await this.mutate(() => {
+      equip(this.match);
+      for (const [i, p] of this.match.players.entries()) {
+        p.state.units.push({
+          id: `p12f-bench-${i}`,
+          definitionId: 'florin',
+          stars: 1,
+          location: { kind: 'bench', slot: 0 },
+        });
+        this.match.pool.florin!--;
+        for (const q of this.match.players) q.state.pool = { ...this.match.pool };
+        this.match.grantItems(p.id, 'p12f-crash', [
+          'component-ad',
+          'component-ad',
+          'component-attack_speed',
+        ]);
+      }
+      for (const p of this.match.players) p.state.pool = { ...this.match.pool };
+      this.match.assertConservation();
+    });
   }
   async removerSetup() {
     await this.mutate(() => {
@@ -126,11 +152,17 @@ class Fixture extends MatchRoom {
           (id) => P11H_ITEM_CATALOG.definitions.find((d) => d.content?.sourceRecordId === id)!.id,
         );
         this.match.grantItems(p.id, 'remover-items', definitions);
-        for (const item of [...p.state.items!.completed])
-          if (
-            !act(this.match, i, { type: 'equip_item', unitId: unit.id, itemId: item.id }).accepted
-          )
-            throw Error('Remover setup equipment');
+        for (const item of [...p.state.items!.completed]) {
+          const receipt = act(this.match, i, {
+            type: 'equip_item',
+            unitId: unit.id,
+            itemId: item.id,
+          });
+          if (!receipt.accepted)
+            throw Error(
+              `Remover setup equipment: ${receipt.reason}; ${this.match.clock.snapshot().currentPhase}`,
+            );
+        }
         this.match.grantItems(p.id, 'remover-full-bag', Array(16).fill(definitions[0]!));
       }
       this.match.assertConservation();
@@ -296,11 +328,13 @@ const control = http(async (req, res) => {
         '/item-foundation',
         '/item-effects',
         '/remover-setup',
+        '/p12f-setup',
       ].includes(parsed.pathname)
     ) {
       for (const r of await matchMaker.query({ name: 'private_match' })) {
         const room = matchMaker.getLocalRoomById(r.roomId) as Fixture;
-        if (parsed.pathname === '/remover-setup') await room.removerSetup();
+        if (parsed.pathname === '/p12f-setup') await room.p12fSetup();
+        else if (parsed.pathname === '/remover-setup') await room.removerSetup();
         else if (parsed.pathname === '/item-effects') {
           if (parsed.searchParams.get('matchId') !== room.roomId) continue;
           await room.itemEffects();

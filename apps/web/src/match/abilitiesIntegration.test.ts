@@ -79,7 +79,7 @@ describe('P6A presentation and persistence', () => {
     s.move(s.getMatch().units[0]!.id, { q: 0, r: 4 });
     expect(matchTraits(s.getMatch()).map((t) => t.count)).toEqual([1, 1]);
     const rail = html(createElement(TraitRail, { state: s.getMatch() }));
-    expect(rail.match(/role="tooltip"/g)).toHaveLength(2);
+    expect(rail.match(/role="region"/g)).toHaveLength(2);
     expect(rail).toContain('aria-describedby');
     expect(rail).toContain('+220 de vida');
     expect(rail).not.toContain('title=');

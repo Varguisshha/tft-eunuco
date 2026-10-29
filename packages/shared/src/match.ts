@@ -94,6 +94,7 @@ export const EconomyConfigSchema = z
       })
       .optional(),
     shopLockPolicy: z.literal('consume-on-auto-refresh-1').optional(),
+    combatItemPolicy: z.literal('bench-crafting-1').optional(),
     pvpPolicy: z
       .strictObject({ version: z.literal('f0p12b-1'), ghostDamageMultiplierMilli: z.literal(800) })
       .optional(),
@@ -145,6 +146,8 @@ export const EconomyConfigSchema = z
       .min(1),
   })
   .superRefine((c, ctx) => {
+    if (c.combatItemPolicy && !c.shopLockPolicy)
+      ctx.addIssue({ code: 'custom', message: 'Combat item policy requires P12D economy' });
     if (c.shopLockPolicy && !c.pvpPolicy)
       ctx.addIssue({ code: 'custom', message: 'Shop lock policy requires P12B economy' });
     if (c.pvpPolicy && c.removerPolicy?.version !== 'f0p12b-remover-1')

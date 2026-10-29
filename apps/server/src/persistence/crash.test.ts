@@ -27,7 +27,8 @@ async function boot(
     | 'p11h'
     | 'p11k'
     | 'p12b'
-    | 'p12d' = false,
+    | 'p12d'
+    | 'p12f' = false,
   drops = false,
   manualSteps = false,
 ) {
@@ -44,6 +45,7 @@ async function boot(
       P11_DIAGNOSTIC: effects === 'p11' ? '1' : '0',
       P11H_DIAGNOSTIC: effects === 'p11h' ? '1' : '0',
       P12B_DIAGNOSTIC: effects === 'p12b' ? '1' : '0',
+      P12F_DIAGNOSTIC: effects === 'p12f' ? '1' : '0',
       P12D_DIAGNOSTIC: effects === 'p12d' ? '1' : '0',
       P11K_DIAGNOSTIC: effects === 'p11k' ? '1' : '0',
       ROSTER_DIAGNOSTIC: effects === 'roster' || effects === 'p11' ? '1' : '0',
@@ -558,13 +560,17 @@ it.skipIf(!url).each([2, 3, 4] as const)(
   60000,
 );
 
-it.skipIf(!url).each([false, true, 'p12d'] as const)(
-  'Periodic rewards P12B/P12D=%s: SIGKILL before/after commit, exactly once rewards and fixed-seed baseline',
+it.skipIf(!url).each([false, true, 'p12d', 'p12f'] as const)(
+  'Periodic rewards P12B/P12D/P12F=%s: SIGKILL before/after commit, exactly once rewards and fixed-seed baseline',
   async (p12b) => {
     const repo = new PostgresTestRepository(url!);
     try {
       await repo.pool.query('truncate private.authority_members,private.authority_matches');
-      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
+      await boot(
+        p12b === 'p12f' ? 'p12f' : p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false,
+        true,
+        !!p12b,
+      );
       const count = p12b ? 3 : 4;
       const gates = await Promise.all(Array.from({ length: count }, (_, i) => i).map(gate));
       const created = await action(gates[0]!, 'create_lobby', { capacity: count });
@@ -615,7 +621,11 @@ it.skipIf(!url).each([false, true, 'p12d'] as const)(
       }
       await interrupted;
       expect((await repo.load())[0]!.authority.itemDrops!.rounds).toHaveLength(0);
-      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
+      await boot(
+        p12b === 'p12f' ? 'p12f' : p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false,
+        true,
+        !!p12b,
+      );
       await join(0, id);
       step();
       await advance(); // confirmed round 3
@@ -623,7 +633,11 @@ it.skipIf(!url).each([false, true, 'p12d'] as const)(
       expect(paid.authority.itemDrops).toEqual(baseline.exportState().itemDrops);
       expect(paid.authority.itemDrops!.rounds).toHaveLength(1);
       await kill();
-      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
+      await boot(
+        p12b === 'p12f' ? 'p12f' : p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false,
+        true,
+        !!p12b,
+      );
       const resumed = await join(0, id);
       expect(resumed.view!.own.items).toEqual({
         ...paid.authority.players[0]!.state.items,
@@ -647,7 +661,11 @@ it.skipIf(!url).each([false, true, 'p12d'] as const)(
         expect(d.players.every((p) => p.instanceIds.length === d.quantity)).toBe(true);
       }
       await kill();
-      await boot(p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false, true, !!p12b);
+      await boot(
+        p12b === 'p12f' ? 'p12f' : p12b === 'p12d' ? 'p12d' : p12b ? 'p12b' : false,
+        true,
+        !!p12b,
+      );
       await join(0, id);
       const recovered = (await repo.load())[0]!;
       if (p12b) {
@@ -1162,7 +1180,7 @@ it.skipIf(!url).each(['before', 'after'] as const)(
       const id = start.lobby!.matchId!;
       const peer = await join(0, id);
       await join(1, id);
-      // Wait for the authenticated start gate's committed snapshot before setup.
+      // A first snapshot may precede the authenticated start gate's durable commit.
       await until(() => peer.view!.clock.currentPhase === 'preparation');
       const setup = await fetch('http://127.0.0.1:2583/remover-setup', { method: 'POST' });
       expect(setup.status, await setup.text()).toBe(200);
@@ -1237,6 +1255,99 @@ it.skipIf(!url).each(['before', 'after'] as const)(
       resumed.r.send('command', { ...cmd, sessionId: resumed.r.sessionId });
       await until(() => resumed.receipts.length === 2);
       expect((await repo.load())[0]!.authority.players[0]!.state.items).toEqual(current.items);
+    } finally {
+      await kill();
+      await repo.pool.end();
+    }
+  },
+  60000,
+);
+
+it.skipIf(!url)(
+  'P12F combat crafting and bench equip: SIGKILL before and after each commit, exact-once receipt retries',
+  async () => {
+    const repo = new PostgresTestRepository(url!);
+    try {
+      await repo.pool.query('truncate private.authority_members,private.authority_matches');
+      await boot('p12f', true, true);
+      const gates = [await gate(0), await gate(1)];
+      const created = await action(gates[0]!, 'create_lobby', { capacity: 2 });
+      await action(gates[1]!, 'join_lobby', { roomCode: created.lobby!.roomCode });
+      for (const g of gates) await action(g, 'set_ready', { readyState: true });
+      const start = await action(gates[0]!, 'start_match'),
+        id = start.lobby!.matchId!;
+      let peer = await join(0, id);
+      await join(1, id);
+      await until(() => peer.view!.clock.currentPhase === 'preparation');
+      const setup = await fetch('http://127.0.0.1:2583/p12f-setup', { method: 'POST' });
+      expect(setup.status, await setup.text()).toBe(200);
+      expect((await fetch('http://127.0.0.1:2583/advance', { method: 'POST' })).status).toBe(200);
+      await until(() => peer.view!.clock.currentPhase === 'combat');
+      const initial = (await repo.load())[0]!,
+        frozen = structuredClone(initial.authority.players[0]!.state.combat);
+      for (const kind of ['combine_components', 'equip_item'] as const) {
+        const prior = (await repo.load())[0]!,
+          p = prior.authority.players[0]!,
+          s = p.state;
+        const intent =
+          kind === 'combine_components'
+            ? {
+                type: kind,
+                firstId: s.items!.components[0]!.id,
+                secondId: s.items!.components[1]!.id,
+              }
+            : { type: kind, unitId: 'p12f-bench-0', itemId: s.items!.completed[0]!.id };
+        const command = {
+          version: NETWORK_VERSION,
+          sessionId: peer.r.sessionId,
+          requestId: randomUUID(),
+          sequence: p.sequence,
+          matchId: id,
+          phaseId: peer.view!.clock.phaseId,
+          action: { ...intent, seq: s.nextActionSeq, expectedRevision: s.revision },
+        };
+        const lock = await repo.pool.connect();
+        try {
+          await lock.query('begin');
+          await lock.query('LOCK TABLE private.authority_matches IN ACCESS EXCLUSIVE MODE');
+          const submissions = sqlSubmissions;
+          peer.r.send('command', command);
+          await waitForBlockedWriter(lock, submissions);
+          await killBlockedFixtureWriter(lock);
+        } finally {
+          await lock.query('rollback');
+          lock.release();
+        }
+        const uncommitted = (await repo.load())[0]!;
+        expect(uncommitted.authority.players[0]!.state.items).toEqual(s.items);
+        expect(uncommitted.authority.players[0]!.state.units).toEqual(s.units);
+        await boot('p12f', true, true);
+        peer = await join(0, id);
+        peer.r.send('command', { ...command, sessionId: peer.r.sessionId });
+        await until(() => peer.receipts.length === 1);
+        expect(peer.receipts[0]!.accepted).toBe(true);
+        const committed = (await repo.load())[0]!;
+        expect(committed.authority.players[0]!.state.combat).toEqual(frozen);
+        expect(committed.authority.players[0]!.state.items!.crafts).toHaveLength(1);
+        if (kind === 'equip_item')
+          expect(
+            committed.authority.players[0]!.state.units.find((u) => u.id === 'p12f-bench-0')!
+              .equipment,
+          ).toHaveLength(1);
+        await kill();
+        await boot('p12f', true, true);
+        peer = await join(0, id);
+        peer.r.send('command', { ...command, sessionId: peer.r.sessionId });
+        await until(() => peer.receipts.length === 1);
+        expect(peer.receipts[0]!.accepted).toBe(true);
+        const retried = (await repo.load())[0]!;
+        expect(retried.authority.players[0]!.state.items).toEqual(
+          committed.authority.players[0]!.state.items,
+        );
+        expect(retried.authority.players[0]!.state.units).toEqual(
+          committed.authority.players[0]!.state.units,
+        );
+      }
     } finally {
       await kill();
       await repo.pool.end();

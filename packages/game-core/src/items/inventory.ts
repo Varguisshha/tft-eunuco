@@ -1,3 +1,4 @@
+import { canUseCombatEconomy } from '../match/combat-economy';
 import { isP11ItemCatalog } from '@tft/shared';
 import {
   ITEM_CATALOG,
@@ -423,6 +424,12 @@ export function inspectItem(state: MatchState, itemId: string) {
 }
 /** Mutates only the private candidate already cloned by applyMatchAction. */
 export function applyItemCommand(state: MatchState, action: ItemCommand) {
+  if (
+    (action.type === 'equip_item' || action.type === 'combine_components') &&
+    state.phase !== 'preparation' &&
+    !canUseCombatEconomy(state, action)
+  )
+    return fail('item-restricted');
   const catalog = itemCatalogFor(state),
     inv = state.items!;
   if (action.type === 'remove_unit_items') {

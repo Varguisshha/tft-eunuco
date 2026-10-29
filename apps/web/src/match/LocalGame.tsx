@@ -1,3 +1,5 @@
+import { clampCameraZoom, CAMERA_ZOOM } from '../game/cameraZoom';
+import { PointerInteractions } from './items/PointerInteractions';
 import { CombatStatisticsPanel } from './CombatStatisticsPanel';
 import { equipmentCommand, itemInteraction, previewItemCommand } from './items/itemInteraction';
 import { ItemHud } from './items/ItemHud';
@@ -210,6 +212,7 @@ export function LocalGame({
               return true;
             }}
           />
+          <PointerInteractions session={session} />
           <TraitRail state={state} combatState={session.combatFrame()?.state} />
         </aside>
         <section
@@ -222,25 +225,53 @@ export function LocalGame({
           <div className="local-board-title">
             <span>{session.names.north} · Ámbar</span>
             <div className="local-zoom">
-              <GameIconButton label="Alejar tablero" icon="minus" onAction={() => setZoom(0.85)} />
+              <span className="zoom-hint">Ctrl + rueda</span>
+              <GameIconButton
+                label="Alejar tablero"
+                icon="minus"
+                onAction={() => setZoom((z) => clampCameraZoom(z - CAMERA_ZOOM.step))}
+              />
               <button aria-label="Restablecer zoom" onClick={() => setZoom(1)}>
                 {Math.round(zoom * 100)}%
               </button>
-              <GameIconButton label="Acercar tablero" icon="plus" onAction={() => setZoom(1.15)} />
+              <GameIconButton
+                label="Acercar tablero"
+                icon="plus"
+                onAction={() => setZoom((z) => clampCameraZoom(z + CAMERA_ZOOM.step))}
+              />
             </div>
           </div>
           <GameCanvas
             session={session}
             zoom={zoom}
-            itemDrop={(unitId, itemId) => itemInteraction(session).equip(unitId, itemId)}
+            onZoomChange={setZoom}
+            itemDrop={(unitId, itemId) =>
+              unitId
+                ? itemInteraction(session).equip(unitId, itemId)
+                : itemInteraction(session).error(
+                    'Sin destino inequívoco. Apunta al centro de una unidad.',
+                  )
+            }
             itemPreview={(unitId) => {
               const id = itemInteraction(session).getSnapshot().selected;
               return (
                 !!id &&
-                session.editable &&
+                session.canEconomicAction(equipmentCommand(state, unitId, id)) &&
                 !previewItemCommand(state, equipmentCommand(state, unitId, id))
               );
             }}
+            itemReason={(unitId) => {
+              const id = itemInteraction(session).getSnapshot().selected ?? '';
+              const command = equipmentCommand(state, unitId, id);
+              return session.economicBlockReason(command) ?? previewItemCommand(state, command);
+            }}
+            itemHover={(unitId) =>
+              itemInteraction(session).previewCombination(
+                state.units
+                  .find((u) => u.id === unitId)
+                  ?.equipment?.find((i) => i.kind === 'component')?.id ?? null,
+              )
+            }
             fitted
             hideTimer
             arena={MAR_DE_CRISTAL}

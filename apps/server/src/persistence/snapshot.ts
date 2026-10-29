@@ -6,6 +6,7 @@ import {
   P11K_ECONOMY_CONFIG,
   P12B_ECONOMY_CONFIG,
   P12D_ECONOMY_CONFIG,
+  P12F_ECONOMY_CONFIG,
   P11H_ITEM_CATALOG,
   P11H_ITEM_POLICY,
   P11G_ECONOMY_POLICY,
@@ -208,7 +209,11 @@ export const P12B_CATALOG_HASH = createHash('sha256')
 export const P12D_CATALOG_HASH = createHash('sha256')
   .update(JSON.stringify([P12B_CATALOG_HASH, P12D_ECONOMY_CONFIG]))
   .digest('hex');
+export const P12F_CATALOG_HASH = createHash('sha256')
+  .update(JSON.stringify([P12D_CATALOG_HASH, P12F_ECONOMY_CONFIG]))
+  .digest('hex');
 export function snapshotConfig(rules: string, catalog: string) {
+  if (rules === 'f0p11h-1' && catalog === P12F_CATALOG_HASH) return P12F_ECONOMY_CONFIG;
   if (rules === 'f0p11h-1' && catalog === P12D_CATALOG_HASH) return P12D_ECONOMY_CONFIG;
   if (rules === 'f0p11h-1' && catalog === P12B_CATALOG_HASH) return P12B_ECONOMY_CONFIG;
   if (rules === 'f0p11h-1' && catalog === P11K_CATALOG_HASH) return P11K_ECONOMY_CONFIG;
@@ -270,6 +275,7 @@ export const AuthoritySnapshotSchema = z.strictObject({
     z.literal(P11K_CATALOG_HASH),
     z.literal(P12B_CATALOG_HASH),
     z.literal(P12D_CATALOG_HASH),
+    z.literal(P12F_CATALOG_HASH),
     z.literal(ROSTER_CATALOG_HASH),
     z.literal(INTEGRATED_CATALOG_HASH),
     z.literal(FLORIN_CATALOG_HASH),

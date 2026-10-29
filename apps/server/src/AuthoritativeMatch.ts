@@ -16,6 +16,7 @@ import {
   P11K_CATALOG_HASH,
   P12B_CATALOG_HASH,
   P12D_CATALOG_HASH,
+  P12F_CATALOG_HASH,
   ROSTER_CATALOG_HASH,
   COMPOSITE_CATALOG,
   ITEM_CATALOG_HASH,
@@ -153,42 +154,44 @@ export class AuthoritativeMatch {
     return AuthoritySnapshotSchema.parse({
       schema: 1,
       rules: combatRulesFor(this.config.catalog),
-      catalog: this.config.shopLockPolicy
-        ? P12D_CATALOG_HASH
-        : this.config.removerPolicy?.version === 'f0p12b-remover-1'
-          ? P12B_CATALOG_HASH
-          : this.config.removerPolicy?.version === 'f0p11k-remover-1'
-            ? P11K_CATALOG_HASH
-            : this.config.catalog === 'f0p11h-1'
-              ? P11H_CATALOG_HASH
-              : this.config.catalog === 'f0p11g-1'
-                ? P11G_CATALOG_HASH
-                : this.config.catalog === 'f0p11c-1'
-                  ? P11C_CATALOG_HASH
-                  : this.config.catalog === 'f0p11b-1'
-                    ? P11B_CATALOG_HASH
-                    : isP11Catalog(this.config.catalog)
-                      ? P11_CATALOG_HASH
-                      : this.config.poolVersion === 'tft-set18-pool-1' &&
-                          this.config.catalog === 'f0p8d-florin-1'
-                        ? TFT_POOL_CATALOG_HASH
-                        : this.config.catalog === 'f0p10a-1'
-                          ? ROSTER_CATALOG_HASH
-                          : this.config.catalog === 'f0p8d-florin-1'
-                            ? INTEGRATED_CATALOG_HASH
-                            : this.config.catalog === 'florin-1'
-                              ? FLORIN_CATALOG_HASH
-                              : this.config.itemCatalog
-                                ? this.config.itemCatalog === 'f0p8d-1'
-                                  ? DROP_ITEM_CATALOG_HASH
-                                  : this.config.itemCatalog === 'f0p8c-1'
-                                    ? EFFECT_ITEM_CATALOG_HASH
-                                    : this.config.itemCatalog === 'f0p8b-14.1-1'
-                                      ? STANDARD_ITEM_CATALOG_HASH
-                                      : ITEM_CATALOG_HASH
-                                : this.config.catalog === 'f0p6c'
-                                  ? COMPOSITE_CATALOG
-                                  : CATALOG,
+      catalog: this.config.combatItemPolicy
+        ? P12F_CATALOG_HASH
+        : this.config.shopLockPolicy
+          ? P12D_CATALOG_HASH
+          : this.config.removerPolicy?.version === 'f0p12b-remover-1'
+            ? P12B_CATALOG_HASH
+            : this.config.removerPolicy?.version === 'f0p11k-remover-1'
+              ? P11K_CATALOG_HASH
+              : this.config.catalog === 'f0p11h-1'
+                ? P11H_CATALOG_HASH
+                : this.config.catalog === 'f0p11g-1'
+                  ? P11G_CATALOG_HASH
+                  : this.config.catalog === 'f0p11c-1'
+                    ? P11C_CATALOG_HASH
+                    : this.config.catalog === 'f0p11b-1'
+                      ? P11B_CATALOG_HASH
+                      : isP11Catalog(this.config.catalog)
+                        ? P11_CATALOG_HASH
+                        : this.config.poolVersion === 'tft-set18-pool-1' &&
+                            this.config.catalog === 'f0p8d-florin-1'
+                          ? TFT_POOL_CATALOG_HASH
+                          : this.config.catalog === 'f0p10a-1'
+                            ? ROSTER_CATALOG_HASH
+                            : this.config.catalog === 'f0p8d-florin-1'
+                              ? INTEGRATED_CATALOG_HASH
+                              : this.config.catalog === 'florin-1'
+                                ? FLORIN_CATALOG_HASH
+                                : this.config.itemCatalog
+                                  ? this.config.itemCatalog === 'f0p8d-1'
+                                    ? DROP_ITEM_CATALOG_HASH
+                                    : this.config.itemCatalog === 'f0p8c-1'
+                                      ? EFFECT_ITEM_CATALOG_HASH
+                                      : this.config.itemCatalog === 'f0p8b-14.1-1'
+                                        ? STANDARD_ITEM_CATALOG_HASH
+                                        : ITEM_CATALOG_HASH
+                                  : this.config.catalog === 'f0p6c'
+                                    ? COMPOSITE_CATALOG
+                                    : CATALOG,
       id: this.id,
       capacity: this.capacity,
       revision: this.revision,

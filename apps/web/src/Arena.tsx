@@ -1,3 +1,4 @@
+import { CAMERA_ZOOM, clampCameraZoom } from './game/cameraZoom';
 import { CharacterSpecialization } from './game/CharacterSpecialization';
 import { MAR_DE_CRISTAL } from './arenas/marDeCristal';
 import { MechanicsStatus } from './game/MechanicsStatus';
@@ -161,6 +162,7 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
               <GameCanvas
                 session={session}
                 zoom={zoom}
+                onZoomChange={(value) => setZoom(clampCameraZoom(value))}
                 {...(visualArena ? { arena: MAR_DE_CRISTAL, development: true, fitted: true } : {})}
               />
               {session.traitInput() && (
@@ -173,8 +175,8 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
               <div className="view-controls" aria-label="Escala del tablero">
                 <button
                   aria-label="Alejar tablero"
-                  disabled={zoom <= 0.85}
-                  onClick={() => setZoom(0.85)}
+                  disabled={zoom <= CAMERA_ZOOM.min}
+                  onClick={() => setZoom((value) => clampCameraZoom(value - CAMERA_ZOOM.step))}
                 >
                   −
                 </button>
@@ -187,8 +189,8 @@ export function Arena({ providedSession }: { providedSession: BoardSession }) {
                 </button>
                 <button
                   aria-label="Acercar tablero"
-                  disabled={zoom >= 1.15}
-                  onClick={() => setZoom(1.15)}
+                  disabled={zoom >= CAMERA_ZOOM.max}
+                  onClick={() => setZoom((value) => clampCameraZoom(value + CAMERA_ZOOM.step))}
                 >
                   +
                 </button>

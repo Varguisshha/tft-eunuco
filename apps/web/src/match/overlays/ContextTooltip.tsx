@@ -31,12 +31,14 @@ export function ContextTooltip({
   content,
   label,
   interactive = false,
+  hoverOpen = false,
   disabled = false,
 }: {
   children: ReactElement<HTMLAttributes<HTMLElement>>;
   content: ReactNode;
   label: string;
   interactive?: boolean;
+  hoverOpen?: boolean;
   disabled?: boolean;
 }) {
   const id = useId(),
@@ -141,7 +143,7 @@ export function ContextTooltip({
         'aria-describedby': [props['aria-describedby'], id].filter(Boolean).join(' '),
         onMouseEnter: (e) => {
           props.onMouseEnter?.(e);
-          if (!interactive) show(e.currentTarget);
+          if (!interactive || hoverOpen) show(e.currentTarget);
         },
         onMouseLeave: (e) => {
           props.onMouseLeave?.(e);
@@ -149,7 +151,7 @@ export function ContextTooltip({
         },
         onFocus: (e) => {
           props.onFocus?.(e);
-          if (!interactive) show(e.currentTarget);
+          if (!interactive || hoverOpen) show(e.currentTarget);
         },
         onBlur: (e) => {
           props.onBlur?.(e);
