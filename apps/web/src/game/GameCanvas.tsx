@@ -179,7 +179,10 @@ export function GameCanvas({
       }
       const rect = host.current?.getBoundingClientRect();
       if (!rect || x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) return;
-      if (document.elementFromPoint(x, y)?.closest('[data-bench-slot]')) return;
+      // The canvas covers the viewport beneath the HUD. A touch released on a
+      // shop, portal or inspector must not pass through to the arena underneath.
+      const topmost = document.elementFromPoint(x, y);
+      if (!(topmost instanceof HTMLCanvasElement) || !host.current?.contains(topmost)) return;
       if (kind === 'unit') {
         if (phase === 'drop') scene.current?.dropFromBench(id, x, y);
         else scene.current?.externalDragAt(x, y);
