@@ -51,7 +51,14 @@ export function manifest() {
     presentation: data.P11_ROSTER.map((u) => data.characterPresentation(u.id)),
     fingerprints: Object.fromEntries(
       Object.entries(snapshots).filter(
-        ([k]) => k.endsWith('_HASH') || ['CATALOG', 'COMPOSITE_CATALOG'].includes(k),
+        ([k]) =>
+          ![
+            'P13S_CATALOG_HASH',
+            'P13T_CATALOG_HASH',
+            'P13T1_CATALOG_HASH',
+            'P13_CATALOG_HASH',
+          ].includes(k) &&
+          (k.endsWith('_HASH') || ['CATALOG', 'COMPOSITE_CATALOG'].includes(k)),
       ),
     ),
   };
