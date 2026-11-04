@@ -1,7 +1,7 @@
 import { validateItemState } from '../items/inventory';
 import { progressDefinition } from './progress';
 import { MatchStateSchema, type MatchState } from '@tft/shared';
-import { matchCatalog } from '@tft/game-data';
+import { JEW_POLICY, matchCatalog } from '@tft/game-data';
 import { isInBounds } from '../hex';
 import { copiesOf, definition, sameLocation, levelRule } from './selectors';
 /** Semantic validation for loads and every authority transaction; never silently repairs units. */
@@ -10,6 +10,7 @@ export function validateMatchState(
   externalCopies: Readonly<Record<string, number>> = {},
 ): MatchState {
   const state = MatchStateSchema.parse(value);
+  failSynergyState(state);
   validateItemState(state);
   const fail = (condition: boolean, message: string) => {
     if (condition) throw new Error(message);
@@ -49,7 +50,7 @@ export function validateMatchState(
       fail(!p, 'Missing credited reward receipt');
       if (p)
         fail(
-          p.base + p.interest + p.victory + p.streak !== r.credited ||
+          p.base + p.interest + p.victory + p.streak + (r.jew?.credited ?? 0) !== r.credited ||
             p.base > r.base ||
             p.interest > r.interest ||
             p.victory > r.victory ||
@@ -58,6 +59,60 @@ export function validateMatchState(
         );
     }
   } else fail(!!state.shopRolls || !!state.lastReward?.receipt, 'Unexpected economic metadata');
+  const jewEntries = state.ledger.filter((e) => e.reason === 'jew_interest');
+  fail(
+    !state.config.jewPolicy && (jewEntries.length > 0 || !!state.lastReward?.jew),
+    'Jew in historical catalog',
+  );
+  if (state.config.jewPolicy) {
+    fail(new Set(jewEntries.map((e) => e.round)).size !== jewEntries.length, 'Duplicate Jew round');
+    fail(
+      jewEntries.some(
+        (e) =>
+          e.reference !== `p13s-jew-${e.round}` ||
+          e.requested < 0 ||
+          e.requested > 8 ||
+          e.delta < 0 ||
+          e.delta > e.requested ||
+          e.round > state.round,
+      ),
+      'Invalid Jew ledger',
+    );
+    const r = state.lastReward;
+    if (r) {
+      const j = r.jew;
+      fail(!j, 'Missing Jew receipt');
+      if (j) {
+        const requested = j.stars
+          ? Math.min(
+              Math.floor((j.bank * JEW_POLICY.ratesMilli[j.stars - 1]!) / 1000),
+              JEW_POLICY.caps[j.stars - 1]!,
+            )
+          : 0;
+        const entries = jewEntries.filter((e) => e.round === j.round);
+        const closing = state.ledger.findIndex((e) => e.reason === 'base' && e.round === r.round);
+        fail(closing < 1 || state.ledger[closing - 1]!.balance !== j.bank, 'Jew eligible bank');
+        fail(
+          r.total !== r.base + r.interest + r.victory + r.streak + j.requested ||
+            r.overflow !== r.total - r.credited,
+          'Jew reward conservation',
+        );
+        fail(
+          j.round !== r.round ||
+            j.id !== `p13s-jew-${r.round}` ||
+            j.settlementId !== r.receipt!.id ||
+            j.requested !== requested ||
+            j.credited > j.requested ||
+            (j.unitId === null) !== (j.stars === null) ||
+            entries.length !== 1 ||
+            entries[0]!.reference !== j.id ||
+            entries[0]!.requested !== j.requested ||
+            entries[0]!.delta !== j.credited,
+          'Invalid Jew receipt',
+        );
+      }
+    }
+  }
   fail(state.gold > state.config.goldCap, 'Gold cap');
   fail(
     state.level === state.config.maxLevel ? state.xp !== 0 : state.xp >= levelRule(state).xpToNext,
@@ -107,9 +162,12 @@ export function validateMatchState(
     const owned = state.units
       .filter((u) => u.definitionId === d.id)
       .reduce((n, u) => n + copiesOf(u, state.config), 0);
+    const pending =
+      state.synergies?.pendingChampions.filter((u) => u.definitionId === d.id).length ?? 0;
     const offered = state.shop.filter((o) => o?.definitionId === d.id).length;
     fail(
-      (state.pool[d.id] ?? -1) + owned + offered + (externalCopies[d.id] ?? 0) !== expected,
+      (state.pool[d.id] ?? -1) + owned + offered + pending + (externalCopies[d.id] ?? 0) !==
+        expected,
       'Copy conservation',
     );
   }
@@ -130,6 +188,18 @@ export function validateMatchState(
     north: state.config.roundDamage.initialHp,
     south: state.config.roundDamage.initialHp,
   };
+  let synergyAdjustmentIndex = 0;
+  const synergyAdjustments = state.synergies?.health ?? [];
+  const synergyAdjust = (index: number) => {
+    while (
+      synergyAdjustmentIndex < synergyAdjustments.length &&
+      synergyAdjustments[synergyAdjustmentIndex]!.index === index
+    ) {
+      const a = synergyAdjustments[synergyAdjustmentIndex++]!;
+      fail(a.before !== health.south, 'Synergy health conservation');
+      health.south = a.after;
+    }
+  };
   let adjustmentIndex = 0;
   const adjustments = state.development?.healthAdjustments ?? [];
   const adjust = (index: number) => {
@@ -148,6 +218,7 @@ export function validateMatchState(
   );
   state.healthLedger.forEach((entry, i) => {
     adjust(i);
+    synergyAdjust(i);
     fail(
       entry.round !== Math.floor(i / 2) + 1 || entry.side !== (i % 2 ? 'south' : 'north'),
       'Health ledger order',
@@ -163,6 +234,8 @@ export function validateMatchState(
     health[entry.side] = entry.hpAfter;
   });
   adjust(state.healthLedger.length);
+  synergyAdjust(state.healthLedger.length);
+  fail(synergyAdjustmentIndex !== synergyAdjustments.length, 'Synergy health order');
   fail(
     health.north !== state.health.north || health.south !== state.health.south,
     'Health balance',
@@ -189,4 +262,41 @@ export function validateMatchState(
     'Resolution phase',
   );
   return state;
+}
+
+function failSynergyState(s: MatchState) {
+  if (!!s.synergies !== !!s.config.synergyPolicy) throw Error('Missing/unexpected P13S journal');
+  const j = s.synergies;
+  if (!j) {
+    if (s.ledger.some((e) => e.reason === 'synergy')) throw Error('Historical synergy ledger');
+    return;
+  }
+  if (
+    new Set(j.markets.map((m) => m.round)).size !== j.markets.length ||
+    new Set(j.receipts.map((r) => r.id)).size !== j.receipts.length
+  )
+    throw Error('Duplicate synergy receipt');
+  if (
+    new Set(j.pendingChampions.map((u) => u.id)).size !== j.pendingChampions.length ||
+    j.pendingChampions.some((u) => s.units.some((x) => x.id === u.id))
+  )
+    throw Error('Duplicate pending champion');
+  for (const m of j.markets)
+    if (
+      m.round > s.round ||
+      new Set(m.offers).size !== 3 ||
+      new Set(m.bets.map((b) => b.kind)).size !== m.bets.length ||
+      m.bets.some((b) => !m.offers.includes(b.kind))
+    )
+      throw Error('Invalid market');
+  if (
+    j.receipts.some((r) => r.round > s.round) ||
+    j.health.some(
+      (h, i) =>
+        h.index > s.healthLedger.length ||
+        (i > 0 && h.index < j.health[i - 1]!.index) ||
+        !j.receipts.some((r) => r.id === h.receiptId && r.kind === 'roulette'),
+    )
+  )
+    throw Error('Invalid synergy lineage');
 }

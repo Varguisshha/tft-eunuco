@@ -94,12 +94,17 @@ export function UnitInspector({
             <div className="stars" aria-label={`${selected.stars} estrellas`}>
               {'★'.repeat(selected.stars)}
             </div>
-            <CharacterSpecialization id={def.id} />
+            <CharacterSpecialization
+              id={def.id}
+              characterPolicy={session.getMatch().config.characterPolicy}
+            />
           </div>
         </div>
         {def?.provisional && (
           <p className="provisional-readout">
-            Parámetros temporales · Solo ataques básicos. Activa y pasiva pendientes de diseño.
+            {ability
+              ? 'Estadísticas base provisionales; habilidades disponibles.'
+              : 'Parámetros temporales · Solo ataques básicos. Activa y pasiva pendientes de diseño.'}
           </p>
         )}
         {['f0p10a-1', 'f0p11a-1', 'f0p11b-1', 'f0p11c-1', 'f0p11g-1', 'f0p11h-1'].includes(
@@ -109,6 +114,9 @@ export function UnitInspector({
             <summary>Afinidades · {selected.profile.traits?.length ?? 0}</summary>
             <AffinityDetails
               catalog={session.getMatch().config.catalog!}
+              jewPolicy={
+                session.getMatch().config.synergyPolicy ?? session.getMatch().config.jewPolicy
+              }
               ids={selected.profile.traits ?? []}
               contributors={session.affinityContributors(selected.side)}
             />

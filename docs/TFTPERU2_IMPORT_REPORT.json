@@ -1,0 +1,710 @@
+{
+  "version": "f0p13t-assets-1",
+  "source": "TFPeru 2",
+  "mapping": {
+    "Erik": "jaramillo"
+  },
+  "derivatives": [
+    {
+      "output": "sprites/vargas/p13t/star1/attack.png",
+      "sha256": "d9dc2014015351c912c12d7ede3cb6164403879e31f4d207d6385a64d20f23a9",
+      "frames": [
+        {
+          "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_1.png",
+          "sha256": "f80bded9983ac8c1b4eed6057342b9319e99a39530b501a5b7ba0c6fd5ee375c",
+          "bounds": {
+            "left": 0,
+            "top": 23,
+            "width": 1230,
+            "height": 1231
+          },
+          "scale": 0.31194151096669376
+        },
+        {
+          "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_2.png",
+          "sha256": "14764d83b82c7ee2c73ea26293bcf99a62a68794129b1219cfe2686f886039f4",
+          "bounds": {
+            "left": 0,
+            "top": 41,
+            "width": 1240,
+            "height": 1213
+          },
+          "scale": 0.3165704863973619
+        },
+        {
+          "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_3.png",
+          "sha256": "630fadbb6175147fbc544decbc4cf5d580d9ba97c2fb66fd540be15ee1e7ffb4",
+          "bounds": {
+            "left": 0,
+            "top": 21,
+            "width": 1254,
+            "height": 1233
+          },
+          "scale": 0.31143552311435524
+        },
+        {
+          "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_4.png",
+          "sha256": "819bd4ef54d8f92660ff86569ca8b008f6e63262bd0444fd82eb47c10eb7a491",
+          "bounds": {
+            "left": 0,
+            "top": 21,
+            "width": 1245,
+            "height": 1233
+          },
+          "scale": 0.31143552311435524
+        }
+      ]
+    },
+    {
+      "output": "sprites/dolea/p13t/star1/attack.png",
+      "sha256": "af67ef8253d2f0a7cfff4ee01599e21b8648f475ab5dd805cd11724964d806fb",
+      "frames": [
+        {
+          "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_1y4.png",
+          "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be",
+          "bounds": {
+            "left": 33,
+            "top": 41,
+            "width": 1181,
+            "height": 1163
+          },
+          "scale": 0.3301805674978504
+        },
+        {
+          "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_2.png",
+          "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70",
+          "bounds": {
+            "left": 33,
+            "top": 39,
+            "width": 1197,
+            "height": 1155
+          },
+          "scale": 0.33246753246753247
+        },
+        {
+          "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_3.png",
+          "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "width": 1226,
+            "height": 1230
+          },
+          "scale": 0.3121951219512195
+        },
+        {
+          "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_5.png",
+          "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0",
+          "bounds": {
+            "left": 0,
+            "top": 79,
+            "width": 1238,
+            "height": 1151
+          },
+          "scale": 0.3336229365768897
+        },
+        {
+          "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_6.png",
+          "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84",
+          "bounds": {
+            "left": 0,
+            "top": 3,
+            "width": 1253,
+            "height": 1227
+          },
+          "scale": 0.31295843520782396
+        }
+      ]
+    },
+    {
+      "output": "sprites/dolea/p13t/star1/idle.png",
+      "sha256": "051c94e717a8592b537cf517c7f632b5dabacdb6f20d8bd35ce912f3655e73bd",
+      "frames": [
+        {
+          "file": "TFPeru 2/Dolea/Nivel1/Dolea_Idle/Dolea_idle_1.png",
+          "sha256": "7371c24e2e3f84695acb2028a870405a8074983f06e2fd466d2025221f546b7e",
+          "bounds": {
+            "left": 57,
+            "top": 43,
+            "width": 1050,
+            "height": 1301
+          },
+          "scale": 0.29515757109915447
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star1/attack.png",
+      "sha256": "209a9c969dbb37181913f31443bb1a83b89994de173d99992d040caa0104ee24",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_1.png",
+          "sha256": "c349bd95b7821d6aad80ba2fb2b2a1e6adf97affe23c1e5b0a27b3783c7f1f05",
+          "bounds": {
+            "left": 103,
+            "top": 17,
+            "width": 665,
+            "height": 495
+          },
+          "scale": 0.7804878048780488
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_2.png",
+          "sha256": "96f0ea8c3cb897c99354b3f5e783c12a8f153fdf8f77b04650316792761ae0fe",
+          "bounds": {
+            "left": 1,
+            "top": 0,
+            "width": 689,
+            "height": 512
+          },
+          "scale": 0.7804878048780488
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_3.png",
+          "sha256": "69e0a5b439b66e3975a1a2e8d871b707cefef200674137cc31fd3d754a9842c7",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "width": 768,
+            "height": 497
+          },
+          "scale": 0.7804878048780488
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_4.png",
+          "sha256": "f8732f2613e4d47457bf0bdf36af7f285b05821fd6f3f836b6fe097b74c6e383",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "width": 729,
+            "height": 486
+          },
+          "scale": 0.7950310559006211
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star1/projectile.png",
+      "sha256": "5f4530cd30aba606a9a8c0f79ca4dac74c1f979ff0f7e8242a0215613290d12d",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel1/piedra.png",
+          "sha256": "07c01798c92fbe1a0ab0363b01cd2892e7925a8c6925cc5cfaff7e6a0c203ad8",
+          "bounds": {
+            "left": 169,
+            "top": 97,
+            "width": 1263,
+            "height": 871
+          },
+          "scale": 0.08867775138558986
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star2/attack.png",
+      "sha256": "dba0f7e65b07f0e2cf94ab6d65eb43f8d671e90332605ac6acb0dd943c367174",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_1.png",
+          "sha256": "1a4731a31490d527992f626e53d2295ec53bcd52171f268fd0931dc8515f331c",
+          "bounds": {
+            "left": 141,
+            "top": 46,
+            "width": 486,
+            "height": 670
+          },
+          "scale": 0.649746192893401
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_2.png",
+          "sha256": "f98130e041ead67d5265c1160035fb9e599729b108b11e9050c44e0f0169b8c3",
+          "bounds": {
+            "left": 114,
+            "top": 46,
+            "width": 540,
+            "height": 670
+          },
+          "scale": 0.649746192893401
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_3.png",
+          "sha256": "a00ab4a9535b3db67475753825914a1c428bc9578ccd72f35900b431158b0807",
+          "bounds": {
+            "left": 109,
+            "top": 46,
+            "width": 549,
+            "height": 670
+          },
+          "scale": 0.6530612244897959
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_4.png",
+          "sha256": "630da4fc1576a3333e68f7c4fe821fa14ffee499861ef9843e6c3c4e72c0c447",
+          "bounds": {
+            "left": 25,
+            "top": 40,
+            "width": 1191,
+            "height": 1194
+          },
+          "scale": 0.36432637571157495
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star2/projectile.png",
+      "sha256": "0244e90e0215f90c51e7c06b5f7beb002f6724d60b99ccbdb665c1fe483d4410",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel2/Piti.png",
+          "sha256": "92f56bf1ad08bf725f487caa522a3591f8aa94cc5f10a156990d7432e857fca7",
+          "bounds": {
+            "left": 170,
+            "top": 87,
+            "width": 998,
+            "height": 1105
+          },
+          "scale": 0.10135746606334842
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star2/impact.png",
+      "sha256": "d8f6ed43890eb9103bbcd76a9bfb76b2de26002fbb72dd99bc56016c5678f3ce",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel2/Piti_impc.png",
+          "sha256": "03fe9f45656ed9da6c7f555c38f799e2b7c5ea9bae2c44eb813f14525f5368e6",
+          "bounds": {
+            "left": 25,
+            "top": 61,
+            "width": 1203,
+            "height": 1151
+          },
+          "scale": 0.1596009975062344
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star3/attack.png",
+      "sha256": "54980404534bfc695aa2d52342c87aeebe0029d11ad523f5d1a2a58c95be37e1",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_1.png",
+          "sha256": "ccc88d5b0824843f69968a110255b943f2cad1bf527704f7f074fd91a64ad0a9",
+          "bounds": {
+            "left": 262,
+            "top": 134,
+            "width": 437,
+            "height": 583
+          },
+          "scale": 0.6586620926243568
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_2.png",
+          "sha256": "5d186387184fd5cd59393d970a6e1e6fc1ae0dfb3f3dcf92fd4e4c6e1a1e6ddc",
+          "bounds": {
+            "left": 187,
+            "top": 143,
+            "width": 587,
+            "height": 575
+          },
+          "scale": 0.6678260869565218
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_3.png",
+          "sha256": "67b598ac7e71e9c4640f233952ce652fa1822cac7a6df3fb4835ae786472c825",
+          "bounds": {
+            "left": 0,
+            "top": 71,
+            "width": 1386,
+            "height": 985
+          },
+          "scale": 0.3898477157360406
+        },
+        {
+          "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_4.png",
+          "sha256": "3fd4a57c20e281bdd2357e6e5ea6085c92b66ee4a99f70da32914c98c42319ef",
+          "bounds": {
+            "left": 271,
+            "top": 172,
+            "width": 419,
+            "height": 545
+          },
+          "scale": 0.7045871559633028
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star3/projectile.png",
+      "sha256": "7c859f72928758d2631e9e1e48ba56e02063b0058ea428a177cdcdd3c29ac29a",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel3/Mochila.png",
+          "sha256": "015c792ccaf5109bbaa3b1f04ebb7c0efecd92cf94357b636fa27baefc6f2c43",
+          "bounds": {
+            "left": 87,
+            "top": 228,
+            "width": 850,
+            "height": 568
+          },
+          "scale": 0.13176470588235295
+        }
+      ]
+    },
+    {
+      "output": "sprites/jaramillo/p13t/star3/impact.png",
+      "sha256": "e447273cd8e682c06f0dfd8608c4207131b01cdfa73fe8c2682f92abadce1e08",
+      "frames": [
+        {
+          "file": "TFPeru 2/Erik/Nivel3/Mochila_impc.png",
+          "sha256": "3d1c87860c8ae8eb8718a0a08b9935a800214b8a63bee490716f9a30cc1007b2",
+          "bounds": {
+            "left": 87,
+            "top": 168,
+            "width": 850,
+            "height": 687
+          },
+          "scale": 0.22588235294117648
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star1/attack.png",
+      "sha256": "73460daaf6247d00abf5189f5e99621c87f068a159198716b614f64483ee304a",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_1.png",
+          "sha256": "36ec8387eecef1ae03a8d9b6d37b0184979eafc888389367fe06317cd4cdce71",
+          "bounds": {
+            "left": 0,
+            "top": 20,
+            "width": 1240,
+            "height": 1214
+          },
+          "scale": 0.3163097199341021
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_2.png",
+          "sha256": "87367f7ac430ed892db61b5afa09dbdddad3c34ea8be508828499bfbf5a5b226",
+          "bounds": {
+            "left": 33,
+            "top": 23,
+            "width": 1199,
+            "height": 1191
+          },
+          "scale": 0.3224181360201511
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_3.png",
+          "sha256": "5f53823f555a914c0c29f5df2aaa9d4ade028ba54d5d3c45c782868852f0d223",
+          "bounds": {
+            "left": 53,
+            "top": 21,
+            "width": 1159,
+            "height": 1197
+          },
+          "scale": 0.3208020050125313
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_4.png",
+          "sha256": "6a90b12de5abc5b8428fb4924646ca810fd6a9d9b322172b8464a66b596e9b6a",
+          "bounds": {
+            "left": 17,
+            "top": 19,
+            "width": 1225,
+            "height": 1235
+          },
+          "scale": 0.31093117408906884
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_5.png",
+          "sha256": "d273ddcfed429edc1bd7d493fc8c1a0486642431e2f51fe895677d2c5b257a0e",
+          "bounds": {
+            "left": 0,
+            "top": 20,
+            "width": 1236,
+            "height": 1218
+          },
+          "scale": 0.31527093596059114
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_6.png",
+          "sha256": "cb2df4f20fb01a78993dc4b1a2d2c83bb0299a7143706d1cb4346a6af27c2b62",
+          "bounds": {
+            "left": 0,
+            "top": 21,
+            "width": 1222,
+            "height": 1193
+          },
+          "scale": 0.32187761944677284
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star1/projectile.png",
+      "sha256": "4a1e14c1e09201cc3f2d2053d1eeac477f63f2a6a7f4affcf08ab2d3b0f5a302",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Telefono.png",
+          "sha256": "822bf43777dfc3ea7ea23cceef38132c0d5a1245c2641233551c97c480df2191",
+          "bounds": {
+            "left": 105,
+            "top": 121,
+            "width": 1111,
+            "height": 1061
+          },
+          "scale": 0.10081008100810081
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star1/impact.png",
+      "sha256": "877edc93ab9af63639b363b05d4c99c7cf6e3c56d7fca8f247acb0cef730b961",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel1/Telefono_impc.png",
+          "sha256": "0d27001062fa4c802653a468fce05512be3d7f25082689433dfb13ea2612f923",
+          "bounds": {
+            "left": 41,
+            "top": 54,
+            "width": 1189,
+            "height": 1160
+          },
+          "scale": 0.1614802354920101
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star2/attack.png",
+      "sha256": "a70ab9f32bb3693a4b5dc2ed2987d5a11d9506cf11c1de98595500afb205df77",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_1.png",
+          "sha256": "71245a162fdee23f6db02e9b1d40c134f6432fad60771304dd3771d0e01df52b",
+          "bounds": {
+            "left": 126,
+            "top": 67,
+            "width": 255,
+            "height": 613
+          },
+          "scale": 0.6264274061990212
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_2.png",
+          "sha256": "3809e46fdcfb84910e6680706e30857e90d4727e2ad85dbfdf670ff4cadff972",
+          "bounds": {
+            "left": 97,
+            "top": 71,
+            "width": 287,
+            "height": 602
+          },
+          "scale": 0.6378737541528239
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_3.png",
+          "sha256": "1c935b8f8973e37e1de3f6a4a9a5617eb883abd0fcf8d5eccb56a0f3432f5b07",
+          "bounds": {
+            "left": 54,
+            "top": 94,
+            "width": 404,
+            "height": 569
+          },
+          "scale": 0.6748681898066784
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_4.png",
+          "sha256": "575ffb3f16161da111752d279312e46f3779a72018e587bda2aa53c81c01f003",
+          "bounds": {
+            "left": 0,
+            "top": 20,
+            "width": 1253,
+            "height": 1188
+          },
+          "scale": 0.32323232323232326
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_5.png",
+          "sha256": "454700d8a0c4d92d4433f90f58c75dbdb67c81abe7324fe45416fe40397a7860",
+          "bounds": {
+            "left": 0,
+            "top": 17,
+            "width": 1001,
+            "height": 1462
+          },
+          "scale": 0.26265389876880985
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star2/projectile.png",
+      "sha256": "0766b94331397eec19ce4674807340753d97e7d0ec89c4644059150fec020a1d",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Dinero.png",
+          "sha256": "54ac675e5a28ed3f713fd06fff0c0c449fd6b7dc5c1913aee17390f10c6431bb",
+          "bounds": {
+            "left": 139,
+            "top": 135,
+            "width": 361,
+            "height": 242
+          },
+          "scale": 0.31024930747922436
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star2/impact.png",
+      "sha256": "93a74f54955f04c919cc1b62c57f926b414ba9a47f4db93ca74eb155e632c569",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel2/Dinero_impc.png",
+          "sha256": "33f53c6a6bd5b8aec3f2a9e866b509d4c7b8566cf3e2f6af6fc4a55a29ec57b2",
+          "bounds": {
+            "left": 132,
+            "top": 103,
+            "width": 375,
+            "height": 306
+          },
+          "scale": 0.512
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star3/attack.png",
+      "sha256": "6ba35b7344fe2bbc4c8fde618409dd3c762dde040fccf71ceee64e0f1ac7630a",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_1.png",
+          "sha256": "9cf83eb0f16ea48c5b37033a409699932b4c12f0f1109a62572570952ac4531b",
+          "bounds": {
+            "left": 9,
+            "top": 65,
+            "width": 269,
+            "height": 418
+          },
+          "scale": 0.9186602870813397
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_2.png",
+          "sha256": "e6e06c5dc03c45e5d9ddb097bf9cee060c8bab8ab66fad711c292f8ecbcd71b3",
+          "bounds": {
+            "left": 0,
+            "top": 65,
+            "width": 298,
+            "height": 410
+          },
+          "scale": 0.9365853658536586
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_3.png",
+          "sha256": "806111b0e154b222ca3b8fc4eaa54cfc53da1059353bd1714d03d6636092e6ba",
+          "bounds": {
+            "left": 28,
+            "top": 70,
+            "width": 267,
+            "height": 447
+          },
+          "scale": 0.8590604026845637
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_4.png",
+          "sha256": "aa12b12b59cc67abb4dea8d8d97333e3168807e57844eb3094d15e49acd5aee4",
+          "bounds": {
+            "left": 6,
+            "top": 65,
+            "width": 334,
+            "height": 432
+          },
+          "scale": 0.8888888888888888
+        },
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_5.png",
+          "sha256": "6f72a2e591da9344afcc00b41e8bef09b4b74fcc1058c26b2e7206559f65ef4a",
+          "bounds": {
+            "left": 0,
+            "top": 67,
+            "width": 284,
+            "height": 433
+          },
+          "scale": 0.8868360277136259
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star3/projectile.png",
+      "sha256": "811432d5a03990ddbd6066a97fdd33c124f7e8a128bc0c93e42501f5620c8881",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Moneda.png",
+          "sha256": "97c4ed0cf7d65de334477f850482a2a8606b33125a5a90082bbbee298403f50b",
+          "bounds": {
+            "left": 133,
+            "top": 100,
+            "width": 133,
+            "height": 509
+          },
+          "scale": 0.2200392927308448
+        }
+      ]
+    },
+    {
+      "output": "sprites/peibol/p13t/star3/impact.png",
+      "sha256": "60abd1d551667e68bed6d2aedd7982b0d55c40bf545c20eac23438827ed561dc",
+      "frames": [
+        {
+          "file": "TFPeru 2/Peibol/Nivel3/Moneda_impc.png",
+          "sha256": "e3808d88f0fd7ba56fe4250a9087f0373cedbcdcdb7c627aba8da2d03d8a1d98",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "width": 284,
+            "height": 263
+          },
+          "scale": 0.676056338028169
+        }
+      ]
+    }
+  ],
+  "splash": [
+    {
+      "id": "dolea",
+      "source": "TFPeru 2/Dolea/Splash_art_Dolea.png",
+      "sha256": "2ae509d9fb81b40fd1db1abb7db5e4d2953bf333e3032d6a74f2580195dab488",
+      "output": "assets/splash/dolea.webp",
+      "derivedSha256": "ae2c77fcdef7aea61a909d7a271a14bd8abecbc2512c24029558e0d68d21532f",
+      "reusedHistoricalDerivative": true
+    },
+    {
+      "id": "vargas",
+      "source": "TFPeru 2/Vargas/Splash_art_Vargas.png",
+      "sha256": "417f8f55ee2ba1f81b6c331ddf9be4e234bdf4eb28644c000a6403ae657d330b",
+      "output": "assets/splash/vargas.webp",
+      "derivedSha256": "47d8730ded9e0e73793211f7f6597f7bdd72c043a26d240fec606765b0692819",
+      "reusedHistoricalDerivative": true
+    },
+    {
+      "id": "jaramillo",
+      "source": "TFPeru 2/Erik/Splash_art_Erik.png",
+      "sha256": "d4ea86145821fe4ffe7cf7c347a961118cecd8d5ac5dd8b516fa916feea67e25",
+      "output": "assets/splash/jaramillo.webp",
+      "derivedSha256": "3b48026a4a0bb8c70b2e3fd7fcfb3e7761df1415deee8552a4429f4286c521e5",
+      "reusedHistoricalDerivative": true
+    },
+    {
+      "id": "florin",
+      "source": "TFPeru 2/Florin/Splash_art_Florin.png",
+      "sha256": "895d5dfbcb9d2c665f504c5daedc22ac5f1194568c27ec30eb1ea0f24ffc928c",
+      "output": "assets/splash/florin.webp",
+      "derivedSha256": "38544c3b61c534d345ee18c7b43c673d62d56310ca3e3d247dd1f7ea246c0918",
+      "reusedHistoricalDerivative": true
+    },
+    {
+      "id": "peibol",
+      "source": "TFPeru 2/Peibol/Splash_art_Peibol.png",
+      "sha256": "692f677133b811dcbaf543e021cd43d10f4935f914023d3832a42372c870a2f5",
+      "output": "assets/splash/p13t/peibol.webp",
+      "derivedSha256": "3afbdc4c1f6331a6c1495a9e61a85359614f8eb15d59384c1f60ebbd7c37c0d2",
+      "reusedHistoricalDerivative": false
+    }
+  ]
+}

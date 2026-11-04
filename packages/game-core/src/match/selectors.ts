@@ -22,6 +22,8 @@ import {
   JARAMILLO_COMBAT_PROFILES,
   FLORIN_COMBAT_PROFILES,
   P11_COMBAT_PROFILES,
+  P13T_COMBAT_PROFILES,
+  P13T_ITEM_ROLES,
   ROSTER_COMBAT_PROFILES,
   hasTraits,
   combatRulesFor,
@@ -55,21 +57,23 @@ export function scaledProfile(
   config: EconomyConfig,
 ): CombatProfile {
   const source = (
-    isP11Catalog(config.catalog)
-      ? P11_COMBAT_PROFILES
-      : config.catalog === 'f0p10a-1'
-        ? ROSTER_COMBAT_PROFILES
-        : config.catalog === 'florin-1' || config.catalog === 'f0p8d-florin-1'
-          ? FLORIN_COMBAT_PROFILES
-          : config.catalog === 'f0p6c'
-            ? JARAMILLO_COMBAT_PROFILES
-            : config.catalog === 'f0p6b3'
-              ? VARGAS_COMBAT_PROFILES
-              : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
-                ? ADVANCED_COMBAT_PROFILES
-                : config.catalog === 'f0p6a'
-                  ? CURRENT_COMBAT_PROFILES
-                  : COMBAT_PROFILES
+    config.characterPolicy === 'f0p13t-1'
+      ? P13T_COMBAT_PROFILES
+      : isP11Catalog(config.catalog)
+        ? P11_COMBAT_PROFILES
+        : config.catalog === 'f0p10a-1'
+          ? ROSTER_COMBAT_PROFILES
+          : config.catalog === 'florin-1' || config.catalog === 'f0p8d-florin-1'
+            ? FLORIN_COMBAT_PROFILES
+            : config.catalog === 'f0p6c'
+              ? JARAMILLO_COMBAT_PROFILES
+              : config.catalog === 'f0p6b3'
+                ? VARGAS_COMBAT_PROFILES
+                : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
+                  ? ADVANCED_COMBAT_PROFILES
+                  : config.catalog === 'f0p6a'
+                    ? CURRENT_COMBAT_PROFILES
+                    : COMBAT_PROFILES
   )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
@@ -110,7 +114,9 @@ export function matchTraits(state: MatchState) {
       deployed: u.location.kind === 'board',
       traits: scaledProfile(u.definitionId, u.stars, state.config).traits ?? [],
     })),
-    hasTraits(state.config.catalog) ? traitsFor(state.config.catalog) : [],
+    hasTraits(state.config.catalog)
+      ? traitsFor(state.config.catalog, state.config.synergyPolicy ?? state.config.jewPolicy)
+      : [],
   );
 }
 export function formationProfiles(state: MatchState) {
@@ -129,13 +135,26 @@ export function formationProfiles(state: MatchState) {
   );
   const prepared = prepareTraitProfiles({
     protocolVersion: 3,
-    rulesVersion: combatRulesFor(state.config.catalog),
+    rulesVersion: combatRulesFor(
+      state.config.catalog,
+      state.config.characterPolicy,
+      state.config.synergyPolicy,
+    ),
     seed: 0,
     maxTicks: 450,
     overtime: DEFAULT_OVERTIME,
     obstacles: [],
     units,
-    ...(hasTraits(state.config.catalog) ? { traits: [...traitsFor(state.config.catalog)] } : {}),
+    ...(hasTraits(state.config.catalog)
+      ? {
+          traits: [
+            ...traitsFor(
+              state.config.catalog,
+              state.config.synergyPolicy ?? state.config.jewPolicy,
+            ),
+          ],
+        }
+      : {}),
   });
   if (
     state.config.catalog !== 'f0p6b1' &&
@@ -175,9 +194,11 @@ export function scaledOwnedProfile(
   if (isP11ItemCatalog(config.catalog)) {
     const role = matchCatalog(config).find((d) => d.id === unit.definitionId)!.role;
     profile.itemRole =
-      TFT185_EXECUTION_POLICY.originalRoles[
-        unit.definitionId as keyof typeof TFT185_EXECUTION_POLICY.originalRoles
-      ] ?? TFT185_EXECUTION_POLICY.provisionalRoles[role];
+      config.characterPolicy === 'f0p13t-1' && unit.definitionId === 'peibol'
+        ? P13T_ITEM_ROLES.peibol
+        : (TFT185_EXECUTION_POLICY.originalRoles[
+            unit.definitionId as keyof typeof TFT185_EXECUTION_POLICY.originalRoles
+          ] ?? TFT185_EXECUTION_POLICY.provisionalRoles[role]);
   }
   const definition = profile.championAbility?.passive?.matchProgress;
   if (definition) {

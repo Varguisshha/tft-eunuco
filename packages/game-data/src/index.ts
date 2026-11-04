@@ -1,3 +1,6 @@
+export * from './champions/authoring';
+export * from './p13s';
+export * from './p13';
 export * from './character-presentation';
 import { isP11Catalog } from '@tft/shared';
 import type { UnitDefinition } from '@tft/shared';
@@ -9,6 +12,7 @@ import {
   JARAMILLO_ROSTER,
   FLORIN_ROSTER,
 } from './legacy-rosters';
+import { P13T1_ROSTER } from './p13t1';
 import { P11_ROSTER } from './p11-roster';
 export * from './p11-roster';
 export * from './p11-traits';
@@ -18,6 +22,9 @@ export * from './roster';
 export * from './roster-traits';
 export * from './roster-source';
 export function matchCatalog(config: {
+  jewPolicy?: string | undefined;
+  characterPolicy?: string | undefined;
+  synergyPolicy?: string | undefined;
   catalog?:
     | 'f0p4.1'
     | 'f0p6a'
@@ -35,6 +42,8 @@ export function matchCatalog(config: {
     | 'f0p10a-1'
     | undefined;
 }): readonly UnitDefinition[] {
+  if (config.jewPolicy === 'f0p13s-jew-1' || (config.characterPolicy && config.synergyPolicy))
+    return P13T1_ROSTER;
   if (isP11Catalog(config.catalog)) return P11_ROSTER;
   if (config.catalog === 'f0p10a-1') return ROSTER_PLAYABLE;
   if (config.catalog === 'florin-1' || config.catalog === 'f0p8d-florin-1') return FLORIN_ROSTER;
@@ -81,3 +90,8 @@ export * from './shop-odds';
 export * from './items-p11h';
 
 export * from './item-presentation';
+
+export * from './p13t';
+
+export * from './jew';
+export * from './p13t1';

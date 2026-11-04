@@ -2,7 +2,8 @@ import { AccountPortal } from './auth/AccountPortal';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { P12F_ECONOMY_CONFIG } from '@tft/game-data';
+import { P13_ECONOMY_CONFIG } from '@tft/game-data';
+import { localEconomyConfig, configuredLocalRuleset } from './localConfig';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
 import { AUTOMATIC_SAVE_KEY, decodeSave } from './match/automaticSave';
 import { attachAutomaticHost } from './match/automaticHost';
@@ -66,10 +67,16 @@ export function App() {
       return;
     }
     attach(
-      new LocalMatchCoordinator(createMatch(n, P12F_ECONOMY_CONFIG), {
-        matchId: crypto.randomUUID(),
-        time,
-      }),
+      new LocalMatchCoordinator(
+        createMatch(
+          n,
+          __DEVTOOLS__ ? localEconomyConfig(configuredLocalRuleset()) : P13_ECONOMY_CONFIG,
+        ),
+        {
+          matchId: crypto.randomUUID(),
+          time,
+        },
+      ),
     );
     setNotice('');
   };
@@ -81,6 +88,16 @@ export function App() {
         if (restored.development || restored.getMatch().development)
           throw new Error('DEV save in normal slot');
         attach(restored);
+        if (
+          __DEVTOOLS__ &&
+          configuredLocalRuleset() === 'p13t1' &&
+          !restored.getMatch().config.jewPolicy
+        ) {
+          setNotice(
+            'Guardado de una versión anterior: conserva sus reglas. Crea una partida nueva para probar PEIBOL y Jew actualizados.',
+          );
+          return;
+        }
       } else {
         const old = localStorage.getItem(SAVE_KEY);
         if (!old) throw new Error('No save');
@@ -159,8 +176,10 @@ export function App() {
           <h1>Cada moneda cuenta.</h1>
           <p>
             Construye un equipo, mejora tus personajes y decide cuándo ahorrar o gastar. Una partida
-            local de rondas automáticas con 34 personajes. DOLEA, VARGAS, JARAMILLO y FLORIN
-            conservan sus mecánicas; los otros treinta usan parámetros temporales y ataques básicos.
+            local de rondas automáticas con 34 personajes.{' '}
+            {__DEVTOOLS__ && configuredLocalRuleset() !== 'p12f'
+              ? 'DOLEA, VARGAS, JARAMILLO, FLORIN y PEIBOL tienen habilidades propias; los demás conservan sus parámetros provisionales.'
+              : 'DOLEA, VARGAS, JARAMILLO y FLORIN conservan sus mecánicas; los otros treinta usan parámetros temporales y ataques básicos.'}
           </p>
           <div className="lobby-rules">
             <span>
@@ -210,6 +229,7 @@ export function App() {
         <Suspense fallback={null}>
           <DevelopmentAccess
             session={session}
+            config={localEconomyConfig(configuredLocalRuleset())}
             seed={Number(seed) || 42}
             onReplace={attach}
             onNormal={(c) => (c ? attach(c) : setSession(null))}

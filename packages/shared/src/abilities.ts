@@ -50,6 +50,13 @@ export const CoreEffectSchema = z
       amount,
       damageType: DamageTypeSchema,
       canCrit: z.boolean().optional(),
+      bonusBelowHp: z
+        .strictObject({
+          ratioMilli: z.number().int().min(1).max(1000),
+          multiplierMilli: z.number().int().min(1000).max(10000),
+        })
+        .optional(),
+      manaOnKill: z.number().int().min(0).max(1000).optional(),
       healFromDamageMilli: z
         .union([
           z.number().int().min(0).max(1000),
@@ -223,6 +230,7 @@ export const AbilityConditionSchema = z.discriminatedUnion('kind', [
     kind: z.literal('stack_count'),
     stackId: id,
     minimum: z.number().int().min(0).max(100),
+    matchesSignalTarget: z.boolean().optional(),
   }),
   z.strictObject({ kind: z.literal('hp_below'), ratioMilli: z.number().int().min(1).max(1000) }),
   z.strictObject({

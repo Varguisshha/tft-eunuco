@@ -4,3 +4,5 @@ interface ImportMeta {
 }
 
 declare const __ITEM_ICON_RESOURCES__: import('./match/items/iconResourcePolicy').IconResourcePolicy;
+
+declare const __LOCAL_RULESET__: 'p12f' | 'p13t' | 'p13t1';

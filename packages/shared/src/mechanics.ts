@@ -1,3 +1,4 @@
+import { SYNERGY_RULES } from './synergies';
 import { z } from 'zod';
 import { ModifierModeSchema } from './advanced-stats';
 import {
@@ -11,6 +12,8 @@ export const MECHANICS_RULES = 'f0p6b2-1' as const;
 export const CHARACTER_RULES = 'f0p6b3-1' as const;
 export const COMPOSITE_RULES = 'f0p6c-1' as const;
 export const FLORIN_RULES = 'florin-1' as const;
+export const P13_RULES = 'f0p13-1' as const;
+export const P13T_RULES = 'f0p13t-1' as const;
 export const MECHANICS_LIMITS = Object.freeze({
   chainDepth: 8,
   effectsPerTick: 4096,
@@ -32,6 +35,7 @@ export const ChainContextSchema = z.strictObject({
   allowKillChain: z.boolean(),
   trigger: id.optional(),
   conditions: z.array(AbilityConditionSchema).max(8).optional(),
+  signalTargetId: id.optional(),
 });
 export type ChainContext = z.infer<typeof ChainContextSchema>;
 export const StackDefinitionSchema = z
@@ -47,6 +51,7 @@ export const StackDefinitionSchema = z
     refresh: z.enum(['on_gain', 'keep']),
     consumption: z.enum(['manual', 'threshold', 'none']),
     reset: z.literal('combat'),
+    scope: z.enum(['per_enemy', 'current_enemy']).optional(),
     modifiers: z
       .array(
         z.strictObject({
@@ -69,6 +74,11 @@ export const StackDefinitionSchema = z
       .max(8),
   })
   .superRefine((d, ctx) => {
+    if (d.scope === 'per_enemy' && d.modifiers.length)
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Per-enemy counters cannot grant ambiguous self modifiers',
+      });
     if (
       d.thresholds.some(
         (t) =>
@@ -126,6 +136,9 @@ export const UnitMechanicsSchema = z.strictObject({
   casts: nat,
   kills: nat,
   stacks: z.array(StackStateSchema).max(8),
+  targetStacks: z
+    .strictObject({ version: z.literal(1), stacks: z.array(StackStateSchema).max(56) })
+    .optional(),
   periodics: z
     .array(
       z.strictObject({
@@ -201,6 +214,7 @@ export const MechanicsStateSchema = z.strictObject({
 
 export const P11_RULES = 'f0p11a-1' as const;
 export const P11B_RULES = 'f0p11b-1' as const;
+
 export const P11H_RULES = 'f0p11h-1' as const;
 export const isP11GEconomy = (catalog: string | undefined) =>
   ['f0p11g-1', 'f0p11h-1'].includes(catalog ?? '');
@@ -214,7 +228,10 @@ export const isFlorinRules = (version: string | undefined) =>
   version === P11_RULES ||
   version === P11B_RULES ||
   version === P11C_RULES ||
-  version === P11H_RULES;
+  version === P11H_RULES ||
+  version === P13T_RULES ||
+  version === SYNERGY_RULES ||
+  version === 'f0p13-1';
 
 /** Content family; each member retains its own persistence fingerprint. */
 export const isP11Catalog = (catalog: string | undefined): boolean =>

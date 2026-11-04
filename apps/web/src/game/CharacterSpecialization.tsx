@@ -34,13 +34,16 @@ function SpecializationIcon({ kind, value }: { kind: 'role' | 'damage'; value: s
 export function CharacterSpecialization({
   id,
   compact = false,
+  characterPolicy,
   tooltip = true,
 }: {
   id: string;
   compact?: boolean;
+  characterPolicy?: string | undefined;
   tooltip?: boolean;
 }) {
-  const p = characterPresentation(id);
+  const original = characterPresentation(id, characterPolicy);
+  const p = { ...original, note: original.note.replaceAll('Mano de Obra', '¡Me Fuí!') };
   const badge = (
     <span
       role="group"

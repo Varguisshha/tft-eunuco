@@ -15,10 +15,10 @@ const art = (
   source: string,
   x: number,
   y: number,
-  note = 'Original de TFPeru',
+  note = 'Pack TFPeru 2 facilitado por el propietario; derivado local, sin recursos descargados.',
 ): SplashArt => ({
   splashArtKey: `${id}:splash:1`,
-  url: `/assets/splash/${id}.webp`,
+  url: `/assets/splash/${id === 'peibol' ? 'p13t/' : ''}${id}.webp`,
   focal: { x, y },
   framing: 'portrait',
   scale: 1,
@@ -28,15 +28,16 @@ const art = (
   provenance: { source, note },
 });
 export const SPLASH_ARTS: Readonly<Record<string, SplashArt>> = {
-  dolea: art('dolea', 'TFPeru/Dolea/Splash_art_Dolea.png', 43, 37),
-  vargas: art('vargas', 'TFPeru/Vargas/Splash_art_Vargas.png', 47, 38),
+  dolea: art('dolea', 'TFPeru 2/Dolea/Splash_art_Dolea.png', 43, 37),
+  vargas: art('vargas', 'TFPeru 2/Vargas/Splash_art_Vargas.png', 47, 38),
   jaramillo: art(
     'jaramillo',
-    'TFPeru/Erik/Splash_art_Erik.png',
+    'TFPeru 2/Erik/Splash_art_Erik.png',
     51,
     34,
     'Erik corresponde a JARAMILLO; confirmado por el propietario el 26/10/2026.',
   ),
-  florin: art('florin', 'TFPeru/Florin/Splash_art_Florin.png', 39, 38),
+  florin: art('florin', 'TFPeru 2/Florin/Splash_art_Florin.png', 39, 38),
+  peibol: art('peibol', 'TFPeru 2/Peibol/Splash_art_Peibol.png', 48, 36),
 };
 export const splashArtFor = (characterId: string) => SPLASH_ARTS[characterId];

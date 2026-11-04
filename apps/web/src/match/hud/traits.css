@@ -355,3 +355,48 @@
     bottom: calc(var(--bench-height) + 44px);
   }
 }
+
+.synergy-economy {
+  margin-block: 10px;
+  color: var(--hud-text);
+  font-size: 12px;
+}
+.synergy-economy summary {
+  cursor: pointer;
+  padding-block: 6px;
+}
+.synergy-economy details p {
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+.synergy-predictions {
+  display: grid;
+  gap: 16px;
+}
+.synergy-predictions h4 {
+  margin-block: 12px 4px;
+}
+.synergy-predictions p {
+  margin-block: 4px 8px;
+}
+.synergy-predictions .game-button {
+  width: 100%;
+  min-height: 44px;
+}
+.neighborhood-contributions dl {
+  margin-block: 8px 14px;
+}
+.neighborhood-contributions dl > div {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding-block: 3px;
+}
+.neighborhood-contributions dt {
+  color: var(--hud-text);
+}
+.neighborhood-contributions dd {
+  margin: 0;
+  color: var(--hud-muted);
+  text-align: right;
+}

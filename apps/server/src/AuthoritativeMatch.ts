@@ -1,3 +1,4 @@
+import { lockPredictions } from '@tft/game-core';
 import { purchasePreviews } from '@tft/game-core';
 import { canUseCombatEconomy } from '@tft/game-core';
 import { isP11Catalog } from '@tft/shared';
@@ -17,6 +18,10 @@ import {
   P12B_CATALOG_HASH,
   P12D_CATALOG_HASH,
   P12F_CATALOG_HASH,
+  P13T_CATALOG_HASH,
+  P13T1_CATALOG_HASH,
+  P13S_CATALOG_HASH,
+  P13_CATALOG_HASH,
   ROSTER_CATALOG_HASH,
   COMPOSITE_CATALOG,
   ITEM_CATALOG_HASH,
@@ -153,45 +158,58 @@ export class AuthoritativeMatch {
     void _deadline;
     return AuthoritySnapshotSchema.parse({
       schema: 1,
-      rules: combatRulesFor(this.config.catalog),
-      catalog: this.config.combatItemPolicy
-        ? P12F_CATALOG_HASH
-        : this.config.shopLockPolicy
-          ? P12D_CATALOG_HASH
-          : this.config.removerPolicy?.version === 'f0p12b-remover-1'
-            ? P12B_CATALOG_HASH
-            : this.config.removerPolicy?.version === 'f0p11k-remover-1'
-              ? P11K_CATALOG_HASH
-              : this.config.catalog === 'f0p11h-1'
-                ? P11H_CATALOG_HASH
-                : this.config.catalog === 'f0p11g-1'
-                  ? P11G_CATALOG_HASH
-                  : this.config.catalog === 'f0p11c-1'
-                    ? P11C_CATALOG_HASH
-                    : this.config.catalog === 'f0p11b-1'
-                      ? P11B_CATALOG_HASH
-                      : isP11Catalog(this.config.catalog)
-                        ? P11_CATALOG_HASH
-                        : this.config.poolVersion === 'tft-set18-pool-1' &&
-                            this.config.catalog === 'f0p8d-florin-1'
-                          ? TFT_POOL_CATALOG_HASH
-                          : this.config.catalog === 'f0p10a-1'
-                            ? ROSTER_CATALOG_HASH
-                            : this.config.catalog === 'f0p8d-florin-1'
-                              ? INTEGRATED_CATALOG_HASH
-                              : this.config.catalog === 'florin-1'
-                                ? FLORIN_CATALOG_HASH
-                                : this.config.itemCatalog
-                                  ? this.config.itemCatalog === 'f0p8d-1'
-                                    ? DROP_ITEM_CATALOG_HASH
-                                    : this.config.itemCatalog === 'f0p8c-1'
-                                      ? EFFECT_ITEM_CATALOG_HASH
-                                      : this.config.itemCatalog === 'f0p8b-14.1-1'
-                                        ? STANDARD_ITEM_CATALOG_HASH
-                                        : ITEM_CATALOG_HASH
-                                  : this.config.catalog === 'f0p6c'
-                                    ? COMPOSITE_CATALOG
-                                    : CATALOG,
+      rules: combatRulesFor(
+        this.config.catalog,
+        this.config.characterPolicy,
+        this.config.synergyPolicy,
+      ),
+      catalog:
+        this.config.synergyPolicy && this.config.characterPolicy
+          ? P13_CATALOG_HASH
+          : this.config.synergyPolicy
+            ? P13S_CATALOG_HASH
+            : this.config.jewPolicy
+              ? P13T1_CATALOG_HASH
+              : this.config.characterPolicy === 'f0p13t-1'
+                ? P13T_CATALOG_HASH
+                : this.config.combatItemPolicy
+                  ? P12F_CATALOG_HASH
+                  : this.config.shopLockPolicy
+                    ? P12D_CATALOG_HASH
+                    : this.config.removerPolicy?.version === 'f0p12b-remover-1'
+                      ? P12B_CATALOG_HASH
+                      : this.config.removerPolicy?.version === 'f0p11k-remover-1'
+                        ? P11K_CATALOG_HASH
+                        : this.config.catalog === 'f0p11h-1'
+                          ? P11H_CATALOG_HASH
+                          : this.config.catalog === 'f0p11g-1'
+                            ? P11G_CATALOG_HASH
+                            : this.config.catalog === 'f0p11c-1'
+                              ? P11C_CATALOG_HASH
+                              : this.config.catalog === 'f0p11b-1'
+                                ? P11B_CATALOG_HASH
+                                : isP11Catalog(this.config.catalog)
+                                  ? P11_CATALOG_HASH
+                                  : this.config.poolVersion === 'tft-set18-pool-1' &&
+                                      this.config.catalog === 'f0p8d-florin-1'
+                                    ? TFT_POOL_CATALOG_HASH
+                                    : this.config.catalog === 'f0p10a-1'
+                                      ? ROSTER_CATALOG_HASH
+                                      : this.config.catalog === 'f0p8d-florin-1'
+                                        ? INTEGRATED_CATALOG_HASH
+                                        : this.config.catalog === 'florin-1'
+                                          ? FLORIN_CATALOG_HASH
+                                          : this.config.itemCatalog
+                                            ? this.config.itemCatalog === 'f0p8d-1'
+                                              ? DROP_ITEM_CATALOG_HASH
+                                              : this.config.itemCatalog === 'f0p8c-1'
+                                                ? EFFECT_ITEM_CATALOG_HASH
+                                                : this.config.itemCatalog === 'f0p8b-14.1-1'
+                                                  ? STANDARD_ITEM_CATALOG_HASH
+                                                  : ITEM_CATALOG_HASH
+                                            : this.config.catalog === 'f0p6c'
+                                              ? COMPOSITE_CATALOG
+                                              : CATALOG,
       id: this.id,
       capacity: this.capacity,
       revision: this.revision,
@@ -274,7 +292,8 @@ export class AuthoritativeMatch {
     for (const d of s.duels) {
       if (
         d.replay.input.combatId !== d.pairing.combatId ||
-        d.replay.input.rulesVersion !== combatRulesFor(m.config.catalog) ||
+        d.replay.input.rulesVersion !==
+          combatRulesFor(m.config.catalog, m.config.characterPolicy, m.config.synergyPolicy) ||
         !m.players.some((p) => p.id === d.pairing.southPlayerId) ||
         !m.players.some((p) => p.id === d.pairing.northPlayerId)
       )
@@ -415,6 +434,8 @@ export class AuthoritativeMatch {
       if (other !== p) {
         for (const u of other.state.units)
           result[u.definitionId] = (result[u.definitionId] ?? 0) + copiesOf(u, other.state.config);
+        for (const u of other.state.synergies?.pendingChampions ?? [])
+          result[u.definitionId] = (result[u.definitionId] ?? 0) + 1;
         for (const o of other.state.shop)
           if (o) result[o.definitionId] = (result[o.definitionId] ?? 0) + 1;
       }
@@ -542,6 +563,7 @@ export class AuthoritativeMatch {
   private begin() {
     const active = this.players.filter((p) => !p.eliminated);
     const round = active[0]!.state.round;
+    for (const p of active) lockPredictions(p.state);
     // Legacy two-player seed calls and orientation remain byte-for-byte compatible.
     const roundSeed = this.seed();
     this.pairingSeed ??= roundSeed;
@@ -566,12 +588,16 @@ export class AuthoritativeMatch {
       );
       let input = CombatInputSchema.parse({
         protocolVersion: COMBAT_PROTOCOL,
-        rulesVersion: combatRulesFor(this.config.catalog),
+        rulesVersion: combatRulesFor(
+          this.config.catalog,
+          this.config.characterPolicy,
+          this.config.synergyPolicy,
+        ),
         combatId: pairing.combatId,
         seed: this.capacity === 2 ? roundSeed : (seedBase + index) >>> 0,
         maxTicks: MAX_COMBAT_TICKS,
         obstacles: [],
-        traits: traitsFor(this.config.catalog),
+        traits: traitsFor(this.config.catalog, this.config.synergyPolicy ?? this.config.jewPolicy),
         units: teams.flatMap((p, i) =>
           p.state.units.flatMap((u) =>
             u.location.kind === 'board'
@@ -750,6 +776,8 @@ export class AuthoritativeMatch {
       if (!p.poolReleased) {
         for (const unit of p.state.units)
           this.pool[unit.definitionId]! += copiesOf(unit, p.state.config);
+        for (const u of p.state.synergies?.pendingChampions ?? []) this.pool[u.definitionId]!++;
+        if (p.state.synergies) p.state.synergies.pendingChampions = [];
         for (const offer of p.state.shop) if (offer) this.pool[offer.definitionId]!++;
         for (const unit of p.state.units) returnUnitItems(p.state, unit);
         p.state.units = [];
@@ -979,6 +1007,14 @@ export class AuthoritativeMatch {
       ),
     );
     // Seed is an authority-only field. Zero is the wire sentinel, never used to restore.
+    if (view.synergies) {
+      view.synergies.rng = 0;
+      for (const r of view.synergies.receipts) {
+        r.rngBefore = 0;
+        r.rngAfter = 0;
+        if (r.kind === 'roulette') r.outcome = r.outcome.split(':')[0]!;
+      }
+    }
     if (view.items) for (const drop of view.items.distributions) drop.seed = 0;
     return view;
   }

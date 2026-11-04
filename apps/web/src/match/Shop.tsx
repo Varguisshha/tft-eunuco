@@ -3,7 +3,7 @@ import { isP11Catalog } from '@tft/shared';
 import { AffinityBand } from './AffinityBand';
 import { ContentIcon } from './hud/ContentIcon';
 import { useMemo, useState } from 'react';
-import { purchasePreviews, levelRule } from '@tft/game-core';
+import { purchasePreviews, levelRule, scaledProfile } from '@tft/game-core';
 import { getTraitDefinition, matchCatalog } from '@tft/game-data';
 import { SplashArt } from '../game/SplashArt';
 import { splashArtFor } from '../game/splashArtCatalog';
@@ -160,7 +160,12 @@ export function Shop({ session }: { session: LocalSession }) {
                     <GameIcon name="gold" />
                   </span>
                   <span className="offer-role">
-                    <CharacterSpecialization id={d.id} compact tooltip={modern} />
+                    <CharacterSpecialization
+                      id={d.id}
+                      characterPolicy={state.config.characterPolicy}
+                      compact
+                      tooltip={modern}
+                    />
                   </span>
                   {upgrade && (
                     <span
@@ -192,7 +197,11 @@ export function Shop({ session }: { session: LocalSession }) {
                     {d.provisional && (
                       <span
                         className="provisional-character"
-                        title="Coste, estadísticas y retrato temporales. Solo ataques básicos; habilidades personales pendientes."
+                        title={
+                          scaledProfile(d.id, 1, state.config).championAbility
+                            ? 'Estadísticas base provisionales; habilidades disponibles.'
+                            : 'Coste, estadísticas y retrato temporales. Solo ataques básicos; habilidades personales pendientes.'
+                        }
                       >
                         Provisional
                       </span>
@@ -200,10 +209,21 @@ export function Shop({ session }: { session: LocalSession }) {
                   </span>
                   {modern ? (
                     <>
-                      <AffinityBand ids={d.synergies} catalog={state.config.catalog!} />
+                      <AffinityBand
+                        ids={d.synergies}
+                        catalog={state.config.catalog!}
+                        jewPolicy={state.config.synergyPolicy ?? state.config.jewPolicy}
+                      />
                       <span className="sr-only" id={`offer-detail-${i}`}>
                         {d.synergies
-                          .map((id) => getTraitDefinition(id, state.config.catalog)?.name ?? id)
+                          .map(
+                            (id) =>
+                              getTraitDefinition(
+                                id,
+                                state.config.catalog,
+                                state.config.synergyPolicy ?? state.config.jewPolicy,
+                              )?.name ?? id,
+                          )
                           .join(', ')}
                       </span>
                     </>

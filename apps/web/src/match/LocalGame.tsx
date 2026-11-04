@@ -1,3 +1,4 @@
+import { SynergyEconomy } from './hud/SynergyEconomy';
 import { clampCameraZoom, CAMERA_ZOOM } from '../game/cameraZoom';
 import { PointerInteractions } from './items/PointerInteractions';
 import { CombatStatisticsPanel } from './CombatStatisticsPanel';
@@ -217,6 +218,7 @@ export function LocalGame({
           />
           <PointerInteractions session={session} />
           <TraitRail state={state} combatState={session.combatFrame()?.state} />
+          <SynergyEconomy session={session} />
         </aside>
         <section
           className="local-board"
@@ -421,6 +423,7 @@ export function LocalGame({
                       {
                         {
                           development: 'Ajuste DEV',
+                          synergy: 'Sinergias',
                           initial: 'Oro inicial',
                           buy: 'Compra',
                           sell: 'Venta',
@@ -428,6 +431,7 @@ export function LocalGame({
                           xp: 'Experiencia',
                           base: 'Ingreso base',
                           interest: 'Intereses',
+                          jew_interest: 'Jew · Intereses bancarios',
                           victory: 'Victoria',
                           streak: 'Racha',
                         }[e.reason]

@@ -5,7 +5,7 @@ import { createP11BReference, createP11CReference } from './p11bReference';
 import { RosterGallery } from './RosterGallery';
 import { createRosterReference } from './rosterReference';
 import { createP11Reference } from './p11Reference';
-import { P12F_ECONOMY_CONFIG } from '@tft/game-data';
+import { type EconomyConfig } from '@tft/shared';
 import {
   createFlorinItemReference,
   createItemHudReference,
@@ -25,11 +25,13 @@ export const DEV_STORAGE_KEY = 'tft-eunuco-isolated-dev-f0p6b3';
 const time = { now: () => performance.now() };
 export default function DevelopmentAccess({
   session,
+  config,
   seed,
   onReplace,
   onNormal,
 }: {
   session: LocalSession | null;
+  config: EconomyConfig;
   seed: number;
   onReplace: (c: LocalMatchCoordinator) => void;
   onNormal: (c: LocalMatchCoordinator | null) => void;
@@ -105,10 +107,14 @@ export default function DevelopmentAccess({
           },
           time,
         );
-      } else next = new DevelopmentController(time, seed, undefined, P12F_ECONOMY_CONFIG);
+      } else next = new DevelopmentController(time, seed, undefined, config);
       setController(next);
       setOpened(true);
-      setMessage('Prueba aislada lista. El guardado normal se conserva.');
+      setMessage(
+        recover && config.jewPolicy && !next.coordinator.getMatch().config.jewPolicy
+          ? 'Prueba recuperada con sus reglas anteriores. Crea una prueba DEV nueva para usar PEIBOL y Jew actualizados.'
+          : 'Prueba aislada lista. El guardado normal se conserva.',
+      );
       onReplace(next.coordinator);
     } catch (e) {
       setMessage(e instanceof Error ? e.message : 'No se pudo abrir DEV.');
@@ -581,7 +587,9 @@ export default function DevelopmentAccess({
               </dd>
               <dt>Reglas / catálogo</dt>
               <dd>
-                {combatRulesFor(state.config.catalog)} / {state.config.catalog}
+                {combatRulesFor(state.config.catalog, state.config.characterPolicy)} /{' '}
+                {state.config.catalog}
+                {state.config.jewPolicy ? ' · P13T.1 · Jew' : ''}
               </dd>
               <dt>Reloj</dt>
               <dd>

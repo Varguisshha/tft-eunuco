@@ -62,27 +62,33 @@ export class BoardScene extends Phaser.Scene {
         if (file.key === this.arena?.image.key) this.onAssetError?.();
       });
     }
+    const loaded = new Set<string>();
     for (const manifest of CHARACTER_ASSETS) {
-      for (const asset of manifest.composite
-        ? [
-            manifest.composite.projectileAnimation,
-            manifest.composite.impactAnimation,
-            manifest.composite.recoveryAnimation,
-          ]
-        : [])
-        this.load.spritesheet(asset.textureKey, asset.url, {
-          frameWidth: asset.frameWidth,
-          frameHeight: asset.frameHeight,
-        });
+      const composites = manifest.composites
+        ? Object.values(manifest.composites)
+        : [manifest.composite];
+      for (const c of composites)
+        for (const asset of c
+          ? [c.projectileAnimation, c.impactAnimation, c.recoveryAnimation]
+          : []) {
+          if (!asset || loaded.has(asset.textureKey)) continue;
+          loaded.add(asset.textureKey);
+          this.load.spritesheet(asset.textureKey, asset.url, {
+            frameWidth: asset.frameWidth,
+            frameHeight: asset.frameHeight,
+          });
+        }
     }
     for (const manifest of CHARACTER_ASSETS)
       for (const slots of Object.values(manifest.evolutions))
         for (const asset of Object.values(slots)) {
-          if (asset && !this.textures.exists(asset.textureKey))
+          if (asset && !loaded.has(asset.textureKey) && !this.textures.exists(asset.textureKey)) {
+            loaded.add(asset.textureKey);
             this.load.spritesheet(asset.textureKey, asset.url, {
               frameWidth: asset.frameWidth,
               frameHeight: asset.frameHeight,
             });
+          }
         }
   }
   create(): void {

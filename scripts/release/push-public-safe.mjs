@@ -5,6 +5,7 @@ import { verifyHistory } from './verify-public-safe.mjs';
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const branch = git('branch', '--show-current');
 const allowedBranches = new Set([
+  'release/p13-public-safe',
   'release/p11k-public-safe',
   'release/p12b-public-safe',
   'release/p12d-public-safe',

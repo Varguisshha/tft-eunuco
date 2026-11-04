@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@equivalence/snapshot": ["apps/server/src/persistence/snapshot.ts"],
+      "@equivalence/authority": ["apps/server/src/AuthoritativeMatch.ts"],
+      "@equivalence/codec": ["apps/server/src/persistence/codec.ts"],
+      "@equivalence/historical-saves": [
+        "packages/game-core/src/combat/fixtures/pre-p6b1-saves.json"
+      ],
+      "@tft/shared": ["packages/shared/src/index.ts"],
+      "@tft/game-core": ["packages/game-core/src/index.ts"],
+      "@tft/game-data": ["packages/game-data/src/index.ts"]
+    }
+  },
+  "include": ["entry.ts"]
+}

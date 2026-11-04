@@ -24,3 +24,6 @@ dist-p9a/
 
 # Reviewed production packs are staged privately, never committed as source.
 .approved-item-icons/
+
+# Original P13T character source pack, retained only in LOCAL.
+/TFPeru 2/

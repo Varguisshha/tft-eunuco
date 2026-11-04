@@ -5,11 +5,15 @@ import { spawn, execFileSync } from 'node:child_process';
 import { once } from 'node:events';
 import { setTimeout as wait } from 'node:timers/promises';
 import pg from 'pg';
+import { MatchRoom } from '__TARGET__/apps/server/src/MatchRoom.ts';
+import { AuthoritativeMatch } from '__TARGET__/apps/server/src/AuthoritativeMatch.ts';
+__P13T_IMPORT__
+import { P13S_ECONOMY_CONFIG } from '__TARGET__/packages/game-data/src/index.ts';
 import { PostgresTestRepository } from '__TARGET__/apps/server/src/persistence/PostgresTestRepository.ts';
 import { startRuntime } from '__TARGET__/apps/server/src/remote/runtime.ts';
 import { readConfig } from '__TARGET__/apps/server/src/remote/config.ts';
 import { assertLocalDatabase, verifyIdentity } from '__TOOLS__/safety.mjs';
-const { directory, database, identity, key } = JSON.parse(process.env.TFT_LOCAL_BOOT);
+const { directory, database, identity, key, synergyPolicy } = JSON.parse(process.env.TFT_LOCAL_BOOT);
 assertLocalDatabase(database, identity);
 const data = path.join(directory, 'postgres');
 let postgres, repo, runtime, stopped, lock;
@@ -103,6 +107,10 @@ try {
     SUPABASE_PUBLISHABLE_KEY: 'local-unused',
     SUPABASE_SERVICE_ROLE_KEY: 'local-unused',
   });
+  class P13SLocalRoom extends MatchRoom { createMatch(capacity=2) { return new AuthoritativeMatch(this.roomId,undefined,undefined,capacity,P13S_ECONOMY_CONFIG); } }
+  class P13TLocalRoom extends MatchRoom {
+    createMatch(capacity=2) { return new AuthoritativeMatch(this.roomId,undefined,undefined,capacity,__P13T_CONFIG__); }
+  }
   runtime = await startRuntime(
     config,
     repo,
@@ -110,6 +118,7 @@ try {
     async () => {
       await repo.pool.query('select 1');
     },
+    __P13T__ ? P13TLocalRoom : synergyPolicy === 'f0p13s-1' ? P13SLocalRoom : MatchRoom,
   );
   // Release the connection only on controlled shutdown; advisory lock fences other local starts.
 

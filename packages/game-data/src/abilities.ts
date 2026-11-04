@@ -1,31 +1,41 @@
+import { P13S_TRAITS } from './p13s';
 import { isP11Catalog } from '@tft/shared';
 import { FLORIN_TRAITS } from './florin';
 import { FUMON_TRAIT } from './jaramillo';
 import { UPM_TRAIT, PREDATOR_TRAIT } from './vargas';
 import { TRAIT_DEFINITIONS } from './legacy-traits';
+import { P13T1_TRAITS } from './jew';
 import { P11_TRAITS } from './p11-traits';
 import { ROSTER_TRAITS } from './roster-traits';
 export { DOLEA_ABILITY, TRAIT_DEFINITIONS } from './legacy-traits';
 export const VARGAS_TRAITS = [...TRAIT_DEFINITIONS, UPM_TRAIT, PREDATOR_TRAIT];
 export const JARAMILLO_TRAITS = [...VARGAS_TRAITS, FUMON_TRAIT];
-export const traitsFor = (catalog: string | undefined) =>
-  isP11Catalog(catalog)
-    ? P11_TRAITS
-    : catalog === 'f0p10a-1'
-      ? ROSTER_TRAITS
-      : catalog === 'florin-1' || catalog === 'f0p8d-florin-1'
-        ? [...JARAMILLO_TRAITS, ...FLORIN_TRAITS]
-        : catalog === 'f0p6c'
-          ? JARAMILLO_TRAITS
-          : catalog === 'f0p6b3'
-            ? VARGAS_TRAITS
-            : TRAIT_DEFINITIONS;
-export const getTraitDefinition = (id: string, catalog?: string) =>
-  (isP11Catalog(catalog)
-    ? P11_TRAITS
-    : catalog === 'f0p10a-1'
-      ? ROSTER_TRAITS
-      : [...JARAMILLO_TRAITS, ...FLORIN_TRAITS]
+export const traitsFor = (catalog: string | undefined, jewPolicy?: string) =>
+  jewPolicy === 'f0p13s-1'
+    ? P13S_TRAITS
+    : jewPolicy === 'f0p13s-jew-1'
+      ? P13T1_TRAITS
+      : isP11Catalog(catalog)
+        ? P11_TRAITS
+        : catalog === 'f0p10a-1'
+          ? ROSTER_TRAITS
+          : catalog === 'florin-1' || catalog === 'f0p8d-florin-1'
+            ? [...JARAMILLO_TRAITS, ...FLORIN_TRAITS]
+            : catalog === 'f0p6c'
+              ? JARAMILLO_TRAITS
+              : catalog === 'f0p6b3'
+                ? VARGAS_TRAITS
+                : TRAIT_DEFINITIONS;
+export const getTraitDefinition = (id: string, catalog?: string, jewPolicy?: string) =>
+  (jewPolicy === 'f0p13s-1'
+    ? P13S_TRAITS
+    : jewPolicy === 'f0p13s-jew-1'
+      ? P13T1_TRAITS
+      : isP11Catalog(catalog)
+        ? P11_TRAITS
+        : catalog === 'f0p10a-1'
+          ? ROSTER_TRAITS
+          : [...JARAMILLO_TRAITS, ...FLORIN_TRAITS]
   ).find((t) => t.id === id);
 
 /** Legacy display bridge. New characters author ChampionAbility directly. */

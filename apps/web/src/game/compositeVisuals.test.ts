@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { CHARACTER_ASSETS } from './characterAssets';
+import { LEGACY_CHARACTER_ASSETS } from './characterAssets';
 import { compositeBody, compositeFlight } from './compositeVisuals';
 import { resolveAnimation } from '@tft/sprite-contract';
-const manifest = CHARACTER_ASSETS.find((m) => m.id === 'jaramillo')!;
+const manifest = LEGACY_CHARACTER_ASSETS.find((m) => m.id === 'jaramillo')!;
 describe('composite presentation is seekable and body never becomes a projectile', () => {
   it('provides real clips, unknown appearance and explicit ability/star fallbacks', () => {
     expect(manifest.provenance?.sourceStarLevel).toBeNull();

@@ -45,6 +45,7 @@ export const MATCH_ERRORS: Record<MatchError, string> = {
   'item-restricted': 'La unidad no puede llevar este objeto.',
   'item-request-conflict': 'La solicitud ya se usó con otro contenido.',
   'invalid-item-location': 'Elige una posición válida del inventario.',
+  'invalid-prediction': 'La predicción no está disponible o su selección no es válida.',
   'invalid-action': 'Acción inválida.',
   'invalid-state': 'El estado de partida no supera la validación.',
   'stale-action': 'Esta acción ya se procesó o pertenece a un estado anterior.',
@@ -438,27 +439,29 @@ export class LocalSession implements BoardPort {
       this.paused = false;
     }
     this.message =
-      this.match.lastUpgrades.length && command.type === 'buy_unit'
-        ? '¡Mejora completada! Las copias se han combinado.'
-        : command.type === 'start_combat'
-          ? 'Combate en curso.'
-          : command.type === 'resolve_round'
-            ? 'Ronda resuelta. Recompensas recibidas.'
-            : command.type === 'next_round'
-              ? 'Nueva ronda preparada.'
-              : command.type === 'buy_unit'
-                ? 'Unidad comprada. Selecciona su destino.'
-                : command.type === 'move_unit' || command.type === 'swap_units'
-                  ? 'Formación actualizada.'
-                  : command.type === 'sell_unit'
-                    ? 'Unidad vendida. Copias devueltas al pool.'
-                    : command.type === 'buy_xp'
-                      ? 'Experiencia comprada.'
-                      : command.type === 'reroll_shop'
-                        ? 'Tienda renovada.'
-                        : this.match.shopLocked
-                          ? 'Tienda bloqueada para la próxima ronda.'
-                          : 'Tienda desbloqueada.';
+      command.type === 'select_prediction'
+        ? 'Predicción confirmada. Coste: 1 oro.'
+        : this.match.lastUpgrades.length && command.type === 'buy_unit'
+          ? '¡Mejora completada! Las copias se han combinado.'
+          : command.type === 'start_combat'
+            ? 'Combate en curso.'
+            : command.type === 'resolve_round'
+              ? 'Ronda resuelta. Recompensas recibidas.'
+              : command.type === 'next_round'
+                ? 'Nueva ronda preparada.'
+                : command.type === 'buy_unit'
+                  ? 'Unidad comprada. Selecciona su destino.'
+                  : command.type === 'move_unit' || command.type === 'swap_units'
+                    ? 'Formación actualizada.'
+                    : command.type === 'sell_unit'
+                      ? 'Unidad vendida. Copias devueltas al pool.'
+                      : command.type === 'buy_xp'
+                        ? 'Experiencia comprada.'
+                        : command.type === 'reroll_shop'
+                          ? 'Tienda renovada.'
+                          : this.match.shopLocked
+                            ? 'Tienda bloqueada para la próxima ronda.'
+                            : 'Tienda desbloqueada.';
     try {
       this.save?.(this.match);
     } catch {

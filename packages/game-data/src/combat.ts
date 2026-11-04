@@ -203,32 +203,42 @@ export const hasTraits = (catalog: string | undefined) =>
   catalog === 'f0p6b1' ||
   catalog === 'f0p6b2' ||
   catalog === 'f0p6b3';
-export const combatRulesFor = (catalog: string | undefined) =>
-  catalog === 'f0p11h-1'
-    ? P11H_RULES
-    : catalog === 'f0p11c-1' || catalog === 'f0p11g-1'
-      ? P11C_RULES
-      : catalog === 'f0p11b-1'
-        ? P11B_RULES
-        : isP11Catalog(catalog)
-          ? P11_RULES
-          : catalog === 'f0p10a-1'
-            ? ROSTER_RULES
-            : catalog === 'f0p8d-florin-1'
-              ? INTEGRATED_RULES
-              : catalog === 'florin-1' || catalog === 'f0p8d-florin-1'
-                ? FLORIN_RULES
-                : catalog === 'f0p6c'
-                  ? COMPOSITE_RULES
-                  : catalog === 'f0p6b3'
-                    ? CHARACTER_RULES
-                    : catalog === 'f0p6b2'
-                      ? MECHANICS_RULES
-                      : catalog === 'f0p6b1'
-                        ? ADVANCED_COMBAT_RULES
-                        : hasTraits(catalog)
-                          ? CURRENT_COMBAT_RULES
-                          : COMBAT_RULES;
+export const combatRulesFor = (
+  catalog: string | undefined,
+  characterPolicy?: string,
+  synergyPolicy?: string,
+) =>
+  characterPolicy === 'f0p13t-1' && synergyPolicy === 'f0p13s-1'
+    ? ('f0p13-1' as const)
+    : characterPolicy === 'f0p13s-1' || synergyPolicy === 'f0p13s-1'
+      ? ('f0p13s-1' as const)
+      : characterPolicy === 'f0p13t-1'
+        ? ('f0p13t-1' as const)
+        : catalog === 'f0p11h-1'
+          ? P11H_RULES
+          : catalog === 'f0p11c-1' || catalog === 'f0p11g-1'
+            ? P11C_RULES
+            : catalog === 'f0p11b-1'
+              ? P11B_RULES
+              : isP11Catalog(catalog)
+                ? P11_RULES
+                : catalog === 'f0p10a-1'
+                  ? ROSTER_RULES
+                  : catalog === 'f0p8d-florin-1'
+                    ? INTEGRATED_RULES
+                    : catalog === 'florin-1' || catalog === 'f0p8d-florin-1'
+                      ? FLORIN_RULES
+                      : catalog === 'f0p6c'
+                        ? COMPOSITE_RULES
+                        : catalog === 'f0p6b3'
+                          ? CHARACTER_RULES
+                          : catalog === 'f0p6b2'
+                            ? MECHANICS_RULES
+                            : catalog === 'f0p6b1'
+                              ? ADVANCED_COMBAT_RULES
+                              : hasTraits(catalog)
+                                ? CURRENT_COMBAT_RULES
+                                : COMBAT_RULES;
 
 export function createMechanicsCombatInput(
   board: BoardState,

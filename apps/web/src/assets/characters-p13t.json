@@ -1,0 +1,1505 @@
+[
+  {
+    "version": 2,
+    "id": "dolea",
+    "evolutions": {
+      "star1": {
+        "idle": {
+          "textureKey": "dolea:p13t:star1:idle",
+          "url": "/sprites/dolea/p13t/star1/idle.png",
+          "frameWidth": 326,
+          "frameHeight": 400,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 157,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Dolea/Nivel1/Dolea_Idle/Dolea_idle_1.png",
+              "sha256": "7371c24e2e3f84695acb2028a870405a8074983f06e2fd466d2025221f546b7e"
+            }
+          ]
+        },
+        "walk": null,
+        "attack": {
+          "textureKey": "dolea:p13t:star1:attack",
+          "url": "/sprites/dolea/p13t/star1/attack.png",
+          "frameWidth": 502,
+          "frameHeight": 400,
+          "frames": [0, 1, 2, 3, 4],
+          "frameCount": 5,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 214,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_1y4.png",
+              "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be"
+            },
+            {
+              "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_2.png",
+              "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70"
+            },
+            {
+              "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_3.png",
+              "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844"
+            },
+            {
+              "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_5.png",
+              "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0"
+            },
+            {
+              "file": "TFPeru 2/Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_6.png",
+              "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "dolea:star2:attack",
+          "url": "/sprites/dolea/star2/attack.png",
+          "frameWidth": 112,
+          "frameHeight": 128,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": {
+            "x": 56,
+            "y": 107
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE .png",
+              "sha256": "114a91704b075c823290f28e87c01f661bb3589c951171bfc4ab3366504f7c76"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 2.png",
+              "sha256": "227a4bdfebfb245602fba0742d8fb7181fa91a483ea4f0c361d984e53628264c"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 3.png",
+              "sha256": "87d020b11a4421b2ec608f9852e30b75f07cd488260d8e39c87457c2bace43f4"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 4.png",
+              "sha256": "924f20164eae9960a4dfccf84d3abb5e6b93e15dda627d6ba30c6ac302a48d84"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 5.png",
+              "sha256": "d88cb150427e029691c3b0d5d05dd8618a5dca3cfc03df1892fb92e366463b33"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 6.png",
+              "sha256": "6b369b895fd705aedc009ebe5283b5389b8cd1d661392cce4ffa90341ef07f60"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 7.png",
+              "sha256": "3a4b96832df5dcd68a2378e63ee10204c40729299112bf475bf7c28cd0fda699"
+            },
+            {
+              "file": "Sprites/DOLEA NIVEL 2 ATAQUE 8.png",
+              "sha256": "c379ef93803d4693c5211178301640dd34ea538bb662f334023316a4849686cb"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    },
+    "provenance": {
+      "characterId": "dolea",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["walk", "death", "ability"]
+    }
+  },
+  {
+    "version": 2,
+    "id": "vargas",
+    "provenance": {
+      "characterId": "vargas",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["walk", "death", "idle", "ability"]
+    },
+    "fallbacks": {
+      "star1": [],
+      "star2": [],
+      "star3": [2]
+    },
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "vargas:p13t:star1:attack",
+          "url": "/sprites/vargas/p13t/star1/attack.png",
+          "frameWidth": 409,
+          "frameHeight": 400,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 204,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_1.png",
+              "sha256": "f80bded9983ac8c1b4eed6057342b9319e99a39530b501a5b7ba0c6fd5ee375c"
+            },
+            {
+              "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_2.png",
+              "sha256": "14764d83b82c7ee2c73ea26293bcf99a62a68794129b1219cfe2686f886039f4"
+            },
+            {
+              "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_3.png",
+              "sha256": "630fadbb6175147fbc544decbc4cf5d580d9ba97c2fb66fd540be15ee1e7ffb4"
+            },
+            {
+              "file": "TFPeru 2/Vargas/Nivel1/Vargas_Atk/Vargas_Atk_4.png",
+              "sha256": "819bd4ef54d8f92660ff86569ca8b008f6e63262bd0444fd82eb47c10eb7a491"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "vargas:star2:attack",
+          "url": "/sprites/vargas/star2/attack.png",
+          "frameWidth": 144,
+          "frameHeight": 128,
+          "frameCount": 5,
+          "frames": [0, 1, 2, 3, 4],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": {
+            "x": 72,
+            "y": 111
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 3,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "Sprites/vargas/star2/attack/frame-1.png",
+              "sha256": "dce4ecd65080deaa309dac3fb5f801b635736571ed10413457eaaa4c9097c24a"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-2.png",
+              "sha256": "21d9832ea7a888e30be1be3364395bd89e2ec2f8e179fed27c7e441c77eae567"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-3.png",
+              "sha256": "5f1a65f893b097da73f3c52b6d4c81c32ba0b1d205b2e1ed68d20a05319e60c7"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-4.png",
+              "sha256": "1b49f552a7b3e33dfaf60597341469ccabaac30db8b680d983fca57183152fa4"
+            },
+            {
+              "file": "Sprites/vargas/star2/attack/frame-5.png",
+              "sha256": "6eefb2769842956c8b83545397baf81432c1ad2b1ff9eef00f1094c625aaf73b"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "ability": null,
+        "death": null
+      }
+    },
+    "fallbackPresentation": {
+      "idle": "first_frame",
+      "walk": "first_frame",
+      "death": "first_frame",
+      "ability": "attack"
+    }
+  },
+  {
+    "version": 2,
+    "id": "jaramillo",
+    "provenance": {
+      "characterId": "jaramillo",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["walk", "death", "idle", "ability"]
+    },
+    "fallbacks": {
+      "star1": [],
+      "star2": [],
+      "star3": []
+    },
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "jaramillo:p13t:star1:attack",
+          "url": "/sprites/jaramillo/p13t/star1/attack.png",
+          "frameWidth": 625,
+          "frameHeight": 416,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.13333333333333333,
+          "foot": {
+            "x": 296,
+            "y": 408
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_1.png",
+              "sha256": "c349bd95b7821d6aad80ba2fb2b2a1e6adf97affe23c1e5b0a27b3783c7f1f05"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_2.png",
+              "sha256": "96f0ea8c3cb897c99354b3f5e783c12a8f153fdf8f77b04650316792761ae0fe"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_3.png",
+              "sha256": "69e0a5b439b66e3975a1a2e8d871b707cefef200674137cc31fd3d754a9842c7"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_4.png",
+              "sha256": "f8732f2613e4d47457bf0bdf36af7f285b05821fd6f3f836b6fe097b74c6e383"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "jaramillo:p13t:star2:attack",
+          "url": "/sprites/jaramillo/p13t/star2/attack.png",
+          "frameWidth": 450,
+          "frameHeight": 454,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.13333333333333333,
+          "foot": {
+            "x": 225,
+            "y": 446
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_1.png",
+              "sha256": "1a4731a31490d527992f626e53d2295ec53bcd52171f268fd0931dc8515f331c"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_2.png",
+              "sha256": "f98130e041ead67d5265c1160035fb9e599729b108b11e9050c44e0f0169b8c3"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_3.png",
+              "sha256": "a00ab4a9535b3db67475753825914a1c428bc9578ccd72f35900b431158b0807"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_4.png",
+              "sha256": "630da4fc1576a3333e68f7c4fe821fa14ffee499861ef9843e6c3c4e72c0c447"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "jaramillo:p13t:star3:attack",
+          "url": "/sprites/jaramillo/p13t/star3/attack.png",
+          "frameWidth": 556,
+          "frameHeight": 400,
+          "frames": [0, 1, 2, 3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.13333333333333333,
+          "foot": {
+            "x": 273,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_1.png",
+              "sha256": "ccc88d5b0824843f69968a110255b943f2cad1bf527704f7f074fd91a64ad0a9"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_2.png",
+              "sha256": "5d186387184fd5cd59393d970a6e1e6fc1ae0dfb3f3dcf92fd4e4c6e1a1e6ddc"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_3.png",
+              "sha256": "67b598ac7e71e9c4640f233952ce652fa1822cac7a6df3fb4835ae786472c825"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_4.png",
+              "sha256": "3fd4a57c20e281bdd2357e6e5ea6085c92b66ee4a99f70da32914c98c42319ef"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      }
+    },
+    "composite": {
+      "version": 1,
+      "bodyAnimation": "attack",
+      "recoveryAnimation": {
+        "textureKey": "jaramillo:shared:recovery",
+        "url": "/sprites/jaramillo/shared/recovery.png",
+        "frameWidth": 160,
+        "frameHeight": 128,
+        "frames": [0],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.6666666666666666,
+        "foot": {
+          "x": 72,
+          "y": 116
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_08.png",
+            "sha256": "c801379e750ce81067a00eaee5b830b4e001cd0d950e19727c81e197807f7baa"
+          }
+        ]
+      },
+      "projectileAnimation": {
+        "textureKey": "jaramillo:shared:projectile",
+        "url": "/sprites/jaramillo/shared/projectile.png",
+        "frameWidth": 128,
+        "frameHeight": 64,
+        "frames": [0, 1],
+        "frameCount": 2,
+        "fps": 12,
+        "loop": true,
+        "scale": 0.65,
+        "foot": {
+          "x": 116,
+          "y": 48
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_05.png",
+            "sha256": "a23adc486f02d5941ce74ae257e7d96e2416ab350b2d2a7f48a27582ca8b1b4c"
+          },
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_06.png",
+            "sha256": "c8ab1fbe560c5fd4fabedba3f383d068c56d83b885391003e45515245d754e73"
+          }
+        ]
+      },
+      "impactAnimation": {
+        "textureKey": "jaramillo:shared:impact",
+        "url": "/sprites/jaramillo/shared/impact.png",
+        "frameWidth": 128,
+        "frameHeight": 128,
+        "frames": [0],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.65,
+        "foot": {
+          "x": 72,
+          "y": 90
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/jaramillo/original-frames/ataque_07.png",
+            "sha256": "4476a8b1d6976f97012656e8c0daf34447e5f7a1f060887794dcd0ea9f50c75f"
+          }
+        ]
+      },
+      "releaseMarker": 1,
+      "projectileOrigin": {
+        "x": 20,
+        "y": -43
+      },
+      "targetAnchor": {
+        "x": 0,
+        "y": -30
+      },
+      "visualTiming": {
+        "recoveryMs": 160,
+        "releaseMs": 80,
+        "impactMs": 300
+      },
+      "fallbackPolicy": "body-only"
+    },
+    "fallbackPresentation": {
+      "idle": "first_frame",
+      "walk": "first_frame",
+      "death": "first_frame",
+      "ability": "attack"
+    },
+    "composites": {
+      "star1": {
+        "version": 1,
+        "bodyAnimation": "attack",
+        "recoveryAnimation": {
+          "textureKey": "jaramillo:p13t:star1:attack",
+          "url": "/sprites/jaramillo/p13t/star1/attack.png",
+          "frameWidth": 625,
+          "frameHeight": 416,
+          "frames": [3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.13333333333333333,
+          "foot": {
+            "x": 296,
+            "y": 408
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_1.png",
+              "sha256": "c349bd95b7821d6aad80ba2fb2b2a1e6adf97affe23c1e5b0a27b3783c7f1f05"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_2.png",
+              "sha256": "96f0ea8c3cb897c99354b3f5e783c12a8f153fdf8f77b04650316792761ae0fe"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_3.png",
+              "sha256": "69e0a5b439b66e3975a1a2e8d871b707cefef200674137cc31fd3d754a9842c7"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel1/Erik1_Atk_4.png",
+              "sha256": "f8732f2613e4d47457bf0bdf36af7f285b05821fd6f3f836b6fe097b74c6e383"
+            }
+          ]
+        },
+        "projectileAnimation": {
+          "textureKey": "jaramillo:p13t:star1:projectile",
+          "url": "/sprites/jaramillo/p13t/star1/projectile.png",
+          "frameWidth": 128,
+          "frameHeight": 93,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16,
+          "foot": {
+            "x": 64,
+            "y": 47
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel1/piedra.png",
+              "sha256": "07c01798c92fbe1a0ab0363b01cd2892e7925a8c6925cc5cfaff7e6a0c203ad8"
+            }
+          ]
+        },
+        "impactAnimation": null,
+        "releaseMarker": 2,
+        "projectileOrigin": {
+          "x": 25.6,
+          "y": -30.4
+        },
+        "targetAnchor": {
+          "x": 0,
+          "y": -30
+        },
+        "visualTiming": {
+          "releaseMs": 80,
+          "recoveryMs": 220,
+          "impactMs": 250
+        },
+        "fallbackPolicy": "body-only"
+      },
+      "star2": {
+        "version": 1,
+        "bodyAnimation": "attack",
+        "recoveryAnimation": {
+          "textureKey": "jaramillo:p13t:star2:attack",
+          "url": "/sprites/jaramillo/p13t/star2/attack.png",
+          "frameWidth": 450,
+          "frameHeight": 454,
+          "frames": [3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.13333333333333333,
+          "foot": {
+            "x": 225,
+            "y": 446
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_1.png",
+              "sha256": "1a4731a31490d527992f626e53d2295ec53bcd52171f268fd0931dc8515f331c"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_2.png",
+              "sha256": "f98130e041ead67d5265c1160035fb9e599729b108b11e9050c44e0f0169b8c3"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_3.png",
+              "sha256": "a00ab4a9535b3db67475753825914a1c428bc9578ccd72f35900b431158b0807"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Erik2_Atk_4.png",
+              "sha256": "630da4fc1576a3333e68f7c4fe821fa14ffee499861ef9843e6c3c4e72c0c447"
+            }
+          ]
+        },
+        "projectileAnimation": {
+          "textureKey": "jaramillo:p13t:star2:projectile",
+          "url": "/sprites/jaramillo/p13t/star2/projectile.png",
+          "frameWidth": 117,
+          "frameHeight": 128,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16,
+          "foot": {
+            "x": 59,
+            "y": 64
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Piti.png",
+              "sha256": "92f56bf1ad08bf725f487caa522a3591f8aa94cc5f10a156990d7432e857fca7"
+            }
+          ]
+        },
+        "impactAnimation": {
+          "textureKey": "jaramillo:p13t:star2:impact",
+          "url": "/sprites/jaramillo/p13t/star2/impact.png",
+          "frameWidth": 208,
+          "frameHeight": 200,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.2,
+          "foot": {
+            "x": 104,
+            "y": 100
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel2/Piti_impc.png",
+              "sha256": "03fe9f45656ed9da6c7f555c38f799e2b7c5ea9bae2c44eb813f14525f5368e6"
+            }
+          ]
+        },
+        "releaseMarker": 2,
+        "projectileOrigin": {
+          "x": 23.2,
+          "y": -29.6
+        },
+        "targetAnchor": {
+          "x": 0,
+          "y": -30
+        },
+        "visualTiming": {
+          "releaseMs": 80,
+          "recoveryMs": 220,
+          "impactMs": 250
+        },
+        "fallbackPolicy": "body-only"
+      },
+      "star3": {
+        "version": 1,
+        "bodyAnimation": "attack",
+        "recoveryAnimation": {
+          "textureKey": "jaramillo:p13t:star3:attack",
+          "url": "/sprites/jaramillo/p13t/star3/attack.png",
+          "frameWidth": 556,
+          "frameHeight": 400,
+          "frames": [3],
+          "frameCount": 4,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.13333333333333333,
+          "foot": {
+            "x": 273,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_1.png",
+              "sha256": "ccc88d5b0824843f69968a110255b943f2cad1bf527704f7f074fd91a64ad0a9"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_2.png",
+              "sha256": "5d186387184fd5cd59393d970a6e1e6fc1ae0dfb3f3dcf92fd4e4c6e1a1e6ddc"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_3.png",
+              "sha256": "67b598ac7e71e9c4640f233952ce652fa1822cac7a6df3fb4835ae786472c825"
+            },
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Erik3_Atk_4.png",
+              "sha256": "3fd4a57c20e281bdd2357e6e5ea6085c92b66ee4a99f70da32914c98c42319ef"
+            }
+          ]
+        },
+        "projectileAnimation": {
+          "textureKey": "jaramillo:p13t:star3:projectile",
+          "url": "/sprites/jaramillo/p13t/star3/projectile.png",
+          "frameWidth": 128,
+          "frameHeight": 91,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16,
+          "foot": {
+            "x": 64,
+            "y": 46
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Mochila.png",
+              "sha256": "015c792ccaf5109bbaa3b1f04ebb7c0efecd92cf94357b636fa27baefc6f2c43"
+            }
+          ]
+        },
+        "impactAnimation": {
+          "textureKey": "jaramillo:p13t:star3:impact",
+          "url": "/sprites/jaramillo/p13t/star3/impact.png",
+          "frameWidth": 208,
+          "frameHeight": 171,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.2,
+          "foot": {
+            "x": 104,
+            "y": 86
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Erik/Nivel3/Mochila_impc.png",
+              "sha256": "3d1c87860c8ae8eb8718a0a08b9935a800214b8a63bee490716f9a30cc1007b2"
+            }
+          ]
+        },
+        "releaseMarker": 2,
+        "projectileOrigin": {
+          "x": 29.6,
+          "y": -29.6
+        },
+        "targetAnchor": {
+          "x": 0,
+          "y": -30
+        },
+        "visualTiming": {
+          "releaseMs": 80,
+          "recoveryMs": 220,
+          "impactMs": 250
+        },
+        "fallbackPolicy": "body-only"
+      }
+    }
+  },
+  {
+    "version": 2,
+    "id": "florin",
+    "provenance": {
+      "characterId": "florin",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["idle", "walk", "ability", "death"]
+    },
+    "fallbackPresentation": {
+      "idle": "first_frame",
+      "walk": "first_frame",
+      "death": "first_frame",
+      "ability": "attack"
+    },
+    "fallbacks": {
+      "star1": [],
+      "star2": [],
+      "star3": []
+    },
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "florin:star1:attack",
+          "url": "/sprites/florin/star1/attack.png",
+          "frameWidth": 192,
+          "frameHeight": 176,
+          "frameCount": 4,
+          "frames": [0, 1, 2, 3],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": {
+            "x": 96,
+            "y": 160
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 2,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+              "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_2.png",
+              "sha256": "24c8c7aa8f425a3866450e1e491be96e2a32130a8708683c1318377c88500e67"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_3.png",
+              "sha256": "4cf0798c76bde7bc61f152f2ebf40904854f7063a09396a32faae87913a5d866"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+              "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "florin:star2:attack",
+          "url": "/sprites/florin/star2/attack.png",
+          "frameWidth": 192,
+          "frameHeight": 176,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": {
+            "x": 96,
+            "y": 160
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+              "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_2.png",
+              "sha256": "e88b2bfb0a70af2da280428108c404a59ff04590b8949fa82ed7b4adeb506299"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_3.png",
+              "sha256": "49e3a0565ca3a065d11904d3194f013e497ac2fdd69da390ab1b940b9dae938f"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+              "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_5.png",
+              "sha256": "0995bce5807ed93d072acb15249d1d369afbfe78ec83c122c84df9e50ae9fbaf"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_6.png",
+              "sha256": "b7399837dc4e23b9cef2175dab7db2c19276fcc871a4687000e291e709192b91"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_7.png",
+              "sha256": "acce18f51ff8c025ff3c1debb54eeb35cb2e8a9ba573f7e623ae646a29b71fcb"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+              "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "florin:star3:attack",
+          "url": "/sprites/florin/star3/attack.png",
+          "frameWidth": 192,
+          "frameHeight": 176,
+          "frameCount": 8,
+          "frames": [0, 1, 2, 3, 4, 5, 6, 7],
+          "fps": 10,
+          "loop": false,
+          "scale": 0.6666666666666666,
+          "foot": {
+            "x": 96,
+            "y": 160
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 5,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+              "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_2.png",
+              "sha256": "a12ed58a43c787ee3b13ab000010e7566d9f4d73fcf90d3d637e53180715bc22"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_3.png",
+              "sha256": "5fe26d2cd02af6567cf4d2617454195d7c59f7319f18ee5e23b7351abddf82a1"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_4.png",
+              "sha256": "217c73c7825dbf72577a6f2208a96441db5b3d0ef657e3fd402c7f1d4c36d21a"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_5.png",
+              "sha256": "0dd05b327932a2fbe0fafa8fab72559dc28ed11b9b5f9ab2fb3013e19e841a68"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_6.png",
+              "sha256": "057b57ed1268f0f39a0bb05fb6741e5d4db9774689a79ad0a777566a6a0d30d5"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_7.png",
+              "sha256": "c00d3079898d66932d269b8d91273cd6f4859977b6c4ee5410ace2a65d972b13"
+            },
+            {
+              "file": "TFPeru/Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+              "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      }
+    }
+  },
+  {
+    "version": 2,
+    "id": "peibol",
+    "evolutions": {
+      "star1": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "peibol:p13t:star1:attack",
+          "url": "/sprites/peibol/p13t/star1/attack.png",
+          "frameWidth": 500,
+          "frameHeight": 400,
+          "frames": [0, 1, 2, 3, 4, 5],
+          "frameCount": 6,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 218,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 3,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_1.png",
+              "sha256": "36ec8387eecef1ae03a8d9b6d37b0184979eafc888389367fe06317cd4cdce71"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_2.png",
+              "sha256": "87367f7ac430ed892db61b5afa09dbdddad3c34ea8be508828499bfbf5a5b226"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_3.png",
+              "sha256": "5f53823f555a914c0c29f5df2aaa9d4ade028ba54d5d3c45c782868852f0d223"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_4.png",
+              "sha256": "6a90b12de5abc5b8428fb4924646ca810fd6a9d9b322172b8464a66b596e9b6a"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_5.png",
+              "sha256": "d273ddcfed429edc1bd7d493fc8c1a0486642431e2f51fe895677d2c5b257a0e"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_6.png",
+              "sha256": "cb2df4f20fb01a78993dc4b1a2d2c83bb0299a7143706d1cb4346a6af27c2b62"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star2": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "peibol:p13t:star2:attack",
+          "url": "/sprites/peibol/p13t/star2/attack.png",
+          "frameWidth": 421,
+          "frameHeight": 400,
+          "frames": [0, 1, 2, 3, 4],
+          "frameCount": 5,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 220,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 3,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_1.png",
+              "sha256": "71245a162fdee23f6db02e9b1d40c134f6432fad60771304dd3771d0e01df52b"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_2.png",
+              "sha256": "3809e46fdcfb84910e6680706e30857e90d4727e2ad85dbfdf670ff4cadff972"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_3.png",
+              "sha256": "1c935b8f8973e37e1de3f6a4a9a5617eb883abd0fcf8d5eccb56a0f3432f5b07"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_4.png",
+              "sha256": "575ffb3f16161da111752d279312e46f3779a72018e587bda2aa53c81c01f003"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_5.png",
+              "sha256": "454700d8a0c4d92d4433f90f58c75dbdb67c81abe7324fe45416fe40397a7860"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      },
+      "star3": {
+        "idle": null,
+        "walk": null,
+        "attack": {
+          "textureKey": "peibol:p13t:star3:attack",
+          "url": "/sprites/peibol/p13t/star3/attack.png",
+          "frameWidth": 313,
+          "frameHeight": 400,
+          "frames": [0, 1, 2, 3, 4],
+          "frameCount": 5,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 156,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": 4,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_1.png",
+              "sha256": "9cf83eb0f16ea48c5b37033a409699932b4c12f0f1109a62572570952ac4531b"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_2.png",
+              "sha256": "e6e06c5dc03c45e5d9ddb097bf9cee060c8bab8ab66fad711c292f8ecbcd71b3"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_3.png",
+              "sha256": "806111b0e154b222ca3b8fc4eaa54cfc53da1059353bd1714d03d6636092e6ba"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_4.png",
+              "sha256": "aa12b12b59cc67abb4dea8d8d97333e3168807e57844eb3094d15e49acd5aee4"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_5.png",
+              "sha256": "6f72a2e591da9344afcc00b41e8bef09b4b74fcc1058c26b2e7206559f65ef4a"
+            }
+          ]
+        },
+        "ability": null,
+        "death": null
+      }
+    },
+    "fallbacks": {
+      "star1": [],
+      "star2": [],
+      "star3": []
+    },
+    "fallbackPresentation": {
+      "idle": "first_frame",
+      "walk": "first_frame",
+      "death": "first_frame",
+      "ability": "attack"
+    },
+    "provenance": {
+      "characterId": "peibol",
+      "sourceStarLevel": null,
+      "nativeAppearance": "pending",
+      "pending": ["walk", "death", "idle", "ability"]
+    },
+    "composites": {
+      "star1": {
+        "version": 1,
+        "bodyAnimation": "attack",
+        "recoveryAnimation": {
+          "textureKey": "peibol:p13t:star1:attack",
+          "url": "/sprites/peibol/p13t/star1/attack.png",
+          "frameWidth": 500,
+          "frameHeight": 400,
+          "frames": [5],
+          "frameCount": 6,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 218,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_1.png",
+              "sha256": "36ec8387eecef1ae03a8d9b6d37b0184979eafc888389367fe06317cd4cdce71"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_2.png",
+              "sha256": "87367f7ac430ed892db61b5afa09dbdddad3c34ea8be508828499bfbf5a5b226"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_3.png",
+              "sha256": "5f53823f555a914c0c29f5df2aaa9d4ade028ba54d5d3c45c782868852f0d223"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_4.png",
+              "sha256": "6a90b12de5abc5b8428fb4924646ca810fd6a9d9b322172b8464a66b596e9b6a"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_5.png",
+              "sha256": "d273ddcfed429edc1bd7d493fc8c1a0486642431e2f51fe895677d2c5b257a0e"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Peibol1_atk_6.png",
+              "sha256": "cb2df4f20fb01a78993dc4b1a2d2c83bb0299a7143706d1cb4346a6af27c2b62"
+            }
+          ]
+        },
+        "projectileAnimation": {
+          "textureKey": "peibol:p13t:star1:projectile",
+          "url": "/sprites/peibol/p13t/star1/projectile.png",
+          "frameWidth": 128,
+          "frameHeight": 123,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16,
+          "foot": {
+            "x": 64,
+            "y": 62
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Telefono.png",
+              "sha256": "822bf43777dfc3ea7ea23cceef38132c0d5a1245c2641233551c97c480df2191"
+            }
+          ]
+        },
+        "impactAnimation": {
+          "textureKey": "peibol:p13t:star1:impact",
+          "url": "/sprites/peibol/p13t/star1/impact.png",
+          "frameWidth": 208,
+          "frameHeight": 203,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.2,
+          "foot": {
+            "x": 104,
+            "y": 102
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel1/Telefono_impc.png",
+              "sha256": "0d27001062fa4c802653a468fce05512be3d7f25082689433dfb13ea2612f923"
+            }
+          ]
+        },
+        "releaseMarker": 3,
+        "projectileOrigin": {
+          "x": 29,
+          "y": -46
+        },
+        "targetAnchor": {
+          "x": 0,
+          "y": -30
+        },
+        "visualTiming": {
+          "releaseMs": 80,
+          "recoveryMs": 220,
+          "impactMs": 250
+        },
+        "fallbackPolicy": "body-only"
+      },
+      "star2": {
+        "version": 1,
+        "bodyAnimation": "attack",
+        "recoveryAnimation": {
+          "textureKey": "peibol:p13t:star2:attack",
+          "url": "/sprites/peibol/p13t/star2/attack.png",
+          "frameWidth": 421,
+          "frameHeight": 400,
+          "frames": [4],
+          "frameCount": 5,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 220,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_1.png",
+              "sha256": "71245a162fdee23f6db02e9b1d40c134f6432fad60771304dd3771d0e01df52b"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_2.png",
+              "sha256": "3809e46fdcfb84910e6680706e30857e90d4727e2ad85dbfdf670ff4cadff972"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_3.png",
+              "sha256": "1c935b8f8973e37e1de3f6a4a9a5617eb883abd0fcf8d5eccb56a0f3432f5b07"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_4.png",
+              "sha256": "575ffb3f16161da111752d279312e46f3779a72018e587bda2aa53c81c01f003"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Peibol2_Atk_5.png",
+              "sha256": "454700d8a0c4d92d4433f90f58c75dbdb67c81abe7324fe45416fe40397a7860"
+            }
+          ]
+        },
+        "projectileAnimation": {
+          "textureKey": "peibol:p13t:star2:projectile",
+          "url": "/sprites/peibol/p13t/star2/projectile.png",
+          "frameWidth": 128,
+          "frameHeight": 91,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16,
+          "foot": {
+            "x": 64,
+            "y": 46
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Dinero.png",
+              "sha256": "54ac675e5a28ed3f713fd06fff0c0c449fd6b7dc5c1913aee17390f10c6431bb"
+            }
+          ]
+        },
+        "impactAnimation": {
+          "textureKey": "peibol:p13t:star2:impact",
+          "url": "/sprites/peibol/p13t/star2/impact.png",
+          "frameWidth": 208,
+          "frameHeight": 173,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.2,
+          "foot": {
+            "x": 104,
+            "y": 87
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel2/Dinero_impc.png",
+              "sha256": "33f53c6a6bd5b8aec3f2a9e866b509d4c7b8566cf3e2f6af6fc4a55a29ec57b2"
+            }
+          ]
+        },
+        "releaseMarker": 3,
+        "projectileOrigin": {
+          "x": 25,
+          "y": -44
+        },
+        "targetAnchor": {
+          "x": 0,
+          "y": -30
+        },
+        "visualTiming": {
+          "releaseMs": 80,
+          "recoveryMs": 220,
+          "impactMs": 250
+        },
+        "fallbackPolicy": "body-only"
+      },
+      "star3": {
+        "version": 1,
+        "bodyAnimation": "attack",
+        "recoveryAnimation": {
+          "textureKey": "peibol:p13t:star3:attack",
+          "url": "/sprites/peibol/p13t/star3/attack.png",
+          "frameWidth": 313,
+          "frameHeight": 400,
+          "frames": [4],
+          "frameCount": 5,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16666666666666666,
+          "foot": {
+            "x": 156,
+            "y": 392
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_1.png",
+              "sha256": "9cf83eb0f16ea48c5b37033a409699932b4c12f0f1109a62572570952ac4531b"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_2.png",
+              "sha256": "e6e06c5dc03c45e5d9ddb097bf9cee060c8bab8ab66fad711c292f8ecbcd71b3"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_3.png",
+              "sha256": "806111b0e154b222ca3b8fc4eaa54cfc53da1059353bd1714d03d6636092e6ba"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_4.png",
+              "sha256": "aa12b12b59cc67abb4dea8d8d97333e3168807e57844eb3094d15e49acd5aee4"
+            },
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Peibol3_atak_5.png",
+              "sha256": "6f72a2e591da9344afcc00b41e8bef09b4b74fcc1058c26b2e7206559f65ef4a"
+            }
+          ]
+        },
+        "projectileAnimation": {
+          "textureKey": "peibol:p13t:star3:projectile",
+          "url": "/sprites/peibol/p13t/star3/projectile.png",
+          "frameWidth": 45,
+          "frameHeight": 128,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.16,
+          "foot": {
+            "x": 23,
+            "y": 64
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Moneda.png",
+              "sha256": "97c4ed0cf7d65de334477f850482a2a8606b33125a5a90082bbbee298403f50b"
+            }
+          ]
+        },
+        "impactAnimation": {
+          "textureKey": "peibol:p13t:star3:impact",
+          "url": "/sprites/peibol/p13t/star3/impact.png",
+          "frameWidth": 208,
+          "frameHeight": 194,
+          "frames": [0],
+          "frameCount": 1,
+          "fps": 8,
+          "loop": false,
+          "scale": 0.2,
+          "foot": {
+            "x": 104,
+            "y": 97
+          },
+          "facing": "right",
+          "mirrorAllowed": true,
+          "impactFrame": null,
+          "status": "provisional",
+          "sources": [
+            {
+              "file": "TFPeru 2/Peibol/Nivel3/Moneda_impc.png",
+              "sha256": "e3808d88f0fd7ba56fe4250a9087f0373cedbcdcdb7c627aba8da2d03d8a1d98"
+            }
+          ]
+        },
+        "releaseMarker": 4,
+        "projectileOrigin": {
+          "x": 22,
+          "y": -38
+        },
+        "targetAnchor": {
+          "x": 0,
+          "y": -30
+        },
+        "visualTiming": {
+          "releaseMs": 80,
+          "recoveryMs": 220,
+          "impactMs": 250
+        },
+        "fallbackPolicy": "body-only"
+      }
+    }
+  }
+]

@@ -9,7 +9,8 @@ import {
 import { SPLASH_ARTS } from './splashArtCatalog';
 import { CHARACTER_ASSETS } from './characterAssets';
 import { FLORIN_FRAMES } from '../../../../scripts/sprites/florin.mjs';
-it('ships four original splash arts, valid focal points and real portrait fallbacks', async () => {
+it('ships five supplied splash arts, valid focal points and real portrait fallbacks', async () => {
+  expect(Object.keys(SPLASH_ARTS)).toHaveLength(5);
   for (const [id, art] of Object.entries(SPLASH_ARTS)) {
     expect(art.splashArtKey).toContain(id);
     const m = await sharp('apps/web/public' + art.url).metadata();

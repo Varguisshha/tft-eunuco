@@ -1,13 +1,14 @@
 import { ItemActionSchema } from './items';
 import { z } from 'zod';
 import { ArenaIdSchema } from './arenas';
-import { MatchActionSchema, MatchStateSchema, OwnedUnitSchema } from './match';
+import { FantasyActionSchema, MatchActionSchema, MatchStateSchema, OwnedUnitSchema } from './match';
 import { CombatBatchSchema } from './combat';
 import { PhaseSnapshotSchema, ReplaySchema } from './match-clock';
 export const NETWORK_VERSION = 'f0p7b1-1' as const;
 const id = z.string().min(1).max(160);
 const nat = z.number().int().safe().nonnegative();
 export const PlayerIntentSchema = z.discriminatedUnion('type', [
+  FantasyActionSchema,
   MatchActionSchema.options[0],
   MatchActionSchema.options[1],
   MatchActionSchema.options[2],
@@ -39,6 +40,7 @@ export const PublicPlayerSchema = z.strictObject({
 /** No RNG, pool, opponent economy, hidden bench, or history on the wire. */
 export const PrivatePlayerSchema = MatchStateSchema.pick({
   items: true,
+  synergies: true,
   rulesVersion: true,
   config: true,
   revision: true,

@@ -66,6 +66,16 @@ export const CHARACTER_PRESENTATION: Readonly<Record<string, CharacterPresentati
     note: 'Pisotón Carmesí y sus básicos iniciales son físicos. Sus básicos pasan a daño verdadero tras la segunda vuelta de Mano de Obra; requiere ese atributo activo.',
   },
 };
-export function characterPresentation(id: string): CharacterPresentation {
+export function characterPresentation(id: string, policy?: string): CharacterPresentation {
+  if (policy === 'f0p13t-1' && id === 'peibol')
+    return {
+      ...physical,
+      combatRole: 'marksman',
+      roleLabel: 'Tirador AD',
+      compactRoleLabel: 'Tirador',
+      specialization: null,
+      note: 'PLATITA LOW ELO aumenta velocidad de ataque y AD; HEADSHOT escala 220 / 330 / 500 % AD y causa daño físico. Alcance 3 en la política P13T.',
+    };
+
   return CHARACTER_PRESENTATION[id] ?? pending;
 }

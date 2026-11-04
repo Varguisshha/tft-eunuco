@@ -1,4 +1,5 @@
 import { SupabaseMatchRepository } from './persistence/repository';
+import { PublishedMatchRoom } from './PublishedMatchRoom';
 import { readConfig } from './remote/config';
 import { startRuntime } from './remote/runtime';
 import { verifyIdentity } from './auth';
@@ -37,7 +38,13 @@ const probe = async () => {
   });
   if (!result.ok) throw Error('Authentication unavailable');
 };
-const runtime = await startRuntime(config, repository, verifyIdentity, probe).catch(async () => {
+const runtime = await startRuntime(
+  config,
+  repository,
+  verifyIdentity,
+  probe,
+  PublishedMatchRoom,
+).catch(async () => {
   log('fatal');
   await lease?.release().catch(() => {});
   process.exit(1);

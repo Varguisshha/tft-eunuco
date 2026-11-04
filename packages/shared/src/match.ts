@@ -1,6 +1,7 @@
 import { CombatStatisticsSchema } from './combat-statistics';
 import { ItemInstanceSchema, PlayerItemStateSchema, ItemActionSchema } from './items';
 import { z } from 'zod';
+import { SynergyJournalSchema, PredictionKindSchema, SYNERGY_RULES } from './synergies';
 import { CombatSeedSchema, HexCoordSchema } from './board-contracts';
 import { CombatInputSchema, CombatResultSchema } from './combat';
 export const MATCH_RULES = 'f0p3.1-1' as const;
@@ -95,9 +96,12 @@ export const EconomyConfigSchema = z
       .optional(),
     shopLockPolicy: z.literal('consume-on-auto-refresh-1').optional(),
     combatItemPolicy: z.literal('bench-crafting-1').optional(),
+    characterPolicy: z.literal('f0p13t-1').optional(),
+    jewPolicy: z.literal('f0p13s-jew-1').optional(),
     pvpPolicy: z
       .strictObject({ version: z.literal('f0p12b-1'), ghostDamageMultiplierMilli: z.literal(800) })
       .optional(),
+    synergyPolicy: z.literal(SYNERGY_RULES).optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
     goldCap: nat.positive(),
@@ -146,6 +150,14 @@ export const EconomyConfigSchema = z
       .min(1),
   })
   .superRefine((c, ctx) => {
+    if (c.jewPolicy && c.synergyPolicy)
+      ctx.addIssue({ code: 'custom', message: 'Jew subset and full synergy policy are exclusive' });
+    if (c.jewPolicy && c.characterPolicy !== 'f0p13t-1')
+      ctx.addIssue({ code: 'custom', message: 'Jew subset requires P13T characters' });
+    if (c.characterPolicy && !c.combatItemPolicy)
+      ctx.addIssue({ code: 'custom', message: 'P13T requires P12F economy' });
+    if (c.synergyPolicy && !c.combatItemPolicy)
+      ctx.addIssue({ code: 'custom', message: 'P13S requires P12F economy' });
     if (c.combatItemPolicy && !c.shopLockPolicy)
       ctx.addIssue({ code: 'custom', message: 'Combat item policy requires P12D economy' });
     if (c.shopLockPolicy && !c.pvpPolicy)
@@ -196,6 +208,17 @@ export const RewardReceiptSchema = z.strictObject({
   victory: nat,
   streak: nat,
 });
+export const JewReceiptSchema = z.strictObject({
+  version: z.literal('f0p13s-jew-1'),
+  id,
+  settlementId: z.string().min(1).max(240),
+  round: nat.positive(),
+  bank: nat,
+  unitId: id.nullable(),
+  stars: StarsSchema.nullable(),
+  requested: nat,
+  credited: nat,
+});
 export const RewardSchema = z.strictObject({
   round: nat.positive(),
   outcome: z.enum(['win', 'loss', 'double_loss']),
@@ -209,6 +232,7 @@ export const RewardSchema = z.strictObject({
   overflow: nat,
   xp: nat,
   receipt: RewardReceiptSchema.optional(),
+  jew: JewReceiptSchema.optional(),
 });
 export type RoundReward = z.infer<typeof RewardSchema>;
 export const LedgerEntrySchema = z.strictObject({
@@ -225,6 +249,8 @@ export const LedgerEntrySchema = z.strictObject({
     'victory',
     'streak',
     'development',
+    'jew_interest',
+    'synergy',
   ]),
   requested: z.number().int().safe(),
   delta: z.number().int().safe(),
@@ -232,6 +258,12 @@ export const LedgerEntrySchema = z.strictObject({
   reference: id,
 });
 const baseAction = { seq: nat, expectedRevision: nat };
+export const FantasyActionSchema = z.strictObject({
+  ...baseAction,
+  type: z.literal('select_prediction'),
+  kind: PredictionKindSchema,
+  unitId: id.optional(),
+});
 export const MatchActionSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...baseAction, type: z.literal('buy_unit'), offerId: id }),
   z.strictObject({ ...baseAction, type: z.literal('sell_unit'), unitId: id }),
@@ -250,6 +282,7 @@ export const MatchActionSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...baseAction, type: z.literal('resolve_round'), round: nat.positive() }),
   z.strictObject({ ...baseAction, type: z.literal('next_round'), round: nat.positive() }),
   ...ItemActionSchema.options.map((option) => option.extend(baseAction)),
+  FantasyActionSchema,
 ]);
 export type MatchAction = z.infer<typeof MatchActionSchema>;
 export type MatchCommand = MatchAction extends infer A
@@ -258,6 +291,7 @@ export type MatchCommand = MatchAction extends infer A
     : never
   : never;
 export const MatchStateSchema = z.strictObject({
+  synergies: SynergyJournalSchema.optional(),
   items: PlayerItemStateSchema.optional(),
   development: z
     .strictObject({

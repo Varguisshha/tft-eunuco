@@ -1,3 +1,4 @@
+import { SynergyCombat } from './synergies';
 import { ItemEffectExecutor } from './item-effects';
 import type { ItemSource } from '@tft/shared';
 import { CombatMechanics, type Emit, type DamageContext, type MechanicSignal } from './mechanics';
@@ -11,6 +12,7 @@ import {
   COMPOSITE_RULES,
   P11C_RULES,
   P11H_RULES,
+  P13T_RULES,
   isFlorinRules,
   isMechanicEffect,
   type ChainContext,
@@ -56,6 +58,7 @@ type EffectTask = {
 };
 /** Local mutable implementation with exclusive ownership; public snapshots/events are deep copies. */
 export class CombatEngine {
+  private synergies: SynergyCombat | undefined;
   private readonly input: CombatInput;
   private state: CombatState;
   private events: CombatEventV3[] = [];
@@ -129,12 +132,15 @@ export class CombatEngine {
           )
         )
           continue;
-        if (!abilityConditions(unit, this.state.units, rule.conditions)) continue;
+        if (!abilityConditions(unit, this.state.units, rule.conditions, signal.target?.id))
+          continue;
         const nextContext = this.mechanics ? this.mechanics.child(context!, unit) : undefined;
         if (this.mechanics && !nextContext) continue;
         if (nextContext) {
           nextContext.trigger = signal.trigger;
           nextContext.conditions = rule.conditions;
+          if ([P13T_RULES, 'f0p13-1'].includes(this.input.rulesVersion) && signal.target)
+            nextContext.signalTargetId = signal.target.id;
         }
         runtime.count++;
         runtime.lastTick = this.state.tick;
@@ -234,6 +240,11 @@ export class CombatEngine {
         mana: (u, n) => this.gainMana(u, n),
         cancel: (u) => this.cancel(u, 'invalid-target'),
       });
+    if (['f0p13s-1', 'f0p13-1'].includes(this.input.rulesVersion))
+      this.synergies = new SynergyCombat(this.input, this.state, (unit, status) => {
+        unit.statuses.push(status);
+        if (this.state.tick > 0) this.emit('status_apply', { unitId: unit.id, status });
+      });
     this.emit('combat_start', {
       rulesVersion: this.input.rulesVersion,
       seed: this.input.seed,
@@ -243,6 +254,11 @@ export class CombatEngine {
       obstacles: this.input.obstacles,
     });
     this.items?.start();
+    if (this.state.synergies)
+      for (const team of this.state.synergies.teams)
+        team.baseHp = this.state.units
+          .filter((u) => team.memberIds.includes(u.id))
+          .reduce((n, u) => n + effectiveStat(u, 'maxHp'), 0);
     for (const activation of prepared.activations) this.emit('trait_activate', activation);
     const tasks: EffectTask[] = [];
     for (const { unitId, effect } of prepared.effects) {
@@ -445,13 +461,23 @@ export class CombatEngine {
           }
         }
         let amount = amountValue;
+        if (
+          [P13T_RULES, 'f0p13-1'].includes(this.input.rulesVersion) &&
+          effect.bonusBelowHp &&
+          target.hp * 1000 < effectiveStat(target, 'maxHp') * effect.bonusBelowHp.ratioMilli
+        )
+          amount = Math.floor((amount * effect.bonusBelowHp.multiplierMilli) / 1000);
         let critical = task.critical;
         if (advancedRules(this.input.rulesVersion)) {
           critical ??= false;
           if (
             cause === 'ability' &&
             !task.itemSource &&
-            !(this.input.rulesVersion === P11H_RULES && effect.canCrit === false) &&
+            !(
+              (['f0p11h-1', 'f0p13s-1'].includes(this.input.rulesVersion) ||
+                [P13T_RULES, 'f0p13-1'].includes(this.input.rulesVersion)) &&
+              effect.canCrit === false
+            ) &&
             (effect.canCrit === true ||
               (task.origin !== 'passive' &&
                 task.origin !== 'trait' &&
@@ -481,6 +507,13 @@ export class CombatEngine {
               }
             : {}),
         });
+        if (
+          [P13T_RULES, 'f0p13-1'].includes(this.input.rulesVersion) &&
+          effect.manaOnKill &&
+          beforeHp > 0 &&
+          target.hp <= 0
+        )
+          this.gainMana(source, effect.manaOnKill);
         if (effect.healFromDamageMilli !== undefined) {
           const ratio =
             typeof effect.healFromDamageMilli === 'number'
@@ -492,14 +525,17 @@ export class CombatEngine {
         const multiplier = overtimeModifiers(this.state.tick, this.input.overtime).healMilli;
         const requested = scaleCombatAmount(amountValue, multiplier);
         const adjusted = scaleCombatAmount(
-          this.items?.healAmount(target, amountValue) ?? amountValue,
+          this.items?.healAmount(
+            target,
+            scaleCombatAmount(amountValue, this.synergies?.supportMilli(source) ?? 1000),
+          ) ?? scaleCombatAmount(amountValue, this.synergies?.supportMilli(source) ?? 1000),
           multiplier,
         );
         const healed = Math.min(adjusted, effectiveStat(target, 'maxHp') - target.hp);
         if (
           healed > 0 ||
-          ([P11C_RULES, P11H_RULES].includes(
-            this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES,
+          ([P11C_RULES, P11H_RULES, P13T_RULES, 'f0p13s-1', 'f0p13-1'].includes(
+            this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES | typeof P13T_RULES,
           ) &&
             requested > 0)
         ) {
@@ -510,8 +546,8 @@ export class CombatEngine {
             targetId: target.id,
             amount: healed,
             hpAfter: target.hp,
-            ...([P11C_RULES, P11H_RULES].includes(
-              this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES,
+            ...([P11C_RULES, P11H_RULES, P13T_RULES, 'f0p13s-1', 'f0p13-1'].includes(
+              this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES | typeof P13T_RULES,
             )
               ? {
                   accounting: {
@@ -569,7 +605,7 @@ export class CombatEngine {
             : effect.kind === 'shield'
               ? Math.min(
                   scaleCombatAmount(
-                    amountValue,
+                    scaleCombatAmount(amountValue, this.synergies?.supportMilli(source) ?? 1000),
                     overtimeModifiers(this.state.tick, this.input.overtime).shieldMilli,
                   ),
                   1_000_000 - shieldTotal(target),
@@ -632,8 +668,8 @@ export class CombatEngine {
           : type;
     const ghostMilli =
       this.input.ghost?.side === source.owner ? this.input.ghost.damageMultiplierMilli : 1000;
-    const requested = [P11C_RULES, P11H_RULES].includes(
-      this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES,
+    const requested = [P11C_RULES, P11H_RULES, P13T_RULES, 'f0p13s-1', 'f0p13-1'].includes(
+      this.input.rulesVersion as typeof P11C_RULES | typeof P11H_RULES | typeof P13T_RULES,
     )
       ? scaleCombatAmount(
           this.items?.outgoingDamage(source, target, raw, type) ?? raw,
@@ -650,6 +686,7 @@ export class CombatEngine {
     // One final outgoing multiplier after defenses and before shields/HP. All damage paths
     // (including item procs, periodic effects and projectile impacts) converge here.
     if (ghostMilli !== 1000) remaining = Math.floor((remaining * ghostMilli) / 1000);
+    remaining = Math.floor((remaining * (this.synergies?.damageMilli(target) ?? 1000)) / 1000);
     const postDefense = remaining;
     let absorbed = 0;
     const broken: CombatStatus[] = [];
@@ -675,6 +712,7 @@ export class CombatEngine {
     const beforeHp = target.hp;
     const damage = Math.min(target.hp, remaining);
     target.hp -= damage;
+    this.synergies?.lost(target, damage);
     const damageEvent = this.emit('damage', {
       sourceId: source.id,
       targetId: target.id,
@@ -921,7 +959,12 @@ export class CombatEngine {
         (s) => s.expiresTick === null || s.expiresTick > this.state.tick,
       );
       unit.hp = Math.min(unit.hp, effectiveStat(unit, 'maxHp'));
-      if (isPresent(unit) && !isStunned(unit) && unit.attackCharge < 10000)
+      if (
+        isPresent(unit) &&
+        !isStunned(unit) &&
+        !this.synergies?.channeling(unit) &&
+        unit.attackCharge < 10000
+      )
         unit.attackCharge += Math.floor(
           (effectiveStat(unit, 'attackSpeedMilli') *
             overtimeModifiers(this.state.tick, this.input.overtime).attackSpeedMilli) /
@@ -929,6 +972,7 @@ export class CombatEngine {
         );
     }
     this.mechanics?.recoveries(true);
+    this.synergies?.tick();
     this.items?.tick();
     this.mechanics?.periodics();
     this.flushPassives();
@@ -1123,7 +1167,8 @@ export class CombatEngine {
     const units = this.state.units;
     const offset = (this.state.tick - 1) % Math.max(1, units.length);
     for (const unit of [...units.slice(offset), ...units.slice(0, offset)]) {
-      if (!isPresent(unit) || isStunned(unit) || unit.action) continue;
+      if (!isPresent(unit) || isStunned(unit) || this.synergies?.channeling(unit) || unit.action)
+        continue;
       const ability = activeAbility(unit.profile);
       const canCast =
         ability &&
@@ -1146,6 +1191,8 @@ export class CombatEngine {
       }
       const choice = chooseTarget(unit, units, this.input.obstacles);
       unit.targetId = choice?.target.id ?? null;
+      if ([P13T_RULES, 'f0p13-1'].includes(this.input.rulesVersion))
+        this.mechanics?.observeTarget(unit, unit.targetId);
       if (!choice) continue;
       const { target, path } = choice;
       if (path.length) {

@@ -95,18 +95,19 @@ export class CombatMechanics {
       unit.mechanics = { version: 1, casts: 0, kills: 0, stacks: [], periodics: [] };
       unit.passiveState ??= {};
       for (const d of unit.profile.mechanics?.stacks ?? [])
-        unit.mechanics.stacks.push({
-          id: d.id,
-          definitionId: d.id,
-          sourceId: unit.id,
-          ownerId: unit.id,
-          targetId: unit.id,
-          trigger: d.trigger.kind,
-          count: 0,
-          maxStacks: d.maxStacks,
-          expiresTick: null,
-          firedThresholds: [],
-        });
+        if (d.scope !== 'per_enemy')
+          unit.mechanics.stacks.push({
+            id: d.id,
+            definitionId: d.id,
+            sourceId: unit.id,
+            ownerId: unit.id,
+            targetId: unit.id,
+            trigger: d.trigger.kind,
+            count: 0,
+            maxStacks: d.maxStacks,
+            expiresTick: null,
+            firedThresholds: [],
+          });
     }
     for (const side of ['north', 'south'] as const) {
       const team = state.units.filter((u) => u.owner === side);
@@ -280,7 +281,7 @@ export class CombatMechanics {
     d: StackDefinition,
     stack: StackState,
     amount: number,
-    reason: 'manual' | 'threshold' | 'duration' | 'death',
+    reason: 'manual' | 'threshold' | 'duration' | 'death' | 'target_change',
     context: ChainContext,
   ) {
     const consumed = Math.min(amount, stack.count);
@@ -304,8 +305,35 @@ export class CombatMechanics {
     e: Extract<MechanicEffect, { kind: 'stack_gain' }>,
     context: ChainContext,
   ) {
-    const d = this.stackDefinition(target, e.stackId),
-      s = target.mechanics?.stacks.find((s) => s.definitionId === e.stackId);
+    const d = this.stackDefinition(target, e.stackId);
+    if (!d || !target.mechanics) return;
+    const bound = d.scope
+      ? this.state.units.find((u) => u.id === context.signalTargetId && u.owner !== target.owner)
+      : undefined;
+    if (d.scope && !bound) return;
+    if (d.scope === 'current_enemy' && target.targetId !== bound!.id) return;
+    const list =
+      d.scope === 'per_enemy'
+        ? (target.mechanics.targetStacks ??= { version: 1, stacks: [] }).stacks
+        : target.mechanics.stacks;
+    let s = list.find(
+      (s) => s.definitionId === e.stackId && (d.scope !== 'per_enemy' || s.targetId === bound!.id),
+    );
+    if (!s && d.scope === 'per_enemy') {
+      s = {
+        id: `target-stack-${target.profile.mechanics!.stacks.findIndex((x) => x.id === d.id)}-${this.state.units.indexOf(bound!)}`,
+        definitionId: d.id,
+        sourceId: source.id,
+        ownerId: target.id,
+        targetId: bound!.id,
+        trigger: d.trigger.kind,
+        count: 0,
+        maxStacks: d.maxStacks,
+        expiresTick: null,
+        firedThresholds: [],
+      };
+      list.push(s);
+    }
     if (!d || !s) return;
     const before = s.count;
     s.count = Math.min(d.maxStacks, s.count + e.amount);
@@ -346,7 +374,24 @@ export class CombatMechanics {
         causalId: context.causalId,
       });
       if (threshold.consume) this.consume(target, d, s, threshold.consume, 'threshold', context);
-      this.host.apply(target, target, threshold.effects, next, undefined, 'passive');
+      this.host.apply(
+        target,
+        d.scope === 'per_enemy' ? bound! : target,
+        threshold.effects,
+        next,
+        undefined,
+        'passive',
+      );
+    }
+  }
+  /** Current-target counters reset at the authoritative targeting decision, not an animation. */
+  observeTarget(unit: CombatUnit, targetId: string | null) {
+    for (const d of unit.profile.mechanics?.stacks ?? []) {
+      if (d.scope !== 'current_enemy') continue;
+      const s = unit.mechanics?.stacks.find((s) => s.definitionId === d.id);
+      if (!s || s.targetId === targetId) continue;
+      this.consume(unit, d, s, s.count, 'target_change', this.root());
+      s.targetId = targetId ?? unit.id;
     }
   }
   private record(
@@ -577,7 +622,10 @@ export class CombatMechanics {
       }
     }
     for (const unit of this.state.units)
-      for (const s of unit.mechanics!.stacks) {
+      for (const s of [
+        ...unit.mechanics!.stacks,
+        ...(unit.mechanics!.targetStacks?.stacks ?? []),
+      ]) {
         if (!s.count || !dead.some((d) => d.id === unit.id || d.id === s.sourceId)) continue;
         const d = this.stackDefinition(unit, s.definitionId)!;
         this.consume(unit, d, s, s.count, 'death', this.root());
@@ -585,7 +633,7 @@ export class CombatMechanics {
   }
   expireStacks() {
     for (const unit of this.state.units.filter(isAlive))
-      for (const s of unit.mechanics!.stacks)
+      for (const s of [...unit.mechanics!.stacks, ...(unit.mechanics!.targetStacks?.stacks ?? [])])
         if (s.expiresTick !== null && s.expiresTick <= this.state.tick) {
           const d = this.stackDefinition(unit, s.definitionId)!;
           this.consume(unit, d, s, s.count, 'duration', this.root());

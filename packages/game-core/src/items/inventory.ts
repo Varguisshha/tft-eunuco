@@ -206,6 +206,16 @@ export function validateItemState(state: MatchState) {
       throw Error('Invalid retired item');
     consumed.add(id);
   }
+  for (const id of state.synergies?.discardedItems ?? []) {
+    if (
+      !state.config.synergyPolicy ||
+      !issued.has(id) ||
+      issued.get(id)!.kind !== 'component' ||
+      consumed.has(id)
+    )
+      throw Error('Invalid synergy item destruction');
+    consumed.add(id);
+  }
   for (const item of issued.values()) {
     const d = itemDefinition(state, item.definitionId),
       prefix = `${inv.ownerId}/item/`,

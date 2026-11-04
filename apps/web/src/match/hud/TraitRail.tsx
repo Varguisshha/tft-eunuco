@@ -1,3 +1,5 @@
+import { traitDisplayName } from '@tft/game-data';
+import { NeighborhoodContributions } from './NeighborhoodContributions';
 import { useState } from 'react';
 import { sortTraitRows, traitState, traitStatus } from './traitOrder';
 import { synergyLabel } from '../uiLabels';
@@ -30,7 +32,9 @@ export function TraitRail({
     <TraitRows
       rows={matchTraits(state)}
       progress={combatState?.mechanics?.traits ?? []}
+      upm={combatState?.synergies}
       roster={matchCatalog(state.config)}
+      characterPolicy={state.config.characterPolicy}
       owned={state.units}
     />
   );
@@ -56,7 +60,11 @@ export function CombatTraitRail({
     <TraitRows
       rows={rows}
       progress={state?.mechanics?.traits ?? []}
+      upm={state?.synergies}
       roster={matchCatalog(P12F_ECONOMY_CONFIG)}
+      characterPolicy={
+        ['f0p13t-1', 'f0p13-1'].includes(input.rulesVersion) ? 'f0p13t-1' : undefined
+      }
       owned={input.units
         .filter((u) => u.owner === 'south')
         .map((u) => ({
@@ -70,11 +78,15 @@ export function CombatTraitRail({
 }
 function TraitRows({
   rows: all,
+  characterPolicy,
   progress,
   roster,
   owned,
+  upm,
 }: {
+  upm?: CombatState['synergies'];
   rows: ReturnType<typeof analyzeTraits>;
+  characterPolicy?: string | undefined;
   progress: TraitProgress[];
   roster: readonly UnitDefinition[];
   owned: readonly OwnedUnit[];
@@ -108,7 +120,7 @@ function TraitRows({
             data-reached-level={row.level}
           >
             <ContextTooltip
-              label={row.trait.name}
+              label={traitDisplayName(row.trait)}
               interactive
               hoverOpen
               content={
@@ -116,9 +128,20 @@ function TraitRows({
                   {' '}
                   <header>
                     <ContentIcon id={row.trait.icon} active={presentation.active} />
-                    <h3>{row.trait.name}</h3>
+                    <h3>{traitDisplayName(row.trait)}</h3>
                   </header>
                   <p>{row.trait.description}</p>
+                  {row.trait.id === 'upm' &&
+                    upm?.teams
+                      .filter((t) => t.side === 'south')
+                      .map((t) => (
+                        <p key={t.side}>
+                          Vida perdida: {t.lostHp}/{t.baseHp} · Media{' '}
+                          {Number((t.starSum / t.count).toFixed(2))}★ ·{' '}
+                          {t.triggered ? 'Umbral alcanzado' : 'Acumulando'}. Invocación pendiente de
+                          estadísticas base.
+                        </p>
+                      ))}
                   <ol>
                     {row.trait.thresholds.map((t) => (
                       <li key={t.count} className={row.thresholds.includes(t) ? 'is-reached' : ''}>
@@ -157,6 +180,7 @@ function TraitRows({
                       {p.unitId ?? 'Equipo'}: {p.kills} eliminaciones · {p.casts} lanzamientos
                     </p>
                   ))}
+                  <NeighborhoodContributions trait={row.trait} />
                   <p className="trait-contributors">
                     {row.contributors.map((id) => getUnitDefinition(id)?.name ?? id).join(' · ')}
                   </p>
@@ -165,7 +189,8 @@ function TraitRows({
                   </small>
                   <TraitMembers
                     traitId={row.trait.id}
-                    name={row.trait.name}
+                    name={traitDisplayName(row.trait)}
+                    characterPolicy={characterPolicy}
                     roster={roster}
                     owned={owned}
                   />
@@ -180,7 +205,7 @@ function TraitRows({
                     {row.trait.id === 'upm'
                       ? 'UPM'
                       : row.trait.planning
-                        ? row.trait.name
+                        ? traitDisplayName(row.trait)
                         : synergyLabel(row.trait.id)}
                   </strong>
                   <small>{traitStatus(row)}</small>
@@ -211,11 +236,13 @@ function TraitRows({
 /** Lives inside the synergy portal, after the description; never expands the rail. */
 export function TraitMembers({
   traitId,
+  characterPolicy,
   name,
   roster,
   owned,
 }: {
   traitId: string;
+  characterPolicy?: string | undefined;
   name: string;
   roster: readonly UnitDefinition[];
   owned: readonly OwnedUnit[];
@@ -230,14 +257,14 @@ export function TraitMembers({
         : 'missing';
   const labels = { deployed: 'Desplegado', bench: 'En banquillo', missing: 'Sin poseer' };
   const selected = members.find((d) => d.id === hovered),
-    info = selected && characterPresentation(selected.id);
+    info = selected && characterPresentation(selected.id, characterPolicy);
   return (
     <section className="trait-members-section" aria-label={`Personajes de ${name}`}>
       <h4>Personajes</h4>
       <div className="trait-members">
         {members.map((d) => {
           const state = presence(d.id),
-            p = characterPresentation(d.id);
+            p = characterPresentation(d.id, characterPolicy);
           return (
             <button
               key={d.id}

@@ -1,4 +1,10 @@
-import { sampleAnimationFrame, type CharacterManifest } from '@tft/sprite-contract';
+import {
+  resolveAnimation,
+  resolveComposite,
+  sampleAnimationFrame,
+  type CharacterManifest,
+  type VisualStars,
+} from '@tft/sprite-contract';
 import type { Point } from '@tft/game-core';
 /** Pure sampling of a server-owned launch; no physics or gameplay callbacks. */
 export function compositeFlight(
@@ -27,16 +33,19 @@ export function compositeBody(
   timeMs: number,
   startMs: number,
   releaseMs: number,
+  stars: VisualStars = 1,
 ) {
-  const c = manifest.composite!;
+  const c = resolveComposite(manifest, stars)!;
+  const body = resolveAnimation(manifest, stars, c.bodyAnimation).asset!;
+  const idle = resolveAnimation(manifest, stars, 'idle').asset!;
   if (timeMs >= releaseMs + c.visualTiming.recoveryMs)
     return {
       state: 'idle' as const,
-      asset: manifest.evolutions.star1.idle!,
-      frame: sampleAnimationFrame(manifest.evolutions.star1.idle!, 'idle', timeMs),
+      asset: idle,
+      frame: sampleAnimationFrame(idle, 'idle', timeMs),
     };
   if (timeMs >= releaseMs && timeMs < releaseMs + c.visualTiming.releaseMs) {
-    const asset = manifest.evolutions.star1[c.bodyAnimation]!;
+    const asset = body;
     return {
       state,
       asset,
@@ -62,7 +71,7 @@ export function compositeBody(
         endMs: releaseMs + c.visualTiming.recoveryMs,
       }),
     };
-  const asset = manifest.evolutions.star1[c.bodyAnimation]!;
+  const asset = body;
   return {
     state,
     asset,

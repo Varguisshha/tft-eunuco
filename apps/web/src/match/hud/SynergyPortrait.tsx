@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { splashArtFor } from '../../game/splashArtCatalog';
 /** Face crops of existing original splashes only. Missing art never becomes a fake portrait. */
 const faces: Readonly<Record<string, { aspect: number; x: number }>> = {
+  peibol: { aspect: 1672 / 941, x: 48 },
   dolea: { aspect: 2, x: 46.25 },
   vargas: { aspect: 2, x: 42.5 },
   jaramillo: { aspect: 2, x: 43 },

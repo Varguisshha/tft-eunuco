@@ -54,6 +54,16 @@ if (command === 'stop' || command === 'status') {
   assertLocalEnvironment(process.env);
   const arg = process.argv.indexOf('--worktree');
   const target = fs.realpathSync(arg < 0 ? root : process.argv[arg + 1]);
+  const requested = process.argv.find((a) => a.startsWith('--characters='))?.split('=')[1];
+  const preset =
+    requested ??
+    (fs.existsSync(path.join(target, 'packages/game-data/src/p13t1.ts')) ? 'p13t1' : 'p12f');
+  if (!['p12f', 'p13t', 'p13t1'].includes(preset)) throw Error('Unknown LOCAL character preset');
+  const p13t = preset !== 'p12f';
+  if (preset === 'p13t1' && !fs.existsSync(path.join(target, 'packages/game-data/src/p13t1.ts')))
+    throw Error('Selected worktree does not provide P13T.1');
+  if (p13t && !fs.existsSync(path.join(target, 'packages/game-data/src/p13t.ts')))
+    throw Error('Selected worktree does not provide the P13T character policy');
   for (const file of [
     'apps/web/vite.config.ts',
     'apps/server/src/remote/runtime.ts',
@@ -77,6 +87,7 @@ if (command === 'stop' || command === 'status') {
   }
   for (const bin of ['initdb', 'postgres']) execFileSync(bin, ['--version'], { stdio: 'ignore' });
   const hash = createHash('sha256');
+  if (process.argv.includes('--synergies=p13s')) hash.update('f0p13s-1');
   function walk(dir) {
     for (const f of fs.readdirSync(dir).sort()) {
       const p = path.join(dir, f);
@@ -90,7 +101,7 @@ if (command === 'stop' || command === 'status') {
   walk(path.join(target, 'packages/game-data/src'));
   const fingerprint = hash.digest('hex');
   const identity = createHash('sha256')
-    .update(targetIdentity(target) + fingerprint)
+    .update(targetIdentity(target) + fingerprint + (p13t ? ':' + preset : ''))
     .digest('hex')
     .slice(0, 16);
   const directory = path.join(root, 'artifacts/local', identity);
@@ -104,6 +115,16 @@ if (command === 'stop' || command === 'status') {
     fs.symlinkSync(path.join(target, 'apps/server/node_modules'), modules, 'dir');
   const source = fs
     .readFileSync(path.join(tools, 'server.mjs.fixture'), 'utf8')
+    .replaceAll(
+      '__P13T_IMPORT__',
+      p13t
+        ? 'import { ' +
+            (preset === 'p13t1' ? 'P13T1_ECONOMY_CONFIG' : 'P13T_ECONOMY_CONFIG') +
+            " as P13T_ECONOMY_CONFIG } from '__TARGET__/packages/game-data/src/index.ts';"
+        : '',
+    )
+    .replaceAll('__P13T_CONFIG__', p13t ? 'P13T_ECONOMY_CONFIG' : 'undefined')
+    .replaceAll('__P13T__', String(p13t))
     .replaceAll('__TARGET__', target)
     .replaceAll('__TOOLS__', tools);
   await build({
@@ -146,6 +167,7 @@ if (command === 'stop' || command === 'status') {
         ...env,
         TFT_LOCAL_BOOT: JSON.stringify({
           directory,
+          synergyPolicy: process.argv.includes('--synergies=p13s') ? 'f0p13s-1' : null,
           database: `postgresql://127.0.0.1:55440/tft_local_${identity}`,
           identity,
           key,
@@ -193,6 +215,7 @@ if (command === 'stop' || command === 'status') {
       cacheDir: path.join(directory, 'vite-cache'),
       define: {
         __DEVTOOLS__: 'true',
+        __LOCAL_RULESET__: JSON.stringify(preset),
         __ITEM_ICON_RESOURCES__: JSON.stringify(iconPlan.policy),
         'import.meta.env.VITE_APP_ENV': '"local-isolated"',
         'import.meta.env.VITE_ACCOUNT_REGISTRATION_MODE': '"open-local"',
@@ -309,6 +332,7 @@ if (command === 'stop' || command === 'status') {
           JSON.stringify({
             target,
             fingerprint,
+            preset,
             web: 'http://127.0.0.1:4173',
             database: `tft_local_${identity}`,
           }),

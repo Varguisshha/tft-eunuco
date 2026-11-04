@@ -1,3 +1,4 @@
+import { resolveComposite } from '@tft/sprite-contract';
 import { recoveryVisual } from './recoveryVisual';
 import { characterManifest } from './characterAssets';
 import { compositeFlight } from './compositeVisuals';
@@ -343,7 +344,10 @@ export class CombatRenderer {
       const source = state.units.find((u) => u.id === projectile.sourceId);
       const composite = projectile.itemSource
         ? undefined
-        : characterManifest(source?.definitionId ?? '')?.composite;
+        : resolveComposite(
+            characterManifest(source?.definitionId ?? ''),
+            source?.profile.starLevel ?? 1,
+          );
       if (composite) {
         const scale = visuals.get(projectile.sourceId)?.renderScale ?? 1;
         const flight = compositeFlight(
@@ -398,8 +402,11 @@ export class CombatRenderer {
         const source = state.units.find((u) => u.id === event.payload.sourceId);
         const c = event.payload.itemSource
           ? undefined
-          : characterManifest(source?.definitionId ?? '')?.composite;
-        if (c && age < c.visualTiming.impactMs) {
+          : resolveComposite(
+              characterManifest(source?.definitionId ?? ''),
+              source?.profile.starLevel ?? 1,
+            );
+        if (c?.impactAnimation && age < c.visualTiming.impactMs) {
           const p = hexToWorld(event.payload.impact, this.projection),
             scale = visuals.get(event.payload.sourceId)?.renderScale ?? 1,
             key = `impact-${event.payload.projectileId}`;

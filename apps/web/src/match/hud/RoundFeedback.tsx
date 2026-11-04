@@ -96,6 +96,7 @@ export function RoundFeedback({ state, scope }: { state: MatchState; scope: stri
                 ['Interés', reward.receipt.interest],
                 ['Racha', reward.receipt.streak],
                 ['Victoria', reward.receipt.victory],
+                ...(reward.jew ? [['Jew', reward.jew.credited] as const] : []),
               ] as const
             ).map(([label, value]) => (
               <div key={label}>

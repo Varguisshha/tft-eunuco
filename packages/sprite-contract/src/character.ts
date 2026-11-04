@@ -40,48 +40,98 @@ const slots = z.strictObject({
   ability: AnimationAssetSchema.nullable(),
   death: AnimationAssetSchema.nullable(),
 });
-export const CharacterManifestSchema = z.strictObject({
-  version: z.literal(2),
-  id: z.string().min(1),
-  provenance: z
-    .strictObject({
-      characterId: z.string().min(1),
-      sourceStarLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]).nullable(),
-      nativeAppearance: z.enum(['star1', 'star2', 'star3', 'pending']),
-      pending: z.array(z.enum(['idle', 'walk', 'attack', 'ability', 'death'])),
-    })
-    .optional(),
-  fallbacks: z
-    .strictObject({
-      star1: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
-      star2: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
-      star3: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
-    })
-    .optional(),
-  composite: z
-    .strictObject({
-      version: z.literal(1),
-      bodyAnimation: z.literal('attack'),
-      recoveryAnimation: AnimationAssetSchema,
-      projectileAnimation: AnimationAssetSchema,
-      impactAnimation: AnimationAssetSchema,
-      releaseMarker: z.number().int().nonnegative(),
-      projectileOrigin: z.strictObject({ x: z.number(), y: z.number() }),
-      targetAnchor: z.strictObject({ x: z.number(), y: z.number() }),
-      visualTiming: z.strictObject({
-        recoveryMs: z.number().positive(),
-        releaseMs: z.number().positive(),
-        impactMs: z.number().positive(),
-      }),
-      fallbackPolicy: z.literal('body-only'),
-    })
-    .optional(),
-  fallbackPresentation: z.strictObject({idle: z.literal('first_frame'), walk: z.literal('first_frame'), death: z.literal('first_frame'), ability: z.literal('attack')}).optional(),
-  evolutions: z.strictObject({ star1: slots, star2: slots, star3: slots }),
+export const CompositeVisualSchema = z.strictObject({
+  version: z.literal(1),
+  bodyAnimation: z.literal('attack'),
+  recoveryAnimation: AnimationAssetSchema,
+  projectileAnimation: AnimationAssetSchema,
+  impactAnimation: AnimationAssetSchema.nullable(),
+  releaseMarker: z.number().int().nonnegative(),
+  projectileOrigin: z.strictObject({ x: z.number(), y: z.number() }),
+  targetAnchor: z.strictObject({ x: z.number(), y: z.number() }),
+  visualTiming: z.strictObject({
+    recoveryMs: z.number().positive(),
+    releaseMs: z.number().positive(),
+    impactMs: z.number().positive(),
+  }),
+  fallbackPolicy: z.literal('body-only'),
 });
+export const CharacterManifestSchema = z
+  .strictObject({
+    version: z.literal(2),
+    id: z.string().min(1),
+    provenance: z
+      .strictObject({
+        characterId: z.string().min(1),
+        sourceStarLevel: z.union([z.literal(1), z.literal(2), z.literal(3)]).nullable(),
+        nativeAppearance: z.enum(['star1', 'star2', 'star3', 'pending']),
+        pending: z.array(z.enum(['idle', 'walk', 'attack', 'ability', 'death'])),
+      })
+      .optional(),
+    fallbacks: z
+      .strictObject({
+        star1: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+        star2: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+        star3: z.array(z.union([z.literal(1), z.literal(2), z.literal(3)])),
+      })
+      .optional(),
+    composite: z
+      .strictObject({
+        version: z.literal(1),
+        bodyAnimation: z.literal('attack'),
+        recoveryAnimation: AnimationAssetSchema,
+        projectileAnimation: AnimationAssetSchema,
+        impactAnimation: AnimationAssetSchema,
+        releaseMarker: z.number().int().nonnegative(),
+        projectileOrigin: z.strictObject({ x: z.number(), y: z.number() }),
+        targetAnchor: z.strictObject({ x: z.number(), y: z.number() }),
+        visualTiming: z.strictObject({
+          recoveryMs: z.number().positive(),
+          releaseMs: z.number().positive(),
+          impactMs: z.number().positive(),
+        }),
+        fallbackPolicy: z.literal('body-only'),
+      })
+      .optional(),
+    composites: z
+      .strictObject({
+        star1: CompositeVisualSchema.nullable(),
+        star2: CompositeVisualSchema.nullable(),
+        star3: CompositeVisualSchema.nullable(),
+      })
+      .optional(),
+    fallbackPresentation: z
+      .strictObject({
+        idle: z.literal('first_frame'),
+        walk: z.literal('first_frame'),
+        death: z.literal('first_frame'),
+        ability: z.literal('attack'),
+      })
+      .optional(),
+    evolutions: z.strictObject({ star1: slots, star2: slots, star3: slots }),
+  })
+  .superRefine((manifest, ctx) => {
+    if (!manifest.composites) return;
+    for (const star of ['star1', 'star2', 'star3'] as const) {
+      const composite = manifest.composites[star],
+        body = manifest.evolutions[star].attack;
+      if (composite && (!body || composite.releaseMarker >= body.frames.length))
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Star-specific projectile requires its own body and a valid release pose',
+          path: ['composites', star],
+        });
+    }
+  });
 export type CharacterManifest = z.infer<typeof CharacterManifestSchema>;
 export type AnimationAsset = z.infer<typeof AnimationAssetSchema>;
 export type VisualStars = 1 | 2 | 3;
+/** A missing star-specific projectile must never borrow a different evolution's object. */
+export function resolveComposite(manifest: CharacterManifest | undefined, stars: VisualStars) {
+  return manifest?.composites
+    ? (manifest.composites[`star${stars}`] ?? undefined)
+    : manifest?.composite;
+}
 export interface ResolvedAnimation {
   requested: AnimationName;
   requestedStars: VisualStars;
@@ -111,7 +161,13 @@ export function resolveAnimation(
           selected: state,
           selectedStars: n as VisualStars,
           status: n === stars && state === requested ? 'available' : 'fallback',
-          asset: state !== requested && manifest?.fallbackPresentation && requested !== 'attack' && manifest.fallbackPresentation[requested] === 'first_frame' ? {...asset, frames: [asset.frames[0]!], impactFrame: null, loop: false} : asset,
+          asset:
+            state !== requested &&
+            manifest?.fallbackPresentation &&
+            requested !== 'attack' &&
+            manifest.fallbackPresentation[requested] === 'first_frame'
+              ? { ...asset, frames: [asset.frames[0]!], impactFrame: null, loop: false }
+              : asset,
         };
     }
   return {

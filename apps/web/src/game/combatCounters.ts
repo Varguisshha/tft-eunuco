@@ -1,5 +1,5 @@
 import { isP11Catalog } from '@tft/shared';
-import { getTraitDefinition } from '@tft/game-data';
+import { getTraitDefinition, getUnitDefinition, traitDisplayName } from '@tft/game-data';
 import type { CombatState, CombatUnit } from '@tft/shared';
 
 /** Presentation-only v1. Values always come from the sampled authoritative snapshot. */
@@ -27,11 +27,13 @@ const names: Record<string, string> = {
   magicResist: 'resistencia mágica',
 };
 export function combatCounters(unit: CombatUnit, state: CombatState): CombatCounter[] {
-  const catalog = isP11Catalog(state.rulesVersion)
-    ? state.rulesVersion
-    : state.rulesVersion === 'f0p10a-1'
-      ? 'f0p10a-1'
-      : undefined;
+  const catalog = ['f0p13t-1', 'f0p13-1'].includes(state.rulesVersion)
+    ? 'f0p11h-1'
+    : isP11Catalog(state.rulesVersion)
+      ? state.rulesVersion
+      : state.rulesVersion === 'f0p10a-1'
+        ? 'f0p10a-1'
+        : undefined;
   const mechanics = unit.mechanics;
   if (!mechanics) return [];
   const base = { version: 1 as const, thresholds: [] as number[], state: 'building' as const };
@@ -84,7 +86,7 @@ export function combatCounters(unit: CombatUnit, state: CombatState): CombatCoun
     result.push({
       ...base,
       id: 'mano-de-obra',
-      name: 'Mano de Obra',
+      name: '¡Me Fuí!',
       icon: 'mano_de_obra',
       source: 'trait',
       value: recovery?.stage ?? 0,
@@ -102,7 +104,10 @@ export function combatCounters(unit: CombatUnit, state: CombatState): CombatCoun
             : 'Salidas pendientes: 60 % / 30 % de vida',
     });
   }
-  for (const stack of mechanics.stacks) {
+  for (const stack of [
+    ...mechanics.stacks,
+    ...(mechanics.targetStacks?.stacks.filter((s) => s.targetId === unit.targetId) ?? []),
+  ]) {
     const definition = unit.profile.mechanics?.stacks.find((d) => d.id === stack.definitionId);
     if (!definition) continue;
     const traitRules = (unit.profile.traits ?? []).flatMap(
@@ -134,7 +139,10 @@ export function combatCounters(unit: CombatUnit, state: CombatState): CombatCoun
     result.push({
       ...base,
       id: stack.id,
-      name: definition.name,
+      name:
+        definition.scope === 'per_enemy'
+          ? `${definition.name} · ${getUnitDefinition(state.units.find((u) => u.id === stack.targetId)?.definitionId ?? '')?.name ?? 'Objetivo'}`
+          : definition.name,
       value: stack.count,
       ...(definition.consumption === 'threshold' ? { max: definition.maxStacks } : {}),
       progressGoal: next ?? thresholds.at(-1) ?? definition.maxStacks,
@@ -193,7 +201,8 @@ export function combatCounters(unit: CombatUnit, state: CombatState): CombatCoun
     result.push({
       ...base,
       id: `trait:${progress.traitId}`,
-      name: progress.traitId === 'upm' ? 'Créditos UPM' : `${trait.name} · lanzamientos`,
+      name:
+        progress.traitId === 'upm' ? 'Créditos UPM' : `${traitDisplayName(trait)} · lanzamientos`,
       value: progress.casts,
       source: 'trait',
       icon: trait.icon,

@@ -1,3 +1,4 @@
+import { traitDisplayName } from '@tft/game-data';
 import { ContextTooltip } from './overlays/ContextTooltip';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -6,7 +7,15 @@ import { ContentIcon } from './hud/ContentIcon';
 import './affinities.css';
 
 /** Width determines visible affinities; the source list is never truncated. */
-export function AffinityBand({ ids, catalog }: { ids: readonly string[]; catalog: string }) {
+export function AffinityBand({
+  ids,
+  catalog,
+  jewPolicy,
+}: {
+  ids: readonly string[];
+  catalog: string;
+  jewPolicy?: string | undefined;
+}) {
   const band = useRef<HTMLDivElement>(null);
   const [capacity, setCapacity] = useState(1);
   const [expanded, setExpanded] = useState(false);
@@ -39,15 +48,15 @@ export function AffinityBand({ ids, catalog }: { ids: readonly string[]; catalog
     return () => document.removeEventListener('pointerdown', dismiss);
   }, [expanded]);
   const icon = (id: string) => {
-    const trait = getTraitDefinition(id, catalog);
+    const trait = getTraitDefinition(id, catalog, jewPolicy);
     const unique = trait?.planning?.kind === 'unique';
     return (
       <ContextTooltip
         key={id}
-        label={trait?.name ?? id}
+        label={trait ? traitDisplayName(trait) : id}
         content={
           <>
-            <h3>{trait?.name ?? id}</h3>
+            <h3>{trait ? traitDisplayName(trait) : id}</h3>
             <p>
               {unique ? 'Atributo único' : 'Sinergia colectiva'} ·{' '}
               {trait?.planning?.effectState === 'pending_effects'
@@ -57,13 +66,14 @@ export function AffinityBand({ ids, catalog }: { ids: readonly string[]; catalog
                   : 'Efectos definidos'}
             </p>
             <p>{trait?.description}</p>
+            {jewPolicy && trait?.id === 'jew' && <p>{trait.thresholds[0]!.description}</p>}
           </>
         }
       >
         <button
           type="button"
           className={`affinity-icon ${unique ? 'is-unique' : ''}`}
-          aria-label={`${trait?.name ?? id} · ${unique ? 'Atributo único' : 'Colectiva'}${trait?.planning?.effectState === 'pending_effects' ? ' · Efectos pendientes' : ''}`}
+          aria-label={`${trait ? traitDisplayName(trait) : id} · ${unique ? 'Atributo único' : 'Colectiva'}${trait?.planning?.effectState === 'pending_effects' ? ' · Efectos pendientes' : ''}`}
         >
           <ContentIcon id={trait?.icon ?? id} />
         </button>
@@ -123,15 +133,17 @@ export function AffinityBand({ ids, catalog }: { ids: readonly string[]; catalog
               <div className="affinity-popup-row" key={id}>
                 {icon(id)}
                 <span>
-                  {getTraitDefinition(id, catalog)?.name ?? id}
+                  {traitDisplayName(getTraitDefinition(id, catalog, jewPolicy) ?? { id, name: id })}
                   <small>
-                    {getTraitDefinition(id, catalog)?.planning?.kind === 'unique'
+                    {getTraitDefinition(id, catalog, jewPolicy)?.planning?.kind === 'unique'
                       ? 'Única'
                       : 'Colectiva'}{' '}
                     ·{' '}
-                    {getTraitDefinition(id, catalog)?.planning?.effectState === 'pending_effects'
+                    {getTraitDefinition(id, catalog, jewPolicy)?.planning?.effectState ===
+                    'pending_effects'
                       ? 'Efectos pendientes'
-                      : getTraitDefinition(id, catalog)?.planning?.effectState === 'mixed'
+                      : getTraitDefinition(id, catalog, jewPolicy)?.planning?.effectState ===
+                          'mixed'
                         ? 'Efectos parciales; niveles pendientes'
                         : 'Efectos definidos'}
                   </small>

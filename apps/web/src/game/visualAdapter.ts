@@ -9,6 +9,7 @@ import {
   type SpriteMetadata,
   type UnitVisual,
   resolveAnimation,
+  resolveComposite,
   sampleAnimationFrame,
   type AnimationTiming,
   type AnimationAsset,
@@ -159,13 +160,17 @@ export class PhaserUnitVisual implements UnitVisual {
     this.timing = timing;
     const resolved = resolveAnimation(this.manifest, this.count, animation);
     const compound =
-      this.manifest?.composite && timing && (animation === 'attack' || animation === 'ability')
+      this.manifest &&
+      resolveComposite(this.manifest, this.count) &&
+      timing &&
+      (animation === 'attack' || animation === 'ability')
         ? compositeBody(
             this.manifest,
             animation,
             timeMs,
             timing.startMs,
             timing.impactMs ?? timing.endMs,
+            this.count,
           )
         : null;
     const chosen = compound?.asset ?? resolved.asset;

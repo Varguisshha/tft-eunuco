@@ -98,6 +98,17 @@ function AbilityProse({
   const token = (index: number) => <InlineValue profile={profile} effect={numeric[index]!} />;
   const replacements: [RegExp, ReactNode][] = [];
   if (passive) {
+    if (id === 'headshot-p13t')
+      replacements.push([
+        /\+20 % AD/,
+        <span
+          role="img"
+          className="ability-inline-value"
+          aria-label="20 por ciento adicional de AD"
+        >
+          +20 %<ScalingIcon stat="ad" />
+        </span>,
+      ]);
     if (id === 'volumen-sucio')
       replacements.push([/equivalente al 12 % de su vida máxima/, <>de {token(0)}</>]);
     if (id === 'copita-perhaps') replacements.push([/5 % de vida máxima/, <>{token(0)} de vida</>]);
@@ -116,6 +127,7 @@ function AbilityProse({
         </span>,
       ]);
   } else {
+    if (id === 'headshot-p13t') replacements.push([/220 \/ 330 \/ 500 % AD/, token(0)]);
     if (id === 'copita-perhaps') {
       description = description.replace(/^Maná 0\/70\. /, '');
       replacements.push([/280 \/ 420 \/ 700 % AD \(1★ \/ 2★ \/ 3★\)/, token(0)]);

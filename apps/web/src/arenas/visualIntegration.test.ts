@@ -110,6 +110,47 @@ it.each(
     ([1, 2, 3] as const).map((stars) => ({ arena, stars })),
   ),
 )(
+  '$arena.id: resized Jaramillo $stars★ keeps feet and scale through combat and fallback poses',
+  ({ arena, stars }) => {
+    const fake = scene();
+    const visual = new PhaserUnitVisual(
+      fake.value,
+      getUnitDefinition('jaramillo')!,
+      'south',
+      arena,
+    );
+    visual.setStars(stars);
+    visual.setVisualMultiplier(1.4);
+    visual.setFootPosition(800, 600);
+    const sprite = visual.sprite as unknown as DisplayObject;
+    const asset = resolveAnimation(characterManifest('jaramillo'), stars, 'attack').asset!;
+    const expectedScale = asset.scale * characterScale(arena, 600) * 1.4;
+    for (const facing of ['right', 'left'] as const) {
+      visual.setFacing(facing);
+      for (const animation of ['idle', 'walk', 'attack', 'ability', 'death'] as const)
+        for (const ms of [0, 100, 199, 200, 250, 419, 420, 800]) {
+          visual.play(animation, ms, { startMs: 0, impactMs: 200, endMs: 800 });
+          expect(sprite.x).toBe(800);
+          expect(sprite.y).toBe(600);
+          expect(sprite.scaleX).toBeCloseTo(expectedScale);
+          expect(sprite.scaleY).toBeCloseTo(expectedScale);
+          expect(sprite.originY).toBe(asset.foot.y / asset.frameHeight);
+          expect(sprite.originX).toBe(
+            facing === 'left'
+              ? 1 - asset.foot.x / asset.frameWidth
+              : asset.foot.x / asset.frameWidth,
+          );
+          expect(sprite.depth).toBe(1600);
+        }
+    }
+    visual.destroy();
+  },
+);
+it.each(
+  Object.values(ArenaRegistry).flatMap((arena) =>
+    ([1, 2, 3] as const).map((stars) => ({ arena, stars })),
+  ),
+)(
   '$arena.id: DOLEA $stars★ keeps feet, uniform scale and depth for all attack frames and fallbacks',
   ({ arena, stars }) => {
     const fake = scene();
@@ -130,9 +171,13 @@ it.each(
       expect(sprite.depth).toBe(1600);
       expect(sprite.originY).toBe(asset.foot.y / asset.frameHeight);
     }
-    expect(frames.size).toBe(8);
+    expect(frames.size).toBe(stars === 1 ? 5 : 8);
+    expect(frames).toEqual(new Set(asset.frames));
     for (const animation of ['idle', 'walk', 'death'] as const) {
       visual.play(animation, 220);
+      const fallback = resolveAnimation(manifest, stars, animation).asset!;
+      expect(sprite.scaleX).toBeCloseTo(fallback.scale * characterScale(arena, 600));
+      expect(sprite.originY).toBe(fallback.foot.y / fallback.frameHeight);
       expect(visual.hasRealAsset).toBe(true);
       expect(sprite.x).toBe(800);
       expect(sprite.y).toBe(600);
@@ -141,7 +186,8 @@ it.each(
     visual.setFacing('left');
     expect(sprite.flipX).toBe(true);
     expect(sprite.x).toBe(800);
-    expect(sprite.originX).toBe(1 - asset.foot.x / asset.frameWidth);
+    const death = resolveAnimation(manifest, stars, 'death').asset!;
+    expect(sprite.originX).toBe(1 - death.foot.x / death.frameWidth);
     const oldScale = sprite.scaleX;
     visual.setFootPosition(700, 700);
     expect(sprite.depth).toBe(1700);

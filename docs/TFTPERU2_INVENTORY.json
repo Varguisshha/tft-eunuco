@@ -1,0 +1,1260 @@
+{
+  "source": "TFPeru 2",
+  "entries": [
+    {
+      "file": "Dolea/Habilidad_pasiva.txt",
+      "sha256": "f6770d5c02faf963b88c2e0e7f77c62de5a00914d661a8e6eb9390a05e407462",
+      "bytes": 762
+    },
+    {
+      "file": "Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_1y4.png",
+      "sha256": "620e5ab73f28de29d004ea492f4773eb55c787e3b6e2473927f9061c678178be",
+      "bytes": 574757,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 280,
+        "y": 111,
+        "w": 687,
+        "h": 1080
+      },
+      "opaquePixels": 323408
+    },
+    {
+      "file": "Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_2.png",
+      "sha256": "29e388e24ed6b585de9fa4d9a462e94980ef8c7ccc542d2e3b20c480eda61a70",
+      "bytes": 553345,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 276,
+        "y": 139,
+        "w": 724,
+        "h": 1049
+      },
+      "opaquePixels": 304911
+    },
+    {
+      "file": "Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_3.png",
+      "sha256": "148f317b04443ad85ad5d9962506088eee3918f4fe4012c924565c5af16a4844",
+      "bytes": 612269,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 242,
+        "y": 160,
+        "w": 912,
+        "h": 1030
+      },
+      "opaquePixels": 341203
+    },
+    {
+      "file": "Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_5.png",
+      "sha256": "e36c713423f8085cd0bea9e6e382bcc9de5d88275c8018d2c00f0e6ee0669be0",
+      "bytes": 645488,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 276,
+        "y": 124,
+        "w": 713,
+        "h": 1059
+      },
+      "opaquePixels": 355433
+    },
+    {
+      "file": "Dolea/Nivel1/Dolea_Atk/Dolea1_Atk_6.png",
+      "sha256": "a39cd8456bc252724bdc64e15094418a7a17dd98d573054d7fc0235b75afca84",
+      "bytes": 591841,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 276,
+        "y": 140,
+        "w": 873,
+        "h": 1048
+      },
+      "opaquePixels": 327309
+    },
+    {
+      "file": "Dolea/Nivel1/Dolea_Idle/Dolea_idle_1.png",
+      "sha256": "7371c24e2e3f84695acb2028a870405a8074983f06e2fd466d2025221f546b7e",
+      "bytes": 633608,
+      "width": 1145,
+      "height": 1374,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 306,
+        "y": 45,
+        "w": 506,
+        "h": 1296
+      },
+      "opaquePixels": 382049
+    },
+    {
+      "file": "Dolea/Nivel2/Dolea2_Atk/Dolea2_Atk_1.png",
+      "sha256": "114a91704b075c823290f28e87c01f661bb3589c951171bfc4ab3366504f7c76",
+      "bytes": 667576,
+      "width": 1086,
+      "height": 1448,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 158,
+        "y": 158,
+        "w": 808,
+        "h": 1207
+      },
+      "opaquePixels": 412773
+    },
+    {
+      "file": "Dolea/Nivel2/Dolea2_Atk/Dolea2_Atk_2.png",
+      "sha256": "227a4bdfebfb245602fba0742d8fb7181fa91a483ea4f0c361d984e53628264c",
+      "bytes": 642703,
+      "width": 1086,
+      "height": 1448,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 160,
+        "y": 226,
+        "w": 825,
+        "h": 1119
+      },
+      "opaquePixels": 370847
+    },
+    {
+      "file": "Dolea/Nivel2/Dolea2_Atk/Dolea2_Atk_3.png",
+      "sha256": "6b369b895fd705aedc009ebe5283b5389b8cd1d661392cce4ffa90341ef07f60",
+      "bytes": 683075,
+      "width": 1086,
+      "height": 1448,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 159,
+        "y": 188,
+        "w": 902,
+        "h": 1179
+      },
+      "opaquePixels": 409102
+    },
+    {
+      "file": "Dolea/Nivel2/Dolea2_Atk/Dolea2_Atk_4.png",
+      "sha256": "d88cb150427e029691c3b0d5d05dd8618a5dca3cfc03df1892fb92e366463b33",
+      "bytes": 660694,
+      "width": 1086,
+      "height": 1448,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 160,
+        "y": 187,
+        "w": 836,
+        "h": 1159
+      },
+      "opaquePixels": 397366
+    },
+    {
+      "file": "Dolea/Nivel3/Dolea3_Atk/Dolea3_Atk_1.png",
+      "sha256": "fee3a9ed6a9a5abcd8e8885301d8f3040dc42b5b47a87802742c0bdcad13de3c",
+      "bytes": 143046,
+      "width": 444,
+      "height": 444,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 75,
+        "y": 21,
+        "w": 310,
+        "h": 401
+      },
+      "opaquePixels": 56502
+    },
+    {
+      "file": "Dolea/Nivel3/Dolea3_Atk/Dolea3_Atk_2y4.png",
+      "sha256": "eaa2697c358bbe63ad83f2201bb31938d9d3b2bcbc80fd305f44a7302b384850",
+      "bytes": 716630,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 106,
+        "y": 83,
+        "w": 982,
+        "h": 1106
+      },
+      "opaquePixels": 468504
+    },
+    {
+      "file": "Dolea/Nivel3/Dolea3_Atk/Dolea3_Atk_3.png",
+      "sha256": "6007d45559a6d736927aa202bd60998983aafb98b0073f12b34712b626701462",
+      "bytes": 710805,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 57,
+        "y": 110,
+        "w": 1159,
+        "h": 1081
+      },
+      "opaquePixels": 445613
+    },
+    {
+      "file": "Dolea/Nivel3/Dolea3_Atk/Dolea3_Atk_5.png",
+      "sha256": "5b0609285ea1fca1e537ab1ca4c062a0574e3f240ce4f93a1b07cd3725c2f926",
+      "bytes": 157885,
+      "width": 444,
+      "height": 444,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 42,
+        "y": 5,
+        "w": 401,
+        "h": 404
+      },
+      "opaquePixels": 62488
+    },
+    {
+      "file": "Dolea/Nivel3/Dolea3_Atk/Dolea3_Atk_6.png",
+      "sha256": "3952580b17be37b104fc13200f52be30d03e85bf49de4b9b857ebe91ae37b230",
+      "bytes": 141292,
+      "width": 444,
+      "height": 444,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 0,
+        "y": 20,
+        "w": 363,
+        "h": 403
+      },
+      "opaquePixels": 55899
+    },
+    {
+      "file": "Dolea/Splash_art_Dolea.png",
+      "sha256": "2ae509d9fb81b40fd1db1abb7db5e4d2953bf333e3032d6a74f2580195dab488",
+      "bytes": 2032992,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": false
+    },
+    {
+      "file": "Erik/Nivel1/Erik1_Atk_1.png",
+      "sha256": "c349bd95b7821d6aad80ba2fb2b2a1e6adf97affe23c1e5b0a27b3783c7f1f05",
+      "bytes": 467929,
+      "width": 768,
+      "height": 512,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 128,
+        "y": 20,
+        "w": 523,
+        "h": 492
+      },
+      "opaquePixels": 104599
+    },
+    {
+      "file": "Erik/Nivel1/Erik1_Atk_2.png",
+      "sha256": "96f0ea8c3cb897c99354b3f5e783c12a8f153fdf8f77b04650316792761ae0fe",
+      "bytes": 461662,
+      "width": 768,
+      "height": 512,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 105,
+        "y": 7,
+        "w": 515,
+        "h": 505
+      },
+      "opaquePixels": 103115
+    },
+    {
+      "file": "Erik/Nivel1/Erik1_Atk_3.png",
+      "sha256": "69e0a5b439b66e3975a1a2e8d871b707cefef200674137cc31fd3d754a9842c7",
+      "bytes": 457520,
+      "width": 768,
+      "height": 512,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 87,
+        "y": 0,
+        "w": 681,
+        "h": 495
+      },
+      "opaquePixels": 96767
+    },
+    {
+      "file": "Erik/Nivel1/Erik1_Atk_4.png",
+      "sha256": "f8732f2613e4d47457bf0bdf36af7f285b05821fd6f3f836b6fe097b74c6e383",
+      "bytes": 241496,
+      "width": 749,
+      "height": 498,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 85,
+        "y": 1,
+        "w": 522,
+        "h": 483
+      },
+      "opaquePixels": 91037
+    },
+    {
+      "file": "Erik/Nivel1/piedra.png",
+      "sha256": "07c01798c92fbe1a0ab0363b01cd2892e7925a8c6925cc5cfaff7e6a0c203ad8",
+      "bytes": 916183,
+      "width": 1536,
+      "height": 1024,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 322,
+        "y": 203,
+        "w": 910,
+        "h": 680
+      },
+      "opaquePixels": 442629
+    },
+    {
+      "file": "Erik/Nivel2/Erik2_Atk_1.png",
+      "sha256": "1a4731a31490d527992f626e53d2295ec53bcd52171f268fd0931dc8515f331c",
+      "bytes": 282919,
+      "width": 768,
+      "height": 768,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 156,
+        "y": 119,
+        "w": 466,
+        "h": 591
+      },
+      "opaquePixels": 138897
+    },
+    {
+      "file": "Erik/Nivel2/Erik2_Atk_2.png",
+      "sha256": "f98130e041ead67d5265c1160035fb9e599729b108b11e9050c44e0f0169b8c3",
+      "bytes": 311209,
+      "width": 768,
+      "height": 768,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 146,
+        "y": 52,
+        "w": 489,
+        "h": 661
+      },
+      "opaquePixels": 153100
+    },
+    {
+      "file": "Erik/Nivel2/Erik2_Atk_3.png",
+      "sha256": "a00ab4a9535b3db67475753825914a1c428bc9578ccd72f35900b431158b0807",
+      "bytes": 259944,
+      "width": 768,
+      "height": 768,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 114,
+        "y": 115,
+        "w": 544,
+        "h": 588
+      },
+      "opaquePixels": 131750
+    },
+    {
+      "file": "Erik/Nivel2/Erik2_Atk_4.png",
+      "sha256": "630da4fc1576a3333e68f7c4fe821fa14ffee499861ef9843e6c3c4e72c0c447",
+      "bytes": 708540,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 197,
+        "y": 111,
+        "w": 854,
+        "h": 1054
+      },
+      "opaquePixels": 415278
+    },
+    {
+      "file": "Erik/Nivel2/Piti.png",
+      "sha256": "92f56bf1ad08bf725f487caa522a3591f8aa94cc5f10a156990d7432e857fca7",
+      "bytes": 109056,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 377,
+        "y": 570,
+        "w": 519,
+        "h": 185
+      },
+      "opaquePixels": 32860
+    },
+    {
+      "file": "Erik/Nivel2/Piti_impc.png",
+      "sha256": "03fe9f45656ed9da6c7f555c38f799e2b7c5ea9bae2c44eb813f14525f5368e6",
+      "bytes": 271210,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 288,
+        "y": 313,
+        "w": 690,
+        "h": 661
+      },
+      "opaquePixels": 116866
+    },
+    {
+      "file": "Erik/Nivel3/Erik3_Atk_1.png",
+      "sha256": "ccc88d5b0824843f69968a110255b943f2cad1bf527704f7f074fd91a64ad0a9",
+      "bytes": 295011,
+      "width": 1024,
+      "height": 768,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 263,
+        "y": 136,
+        "w": 434,
+        "h": 580
+      },
+      "opaquePixels": 129757
+    },
+    {
+      "file": "Erik/Nivel3/Erik3_Atk_2.png",
+      "sha256": "5d186387184fd5cd59393d970a6e1e6fc1ae0dfb3f3dcf92fd4e4c6e1a1e6ddc",
+      "bytes": 363296,
+      "width": 1024,
+      "height": 768,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 187,
+        "y": 145,
+        "w": 586,
+        "h": 571
+      },
+      "opaquePixels": 158970
+    },
+    {
+      "file": "Erik/Nivel3/Erik3_Atk_3.png",
+      "sha256": "67b598ac7e71e9c4640f233952ce652fa1822cac7a6df3fb4835ae786472c825",
+      "bytes": 592131,
+      "width": 1448,
+      "height": 1086,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 290,
+        "y": 199,
+        "w": 896,
+        "h": 852
+      },
+      "opaquePixels": 296650
+    },
+    {
+      "file": "Erik/Nivel3/Erik3_Atk_4.png",
+      "sha256": "3fd4a57c20e281bdd2357e6e5ea6085c92b66ee4a99f70da32914c98c42319ef",
+      "bytes": 238274,
+      "width": 1024,
+      "height": 768,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 273,
+        "y": 174,
+        "w": 416,
+        "h": 542
+      },
+      "opaquePixels": 101107
+    },
+    {
+      "file": "Erik/Nivel3/Mochila.png",
+      "sha256": "015c792ccaf5109bbaa3b1f04ebb7c0efecd92cf94357b636fa27baefc6f2c43",
+      "bytes": 268185,
+      "width": 1024,
+      "height": 1024,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 87,
+        "y": 228,
+        "w": 850,
+        "h": 568
+      },
+      "opaquePixels": 256838
+    },
+    {
+      "file": "Erik/Nivel3/Mochila_impc.png",
+      "sha256": "3d1c87860c8ae8eb8718a0a08b9935a800214b8a63bee490716f9a30cc1007b2",
+      "bytes": 460032,
+      "width": 1024,
+      "height": 1024,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 87,
+        "y": 168,
+        "w": 850,
+        "h": 687
+      },
+      "opaquePixels": 331776
+    },
+    {
+      "file": "Erik/Pasiva_Habilidad.txt",
+      "sha256": "ab5691281851804e479e1ad9556757036df135df3aa57cb51c5e7a721c811a09",
+      "bytes": 583
+    },
+    {
+      "file": "Erik/Splash_art_Erik.png",
+      "sha256": "d4ea86145821fe4ffe7cf7c347a961118cecd8d5ac5dd8b516fa916feea67e25",
+      "bytes": 2364799,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": false
+    },
+    {
+      "file": "Florin/Habilidad_pasiva.txt",
+      "sha256": "93a038784724f829d9d927351c5f22c7b9641bb57fc3bf38c4e1521dff21ef58",
+      "bytes": 2257
+    },
+    {
+      "file": "Florin/Nivel1/Florin_Atk/Florin_Atk_1y4.png",
+      "sha256": "4c3899a1d262ba3335b47c79f9dcaade0522fcb2546877ea7237ec1c0840a7e7",
+      "bytes": 575947,
+      "width": 1312,
+      "height": 1199,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 305,
+        "y": 107,
+        "w": 670,
+        "h": 1046
+      },
+      "opaquePixels": 323622
+    },
+    {
+      "file": "Florin/Nivel1/Florin_Atk/Florin_Atk_2.png",
+      "sha256": "24c8c7aa8f425a3866450e1e491be96e2a32130a8708683c1318377c88500e67",
+      "bytes": 653569,
+      "width": 1312,
+      "height": 1199,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 294,
+        "y": 128,
+        "w": 758,
+        "h": 1022
+      },
+      "opaquePixels": 352072
+    },
+    {
+      "file": "Florin/Nivel1/Florin_Atk/Florin_Atk_3.png",
+      "sha256": "4cf0798c76bde7bc61f152f2ebf40904854f7063a09396a32faae87913a5d866",
+      "bytes": 692289,
+      "width": 1312,
+      "height": 1199,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 250,
+        "y": 92,
+        "w": 995,
+        "h": 1074
+      },
+      "opaquePixels": 403077
+    },
+    {
+      "file": "Florin/Nivel2/Florin_Atk/Florin_Atk_1y4y8.png",
+      "sha256": "f1c31e8db83f5873328ff878232a46a3feaf7c2ee009799aff4ead6b2252ef35",
+      "bytes": 658526,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 176,
+        "y": 165,
+        "w": 832,
+        "h": 1155
+      },
+      "opaquePixels": 404780
+    },
+    {
+      "file": "Florin/Nivel2/Florin_Atk/Florin_Atk_2.png",
+      "sha256": "e88b2bfb0a70af2da280428108c404a59ff04590b8949fa82ed7b4adeb506299",
+      "bytes": 714517,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 159,
+        "y": 169,
+        "w": 869,
+        "h": 1141
+      },
+      "opaquePixels": 434560
+    },
+    {
+      "file": "Florin/Nivel2/Florin_Atk/Florin_Atk_3.png",
+      "sha256": "49e3a0565ca3a065d11904d3194f013e497ac2fdd69da390ab1b940b9dae938f",
+      "bytes": 683656,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 71,
+        "y": 169,
+        "w": 1034,
+        "h": 1157
+      },
+      "opaquePixels": 439280
+    },
+    {
+      "file": "Florin/Nivel2/Florin_Atk/Florin_Atk_5.png",
+      "sha256": "0995bce5807ed93d072acb15249d1d369afbfe78ec83c122c84df9e50ae9fbaf",
+      "bytes": 559112,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 293,
+        "y": 111,
+        "w": 569,
+        "h": 1202
+      },
+      "opaquePixels": 335048
+    },
+    {
+      "file": "Florin/Nivel2/Florin_Atk/Florin_Atk_6.png",
+      "sha256": "b7399837dc4e23b9cef2175dab7db2c19276fcc871a4687000e291e709192b91",
+      "bytes": 656750,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 44,
+        "y": 115,
+        "w": 1056,
+        "h": 1204
+      },
+      "opaquePixels": 405618
+    },
+    {
+      "file": "Florin/Nivel2/Florin_Atk/Florin_Atk_7.png",
+      "sha256": "acce18f51ff8c025ff3c1debb54eeb35cb2e8a9ba573f7e623ae646a29b71fcb",
+      "bytes": 568306,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 281,
+        "y": 154,
+        "w": 574,
+        "h": 1162
+      },
+      "opaquePixels": 343154
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_1y8.png",
+      "sha256": "7721b3b03ffbc6bc416efb2dcda49f6235d24f4d4387ce186c3eb83c899da813",
+      "bytes": 937450,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 158,
+        "y": 174,
+        "w": 872,
+        "h": 1169
+      },
+      "opaquePixels": 427167
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_2.png",
+      "sha256": "a12ed58a43c787ee3b13ab000010e7566d9f4d73fcf90d3d637e53180715bc22",
+      "bytes": 1056937,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 149,
+        "y": 129,
+        "w": 907,
+        "h": 1206
+      },
+      "opaquePixels": 449291
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_3.png",
+      "sha256": "5fe26d2cd02af6567cf4d2617454195d7c59f7319f18ee5e23b7351abddf82a1",
+      "bytes": 1042848,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 130,
+        "y": 34,
+        "w": 992,
+        "h": 1294
+      },
+      "opaquePixels": 447360
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_4.png",
+      "sha256": "217c73c7825dbf72577a6f2208a96441db5b3d0ef657e3fd402c7f1d4c36d21a",
+      "bytes": 1072325,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 163,
+        "y": 18,
+        "w": 932,
+        "h": 1318
+      },
+      "opaquePixels": 463397
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_5.png",
+      "sha256": "0dd05b327932a2fbe0fafa8fab72559dc28ed11b9b5f9ab2fb3013e19e841a68",
+      "bytes": 930127,
+      "width": 1305,
+      "height": 1205,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 115,
+        "y": 17,
+        "w": 1132,
+        "h": 1148
+      },
+      "opaquePixels": 367549
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_6.png",
+      "sha256": "057b57ed1268f0f39a0bb05fb6741e5d4db9774689a79ad0a777566a6a0d30d5",
+      "bytes": 1084543,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 25,
+        "y": 183,
+        "w": 1097,
+        "h": 1114
+      },
+      "opaquePixels": 476992
+    },
+    {
+      "file": "Florin/Nivel3/Florin_Atk/Florin_Atk_7.png",
+      "sha256": "c00d3079898d66932d269b8d91273cd6f4859977b6c4ee5410ace2a65d972b13",
+      "bytes": 943116,
+      "width": 1122,
+      "height": 1402,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 83,
+        "y": 206,
+        "w": 991,
+        "h": 1086
+      },
+      "opaquePixels": 420524
+    },
+    {
+      "file": "Florin/Splash_art_Florin.png",
+      "sha256": "895d5dfbcb9d2c665f504c5daedc22ac5f1194568c27ec30eb1ea0f24ffc928c",
+      "bytes": 2298386,
+      "width": 1672,
+      "height": 941,
+      "hasAlpha": false
+    },
+    {
+      "file": "Peibol/Habilidad_pasiva.txt",
+      "sha256": "fb2cfa83831b0ee40b2bd4bc732053314026b718cd3de8c0cc04d4aad3c8e988",
+      "bytes": 1095
+    },
+    {
+      "file": "Peibol/Nivel1/Peibol1_atk_1.png",
+      "sha256": "36ec8387eecef1ae03a8d9b6d37b0184979eafc888389367fe06317cd4cdce71",
+      "bytes": 672142,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 252,
+        "y": 55,
+        "w": 791,
+        "h": 1157
+      },
+      "opaquePixels": 345545
+    },
+    {
+      "file": "Peibol/Nivel1/Peibol1_atk_2.png",
+      "sha256": "87367f7ac430ed892db61b5afa09dbdddad3c34ea8be508828499bfbf5a5b226",
+      "bytes": 685819,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 195,
+        "y": 91,
+        "w": 912,
+        "h": 1096
+      },
+      "opaquePixels": 355186
+    },
+    {
+      "file": "Peibol/Nivel1/Peibol1_atk_3.png",
+      "sha256": "5f53823f555a914c0c29f5df2aaa9d4ade028ba54d5d3c45c782868852f0d223",
+      "bytes": 693864,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 249,
+        "y": 67,
+        "w": 833,
+        "h": 1144
+      },
+      "opaquePixels": 356270
+    },
+    {
+      "file": "Peibol/Nivel1/Peibol1_atk_4.png",
+      "sha256": "6a90b12de5abc5b8428fb4924646ca810fd6a9d9b322172b8464a66b596e9b6a",
+      "bytes": 724553,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 96,
+        "y": 85,
+        "w": 1098,
+        "h": 1087
+      },
+      "opaquePixels": 346973
+    },
+    {
+      "file": "Peibol/Nivel1/Peibol1_atk_5.png",
+      "sha256": "d273ddcfed429edc1bd7d493fc8c1a0486642431e2f51fe895677d2c5b257a0e",
+      "bytes": 597461,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 354,
+        "y": 56,
+        "w": 607,
+        "h": 1151
+      },
+      "opaquePixels": 316941
+    },
+    {
+      "file": "Peibol/Nivel1/Peibol1_atk_6.png",
+      "sha256": "cb2df4f20fb01a78993dc4b1a2d2c83bb0299a7143706d1cb4346a6af27c2b62",
+      "bytes": 616197,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 322,
+        "y": 63,
+        "w": 673,
+        "h": 1144
+      },
+      "opaquePixels": 317043
+    },
+    {
+      "file": "Peibol/Nivel1/Telefono.png",
+      "sha256": "822bf43777dfc3ea7ea23cceef38132c0d5a1245c2641233551c97c480df2191",
+      "bytes": 190238,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 449,
+        "y": 394,
+        "w": 465,
+        "h": 475
+      },
+      "opaquePixels": 117858
+    },
+    {
+      "file": "Peibol/Nivel1/Telefono_impc.png",
+      "sha256": "0d27001062fa4c802653a468fce05512be3d7f25082689433dfb13ea2612f923",
+      "bytes": 397764,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 337,
+        "y": 277,
+        "w": 666,
+        "h": 660
+      },
+      "opaquePixels": 163018
+    },
+    {
+      "file": "Peibol/Nivel2/Dinero.png",
+      "sha256": "54ac675e5a28ed3f713fd06fff0c0c449fd6b7dc5c1913aee17390f10c6431bb",
+      "bytes": 140236,
+      "width": 640,
+      "height": 512,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 139,
+        "y": 135,
+        "w": 361,
+        "h": 242
+      },
+      "opaquePixels": 45781
+    },
+    {
+      "file": "Peibol/Nivel2/Dinero_impc.png",
+      "sha256": "33f53c6a6bd5b8aec3f2a9e866b509d4c7b8566cf3e2f6af6fc4a55a29ec57b2",
+      "bytes": 207876,
+      "width": 640,
+      "height": 512,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 132,
+        "y": 103,
+        "w": 375,
+        "h": 306
+      },
+      "opaquePixels": 57678
+    },
+    {
+      "file": "Peibol/Nivel2/Peibol2_Atk_1.png",
+      "sha256": "71245a162fdee23f6db02e9b1d40c134f6432fad60771304dd3771d0e01df52b",
+      "bytes": 188909,
+      "width": 480,
+      "height": 700,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 131,
+        "y": 89,
+        "w": 239,
+        "h": 586
+      },
+      "opaquePixels": 83943
+    },
+    {
+      "file": "Peibol/Nivel2/Peibol2_Atk_2.png",
+      "sha256": "3809e46fdcfb84910e6680706e30857e90d4727e2ad85dbfdf670ff4cadff972",
+      "bytes": 220894,
+      "width": 480,
+      "height": 700,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 120,
+        "y": 90,
+        "w": 258,
+        "h": 577
+      },
+      "opaquePixels": 91527
+    },
+    {
+      "file": "Peibol/Nivel2/Peibol2_Atk_3.png",
+      "sha256": "1c935b8f8973e37e1de3f6a4a9a5617eb883abd0fcf8d5eccb56a0f3432f5b07",
+      "bytes": 220013,
+      "width": 480,
+      "height": 700,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 54,
+        "y": 95,
+        "w": 404,
+        "h": 566
+      },
+      "opaquePixels": 84978
+    },
+    {
+      "file": "Peibol/Nivel2/Peibol2_Atk_4.png",
+      "sha256": "575ffb3f16161da111752d279312e46f3779a72018e587bda2aa53c81c01f003",
+      "bytes": 725161,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 272,
+        "y": 68,
+        "w": 818,
+        "h": 1137
+      },
+      "opaquePixels": 382515
+    },
+    {
+      "file": "Peibol/Nivel2/Peibol2_Atk_5.png",
+      "sha256": "454700d8a0c4d92d4433f90f58c75dbdb67c81abe7324fe45416fe40397a7860",
+      "bytes": 769950,
+      "width": 1039,
+      "height": 1514,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 262,
+        "y": 170,
+        "w": 570,
+        "h": 1303
+      },
+      "opaquePixels": 445002
+    },
+    {
+      "file": "Peibol/Nivel3/Moneda.png",
+      "sha256": "97c4ed0cf7d65de334477f850482a2a8606b33125a5a90082bbbee298403f50b",
+      "bytes": 24618,
+      "width": 359,
+      "height": 628,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 140,
+        "y": 274,
+        "w": 109,
+        "h": 104
+      },
+      "opaquePixels": 7964
+    },
+    {
+      "file": "Peibol/Nivel3/Moneda_impc.png",
+      "sha256": "e3808d88f0fd7ba56fe4250a9087f0373cedbcdcdb7c627aba8da2d03d8a1d98",
+      "bytes": 92529,
+      "width": 315,
+      "height": 263,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 0,
+        "y": 27,
+        "w": 272,
+        "h": 213
+      },
+      "opaquePixels": 29688
+    },
+    {
+      "file": "Peibol/Nivel3/Peibol3_atak_1.png",
+      "sha256": "9cf83eb0f16ea48c5b37033a409699932b4c12f0f1109a62572570952ac4531b",
+      "bytes": 147149,
+      "width": 326,
+      "height": 483,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 23,
+        "y": 71,
+        "w": 247,
+        "h": 386
+      },
+      "opaquePixels": 55579
+    },
+    {
+      "file": "Peibol/Nivel3/Peibol3_atak_2.png",
+      "sha256": "e6e06c5dc03c45e5d9ddb097bf9cee060c8bab8ab66fad711c292f8ecbcd71b3",
+      "bytes": 155802,
+      "width": 299,
+      "height": 490,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 1,
+        "y": 70,
+        "w": 289,
+        "h": 383
+      },
+      "opaquePixels": 60838
+    },
+    {
+      "file": "Peibol/Nivel3/Peibol3_atak_3.png",
+      "sha256": "806111b0e154b222ca3b8fc4eaa54cfc53da1059353bd1714d03d6636092e6ba",
+      "bytes": 150189,
+      "width": 295,
+      "height": 518,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 32,
+        "y": 73,
+        "w": 262,
+        "h": 383
+      },
+      "opaquePixels": 57226
+    },
+    {
+      "file": "Peibol/Nivel3/Peibol3_atak_4.png",
+      "sha256": "aa12b12b59cc67abb4dea8d8d97333e3168807e57844eb3094d15e49acd5aee4",
+      "bytes": 160528,
+      "width": 340,
+      "height": 504,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 10,
+        "y": 71,
+        "w": 330,
+        "h": 384
+      },
+      "opaquePixels": 60246
+    },
+    {
+      "file": "Peibol/Nivel3/Peibol3_atak_5.png",
+      "sha256": "6f72a2e591da9344afcc00b41e8bef09b4b74fcc1058c26b2e7206559f65ef4a",
+      "bytes": 154005,
+      "width": 292,
+      "height": 500,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 1,
+        "y": 71,
+        "w": 275,
+        "h": 389
+      },
+      "opaquePixels": 58929
+    },
+    {
+      "file": "Peibol/Splash_art_Peibol.png",
+      "sha256": "692f677133b811dcbaf543e021cd43d10f4935f914023d3832a42372c870a2f5",
+      "bytes": 2083890,
+      "width": 1672,
+      "height": 941,
+      "hasAlpha": false
+    },
+    {
+      "file": "TFPeru.xlsx",
+      "sha256": "f140da6f116eaee94093825e67498a4889666a3d1382b730d58a9779d467c451",
+      "bytes": 10332
+    },
+    {
+      "file": "Vargas/Habilidad_pasiva.txt",
+      "sha256": "11ab622f7fd5c4bfb3b429fd12ebe613eedfc73f814c1d1d6c680bdd313fd3e9",
+      "bytes": 1316
+    },
+    {
+      "file": "Vargas/Nivel1/Vargas_Atk/Vargas_Atk_1.png",
+      "sha256": "f80bded9983ac8c1b4eed6057342b9319e99a39530b501a5b7ba0c6fd5ee375c",
+      "bytes": 648545,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 253,
+        "y": 155,
+        "w": 738,
+        "h": 958
+      },
+      "opaquePixels": 360177
+    },
+    {
+      "file": "Vargas/Nivel1/Vargas_Atk/Vargas_Atk_2.png",
+      "sha256": "14764d83b82c7ee2c73ea26293bcf99a62a68794129b1219cfe2686f886039f4",
+      "bytes": 747227,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 224,
+        "y": 158,
+        "w": 817,
+        "h": 955
+      },
+      "opaquePixels": 393662
+    },
+    {
+      "file": "Vargas/Nivel1/Vargas_Atk/Vargas_Atk_3.png",
+      "sha256": "630fadbb6175147fbc544decbc4cf5d580d9ba97c2fb66fd540be15ee1e7ffb4",
+      "bytes": 941110,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 95,
+        "y": 188,
+        "w": 1150,
+        "h": 938
+      },
+      "opaquePixels": 465777
+    },
+    {
+      "file": "Vargas/Nivel1/Vargas_Atk/Vargas_Atk_4.png",
+      "sha256": "819bd4ef54d8f92660ff86569ca8b008f6e63262bd0444fd82eb47c10eb7a491",
+      "bytes": 679072,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 251,
+        "y": 155,
+        "w": 753,
+        "h": 958
+      },
+      "opaquePixels": 366799
+    },
+    {
+      "file": "Vargas/Nivel2/Vargas_Atk/Vargas_Atk_1y5.png",
+      "sha256": "21d9832ea7a888e30be1be3364395bd89e2ec2f8e179fed27c7e441c77eae567",
+      "bytes": 677592,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 295,
+        "y": 104,
+        "w": 845,
+        "h": 1086
+      },
+      "opaquePixels": 380191
+    },
+    {
+      "file": "Vargas/Nivel2/Vargas_Atk/Vargas_Atk_2.png",
+      "sha256": "dce4ecd65080deaa309dac3fb5f801b635736571ed10413457eaaa4c9097c24a",
+      "bytes": 626902,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 210,
+        "y": 123,
+        "w": 868,
+        "h": 1042
+      },
+      "opaquePixels": 346058
+    },
+    {
+      "file": "Vargas/Nivel2/Vargas_Atk/Vargas_Atk_3.png",
+      "sha256": "6eefb2769842956c8b83545397baf81432c1ad2b1ff9eef00f1094c625aaf73b",
+      "bytes": 727562,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 145,
+        "y": 116,
+        "w": 1058,
+        "h": 1080
+      },
+      "opaquePixels": 397266
+    },
+    {
+      "file": "Vargas/Nivel2/Vargas_Atk/Vargas_Atk_4.png",
+      "sha256": "1b49f552a7b3e33dfaf60597341469ccabaac30db8b680d983fca57183152fa4",
+      "bytes": 701364,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 185,
+        "y": 89,
+        "w": 1053,
+        "h": 1088
+      },
+      "opaquePixels": 388722
+    },
+    {
+      "file": "Vargas/Nivel2/Vargas_Atk/Vargas_Atk_5.png",
+      "sha256": "b83873486ff3d336601b70f929a0e51768abac7377c7f32c0ba7d3231115ed94",
+      "bytes": 817812,
+      "width": 1254,
+      "height": 1254,
+      "hasAlpha": true,
+      "bounds": {
+        "x": 191,
+        "y": 53,
+        "w": 1028,
+        "h": 1159
+      },
+      "opaquePixels": 459040
+    },
+    {
+      "file": "Vargas/Splash_art_Vargas.png",
+      "sha256": "417f8f55ee2ba1f81b6c331ddf9be4e234bdf4eb28644c000a6403ae657d330b",
+      "bytes": 2121004,
+      "width": 1774,
+      "height": 887,
+      "hasAlpha": false
+    }
+  ]
+}

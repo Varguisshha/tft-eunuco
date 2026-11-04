@@ -32,3 +32,5 @@ export * from './items/local-drops';
 export * from './match/purchase-preview';
 
 export * from './combat/ghost';
+
+export * from './match/synergies';

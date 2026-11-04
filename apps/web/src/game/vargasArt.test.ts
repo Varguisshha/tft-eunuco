@@ -1,6 +1,6 @@
 import { it, expect } from 'vitest';
 import { resolveAnimation, CharacterManifestSchema, animationCoverage } from '@tft/sprite-contract';
-import { characterManifest } from './characterAssets';
+import { legacyCharacterManifest as characterManifest } from './characterAssets';
 import { BoardSession } from './session';
 import fs from 'node:fs';
 it('records original star2 provenance and exactly one physical attack sheet', () => {

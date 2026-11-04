@@ -1,3 +1,4 @@
+import { neighborhoodModifiers } from './synergies';
 import {
   ADVANCED_COMBAT_RULES,
   MECHANICS_RULES,
@@ -119,5 +120,6 @@ export function prepareTraitProfiles(input: CombatInput) {
         }
     }
   }
+  modifiers.push(...neighborhoodModifiers(input, units));
   return { units, activations, effects, modifiers };
 }

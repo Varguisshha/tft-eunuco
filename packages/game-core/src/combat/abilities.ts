@@ -23,6 +23,7 @@ export function abilityConditions(
   unit: CombatUnit,
   units: readonly CombatUnit[],
   conditions: readonly AbilityCondition[],
+  signalTargetId?: string,
 ) {
   return conditions.every((condition) => {
     switch (condition.kind) {
@@ -31,11 +32,14 @@ export function abilityConditions(
           !unit.mechanics?.recovery?.away &&
           (unit.mechanics?.recovery?.stage ?? 0) === condition.completed
         );
-      case 'stack_count':
-        return (
-          (unit.mechanics?.stacks.find((s) => s.definitionId === condition.stackId)?.count ?? 0) >=
-          condition.minimum
+      case 'stack_count': {
+        const stack = unit.mechanics?.stacks.find(
+          (s) =>
+            s.definitionId === condition.stackId &&
+            (!condition.matchesSignalTarget || s.targetId === signalTargetId),
         );
+        return (stack?.count ?? 0) >= condition.minimum;
+      }
       case 'hp_below':
         return unit.hp * 1000 < effectiveStat(unit, 'maxHp') * condition.ratioMilli;
       case 'not_stunned':

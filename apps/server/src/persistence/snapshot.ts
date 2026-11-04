@@ -1,4 +1,16 @@
 import {
+  P13S_ECONOMY_CONFIG,
+  P13_ECONOMY_CONFIG,
+  P13S_TRAITS,
+  P13S_JEW_POLICY,
+  HORTALEZA_CONTRIBUTIONS,
+  CARRASCO_POLICY,
+  SHISHEROS_POLICY,
+  JEW_POLICY,
+  ROULETTE_POLICY,
+  PREDICTIONS,
+} from '@tft/game-data';
+import {
   P11B_ECONOMY_CONFIG,
   P11C_ECONOMY_CONFIG,
   P11G_ECONOMY_CONFIG,
@@ -7,6 +19,12 @@ import {
   P12B_ECONOMY_CONFIG,
   P12D_ECONOMY_CONFIG,
   P12F_ECONOMY_CONFIG,
+  P13T_ECONOMY_CONFIG,
+  P13T1_ECONOMY_CONFIG,
+  P13T1_ROSTER,
+  P13T1_TRAITS,
+  P13T_COMBAT_PROFILES,
+  P13T_BALANCE,
   P11H_ITEM_CATALOG,
   P11H_ITEM_POLICY,
   P11G_ECONOMY_POLICY,
@@ -212,7 +230,61 @@ export const P12D_CATALOG_HASH = createHash('sha256')
 export const P12F_CATALOG_HASH = createHash('sha256')
   .update(JSON.stringify([P12D_CATALOG_HASH, P12F_ECONOMY_CONFIG]))
   .digest('hex');
+export const P13T_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      P12F_CATALOG_HASH,
+      P13T_ECONOMY_CONFIG,
+      P13T_COMBAT_PROFILES,
+      P13T_BALANCE,
+      'p13t-runtime-1',
+    ]),
+  )
+  .digest('hex');
+export const P13T1_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      P13T_CATALOG_HASH,
+      P13T1_ECONOMY_CONFIG,
+      P13T1_ROSTER,
+      P13T1_TRAITS,
+      JEW_POLICY,
+      'p13t1-jew-receipt-1',
+    ]),
+  )
+  .digest('hex');
+export const P13S_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      P12F_CATALOG_HASH,
+      P13S_ECONOMY_CONFIG,
+      P13S_TRAITS,
+      HORTALEZA_CONTRIBUTIONS,
+      CARRASCO_POLICY,
+      SHISHEROS_POLICY,
+      P13S_JEW_POLICY,
+      ROULETTE_POLICY,
+      PREDICTIONS,
+      'p13s-runtime-1',
+    ]),
+  )
+  .digest('hex');
+export const P13_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      P13S_CATALOG_HASH,
+      P13T1_CATALOG_HASH,
+      P13_ECONOMY_CONFIG,
+      P13T1_ROSTER,
+      'p13-combined-runtime-1',
+    ]),
+  )
+  .digest('hex');
 export function snapshotConfig(rules: string, catalog: string) {
+  if (rules === 'f0p13-1' && catalog === P13_CATALOG_HASH) return P13_ECONOMY_CONFIG;
+  if (rules === 'f0p13t-1' && catalog === P13T1_CATALOG_HASH) return P13T1_ECONOMY_CONFIG;
+  if (rules === 'f0p13t-1' && catalog === P13T_CATALOG_HASH) return P13T_ECONOMY_CONFIG;
+  if (rules === 'f0p13s-1' && catalog === P13S_CATALOG_HASH) return P13S_ECONOMY_CONFIG;
   if (rules === 'f0p11h-1' && catalog === P12F_CATALOG_HASH) return P12F_ECONOMY_CONFIG;
   if (rules === 'f0p11h-1' && catalog === P12D_CATALOG_HASH) return P12D_ECONOMY_CONFIG;
   if (rules === 'f0p11h-1' && catalog === P12B_CATALOG_HASH) return P12B_ECONOMY_CONFIG;
@@ -255,6 +327,8 @@ const id = z.string().min(1).max(160);
 export const AuthoritySnapshotSchema = z.strictObject({
   schema: z.literal(1),
   rules: z.enum([
+    'f0p13-1',
+    'f0p13s-1',
     RULESET,
     'f0p6c-1',
     'florin-1',
@@ -264,8 +338,11 @@ export const AuthoritySnapshotSchema = z.strictObject({
     'f0p11b-1',
     'f0p11c-1',
     'f0p11h-1',
+    'f0p13t-1',
   ]),
   catalog: z.union([
+    z.literal(P13_CATALOG_HASH),
+    z.literal(P13S_CATALOG_HASH),
     z.literal(TFT_POOL_CATALOG_HASH),
     z.literal(P11_CATALOG_HASH),
     z.literal(P11B_CATALOG_HASH),
@@ -276,6 +353,8 @@ export const AuthoritySnapshotSchema = z.strictObject({
     z.literal(P12B_CATALOG_HASH),
     z.literal(P12D_CATALOG_HASH),
     z.literal(P12F_CATALOG_HASH),
+    z.literal(P13T_CATALOG_HASH),
+    z.literal(P13T1_CATALOG_HASH),
     z.literal(ROSTER_CATALOG_HASH),
     z.literal(INTEGRATED_CATALOG_HASH),
     z.literal(FLORIN_CATALOG_HASH),

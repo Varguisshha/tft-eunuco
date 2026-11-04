@@ -1,3 +1,4 @@
+import { SYNERGY_RULES, UpmStateSchema } from './synergies';
 import { isFlorinRules } from './mechanics';
 import { ItemLoadoutSchema, ItemCombatRuntimeSchema, ItemSourceSchema } from './item-runtime';
 import { ItemModifierBonusSchema } from './items';
@@ -12,6 +13,7 @@ import {
   P11B_RULES,
   P11C_RULES,
   P11H_RULES,
+  P13T_RULES,
   ROSTER_RULES,
   ProfileMechanicsSchema,
   UnitMechanicsSchema,
@@ -47,6 +49,8 @@ export const COMBAT_PROTOCOL = 3 as const;
 export const COMBAT_RULES = 'f0p3.1-1' as const;
 export const CURRENT_COMBAT_RULES = 'f0p6a-1' as const;
 const RulesSchema = z.enum([
+  'f0p13-1',
+  SYNERGY_RULES,
   COMBAT_RULES,
   CURRENT_COMBAT_RULES,
   ADVANCED_COMBAT_RULES,
@@ -59,6 +63,7 @@ const RulesSchema = z.enum([
   P11B_RULES,
   P11C_RULES,
   P11H_RULES,
+  P13T_RULES,
   ROSTER_RULES,
 ]);
 export const MAX_COMBAT_TICKS = 450;
@@ -191,11 +196,24 @@ export const CombatInputSchema = z
     obstacles: z.array(HexCoordSchema).max(56).default([]),
   })
   .superRefine((input, ctx) => {
+    if (
+      input.rulesVersion !== P13T_RULES &&
+      input.rulesVersion !== 'f0p13-1' &&
+      input.units.some(
+        (u) =>
+          u.profile.mechanics?.stacks.some((s) => s.scope) ||
+          [
+            ...(u.profile.championAbility?.active?.effects ?? []),
+            ...(u.profile.championAbility?.passive?.rules.flatMap((r) => r.effects) ?? []),
+          ].some((e) => e.kind === 'damage' && (e.bonusBelowHp || e.manaOnKill !== undefined)),
+      )
+    )
+      ctx.addIssue({ code: 'custom', message: 'P13T mechanics require explicit versioned rules' });
     if (input.ghost) {
       const g = input.ghost,
         units = input.units.filter((u) => u.owner === g.side);
       if (
-        input.rulesVersion !== 'f0p11h-1' ||
+        !['f0p11h-1', P13T_RULES, SYNERGY_RULES, 'f0p13-1'].includes(input.rulesVersion) ||
         g.sourcePlayerId === g.realPlayerId ||
         units.length !== g.units.length ||
         new Set(g.units.map((u) => u.unitId)).size !== g.units.length ||
@@ -335,6 +353,9 @@ export const CombatInputSchema = z
       input.rulesVersion !== P11B_RULES &&
       input.rulesVersion !== P11C_RULES &&
       input.rulesVersion !== P11H_RULES &&
+      input.rulesVersion !== P13T_RULES &&
+      input.rulesVersion !== 'f0p13-1' &&
+      input.rulesVersion !== SYNERGY_RULES &&
       (input.units.some((u) => (u.profile.traits?.length ?? 0) > 3) ||
         input.traits?.some(
           (t) =>
@@ -611,6 +632,7 @@ export const CombatResultSchema = z
   );
 export type CombatResult = z.infer<typeof CombatResultSchema>;
 export const CombatStateSchema = z.strictObject({
+  synergies: UpmStateSchema.optional(),
   items: ItemCombatRuntimeSchema.optional(),
   protocolVersion: z.literal(COMBAT_PROTOCOL),
   rulesVersion: RulesSchema,
@@ -797,7 +819,7 @@ export const CombatEventV3Schema = z
         stackId: id,
         amount: natural,
         count: natural,
-        reason: z.enum(['manual', 'threshold', 'duration', 'death']),
+        reason: z.enum(['manual', 'threshold', 'duration', 'death', 'target_change']),
         causalId: id,
       }),
     ),
@@ -928,6 +950,8 @@ export const CombatBatchSchema = z
     }
     let previous = -1;
     for (const s of batch.snapshots) {
+      if (!!s.synergies !== [SYNERGY_RULES, 'f0p13-1'].includes(s.rulesVersion))
+        ctx.addIssue({ code: 'custom', message: 'Versioned P13S state required' });
       if (s.tick < batch.fromTick || s.tick > batch.toTick || s.tick <= previous)
         ctx.addIssue({ code: 'custom', message: 'Out-of-order snapshot' });
       previous = s.tick;

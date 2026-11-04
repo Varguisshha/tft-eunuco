@@ -1,3 +1,12 @@
+import { jewReceipt } from './jew';
+import {
+  createSynergyJournal,
+  startSynergyRound,
+  selectPrediction,
+  lockPredictions,
+  settleSynergies,
+  deliverSynergyChampions,
+} from './synergies';
 import { combatStatistics } from '../combat/statistics';
 import { canUseCombatEconomy } from './combat-economy';
 import { isP11Catalog } from '@tft/shared';
@@ -51,6 +60,7 @@ import { validateMatchState } from './invariants';
 export type MatchError =
   | ItemError
   | 'invalid-action'
+  | 'invalid-prediction'
   | 'invalid-state'
   | 'stale-action'
   | 'wrong-phase'
@@ -135,9 +145,11 @@ export function createMatch(
     lastReward: null,
     lastUpgrades: [],
   };
+  if (config.synergyPolicy) state.synergies = createSynergyJournal(seed);
   grantConfiguredRemovers(state);
   ledger(state, 'initial', config.initialGold, 'initial');
   refreshShop(state);
+  startSynergyRound(state);
   return validateMatchState(state);
 }
 export function commandFor(state: MatchState, command: MatchCommand): MatchAction {
@@ -212,6 +224,7 @@ export function opponentUnits(state: MatchState) {
 function startCombat(state: MatchState, allowEmpty = false): void {
   if (!allowEmpty && deployedCount(state) === 0) reject('empty-board');
   if (deployedCount(state) > state.level) reject('deployment-limit');
+  lockPredictions(state);
   const next = randomUint32(state.combatRng);
   state.combatRng = next.state;
   const units = state.units.flatMap((u) =>
@@ -232,7 +245,11 @@ function startCombat(state: MatchState, allowEmpty = false): void {
     bank: state.gold,
     input: CombatInputSchema.parse({
       protocolVersion: COMBAT_PROTOCOL,
-      rulesVersion: combatRulesFor(state.config.catalog),
+      rulesVersion: combatRulesFor(
+        state.config.catalog,
+        state.config.characterPolicy,
+        state.config.synergyPolicy,
+      ),
       ...(state.config.catalog === 'f0p6b2' ||
       state.config.catalog === 'f0p6b3' ||
       state.config.catalog === 'f0p6c' ||
@@ -242,7 +259,14 @@ function startCombat(state: MatchState, allowEmpty = false): void {
       isP11Catalog(state.config.catalog)
         ? { combatId: `match-${state.seed}-round-${state.round}` }
         : {}),
-      ...(hasTraits(state.config.catalog) ? { traits: traitsFor(state.config.catalog) } : {}),
+      ...(hasTraits(state.config.catalog)
+        ? {
+            traits: traitsFor(
+              state.config.catalog,
+              state.config.synergyPolicy ?? state.config.jewPolicy,
+            ),
+          }
+        : {}),
       seed: next.value,
       maxTicks: MAX_COMBAT_TICKS,
       obstacles: [],
@@ -334,6 +358,8 @@ function resolve(
     overflow: 0,
     xp: state.level < state.config.maxLevel ? state.config.passiveXp : 0,
   };
+  const eligibleJewBank = state.gold;
+  const synergyBank = state.gold;
   const paid = { base: 0, interest: 0, victory: 0, streak: 0 };
   for (const reason of ['base', 'interest', 'victory', 'streak'] as const) {
     reward.total += reward[reason];
@@ -346,9 +372,19 @@ function resolve(
       id: settlementId ?? `local-${state.seed}/round/${state.round}/settlement`,
       ...paid,
     };
+  if (state.config.jewPolicy) {
+    const receipt = jewReceipt(state, replay, eligibleJewBank, reward.receipt!.id);
+    if (state.ledger.some((e) => e.reference === receipt.id))
+      throw new Error('Duplicate Jew settlement');
+    receipt.credited = ledger(state, 'jew_interest', receipt.requested, receipt.id);
+    reward.jew = receipt;
+    reward.total += receipt.requested;
+    reward.credited += receipt.credited;
+  }
   reward.overflow = reward.total - reward.credited;
   addXp(state, reward.xp);
   state.lastReward = reward;
+  settleSynergies(state, replay, synergyBank);
   awardRoundProgress(state, progressionEligible);
   if (!multiplayer && (state.health.south === 0 || state.health.north === 0))
     clearMatchProgress(state);
@@ -413,11 +449,16 @@ function applyAction(
       }
       if (!state.shopLocked) refreshShop(state, context?.prefix);
       else if (state.config.shopLockPolicy) state.shopLocked = false;
+      startSynergyRound(state);
+      if (state.synergies) combine(state);
     } else {
       if (state.phase !== 'preparation' && !canUseCombatEconomy(state, action))
         reject('wrong-phase');
       state.lastUpgrades = [];
       switch (action.type) {
+        case 'select_prediction':
+          if (!selectPrediction(state, action.kind, action.unitId)) reject('invalid-prediction');
+          break;
         case 'remove_unit_items':
         case 'equip_item':
         case 'unequip_item':
@@ -495,6 +536,7 @@ function applyAction(
           break;
       }
     }
+    deliverSynergyChampions(state);
     state.history.push(action);
     state.revision++;
     state.nextActionSeq++;
