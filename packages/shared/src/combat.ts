@@ -50,6 +50,7 @@ export const COMBAT_RULES = 'f0p3.1-1' as const;
 export const CURRENT_COMBAT_RULES = 'f0p6a-1' as const;
 const RulesSchema = z.enum([
   'f0p13-1',
+  'f0p13u-1',
   SYNERGY_RULES,
   COMBAT_RULES,
   CURRENT_COMBAT_RULES,
@@ -199,6 +200,7 @@ export const CombatInputSchema = z
     if (
       input.rulesVersion !== P13T_RULES &&
       input.rulesVersion !== 'f0p13-1' &&
+      input.rulesVersion !== 'f0p13u-1' &&
       input.units.some(
         (u) =>
           u.profile.mechanics?.stacks.some((s) => s.scope) ||
@@ -213,7 +215,9 @@ export const CombatInputSchema = z
       const g = input.ghost,
         units = input.units.filter((u) => u.owner === g.side);
       if (
-        !['f0p11h-1', P13T_RULES, SYNERGY_RULES, 'f0p13-1'].includes(input.rulesVersion) ||
+        !['f0p11h-1', P13T_RULES, SYNERGY_RULES, 'f0p13-1', 'f0p13u-1'].includes(
+          input.rulesVersion,
+        ) ||
         g.sourcePlayerId === g.realPlayerId ||
         units.length !== g.units.length ||
         new Set(g.units.map((u) => u.unitId)).size !== g.units.length ||
@@ -355,6 +359,7 @@ export const CombatInputSchema = z
       input.rulesVersion !== P11H_RULES &&
       input.rulesVersion !== P13T_RULES &&
       input.rulesVersion !== 'f0p13-1' &&
+      input.rulesVersion !== 'f0p13u-1' &&
       input.rulesVersion !== SYNERGY_RULES &&
       (input.units.some((u) => (u.profile.traits?.length ?? 0) > 3) ||
         input.traits?.some(
@@ -910,6 +915,11 @@ export const CombatEventV3Schema = z
         causalId: id,
       }),
     ),
+    event('unit_spawn', z.strictObject({ unit: CombatUnitSchema })),
+    event(
+      'synergy_gold',
+      z.strictObject({ side: SideSchema, amount: natural, sourceId: id, targetId: id }),
+    ),
     event('unit_death', z.strictObject({ unitId: id, position: HexCoordSchema })),
     event('combat_end', CombatResultSchema),
   ])
@@ -950,7 +960,7 @@ export const CombatBatchSchema = z
     }
     let previous = -1;
     for (const s of batch.snapshots) {
-      if (!!s.synergies !== [SYNERGY_RULES, 'f0p13-1'].includes(s.rulesVersion))
+      if (!!s.synergies !== [SYNERGY_RULES, 'f0p13-1', 'f0p13u-1'].includes(s.rulesVersion))
         ctx.addIssue({ code: 'custom', message: 'Versioned P13S state required' });
       if (s.tick < batch.fromTick || s.tick > batch.toTick || s.tick <= previous)
         ctx.addIssue({ code: 'custom', message: 'Out-of-order snapshot' });

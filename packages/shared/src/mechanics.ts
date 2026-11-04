@@ -231,7 +231,8 @@ export const isFlorinRules = (version: string | undefined) =>
   version === P11H_RULES ||
   version === P13T_RULES ||
   version === SYNERGY_RULES ||
-  version === 'f0p13-1';
+  version === 'f0p13-1' ||
+  version === 'f0p13u-1';
 
 /** Content family; each member retains its own persistence fingerprint. */
 export const isP11Catalog = (catalog: string | undefined): boolean =>

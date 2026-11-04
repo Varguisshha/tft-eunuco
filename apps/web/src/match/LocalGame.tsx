@@ -218,8 +218,8 @@ export function LocalGame({
           />
           <PointerInteractions session={session} />
           <TraitRail state={state} combatState={session.combatFrame()?.state} />
-          <SynergyEconomy session={session} />
         </aside>
+        <SynergyEconomy session={session} />
         <section
           className="local-board"
           aria-label={

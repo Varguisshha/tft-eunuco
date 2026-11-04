@@ -2468,3 +2468,167 @@ body {
 .game-hud .shop-offer.has-splash .offer-trait {
   padding-block: calc(2 * var(--u));
 }
+
+/* Economic synergies stay visible above the scrolling trait list. */
+.game-hud .synergy-economy {
+  flex: none;
+  margin: 8px 0 0;
+  color: var(--neon-text-primary);
+  font-size: 11px;
+}
+.synergy-action,
+.synergy-bank {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 6px;
+  margin-block: 5px;
+  border: 2px solid var(--neon-border-highlight);
+  background: var(--neon-surface-primary);
+  color: var(--neon-text-primary);
+  text-align: left;
+  clip-path: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+}
+.synergy-action {
+  cursor: pointer;
+}
+.synergy-action[data-attention='true'] {
+  background: var(--neon-accent-primary);
+  color: var(--neon-text-onAccent);
+  border-color: var(--neon-accent-primary);
+}
+.synergy-action > span,
+.synergy-bank > span {
+  flex: 1;
+  min-width: 0;
+}
+.synergy-action strong,
+.synergy-bank strong {
+  display: block;
+  font-size: 13px;
+}
+.synergy-action span span,
+.synergy-bank span span,
+.synergy-bank small {
+  display: block;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.synergy-action > b,
+.synergy-bank > b {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.synergy-action:hover {
+  filter: brightness(1.08);
+}
+.synergy-action:active {
+  transform: translateY(1px);
+}
+.synergy-action:focus-visible {
+  outline: 3px solid var(--neon-text-primary);
+  outline-offset: -6px;
+}
+.synergy-bank {
+  border-color: var(--neon-game-gold);
+}
+.synergy-bank > b {
+  color: var(--neon-game-gold);
+}
+.synergy-bank .content-icon,
+.synergy-action .content-icon {
+  width: 27px;
+  height: 27px;
+}
+.game-hud .synergy-economy + .trait-rail {
+  margin-top: 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .synergy-action:active {
+    transform: none;
+  }
+}
+
+.game-hud .synergy-action,
+.game-hud .synergy-bank {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) 26px;
+  gap: 4px;
+}
+.game-hud .synergy-bank strong,
+.game-hud .synergy-action strong {
+  font:
+    700 11px/1.3 'DM Sans',
+    sans-serif;
+  white-space: nowrap;
+}
+.game-hud .synergy-bank span span,
+.game-hud .synergy-bank small,
+.game-hud .synergy-action span span {
+  font:
+    400 9px/1.4 'DM Sans',
+    sans-serif;
+}
+.game-hud .synergy-bank span span {
+  white-space: nowrap;
+}
+.game-hud .synergy-bank .content-icon,
+.game-hud .synergy-action .content-icon {
+  width: 22px;
+  height: 22px;
+}
+.game-hud .synergy-bank > b,
+.game-hud .synergy-action > b {
+  font:
+    700 17px/1.2 'DM Sans',
+    sans-serif;
+}
+
+/* Keep economic actions out of the player list: three/four banners must not hide traits. */
+.game-hud .battlefield > .synergy-economy {
+  position: absolute;
+  z-index: 6;
+  top: calc(115 * var(--u));
+  left: 54%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0 6px;
+  width: 306px;
+  max-width: calc(100% - 32px);
+  margin: 0;
+}
+.game-hud .battlefield > .synergy-economy > .synergy-action {
+  width: 150px;
+  min-width: 0;
+}
+.game-hud .battlefield > .synergy-economy > .synergy-bank {
+  width: 150px;
+}
+.game-hud .battlefield > .synergy-economy > details {
+  flex: 1;
+  min-width: 140px;
+  background: var(--neon-surface-overlay);
+  padding-inline: 6px;
+}
+.game-hud .battlefield > .synergy-economy > details[open] {
+  max-height: 160px;
+  overflow: auto;
+}
+@media (max-width: 800px) {
+  .game-hud .battlefield > .synergy-economy {
+    top: 155px;
+    left: 50%;
+  }
+}

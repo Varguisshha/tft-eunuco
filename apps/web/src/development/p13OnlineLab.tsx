@@ -4,7 +4,7 @@ import '@fontsource/dm-sans/latin-400.css';
 import '@fontsource/dm-sans/latin-700.css';
 import '../styles.css';
 import { p13tFixture } from './p13tFixture';
-import { P13_ECONOMY_CONFIG } from '@tft/game-data';
+import { P13U_ECONOMY_CONFIG } from '@tft/game-data';
 import { createMatch, validateMatchState } from '@tft/game-core';
 import { ArenaIdSchema } from '@tft/shared';
 import { LocalSession } from '../match/LocalSession';
@@ -14,7 +14,7 @@ if (import.meta.env.DEV) {
     stars = Math.max(1, Math.min(3, Number(query.get('stars') ?? 1))) as 1 | 2 | 3;
   const prior = p13tFixture(stars);
   const state = validateMatchState({
-    ...createMatch(42, { ...P13_ECONOMY_CONFIG, initialGold: 50 }),
+    ...createMatch(42, { ...P13U_ECONOMY_CONFIG, initialGold: 50 }),
     level: prior.level,
     xp: prior.xp,
     units: prior.units,

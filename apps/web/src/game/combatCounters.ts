@@ -27,7 +27,7 @@ const names: Record<string, string> = {
   magicResist: 'resistencia mágica',
 };
 export function combatCounters(unit: CombatUnit, state: CombatState): CombatCounter[] {
-  const catalog = ['f0p13t-1', 'f0p13-1'].includes(state.rulesVersion)
+  const catalog = ['f0p13t-1', 'f0p13-1', 'f0p13u-1'].includes(state.rulesVersion)
     ? 'f0p11h-1'
     : isP11Catalog(state.rulesVersion)
       ? state.rulesVersion

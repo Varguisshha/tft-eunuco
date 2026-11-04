@@ -57,9 +57,16 @@ if (command === 'stop' || command === 'status') {
   const requested = process.argv.find((a) => a.startsWith('--characters='))?.split('=')[1];
   const preset =
     requested ??
-    (fs.existsSync(path.join(target, 'packages/game-data/src/p13t1.ts')) ? 'p13t1' : 'p12f');
-  if (!['p12f', 'p13t', 'p13t1'].includes(preset)) throw Error('Unknown LOCAL character preset');
+    (fs.existsSync(path.join(target, 'packages/game-data/src/p13u.ts'))
+      ? 'p13u'
+      : fs.existsSync(path.join(target, 'packages/game-data/src/p13t1.ts'))
+        ? 'p13t1'
+        : 'p12f');
+  if (!['p12f', 'p13t', 'p13t1', 'p13u'].includes(preset))
+    throw Error('Unknown LOCAL character preset');
   const p13t = preset !== 'p12f';
+  if (preset === 'p13u' && !fs.existsSync(path.join(target, 'packages/game-data/src/p13u.ts')))
+    throw Error('Selected worktree does not provide P13U');
   if (preset === 'p13t1' && !fs.existsSync(path.join(target, 'packages/game-data/src/p13t1.ts')))
     throw Error('Selected worktree does not provide P13T.1');
   if (p13t && !fs.existsSync(path.join(target, 'packages/game-data/src/p13t.ts')))
@@ -119,7 +126,11 @@ if (command === 'stop' || command === 'status') {
       '__P13T_IMPORT__',
       p13t
         ? 'import { ' +
-            (preset === 'p13t1' ? 'P13T1_ECONOMY_CONFIG' : 'P13T_ECONOMY_CONFIG') +
+            (preset === 'p13u'
+              ? 'P13U_ECONOMY_CONFIG'
+              : preset === 'p13t1'
+                ? 'P13T1_ECONOMY_CONFIG'
+                : 'P13T_ECONOMY_CONFIG') +
             " as P13T_ECONOMY_CONFIG } from '__TARGET__/packages/game-data/src/index.ts';"
         : '',
     )

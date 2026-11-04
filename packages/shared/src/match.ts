@@ -101,7 +101,7 @@ export const EconomyConfigSchema = z
     pvpPolicy: z
       .strictObject({ version: z.literal('f0p12b-1'), ghostDamageMultiplierMilli: z.literal(800) })
       .optional(),
-    synergyPolicy: z.literal(SYNERGY_RULES).optional(),
+    synergyPolicy: z.enum([SYNERGY_RULES, 'f0p13u-1']).optional(),
     initialGold: nat,
     roundDamage: RoundDamageConfigSchema,
     goldCap: nat.positive(),

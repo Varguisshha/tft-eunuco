@@ -40,7 +40,23 @@ export class SupabaseMatchRepository implements MatchRepository {
   constructor(url: string, key: string) {
     this.client = createClient(url, key, {
       auth: { persistSession: false, autoRefreshToken: false },
-      global: { fetch: (url, init) => fetch(url, { ...init, signal: AbortSignal.timeout(5000) }) },
+      global: {
+        fetch: (url, init) => {
+          // Real three-player checkpoints exceeded 5 s while Postgres still committed.
+          // Lease renewals have an independent bounded request; ownership/TTL are unchanged.
+          const timeout =
+            String(url).endsWith('/authority_fenced_commit') ||
+            String(url).endsWith('/authority_commit') ||
+            /\/authority_lease_(acquire|renew|release)$/.test(String(url))
+              ? 15_000
+              : 5_000;
+          const deadline = AbortSignal.timeout(timeout);
+          return fetch(url, {
+            ...init,
+            signal: init?.signal ? AbortSignal.any([init.signal, deadline]) : deadline,
+          });
+        },
+      },
     });
   }
   async probe() {

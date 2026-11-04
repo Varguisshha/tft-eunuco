@@ -57,6 +57,7 @@ export function manifest() {
             'P13T_CATALOG_HASH',
             'P13T1_CATALOG_HASH',
             'P13_CATALOG_HASH',
+            'P13U_CATALOG_HASH',
           ].includes(k) &&
           (k.endsWith('_HASH') || ['CATALOG', 'COMPOSITE_CATALOG'].includes(k)),
       ),

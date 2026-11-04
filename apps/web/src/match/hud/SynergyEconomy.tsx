@@ -1,3 +1,5 @@
+import { ContentIcon } from './ContentIcon';
+import { P13S_JEW_POLICY } from '@tft/game-data';
 import { useState } from 'react';
 import { PREDICTIONS, getUnitDefinition } from '@tft/game-data';
 import { fantasyCapacity } from '@tft/game-core';
@@ -14,8 +16,18 @@ export function SynergyEconomy({ session }: { session: LocalSession }) {
     capacity = fantasyCapacity(state),
     units = state.units.filter((u) => u.location.kind === 'board');
   const chosen = units.some((u) => u.id === unitId) ? unitId : units[0]?.id;
+  const peibol = units
+    .filter((u) => u.definitionId === 'peibol')
+    .sort((a, b) => b.stars - a.stars)[0];
+  const expectedInterest = peibol
+    ? Math.min(
+        Math.floor((state.gold * P13S_JEW_POLICY.ratesMilli[peibol.stars - 1]!) / 1000),
+        P13S_JEW_POLICY.caps[peibol.stars - 1]!,
+      )
+    : 0;
+  const selected = market?.bets.filter((b) => b.status !== 'void').length ?? 0;
   const latest = journal.receipts
-    .filter((r) => r.kind === 'roulette' || r.kind === 'interest')
+    .filter((r) => r.kind === 'roulette' || (r.kind === 'interest' && r.outcome === 'paid'))
     .slice(-2);
   return (
     <section className="synergy-economy" aria-label="Economía de sinergias">
@@ -102,10 +114,40 @@ export function SynergyEconomy({ session }: { session: LocalSession }) {
             </>
           }
         >
-          <button className="trait-trigger">
-            Fantasy · {market.bets.filter((b) => b.status !== 'void').length}/{capacity} apuestas
+          <button className="synergy-action" data-attention={!market.locked && selected < capacity}>
+            <ContentIcon id="fantasy" active />
+            <span>
+              <strong>Fantasy</strong>
+              <span>
+                {market.locked
+                  ? 'Ver apuestas'
+                  : selected < capacity
+                    ? 'Elegir apuestas'
+                    : 'Apuestas elegidas'}
+              </span>
+            </span>
+            <b>
+              {selected}/{capacity}
+            </b>
           </button>
         </ContextTooltip>
+      )}
+      {peibol && (
+        <div className="synergy-bank" aria-label="Jew: intereses de Peibol">
+          <ContentIcon id="jew" active />
+          <span>
+            <strong>Jew · {peibol.stars}★</strong>
+            <span>
+              {P13S_JEW_POLICY.ratesMilli[peibol.stars - 1]! / 10} % · tope{' '}
+              {P13S_JEW_POLICY.caps[peibol.stars - 1]}
+            </span>
+            <small>Con {state.gold} oro</small>
+          </span>
+          <b>
+            +{expectedInterest}
+            <small>oro</small>
+          </b>
+        </div>
       )}
       {latest.map((r) => (
         <details key={r.id}>

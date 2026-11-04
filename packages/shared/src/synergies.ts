@@ -72,7 +72,7 @@ export const UpmStateSchema = z.strictObject({
         thresholdMilli: nat,
         level: z.number().int().min(1).max(4),
         triggered: z.boolean(),
-        blocked: z.literal('missing-carrasco-base-profile'),
+        blocked: z.enum(['missing-carrasco-base-profile', 'provisional-profile']),
       }),
     )
     .max(2),

@@ -63,7 +63,7 @@ export function CombatTraitRail({
       upm={state?.synergies}
       roster={matchCatalog(P12F_ECONOMY_CONFIG)}
       characterPolicy={
-        ['f0p13t-1', 'f0p13-1'].includes(input.rulesVersion) ? 'f0p13t-1' : undefined
+        ['f0p13t-1', 'f0p13-1', 'f0p13u-1'].includes(input.rulesVersion) ? 'f0p13t-1' : undefined
       }
       owned={input.units
         .filter((u) => u.owner === 'south')
@@ -138,8 +138,10 @@ function TraitRows({
                         <p key={t.side}>
                           Vida perdida: {t.lostHp}/{t.baseHp} · Media{' '}
                           {Number((t.starSum / t.count).toFixed(2))}★ ·{' '}
-                          {t.triggered ? 'Umbral alcanzado' : 'Acumulando'}. Invocación pendiente de
-                          estadísticas base.
+                          {t.triggered ? 'Umbral alcanzado' : 'Acumulando'}.{' '}
+                          {t.blocked === 'provisional-profile'
+                            ? 'CARRASCO: perfil provisional activo.'
+                            : 'Invocación pendiente de estadísticas base.'}
                         </p>
                       ))}
                   <ol>

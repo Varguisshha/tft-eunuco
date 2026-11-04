@@ -186,6 +186,12 @@ export class CombatRenderer {
       visual.sprite.setAngle(0).clearTint();
       visual.setOpacity(1);
       visual.setFootPosition(p.x, p.y);
+      if (unit.statuses.some((s) => s.key === 'ambush')) visual.setOpacity(0.45);
+      if (unit.definitionId === 'carrasco' && unit.deathTick === null) {
+        const key = `summon:${unit.id}`;
+        activeLabels.add(key);
+        this.label(key, 'CARRASCO', '#c3cefc', p.x, p.y - 82, 1, 11);
+      }
       if (unit.deathTick !== null) {
         const death = clamp((timeMs - unit.deathTick * TICK_MS) / 550);
         visual.setOpacity(1 - death);

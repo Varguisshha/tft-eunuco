@@ -2,7 +2,7 @@ import { AccountPortal } from './auth/AccountPortal';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { P13_ECONOMY_CONFIG } from '@tft/game-data';
+import { P13U_ECONOMY_CONFIG } from '@tft/game-data';
 import { localEconomyConfig, configuredLocalRuleset } from './localConfig';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
 import { AUTOMATIC_SAVE_KEY, decodeSave } from './match/automaticSave';
@@ -70,7 +70,7 @@ export function App() {
       new LocalMatchCoordinator(
         createMatch(
           n,
-          __DEVTOOLS__ ? localEconomyConfig(configuredLocalRuleset()) : P13_ECONOMY_CONFIG,
+          __DEVTOOLS__ ? localEconomyConfig(configuredLocalRuleset()) : P13U_ECONOMY_CONFIG,
         ),
         {
           matchId: crypto.randomUUID(),
@@ -88,6 +88,16 @@ export function App() {
         if (restored.development || restored.getMatch().development)
           throw new Error('DEV save in normal slot');
         attach(restored);
+        if (
+          __DEVTOOLS__ &&
+          configuredLocalRuleset() === 'p13u' &&
+          restored.getMatch().config.synergyPolicy !== 'f0p13u-1'
+        ) {
+          setNotice(
+            'Guardado de una versión anterior: conserva sus reglas. Crea una partida nueva para probar las sinergias revisadas.',
+          );
+          return;
+        }
         if (
           __DEVTOOLS__ &&
           configuredLocalRuleset() === 'p13t1' &&

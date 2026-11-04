@@ -344,6 +344,20 @@ export function predictionEvidence(r: CombatReplay) {
     }
   };
 }
+/** Combat rewards are escrowed until closure, before Jew/base income; no future replay leaks. */
+export function settleCombatGold(s: MatchState, replay: CombatReplay) {
+  if (
+    s.config.synergyPolicy === 'f0p13u-1' &&
+    !s.ledger.some((e) => e.reference === `p13u-combat-gold-${s.round}`)
+  ) {
+    const amount = replay.events.reduce(
+      (n, e) =>
+        n + (e.type === 'synergy_gold' && e.payload.side === 'south' ? e.payload.amount : 0),
+      0,
+    );
+    synergyGold(s, amount, `p13u-combat-gold-${s.round}`);
+  }
+}
 export function settleSynergies(s: MatchState, replay: CombatReplay, bank: number) {
   const j = s.synergies;
   if (!j) return;

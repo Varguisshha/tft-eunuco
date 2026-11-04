@@ -5,6 +5,7 @@ import {
   selectPrediction,
   lockPredictions,
   settleSynergies,
+  settleCombatGold,
   deliverSynergyChampions,
 } from './synergies';
 import { combatStatistics } from '../combat/statistics';
@@ -358,6 +359,7 @@ function resolve(
     overflow: 0,
     xp: state.level < state.config.maxLevel ? state.config.passiveXp : 0,
   };
+  settleCombatGold(state, replay);
   const eligibleJewBank = state.gold;
   const synergyBank = state.gold;
   const paid = { base: 0, interest: 0, victory: 0, streak: 0 };

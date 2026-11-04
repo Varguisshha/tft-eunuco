@@ -77,6 +77,8 @@ export function scaledProfile(
   )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;
+  if (config.synergyPolicy === 'f0p13u-1')
+    profile.traits = [...matchCatalog(config).find((u) => u.id === definitionId)!.synergies];
   if (
     config.catalog === 'f0p6b1' ||
     config.catalog === 'f0p6b2' ||

@@ -1,3 +1,6 @@
+import { P13U_ROSTER } from './p13u-roster';
+export { P13U_ROSTER } from './p13u-roster';
+export * from './p13u';
 export * from './champions/authoring';
 export * from './p13s';
 export * from './p13';
@@ -42,6 +45,7 @@ export function matchCatalog(config: {
     | 'f0p10a-1'
     | undefined;
 }): readonly UnitDefinition[] {
+  if (config.synergyPolicy === 'f0p13u-1') return P13U_ROSTER;
   if (config.jewPolicy === 'f0p13s-jew-1' || (config.characterPolicy && config.synergyPolicy))
     return P13T1_ROSTER;
   if (isP11Catalog(config.catalog)) return P11_ROSTER;

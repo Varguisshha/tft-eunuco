@@ -21,7 +21,7 @@ export function carrascoScaling(starSum: number, count: number) {
 }
 export function neighborhoodModifiers(input: CombatInput, units: CombatInput['units']) {
   const modifiers: { unitId: string; status: CombatStatus }[] = [];
-  if (![SYNERGY_RULES, 'f0p13-1'].includes(input.rulesVersion)) return modifiers;
+  if (![SYNERGY_RULES, 'f0p13-1', 'f0p13u-1'].includes(input.rulesVersion)) return modifiers;
   for (const side of ['south', 'north'] as const) {
     const team = units.filter((u) => u.owner === side);
     const members = [
@@ -63,7 +63,7 @@ export class SynergyCombat {
     readonly state: CombatState,
     readonly status: (u: CombatUnit, s: CombatStatus) => void,
   ) {
-    if (![SYNERGY_RULES, 'f0p13-1'].includes(input.rulesVersion)) return;
+    if (![SYNERGY_RULES, 'f0p13-1', 'f0p13u-1'].includes(input.rulesVersion)) return;
     state.synergies = { version: SYNERGY_RULES, teams: [] };
     for (const side of ['south', 'north'] as const) {
       const team = state.units.filter((u) => u.owner === side),
@@ -86,7 +86,10 @@ export class SynergyCombat {
           thresholdMilli: CARRASCO_POLICY.lostHpMilli[level - 1]!,
           level: level as 1 | 2 | 3 | 4,
           triggered: false,
-          blocked: 'missing-carrasco-base-profile',
+          blocked:
+            input.rulesVersion === 'f0p13u-1'
+              ? 'provisional-profile'
+              : 'missing-carrasco-base-profile',
         });
       const shisha = team.filter((u) => u.profile.traits?.includes('shisheros'));
       const tier =

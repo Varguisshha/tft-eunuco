@@ -151,6 +151,12 @@ export class BoardScene extends Phaser.Scene {
       this.combatRenderer?.clear();
       return;
     }
+    if (
+      frame &&
+      (frame.state.units.length !== this.visuals.size ||
+        frame.state.units.some((u) => !this.visuals.has(u.id)))
+    )
+      this.sync();
     if (frame)
       this.combatRenderer?.render(frame, this.visuals, this.session.getSnapshot().selectedId);
     else for (const visual of this.visuals.values()) visual.play('idle', time);
@@ -368,6 +374,9 @@ export class BoardScene extends Phaser.Scene {
       if (!visual) {
         const def =
           getUnitDefinition(unit.definitionId) ??
+          (unit.definitionId === 'carrasco'
+            ? { ...getUnitDefinition('test-v02')!, id: 'carrasco', name: 'CARRASCO' }
+            : undefined) ??
           (unit.definitionId.startsWith('fixture-member-')
             ? getUnitDefinition('test-v02')
             : undefined);
