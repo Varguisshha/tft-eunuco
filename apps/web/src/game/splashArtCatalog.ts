@@ -28,6 +28,20 @@ const art = (
   provenance: { source, note },
 });
 export const SPLASH_ARTS: Readonly<Record<string, SplashArt>> = {
+  edu: art(
+    'edu',
+    'Sprites/edu/splash-original.png',
+    40,
+    32,
+    'Splash facilitado por el propietario: Edu con Sanderson y gatos.',
+  ),
+  sanchez: art(
+    'sanchez',
+    'Sprites/sanchez/splash-original.png',
+    45,
+    30,
+    'Splash facilitado por el propietario: Sánchez con batería en el banco de sangre.',
+  ),
   dolea: art('dolea', 'TFPeru 2/Dolea/Splash_art_Dolea.png', 43, 37),
   vargas: art('vargas', 'TFPeru 2/Vargas/Splash_art_Vargas.png', 47, 38),
   jaramillo: art(

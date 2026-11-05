@@ -5,7 +5,7 @@ import type { ItemSource } from '@tft/shared';
 import { CombatMechanics, type Emit, type DamageContext, type MechanicSignal } from './mechanics';
 import { advancedRules, effectAmount, criticalRoll } from './stats';
 import { prepareTraitProfiles } from './traits';
-import { activeAbility, abilityConditions } from './abilities';
+import { activeAbility, abilityConditions, lowestHealthAlly } from './abilities';
 import {
   CombatInputSchema,
   MECHANICS_RULES,
@@ -365,7 +365,10 @@ export class CombatEngine {
       ...(context ? { castId: context.causalId, additional: false } : {}),
       endTick,
       manaAfter: unit.mana,
-      center: ability.targeting === 'current_enemy' ? target.position : unit.position,
+      center:
+        ability.targeting === 'current_enemy' || ability.targeting === 'lowest_health_ally'
+          ? target.position
+          : unit.position,
     });
   }
   private gainMana(unit: CombatUnit, amount: number): void {
@@ -1106,9 +1109,12 @@ export class CombatEngine {
         !isPresent(target) ||
         this.items?.untargetable(target) ||
         hexDistance(unit.position, target.position) >
-          (action.kind === 'cast' && activeAbility(unit.profile)?.targeting === 'adjacent_enemies'
-            ? 1
-            : unit.profile.stats.range)
+          (action.kind === 'cast' && activeAbility(unit.profile)?.targeting === 'lowest_health_ally'
+            ? Infinity
+            : action.kind === 'cast' &&
+                activeAbility(unit.profile)?.targeting === 'adjacent_enemies'
+              ? 1
+              : unit.profile.stats.range)
       ) {
         this.cancel(unit, 'invalid-target');
         continue;
@@ -1238,6 +1244,17 @@ export class CombatEngine {
         ability &&
         unit.mana >= ability.manaCost &&
         abilityConditions(unit, units, ability.conditions);
+      if (canCast && ability.targeting === 'lowest_health_ally') {
+        this.beginCast(
+          unit,
+          lowestHealthAlly(
+            unit,
+            units.filter((u) => !this.items?.untargetable(u)),
+          ),
+          ability,
+        );
+        continue;
+      }
       if (canCast && ability.targeting === 'self') {
         this.beginCast(unit, unit, ability);
         continue;

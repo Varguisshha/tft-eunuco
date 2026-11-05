@@ -1,3 +1,4 @@
+import './fantasy.css';
 import { ContentIcon } from './ContentIcon';
 import { P13S_JEW_POLICY } from '@tft/game-data';
 import { useState } from 'react';
@@ -48,7 +49,7 @@ export function SynergyEconomy({ session }: { session: LocalSession }) {
                 {market.bets.filter((b) => b.status !== 'void').length}/{capacity} selecciones ·{' '}
                 {market.locked ? 'Mercado cerrado' : 'Preparación'}
               </p>
-              <label>
+              <label className="fantasy-unit-picker">
                 Unidad para apuestas individuales
                 <select
                   value={chosen ?? ''}

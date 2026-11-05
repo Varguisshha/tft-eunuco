@@ -1,0 +1,38 @@
+.fantasy-unit-picker {
+  display: grid;
+  gap: 8px;
+  margin-block: 16px;
+  font-weight: 700;
+}
+.fantasy-unit-picker select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px;
+  color: var(--neon-text-primary);
+  background: var(--neon-surface-elevated);
+  border: 1px solid var(--neon-border-highlight);
+  font: inherit;
+  color-scheme: dark;
+}
+.synergy-predictions > section + section {
+  border-top: 1px solid var(--neon-border-primary);
+  padding-top: 16px;
+}
+.synergy-predictions {
+  display: grid;
+  gap: 16px;
+}
+.synergy-predictions h4 {
+  margin-block: 12px 4px;
+}
+.synergy-predictions p {
+  margin-block: 4px 8px;
+}
+.context-tooltip .synergy-predictions .game-button {
+  width: 100%;
+  min-height: 44px;
+  height: 44px;
+  margin-top: 8px;
+}

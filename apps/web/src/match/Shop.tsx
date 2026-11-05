@@ -163,6 +163,8 @@ export function Shop({ session }: { session: LocalSession }) {
                     <CharacterSpecialization
                       id={d.id}
                       characterPolicy={state.config.characterPolicy}
+                      eduPolicy={state.config.eduPolicy}
+                      sanchezPolicy={state.config.sanchezPolicy}
                       compact
                       tooltip={modern}
                     />

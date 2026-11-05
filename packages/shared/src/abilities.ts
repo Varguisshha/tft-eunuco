@@ -303,7 +303,7 @@ export const ActiveComponentSchema = z
     initialMana: amount,
     castTicks: ticks.max(30),
     delivery: z.literal('projectile').optional(),
-    targeting: z.enum(['current_enemy', 'adjacent_enemies', 'self']),
+    targeting: z.enum(['current_enemy', 'adjacent_enemies', 'self', 'lowest_health_ally']),
     conditions: z.array(AbilityConditionSchema).max(8),
     effects: z.array(EffectSchema).min(1).max(8),
     animation: z.literal('ability'),

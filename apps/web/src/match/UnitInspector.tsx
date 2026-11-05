@@ -97,6 +97,8 @@ export function UnitInspector({
             <CharacterSpecialization
               id={def.id}
               characterPolicy={session.getMatch().config.characterPolicy}
+              eduPolicy={session.getMatch().config.eduPolicy}
+              sanchezPolicy={session.getMatch().config.sanchezPolicy}
             />
           </div>
         </div>

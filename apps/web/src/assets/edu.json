@@ -1,0 +1,682 @@
+{
+  "version": 2,
+  "id": "edu",
+  "provenance": {
+    "characterId": "edu",
+    "sourceStarLevel": null,
+    "nativeAppearance": "pending",
+    "pending": [
+      "walk"
+    ]
+  },
+  "fallbacks": {
+    "star1": [],
+    "star2": [],
+    "star3": []
+  },
+  "evolutions": {
+    "star1": {
+      "idle": {
+        "textureKey": "edu:star1:idle",
+        "url": "/sprites/edu/star1/idle.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "frameCount": 4,
+        "fps": 8,
+        "loop": true,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_1/idle/idle_01.png",
+            "sha256": "739eb428fcd27b79e8a9fc3cea02073587db58388b6704aca52523e82149ad32"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/idle/idle_02.png",
+            "sha256": "884838d4cb93da7bc54df8b0bd3ba11dcf73a92e6804a2922b6909f0923b87d9"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/idle/idle_03.png",
+            "sha256": "8e3caa929c6c4c648ab745e30a9ad433d50fab4d90bbd6ac15b075748ed9ae2f"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/idle/idle_04.png",
+            "sha256": "4e802f1b107d586ed75db2401dfbd2b0644f1495d63ace4f9dd5cfe77fcba211"
+          }
+        ]
+      },
+      "walk": null,
+      "attack": {
+        "textureKey": "edu:star1:attack",
+        "url": "/sprites/edu/star1/attack.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 4,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_01.png",
+            "sha256": "d5f3118caee8e61539de487d83c2ef24695ba9655c0869667c862da8c09f5b95"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_02.png",
+            "sha256": "13f0bb8e9d694973f81c449286a91d5d4cff57b5855eb3b1e45df3e0e4a14f40"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_03.png",
+            "sha256": "58a869c82c82116b735cad8dbffe1e034f51a36ff8c628f1c702e2aac2a5654e"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_04.png",
+            "sha256": "290acc1c15622a651d18a8ffa08d24880bfdd151b58c3fa98e9a0603431cefd2"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_05.png",
+            "sha256": "d2bb90bc5785582719a8f0e631a9f3de4d1542941cd3a61572d7f09cd79d9875"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_06.png",
+            "sha256": "ec0903a2a3556a4ee00c684080ca0b177285b9f52efed58f8360171902a0ba3c"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_07.png",
+            "sha256": "a1c6703efb14f7ed54ad6f0367600365e12f9b0249163cf069b8168ecf8844fb"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_08.png",
+            "sha256": "bf7a9e0f168245522cfb9362fdee78304bce733b8c36241dc68e536320149902"
+          }
+        ]
+      },
+      "ability": {
+        "textureKey": "edu:star1:attack",
+        "url": "/sprites/edu/star1/attack.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 4,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_01.png",
+            "sha256": "d5f3118caee8e61539de487d83c2ef24695ba9655c0869667c862da8c09f5b95"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_02.png",
+            "sha256": "13f0bb8e9d694973f81c449286a91d5d4cff57b5855eb3b1e45df3e0e4a14f40"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_03.png",
+            "sha256": "58a869c82c82116b735cad8dbffe1e034f51a36ff8c628f1c702e2aac2a5654e"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_04.png",
+            "sha256": "290acc1c15622a651d18a8ffa08d24880bfdd151b58c3fa98e9a0603431cefd2"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_05.png",
+            "sha256": "d2bb90bc5785582719a8f0e631a9f3de4d1542941cd3a61572d7f09cd79d9875"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_06.png",
+            "sha256": "ec0903a2a3556a4ee00c684080ca0b177285b9f52efed58f8360171902a0ba3c"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_07.png",
+            "sha256": "a1c6703efb14f7ed54ad6f0367600365e12f9b0249163cf069b8168ecf8844fb"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/ataque/ataque_08.png",
+            "sha256": "bf7a9e0f168245522cfb9362fdee78304bce733b8c36241dc68e536320149902"
+          }
+        ]
+      },
+      "death": {
+        "textureKey": "edu:star1:death",
+        "url": "/sprites/edu/star1/death.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "frameCount": 6,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_1/muerte/muerte_01.png",
+            "sha256": "70788efecfd1c5525c890c34182a085ce42e9cf2055b88806dcb4129611fa078"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/muerte/muerte_02.png",
+            "sha256": "cbe5aa344df8c2c642f8b6cbe37c396524ac11430202dabd15f3c65aa5e70e48"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/muerte/muerte_03.png",
+            "sha256": "3909b3bc5e8235ca7dc1e0ed172f9a140fa1ae4ab56ba353da7f391b1f11aa80"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/muerte/muerte_04.png",
+            "sha256": "0eaca51be5522f89d945e5a4eee03a13a74f8370781d38a6ba7d16e1a79c7fa0"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/muerte/muerte_05.png",
+            "sha256": "f7fece0bcb1469970224ceb5ee065e40793b9491fed5cdd40e2b3dff5701f747"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_1/muerte/muerte_06.png",
+            "sha256": "4c9a5c244beb78f004fa87be4e1b99e8eee821c175bcaaf6377a75035f6118ca"
+          }
+        ]
+      }
+    },
+    "star2": {
+      "idle": {
+        "textureKey": "edu:star2:idle",
+        "url": "/sprites/edu/star2/idle.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "frameCount": 4,
+        "fps": 8,
+        "loop": true,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_2/idle/idle_01.png",
+            "sha256": "20230701f0df9e97989130665f038420fb8a013681aab2b030ec732cb52ddeee"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/idle/idle_02.png",
+            "sha256": "bf94d47794cf6bdf202df38cc98ca271c859b3d798404d1888a5d036304eefdc"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/idle/idle_03.png",
+            "sha256": "46282816461cbe7e32f67ae60daa1af3b96d712f00c2d52db17fd1904131ac76"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/idle/idle_04.png",
+            "sha256": "fc309361b8da29fec032b08823ba93b1b7f6ac5a905f03efcb2c9bbe2e379caf"
+          }
+        ]
+      },
+      "walk": null,
+      "attack": {
+        "textureKey": "edu:star2:attack",
+        "url": "/sprites/edu/star2/attack.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 4,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_01.png",
+            "sha256": "3f5fe20287e83d98519d277bd3515a4474e84ebda3f1ffbea586558848238a6f"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_02.png",
+            "sha256": "8e03163247fdb9cdea9a863b76f9be8d00b4191bcd4f6d0d6a3633e22867d649"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_03.png",
+            "sha256": "9377081f9c1d7ebe014fac19dc10ecfd7bd4999baa6cfa914cd0a9e10f36c56a"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_04.png",
+            "sha256": "f21870034ada9c41b32b2026ad81e621a201a1432a736c6b8eb1767b1ac4d0c1"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_05.png",
+            "sha256": "82ff97023af31576a01b93482b3707acba033569bd83f294c3b932b19208124d"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_06.png",
+            "sha256": "7231d0920472753b64ee8a69a1ab4abc462ef6a01f7abec457c422ed709b1de4"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_07.png",
+            "sha256": "9f95d5951564d7e0215d6940495491ebb69961fc0bf958487ac0c510352e3c45"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_08.png",
+            "sha256": "983d384bb230bfcfc30062dad00d2be05e78a6f49bf224ffd02e6e60a4ec162c"
+          }
+        ]
+      },
+      "ability": {
+        "textureKey": "edu:star2:attack",
+        "url": "/sprites/edu/star2/attack.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 4,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_01.png",
+            "sha256": "3f5fe20287e83d98519d277bd3515a4474e84ebda3f1ffbea586558848238a6f"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_02.png",
+            "sha256": "8e03163247fdb9cdea9a863b76f9be8d00b4191bcd4f6d0d6a3633e22867d649"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_03.png",
+            "sha256": "9377081f9c1d7ebe014fac19dc10ecfd7bd4999baa6cfa914cd0a9e10f36c56a"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_04.png",
+            "sha256": "f21870034ada9c41b32b2026ad81e621a201a1432a736c6b8eb1767b1ac4d0c1"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_05.png",
+            "sha256": "82ff97023af31576a01b93482b3707acba033569bd83f294c3b932b19208124d"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_06.png",
+            "sha256": "7231d0920472753b64ee8a69a1ab4abc462ef6a01f7abec457c422ed709b1de4"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_07.png",
+            "sha256": "9f95d5951564d7e0215d6940495491ebb69961fc0bf958487ac0c510352e3c45"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/ataque/ataque_08.png",
+            "sha256": "983d384bb230bfcfc30062dad00d2be05e78a6f49bf224ffd02e6e60a4ec162c"
+          }
+        ]
+      },
+      "death": {
+        "textureKey": "edu:star2:death",
+        "url": "/sprites/edu/star2/death.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "frameCount": 6,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_2/muerte/muerte_01.png",
+            "sha256": "d9f9b9ae2f6eb698be2332c436b210beeb23e475f108b0545677e639fe827c69"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/muerte/muerte_02.png",
+            "sha256": "c6e4055cf0fc41c90f9288bf85935d9b735aff936a453cc04f7477a62b578cfa"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/muerte/muerte_03.png",
+            "sha256": "5e42c36660bad0da6d59c5215e9734d4382d43d92af319ae2499ef3fc5ec9330"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/muerte/muerte_04.png",
+            "sha256": "2fb85660f99ef50272510808f5e408dc33b39e0603bfd76faa7389534031302b"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/muerte/muerte_05.png",
+            "sha256": "3e62816a680cc57b8d8b8d07279230495dee57d75a9229ae7c5fbdbcaf4a0ab3"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_2/muerte/muerte_06.png",
+            "sha256": "369bc00d5efad023e716b6192297e0ed70645dfa539e8dab60f5a51b8a3713f2"
+          }
+        ]
+      }
+    },
+    "star3": {
+      "idle": {
+        "textureKey": "edu:star3:idle",
+        "url": "/sprites/edu/star3/idle.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "frameCount": 4,
+        "fps": 8,
+        "loop": true,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_3/idle/idle_01.png",
+            "sha256": "7b1a99b47537d992ae2eb594cda5faf5759421191ee176d857ead25fe449cbe0"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/idle/idle_02.png",
+            "sha256": "43f8da00587eeeb26b97469ea9e0e715d970772261b3a8366ca1e78e16dadece"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/idle/idle_03.png",
+            "sha256": "48316c854e8a14b9e3e1d2f51ae3f1bbf0640f75c91082ae6b164938e803038a"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/idle/idle_04.png",
+            "sha256": "c5cb7116f0ba03ee6461d51e0d5f306032ecc3c9720a5720e5756f4ebddcf732"
+          }
+        ]
+      },
+      "walk": null,
+      "attack": {
+        "textureKey": "edu:star3:attack",
+        "url": "/sprites/edu/star3/attack.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 4,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_01.png",
+            "sha256": "ebe894aeff804c159b18ac52e12e1c7fdcb6e8b230d530554277f66113dcdae1"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_02.png",
+            "sha256": "1f8bd950d6eaf80422b4bbcbb487ae938105919afeb988d248d0b1669047417e"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_03.png",
+            "sha256": "76f6477cdbc925080ca3ffdf15533fce4791818b21870bd92640497b4475adaa"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_04.png",
+            "sha256": "669fbbd3121de913c41acb053e69a2ea84ed671ba71c7229845fad5670294467"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_05.png",
+            "sha256": "bdb4d9da334b9310650b5a05621f52d838ee9b21eb7211c534f566597cec56c1"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_06.png",
+            "sha256": "6dbcad66ec1f6103325224a13be7fa30419b02c4fc00a969891785ea70b050ab"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_07.png",
+            "sha256": "1780f300dda0175169b9dbe32d4ce3e284e754fa72722b6dbd3773ac1a3d2d8a"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_08.png",
+            "sha256": "1004d85f7cc34339e59e52b2a4e696cfe089ac5d2140349b07fd3580f0fbaade"
+          }
+        ]
+      },
+      "ability": {
+        "textureKey": "edu:star3:attack",
+        "url": "/sprites/edu/star3/attack.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 4,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_01.png",
+            "sha256": "ebe894aeff804c159b18ac52e12e1c7fdcb6e8b230d530554277f66113dcdae1"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_02.png",
+            "sha256": "1f8bd950d6eaf80422b4bbcbb487ae938105919afeb988d248d0b1669047417e"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_03.png",
+            "sha256": "76f6477cdbc925080ca3ffdf15533fce4791818b21870bd92640497b4475adaa"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_04.png",
+            "sha256": "669fbbd3121de913c41acb053e69a2ea84ed671ba71c7229845fad5670294467"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_05.png",
+            "sha256": "bdb4d9da334b9310650b5a05621f52d838ee9b21eb7211c534f566597cec56c1"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_06.png",
+            "sha256": "6dbcad66ec1f6103325224a13be7fa30419b02c4fc00a969891785ea70b050ab"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_07.png",
+            "sha256": "1780f300dda0175169b9dbe32d4ce3e284e754fa72722b6dbd3773ac1a3d2d8a"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/ataque/ataque_08.png",
+            "sha256": "1004d85f7cc34339e59e52b2a4e696cfe089ac5d2140349b07fd3580f0fbaade"
+          }
+        ]
+      },
+      "death": {
+        "textureKey": "edu:star3:death",
+        "url": "/sprites/edu/star3/death.png",
+        "frameWidth": 224,
+        "frameHeight": 224,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "frameCount": 6,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.36,
+        "foot": {
+          "x": 112,
+          "y": 216
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/edu/frames/nivel_3/muerte/muerte_01.png",
+            "sha256": "2ef7c41e81ebbdc4b0a5a38680c4fd645ad71c9c8211fd221af7a0bcd203b283"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/muerte/muerte_02.png",
+            "sha256": "1e459972dfee166a85465c4f76b6947218f4103b0f817eed6323bd52bd7f406c"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/muerte/muerte_03.png",
+            "sha256": "eef613b36aa452bfe1eb5fe3a7422ea424b14416eba3b30125a5eeb6affbeffb"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/muerte/muerte_04.png",
+            "sha256": "3a8edb098c207613d68d795bc9a86dc06e6437e884213f061702966902deea43"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/muerte/muerte_05.png",
+            "sha256": "25a94516f148844962fcf2a2f6e7344bc3cacedea6f191eb5c82489f658befe3"
+          },
+          {
+            "file": "Sprites/edu/frames/nivel_3/muerte/muerte_06.png",
+            "sha256": "42417ca49e8206b5211dfde686030be8c827cc1b04a7fd8212364a2232dc7338"
+          }
+        ]
+      }
+    }
+  }
+}

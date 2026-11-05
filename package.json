@@ -29,7 +29,9 @@
     "stop:local": "node scripts/local/run.mjs stop",
     "status:local": "node scripts/local/run.mjs status",
     "verify:release": "node scripts/release/verify-public-safe.mjs",
-    "release:push": "node scripts/release/push-public-safe.mjs"
+    "release:push": "node scripts/release/push-public-safe.mjs",
+    "sprites:edu": "node scripts/sprites/edu.mjs",
+    "sprites:sanchez": "node scripts/sprites/sanchez.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

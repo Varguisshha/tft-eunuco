@@ -1,6 +1,6 @@
 import type { CombatProfile, CombatUnit, AbilityCondition } from '@tft/shared';
 import { hexDistance } from '../hex';
-import { effectiveStat, isAlive, isStunned } from './math';
+import { effectiveStat, isAlive, isStunned, isPresent } from './math';
 export function activeAbility(profile: CombatProfile) {
   const main = profile.championAbility;
   if (main)
@@ -55,4 +55,10 @@ export function abilityConditions(
         );
     }
   });
+}
+
+/** Lowest absolute HP, stable ID tie-break; self only when no living ally remains. */
+export function lowestHealthAlly(unit: CombatUnit, units: readonly CombatUnit[]) {
+  const allies = units.filter((u) => u.owner === unit.owner && u.id !== unit.id && isPresent(u));
+  return allies.sort((a, b) => a.hp - b.hp || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))[0] ?? unit;
 }

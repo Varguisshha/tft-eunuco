@@ -97,6 +97,8 @@ export const EconomyConfigSchema = z
     shopLockPolicy: z.literal('consume-on-auto-refresh-1').optional(),
     combatItemPolicy: z.literal('bench-crafting-1').optional(),
     characterPolicy: z.literal('f0p13t-1').optional(),
+    eduPolicy: z.literal('edu-support-1').optional(),
+    sanchezPolicy: z.literal('sanchez-ap-1').optional(),
     jewPolicy: z.literal('f0p13s-jew-1').optional(),
     pvpPolicy: z
       .strictObject({ version: z.literal('f0p12b-1'), ghostDamageMultiplierMilli: z.literal(800) })
@@ -150,6 +152,10 @@ export const EconomyConfigSchema = z
       .min(1),
   })
   .superRefine((c, ctx) => {
+    if (c.sanchezPolicy && c.eduPolicy !== 'edu-support-1')
+      ctx.addIssue({ code: 'custom', message: 'Sanchez requires the Edu catalog' });
+    if (c.eduPolicy && (c.characterPolicy !== 'f0p13t-1' || c.synergyPolicy !== 'f0p13u-1'))
+      ctx.addIssue({ code: 'custom', message: 'Edu requires the P13U catalog' });
     if (c.jewPolicy && c.synergyPolicy)
       ctx.addIssue({ code: 'custom', message: 'Jew subset and full synergy policy are exclusive' });
     if (c.jewPolicy && c.characterPolicy !== 'f0p13t-1')

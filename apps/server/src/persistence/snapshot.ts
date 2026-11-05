@@ -1,3 +1,5 @@
+import { SANCHEZ_ECONOMY_CONFIG, SANCHEZ_ROSTER, SANCHEZ_COMBAT_PROFILES } from '@tft/game-data';
+import { EDU_ECONOMY_CONFIG, EDU_ROSTER, EDU_COMBAT_PROFILES } from '@tft/game-data';
 import {
   P13U_ECONOMY_CONFIG,
   P13U_TRAITS,
@@ -298,7 +300,22 @@ export const P13U_CATALOG_HASH = createHash('sha256')
     ]),
   )
   .digest('hex');
+export const EDU_CATALOG_HASH = createHash('sha256')
+  .update(JSON.stringify([P13U_CATALOG_HASH, EDU_ECONOMY_CONFIG, EDU_ROSTER, EDU_COMBAT_PROFILES]))
+  .digest('hex');
+export const SANCHEZ_CATALOG_HASH = createHash('sha256')
+  .update(
+    JSON.stringify([
+      EDU_CATALOG_HASH,
+      SANCHEZ_ECONOMY_CONFIG,
+      SANCHEZ_ROSTER,
+      SANCHEZ_COMBAT_PROFILES,
+    ]),
+  )
+  .digest('hex');
 export function snapshotConfig(rules: string, catalog: string) {
+  if (rules === 'f0p13u-1' && catalog === SANCHEZ_CATALOG_HASH) return SANCHEZ_ECONOMY_CONFIG;
+  if (rules === 'f0p13u-1' && catalog === EDU_CATALOG_HASH) return EDU_ECONOMY_CONFIG;
   if (rules === 'f0p13u-1' && catalog === P13U_CATALOG_HASH) return P13U_ECONOMY_CONFIG;
   if (rules === 'f0p13-1' && catalog === P13_CATALOG_HASH) return P13_ECONOMY_CONFIG;
   if (rules === 'f0p13t-1' && catalog === P13T1_CATALOG_HASH) return P13T1_ECONOMY_CONFIG;
@@ -363,6 +380,8 @@ export const AuthoritySnapshotSchema = z.strictObject({
   catalog: z.union([
     z.literal(P13_CATALOG_HASH),
     z.literal(P13U_CATALOG_HASH),
+    z.literal(EDU_CATALOG_HASH),
+    z.literal(SANCHEZ_CATALOG_HASH),
     z.literal(P13S_CATALOG_HASH),
     z.literal(TFT_POOL_CATALOG_HASH),
     z.literal(P11_CATALOG_HASH),

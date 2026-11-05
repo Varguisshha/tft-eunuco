@@ -60,7 +60,7 @@
   width: 40px;
   height: 40px;
 }
-.context-tooltip button {
+.context-tooltip button:not(.game-button) {
   font: inherit;
   color: var(--neon-text-onAccent);
   background: var(--neon-accent-primary);
@@ -68,7 +68,7 @@
   padding: 6px 10px;
   cursor: pointer;
 }
-.context-tooltip button:disabled {
+.context-tooltip button:not(.game-button):disabled {
   color: var(--neon-text-secondary);
   background: var(--neon-surface-elevated);
   cursor: default;

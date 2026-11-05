@@ -152,7 +152,9 @@ export function resolveAnimation(
   for (const n of [...new Set(order)])
     for (const state of requested === 'attack'
       ? (['attack'] as const)
-      : ([requested, 'attack'] as const)) {
+      : requested === 'walk'
+        ? (['walk', 'idle', 'attack'] as const)
+        : ([requested, 'attack'] as const)) {
       const asset = manifest?.evolutions[`star${n as VisualStars}`][state];
       if (asset)
         return {

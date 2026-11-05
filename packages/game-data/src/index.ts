@@ -1,3 +1,7 @@
+import { SANCHEZ_ROSTER } from './sanchez';
+export * from './sanchez';
+import { EDU_ROSTER } from './edu';
+export * from './edu';
 import { P13U_ROSTER } from './p13u-roster';
 export { P13U_ROSTER } from './p13u-roster';
 export * from './p13u';
@@ -25,6 +29,8 @@ export * from './roster';
 export * from './roster-traits';
 export * from './roster-source';
 export function matchCatalog(config: {
+  sanchezPolicy?: string | undefined;
+  eduPolicy?: string | undefined;
   jewPolicy?: string | undefined;
   characterPolicy?: string | undefined;
   synergyPolicy?: string | undefined;
@@ -45,6 +51,8 @@ export function matchCatalog(config: {
     | 'f0p10a-1'
     | undefined;
 }): readonly UnitDefinition[] {
+  if (config.sanchezPolicy === 'sanchez-ap-1') return SANCHEZ_ROSTER;
+  if (config.eduPolicy === 'edu-support-1') return EDU_ROSTER;
   if (config.synergyPolicy === 'f0p13u-1') return P13U_ROSTER;
   if (config.jewPolicy === 'f0p13s-jew-1' || (config.characterPolicy && config.synergyPolicy))
     return P13T1_ROSTER;

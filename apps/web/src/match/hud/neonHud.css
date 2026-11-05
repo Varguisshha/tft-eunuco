@@ -110,7 +110,7 @@ body {
   stroke-width: 4;
 }
 /* Reusable physical controls retain real button semantics, cues and authority. */
-:is(.game-hud, .developer-console) .game-button,
+:is(.game-hud, .developer-console, .context-tooltip) .game-button,
 .game-icon-button {
   --frame-fill: var(--neon-button-default);
   --frame-trim: var(--neon-border-highlight);
@@ -156,21 +156,21 @@ body {
   height: 20px;
   color: inherit;
 }
-:is(.game-hud, .developer-console) .game-button:hover:not(:disabled),
+:is(.game-hud, .developer-console, .context-tooltip) .game-button:hover:not(:disabled),
 .game-icon-button:hover:not(:disabled) {
   --frame-fill: var(--neon-button-hover);
   transform: translateY(-2px);
 }
-:is(.game-hud, .developer-console) .game-button:active:not(:disabled),
+:is(.game-hud, .developer-console, .context-tooltip) .game-button:active:not(:disabled),
 .game-icon-button:active:not(:disabled) {
   --frame-fill: var(--neon-button-pressed);
   transform: translateY(3px);
 }
-:is(.game-hud, .developer-console) .game-button[aria-pressed='true'] {
+:is(.game-hud, .developer-console, .context-tooltip) .game-button[aria-pressed='true'] {
   --frame-fill: var(--neon-button-active);
   color: var(--neon-text-onAccent);
 }
-:is(.game-hud, .developer-console) .game-button:disabled,
+:is(.game-hud, .developer-console, .context-tooltip) .game-button:disabled,
 .game-icon-button:disabled {
   --frame-fill: var(--neon-button-disabled);
   --frame-trim: var(--neon-button-disabledBorder);

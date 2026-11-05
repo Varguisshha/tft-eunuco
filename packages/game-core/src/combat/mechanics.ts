@@ -16,7 +16,7 @@ import type {
 } from '@tft/shared';
 import { MECHANICS_LIMITS, CHARACTER_RULES, COMPOSITE_RULES, isFlorinRules } from '@tft/shared';
 import { analyzeTraits } from './traits';
-import { activeAbility } from './abilities';
+import { lowestHealthAlly, activeAbility } from './abilities';
 import { effectiveStat, isAlive, isPresent, isStunned, compareIds } from './math';
 import { blockedCells } from './pathfinding';
 import { BOARD_HEXES, boardNeighbors, hexDistance, hexKey, sameHex } from '../hex';
@@ -725,15 +725,22 @@ export class CombatMechanics {
         isPresent(u) &&
         (ability?.targeting === 'self'
           ? u.id === unit.id
-          : u.owner !== unit.owner &&
-            hexDistance(u.position, unit.position) <=
-              (ability?.targeting === 'adjacent_enemies' ? 1 : unit.profile.stats.range));
+          : ability?.targeting === 'lowest_health_ally'
+            ? u.owner === unit.owner
+            : u.owner !== unit.owner &&
+              hexDistance(u.position, unit.position) <=
+                (ability?.targeting === 'adjacent_enemies' ? 1 : unit.profile.stats.range));
       let target =
         p.targetPolicy === 'nearest'
           ? undefined
           : this.state.units.find((u) => u.id === p.targetId && valid(u));
       if (!target && p.targetPolicy !== 'same_only')
-        target = ability?.targeting === 'self' ? unit : this.enemies(unit).filter(valid)[0];
+        target =
+          ability?.targeting === 'self'
+            ? unit
+            : ability?.targeting === 'lowest_health_ally'
+              ? lowestHealthAlly(unit, this.state.units)
+              : this.enemies(unit).filter(valid)[0];
       if (!isPresent(unit) || isStunned(unit) || !ability || !target || !isPresent(target)) {
         this.resolveRecord(p.id, 'cancelled');
         this.host.emit('ability_repeat', {
@@ -762,7 +769,10 @@ export class CombatMechanics {
         abilityId: ability.id,
         endTick: this.state.tick,
         manaAfter: unit.mana,
-        center: ability.targeting === 'current_enemy' ? target.position : unit.position,
+        center:
+          ability.targeting === 'current_enemy' || ability.targeting === 'lowest_health_ally'
+            ? target.position
+            : unit.position,
         castId: p.id,
         additional: true,
         parentCastId: p.parentCastId,

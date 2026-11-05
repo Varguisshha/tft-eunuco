@@ -1,0 +1,20 @@
+[
+  {
+    "id": "edu",
+    "source": "Sprites/edu/splash-original.png",
+    "output": "apps/web/public/assets/splash/edu.webp",
+    "width": 1280,
+    "height": 640,
+    "bytes": 223898,
+    "sha256": "1563b5da71421e6ae80bfabe7c067337bebd2da4123b61d21bf61ffd63b418e7"
+  },
+  {
+    "id": "sanchez",
+    "source": "Sprites/sanchez/splash-original.png",
+    "output": "apps/web/public/assets/splash/sanchez.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 177612,
+    "sha256": "13c2f370fc70663874438ca1ef2587d4953b7264de07801322d3604c68b5501d"
+  }
+]

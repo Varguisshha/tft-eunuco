@@ -1,0 +1,1068 @@
+{
+  "version": 2,
+  "id": "sanchez",
+  "provenance": {
+    "characterId": "sanchez",
+    "sourceStarLevel": null,
+    "nativeAppearance": "pending",
+    "pending": [
+      "walk"
+    ]
+  },
+  "fallbacks": {
+    "star1": [],
+    "star2": [],
+    "star3": []
+  },
+  "evolutions": {
+    "star1": {
+      "idle": {
+        "textureKey": "sanchez:star1:idle",
+        "url": "/sprites/sanchez/star1/idle.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "frameCount": 4,
+        "fps": 8,
+        "loop": true,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/idle/idle_01.png",
+            "sha256": "55caeeffb127092262ebe3ff78ff72387157a0bcd083a8ef3736a66ae8bfcdd6"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/idle/idle_02.png",
+            "sha256": "67861186c1b2885d528b70b4b6f53e06b0d171c026d0be3eba518c7ac7223f0c"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/idle/idle_03.png",
+            "sha256": "17f5b63d5c7b4917e0d3cd943b7951a3b13f89705af547236711ed2652b8c4fe"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/idle/idle_04.png",
+            "sha256": "9c20d28dc30adfe42d3239ab26d1b754826d1be8e69f26f35d854bc9ed5a0ea9"
+          }
+        ]
+      },
+      "walk": null,
+      "attack": {
+        "textureKey": "sanchez:star1:attack",
+        "url": "/sprites/sanchez/star1/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 7,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_01.png",
+            "sha256": "7fc3338e40cf3d881ec4c805e4a259b91704b3a7292890e252da7ab67b4b436a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_02.png",
+            "sha256": "47d862dcc72eb5d3382c765003604d9475abf4de8749b4266c1a2b32b7b037c0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_03.png",
+            "sha256": "2c51b1b55980fffdbafa619d82d4f3b0d7fa5651d91151d43ec5200d78c1474c"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_04.png",
+            "sha256": "f33dea68f780242890ae3bb4c37c99d6c2738d4a9af96dba3a2b4f24d3f62f7d"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_05.png",
+            "sha256": "567e06a068e319cd9aaf09c308d73d3529e9e106219a10b1f83f2dcb30731eea"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_06.png",
+            "sha256": "ee3f4c25785253a99079f77cd3652c40f6ff1157d0a3cb97cfbe599878455c3b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_07.png",
+            "sha256": "3b20da7dae94de813ac846e93755f35f229c4909fea64dd7274168e8f37841c0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_08.png",
+            "sha256": "1ced4c498981711883091936c7f1b8785bcbf97b1914e75be75921a0ad43344d"
+          }
+        ]
+      },
+      "ability": {
+        "textureKey": "sanchez:star1:attack",
+        "url": "/sprites/sanchez/star1/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 7,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_01.png",
+            "sha256": "7fc3338e40cf3d881ec4c805e4a259b91704b3a7292890e252da7ab67b4b436a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_02.png",
+            "sha256": "47d862dcc72eb5d3382c765003604d9475abf4de8749b4266c1a2b32b7b037c0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_03.png",
+            "sha256": "2c51b1b55980fffdbafa619d82d4f3b0d7fa5651d91151d43ec5200d78c1474c"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_04.png",
+            "sha256": "f33dea68f780242890ae3bb4c37c99d6c2738d4a9af96dba3a2b4f24d3f62f7d"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_05.png",
+            "sha256": "567e06a068e319cd9aaf09c308d73d3529e9e106219a10b1f83f2dcb30731eea"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_06.png",
+            "sha256": "ee3f4c25785253a99079f77cd3652c40f6ff1157d0a3cb97cfbe599878455c3b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_07.png",
+            "sha256": "3b20da7dae94de813ac846e93755f35f229c4909fea64dd7274168e8f37841c0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_08.png",
+            "sha256": "1ced4c498981711883091936c7f1b8785bcbf97b1914e75be75921a0ad43344d"
+          }
+        ]
+      },
+      "death": {
+        "textureKey": "sanchez:star1:death",
+        "url": "/sprites/sanchez/star1/death.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "frameCount": 6,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/muerte/muerte_01.png",
+            "sha256": "3e18c93d6fdd1579fdf1a05f21b2dfc74e48899f233d4cc27f1287a9aed3dea8"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/muerte/muerte_02.png",
+            "sha256": "b294eeacbb1bda63991ba970bb1599a3e1ce958af090228e9cd7bffed7aaca35"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/muerte/muerte_03.png",
+            "sha256": "cfce99c3ce86f95ffea265c72a1a837986990f74856e88f19a5078ddbe688df0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/muerte/muerte_04.png",
+            "sha256": "ff4bbce774d5f1b421717c7b9e76cc530a6e1ba1d5bbc72d4d37f4521987b8db"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/muerte/muerte_05.png",
+            "sha256": "ce6b3400d62b1f5e6ad8363a3600d2be3f1a012f41f94914974ea5d61389806d"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/muerte/muerte_06.png",
+            "sha256": "25818ab6e83ae906929c06677cbd197c5327204f65dfb06797c4983bec4eca3e"
+          }
+        ]
+      }
+    },
+    "star2": {
+      "idle": {
+        "textureKey": "sanchez:star2:idle",
+        "url": "/sprites/sanchez/star2/idle.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "frameCount": 4,
+        "fps": 8,
+        "loop": true,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/idle/idle_01.png",
+            "sha256": "0aa71acb71a268e95ee72abbf0018b2bf1ec83e75bbe28ca158b01c1bbe8a5b8"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/idle/idle_02.png",
+            "sha256": "41694f0b6a01c3015cf2dfab9e7b5b50f24179be36f28b47cef6a89aef634f6e"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/idle/idle_03.png",
+            "sha256": "3ab4babeb53a85e22ebf872ac83605097060486640ae22fee71724cf43a3f21a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/idle/idle_04.png",
+            "sha256": "630946eea981470ce54adfe2c6aa0de9f8d0d8802f9334b535ae6019f1db2af8"
+          }
+        ]
+      },
+      "walk": null,
+      "attack": {
+        "textureKey": "sanchez:star2:attack",
+        "url": "/sprites/sanchez/star2/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 7,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_01.png",
+            "sha256": "dffd261215c116ce5144897b21f2bf636ae862a86b03df04f3e3e0074442cb44"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_02.png",
+            "sha256": "a5462cb98610bcdb3d67ad6a616cb7e727220e59365cb7404f6c5703f82ba663"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_03.png",
+            "sha256": "40d4d2e9b8f26dcc12032479e7d5849c0eb2037843863eec674bda067fd47ef1"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_04.png",
+            "sha256": "834a135d376241c34394dbf6dad3a7a8c5e3195dd5d4bf2cbb33cb0ba22721fd"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_05.png",
+            "sha256": "4b7258a54ff9d6f1fc7c31329ad4e7cdc50f38029b40877796e6adbcc46228d1"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_06.png",
+            "sha256": "0a465d743aba8b49248ce9b55615499500ddcab0b30ad0514f6e763f2549b937"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_07.png",
+            "sha256": "27601b7749b5f8122ecf2e067c31da696de6dbe344581bc64d9968eefac8f8fa"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_08.png",
+            "sha256": "70db2b66f51b681885093c610988de3db2f0f019f518b9db6d92c696b3f82593"
+          }
+        ]
+      },
+      "ability": {
+        "textureKey": "sanchez:star2:attack",
+        "url": "/sprites/sanchez/star2/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 7,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_01.png",
+            "sha256": "dffd261215c116ce5144897b21f2bf636ae862a86b03df04f3e3e0074442cb44"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_02.png",
+            "sha256": "a5462cb98610bcdb3d67ad6a616cb7e727220e59365cb7404f6c5703f82ba663"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_03.png",
+            "sha256": "40d4d2e9b8f26dcc12032479e7d5849c0eb2037843863eec674bda067fd47ef1"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_04.png",
+            "sha256": "834a135d376241c34394dbf6dad3a7a8c5e3195dd5d4bf2cbb33cb0ba22721fd"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_05.png",
+            "sha256": "4b7258a54ff9d6f1fc7c31329ad4e7cdc50f38029b40877796e6adbcc46228d1"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_06.png",
+            "sha256": "0a465d743aba8b49248ce9b55615499500ddcab0b30ad0514f6e763f2549b937"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_07.png",
+            "sha256": "27601b7749b5f8122ecf2e067c31da696de6dbe344581bc64d9968eefac8f8fa"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_08.png",
+            "sha256": "70db2b66f51b681885093c610988de3db2f0f019f518b9db6d92c696b3f82593"
+          }
+        ]
+      },
+      "death": {
+        "textureKey": "sanchez:star2:death",
+        "url": "/sprites/sanchez/star2/death.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "frameCount": 6,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/muerte/muerte_01.png",
+            "sha256": "6ac0972fe37141655b121bdadc1bf3858c37846a4235a87b855761d41e214702"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/muerte/muerte_02.png",
+            "sha256": "c80157818c6adadcf57ec67191ad97d2c203d0b4e1dff25ffb81bca8e0861ec5"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/muerte/muerte_03.png",
+            "sha256": "feb29c0d3783dd18de08cf989d13beec2bf5749c4576f9a41019ae2b090c1b76"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/muerte/muerte_04.png",
+            "sha256": "35ac907d038cda0aef5c1e4ff3411167834aa996e2c7f31ac28a36d7455103e6"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/muerte/muerte_05.png",
+            "sha256": "c31428b2c10d03784266461db9c1fd6336d0d110d35e0355ef0853d8ad2174e6"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/muerte/muerte_06.png",
+            "sha256": "43cca2b99ec9ade811364fb050d9a4031f893c8da1be754f521b4e37ff91c34d"
+          }
+        ]
+      }
+    },
+    "star3": {
+      "idle": {
+        "textureKey": "sanchez:star3:idle",
+        "url": "/sprites/sanchez/star3/idle.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "frameCount": 4,
+        "fps": 8,
+        "loop": true,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/idle/idle_01.png",
+            "sha256": "e6a2a1de12b23a23c24089a2ab97263d6ba1f62a5b5090b14958dfb1244eb540"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/idle/idle_02.png",
+            "sha256": "4b7333e6427ad1ad573d06d700cfc6eb1911d1a64e8b105f8892d22465895f14"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/idle/idle_03.png",
+            "sha256": "3556564b0f4868326ffb74c18cf73f18f90c960628f37398121e0910b5b22f2b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/idle/idle_04.png",
+            "sha256": "53b612669e4da9d9e9474a34168ba982c783820646258bc3e58e2c6c2d041374"
+          }
+        ]
+      },
+      "walk": null,
+      "attack": {
+        "textureKey": "sanchez:star3:attack",
+        "url": "/sprites/sanchez/star3/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 7,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_01.png",
+            "sha256": "7d4133709ff5a747a6f94297d701b4645ac71ecb1b5897c6fb52b029132233a4"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_02.png",
+            "sha256": "b5d94ede5028decd9371ea1f86c40faccf4a0419e3d4b638df1bf41ed5a99d9a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_03.png",
+            "sha256": "a64a4ac33b39d4da37eaeaef3c97565ce5530431e42bd4db34db297f2e6f34a0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_04.png",
+            "sha256": "d1a070eb2515dc98f0610db5b31c30be35902051dcc45eb22321d512f70b791b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_05.png",
+            "sha256": "3eea0c72b2bbe54011b2d49d537000b48eb8381780537739b85d208522e3e425"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_06.png",
+            "sha256": "4c05ee422fce2b3e8bba2198f0c552c5db288c19a2d6e214c69f582b397dc109"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_07.png",
+            "sha256": "1142c408f09dfae6ef29d8865312628ebbdbccc9376e6fe35d238daedfd94aa0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_08.png",
+            "sha256": "c1e630ac14fc1fb19df6ecd4bce97286485b4a34bd53e5e622dad1846f2c4497"
+          }
+        ]
+      },
+      "ability": {
+        "textureKey": "sanchez:star3:attack",
+        "url": "/sprites/sanchez/star3/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": 7,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_01.png",
+            "sha256": "7d4133709ff5a747a6f94297d701b4645ac71ecb1b5897c6fb52b029132233a4"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_02.png",
+            "sha256": "b5d94ede5028decd9371ea1f86c40faccf4a0419e3d4b638df1bf41ed5a99d9a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_03.png",
+            "sha256": "a64a4ac33b39d4da37eaeaef3c97565ce5530431e42bd4db34db297f2e6f34a0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_04.png",
+            "sha256": "d1a070eb2515dc98f0610db5b31c30be35902051dcc45eb22321d512f70b791b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_05.png",
+            "sha256": "3eea0c72b2bbe54011b2d49d537000b48eb8381780537739b85d208522e3e425"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_06.png",
+            "sha256": "4c05ee422fce2b3e8bba2198f0c552c5db288c19a2d6e214c69f582b397dc109"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_07.png",
+            "sha256": "1142c408f09dfae6ef29d8865312628ebbdbccc9376e6fe35d238daedfd94aa0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_08.png",
+            "sha256": "c1e630ac14fc1fb19df6ecd4bce97286485b4a34bd53e5e622dad1846f2c4497"
+          }
+        ]
+      },
+      "death": {
+        "textureKey": "sanchez:star3:death",
+        "url": "/sprites/sanchez/star3/death.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "frameCount": 6,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/muerte/muerte_01.png",
+            "sha256": "c2d92a3282a230e6b330ee7b6a9e725a3add1bc05fc70328900dd5f7a106ed59"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/muerte/muerte_02.png",
+            "sha256": "d60f1dd4f3045cf76854f8eeb3f9186dbe2f12bcaf78d57e3355fa3f8a169664"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/muerte/muerte_03.png",
+            "sha256": "9767449691a5d38cd5ab319bd59ecec19eb96f366dad6bfe084bfbaddcad2d26"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/muerte/muerte_04.png",
+            "sha256": "785ab947da8c45e3336e4cda6ce34edf717f458e8b9390235715bf71a1aeca79"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/muerte/muerte_05.png",
+            "sha256": "ae2fed5f01196136e11f8fdc209fea906662f069be77a67cc679d44ca12b90ec"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/muerte/muerte_06.png",
+            "sha256": "84dd56ceb5a84a3b27d5ba852d99c01bddfcf1e3499a49feaad29303e3fe221c"
+          }
+        ]
+      }
+    }
+  },
+  "composites": {
+    "star1": {
+      "version": 1,
+      "bodyAnimation": "attack",
+      "recoveryAnimation": {
+        "textureKey": "sanchez:star1:attack",
+        "url": "/sprites/sanchez/star1/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_01.png",
+            "sha256": "7fc3338e40cf3d881ec4c805e4a259b91704b3a7292890e252da7ab67b4b436a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_02.png",
+            "sha256": "47d862dcc72eb5d3382c765003604d9475abf4de8749b4266c1a2b32b7b037c0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_03.png",
+            "sha256": "2c51b1b55980fffdbafa619d82d4f3b0d7fa5651d91151d43ec5200d78c1474c"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_04.png",
+            "sha256": "f33dea68f780242890ae3bb4c37c99d6c2738d4a9af96dba3a2b4f24d3f62f7d"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_05.png",
+            "sha256": "567e06a068e319cd9aaf09c308d73d3529e9e106219a10b1f83f2dcb30731eea"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_06.png",
+            "sha256": "ee3f4c25785253a99079f77cd3652c40f6ff1157d0a3cb97cfbe599878455c3b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_07.png",
+            "sha256": "3b20da7dae94de813ac846e93755f35f229c4909fea64dd7274168e8f37841c0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/ataque/ataque_08.png",
+            "sha256": "1ced4c498981711883091936c7f1b8785bcbf97b1914e75be75921a0ad43344d"
+          }
+        ]
+      },
+      "projectileAnimation": {
+        "textureKey": "sanchez:star1:projectile",
+        "url": "/sprites/sanchez/star1/projectile.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0
+        ],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.28,
+        "foot": {
+          "x": 128,
+          "y": 128
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/projectile/projectile_01.png",
+            "sha256": "d7fe01ee207890f980346570e68ca79fe54c467c1812525b2ade9b78ca1c36dc"
+          }
+        ]
+      },
+      "impactAnimation": {
+        "textureKey": "sanchez:star1:projectile",
+        "url": "/sprites/sanchez/star1/projectile.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0
+        ],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.4,
+        "foot": {
+          "x": 128,
+          "y": 128
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_1/projectile/projectile_01.png",
+            "sha256": "d7fe01ee207890f980346570e68ca79fe54c467c1812525b2ade9b78ca1c36dc"
+          }
+        ]
+      },
+      "releaseMarker": 7,
+      "projectileOrigin": {
+        "x": 25,
+        "y": -38
+      },
+      "targetAnchor": {
+        "x": 0,
+        "y": -30
+      },
+      "visualTiming": {
+        "releaseMs": 80,
+        "recoveryMs": 220,
+        "impactMs": 250
+      },
+      "fallbackPolicy": "body-only"
+    },
+    "star2": {
+      "version": 1,
+      "bodyAnimation": "attack",
+      "recoveryAnimation": {
+        "textureKey": "sanchez:star2:attack",
+        "url": "/sprites/sanchez/star2/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_01.png",
+            "sha256": "dffd261215c116ce5144897b21f2bf636ae862a86b03df04f3e3e0074442cb44"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_02.png",
+            "sha256": "a5462cb98610bcdb3d67ad6a616cb7e727220e59365cb7404f6c5703f82ba663"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_03.png",
+            "sha256": "40d4d2e9b8f26dcc12032479e7d5849c0eb2037843863eec674bda067fd47ef1"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_04.png",
+            "sha256": "834a135d376241c34394dbf6dad3a7a8c5e3195dd5d4bf2cbb33cb0ba22721fd"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_05.png",
+            "sha256": "4b7258a54ff9d6f1fc7c31329ad4e7cdc50f38029b40877796e6adbcc46228d1"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_06.png",
+            "sha256": "0a465d743aba8b49248ce9b55615499500ddcab0b30ad0514f6e763f2549b937"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_07.png",
+            "sha256": "27601b7749b5f8122ecf2e067c31da696de6dbe344581bc64d9968eefac8f8fa"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/ataque/ataque_08.png",
+            "sha256": "70db2b66f51b681885093c610988de3db2f0f019f518b9db6d92c696b3f82593"
+          }
+        ]
+      },
+      "projectileAnimation": {
+        "textureKey": "sanchez:star2:projectile",
+        "url": "/sprites/sanchez/star2/projectile.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0
+        ],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.28,
+        "foot": {
+          "x": 128,
+          "y": 128
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/projectile/projectile_01.png",
+            "sha256": "069bff1faca1c62c3d81471aae35f39271b4056fe70ce28910f880e12d6cafa0"
+          }
+        ]
+      },
+      "impactAnimation": {
+        "textureKey": "sanchez:star2:projectile",
+        "url": "/sprites/sanchez/star2/projectile.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0
+        ],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.4,
+        "foot": {
+          "x": 128,
+          "y": 128
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_2/projectile/projectile_01.png",
+            "sha256": "069bff1faca1c62c3d81471aae35f39271b4056fe70ce28910f880e12d6cafa0"
+          }
+        ]
+      },
+      "releaseMarker": 7,
+      "projectileOrigin": {
+        "x": 25,
+        "y": -38
+      },
+      "targetAnchor": {
+        "x": 0,
+        "y": -30
+      },
+      "visualTiming": {
+        "releaseMs": 80,
+        "recoveryMs": 220,
+        "impactMs": 250
+      },
+      "fallbackPolicy": "body-only"
+    },
+    "star3": {
+      "version": 1,
+      "bodyAnimation": "attack",
+      "recoveryAnimation": {
+        "textureKey": "sanchez:star3:attack",
+        "url": "/sprites/sanchez/star3/attack.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          7
+        ],
+        "frameCount": 8,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.34,
+        "foot": {
+          "x": 128,
+          "y": 248
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_01.png",
+            "sha256": "7d4133709ff5a747a6f94297d701b4645ac71ecb1b5897c6fb52b029132233a4"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_02.png",
+            "sha256": "b5d94ede5028decd9371ea1f86c40faccf4a0419e3d4b638df1bf41ed5a99d9a"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_03.png",
+            "sha256": "a64a4ac33b39d4da37eaeaef3c97565ce5530431e42bd4db34db297f2e6f34a0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_04.png",
+            "sha256": "d1a070eb2515dc98f0610db5b31c30be35902051dcc45eb22321d512f70b791b"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_05.png",
+            "sha256": "3eea0c72b2bbe54011b2d49d537000b48eb8381780537739b85d208522e3e425"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_06.png",
+            "sha256": "4c05ee422fce2b3e8bba2198f0c552c5db288c19a2d6e214c69f582b397dc109"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_07.png",
+            "sha256": "1142c408f09dfae6ef29d8865312628ebbdbccc9376e6fe35d238daedfd94aa0"
+          },
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/ataque/ataque_08.png",
+            "sha256": "c1e630ac14fc1fb19df6ecd4bce97286485b4a34bd53e5e622dad1846f2c4497"
+          }
+        ]
+      },
+      "projectileAnimation": {
+        "textureKey": "sanchez:star3:projectile",
+        "url": "/sprites/sanchez/star3/projectile.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0
+        ],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.28,
+        "foot": {
+          "x": 128,
+          "y": 128
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/projectile/projectile_01.png",
+            "sha256": "75a09015604d3aca080ca84ee8d003942d5ca2294a0a2b268701bd6e3e296673"
+          }
+        ]
+      },
+      "impactAnimation": {
+        "textureKey": "sanchez:star3:projectile",
+        "url": "/sprites/sanchez/star3/projectile.png",
+        "frameWidth": 256,
+        "frameHeight": 256,
+        "frames": [
+          0
+        ],
+        "frameCount": 1,
+        "fps": 8,
+        "loop": false,
+        "scale": 0.4,
+        "foot": {
+          "x": 128,
+          "y": 128
+        },
+        "facing": "right",
+        "mirrorAllowed": true,
+        "impactFrame": null,
+        "status": "provisional",
+        "sources": [
+          {
+            "file": "Sprites/sanchez/frames/nivel_3/projectile/projectile_01.png",
+            "sha256": "75a09015604d3aca080ca84ee8d003942d5ca2294a0a2b268701bd6e3e296673"
+          }
+        ]
+      },
+      "releaseMarker": 7,
+      "projectileOrigin": {
+        "x": 25,
+        "y": -38
+      },
+      "targetAnchor": {
+        "x": 0,
+        "y": -30
+      },
+      "visualTiming": {
+        "releaseMs": 80,
+        "recoveryMs": 220,
+        "impactMs": 250
+      },
+      "fallbackPolicy": "body-only"
+    }
+  }
+}

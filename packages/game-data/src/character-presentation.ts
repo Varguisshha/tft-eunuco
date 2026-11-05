@@ -66,7 +66,33 @@ export const CHARACTER_PRESENTATION: Readonly<Record<string, CharacterPresentati
     note: 'Pisotón Carmesí y sus básicos iniciales son físicos. Sus básicos pasan a daño verdadero tras la segunda vuelta de Mano de Obra; requiere ese atributo activo.',
   },
 };
-export function characterPresentation(id: string, policy?: string): CharacterPresentation {
+export function characterPresentation(
+  id: string,
+  policy?: string,
+  eduPolicy?: string,
+  sanchezPolicy?: string,
+): CharacterPresentation {
+  if (id === 'sanchez' && sanchezPolicy === 'sanchez-ap-1')
+    return {
+      combatRole: 'mage',
+      primaryDamageType: 'magic',
+      roleLabel: 'Atacante AP a distancia',
+      compactRoleLabel: 'Mago AP',
+      damageLabel: 'Mágico',
+      compactDamageLabel: 'Mágico',
+      damageTypes: ['magic'],
+      specialization: null,
+      note: 'Alcance 4. Redoble del Silencio escala con AP y aturde. Ausencia de Sangre acumula AP cada 4 básicos que impactan, hasta 5 veces. Sus básicos son físicos.',
+    };
+  if (id === 'edu' && eduPolicy === 'edu-support-1')
+    return {
+      ...physical,
+      combatRole: 'support',
+      roleLabel: 'Soporte a distancia',
+      compactRoleLabel: 'Soporte',
+      specialization: 'support',
+      note: 'Básicos físicos de alcance 4. ¡Qué guapo soy! acelera a todo el equipo durante los primeros 6 s. Tienes que leer a Sanderson cura y protege al aliado con menos vida desde cualquier distancia, con escudo y velocidad de ataque durante 4 s.',
+    };
   if (policy === 'f0p13t-1' && id === 'peibol')
     return {
       ...physical,

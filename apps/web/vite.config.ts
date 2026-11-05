@@ -52,7 +52,7 @@ export default defineConfig(async ({ command, mode }) => {
   return {
     define: {
       __DEVTOOLS__: JSON.stringify(localMode),
-      __LOCAL_RULESET__: JSON.stringify(localMode ? 'p13u' : 'p12f'),
+      __LOCAL_RULESET__: JSON.stringify(localMode ? 'sanchez' : 'p12f'),
       __ITEM_ICON_RESOURCES__: JSON.stringify(resourcePlan.policy),
     },
     plugins: [react(), itemIconResourcePlugin(resourcePlan, localAssets)],
