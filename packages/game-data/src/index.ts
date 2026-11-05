@@ -107,3 +107,5 @@ export * from './p13t';
 
 export * from './jew';
 export * from './p13t1';
+
+export * from './ranged-ap';

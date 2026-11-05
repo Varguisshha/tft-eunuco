@@ -97,6 +97,7 @@ export const EconomyConfigSchema = z
     shopLockPolicy: z.literal('consume-on-auto-refresh-1').optional(),
     combatItemPolicy: z.literal('bench-crafting-1').optional(),
     characterPolicy: z.literal('f0p13t-1').optional(),
+    rangedApPolicy: z.literal('ranged-ap-1').optional(),
     eduPolicy: z.literal('edu-support-1').optional(),
     sanchezPolicy: z.literal('sanchez-ap-1').optional(),
     jewPolicy: z.literal('f0p13s-jew-1').optional(),
@@ -152,6 +153,8 @@ export const EconomyConfigSchema = z
       .min(1),
   })
   .superRefine((c, ctx) => {
+    if (c.rangedApPolicy && c.sanchezPolicy !== 'sanchez-ap-1')
+      ctx.addIssue({ code: 'custom', message: 'Ranged AP requires Sanchez catalog' });
     if (c.sanchezPolicy && c.eduPolicy !== 'edu-support-1')
       ctx.addIssue({ code: 'custom', message: 'Sanchez requires the Edu catalog' });
     if (c.eduPolicy && (c.characterPolicy !== 'f0p13t-1' || c.synergyPolicy !== 'f0p13u-1'))

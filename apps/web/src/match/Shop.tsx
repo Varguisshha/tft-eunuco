@@ -165,6 +165,7 @@ export function Shop({ session }: { session: LocalSession }) {
                       characterPolicy={state.config.characterPolicy}
                       eduPolicy={state.config.eduPolicy}
                       sanchezPolicy={state.config.sanchezPolicy}
+                      rangedApPolicy={state.config.rangedApPolicy}
                       compact
                       tooltip={modern}
                     />

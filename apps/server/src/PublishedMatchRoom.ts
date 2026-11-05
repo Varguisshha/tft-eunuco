@@ -1,4 +1,4 @@
-import { SANCHEZ_ECONOMY_CONFIG } from '@tft/game-data';
+import { RANGED_AP_ECONOMY_CONFIG } from '@tft/game-data';
 import { AuthoritativeMatch } from './AuthoritativeMatch';
 import { MatchRoom } from './MatchRoom';
 /** Production composition only. Restored matches keep their stored configuration. */
@@ -9,7 +9,7 @@ export class PublishedMatchRoom extends MatchRoom {
       undefined,
       undefined,
       capacity,
-      SANCHEZ_ECONOMY_CONFIG,
+      RANGED_AP_ECONOMY_CONFIG,
     );
   }
 }

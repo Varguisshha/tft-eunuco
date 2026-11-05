@@ -66,7 +66,9 @@ export function sampleCombatFrame(
 ): PlaybackFrame {
   const tick = state.tick;
   return {
-    animationCues: new Map(state.units.map((u) => [u.id, unitAnimationCue(u, timeMs, events)])),
+    animationCues: new Map(
+      state.units.map((u) => [u.id, unitAnimationCue(u, timeMs, events, state.result === null)]),
+    ),
     overtime:
       tick >= OVERTIME_START_TICK &&
       events.some((e) => e.type === 'overtime_start' && e.tick <= tick),

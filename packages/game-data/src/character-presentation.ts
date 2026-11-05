@@ -71,7 +71,23 @@ export function characterPresentation(
   policy?: string,
   eduPolicy?: string,
   sanchezPolicy?: string,
+  rangedApPolicy?: string,
 ): CharacterPresentation {
+  if (rangedApPolicy === 'ranged-ap-1' && (id === 'edu' || id === 'sanchez'))
+    return {
+      combatRole: id === 'edu' ? 'support' : 'mage',
+      primaryDamageType: 'magic',
+      roleLabel: id === 'edu' ? 'Soporte AP a distancia' : 'Atacante AP a distancia',
+      compactRoleLabel: id === 'edu' ? 'Soporte AP' : 'Mago AP',
+      damageLabel: 'AP',
+      compactDamageLabel: 'AP',
+      damageTypes: ['magic'],
+      specialization: id === 'edu' ? 'support' : null,
+      note:
+        id === 'edu'
+          ? 'Alcance 4. Escudos y curaciones escalan con AP. Básicos físicos débiles; su función es proteger al equipo.'
+          : 'Alcance 4. Básicos con daño físico reducido y una nota de 30 % AP como daño mágico. Acumula AP cada cuatro impactos. Redoble del Silencio escala con 200 % AP.',
+    };
   if (id === 'sanchez' && sanchezPolicy === 'sanchez-ap-1')
     return {
       combatRole: 'mage',

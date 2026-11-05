@@ -1,8 +1,8 @@
 import { createMatch, validateMatchState } from '@tft/game-core';
-import { EDU_ECONOMY_CONFIG, getUnitDefinition } from '@tft/game-data';
+import { RANGED_AP_ECONOMY_CONFIG, getUnitDefinition } from '@tft/game-data';
 /** Authored, conserved LOCAL formation for screenshots and replay sampling. */
 export function eduFixture(stars: 1 | 2 | 3 = 1) {
-  const state = createMatch(42, { ...EDU_ECONOMY_CONFIG, initialGold: 50 });
+  const state = createMatch(42, { ...RANGED_AP_ECONOMY_CONFIG, initialGold: 50 });
   state.level = 7;
   state.xp = 0;
   const ids = ['edu', 'peibol', 'vargas', 'dolea', 'florin'];

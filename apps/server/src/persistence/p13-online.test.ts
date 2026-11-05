@@ -1,7 +1,7 @@
 import { PublishedMatchRoom } from '../PublishedMatchRoom';
 import { randomUUID } from 'node:crypto';
 import { expect, it } from 'vitest';
-import { P13_ECONOMY_CONFIG, SANCHEZ_ECONOMY_CONFIG, P12F_ECONOMY_CONFIG } from '@tft/game-data';
+import { P13_ECONOMY_CONFIG, RANGED_AP_ECONOMY_CONFIG, P12F_ECONOMY_CONFIG } from '@tft/game-data';
 import { runCombat } from '@tft/game-core';
 import { AuthoritativeMatch } from '../AuthoritativeMatch';
 import { equip, fixtureUsers } from '../multi-fixture';
@@ -96,5 +96,5 @@ it('production room selects the combined release without recataloging restores',
       return this.createMatch(4);
     }
   }
-  expect(new Fixture().build().config).toEqual(SANCHEZ_ECONOMY_CONFIG);
+  expect(new Fixture().build().config).toEqual(RANGED_AP_ECONOMY_CONFIG);
 });

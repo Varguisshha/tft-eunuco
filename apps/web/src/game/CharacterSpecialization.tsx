@@ -37,6 +37,7 @@ export function CharacterSpecialization({
   characterPolicy,
   eduPolicy,
   sanchezPolicy,
+  rangedApPolicy,
   tooltip = true,
 }: {
   id: string;
@@ -44,9 +45,16 @@ export function CharacterSpecialization({
   characterPolicy?: string | undefined;
   eduPolicy?: string | undefined;
   sanchezPolicy?: string | undefined;
+  rangedApPolicy?: string | undefined;
   tooltip?: boolean;
 }) {
-  const original = characterPresentation(id, characterPolicy, eduPolicy, sanchezPolicy);
+  const original = characterPresentation(
+    id,
+    characterPolicy,
+    eduPolicy,
+    sanchezPolicy,
+    rangedApPolicy,
+  );
   const p = { ...original, note: original.note.replaceAll('Mano de Obra', '¡Me Fuí!') };
   const badge = (
     <span

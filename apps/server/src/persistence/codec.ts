@@ -23,6 +23,7 @@ import {
   P13U_CATALOG_HASH,
   EDU_CATALOG_HASH,
   SANCHEZ_CATALOG_HASH,
+  RANGED_AP_CATALOG_HASH,
   ROSTER_CATALOG_HASH,
   FLORIN_CATALOG_HASH,
   type StoredMatch,
@@ -63,6 +64,7 @@ export function encodeStoredMatch(document: StoredMatch) {
       P13U_CATALOG_HASH,
       EDU_CATALOG_HASH,
       SANCHEZ_CATALOG_HASH,
+      RANGED_AP_CATALOG_HASH,
       ROSTER_CATALOG_HASH,
       FLORIN_CATALOG_HASH,
     ].includes(document.authority.catalog) ||
@@ -108,6 +110,7 @@ export function decodeStoredMatch(raw: unknown): StoredMatch {
       P13U_CATALOG_HASH,
       EDU_CATALOG_HASH,
       SANCHEZ_CATALOG_HASH,
+      RANGED_AP_CATALOG_HASH,
       ROSTER_CATALOG_HASH,
       FLORIN_CATALOG_HASH,
     ].includes(String(authority.catalog)) ||

@@ -99,6 +99,7 @@ export function UnitInspector({
               characterPolicy={session.getMatch().config.characterPolicy}
               eduPolicy={session.getMatch().config.eduPolicy}
               sanchezPolicy={session.getMatch().config.sanchezPolicy}
+              rangedApPolicy={session.getMatch().config.rangedApPolicy}
             />
           </div>
         </div>

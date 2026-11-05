@@ -25,6 +25,7 @@ import {
   P13T_COMBAT_PROFILES,
   EDU_COMBAT_PROFILES,
   SANCHEZ_COMBAT_PROFILES,
+  RANGED_AP_COMBAT_PROFILES,
   P13T_ITEM_ROLES,
   ROSTER_COMBAT_PROFILES,
   hasTraits,
@@ -59,27 +60,29 @@ export function scaledProfile(
   config: EconomyConfig,
 ): CombatProfile {
   const source = (
-    config.sanchezPolicy === 'sanchez-ap-1'
-      ? SANCHEZ_COMBAT_PROFILES
-      : config.eduPolicy === 'edu-support-1'
-        ? EDU_COMBAT_PROFILES
-        : config.characterPolicy === 'f0p13t-1'
-          ? P13T_COMBAT_PROFILES
-          : isP11Catalog(config.catalog)
-            ? P11_COMBAT_PROFILES
-            : config.catalog === 'f0p10a-1'
-              ? ROSTER_COMBAT_PROFILES
-              : config.catalog === 'florin-1' || config.catalog === 'f0p8d-florin-1'
-                ? FLORIN_COMBAT_PROFILES
-                : config.catalog === 'f0p6c'
-                  ? JARAMILLO_COMBAT_PROFILES
-                  : config.catalog === 'f0p6b3'
-                    ? VARGAS_COMBAT_PROFILES
-                    : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
-                      ? ADVANCED_COMBAT_PROFILES
-                      : config.catalog === 'f0p6a'
-                        ? CURRENT_COMBAT_PROFILES
-                        : COMBAT_PROFILES
+    config.rangedApPolicy === 'ranged-ap-1'
+      ? RANGED_AP_COMBAT_PROFILES
+      : config.sanchezPolicy === 'sanchez-ap-1'
+        ? SANCHEZ_COMBAT_PROFILES
+        : config.eduPolicy === 'edu-support-1'
+          ? EDU_COMBAT_PROFILES
+          : config.characterPolicy === 'f0p13t-1'
+            ? P13T_COMBAT_PROFILES
+            : isP11Catalog(config.catalog)
+              ? P11_COMBAT_PROFILES
+              : config.catalog === 'f0p10a-1'
+                ? ROSTER_COMBAT_PROFILES
+                : config.catalog === 'florin-1' || config.catalog === 'f0p8d-florin-1'
+                  ? FLORIN_COMBAT_PROFILES
+                  : config.catalog === 'f0p6c'
+                    ? JARAMILLO_COMBAT_PROFILES
+                    : config.catalog === 'f0p6b3'
+                      ? VARGAS_COMBAT_PROFILES
+                      : config.catalog === 'f0p6b1' || config.catalog === 'f0p6b2'
+                        ? ADVANCED_COMBAT_PROFILES
+                        : config.catalog === 'f0p6a'
+                          ? CURRENT_COMBAT_PROFILES
+                          : COMBAT_PROFILES
   )[definitionId];
   if (!source) throw new Error('Unknown combat profile');
   const profile = JSON.parse(JSON.stringify(source)) as CombatProfile;

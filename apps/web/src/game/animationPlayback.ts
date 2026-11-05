@@ -9,13 +9,23 @@ export function unitAnimationCue(
   unit: CombatUnit,
   timeMs: number,
   events: readonly CombatEventV3[],
+  combatActive = true,
 ): VisualCue {
   if (unit.deathTick !== null)
     return {
       state: 'death',
       timing: { startMs: unit.deathTick * TICK_MS, endMs: unit.deathTick * TICK_MS + 550 },
     };
+  if (!combatActive) return { state: 'idle' };
   if (unit.statuses.some((s) => s.kind === 'stun')) return { state: 'idle' };
+  if (
+    unit.definitionId === 'sanchez' &&
+    unit.action?.kind !== 'move' &&
+    unit.action?.kind !== 'jump'
+  ) {
+    const startMs = Math.floor(timeMs / 800) * 800;
+    return { state: 'attack', timing: { startMs, impactMs: startMs + 800, endMs: startMs + 800 } };
+  }
   const chain = [...events]
     .reverse()
     .find(

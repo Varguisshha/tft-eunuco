@@ -2,7 +2,7 @@ import { AccountPortal } from './auth/AccountPortal';
 import { GameFrame } from './match/hud/GameFrame';
 import { GameIcon } from './match/hud/GameIcon';
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { P13U_ECONOMY_CONFIG } from '@tft/game-data';
+import { RANGED_AP_ECONOMY_CONFIG } from '@tft/game-data';
 import { localEconomyConfig, configuredLocalRuleset } from './localConfig';
 import { createMatch, LocalMatchCoordinator, runCombat } from '@tft/game-core';
 import { AUTOMATIC_SAVE_KEY, decodeSave } from './match/automaticSave';
@@ -70,7 +70,7 @@ export function App() {
       new LocalMatchCoordinator(
         createMatch(
           n,
-          __DEVTOOLS__ ? localEconomyConfig(configuredLocalRuleset()) : P13U_ECONOMY_CONFIG,
+          __DEVTOOLS__ ? localEconomyConfig(configuredLocalRuleset()) : RANGED_AP_ECONOMY_CONFIG,
         ),
         {
           matchId: crypto.randomUUID(),
@@ -88,6 +88,12 @@ export function App() {
         if (restored.development || restored.getMatch().development)
           throw new Error('DEV save in normal slot');
         attach(restored);
+        if (restored.getMatch().config.rangedApPolicy !== 'ranged-ap-1') {
+          setNotice(
+            'Esta partida conserva reglas anteriores. Crea una partida nueva para usar a Edu y Sánchez AP con alcance 4.',
+          );
+          return;
+        }
         if (
           __DEVTOOLS__ &&
           configuredLocalRuleset() === 'p13u' &&
@@ -119,6 +125,12 @@ export function App() {
             { matchId: crypto.randomUUID(), time },
           ),
         );
+        if (state.config.rangedApPolicy !== 'ranged-ap-1') {
+          setNotice(
+            'Esta partida conserva reglas anteriores. Crea una partida nueva para usar a Edu y Sánchez AP con alcance 4.',
+          );
+          return;
+        }
       }
       setNotice('');
     } catch {
@@ -186,10 +198,9 @@ export function App() {
           <h1>Cada moneda cuenta.</h1>
           <p>
             Construye un equipo, mejora tus personajes y decide cuándo ahorrar o gastar. Una partida
-            local de rondas automáticas con 34 personajes.{' '}
-            {__DEVTOOLS__ && configuredLocalRuleset() !== 'p12f'
-              ? 'DOLEA, VARGAS, JARAMILLO, FLORIN y PEIBOL tienen habilidades propias; los demás conservan sus parámetros provisionales.'
-              : 'DOLEA, VARGAS, JARAMILLO y FLORIN conservan sus mecánicas; los otros treinta usan parámetros temporales y ataques básicos.'}
+            local de rondas automáticas con 34 personajes. Edu protege al equipo como soporte AP y
+            Sánchez ataca con notas mágicas; ambos tienen alcance 4. Crea una partida nueva para
+            jugar con las últimas reglas.
           </p>
           <div className="lobby-rules">
             <span>

@@ -1,5 +1,5 @@
 import {
-  SANCHEZ_ECONOMY_CONFIG,
+  RANGED_AP_ECONOMY_CONFIG,
   EDU_ECONOMY_CONFIG,
   P12F_ECONOMY_CONFIG,
   P13T_ECONOMY_CONFIG,
@@ -10,7 +10,7 @@ export type LocalRuleset = 'p12f' | 'p13t' | 'p13t1' | 'p13u' | 'edu' | 'sanchez
 /** One preset feeds fresh offline and DEV matches; restoring a save never recatalogs it. */
 export const localEconomyConfig = (rules: LocalRuleset) =>
   rules === 'sanchez'
-    ? SANCHEZ_ECONOMY_CONFIG
+    ? RANGED_AP_ECONOMY_CONFIG
     : rules === 'edu'
       ? EDU_ECONOMY_CONFIG
       : rules === 'p13u'

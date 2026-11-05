@@ -111,9 +111,11 @@ export default function DevelopmentAccess({
       setController(next);
       setOpened(true);
       setMessage(
-        recover && config.jewPolicy && !next.coordinator.getMatch().config.jewPolicy
-          ? 'Prueba recuperada con sus reglas anteriores. Crea una prueba DEV nueva para usar PEIBOL y Jew actualizados.'
-          : 'Prueba aislada lista. El guardado normal se conserva.',
+        recover && config.rangedApPolicy && !next.coordinator.getMatch().config.rangedApPolicy
+          ? 'Prueba recuperada con sus reglas anteriores. Crea una prueba DEV nueva para usar Edu y Sánchez con sus ajustes AP.'
+          : recover && config.jewPolicy && !next.coordinator.getMatch().config.jewPolicy
+            ? 'Prueba recuperada con sus reglas anteriores. Crea una prueba DEV nueva para usar PEIBOL y Jew actualizados.'
+            : 'Prueba aislada lista. El guardado normal se conserva.',
       );
       onReplace(next.coordinator);
     } catch (e) {
@@ -590,6 +592,7 @@ export default function DevelopmentAccess({
                 {combatRulesFor(state.config.catalog, state.config.characterPolicy)} /{' '}
                 {state.config.catalog}
                 {state.config.jewPolicy ? ' · P13T.1 · Jew' : ''}
+                {state.config.rangedApPolicy ? ' · Edu/Sánchez AP' : ''}
               </dd>
               <dt>Reloj</dt>
               <dd>
